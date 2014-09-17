@@ -2,10 +2,10 @@ package dernierelignegameengine;
 
 import java.util.Set;
 
-public class QueenCard extends Card {
+public class WarriorCard extends Card {
 
-    public QueenCard(Color color) {
-        super("Queen", 3, color);
+    public WarriorCard(Color color) {
+        super("Warrior", 3, color);
     }
 
     @Override
