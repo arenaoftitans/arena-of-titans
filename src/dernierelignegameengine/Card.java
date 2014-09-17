@@ -27,7 +27,7 @@ public abstract class Card {
             return movements;
         } else {
             for (Square square : crossSquares) {
-                if (board.canMoveTo(square)) {
+                if (board.canMoveTo(square, color)) {
                     movements.add(square);
                     movements.addAll(getLineMovements(board, square, numberMovements - 1));
                 }
@@ -51,19 +51,19 @@ public abstract class Card {
     }
 
     private Square getUpSquare(Square square) {
-        return new Square(square.x, square.y + 1, square.color);
+        return new Square(square.x, square.y + 1, Color.VOID);
     }
 
     private Square getDownSquare(Square square) {
-        return new Square(square.x, square.y - 1, square.color);
+        return new Square(square.x, square.y - 1, Color.VOID);
     }
 
     private Square getLeftSquare(Square square) {
-        return new Square(square.x - 1, square.y, square.color);
+        return new Square(square.x - 1, square.y, Color.VOID);
     }
 
     private Square getRightSquare(Square square) {
-        return new Square(square.x + 1, square.y + 1, square.color);
+        return new Square(square.x + 1, square.y + 1, Color.VOID);
     }
     }
 
