@@ -35,8 +35,6 @@ public abstract class Card {
         return movements;
     }
 
-    public ArrayList<Square> getLazyDiagonalMovements(Square square) {
-        return getLazyDiagonalMovements(square, numberOfMovements);
     private Square[] getLineSquares(Square currentSquare) {
         Square[] crossSquares = new Square[4];
 
@@ -63,31 +61,52 @@ public abstract class Card {
     private Square getRightSquare(Square square) {
         return new Square(square.x + 1, square.y + 1, Color.VOID);
     }
+
+    public Set<Square> getDiagonalMovements(Board board, Square square) {
+        return getDiagonalMovements(board, square, numberOfMovements);
     }
 
-    public ArrayList<Square> getLazyDiagonalMovements(Square square, int numberMovements) {
-        ArrayList<Square> movements = new ArrayList<>();
-        if (numberMovements == 1) {
-            movements.add(new Square(square.x + 1, square.y + 1, square.color));
-            movements.add(new Square(square.x + 1, square.y - 1, square.color));
-            movements.add(new Square(square.x - 1, square.y - 1, square.color));
-            movements.add(new Square(square.x - 1, square.y + 1, square.color));
-        } else {
-            ArrayList<Square> upRightMovements = getLazyLineMovements(new Square(square.x + 1, square.y + 1, square.color), numberMovements - 1);
-            ArrayList<Square> downRightMovements = getLazyLineMovements(new Square(square.x + 1, square.y - 1, square.color), numberMovements - 1);
-            ArrayList<Square> downLeftMovements = getLazyLineMovements(new Square(square.x - 1, square.y - 1, square.color), numberMovements - 1);
-            ArrayList<Square> upLeftMovements = getLazyLineMovements(new Square(square.x - 1, square.y + 1, square.color), numberMovements - 1);
-            movements.addAll(upRightMovements);
-            movements.addAll(downRightMovements);
-            movements.addAll(downLeftMovements);
-            movements.addAll(upLeftMovements);
+    public Set<Square> getDiagonalMovements(Board board, Square currentSquare, int numberMovements) {
+        Set<Square> movements = new HashSet<>();
+        if (numberMovements > 0) {
+            Square[] crossSquares = getDiagonalSquares(currentSquare);
+            for (Square square : crossSquares) {
+                if (board.canMoveTo(square, color)) {
+                    movements.add(square);
+                    movements.addAll(getDiagonalMovements(board, square, numberMovements - 1));
+                }
+            }
        }
 
         return movements;
     }
 
-    public ArrayList<Square> getLazyLineAndDiagonalMovements(Square square) {
-        return getLazyLineAndDiagonalMovements(square, numberOfMovements);
+    private Square[] getDiagonalSquares(Square currentSquare) {
+        Square[] crossSquares = new Square[4];
+
+        crossSquares[0] = getUpLeftSquare(currentSquare);
+        crossSquares[1] = getUpRightSquare(currentSquare);
+        crossSquares[2] = getDownLeftSquare(currentSquare);
+        crossSquares[3] = getDownRightSquare(currentSquare);
+
+        return crossSquares;
+    }
+
+    private Square getUpLeftSquare(Square currentSquare) {
+        return new Square(currentSquare.x + 1, currentSquare.y + 1, Color.VOID);
+    }
+
+    private Square getUpRightSquare(Square currentSquare) {
+        return new Square(currentSquare.x - 1, currentSquare.y + 1, Color.VOID);
+    }
+
+    private Square getDownLeftSquare(Square currentSquare) {
+        return new Square(currentSquare.x + 1, currentSquare.y - 1, Color.VOID);
+    }
+
+    private Square getDownRightSquare(Square currentSquare) {
+        return new Square(currentSquare.x - 1, currentSquare.y - 1, Color.VOID);
+    }
     }
 
     public ArrayList<Square> getLazyLineAndDiagonalMovements(Square square, int numberMovements) {

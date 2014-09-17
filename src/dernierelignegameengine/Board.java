@@ -7,7 +7,7 @@ public class Board {
     private static final Color[][] disposition =
     {
         {Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.WHITE, Color.BLACK},
-        {Color.WHITE, Color.BLACK, Color.VOID, Color.VOID, Color.VOID, Color.BLACK, Color.WHITE, Color.VOID, Color.VOID, Color.VOID},
+        {Color.WHITE, Color.WHITE, Color.VOID, Color.VOID, Color.VOID, Color.BLACK, Color.WHITE, Color.VOID, Color.VOID, Color.VOID},
         {Color.WHITE, Color.BLACK, Color.VOID, Color.VOID, Color.VOID, Color.BLACK, Color.WHITE, Color.VOID, Color.VOID, Color.VOID},
     };
 

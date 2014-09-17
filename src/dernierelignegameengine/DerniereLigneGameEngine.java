@@ -10,7 +10,10 @@ public class DerniereLigneGameEngine {
         Square square = board.getSquare(0, 0);
         Player player = new Player("Julien", board, square);
 
-        Card cardPlayed = new WarriorCard(Color.WHITE);
-        player.play(cardPlayed);
+        Card warriorCard = new WarriorCard(Color.WHITE);
+        player.play(warriorCard);
+
+        Card bishopCard = new BishopCard(Color.WHITE);
+        player.play(bishopCard);
     }
 }
