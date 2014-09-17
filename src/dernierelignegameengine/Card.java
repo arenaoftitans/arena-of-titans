@@ -22,10 +22,8 @@ public abstract class Card {
 
     public Set<Square> getLineMovements(Board board, Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
-        Square[] crossSquares = getLineSquares(currentSquare);
-        if (numberMovements == 0) {
-            return movements;
-        } else {
+        if (numberMovements > 0) {
+            Square[] crossSquares = getLineSquares(currentSquare);
             for (Square square : crossSquares) {
                 if (board.canMoveTo(square, color)) {
                     movements.add(square);
