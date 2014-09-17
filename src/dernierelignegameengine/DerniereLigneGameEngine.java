@@ -15,5 +15,8 @@ public class DerniereLigneGameEngine {
 
         Card bishopCard = new BishopCard(Color.WHITE);
         player.play(bishopCard);
+
+        Card queenCard = new QueenCard(Color.WHITE);
+        player.play(queenCard);
     }
 }
