@@ -21,10 +21,13 @@ public class Board {
 
     public boolean canMoveTo(Square square) {
         int x = square.x;
+        while (x < 0) {
+            x += WIDTH;
+        }
+        x %= WIDTH;
         int y = square.y;
         Color color = square.color;
-
-        if (x < HEIGHT && y < WIDTH && board[x][y].canMoveTo(color)) {
+        if ( x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(color)) {
             return true;
         } else {
             return false;

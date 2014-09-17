@@ -1,6 +1,6 @@
 package dernierelignegameengine;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class Player {
     private final String name;
@@ -11,13 +11,13 @@ public class Player {
         this.name = name;
         this.board = board;
         this.currentSquare = currentSquare;
+        board.movePlayerTo(this, currentSquare);
     }
 
     public void play(Card card) {
-        ArrayList<Square> possibleMovements = card.getPossibleMovements(board, currentSquare);
-        if (possibleMovements.size() > 0) {
-            moveTo(possibleMovements.get(0));
-        }
+        Set<Square> possibleMovements = card.getPossibleMovements(board, currentSquare);
+        System.out.println("Size: " + possibleMovements.size());
+        System.out.println(possibleMovements.toString());
     }
 
     public void moveTo(Square square) {

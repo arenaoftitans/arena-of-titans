@@ -1,6 +1,6 @@
 package dernierelignegameengine;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class QueenCard extends Card {
 
@@ -9,12 +9,8 @@ public class QueenCard extends Card {
     }
 
     @Override
-    public ArrayList<Square> getPossibleMovements(Board board, Square currentSquare) {
-        ArrayList<Square> allMovements = getLazyLineAndDiagonalMovements(currentSquare);
-        ArrayList<Square> possibleMovements = new ArrayList<>();
-        for (Square square : allMovements) {
-            possibleMovements.add(square);
-        }
+    public Set<Square> getPossibleMovements(Board board, Square currentSquare) {
+        Set<Square> possibleMovements = getLineMovements(board, currentSquare);
 
         return possibleMovements;
     }
