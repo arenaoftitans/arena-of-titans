@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class BishopCard extends Card {
 
-    public BishopCard(Color color) {
-        super("Bishop", 2, color);
+    public BishopCard(Board board, Color color) {
+        super(board, "Bishop", 2, color);
 
     }
 
     @Override
-    public Set<Square> getPossibleMovements(Board board, Square currentSquare) {
-        Set<Square> possibleMovements = getDiagonalMovements(board, currentSquare);
+    public Set<Square> getPossibleMovements(Square currentSquare) {
+        Set<Square> possibleMovements = getDiagonalMovements(currentSquare);
 
         return possibleMovements;
     }

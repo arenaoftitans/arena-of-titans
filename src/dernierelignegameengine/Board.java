@@ -21,10 +21,6 @@ public class Board {
 
     public boolean canMoveTo(Square square, Color cardColor) {
         int x = square.x;
-        while (x < 0) {
-            x += WIDTH;
-        }
-        x %= WIDTH;
         int y = square.y;
 
         if ( x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(cardColor)) {
@@ -44,5 +40,11 @@ public class Board {
 
     public Square getSquare(int x, int y) {
         return board[x][y];
+    public int correctAbs(int x) {
+        while (x < 0) {
+            x += WIDTH;
+        }
+
+        return x % WIDTH;
     }
 }

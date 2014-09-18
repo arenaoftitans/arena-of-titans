@@ -15,7 +15,7 @@ public class Player {
     }
 
     public void play(Card card) {
-        Set<Square> possibleMovements = card.getPossibleMovements(board, currentSquare);
+        Set<Square> possibleMovements = card.getPossibleMovements(currentSquare);
         System.out.println("Size: " + possibleMovements.size());
         System.out.println(possibleMovements.toString());
     }

@@ -7,31 +7,32 @@ public abstract class Card {
     protected final String name;
     protected final Color color;
     protected final int numberOfMovements;
+    protected Board board;
 
-    public Card(String name, int numberOfMovements, Color color) {
+    public Card(Board board, String name, int numberOfMovements, Color color) {
+        this.board = board;
         this.name = name;
         this.numberOfMovements = numberOfMovements;
         this.color = color;
     }
 
-    public abstract Set<Square> getPossibleMovements(Board board, Square currentSquare);
+    public abstract Set<Square> getPossibleMovements(Square currentSquare);
 
-    protected Set<Square> getLineMovements(Board board, Square square) {
-        return getLineMovements(board, square, numberOfMovements);
+    protected Set<Square> getLineMovements(Square square) {
+        return getLineMovements(square, numberOfMovements);
     }
 
-    private Set<Square> getLineMovements(Board board, Square currentSquare, int numberMovements) {
+    private Set<Square> getLineMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
             Square[] crossSquares = getLineSquares(currentSquare);
             for (Square square : crossSquares) {
                 if (board.canMoveTo(square, color)) {
                     movements.add(square);
-                    movements.addAll(getLineMovements(board, square, numberMovements - 1));
+                    movements.addAll(getLineMovements(square, numberMovements - 1));
                 }
             }
        }
-
         return movements;
     }
 
@@ -55,25 +56,27 @@ public abstract class Card {
     }
 
     private Square getLeftSquare(Square square) {
-        return new Square(square.x - 1, square.y, Color.VOID);
+        int newAbs = board.correctAbs(square.x - 1);
+        return new Square(newAbs, square.y, Color.VOID);
     }
 
     private Square getRightSquare(Square square) {
-        return new Square(square.x + 1, square.y + 1, Color.VOID);
+        int newAbs = board.correctAbs(square.x + 1);
+        return new Square(newAbs, square.y, Color.VOID);
     }
 
-    protected Set<Square> getDiagonalMovements(Board board, Square square) {
-        return getDiagonalMovements(board, square, numberOfMovements);
+    protected Set<Square> getDiagonalMovements(Square square) {
+        return getDiagonalMovements(square, numberOfMovements);
     }
 
-    private Set<Square> getDiagonalMovements(Board board, Square currentSquare, int numberMovements) {
+    private Set<Square> getDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
             Square[] crossSquares = getDiagonalSquares(currentSquare);
             for (Square square : crossSquares) {
                 if (board.canMoveTo(square, color)) {
                     movements.add(square);
-                    movements.addAll(getDiagonalMovements(board, square, numberMovements - 1));
+                    movements.addAll(getDiagonalMovements(square, numberMovements - 1));
                 }
             }
        }
@@ -93,33 +96,37 @@ public abstract class Card {
     }
 
     private Square getUpLeftSquare(Square currentSquare) {
-        return new Square(currentSquare.x + 1, currentSquare.y + 1, Color.VOID);
+        int newAbs = board.correctAbs(currentSquare.x + 1);
+        return new Square(newAbs, currentSquare.y + 1, Color.VOID);
     }
 
     private Square getUpRightSquare(Square currentSquare) {
-        return new Square(currentSquare.x - 1, currentSquare.y + 1, Color.VOID);
+        int newAbs = board.correctAbs(currentSquare.x - 1);
+        return new Square(newAbs, currentSquare.y + 1, Color.VOID);
     }
 
     private Square getDownLeftSquare(Square currentSquare) {
-        return new Square(currentSquare.x + 1, currentSquare.y - 1, Color.VOID);
+        int newAbs = board.correctAbs(currentSquare.x + 1);
+        return new Square(newAbs, currentSquare.y - 1, Color.VOID);
     }
 
     private Square getDownRightSquare(Square currentSquare) {
-        return new Square(currentSquare.x - 1, currentSquare.y - 1, Color.VOID);
+        int newAbs = board.correctAbs(currentSquare.x - 1);
+        return new Square(newAbs, currentSquare.y - 1, Color.VOID);
     }
 
-    protected Set<Square> getLineAndDiagonalMovements(Board board, Square currentSquare) {
-        return getLineAndDiagonalMovements(board, currentSquare, numberOfMovements);
+    protected Set<Square> getLineAndDiagonalMovements(Square currentSquare) {
+        return getLineAndDiagonalMovements(currentSquare, numberOfMovements);
     }
 
-    private Set<Square> getLineAndDiagonalMovements(Board board, Square currentSquare, int numberMovements) {
+    private Set<Square> getLineAndDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
             Square[] crossLineSquares = getLineSquares(currentSquare);
             for (Square square : crossLineSquares) {
                 if (board.canMoveTo(square, color)) {
                     movements.add(square);
-                    movements.addAll(getLineAndDiagonalMovements(board, square, numberMovements - 1));
+                    movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
                 }
             }
 
@@ -127,11 +134,10 @@ public abstract class Card {
             for (Square square : crossDiagSquares) {
                 if (board.canMoveTo(square, color)) {
                     movements.add(square);
-                    movements.addAll(getLineAndDiagonalMovements(board, currentSquare, numberMovements - 1));
+                    movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
                 }
             }
         }
-
         return movements;
     }
 }
