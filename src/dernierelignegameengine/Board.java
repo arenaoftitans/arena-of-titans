@@ -14,7 +14,7 @@ public class Board {
     public Board() {
         for (int i=0; i < 3; i++) {
             for (int j=0; j < 10; j++) {
-                board[i][j] = new Square(i, j, disposition[i][j]);
+                board[i][j] = new Square(j, i, disposition[i][j]);
             }
         }
     }
@@ -34,12 +34,14 @@ public class Board {
         int x = square.x;
         int y = square.y;
 
-        Square squareToMoveTo = board[x][y];
+        Square squareToMoveTo = board[y][x];
         squareToMoveTo.movePlayerTo(player);
     }
 
     public Square getSquare(int x, int y) {
-        return board[x][y];
+        return board[y][x];
+    }
+
     public int correctAbs(int x) {
         while (x < 0) {
             x += WIDTH;
