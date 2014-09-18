@@ -19,6 +19,10 @@ public class Square {
         return occupied;
     }
 
+    public void setAsOccupied() {
+        this.occupied = true;
+    }
+
     public boolean isVoid() {
         return color == Color.VOID;
     }
