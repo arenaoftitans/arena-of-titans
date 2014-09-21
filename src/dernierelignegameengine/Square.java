@@ -23,12 +23,8 @@ public class Square {
         this.occupied = true;
     }
 
-    public boolean isVoid() {
-        return color == Color.VOID;
-    }
-
     public boolean canMoveTo(Color color) {
-        return !isOccupied() && !isVoid() && this.color == color;
+        return !isOccupied() && this.color == color;
     }
 
     public void movePlayerTo(Player player) {

@@ -1,32 +1,24 @@
 package dernierelignegameengine;
 
 public class Board {
-    private final static int WIDTH = 10;
+    private final static int WIDTH = 8;
     private final static int HEIGHT = 3;
     private Square[][] board = new Square[HEIGHT][WIDTH];
     private static final Color[][] disposition =
     {
-        {Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.WHITE, Color.WHITE},
-        {Color.WHITE, Color.WHITE, Color.VOID, Color.VOID, Color.VOID, Color.BLACK, Color.WHITE, Color.VOID, Color.VOID, Color.VOID},
-        {Color.WHITE, Color.BLACK, Color.VOID, Color.VOID, Color.VOID, Color.BLACK, Color.WHITE, Color.VOID, Color.VOID, Color.VOID},
+        {Color.WHITE, Color.BLACK, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.WHITE, Color.WHITE},
+        {Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK},
+        {Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK},
     };
+    private static final int ARM_WIDTH = 2;
+    private static final int ARM_LENGHT = 2;
+    private static final int INNER_CIRCLE_HIGHER_Y = 0;
 
     public Board() {
-        for (int i=0; i < 3; i++) {
-            for (int j=0; j < 10; j++) {
+        for (int i=0; i < HEIGHT; i++) {
+            for (int j=0; j < WIDTH; j++) {
                 board[i][j] = new Square(j, i, disposition[i][j]);
             }
-        }
-    }
-
-    public boolean canMoveTo(Square square, Color cardColor) {
-        int x = square.x;
-        int y = square.y;
-
-        if ( x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(cardColor)) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -48,5 +40,132 @@ public class Board {
         }
 
         return x % WIDTH;
+    }
+
+    public Square[] getLineSquares(Square currentSquare, Color cardColor) {
+        Square[] crossSquares = new Square[4];
+
+        crossSquares[0] = getUpSquare(currentSquare, cardColor);
+        crossSquares[1] = getDownSquare(currentSquare, cardColor);
+        crossSquares[2] = getLeftSquare(currentSquare, cardColor);
+        crossSquares[3] = getRightSquare(currentSquare, cardColor);
+
+        return crossSquares;
+    }
+
+    private Square getUpSquare(Square square, Color color) {
+        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y + 1, color);
+    }
+
+    private Square returnSquareIfCanMoveToNullOtherwise(int x, int y, Color color) {
+        if (canMoveTo(x, y, color)) {
+            return getSquare(x, y);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean canMoveTo(int x, int y, Color cardColor) {
+        return x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(cardColor);
+    }
+
+    private Square getDownSquare(Square square, Color color) {
+        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y - 1, color);
+    }
+
+    /**
+     * If the square is on the left edge and in an arm, we cannot move to the
+     * square at its left (x-1). If we are not in an arm, we must correct the x
+     * coordinate.
+     */
+    private Square getLeftSquare(Square square, Color color) {
+        if (isInArm(square) && onLeftEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x - 1);
+            int y = square.y;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
+    }
+
+    private boolean isInArm(Square square) {
+        return square.y > INNER_CIRCLE_HIGHER_Y;
+    }
+
+    private boolean onLeftEdge(Square square) {
+        return square.x % 2 == 0;
+    }
+
+    private Square getRightSquare(Square square, Color color) {
+        if (isInArm(square) && onRightEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x + 1);
+            int y = square.y;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
+    }
+
+    private boolean onRightEdge(Square square) {
+        return square.x % 2 == 1;
+    }
+
+    public Square[] getDiagonalSquares(Square currentSquare, Color cardColor) {
+        Square[] crossSquares = new Square[4];
+
+        crossSquares[0] = getUpLeftSquare(currentSquare, cardColor);
+        crossSquares[1] = getUpRightSquare(currentSquare, cardColor);
+        crossSquares[2] = getDownLeftSquare(currentSquare, cardColor);
+        crossSquares[3] = getDownRightSquare(currentSquare, cardColor);
+
+        return crossSquares;
+    }
+
+    private Square getUpLeftSquare(Square square, Color color) {
+        if (isInArm(square) && onLeftEdge(square) && !onArmEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x - 1);
+            int y = square.y - 1;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
+    }
+
+    private boolean onArmEdge(Square square) {
+        return square.y == INNER_CIRCLE_HIGHER_Y + 1;
+    }
+
+    private Square getUpRightSquare(Square square, Color color) {
+        if (isInArm(square) && onRightEdge(square) && !onArmEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x + 1);
+            int y = square.y - 1;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
+    }
+
+    private Square getDownLeftSquare(Square square, Color color) {
+        if (isInArm(square) && onLeftEdge(square) && !onCircleEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x - 1);
+            int y = square.y + 1;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
+    }
+
+    private boolean onCircleEdge(Square square) {
+        return square.y == INNER_CIRCLE_HIGHER_Y;
+    }
+
+    private Square getDownRightSquare(Square square, Color color) {
+        if (isInArm(square) && onRightEdge(square) && !onCircleEdge(square)) {
+            return null;
+        } else {
+            int x = correctAbs(square.x + 1);
+            int y = square.y + 1;
+            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+        }
     }
 }

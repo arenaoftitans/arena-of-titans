@@ -5,7 +5,7 @@ import java.util.Set;
 public class WarriorCard extends Card {
 
     public WarriorCard(Board board, Color color) {
-        super(board, "Warrior", 3, color);
+        super(board, "Warrior", 1, color);
     }
 
     @Override

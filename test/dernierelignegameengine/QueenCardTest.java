@@ -31,33 +31,33 @@ public class QueenCardTest {
         QueenCard instance = new QueenCard(board, Color.WHITE);
 
         Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(0, 1, Color.VOID));
-        expResult.add(new Square(0, 2, Color.VOID));
-        expResult.add(new Square(1, 1, Color.VOID));
-        expResult.add(new Square(2, 0, Color.VOID));
-        expResult.add(new Square(9, 0, Color.VOID));
-        expResult.add(new Square(8, 0, Color.VOID));
-        expResult.add(new Square(7, 0, Color.VOID));
+        expResult.add(new Square(0, 1, Color.WHITE));
+        expResult.add(new Square(0, 2, Color.WHITE));
+        expResult.add(new Square(1, 1, Color.WHITE));
+        expResult.add(new Square(7, 0, Color.WHITE));
+        expResult.add(new Square(6, 0, Color.WHITE));
+        expResult.add(new Square(6, 1, Color.WHITE));
 
         Set<Square> result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
 
         // On the other edge of the board.
+        System.out.println("getPossibleMovements");
         currentSquare.empty();
-        currentSquare = board.getSquare(9, 0);
+        currentSquare = board.getSquare(7, 0);
         currentSquare.setAsOccupied();
 
         expResult = new HashSet<>();
-        expResult.add(new Square(0, 0, Color.VOID));
-        expResult.add(new Square(0, 1, Color.VOID));
-        expResult.add(new Square(0, 2, Color.VOID));
-        expResult.add(new Square(1, 1, Color.VOID));
-        expResult.add(new Square(2, 0, Color.VOID));
-        expResult.add(new Square(8, 0, Color.VOID));
-        expResult.add(new Square(7, 0, Color.VOID));
-        expResult.add(new Square(6, 1, Color.VOID));
+        expResult.add(new Square(0, 0, Color.WHITE));
+        expResult.add(new Square(0, 1, Color.WHITE));
+        expResult.add(new Square(0, 2, Color.WHITE));
+        expResult.add(new Square(1, 1, Color.WHITE));
+        expResult.add(new Square(0, 2, Color.WHITE));
+        expResult.add(new Square(6, 0, Color.WHITE));
+        expResult.add(new Square(6, 1, Color.WHITE));
+        expResult.add(new Square(6, 2, Color.WHITE));
+        expResult.add(new Square(5, 0, Color.WHITE));
 
-        System.out.println("getPossibleMovements");
         result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
     }
