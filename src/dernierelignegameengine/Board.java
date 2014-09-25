@@ -1,24 +1,91 @@
 package dernierelignegameengine;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Set;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
 public class Board {
-    private final static int WIDTH = 8;
-    private final static int HEIGHT = 3;
-    private Square[][] board = new Square[HEIGHT][WIDTH];
-    private static final Color[][] disposition =
-    {
-        {Color.WHITE, Color.BLACK, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.WHITE, Color.WHITE},
-        {Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK},
-        {Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK},
-    };
-    private static final int ARM_WIDTH = 2;
-    private static final int ARM_LENGHT = 2;
-    private static final int INNER_CIRCLE_HIGHER_Y = 0;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final Square[][] board;
+    private final int INNER_CIRCLE_HIGHER_Y;
 
     public Board() {
-        for (int i=0; i < HEIGHT; i++) {
-            for (int j=0; j < WIDTH; j++) {
-                board[i][j] = new Square(j, i, disposition[i][j]);
+        String jsonFileName = "standardGame.json";
+        JSONParser parser = new JSONParser();
+
+        try {
+            BufferedReader jsonFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(jsonFileName)));
+            JSONObject jsonGame = (JSONObject) parser.parse(jsonFile);
+            JSONObject jsonBoard = (JSONObject) jsonGame.get("board");
+
+            JSONArray circle = (JSONArray) jsonBoard.get("circle");
+            JSONArray arm = (JSONArray) jsonBoard.get("arm");
+            int numberOfArms = (int)(long) jsonBoard.get("number of arms");
+            int armsWidth = (int)(long) jsonBoard.get("arms width");
+            WIDTH = numberOfArms * armsWidth;
+            HEIGHT = circle.size() + arm.size();
+            INNER_CIRCLE_HIGHER_Y = circle.size() - 1;
+
+            String[][] disposition = getDisposition(circle, arm, numberOfArms);
+
+            board = new Square[HEIGHT][WIDTH];
+
+            for (int i = 0; i < HEIGHT; i++) {
+                for (int j = 0; j < WIDTH; j++) {
+                    board[i][j] = new Square(j, i, getColor(disposition[i][j]));
+                }
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ExceptionInInitializerError(ex);
+        } catch (IOException | ParseException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    private String[][] getDisposition(JSONArray circle, JSONArray arm, int numberOfArms) {
+        String[][] disposition = new String[HEIGHT][WIDTH];
+
+            for (int i = 0; i < circle.size(); i++) {
+                String currentLine = (String) circle.get(i);
+                String circleLine = currentLine;
+                for (int j = 1; j < numberOfArms/2; j++) {
+                    circleLine += "," + currentLine;
+                }
+                disposition[i] = circleLine.split(",");
+            }
+
+            for (int i = 0; i < arm.size(); i++) {
+                String currentLine = (String) arm.get(i);
+                String armLine = currentLine;
+                for (int j = 1; j < numberOfArms; j++) {
+                    armLine += "," + currentLine;
+                }
+                disposition[i + circle.size()] = armLine.split(",");
+            }
+
+        return disposition;
+    }
+
+    private Color getColor(String colorName) {
+        switch(colorName) {
+            case "BLACK": return Color.BLACK;
+            case "BLUE": return Color.BLUE;
+            case "RED": return Color.RED;
+            case "YELLOW": return Color.YELLOW;
+            default: return Color.WHITE;
         }
     }
 

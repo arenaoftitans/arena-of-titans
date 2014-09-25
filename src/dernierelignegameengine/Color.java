@@ -1,6 +1,9 @@
 package dernierelignegameengine;
 
 public enum Color {
-    WHITE,
     BLACK,
+    BLUE,
+    RED,
+    YELLOW,
+    WHITE,
 }
