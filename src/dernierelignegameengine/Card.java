@@ -5,7 +5,8 @@ import java.util.Set;
 
 public abstract class Card {
     protected final String name;
-    protected final Color color;
+    protected final Color cardColor;
+    protected final Set<Color> possibleSquaresColor = new HashSet<>();
     protected final int numberOfMovements;
     protected Board board;
 
@@ -13,7 +14,8 @@ public abstract class Card {
         this.board = board;
         this.name = name;
         this.numberOfMovements = numberOfMovements;
-        this.color = color;
+        this.cardColor = color;
+        this.possibleSquaresColor.add(color);
     }
 
     public abstract Set<Square> getPossibleMovements(Square currentSquare);
@@ -25,7 +27,7 @@ public abstract class Card {
     private Set<Square> getLineMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
-            Square[] crossSquares = board.getLineSquares(currentSquare, color);
+            Square[] crossSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossSquares) {
                 if (square != null) {
                     movements.add(square);
@@ -43,7 +45,7 @@ public abstract class Card {
     private Set<Square> getDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
-            Square[] crossSquares = board.getDiagonalSquares(currentSquare, color);
+            Square[] crossSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossSquares) {
                 if (square != null) {
                     movements.add(square);
@@ -62,7 +64,7 @@ public abstract class Card {
     private Set<Square> getLineAndDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
-            Square[] crossLineSquares = board.getLineSquares(currentSquare, color);
+            Square[] crossLineSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossLineSquares) {
                 if (square != null) {
                     movements.add(square);
@@ -70,7 +72,7 @@ public abstract class Card {
                 }
             }
 
-            Square[] crossDiagSquares = board.getDiagonalSquares(currentSquare, color);
+            Square[] crossDiagSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossDiagSquares) {
                 if (square != null) {
                     movements.add(square);

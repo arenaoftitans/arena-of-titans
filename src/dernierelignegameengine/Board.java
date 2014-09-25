@@ -109,35 +109,35 @@ public class Board {
         return x % WIDTH;
     }
 
-    public Square[] getLineSquares(Square currentSquare, Color cardColor) {
+    public Square[] getLineSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
         Square[] crossSquares = new Square[4];
 
-        crossSquares[0] = getUpSquare(currentSquare, cardColor);
-        crossSquares[1] = getDownSquare(currentSquare, cardColor);
-        crossSquares[2] = getLeftSquare(currentSquare, cardColor);
-        crossSquares[3] = getRightSquare(currentSquare, cardColor);
+        crossSquares[0] = getUpSquare(currentSquare, possibleSquaresColor);
+        crossSquares[1] = getDownSquare(currentSquare, possibleSquaresColor);
+        crossSquares[2] = getLeftSquare(currentSquare, possibleSquaresColor);
+        crossSquares[3] = getRightSquare(currentSquare, possibleSquaresColor);
 
         return crossSquares;
     }
 
-    private Square getUpSquare(Square square, Color color) {
-        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y + 1, color);
+    private Square getUpSquare(Square square, Set<Color> possibleSquaresColor) {
+        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y + 1, possibleSquaresColor);
     }
 
-    private Square returnSquareIfCanMoveToNullOtherwise(int x, int y, Color color) {
-        if (canMoveTo(x, y, color)) {
+    private Square returnSquareIfCanMoveToNullOtherwise(int x, int y, Set<Color> possibleSquaresColor) {
+        if (canMoveTo(x, y, possibleSquaresColor)) {
             return getSquare(x, y);
         } else {
             return null;
         }
     }
 
-    private boolean canMoveTo(int x, int y, Color cardColor) {
-        return x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(cardColor);
+    private boolean canMoveTo(int x, int y, Set<Color> possibleSquaresColor) {
+        return x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(possibleSquaresColor);
     }
 
-    private Square getDownSquare(Square square, Color color) {
-        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y - 1, color);
+    private Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
+        return returnSquareIfCanMoveToNullOtherwise(square.x, square.y - 1, possibleSquaresColor);
     }
 
     /**
@@ -145,13 +145,13 @@ public class Board {
      * square at its left (x-1). If we are not in an arm, we must correct the x
      * coordinate.
      */
-    private Square getLeftSquare(Square square, Color color) {
+    public Square getLeftSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onLeftEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x - 1);
             int y = square.y;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
 
@@ -163,13 +163,13 @@ public class Board {
         return square.x % 2 == 0;
     }
 
-    private Square getRightSquare(Square square, Color color) {
+    public Square getRightSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onRightEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x + 1);
             int y = square.y;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
 
@@ -177,24 +177,24 @@ public class Board {
         return square.x % 2 == 1;
     }
 
-    public Square[] getDiagonalSquares(Square currentSquare, Color cardColor) {
+    public Square[] getDiagonalSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
         Square[] crossSquares = new Square[4];
 
-        crossSquares[0] = getUpLeftSquare(currentSquare, cardColor);
-        crossSquares[1] = getUpRightSquare(currentSquare, cardColor);
-        crossSquares[2] = getDownLeftSquare(currentSquare, cardColor);
-        crossSquares[3] = getDownRightSquare(currentSquare, cardColor);
+        crossSquares[0] = getUpLeftSquare(currentSquare, possibleSquaresColor);
+        crossSquares[1] = getUpRightSquare(currentSquare, possibleSquaresColor);
+        crossSquares[2] = getDownLeftSquare(currentSquare, possibleSquaresColor);
+        crossSquares[3] = getDownRightSquare(currentSquare, possibleSquaresColor);
 
         return crossSquares;
     }
 
-    private Square getUpLeftSquare(Square square, Color color) {
+    private Square getUpLeftSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onLeftEdge(square) && !onArmEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x - 1);
             int y = square.y - 1;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
 
@@ -202,23 +202,23 @@ public class Board {
         return square.y == INNER_CIRCLE_HIGHER_Y + 1;
     }
 
-    private Square getUpRightSquare(Square square, Color color) {
+    private Square getUpRightSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onRightEdge(square) && !onArmEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x + 1);
             int y = square.y - 1;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
 
-    private Square getDownLeftSquare(Square square, Color color) {
+    private Square getDownLeftSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onLeftEdge(square) && !onCircleEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x - 1);
             int y = square.y + 1;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
 
@@ -226,13 +226,18 @@ public class Board {
         return square.y == INNER_CIRCLE_HIGHER_Y;
     }
 
-    private Square getDownRightSquare(Square square, Color color) {
+    private Square getDownRightSquare(Square square, Set<Color> possibleSquaresColor) {
         if (isInArm(square) && onRightEdge(square) && !onCircleEdge(square)) {
             return null;
         } else {
             int x = correctAbs(square.x + 1);
             int y = square.y + 1;
-            return returnSquareIfCanMoveToNullOtherwise(x, y, color);
+            return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(board);
     }
 }

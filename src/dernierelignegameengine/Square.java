@@ -1,5 +1,6 @@
 package dernierelignegameengine;
 
+import java.util.Set;
 import java.util.Objects;
 
 public class Square {
@@ -23,8 +24,8 @@ public class Square {
         this.occupied = true;
     }
 
-    public boolean canMoveTo(Color color) {
-        return !isOccupied() && this.color == color;
+    public boolean canMoveTo(Set<Color> possibleSquaresColor) {
+        return !isOccupied() && possibleSquaresColor.contains(this.color);
     }
 
     public void movePlayerTo(Player player) {

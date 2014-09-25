@@ -14,8 +14,22 @@ import java.util.Set;
 public class BishopCard extends Card {
 
     public BishopCard(Board board, Color color) {
-        super(board, "Bishop", 1, color);
+        super(board, "Bishop", 2, color);
 
+        switch(color) {
+            case RED:
+                possibleSquaresColor.add(Color.BLACK);
+                break;
+            case YELLOW:
+                possibleSquaresColor.add(Color.RED);
+                break;
+            case BLUE:
+                possibleSquaresColor.add(Color.YELLOW);
+                break;
+            case BLACK:
+                possibleSquaresColor.add(Color.BLUE);
+                break;
+        }
     }
 
     @Override

@@ -27,28 +27,16 @@ public class BishopCardTest {
         System.out.println("getPossibleMovements");
         Board board = new Board();
         // Up left
-        Square currentSquare = board.getSquare(4, 1);
+        Square currentSquare = board.getSquare(31, 2);
         currentSquare.setAsOccupied();
-        BishopCard instance = new BishopCard(board, Color.WHITE);
+        Color color = Color.RED;
+        BishopCard instance = new BishopCard(board, color);
 
         Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(3, 0, Color.WHITE));
-        expResult.add(new Square(5, 0, Color.WHITE));
+        expResult.add(new Square(0, 3, color));
+        expResult.add(new Square(1, 2, Color.BLACK));
 
         Set<Square> result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
-
-        // On the other edge.
-        System.out.println("getPossibleMovements");
-        currentSquare.empty();
-        currentSquare = board.getSquare(5, 0);
-        currentSquare.setAsOccupied();
-
-        expResult = new HashSet<>();
-        expResult.add(new Square(6, 1, Color.WHITE));
-        expResult.add(new Square(4, 1, Color.WHITE));
-
-        result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
     }
 

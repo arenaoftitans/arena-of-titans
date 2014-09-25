@@ -12,7 +12,6 @@ import java.util.Set;
  * @author jenselme
  */
 public class QueenCard extends Card {
-
     public QueenCard(Board board, Color color) {
         super(board, "Queen", 2, color);
 
