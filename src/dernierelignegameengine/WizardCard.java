@@ -2,7 +2,7 @@ package dernierelignegameengine;
 
 import java.util.Set;
 
-public class WizardCard extends Card{
+public class WizardCard extends Card {
     public WizardCard(Board board, Color color) {
         super(board, "Wizard", 1, color);
         possibleSquaresColor.add(Color.BLUE);

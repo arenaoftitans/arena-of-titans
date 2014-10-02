@@ -7,7 +7,6 @@ public class Square {
     private boolean occupied = false;
     public final int x;
     public final int y;
-    private Player player = null;
     public final Color color;
 
     public Square(int x, int y, Color color) {
@@ -26,11 +25,6 @@ public class Square {
 
     public boolean canMoveTo(Set<Color> possibleSquaresColor) {
         return !isOccupied() && possibleSquaresColor.contains(this.color);
-    }
-
-    public void movePlayerTo(Player player) {
-        this.player = player;
-        occupied = true;
     }
 
     public void empty() {
@@ -69,6 +63,6 @@ public class Square {
 
     @Override
     public String toString() {
-        return "Square{" + "occupied=" + occupied + ", x=" + x + ", y=" + y + ", player=" + player + ", color=" + color + '}';
+        return "Square{" + "occupied=" + occupied + ", x=" + x + ", y=" + y + ", color=" + color + '}';
     }
 }

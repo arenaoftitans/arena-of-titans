@@ -89,14 +89,6 @@ public class Board {
         }
     }
 
-    public void movePlayerTo(Player player, Square square) {
-        int x = square.x;
-        int y = square.y;
-
-        Square squareToMoveTo = board[y][x];
-        squareToMoveTo.movePlayerTo(player);
-    }
-
     public Square getSquare(int x, int y) {
         return board[y][x];
     }

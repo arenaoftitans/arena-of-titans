@@ -11,7 +11,6 @@ public class Player {
         this.name = name;
         this.board = board;
         this.currentSquare = currentSquare;
-        board.movePlayerTo(this, currentSquare);
     }
 
     public void play(Card card) {
@@ -21,8 +20,8 @@ public class Player {
     }
 
     public void moveTo(Square square) {
-        board.movePlayerTo(this, square);
         currentSquare.empty();
         currentSquare = square;
+        currentSquare.setAsOccupied();
     }
 }
