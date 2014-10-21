@@ -19,25 +19,29 @@ public class Board {
     private final int HEIGHT;
     private final Square[][] board;
     private final int INNER_CIRCLE_HIGHER_Y;
+    private static final String jsonFileName = "boards.json";
 
     public Board() {
-        String jsonFileName = "standardGame.json";
+        this("test_board");
+    }
+
+    public Board(String boardName) {
         JSONParser parser = new JSONParser();
 
         try {
             BufferedReader jsonFile = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(jsonFileName)));
             JSONObject jsonGame = (JSONObject) parser.parse(jsonFile);
-            JSONObject jsonBoard = (JSONObject) jsonGame.get("board");
+            JSONObject jsonBoard = (JSONObject) jsonGame.get(boardName);
 
-            JSONArray circle = (JSONArray) jsonBoard.get("circle");
-            JSONArray arm = (JSONArray) jsonBoard.get("arm");
-            int numberOfArms = (int)(long) jsonBoard.get("number of arms");
-            int armsWidth = (int)(long) jsonBoard.get("arms width");
+            JSONArray circle = (JSONArray) jsonBoard.get("circle_colors");
+            JSONArray arm = (JSONArray) jsonBoard.get("arm_colors");
+            int numberOfArms = (int)(long) jsonBoard.get("number_arms");
+            int armsWidth = (int)(long) jsonBoard.get("arms_width");
             WIDTH = numberOfArms * armsWidth;
             HEIGHT = circle.size() + arm.size();
             INNER_CIRCLE_HIGHER_Y = circle.size() - 1;
 
-            String[][] disposition = getDisposition(circle, arm, numberOfArms);
+            String[][] disposition = getDisposition(boardName);
 
             board = new Square[HEIGHT][WIDTH];
 
@@ -55,26 +59,19 @@ public class Board {
         }
     }
 
-    private String[][] getDisposition(JSONArray circle, JSONArray arm, int numberOfArms) {
+    private String[][] getDisposition(String boardName) {
         String[][] disposition = new String[HEIGHT][WIDTH];
 
-            for (int i = 0; i < circle.size(); i++) {
-                String currentLine = (String) circle.get(i);
-                String circleLine = currentLine;
-                for (int j = 1; j < numberOfArms/2; j++) {
-                    circleLine += "," + currentLine;
-                }
-                disposition[i] = circleLine.split(",");
+        try {
+            BufferedReader colorDispositionFile = new
+                BufferedReader(new InputStreamReader(getClass().getResourceAsStream(boardName + "-colors")));
+            for (int i = 0; i < HEIGHT; i++) {
+                String line = colorDispositionFile.readLine();
+                disposition[i] = line.split(",");
             }
-
-            for (int i = 0; i < arm.size(); i++) {
-                String currentLine = (String) arm.get(i);
-                String armLine = currentLine;
-                for (int j = 1; j < numberOfArms; j++) {
-                    armLine += "," + currentLine;
-                }
-                disposition[i + circle.size()] = armLine.split(",");
-            }
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return disposition;
     }
