@@ -11,11 +11,11 @@ package dernierelignegameengine;
  */
 public class Main {
     public static void main(String[] Args) {
-        TurnPlayer[] players = new TurnPlayer[8];
+        Player[] players = new Player[8];
         //for (int i=0; i <8; i++)
             //players[i] = new TurnPlayer("Joueur " + i, i);
         
-        players[0] = new TurnPlayer("Joueur " + 0, 0);
+        players[0] = new Player("Joueur " + 0, null, null, 0);
         
         players[0].play(players);
         
