@@ -35,7 +35,7 @@
             "RED,BLUE,YELLOW,BLACK"
         ],
 	"svg": {
-	    "rotation_center": "1082,974",
+	    "rotation_center": "1082,1370",
 	    "fill_origin": "905,1903",
 	    "style": "opacity:0.25422764;fill:{};stroke:#000000;stroke-width:2.24024391;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none",
 	    "fill": {"tag": "rect", "height": "90", "width": "90"},
