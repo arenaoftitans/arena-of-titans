@@ -1,4 +1,4 @@
-package dernierelignegameengine;
+package com.derniereligne.engine;
 
 public enum Color {
     BLACK,

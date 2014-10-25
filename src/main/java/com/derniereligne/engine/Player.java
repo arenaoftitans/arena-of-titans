@@ -1,5 +1,8 @@
-package dernierelignegameengine;
+package com.derniereligne.engine;
 
+import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.cards.Card;
+import com.derniereligne.engine.board.Board;
 import java.util.Set;
 
 public class Player {

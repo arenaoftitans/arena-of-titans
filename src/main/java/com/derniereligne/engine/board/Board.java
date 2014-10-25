@@ -1,5 +1,6 @@
-package dernierelignegameengine;
+package com.derniereligne.engine.board;
 
+import com.derniereligne.engine.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;

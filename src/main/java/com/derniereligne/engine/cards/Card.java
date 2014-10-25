@@ -1,5 +1,8 @@
-package dernierelignegameengine;
+package com.derniereligne.engine.cards;
 
+import com.derniereligne.engine.Color;
+import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
 import java.util.Set;
 

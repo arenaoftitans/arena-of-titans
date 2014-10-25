@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dernierelignegameengine;
+package com.derniereligne.engine.cards;
 
+import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.Color;
+import com.derniereligne.engine.Color;
+import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.cards.WarriorCard;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;
