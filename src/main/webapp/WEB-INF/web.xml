@@ -19,12 +19,16 @@
         <servlet-name>Index</servlet-name>
         <servlet-class>fr.ecm.ext.ginfo.service.Index</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Game</servlet-name>
+        <servlet-class>com.derniereligne.servlets.Game</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Index</servlet-name>
-        <url-pattern>/Index</url-pattern>
+        <servlet-name>Game</servlet-name>
+        <url-pattern>/game</url-pattern>
     </servlet-mapping>
 </web-app>
