@@ -9,7 +9,6 @@ import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.BishopCard;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;

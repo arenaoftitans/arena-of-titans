@@ -20,7 +20,7 @@ public class Board {
     private final int HEIGHT;
     private final Square[][] board;
     private final int INNER_CIRCLE_HIGHER_Y;
-    private static final String jsonFileName = "boards.json";
+    private static final String jsonFileName = "/com/derniereligne/engine/board/boards.json";
 
     public Board() {
         this("test_board");
