@@ -5,6 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Last Line</title>
+        <link rel="stylesheet" type="text/css" href="inc/css/board.css"></link>
         <script src="inc/js/lib/jquery-2.1.1.js" type="text/javascript"></script>
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
         <script src="inc/js/game.js" type="text/javascript"></script>

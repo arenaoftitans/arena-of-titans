@@ -10,11 +10,6 @@ import json
 
 
 class BoardGenerator:
-    #: map a color name with its hexadecimal code.
-    COLORS = {'YELLOW': '#ffff00',
-              'RED': '#ff0000',
-              'BLACK': '#000000',
-              'BLUE': '#0000ff'}
     #: XML namespace. Required to use xpath to search the DOM.
     NS = {'ns': 'http://www.w3.org/2000/svg'}
 
@@ -148,9 +143,9 @@ class BoardGenerator:
                 squares = self.svg.xpath('.//*[@id="{}-{}"]'.format(x, y), namespaces=self.NS)
                 square  = squares[0]
                 color = self.color_disposition[y][x]
-                svg_color = self.COLORS[color]
-                style = self.board['svg']['style']
-                square.set('style', style.format(svg_color))
+                svg_color = color.lower()
+                fill = '{}-square'
+                square.set('class', fill.format(svg_color))
 
     def save_svg(self):
         """Save the SVG into a file."""
