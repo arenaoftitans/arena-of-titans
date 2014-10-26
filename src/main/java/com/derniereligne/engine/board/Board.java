@@ -23,7 +23,7 @@ public class Board {
     private static final String jsonFileName = "/com/derniereligne/engine/board/boards.json";
 
     public Board() {
-        this("test_board");
+        this("standard_board");
     }
 
     public Board(String boardName) {

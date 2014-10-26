@@ -18,7 +18,7 @@ public class RiderCardTest {
     @Test
     public void testGetPossibleMovements() {
         System.out.println("getPossibleMovements");
-        Board board = new Board();
+        Board board = new Board("test_board");
         Square currentSquare = board.getSquare(0, 9);
         currentSquare.setAsOccupied();
         Color color = Color.RED;

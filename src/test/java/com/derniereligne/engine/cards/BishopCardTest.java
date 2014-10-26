@@ -29,7 +29,7 @@ public class BishopCardTest {
     @Test
     public void testGetPossibleMovements() {
         System.out.println("getPossibleMovements");
-        Board board = new Board();
+        Board board = new Board("test_board");
         // Up left
         Square currentSquare = board.getSquare(31, 2);
         currentSquare.setAsOccupied();

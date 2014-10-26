@@ -30,7 +30,7 @@ public class WarriorCardTest {
     @Test
     public void testGetPossibleMovementsOnCircle() {
         System.out.println("getPossibleMovements: Circle");
-        Board board = new Board();
+        Board board = new Board("test_board");
         Square currentSquare = board.getSquare(0, 0);
         currentSquare.setAsOccupied();
         Color color = Color.YELLOW;

@@ -32,6 +32,14 @@ public class Square {
         occupied = false;
     }
 
+    public String getId() {
+        return String.format("%s-%s", x, y);
+    }
+
+    public String getCssId() {
+        return String.format("#%s-%s", x, y);
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

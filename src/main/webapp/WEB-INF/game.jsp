@@ -11,13 +11,14 @@
     </head>
     <body ng-app="lastLine">
         <div ng-controller="playButtons">
-            <button ng-click="play('queen')">Queen</button>
-            <button ng-click="play('king')">King</button>
-            <button ng-click="play('warrior')">Warrior</button>
-            <button ng-click="play('assassin')">Assassin</button>
-            <button ng-click="play('wizard')">Wizard</button>
-            <button ng-click="play('bishop')">Bishop</button>
+            <label>x : </label>
+            <input type="text" ng-model="x" />
+            <label>y :  </label>
+            <input type="text" ng-model="y" />
+            <div ng-repeat="color in colors">
+                   <button ng-repeat="card in cards" ng-click="play(card, color)">{{ card }} {{ color }}</button>
         </div>
+    </div>
 
         <c:import url="standard_board.svg" />
     </body>
