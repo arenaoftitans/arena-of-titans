@@ -35,7 +35,7 @@ public class Player {
         canPlay=true;
     }
     
-    public void play(Player[] players) {
+    public void playTurn(Player[] players) {
         if (!canPlay) {
             System.out.println("Not " + name + "'s turn");
         }
@@ -69,7 +69,7 @@ public class Player {
             if (testingIndex == index)
                 System.out.println("Player " + name + " is currently the only player in game");
             else {
-                System.out.println("Choosing : " + testingIndex + "and index is " + index);
+                System.out.println("Choosing : " + testingIndex + " and index is " + index);
                 players[testingIndex].choose();
             }
             
