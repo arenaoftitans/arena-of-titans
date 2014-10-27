@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet of the game.
+ * @author jenselme
+ */
 public class Game extends HttpServlet {
     public static final String VIEW = "/WEB-INF/game.jsp";
 

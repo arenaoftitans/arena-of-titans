@@ -21,12 +21,29 @@ public abstract class Card {
         this.possibleSquaresColor.add(color);
     }
 
+    /**
+     * Returns the Set of the squares on which the card can go when the player is
+     * on currentSquare.
+     * @param currentSquare
+     * @return Set
+     */
     public abstract Set<Square> getPossibleMovements(Square currentSquare);
 
+    /**
+     * Returns the Set of all possible squares if we move in lines.
+     * @param square
+     * @return Set
+     */
     protected Set<Square> getLineMovements(Square square) {
         return getLineMovements(square, numberOfMovements);
     }
 
+    /**
+     * Returns the Set of all possible squares if we move in lines at this recursion.
+     * @param currentSquare
+     * @param numberMovements
+     * @return Set
+     */
     private Set<Square> getLineMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
@@ -41,10 +58,21 @@ public abstract class Card {
         return movements;
     }
 
+    /**
+     * Returns the Set of all possible squares if we move diagonally.
+     * @param square
+     * @return Set
+     */
     protected Set<Square> getDiagonalMovements(Square square) {
         return getDiagonalMovements(square, numberOfMovements);
     }
 
+    /**
+     * Return the Set of all possible squares if we move diagonally at this recursion.
+     * @param currentSquare
+     * @param numberMovements
+     * @return
+     */
     private Set<Square> getDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
@@ -60,10 +88,22 @@ public abstract class Card {
         return movements;
     }
 
+    /**
+     * Returns the Set of all possible squares if we move diagonally and in lines.
+     * @param currentSquare
+     * @return Set
+     */
     protected Set<Square> getLineAndDiagonalMovements(Square currentSquare) {
         return getLineAndDiagonalMovements(currentSquare, numberOfMovements);
     }
 
+    /**
+     * Returns the Set of all possible squares if we move diagonally and in lines
+     * at this recursion.
+     * @param currentSquare
+     * @param numberMovements
+     * @return Set
+     */
     private Set<Square> getLineAndDiagonalMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {

@@ -7,6 +7,12 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Used by gson to represent a specific board from JSON to Java.
+ *
+ * Its setters and getters ease the creation of a Board.
+ * @author jenselme
+ */
 class JsonBoard {
     private int number_arms;
     private int arms_width;
@@ -25,6 +31,11 @@ class JsonBoard {
         return number_arms * arms_width;
     }
 
+    /**
+     * Return the matrix representing the board in Java for the game engine.
+     * @param boardName
+     * @return
+     */
     Square[][] getBoard(String boardName) {
         int height = getHeight();
         int width = getWidth();
@@ -42,6 +53,11 @@ class JsonBoard {
         return board;
     }
 
+    /**
+     * Returns the matrix representing the color of the board.
+     * @param boardName
+     * @return
+     */
     String[][] getDisposition(String boardName) {
         int height = getHeight();
         int width = getWidth();

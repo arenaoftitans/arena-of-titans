@@ -28,14 +28,25 @@ public class Square {
         return !isOccupied() && possibleSquaresColor.contains(this.color);
     }
 
+    /**
+     * Empty the square.
+     */
     public void empty() {
         occupied = false;
     }
 
+    /**
+     * Return the identifier of the square.
+     * @return String
+     */
     public String getId() {
         return String.format("%s-%s", x, y);
     }
 
+    /**
+     * Returns the CSS identifier of the board.
+     * @return String
+     */
     public String getCssId() {
         return String.format("#%s-%s", x, y);
     }

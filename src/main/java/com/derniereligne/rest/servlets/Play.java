@@ -23,12 +23,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+/**
+ * Rest servlet that returns the squares we can play.
+ *
+ * Expect parameters: x, y, card, color.
+ * @author jenselme
+ */
 @Path("/play")
 public class Play {
     @Context
     ServletContext context;
 
-    // This method is called if HTML is request
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response sayHtmlHello(@QueryParam("card") String card,
@@ -55,6 +60,13 @@ public class Play {
         return Response.status(Status.OK).entity(output).build();
     }
 
+    /**
+     * Returns the card object that the player selected.
+     * @param board
+     * @param name
+     * @param color
+     * @return Card
+     */
     private Card getCard(Board board, String name, String color) {
         Color cardColor;
         switch (color) {
