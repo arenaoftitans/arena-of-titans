@@ -30,9 +30,11 @@ public class Square {
      * The x coordinate of this square in the board matrix it belongs to.<br/>
      * Once initialized, it cannot be changed.
      *
+     * @see Square#getX()
+     * 
      * @since 1.0
      */
-    public final int x;
+    private final int x;
     /**
      * The y coordinate of this square in the board matrix it belongs to.<br/>
      * Once initialized, it cannot be changed.
@@ -50,7 +52,7 @@ public class Square {
     public final Color color;
 
     /**
-     * <b>Constructor initializing the square.</b>
+     * <b>Constructor initializing the square with the given parameters.</b>
      * <div>
      *  The occupied state is false by default.
      * </div>
@@ -76,6 +78,20 @@ public class Square {
         this.y = y;
         this.color = color;
         this.occupied = false;
+    }
+    
+    /**
+     * <b>Getter for the x coordinate.</b>
+     * 
+     * @return 
+     *          The x coordinate.
+     * 
+     * @see Square#x
+     * 
+     * @since 1.0
+     */
+    public int getX() {
+        return x;
     }
 
     /**
