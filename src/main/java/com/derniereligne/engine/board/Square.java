@@ -138,16 +138,36 @@ public class Square {
     }
 
     /**
-     * Return the identifier of the square.
+     * <b>Return the identifier of the square.</b>
+     * <div>
+     *  This identifier will be x-y.
+     * </div>
+     * 
      * @return String
+     *          The identifier with a format x-y
+     * 
+     * @see Square#x
+     * @see Square#y
+     * 
+     * @since 1.0
      */
     public String getId() {
         return String.format("%s-%s", x, y);
     }
 
     /**
-     * Returns the CSS identifier of the board.
+     * <b>Returns the CSS identifier of the board.</b>
+     * <div>
+     *  This identifier will be #x-y.
+     * </div>
+     * 
      * @return String
+     *          The CSS identifier whit a format #x-y
+     * 
+     * @see Square#x
+     * @see Square#y
+     * 
+     * @since 1.0
      */
     public String getCssId() {
         return String.format("#%s-%s", x, y);
@@ -168,17 +188,17 @@ public class Square {
      *
      * @since 1.0
      */
-    //TODO see for one line ?
+    //TODO: one line ?
     @Override
     public int hashCode() {
-        int hash = 7;
+        return ((11 * 7 + x) * 11 + y) * 11 + Objects.hashCode(color);
+        /*int hash = 7;
         hash = 11 * hash + this.x;
         hash = 11 * hash + this.y;
         hash = 11 * hash + Objects.hashCode(this.color);
-        return hash;
+        return hash;*/
     }
 
-    //TODO simplify if
     /**
      * <b>Returns true if the given object is the same square.</b>
      * <div>
@@ -200,23 +220,12 @@ public class Square {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (obj == null || obj.getClass() != Square.class) {
             return false;
+        } else {
+            final Square other = (Square) obj;
+            return (this.x == other.x && this.y == other.y && this.color == other.color);
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Square other = (Square) obj;
-        if (this.x != other.x) {
-            return false;
-        }
-        if (this.y != other.y) {
-            return false;
-        }
-        if (this.color != other.color) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -237,6 +246,6 @@ public class Square {
      */
     @Override
     public String toString() {
-        return "Square{" + "occupied=" + occupied + ", x=" + x + ", y=" + y + ", color=" + color + '}';
+        return "Square{" + "occupied=" + occupied + ", x=" + x + ", y=" + y + ", color=" + color + "}";
     }
 }
