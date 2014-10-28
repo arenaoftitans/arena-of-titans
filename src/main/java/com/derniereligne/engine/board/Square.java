@@ -23,6 +23,10 @@ public class Square {
     /**
      * Used to know if there is a player on this square.
      *
+     * @see Square#empty()
+     * @see Square#isOccupied() 
+     * @see Square#setAsOccupied() 
+     * 
      * @since 1.0
      */
     private boolean occupied;
@@ -39,17 +43,22 @@ public class Square {
      * The y coordinate of this square in the board matrix it belongs to.<br/>
      * Once initialized, it cannot be changed.
      *
+     * @see Square#getY()
+     * 
      * @since 1.0
      */
-    public final int y;
+    private final int y;
     /**
      * The color of this square.<br/>
      * Once initialized, it cannot be changed.
      *
      * @see Color
+     * 
+     * @see Square#getColor()
+     * 
      * @since 1.0
      */
-    public final Color color;
+    private final Color color;
 
     /**
      * <b>Constructor initializing the square with the given parameters.</b>
@@ -93,6 +102,34 @@ public class Square {
     public int getX() {
         return x;
     }
+    
+    /**
+     * <b>Getter for the y coordinate.</b>
+     * 
+     * @return
+     *          The y coordinate.
+     * 
+     * @see Square#y
+     * 
+     * @since 1.0
+     */
+    public int getY() {
+        return y;
+    }
+    
+    /**
+     * <b>Getter for the color of the square.</b>
+     * 
+     * @return
+     *          The color of the square.
+     * 
+     * @see Square#color
+     * 
+     * @since 1.0
+     */
+    public Color getColor() {
+        return color;
+    }
 
     /**
      * <b>This method returns the occupied state of the square.</b>
@@ -116,7 +153,7 @@ public class Square {
      * @since 1.0
      */
     public void setAsOccupied() {
-        this.occupied = true;
+        occupied = true;
     }
     
     /**
@@ -145,12 +182,12 @@ public class Square {
      * @see Card#possibleSquaresColor
      *
      * @see Square#color
-     * @see Square#isOccupied()
+     * @see Square#occupied
      *
      * @since 1.0
      */
     public boolean canMoveTo(Set<Color> possibleSquaresColor) {
-        return !isOccupied() && possibleSquaresColor.contains(this.color);
+        return !occupied && possibleSquaresColor.contains(color);
     }
 
     /**
@@ -240,7 +277,7 @@ public class Square {
             return false;
         } else {
             final Square other = (Square) obj;
-            return (this.x == other.x && this.y == other.y && this.color == other.color);
+            return (x == other.x && y == other.y && color == other.color);
         }
     }
 

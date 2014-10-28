@@ -16,9 +16,10 @@ public class RiderCard extends Card {
     public Set<Square> getPossibleMovements(Square currentSquare) {
         Set<Square> possibleMovements = new HashSet<>();
         // Color is not relevant for those squares.
+        //TODO: maybe a "ANY" color ?
         Square[] temporarySquares = {
-            new Square(currentSquare.getX(), currentSquare.y + 2, cardColor),
-            new Square(currentSquare.getX(), currentSquare.y - 2, cardColor)
+            new Square(currentSquare.getX(), currentSquare.getY() + 2, cardColor),
+            new Square(currentSquare.getX(), currentSquare.getY() - 2, cardColor)
             };
 
         for (Square temporarySquare : temporarySquares) {

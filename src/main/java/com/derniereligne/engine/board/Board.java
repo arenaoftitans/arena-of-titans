@@ -95,7 +95,7 @@ public class Board {
     }
 
     private Square getUpSquare(Square square, Set<Color> possibleSquaresColor) {
-        return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.y + 1, possibleSquaresColor);
+        return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.getY() + 1, possibleSquaresColor);
     }
 
     private Square returnSquareIfCanMoveToNullOtherwise(int x, int y, Set<Color> possibleSquaresColor) {
@@ -120,7 +120,7 @@ public class Board {
     }
 
     private Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
-        return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.y - 1, possibleSquaresColor);
+        return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.getY() - 1, possibleSquaresColor);
     }
 
     /**
@@ -136,7 +136,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() - 1);
-            int y = square.y;
+            int y = square.getY();
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
@@ -147,7 +147,7 @@ public class Board {
      * @return boolean
      */
     private boolean isInArm(Square square) {
-        return square.y > INNER_CIRCLE_HIGHER_Y;
+        return square.getY() > INNER_CIRCLE_HIGHER_Y;
     }
 
     /**
@@ -164,7 +164,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() + 1);
-            int y = square.y;
+            int y = square.getY();
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
@@ -201,7 +201,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() - 1);
-            int y = square.y - 1;
+            int y = square.getY() - 1;
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
@@ -212,7 +212,7 @@ public class Board {
      * @return boolean
      */
     private boolean onArmEdge(Square square) {
-        return square.y == INNER_CIRCLE_HIGHER_Y + 1;
+        return square.getY() == INNER_CIRCLE_HIGHER_Y + 1;
     }
 
     private Square getUpRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -220,7 +220,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() + 1);
-            int y = square.y - 1;
+            int y = square.getY() - 1;
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
@@ -230,7 +230,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() - 1);
-            int y = square.y + 1;
+            int y = square.getY() + 1;
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
@@ -241,7 +241,7 @@ public class Board {
      * @return
      */
     private boolean onCircleEdge(Square square) {
-        return square.y == INNER_CIRCLE_HIGHER_Y;
+        return square.getY() == INNER_CIRCLE_HIGHER_Y;
     }
 
     private Square getDownRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -249,7 +249,7 @@ public class Board {
             return null;
         } else {
             int x = correctAbs(square.getX() + 1);
-            int y = square.y + 1;
+            int y = square.getY() + 1;
             return returnSquareIfCanMoveToNullOtherwise(x, y, possibleSquaresColor);
         }
     }
