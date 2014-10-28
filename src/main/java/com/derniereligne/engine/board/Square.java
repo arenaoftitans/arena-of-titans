@@ -102,19 +102,13 @@ public class Square {
     public void setAsOccupied() {
         this.occupied = true;
     }
-
-    /**
-     * Empty the square.
-=======
-    //TODO possibly merge these methods.
-
+    
     /**
      * <b>Changes the occupied state of this square to false.</b>
      *
      * @see Square#occupied
      *
      * @since 1.0
->>>>>>> master:src/dernierelignegameengine/Square.java
      */
     public void empty() {
         occupied = false;
