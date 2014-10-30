@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 /**
- * Rest servlet that returns the squares we can play.
+ * <b>Rest servlet that returns the squares we can play.<b/>
  *
  * Expect parameters: x, y, card, color.
  * @author jenselme
@@ -61,13 +61,35 @@ public class Play {
     }
 
     /**
-     * Returns the card object that the player selected.
+     * <b>Returns the card object that the player selected.</b>
+     * <div>
+     *  The card returned will be a card of the type given in the parameter cardType
+     * and with the color given in the parameter color. For exemple, calling getCard(board,"warrior","red")
+     * will return a red warrior.<br/>The default card returned is a yellow warrior.
+     * </div>
+     *
      * @param board
-     * @param name
+     *          Board where this card can be played.
+     * @param cardType
+     *          Type of card to get.
      * @param color
+     *          Color of card to get.
+     *
      * @return Card
+     *          A card on the given board with the given type of the given color.
+     *
+     * @see Board
+     * @see Color
+     * @see BishopCard#BishopCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
+     * @see KingCard#KingCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
+     * @see QueenCard#QueenCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color) 
+     * @see RiderCard#RiderCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
+     * @see WarriorCard#WarriorCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
+     * @see WizardCard#WizardCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
+     *
+     * @since 1.0
      */
-    private Card getCard(Board board, String name, String color) {
+    private Card getCard(Board board, String cardType, String color) {
         Color cardColor;
         switch (color) {
             case "yellow":
@@ -86,7 +108,7 @@ public class Play {
                 cardColor = Color.YELLOW;
         }
 
-        switch (name) {
+        switch (cardType) {
             case "warrior":
                 return new WarriorCard(board, cardColor);
             case "wizard":

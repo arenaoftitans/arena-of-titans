@@ -101,7 +101,7 @@ public class Player {
      *          The card used to find the possible movements.
      *
      * @see Card
-     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square) 
+     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square)
      * @see Square
      *
      * @since 1.0
@@ -112,7 +112,6 @@ public class Player {
         System.out.println(possibleMovements.toString());
     }
 
-    //TODO maybe add testing if the square is empty ?
     /**
      * <b>Method to move this player to the given square.</b>
      * <div>

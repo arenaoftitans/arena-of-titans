@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
-
+//TODO: Width and height contained in the board ?
 public class Board {
     private final int WIDTH;
     private final int HEIGHT;

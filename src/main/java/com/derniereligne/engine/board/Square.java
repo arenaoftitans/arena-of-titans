@@ -24,9 +24,9 @@ public class Square {
      * Used to know if there is a player on this square.
      *
      * @see Square#empty()
-     * @see Square#isOccupied() 
-     * @see Square#setAsOccupied() 
-     * 
+     * @see Square#isOccupied()
+     * @see Square#setAsOccupied()
+     *
      * @since 1.0
      */
     private boolean occupied;
@@ -35,7 +35,7 @@ public class Square {
      * Once initialized, it cannot be changed.
      *
      * @see Square#getX()
-     * 
+     *
      * @since 1.0
      */
     private final int x;
@@ -44,7 +44,7 @@ public class Square {
      * Once initialized, it cannot be changed.
      *
      * @see Square#getY()
-     * 
+     *
      * @since 1.0
      */
     private final int y;
@@ -53,9 +53,9 @@ public class Square {
      * Once initialized, it cannot be changed.
      *
      * @see Color
-     * 
+     *
      * @see Square#getColor()
-     * 
+     *
      * @since 1.0
      */
     private final Color color;
@@ -88,43 +88,43 @@ public class Square {
         this.color = color;
         this.occupied = false;
     }
-    
+
     /**
      * <b>Getter for the x coordinate.</b>
-     * 
-     * @return 
+     *
+     * @return
      *          The x coordinate.
-     * 
+     *
      * @see Square#x
-     * 
+     *
      * @since 1.0
      */
     public int getX() {
         return x;
     }
-    
+
     /**
      * <b>Getter for the y coordinate.</b>
-     * 
+     *
      * @return
      *          The y coordinate.
-     * 
+     *
      * @see Square#y
-     * 
+     *
      * @since 1.0
      */
     public int getY() {
         return y;
     }
-    
+
     /**
      * <b>Getter for the color of the square.</b>
-     * 
+     *
      * @return
      *          The color of the square.
-     * 
+     *
      * @see Square#color
-     * 
+     *
      * @since 1.0
      */
     public Color getColor() {
@@ -155,7 +155,7 @@ public class Square {
     public void setAsOccupied() {
         occupied = true;
     }
-    
+
     /**
      * <b>Changes the occupied state of this square to false.</b>
      *
@@ -195,13 +195,13 @@ public class Square {
      * <div>
      *  This identifier will be x-y.
      * </div>
-     * 
+     *
      * @return String
      *          The identifier with a format x-y
-     * 
+     *
      * @see Square#x
      * @see Square#y
-     * 
+     *
      * @since 1.0
      */
     public String getId() {
@@ -213,13 +213,13 @@ public class Square {
      * <div>
      *  This identifier will be #x-y.
      * </div>
-     * 
+     *
      * @return String
      *          The CSS identifier whit a format #x-y
-     * 
+     *
      * @see Square#x
      * @see Square#y
-     * 
+     *
      * @since 1.0
      */
     public String getCssId() {
@@ -241,7 +241,6 @@ public class Square {
      *
      * @since 1.0
      */
-    //TODO: one line ?
     @Override
     public int hashCode() {
         return ((11 * 7 + x) * 11 + y) * 11 + Objects.hashCode(color);
