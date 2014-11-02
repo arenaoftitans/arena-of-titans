@@ -39,6 +39,7 @@ public class Board {
             int armsWidth = (int)(long) jsonBoard.get("arms_width");
             WIDTH = numberOfArms * armsWidth;
             HEIGHT = circle.size() + arm.size();
+            //The first line is 0
             INNER_CIRCLE_HIGHER_Y = circle.size() - 1;
 
             String[][] disposition = getDisposition(boardName);
