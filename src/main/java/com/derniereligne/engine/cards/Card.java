@@ -51,7 +51,9 @@ public abstract class Card {
             Square[] crossSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossSquares) {
                 if (square != null) {
-                    movements.add(square);
+                    if (!square.isOccupied()) {
+                        movements.add(square);
+                    }
                     movements.addAll(getLineMovements(square, numberMovements - 1));
                 }
             }
@@ -80,7 +82,9 @@ public abstract class Card {
             Square[] crossSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossSquares) {
                 if (square != null) {
-                    movements.add(square);
+                    if (!square.isOccupied()) {
+                        movements.add(square);
+                    }
                     movements.addAll(getDiagonalMovements(square, numberMovements - 1));
                 }
             }
@@ -111,7 +115,9 @@ public abstract class Card {
             Square[] crossLineSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossLineSquares) {
                 if (square != null) {
-                    movements.add(square);
+                    if (!square.isOccupied()) {
+                        movements.add(square);
+                    }
                     movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
                 }
             }
@@ -119,7 +125,9 @@ public abstract class Card {
             Square[] crossDiagSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             for (Square square : crossDiagSquares) {
                 if (square != null) {
-                    movements.add(square);
+                    if (!square.isOccupied()) {
+                        movements.add(square);
+                    }
                     movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
                 }
             }

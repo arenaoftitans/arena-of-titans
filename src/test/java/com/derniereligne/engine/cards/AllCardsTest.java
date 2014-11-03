@@ -2,6 +2,8 @@ package com.derniereligne.engine.cards;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
@@ -18,22 +20,32 @@ import org.junit.Test;
  */
 public class AllCardsTest extends CardTest {
 
+    public Square startSquare;
+
+    @After
+    public void emptyStartSquare() {
+        if (startSquare != null) {
+            startSquare.empty();
+        }
+    }
+
     @Test
     public void getPossibleMovementsLeftEdgeFromBottom() {
         setCurrentSquare(0, 8);
         expResult.add(new Square(0, 7, Color.RED));
         expResult.add(new Square(1, 7, Color.BLUE));
         expResult.add(new Square(1, 8, Color.BLUE));
+        System.out.println(instance.getPossibleMovements(currentSquare));
         test();
     }
 
     @Test
     public void getPossibleMovementsLeftEgde() {
         setCurrentSquare(4, 5);
-        expResult.add(new Square(4, 4, Color.BLACK));//
-        expResult.add(new Square(5, 4, Color.YELLOW));//
-        expResult.add(new Square(5, 5, Color.BLACK));//
-        expResult.add(new Square(5, 6, Color.RED));//
+        expResult.add(new Square(4, 4, Color.BLACK));
+        expResult.add(new Square(5, 4, Color.YELLOW));
+        expResult.add(new Square(5, 5, Color.BLACK));
+        expResult.add(new Square(5, 6, Color.RED));
         expResult.add(new Square(4, 6, Color.BLUE));
         test();
     }
@@ -84,6 +96,66 @@ public class AllCardsTest extends CardTest {
         expResult.add(new Square(6, 1, Color.BLUE));
         expResult.add(new Square(6, 0, Color.YELLOW));
         test();
+    }
+
+    @Test
+    public void getPossibleMovementsOverACardInDiagonal() {
+        // Set the position of the Wizard which will hinder the movement.
+        setCurrentSquare(1, 6);
+
+        Card cardToPlay = new BishopCard(board, cardColor);
+        setStartSquare(0, 7);
+
+        expResult.add(new Square(2, 5, cardColor));
+        result = cardToPlay.getPossibleMovements(startSquare);
+        assertEquals(expResult, result);
+    }
+
+    public void setStartSquare(int x, int y) {
+        startSquare = board.getSquare(x, y);
+        startSquare.setAsOccupied();
+    }
+
+    @Test
+    public void getPossibleMovementsOverACardInLine() {
+        // Set the position of the Wizard which will hinder the movement.
+        setCurrentSquare(0, 7);
+
+        Card cardToPlay = new KingCard(board, cardColor);
+        setStartSquare(0, 6);
+
+        expResult.add(new Square(1, 6, cardColor));
+        expResult.add(new Square(0, 8, cardColor));
+        result = cardToPlay.getPossibleMovements(startSquare);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void getPossibleMovementsOverACardInLineAndDiagonalTestLine() {
+        // Set the position of the Wizard which will hinder the movement.
+        setCurrentSquare(0, 7);
+
+        Card cardToPlay = new QueenCard(board, cardColor);
+        setStartSquare(0, 6);
+
+        expResult.add(new Square(1, 6, cardColor));
+        expResult.add(new Square(0, 8, cardColor));
+        expResult.add(new Square(2, 5, cardColor));
+        result = cardToPlay.getPossibleMovements(startSquare);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void getPossibleMovementsOverACardInLineAndDiagonalTestDiagonal() {
+        setCurrentSquare(1, 6);
+
+        Card cardToPlay = new QueenCard(board, cardColor);
+        setStartSquare(0, 7);
+
+        expResult.add(new Square(2, 5, cardColor));
+        expResult.add(new Square(0, 8, cardColor));
+        result = cardToPlay.getPossibleMovements(startSquare);
+        assertEquals(expResult, result);
     }
 
     @Override

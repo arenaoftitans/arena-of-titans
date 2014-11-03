@@ -187,7 +187,7 @@ public class Square {
      * @since 1.0
      */
     public boolean canMoveTo(Set<Color> possibleSquaresColor) {
-        return !occupied && possibleSquaresColor.contains(color);
+        return possibleSquaresColor.contains(color);
     }
 
     /**
