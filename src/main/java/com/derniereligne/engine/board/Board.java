@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,13 +86,13 @@ public class Board {
      * @param possibleSquaresColor
      * @return
      */
-    public Square[] getLineSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
-        Square[] crossSquares = new Square[4];
+    public Set<Square> getLineSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
+        Set<Square> crossSquares = new HashSet<>();
 
-        crossSquares[0] = getUpSquare(currentSquare, possibleSquaresColor);
-        crossSquares[1] = getDownSquare(currentSquare, possibleSquaresColor);
-        crossSquares[2] = getLeftSquare(currentSquare, possibleSquaresColor);
-        crossSquares[3] = getRightSquare(currentSquare, possibleSquaresColor);
+        crossSquares.add(getUpSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getDownSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getLeftSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getRightSquare(currentSquare, possibleSquaresColor));
 
         return crossSquares;
     }
@@ -187,13 +188,13 @@ public class Board {
      * @param possibleSquaresColor
      * @return Square[]
      */
-    public Square[] getDiagonalSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
-        Square[] crossSquares = new Square[4];
+    public Set<Square> getDiagonalSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
+       Set<Square> crossSquares = new HashSet<>();
 
-        crossSquares[0] = getUpLeftSquare(currentSquare, possibleSquaresColor);
-        crossSquares[1] = getUpRightSquare(currentSquare, possibleSquaresColor);
-        crossSquares[2] = getDownLeftSquare(currentSquare, possibleSquaresColor);
-        crossSquares[3] = getDownRightSquare(currentSquare, possibleSquaresColor);
+        crossSquares.add(getUpLeftSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getUpRightSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getDownLeftSquare(currentSquare, possibleSquaresColor));
+        crossSquares.add(getDownRightSquare(currentSquare, possibleSquaresColor));
 
         return crossSquares;
     }

@@ -7,11 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Card {
+
     protected final String name;
     protected final Color cardColor;
     protected final Set<Color> possibleSquaresColor;
     protected final int numberOfMovements;
     protected Board board;
+    protected ProbableSquaresGetter probableSquaresGetter;
 
     public Card(Board board, String name, int numberOfMovements, Color color) {
         this.board = board;
@@ -36,29 +38,73 @@ public abstract class Card {
      * @return Set
      */
     protected Set<Square> getLineMovements(Square square) {
-        return getLineMovements(square, numberOfMovements);
+        probableSquaresGetter = (Square currentSquare) -> {
+            return board.getLineSquares(currentSquare, possibleSquaresColor);
+        };
+        return getPossibleMovements(square, numberOfMovements);
     }
 
     /**
-     * Returns the Set of all possible squares if we move in lines at this recursion.
+     * <b>Determines on which square we can go for the current iteration.</b>
+     *
      * @param currentSquare
+     *        The square on which we start the iteration.
+     *
      * @param numberMovements
-     * @return Set
+     *        The number of movement left at this iteration.
+     *
+     * @return
+     *         The Set of possible squares (on which we can move).
      */
-    private Set<Square> getLineMovements(Square currentSquare, int numberMovements) {
+    private Set<Square> getPossibleMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
         if (numberMovements > 0) {
-            Square[] crossSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
-            for (Square square : crossSquares) {
-                if (square != null) {
-                    if (!square.isOccupied()) {
-                        movements.add(square);
-                    }
-                    movements.addAll(getLineMovements(square, numberMovements - 1));
-                }
-            }
-       }
+            Set<Square> probableSquares = probableSquaresGetter.get(currentSquare);
+            movements.addAll(getNextPossibleSquares(probableSquares, numberMovements));
+        }
         return movements;
+    }
+
+    /**
+     * <b>Select only the possible square among probable squares and then search
+     * all possible movements starting at these squares.</b>
+     *
+     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square, int)
+     *
+     * @param probableSquares
+     *        The set of all probable squares.
+     *
+     * @param numberMovements
+     *        The number of movements left at this iteration.
+     *
+     * @return
+     *         The set of all possible squares.
+     */
+    private Set<Square> getNextPossibleSquares(Set<Square> probableSquares, int numberMovements) {
+        Set<Square> movements = new HashSet<>();
+        for (Square square : probableSquares) {
+            if (square != null) {
+                addSquareIfEmpty(movements, square);
+                movements.addAll(getPossibleMovements(square, numberMovements - 1));
+            }
+        }
+        return movements;
+    }
+
+    /**
+     * <b>If the square is not empty, we cannot move to it. Thus it must not be
+     * added the the possible movements.</b>
+     *
+     * @param movements
+     *        The Set of possible squares.
+     *
+     * @param square
+     *        The square to check.
+     */
+    private void addSquareIfEmpty(Set movements, Square square) {
+        if (!square.isOccupied()) {
+            movements.add(square);
+        }
     }
 
     /**
@@ -67,30 +113,10 @@ public abstract class Card {
      * @return Set
      */
     protected Set<Square> getDiagonalMovements(Square square) {
-        return getDiagonalMovements(square, numberOfMovements);
-    }
-
-    /**
-     * Return the Set of all possible squares if we move diagonally at this recursion.
-     * @param currentSquare
-     * @param numberMovements
-     * @return
-     */
-    private Set<Square> getDiagonalMovements(Square currentSquare, int numberMovements) {
-        Set<Square> movements = new HashSet<>();
-        if (numberMovements > 0) {
-            Square[] crossSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
-            for (Square square : crossSquares) {
-                if (square != null) {
-                    if (!square.isOccupied()) {
-                        movements.add(square);
-                    }
-                    movements.addAll(getDiagonalMovements(square, numberMovements - 1));
-                }
-            }
-       }
-
-        return movements;
+        probableSquaresGetter = (Square currentSquare) -> {
+            return board.getDiagonalSquares(currentSquare, possibleSquaresColor);
+        };
+        return getPossibleMovements(square, numberOfMovements);
     }
 
     /**
@@ -98,40 +124,15 @@ public abstract class Card {
      * @param currentSquare
      * @return Set
      */
-    protected Set<Square> getLineAndDiagonalMovements(Square currentSquare) {
-        return getLineAndDiagonalMovements(currentSquare, numberOfMovements);
+    protected Set<Square> getLineAndDiagonalMovements(Square square) {
+        probableSquaresGetter = (Square currentSquare) -> {
+            Set<Square> possibleSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
+            possibleSquares.addAll(board.getLineSquares(currentSquare, possibleSquaresColor));
+
+            return possibleSquares;
+        };
+
+        return getPossibleMovements(square, numberOfMovements);
     }
 
-    /**
-     * Returns the Set of all possible squares if we move diagonally and in lines
-     * at this recursion.
-     * @param currentSquare
-     * @param numberMovements
-     * @return Set
-     */
-    private Set<Square> getLineAndDiagonalMovements(Square currentSquare, int numberMovements) {
-        Set<Square> movements = new HashSet<>();
-        if (numberMovements > 0) {
-            Square[] crossLineSquares = board.getLineSquares(currentSquare, possibleSquaresColor);
-            for (Square square : crossLineSquares) {
-                if (square != null) {
-                    if (!square.isOccupied()) {
-                        movements.add(square);
-                    }
-                    movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
-                }
-            }
-
-            Square[] crossDiagSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
-            for (Square square : crossDiagSquares) {
-                if (square != null) {
-                    if (!square.isOccupied()) {
-                        movements.add(square);
-                    }
-                    movements.addAll(getLineAndDiagonalMovements(square, numberMovements - 1));
-                }
-            }
-        }
-        return movements;
-    }
 }
