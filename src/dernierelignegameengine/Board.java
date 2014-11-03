@@ -150,7 +150,7 @@ public class Board {
     }
 
     private boolean onLeftEdge(Square square) {
-        return square.x % 2 == 0;
+        return square.x % 4 == 0;
     }
 
     public Square getRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -164,7 +164,7 @@ public class Board {
     }
 
     private boolean onRightEdge(Square square) {
-        return square.x % 2 == 1;
+        return square.x % 4 == 3;
     }
 
     public Square[] getDiagonalSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
