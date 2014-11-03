@@ -31,6 +31,10 @@ class JsonBoard {
         return number_arms * arms_width;
     }
 
+    int getArmsWidth() {
+        return arms_width;
+    }
+
     /**
      * Return the matrix representing the board in Java for the game engine.
      * @param boardName

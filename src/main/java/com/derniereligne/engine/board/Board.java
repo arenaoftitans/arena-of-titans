@@ -18,6 +18,7 @@ public class Board {
     private final int HEIGHT;
     private final Square[][] board;
     private final int INNER_CIRCLE_HIGHER_Y;
+    private final int ARMS_WIDTH;
     private static final String jsonFileName = "/com/derniereligne/engine/board/boards.json";
 
     public Board() {
@@ -42,6 +43,7 @@ public class Board {
             WIDTH = jsonBoard.getWidth();
             HEIGHT = jsonBoard.getHeight();
             INNER_CIRCLE_HIGHER_Y = jsonBoard.getInnerCircleHigherY();
+            ARMS_WIDTH = jsonBoard.getArmsWidth();
             board = jsonBoard.getBoard(boardName);
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,7 +158,7 @@ public class Board {
      * @return boolean
      */
     private boolean onLeftEdge(Square square) {
-        return square.getX() % 2 == 0;
+        return square.getX() % ARMS_WIDTH == 0;
     }
 
     public Square getRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -175,7 +177,7 @@ public class Board {
      * @return boolean
      */
     private boolean onRightEdge(Square square) {
-        return square.getX() % 2 == 1;
+        return square.getX() % ARMS_WIDTH == ARMS_WIDTH - 1;
     }
 
     /**
