@@ -9,7 +9,7 @@ import java.util.Set;
 public abstract class Card {
     protected final String name;
     protected final Color cardColor;
-    protected final Set<Color> possibleSquaresColor = new HashSet<>();
+    protected final Set<Color> possibleSquaresColor;
     protected final int numberOfMovements;
     protected Board board;
 
@@ -18,6 +18,7 @@ public abstract class Card {
         this.name = name;
         this.numberOfMovements = numberOfMovements;
         this.cardColor = color;
+        this.possibleSquaresColor = new HashSet<>();
         this.possibleSquaresColor.add(color);
     }
 

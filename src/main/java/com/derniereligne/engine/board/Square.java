@@ -244,11 +244,6 @@ public class Square {
     @Override
     public int hashCode() {
         return ((11 * 7 + x) * 11 + y) * 11 + Objects.hashCode(color);
-        /*int hash = 7;
-        hash = 11 * hash + this.x;
-        hash = 11 * hash + this.y;
-        hash = 11 * hash + Objects.hashCode(this.color);
-        return hash;*/
     }
 
     /**
