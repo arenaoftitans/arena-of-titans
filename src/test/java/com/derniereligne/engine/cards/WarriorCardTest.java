@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.derniereligne.engine.cards;
 
 import com.derniereligne.engine.Color;
@@ -10,17 +5,17 @@ import com.derniereligne.engine.board.Square;
 import org.junit.Test;
 
 /**
+ * <b>Test class for WarriorCard.</b>
  *
- * @author jenselme
+ * Test specific movement for the WarriorCard.
+ *
+ * @author "Dernière Ligne" first development team
  */
 public class WarriorCardTest extends CardTest {
 
     public WarriorCardTest() {
     }
 
-    /**
-     * Test of getPossibleMovements method, of class WarriorCard.
-     */
     @Test
     public void testGetPossibleMovementsOnCircle() {
         setCurrentSquare(0, 0);
@@ -29,6 +24,7 @@ public class WarriorCardTest extends CardTest {
         expResult.add(new Square(31, 0, cardColor));
 
         test();
+    }
 
     @Test
     public void testGetPossibleMovementsNoDiagonal() {

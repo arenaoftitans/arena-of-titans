@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.derniereligne.engine.cards;
 
 import com.derniereligne.engine.Color;
@@ -10,17 +5,17 @@ import com.derniereligne.engine.board.Square;
 import org.junit.Test;
 
 /**
+ * <b>Test class for BishopCard.</b>
  *
- * @author jenselme
+ * Test specific movement for the BishopCard.
+ *
+ * @author "Dernière Ligne" first development team
  */
 public class BishopCardTest extends CardTest {
 
     public BishopCardTest() {
     }
 
-    /**
-     * Test of getPossibleMovements method, of class BishopCard.
-     */
     @Test
     public void testGetPossibleMovements() {
         setCurrentSquare(31, 2);
