@@ -29,7 +29,7 @@ public class BishopCardTest {
     @Test
     public void testGetPossibleMovements() {
         System.out.println("getPossibleMovements");
-        Board board = new Board("test_board");
+        Board board = new Board();
         // Up left
         Square currentSquare = board.getSquare(31, 2);
         currentSquare.setAsOccupied();
@@ -37,7 +37,7 @@ public class BishopCardTest {
         BishopCard instance = new BishopCard(board, color);
 
         Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(0, 3, color));
+        expResult.add(new Square(0, 3, Color.BLACK));
         expResult.add(new Square(1, 2, Color.BLACK));
 
         Set<Square> result = instance.getPossibleMovements(currentSquare);

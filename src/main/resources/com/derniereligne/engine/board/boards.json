@@ -1,22 +1,4 @@
 {
-    "test_board": {
-        "number_arms": 8,
-        "arms_width": 4,
-        "circle_colors": [
-            "YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW",
-            "BLUE,BLUE,RED,RED,RED,RED,BLUE,BLUE",
-            "BLUE,BLACK,RED,YELLOW,BLUE,BLACK,RED,YELLOW"
-        ],
-        "arm_colors": [
-            "RED,YELLOW,BLUE,BLACK",
-            "RED,YELLOW,BLUE,BLACK",
-            "BLACK,YELLOW,BLUE,RED",
-            "BLUE,BLACK,RED,YELLOW",
-            "BLUE,RED,BLACK,YELLOW",
-            "RED,BLUE,YELLOW,BLACK",
-            "RED,BLUE,YELLOW,BLACK"
-        ]
-    },
     "standard_board": {
         "number_arms": 8,
         "arms_width": 4,

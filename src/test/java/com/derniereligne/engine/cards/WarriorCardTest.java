@@ -7,9 +7,7 @@ package com.derniereligne.engine.cards;
 
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.Color;
-import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.WarriorCard;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;
@@ -30,7 +28,7 @@ public class WarriorCardTest {
     @Test
     public void testGetPossibleMovementsOnCircle() {
         System.out.println("getPossibleMovements: Circle");
-        Board board = new Board("test_board");
+        Board board = new Board();
         Square currentSquare = board.getSquare(0, 0);
         currentSquare.setAsOccupied();
         Color color = Color.YELLOW;
@@ -49,9 +47,10 @@ public class WarriorCardTest {
         currentSquare = board.getSquare(2, 8);
         currentSquare.setAsOccupied();
         expResult = new HashSet<>();
-        expResult.add(new Square(2, 9, color));
+        expResult.add(new Square(2, 7, color));
 
         result = instance.getPossibleMovements(currentSquare);
+        System.out.println(result);
         assertEquals(expResult, result);
     }
 

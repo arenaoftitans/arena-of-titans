@@ -30,15 +30,15 @@ public class QueenCardTest {
     @Test
     public void testGetPossibleMovements() {
         System.out.println("getPossibleMovements: start point");
-        Board board = new Board("test_board");
-        Square currentSquare = board.getSquare(0, 9);
+        Board board = new Board();
+        Square currentSquare = board.getSquare(0, 8);
         currentSquare.setAsOccupied();
         Color color = Color.RED;
         QueenCard instance = new QueenCard(board, color);
 
         Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(0, 8, color));
-        expResult.add(new Square(1, 7, color));
+        expResult.add(new Square(0, 7, color));
+        expResult.add(new Square(1, 6, color));
 
         Set<Square> result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
@@ -53,14 +53,27 @@ public class QueenCardTest {
         result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
 
+        System.out.println("getPossibleMovements: on the middle of an arm");
+        currentSquare.empty();
+        currentSquare = board.getSquare(1, 6);
+        currentSquare.setAsOccupied();
+
+        expResult = new HashSet<>();
+        expResult.add(new Square(0, 7, color));
+        expResult.add(new Square(0, 8, color));
+        expResult.add(new Square(2, 5, color));
+        expResult.add(new Square(3, 4, color));
+
+        result = instance.getPossibleMovements(currentSquare);
+        assertEquals(expResult, result);
+
         System.out.println("getPossibleMovements: on the edge");
+        instance = new QueenCard(board, Color.BLACK);
         currentSquare.empty();
         currentSquare = board.getSquare(3, 4);
         currentSquare.setAsOccupied();
 
         expResult = new HashSet<>();
-        expResult.add(new Square(3, 5, color));
-        expResult.add(new Square(2, 6, color));
 
         result = instance.getPossibleMovements(currentSquare);
         assertEquals(expResult, result);
