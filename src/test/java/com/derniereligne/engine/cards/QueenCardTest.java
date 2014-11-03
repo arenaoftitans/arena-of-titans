@@ -5,78 +5,47 @@
  */
 package com.derniereligne.engine.cards;
 
-import com.derniereligne.engine.board.Board;
-import com.derniereligne.engine.cards.QueenCard;
-import com.derniereligne.engine.Color;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
-import java.util.HashSet;
-import java.util.Set;
+import static com.derniereligne.engine.cards.CardTest.cardColor;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author jenselme
  */
-public class QueenCardTest {
+public class QueenCardTest extends CardTest {
 
     public QueenCardTest() {
     }
 
-    /**
-     * Test of getPossibleMovements method, of class QueenCard.
-     */
+    @Override
+    public void initCard() {
+        cardColor = Color.RED;
+        instance = new QueenCard(board, cardColor);
+    }
+
     @Test
     public void testGetPossibleMovements() {
-        System.out.println("getPossibleMovements: start point");
-        Board board = new Board();
-        Square currentSquare = board.getSquare(0, 8);
-        currentSquare.setAsOccupied();
-        Color color = Color.RED;
-        QueenCard instance = new QueenCard(board, color);
+        setCurrentSquare(0, 8);
 
-        Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(0, 7, color));
-        expResult.add(new Square(1, 6, color));
+        expResult.add(new Square(0, 7, cardColor));
+        expResult.add(new Square(1, 6, cardColor));
 
-        Set<Square> result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
+        test();
 
-        System.out.println("getPossibleMovements: no movement");
-        currentSquare.empty();
-        currentSquare = board.getSquare(0, 0);
-        currentSquare.setAsOccupied();
+        setCurrentSquare(0, 0);
 
-        expResult = new HashSet<>();
+        test();
 
-        result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
+        setCurrentSquare(1, 6);
 
-        System.out.println("getPossibleMovements: on the middle of an arm");
-        currentSquare.empty();
-        currentSquare = board.getSquare(1, 6);
-        currentSquare.setAsOccupied();
+        expResult.add(new Square(0, 7, cardColor));
+        expResult.add(new Square(0, 8, cardColor));
+        expResult.add(new Square(2, 5, cardColor));
+        expResult.add(new Square(3, 4, cardColor));
 
-        expResult = new HashSet<>();
-        expResult.add(new Square(0, 7, color));
-        expResult.add(new Square(0, 8, color));
-        expResult.add(new Square(2, 5, color));
-        expResult.add(new Square(3, 4, color));
-
-        result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
-
-        System.out.println("getPossibleMovements: on the edge");
-        instance = new QueenCard(board, Color.BLACK);
-        currentSquare.empty();
-        currentSquare = board.getSquare(3, 4);
-        currentSquare.setAsOccupied();
-
-        expResult = new HashSet<>();
-
-        result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
+        test();
     }
 
 }

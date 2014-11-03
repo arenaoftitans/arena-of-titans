@@ -5,19 +5,15 @@
  */
 package com.derniereligne.engine.cards;
 
-import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author jenselme
  */
-public class WarriorCardTest {
+public class WarriorCardTest extends CardTest {
 
     public WarriorCardTest() {
     }
@@ -27,31 +23,27 @@ public class WarriorCardTest {
      */
     @Test
     public void testGetPossibleMovementsOnCircle() {
-        System.out.println("getPossibleMovements: Circle");
-        Board board = new Board();
-        Square currentSquare = board.getSquare(0, 0);
-        currentSquare.setAsOccupied();
-        Color color = Color.YELLOW;
-        WarriorCard instance = new WarriorCard(board, color);
+        setCurrentSquare(0, 0);
 
-        Set<Square> expResult = new HashSet<>();
-        expResult.add(new Square(1, 0, color));
-        expResult.add(new Square(31, 0, color));
+        expResult.add(new Square(1, 0, cardColor));
+        expResult.add(new Square(31, 0, cardColor));
 
-        Set<Square> result = instance.getPossibleMovements(currentSquare);
-        assertEquals(expResult, result);
+        test();
 
-        // Test at the other edge of the board.
-        System.out.println("getPossibleMovements: No diagonal");
+    @Test
+    public void testGetPossibleMovementsNoDiagonal() {
+        setCurrentSquare(2, 8);
         currentSquare.empty();
-        currentSquare = board.getSquare(2, 8);
-        currentSquare.setAsOccupied();
-        expResult = new HashSet<>();
-        expResult.add(new Square(2, 7, color));
 
-        result = instance.getPossibleMovements(currentSquare);
-        System.out.println(result);
-        assertEquals(expResult, result);
+        expResult.add(new Square(2, 7, cardColor));
+
+        test();
+    }
+
+    @Override
+    public void initCard() {
+        cardColor = Color.YELLOW;
+        instance = new WarriorCard(board, cardColor);
     }
 
 }
