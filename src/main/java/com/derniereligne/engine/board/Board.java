@@ -54,6 +54,7 @@ public class Board {
 
     /**
      * Get the square located at (x,y)
+     *
      * @param x
      * @param y
      * @return Square@x,y
@@ -68,6 +69,7 @@ public class Board {
      * Since the board is a circle represented in a matrix, we need to perform
      * those operation with %WIDTH. If the abscissa is negative, we adjust it so
      * it is becomes positive.
+     *
      * @param x
      * @return
      */
@@ -82,6 +84,7 @@ public class Board {
     /**
      * Get the array of the squares on which we can move if we do a Up/Down or
      * Left/Right movement.
+     *
      * @param currentSquare
      * @param possibleSquaresColor
      * @return
@@ -112,7 +115,8 @@ public class Board {
     /**
      * Check that we can move to the square located at (x, y).
      *
-     * Check that x and y are in the board  and that the color is correct.
+     * Check that x and y are in the board and that the color is correct.
+     *
      * @param x
      * @param y
      * @param possibleSquaresColor
@@ -123,6 +127,10 @@ public class Board {
     }
 
     private Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
+     * <b>Check that a set of coordinates.</b>
+     *
+     * @param x
+     * @param y
         return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.getY() - 1, possibleSquaresColor);
     }
 
@@ -130,6 +138,7 @@ public class Board {
      * If the square is on the left edge and in an arm, we cannot move to the
      * square at its left (x-1). If we are not in an arm, we must correct the x
      * coordinate.
+     *
      * @param square
      * @param possibleSquaresColor
      * @return Square
@@ -145,7 +154,9 @@ public class Board {
     }
 
     /**
+    /**
      * Returns true if square is located in an arm.
+     *
      * @param square
      * @return boolean
      */
@@ -155,6 +166,7 @@ public class Board {
 
     /**
      * Returns true if square is on a left Edge of an arm.
+     *
      * @param square
      * @return boolean
      */
@@ -173,7 +185,9 @@ public class Board {
     }
 
     /**
+    /**
      * Returns true if square is on the right edge of an arm.
+     *
      * @param square
      * @return boolean
      */
@@ -184,6 +198,7 @@ public class Board {
     /**
      * Returns the array of 4 squares on which we can move if we do diagonals
      * movements.
+     *
      * @param currentSquare
      * @param possibleSquaresColor
      * @return Square[]
@@ -211,6 +226,7 @@ public class Board {
 
     /**
      * Returns true if square is at the upper edge of an arm.
+     *
      * @param square
      * @return boolean
      */
@@ -240,6 +256,7 @@ public class Board {
 
     /**
      * Returns true if square is at the bottom edge of a square.
+     *
      * @param square
      * @return
      */
