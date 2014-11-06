@@ -8,42 +8,124 @@ import java.util.Set;
 
 public class RiderCard extends Card {
 
+    /**
+     * Used to get the squares located at the right and left of the given square.
+     *
+     * @see ProbableSquaresGetter#get
+     */
+    private final ProbableSquaresGetter possibleHorizontalSquaresGetter;
+    /**
+     * Used to get the squares located above and below the given square.
+     *
+     * @see ProbableSquaresGetter#get
+     */
+    private final ProbableSquaresGetter possibleVerticalSquaresGetter;
+    /**
+     * Used to get the temporary squares located at the right the given square.
+     *
+     * With this method we are sure we won't step outside the arm we are in.
+     *
+     * @see TemporarySquareGetter#get
+     */
+    private final TemporarySquareGetter rightSquareGetter;
+    /**
+     * Used to get the temporary squares located at the left the given square.
+     *
+     * With this method we are sure we won't step outside the arm we are in.
+     *
+     * @see TemporarySquareGetter#get
+     */
+    private final TemporarySquareGetter leftSquareGetter;
+
     public RiderCard(Board board, Color color) {
         super(board, "Rider", 1, color);
+
+        possibleVerticalSquaresGetter = (Square square) -> {
+            return getPossibleVerticalSquares(square);
+        };
+
+        possibleHorizontalSquaresGetter = (Square square) -> {
+            return getPossibleHorizontalSquares(square);
+        };
+
+        rightSquareGetter = (Square square) -> {
+            return board.getRightSquare(square);
+        };
+        leftSquareGetter = (Square square) -> {
+            return board.getLeftSquare(square);
+        };
     }
 
     @Override
     public Set<Square> getPossibleMovements(Square currentSquare) {
         Set<Square> possibleMovements = new HashSet<>();
-        // Color is not relevant for those squares.
-        //TODO: maybe a "ANY" color ?
-        Square[] temporarySquares = {
-            new Square(currentSquare.getX(), currentSquare.getY() + 2, cardColor),
-            new Square(currentSquare.getX(), currentSquare.getY() - 2, cardColor)
-            };
 
-        for (Square temporarySquare : temporarySquares) {
-            Square[] possibleSquares = getPossibleSquares(temporarySquare);
+        Set<Square> temporaryVerticalSquares = new HashSet<>();
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.WHITE));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.WHITE));
 
-            add(possibleSquares, possibleMovements);
-        }
+        Set<Square> temporaryHorizontalSquares = getTemporaryHorizontalSquares(currentSquare);
+
+        filterTemporarySquares(possibleMovements, temporaryHorizontalSquares, possibleHorizontalSquaresGetter);
+        filterTemporarySquares(possibleMovements, temporaryVerticalSquares, possibleVerticalSquaresGetter);
 
         return possibleMovements;
     }
 
-    private Square[] getPossibleSquares(Square temporarySquare) {
-        Square[] squares = new Square[2];
-        squares[0] = board.getLeftSquare(temporarySquare, possibleSquaresColor);
-        squares[1] = board.getRightSquare(temporarySquare, possibleSquaresColor);
+    private Set<Square> getTemporaryHorizontalSquares(Square currentSquare) {
+        Set<Square> temporarySquares = new HashSet<>();
+
+        temporarySquares.addAll(getTemporaryHorizontalSquaresOnOneSide(currentSquare, leftSquareGetter));
+        temporarySquares.addAll(getTemporaryHorizontalSquaresOnOneSide(currentSquare, rightSquareGetter));
+
+        return temporarySquares;
+    }
+
+    private Set<Square> getTemporaryHorizontalSquaresOnOneSide(Square currentSquare, TemporarySquareGetter temporarySquareGetter) {
+        Set<Square> temporarySquares = new HashSet<>();
+
+        Square temporarySquare = temporarySquareGetter.get(currentSquare);
+        if (temporarySquare != null) {
+            temporarySquare = temporarySquareGetter.get(temporarySquare);
+            if (temporarySquare != null) {
+                temporarySquares.add(new Square(temporarySquare.getX(), temporarySquare.getY(), cardColor));
+            }
+        }
+
+        return temporarySquares;
+    }
+
+    private void filterTemporarySquares(Set<Square> possibleMovements, Set<Square> temporarySquares,
+            ProbableSquaresGetter probableSquaresGetter) {
+        for (Square temporarySquare : temporarySquares) {
+            Set<Square> possibleSquares = probableSquaresGetter.get(temporarySquare);
+
+            add(possibleSquares, possibleMovements);
+        }
+    }
+
+    private Set<Square> getPossibleVerticalSquares(Square temporarySquare) {
+        Set<Square> squares = new HashSet<>();
+        squares.add(board.getLeftSquare(temporarySquare, possibleSquaresColor));
+        squares.add(board.getRightSquare(temporarySquare, possibleSquaresColor));
 
         return squares;
     }
 
-    private void add(Square[] possibleSquares, Set<Square> possibleMovements) {
+    private Set<Square> getPossibleHorizontalSquares(Square temporarySquare) {
+        Set<Square> squares = new HashSet<>();
+        squares.add(board.getUpSquare(temporarySquare, possibleSquaresColor));
+        squares.add(board.getDownSquare(temporarySquare, possibleSquaresColor));
+
+        return squares;
+    }
+
+    private void add(Set<Square> possibleSquares, Set<Square> possibleMovements) {
         for (Square square : possibleSquares) {
             if (square != null) {
-                possibleMovements.add(square);
+                addSquareIfEmpty(possibleMovements, square);
             }
         }
     }
+
 }

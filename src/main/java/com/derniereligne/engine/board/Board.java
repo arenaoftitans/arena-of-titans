@@ -15,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 
 //TODO: Width and height contained in the board ?
 public class Board {
+
     private final int WIDTH;
     private final int HEIGHT;
     private final Square[][] board;
@@ -100,7 +101,7 @@ public class Board {
         return crossSquares;
     }
 
-    private Square getUpSquare(Square square, Set<Color> possibleSquaresColor) {
+    public Square getUpSquare(Square square, Set<Color> possibleSquaresColor) {
         return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.getY() + 1, possibleSquaresColor);
     }
 
@@ -123,14 +124,22 @@ public class Board {
      * @return boolean
      */
     private boolean canMoveTo(int x, int y, Set<Color> possibleSquaresColor) {
-        return x < WIDTH && y >= 0 && y < HEIGHT && board[y][x].canMoveTo(possibleSquaresColor);
+        return isInBoard(x, y) && board[y][x].canMoveTo(possibleSquaresColor);
     }
 
-    private Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
+    /**
      * <b>Check that a set of coordinates.</b>
      *
      * @param x
      * @param y
+     * @return true if x and y are two possible index in the board, false
+     * otherwise.
+     */
+    private boolean isInBoard(int x, int y) {
+        return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
+    }
+
+    public Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
         return returnSquareIfCanMoveToNullOtherwise(square.getX(), square.getY() - 1, possibleSquaresColor);
     }
 
@@ -154,6 +163,19 @@ public class Board {
     }
 
     /**
+     * <b>Get the left square if the move is valid for a wizard.</b>
+     *
+     * @param square The square on which to start.
+     *
+     * @return The left square or null.
+     */
+    public Square getLeftSquare(Square square) {
+        Set<Color> colorSet = new HashSet<>();
+        colorSet.add(Color.WHITE);
+
+        return getLeftSquare(square, colorSet);
+    }
+
     /**
      * Returns true if square is located in an arm.
      *
@@ -185,6 +207,19 @@ public class Board {
     }
 
     /**
+     * <b>Get the right square if the move is valid for a wizard.</b>
+     *
+     * @param square The square on which to start.
+     *
+     * @return The right square or null.
+     */
+    public Square getRightSquare(Square square) {
+        Set<Color> colorSet = new HashSet<>();
+        colorSet.add(Color.WHITE);
+
+        return getRightSquare(square, colorSet);
+    }
+
     /**
      * Returns true if square is on the right edge of an arm.
      *
@@ -204,7 +239,7 @@ public class Board {
      * @return Square[]
      */
     public Set<Square> getDiagonalSquares(Square currentSquare, Set<Color> possibleSquaresColor) {
-       Set<Square> crossSquares = new HashSet<>();
+        Set<Square> crossSquares = new HashSet<>();
 
         crossSquares.add(getUpLeftSquare(currentSquare, possibleSquaresColor));
         crossSquares.add(getUpRightSquare(currentSquare, possibleSquaresColor));

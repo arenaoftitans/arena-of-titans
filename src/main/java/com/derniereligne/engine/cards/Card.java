@@ -101,7 +101,7 @@ public abstract class Card {
      * @param square
      *        The square to check.
      */
-    private void addSquareIfEmpty(Set movements, Square square) {
+    protected void addSquareIfEmpty(Set movements, Square square) {
         if (!square.isOccupied()) {
             movements.add(square);
         }
