@@ -17,7 +17,7 @@ import java.util.Set;
 public class BishopCard extends Card {
 
     public BishopCard(Board board, Color color) {
-        super(board, "Bishop", 2, color);
+        super(board, "Bishop", 2, color, "diagonal");
 
         switch(color) {
             case RED:

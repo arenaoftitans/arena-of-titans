@@ -29,7 +29,7 @@ public class AssassinCard extends Card{
      * @since 1.0
      */
     public AssassinCard(Board board, Color color) {
-        super(board, "Assassin", 2, color);
+        super(board, "Assassin", 2, color, "lineAndDiagonal");
     }
 
     /**
