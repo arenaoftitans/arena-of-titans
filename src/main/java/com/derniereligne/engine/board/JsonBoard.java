@@ -19,19 +19,19 @@ class JsonBoard {
     private String[] circle_colors;
     private String[] arm_colors;
 
-    int getInnerCircleHigherY() {
+    public int getInnerCircleHigherY() {
         return circle_colors.length - 1;
     }
 
-    int getHeight() {
+    public int getHeight() {
         return circle_colors.length + arm_colors.length;
     }
 
-    int getWidth() {
+    public int getWidth() {
         return number_arms * arms_width;
     }
 
-    int getArmsWidth() {
+    public int getArmsWidth() {
         return arms_width;
     }
 
@@ -40,7 +40,7 @@ class JsonBoard {
      * @param boardName
      * @return
      */
-    Square[][] getBoard(String boardName) {
+    public Square[][] getBoard(String boardName) {
         int height = getHeight();
         int width = getWidth();
         Square[][] board = new Square[height][width];
@@ -62,7 +62,7 @@ class JsonBoard {
      * @param boardName
      * @return
      */
-    String[][] getDisposition(String boardName) {
+    public String[][] getDisposition(String boardName) {
         int height = getHeight();
         int width = getWidth();
         String[][] disposition = new String[height][width];
