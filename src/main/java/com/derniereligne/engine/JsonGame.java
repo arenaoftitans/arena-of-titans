@@ -1,4 +1,4 @@
-package com.derniereligne.engine.board;
+package com.derniereligne.engine;
 
 import java.util.Map;
 
@@ -7,14 +7,14 @@ import java.util.Map;
  * @author jenselme
  */
 class JsonGame {
-    private Map<String, JsonBoard> boards;
+    private Map<String, JsonBoard> standard_board;
 
     JsonBoard get(String boardName) {
-        return boards.get(boardName);
+        return standard_board.get(boardName);
     }
 
     @Override
     public String toString() {
-        return boards.toString();
+        return standard_board.toString();
     }
 }

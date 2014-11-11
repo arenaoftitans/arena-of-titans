@@ -29,7 +29,7 @@ public class Play {
     @Context
     ServletContext context;
 
-    @GET
+    /*@GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response sayHtmlHello(@QueryParam("card") String card,
             @QueryParam("color") String color,
@@ -84,7 +84,7 @@ public class Play {
      *
      * @since 1.0
      */
-    private MovementsCard getCard(Board board, String cardType, String color) {
+    /*private MovementsCard getCard(Board board, String cardType, String color) {
         Color cardColor;
         switch (color) {
             case "yellow":
@@ -119,5 +119,5 @@ public class Play {
             default:
                 return new WarriorCard(board, cardColor);
         }
-    }
+    }*/
 }

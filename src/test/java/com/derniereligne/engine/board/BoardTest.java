@@ -6,9 +6,9 @@
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
+import com.derniereligne.engine.GameFactory;
 import java.util.HashSet;
 import java.util.Set;
-import jersey.repackaged.com.google.common.hash.HashCode;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class BoardTest {
 
     @Before
     public void initBoard() {
-        board = new Board();
+        board = new GameFactory().getBoard();
         possibleColors = new HashSet<>();
         possibleColors.add(Color.ALL);
     }

@@ -1,6 +1,7 @@
-package com.derniereligne.engine.board;
+package com.derniereligne.engine;
 
-import com.derniereligne.engine.Color;
+import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.board.Square;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
