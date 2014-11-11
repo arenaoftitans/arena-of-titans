@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author jenselme
  */
-class JsonSvg {
+public class JsonSvg {
 
     private String rotationCenter;
     private String fillOrigin;
@@ -66,6 +66,22 @@ class JsonSvg {
             default:
                 return Color.ALL;
         }
+    }
+
+    public String getRotationCenter() {
+        return rotationCenter;
+    }
+
+    public String getFillOrigin() {
+        return fillOrigin;
+    }
+
+    public HashMap<String, String> getFill() {
+        return fill;
+    }
+
+    public List<List<HashMap<String, String>>> getLines() {
+        return lines;
     }
 
 }

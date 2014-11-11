@@ -9,7 +9,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="1968.25"
-   id="svg2"
+   id="gameBoard"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="output.svg"
    version="1.1"
@@ -53,6 +53,6 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="boardLayer">
   </g>
 </svg>

@@ -1,6 +1,7 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Square;
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
@@ -9,13 +10,14 @@ import java.util.List;
  * Its setters and getters ease the creation of a Board.
  * @author jenselme
  */
-class JsonBoard {
+public class JsonBoard {
     private int numberArms;
     private int armsWidth;
     private int armsLength;
     private String[] circleColors;
     private String[] armColors;
-    private JsonSvg svg;
+    @SerializedName("svg")
+    private JsonSvg jsonSvg;
 
     public int getInnerCircleHigherY() {
         return circleColors.length - 1;
@@ -42,7 +44,8 @@ class JsonBoard {
         int height = getHeight();
         int width = getWidth();
         Square[][] board = new Square[height][width];
-        List<List<Color>> disposition = svg.getColorDisposition(circleColors, armColors, numberArms);
+        System.out.println(jsonSvg);
+        List<List<Color>> disposition = jsonSvg.getColorDisposition(circleColors, armColors, numberArms);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -52,6 +55,26 @@ class JsonBoard {
         }
 
         return board;
+    }
+
+    public int getNumberArms() {
+        return numberArms;
+    }
+
+    public int getArmsLength() {
+        return armsLength;
+    }
+
+    public String[] getCircleColors() {
+        return circleColors;
+    }
+
+    public String[] getArmColors() {
+        return armColors;
+    }
+
+    public JsonSvg getJsonSvg() {
+        return jsonSvg;
     }
 
 }

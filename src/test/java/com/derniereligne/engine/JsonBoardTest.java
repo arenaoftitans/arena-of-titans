@@ -44,4 +44,9 @@ public class JsonBoardTest extends GameFactory {
         assertEquals(new Square(0, 8, Color.RED), board[8][0]);
     }
 
+    @Test
+    public void testGetSvg() {
+        System.out.println(getSvg());
+    }
+
 }
