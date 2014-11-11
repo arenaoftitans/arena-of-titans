@@ -72,8 +72,8 @@ public class RiderCard extends Card {
         Set<Square> possibleMovements = new HashSet<>();
 
         Set<Square> temporaryVerticalSquares = new HashSet<>();
-        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.WHITE));
-        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.WHITE));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.ALL));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.ALL));
 
         Set<Square> temporaryHorizontalSquares = getTemporaryHorizontalSquares(currentSquare);
 

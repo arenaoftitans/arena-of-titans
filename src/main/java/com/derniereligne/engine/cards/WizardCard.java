@@ -8,7 +8,7 @@ import java.util.Set;
 public class WizardCard extends Card {
     public WizardCard(Board board, Color color) {
         super(board, "Wizard", 1, color, "lineAndDiagonal");
-        possibleSquaresColor.add(Color.WHITE);
+        possibleSquaresColor.add(Color.ALL);
     }
 
     @Override

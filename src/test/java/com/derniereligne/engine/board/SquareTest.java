@@ -28,7 +28,7 @@ public class SquareTest {
     @Test
     public void testCanMoveToWhite() {
         Set<Color> possibleColors = new HashSet<>();
-        possibleColors.add(Color.WHITE);
+        possibleColors.add(Color.ALL);
 
         assertTrue(square.canMoveTo(possibleColors));
     }

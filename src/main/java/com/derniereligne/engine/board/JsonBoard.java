@@ -93,7 +93,7 @@ class JsonBoard {
             case "YELLOW":
                 return Color.YELLOW;
             default:
-                return Color.WHITE;
+                return Color.ALL;
         }
     }
 }

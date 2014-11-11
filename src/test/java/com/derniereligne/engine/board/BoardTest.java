@@ -26,7 +26,7 @@ public class BoardTest {
     public void initBoard() {
         board = new Board();
         possibleColors = new HashSet<>();
-        possibleColors.add(Color.WHITE);
+        possibleColors.add(Color.ALL);
     }
 
     @Test

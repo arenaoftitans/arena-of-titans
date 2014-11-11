@@ -171,7 +171,7 @@ public class Board {
      */
     public Square getLeftSquare(Square square) {
         Set<Color> colorSet = new HashSet<>();
-        colorSet.add(Color.WHITE);
+        colorSet.add(Color.ALL);
 
         return getLeftSquare(square, colorSet);
     }
@@ -215,7 +215,7 @@ public class Board {
      */
     public Square getRightSquare(Square square) {
         Set<Color> colorSet = new HashSet<>();
-        colorSet.add(Color.WHITE);
+        colorSet.add(Color.ALL);
 
         return getRightSquare(square, colorSet);
     }
