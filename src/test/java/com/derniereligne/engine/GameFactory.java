@@ -36,7 +36,7 @@ public class GameFactory {
     private final int ARMS_WIDTH;
 
     public GameFactory() {
-        this("standard_board");
+        this("standardBoard");
     }
 
     public GameFactory(String boardName) {
@@ -48,7 +48,7 @@ public class GameFactory {
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-            jsonBoard = gson.fromJson(jsonObject.get("standard_board"), JsonBoard.class);
+            jsonBoard = gson.fromJson(jsonObject.get("standardBoard"), JsonBoard.class);
 
             // Initialize the board.
             WIDTH = jsonBoard.getWidth();

@@ -7,14 +7,14 @@ import java.util.Map;
  * @author jenselme
  */
 class JsonGame {
-    private Map<String, JsonBoard> standard_board;
+    private Map<String, JsonBoard> standardBoard;
 
     JsonBoard get(String boardName) {
-        return standard_board.get(boardName);
+        return standardBoard.get(boardName);
     }
 
     @Override
     public String toString() {
-        return standard_board.toString();
+        return standardBoard.toString();
     }
 }

@@ -44,13 +44,4 @@ public class JsonBoardTest extends GameFactory {
         assertEquals(new Square(0, 8, Color.RED), board[8][0]);
     }
 
-    @Test
-    public void testGetDisposition() {
-        String[][] disposition = jsonBoard.getDisposition(boardName);
-
-        assertEquals(9, disposition.length);
-        assertEquals(32, disposition[0].length);
-        assertEquals("RED", disposition[8][0]);
-    }
-
 }

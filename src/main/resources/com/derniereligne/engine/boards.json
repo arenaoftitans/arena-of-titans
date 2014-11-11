@@ -1,14 +1,14 @@
 {
-    "standard_board": {
-        "number_arms": 8,
-        "arms_width": 4,
-	"arms_length": 5,
-        "circle_colors": [
+    "standardBoard": {
+        "numberArms": 8,
+        "armsWidth": 4,
+	"armsLength": 5,
+        "circleColors": [
             "YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW",
             "BLUE,BLUE,RED,RED,RED,RED,BLUE,BLUE",
             "BLUE,BLACK,RED,YELLOW,BLUE,BLACK,RED,YELLOW"
         ],
-        "arm_colors": [
+        "armColors": [
             "BLACK,YELLOW,BLUE,RED",
             "BLACK,YELLOW,BLUE,RED",
             "BLUE,BLACK,RED,YELLOW",
@@ -17,8 +17,8 @@
             "RED,BLUE,YELLOW,BLACK"
         ],
 	"svg": {
-	    "rotation_center": "985,985",
-	    "fill_origin": "808,1516",
+	    "rotationCenter": "985,985",
+	    "fillOrigin": "808,1516",
 	    "fill": {"tag": "rect", "height": "90", "width": "89"},
 	    "lines": [
 		[
