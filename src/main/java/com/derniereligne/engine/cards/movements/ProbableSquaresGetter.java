@@ -1,4 +1,4 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.board.Square;
 import java.util.Set;

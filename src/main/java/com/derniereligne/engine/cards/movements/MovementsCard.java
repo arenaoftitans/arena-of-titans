@@ -1,12 +1,13 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Card {
+public abstract class MovementsCard {
 
     /**
      * The name of the card.
@@ -42,21 +43,21 @@ public abstract class Card {
      *
      * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
      */
-    private final ProbableSquaresGetter lineProbableSquaresGetter;
+    protected final ProbableSquaresGetter lineProbableSquaresGetter;
     /**
      * Used to get the Up Left, Up Right, Down Left, Down Right squares when we search the possible
      * movements in diagonal.
      *
      * @see Board#getDiagonalSquares(com.derniereligne.engine.board.Square, java.util.Set)
      */
-    private final ProbableSquaresGetter diagonalProbableSquaresGetter;
+    protected final ProbableSquaresGetter diagonalProbableSquaresGetter;
     /**
      * Used to get all the adjacent squares when we search the possible movements in line and diagonal.
      *
      * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
      * @see Board#getDiagonalSquares(com.derniereligne.engine.board.Square, java.util.Set)
      */
-    private final ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
+    protected final ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
 
     /**
      * <b>Create a new card with the specified parameters.</b>
@@ -73,25 +74,13 @@ public abstract class Card {
      * @param color
      *        The color of the card.
      *
-     * @param movementsType
-     *        The type of movements the card can do. Must be among: "line", "diagonal" and
-     * "lineAndDiagonal".
+     * @param addtionalMovementsColor
+     *        The additional color a card can go to.
      */
-    public Card(Board board, String name, int numberOfMovements, Color color, String movementsType) {
+    public MovementsCard(Board board, String name, int numberOfMovements, Color color, Color[] addtionalMovementsColor) {
         this(board, name, numberOfMovements, color);
 
-        // Set probableSquaresGetter
-        switch (movementsType) {
-            case "line":
-                probableSquaresGetter = lineProbableSquaresGetter;
-                break;
-            case "diagonal":
-                probableSquaresGetter = diagonalProbableSquaresGetter;
-                break;
-            case "lineAndDiagonal":
-                probableSquaresGetter = lineAndDiagonalProbableSquaresGetter;
-                break;
-        }
+        possibleSquaresColor.addAll(Arrays.asList(addtionalMovementsColor));
     }
 
     /**
@@ -109,7 +98,7 @@ public abstract class Card {
      * @param color
      *        The color of the card.
      */
-    public Card(Board board, String name, int numberOfMovements, Color color) {
+    public MovementsCard(Board board, String name, int numberOfMovements, Color color) {
         this.board = board;
         this.name = name;
         this.numberOfMovements = numberOfMovements;

@@ -3,13 +3,8 @@ package com.derniereligne.rest.servlets;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.BishopCard;
-import com.derniereligne.engine.cards.Card;
-import com.derniereligne.engine.cards.KingCard;
-import com.derniereligne.engine.cards.QueenCard;
-import com.derniereligne.engine.cards.RiderCard;
-import com.derniereligne.engine.cards.WarriorCard;
-import com.derniereligne.engine.cards.WizardCard;
+import com.derniereligne.engine.cards.movements.MovementsCard;
+import com.derniereligne.engine.cards.movements.KnightMovementsCard;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Set;
@@ -44,7 +39,7 @@ public class Play {
         Board board = new Board();
         Square currentSquare = board.getSquare(x, y);
         currentSquare.setAsOccupied();
-        Card playableCard = getCard(board, card, color);
+        MovementsCard playableCard = getCard(board, card, color);
 
         // Get the possible squares.
         Set<Square> possibleSquares = playableCard.getPossibleMovements(currentSquare);
@@ -75,8 +70,8 @@ public class Play {
      * @param color
      *          Color of card to get.
      *
-     * @return Card
-     *          A card on the given board with the given type of the given color.
+     * @return MovementsCard
+          A card on the given board with the given type of the given color.
      *
      * @see Board
      * @see Color
@@ -89,7 +84,7 @@ public class Play {
      *
      * @since 1.0
      */
-    private Card getCard(Board board, String cardType, String color) {
+    private MovementsCard getCard(Board board, String cardType, String color) {
         Color cardColor;
         switch (color) {
             case "yellow":
@@ -114,7 +109,7 @@ public class Play {
             case "wizard":
                 return new WizardCard(board, cardColor);
             case "rider":
-                return new RiderCard(board, cardColor);
+                return new KnightMovementsCard(board, cardColor);
             case "bishop":
                 return new BishopCard(board, cardColor);
             case "queen":

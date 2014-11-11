@@ -1,4 +1,4 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Board;
@@ -15,10 +15,10 @@ import org.junit.BeforeClass;
  *
  * @author "Dernière Ligne" first development team
  */
-public abstract class CardTest {
+public abstract class MovementsCardTest {
 
     protected static Board board;
-    protected static Card instance;
+    protected static MovementsCard instance;
     protected static Color cardColor;
     protected Square currentSquare;
     protected Set<Square> expResult;
