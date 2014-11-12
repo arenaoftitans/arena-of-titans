@@ -111,9 +111,12 @@ public class SvgBoardGenerator {
      */
     private final int filledElementHeigth;
     /**
-     * The x coordinate of the rotation center of the board.
+     * The tag of the element used to fill the board.
      */
     private final String filledElementTag;
+    /**
+     * The x coordinate of the rotation center of the board.
+     */
     private final int rotationCenterX;
     /**
      * The y coordinate of rotation center of the board.
