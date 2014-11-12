@@ -2,6 +2,7 @@ package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
+import java.util.Arrays;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -25,8 +26,8 @@ public class AllMovementCardsTest extends MovementsCardTest {
     @Override
     public void initCard() {
         cardColor = Color.RED;
-        Color[] additionnaColors = {Color.ALL};
-        instance = new LineAndDiagonalMovementsCard(board, null, 1, cardColor, additionnaColors);
+        Color[] additionnalColors = {Color.ALL};
+        instance = new LineAndDiagonalMovementsCard(board, null, 1, cardColor, Arrays.asList(additionnalColors));
     }
 
     @After
@@ -111,7 +112,7 @@ public class AllMovementCardsTest extends MovementsCardTest {
         setCurrentSquare(1, 6);
 
         Color[] additionnalColors = {Color.BLACK};
-        MovementsCard cardToPlay = new DiagonalMovementsCard(board, null, 2, cardColor, additionnalColors);
+        MovementsCard cardToPlay = new DiagonalMovementsCard(board, null, 2, cardColor, Arrays.asList(additionnalColors));
         setStartSquare(0, 7);
 
         expResult.add(new Square(2, 5, cardColor));

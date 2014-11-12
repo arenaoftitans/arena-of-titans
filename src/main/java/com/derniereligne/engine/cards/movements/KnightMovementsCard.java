@@ -4,6 +4,7 @@ import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class KnightMovementsCard extends MovementsCard {
@@ -60,7 +61,7 @@ public class KnightMovementsCard extends MovementsCard {
         super(board, "Rider", 1, color);
     }
 
-    public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color, Color[] addtionalMovementsColor) {
+    public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         super(board, name, numberOfMovements, color, addtionalMovementsColor);
     }
 

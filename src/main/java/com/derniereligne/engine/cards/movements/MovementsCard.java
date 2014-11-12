@@ -3,8 +3,8 @@ package com.derniereligne.engine.cards.movements;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class MovementsCard {
@@ -35,11 +35,13 @@ public abstract class MovementsCard {
     /**
      * Used to get the probable squares for a specific card.
      *
-     * @see Card#Card(com.derniereligne.engine.board.Board, java.lang.String, int, com.derniereligne.engine.Color, java.lang.String)
+     * @see Card#Card(com.derniereligne.engine.board.Board, java.lang.String, int,
+     * com.derniereligne.engine.Color, java.lang.String)
      */
     protected ProbableSquaresGetter probableSquaresGetter;
     /**
-     * Used to get the Up, Down, Left and Right squares when we search the possible movements in line.
+     * Used to get the Up, Down, Left and Right squares when we search the possible movements in
+     * line.
      *
      * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
      */
@@ -52,7 +54,8 @@ public abstract class MovementsCard {
      */
     protected final ProbableSquaresGetter diagonalProbableSquaresGetter;
     /**
-     * Used to get all the adjacent squares when we search the possible movements in line and diagonal.
+     * Used to get all the adjacent squares when we search the possible movements in line and
+     * diagonal.
      *
      * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
      * @see Board#getDiagonalSquares(com.derniereligne.engine.board.Square, java.util.Set)
@@ -62,41 +65,34 @@ public abstract class MovementsCard {
     /**
      * <b>Create a new card with the specified parameters.</b>
      *
-     * @param board
-     *        Reference to the board game.
+     * @param board Reference to the board game.
      *
-     * @param name
-     *        The name of the card.
+     * @param name The name of the card.
      *
-     * @param numberOfMovements
-     *        The maximum number of movements for the card.
+     * @param numberOfMovements The maximum number of movements for the card.
      *
-     * @param color
-     *        The color of the card.
+     * @param color The color of the card.
      *
-     * @param addtionalMovementsColor
-     *        The additional color a card can go to.
+     * @param addtionalMovementsColor The additional color a card can go to.
      */
-    public MovementsCard(Board board, String name, int numberOfMovements, Color color, Color[] addtionalMovementsColor) {
+    public MovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         this(board, name, numberOfMovements, color);
 
-        possibleSquaresColor.addAll(Arrays.asList(addtionalMovementsColor));
+        if (addtionalMovementsColor != null) {
+            possibleSquaresColor.addAll(addtionalMovementsColor);
+        }
     }
 
     /**
      * <b>Create a new card with the specified parameters.</b>
      *
-     * @param board
-     *        Reference to the board game.
+     * @param board Reference to the board game.
      *
-     * @param name
-     *        The name of the card.
+     * @param name The name of the card.
      *
-     * @param numberOfMovements
-     *        The maximum number of movements for the card.
+     * @param numberOfMovements The maximum number of movements for the card.
      *
-     * @param color
-     *        The color of the card.
+     * @param color The color of the card.
      */
     public MovementsCard(Board board, String name, int numberOfMovements, Color color) {
         this.board = board;
@@ -121,24 +117,21 @@ public abstract class MovementsCard {
     }
 
     /**
-     * <b>Returns the Set of the squares on which the card can go when the player is on currentSquare.</b>
+     * <b>Returns the Set of the squares on which the card can go when the player is on
+     * currentSquare.</b>
      *
-     * @param currentSquare
-     *        The square on which the player is when he plays the card.
+     * @param currentSquare The square on which the player is when he plays the card.
      *
-     * @return Set
-     *         The set of all possible squares for this move.
+     * @return Set The set of all possible squares for this move.
      */
     public abstract Set<Square> getPossibleMovements(Square currentSquare);
 
     /**
      * <b>Returns the Set of all possible squares if we move in lines.</b>
      *
-     * @param square
-     *        The square on which the player start.
+     * @param square The square on which the player start.
      *
-     * @return Set
-     *         The set of all possible squares for this move.
+     * @return Set The set of all possible squares for this move.
      */
     protected Set<Square> getLineMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
@@ -147,14 +140,11 @@ public abstract class MovementsCard {
     /**
      * <b>Determines on which square we can go for the current iteration.</b>
      *
-     * @param currentSquare
-     *        The square on which we start the iteration.
+     * @param currentSquare The square on which we start the iteration.
      *
-     * @param numberMovements
-     *        The number of movement left at this iteration.
+     * @param numberMovements The number of movement left at this iteration.
      *
-     * @return Set
-     *         The Set of possible squares (on which we can move).
+     * @return Set The Set of possible squares (on which we can move).
      */
     private Set<Square> getPossibleMovements(Square currentSquare, int numberMovements) {
         Set<Square> movements = new HashSet<>();
@@ -220,6 +210,10 @@ public abstract class MovementsCard {
      */
     protected Set<Square> getLineAndDiagonalMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

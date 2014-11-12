@@ -8,6 +8,7 @@ package com.derniereligne.engine.cards.movements;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import static com.derniereligne.engine.cards.movements.MovementsCardTest.cardColor;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -21,7 +22,7 @@ public class DiagonalMovementsCardTest extends MovementsCardTest {
     public void initCard() {
         cardColor = Color.RED;
         Color[] complementaryColors = {Color.BLACK};
-        instance = new DiagonalMovementsCard(board, null, 2, cardColor, complementaryColors);
+        instance = new DiagonalMovementsCard(board, null, 2, cardColor, Arrays.asList(complementaryColors));
     }
 
     @Test
