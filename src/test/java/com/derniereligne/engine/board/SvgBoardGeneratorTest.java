@@ -6,6 +6,7 @@
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
+import com.derniereligne.engine.JsonGame;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,12 +42,13 @@ public class SvgBoardGeneratorTest {
     @Before
     public void init() {
         try {
-            String jsonFileName = "target/classes/com/derniereligne/engine/boards.json";
+            String jsonFileName = "target/classes/com/derniereligne/engine/games.json";
             String jsonString = FileUtils.readFileToString(new File(jsonFileName));
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-            JsonBoard jsonBoard = gson.fromJson(jsonObject.get("standardBoard"), JsonBoard.class);
+            JsonGame jsonGame = gson.fromJson(jsonObject.get("standard"), JsonGame.class);
+            JsonBoard jsonBoard = jsonGame.getBoard();
             height = jsonBoard.getHeight();
             width = jsonBoard.getWidth();
 

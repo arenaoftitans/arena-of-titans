@@ -32,11 +32,15 @@ public class GameFactory {
     /**
      * The name of the JSON file.
      */
-    private final static String jsonFileName = "boards.json";
+    private final static String jsonFileName = "games.json";
     /**
      * The name of the board.
      */
     protected final String boardName;
+    /**
+     * The Java representation of a game.
+     */
+    protected final JsonGame jsonGame;
     /**
      * The Java representation off the jsonBoard.
      */
@@ -67,7 +71,7 @@ public class GameFactory {
     private SvgBoardGenerator svgBoardGenerator;
 
     public GameFactory() {
-        this("standardBoard");
+        this("standard");
     }
 
     public GameFactory(String boardName) {
@@ -79,7 +83,8 @@ public class GameFactory {
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-            jsonBoard = gson.fromJson(jsonObject.get("standardBoard"), JsonBoard.class);
+            jsonGame = gson.fromJson(jsonObject.get(boardName), JsonGame.class);
+            jsonBoard = jsonGame.getBoard();
 
             // Initialize the board.
             WIDTH = jsonBoard.getWidth();

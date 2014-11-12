@@ -1,21 +1,30 @@
 package com.derniereligne.engine;
 
+import com.derniereligne.engine.cards.movements.JsonMovementsCards;
 import com.derniereligne.engine.board.JsonBoard;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Used by gson to represent all the board from JSON to Java.
+ *
  * @author jenselme
  */
-class JsonGame {
-    private Map<String, JsonBoard> standardBoard;
+public class JsonGame {
 
-    JsonBoard get(String boardName) {
-        return standardBoard.get(boardName);
+    private List<String> colors;
+    private JsonMovementsCards movementsCards;
+    private JsonBoard board;
+
+    public List<String> getColors() {
+        return colors;
     }
 
-    @Override
-    public String toString() {
-        return standardBoard.toString();
+    public JsonMovementsCards getMovementsCards() {
+        return movementsCards;
     }
+
+    public JsonBoard getBoard() {
+        return board;
+    }
+
 }
