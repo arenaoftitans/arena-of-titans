@@ -30,7 +30,17 @@ public class Match {
      * @since 1.0
      */
     Player activePlayer;
+    /**
+     * The board these players play on.
+     *
+     * @since 1.0
+     */
     Board board;
+    /**
+     * Next available rank for winner.
+     *
+     * @since 1.0
+     */
     Integer nextRankAvailable = 1;
 
     /**
@@ -46,30 +56,104 @@ public class Match {
      *
      * @see Board
      * @see Player
+     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board)
      *
      * @since 1.0
      */
     public Match(Player[] players, Board board) {
         this.players = players;
         this.board = board;
-        for (int i =0; i <=7; i++) {
+        for (int i = 0; i <= 7; i++) {
             this.players[i].newGameForPlayer(i, board);
         }
         this.activePlayer = players[0];
     }
 
+    /**
+     * <b>Get the x coordinate of the active player.</b>
+     *
+     * @return
+     *          The x coordinate of the square the active player is on.
+     *
+     * @see Match#activePlayer
+     *
+     * @see Player#getCurrentSquare()
+     * @see Square#getX()
+     *
+     * @since 1.0
+     */
     public int getActivePlayerX() {
         return activePlayer.getCurrentSquare().getX();
     }
 
+    /**
+     * <b>Get the y coordinate of the active player.</b>
+     *
+     * @return
+     *          The y coordinate of the square the active player is on.
+     *
+     * @see Match#activePlayer
+     *
+     * @see Player#getCurrentSquare()
+     * @see Square#getY()
+     *
+     * @since 1.0
+     */
     public int getActivePlayerY() {
         return activePlayer.getCurrentSquare().getY();
     }
 
-    public int getActivePlayerId() {
+    /**
+     * <b>Get the index of the active player.</b>
+     *
+     * @return
+     *          The index of the active player.
+     *
+     * @see Match#activePlayer
+     *
+     * @see Player#getCurrentSquare()
+     * @see Player#getIndex() 
+     *
+     * @since 1.0
+     */
+    public int getActivePlayerIndex() {
         return activePlayer.getIndex();
     }
 
+    /**
+     * <b>Method to update the match once a player has selected where to go.</b>
+     * <div>
+     *  If the next player is the same than the one playing, the game will end.<br/>
+     *  If the active player is on its last line and has not move since last turn, he wins and the rank is updated.<br/>
+     *  If everybody minus 1 player won, the game will end.<br/>
+     *  Else, the active player moves and the next player becomes active.
+     * </div>
+     *
+     * @param targetedX
+     *          The x coordinate to move to.
+     * @param targetedY
+     *          The y coordinate to move to.
+     *
+     * @return
+     *          The next player to play.
+     *
+     * @see Board#getSquare(int, int)
+     *
+     * @see Match#activePlayer
+     * @see Match#board
+     * @see Match#nextRankAvailable
+     * @see Match#getNextPlayer()
+     *
+     * @see Player
+     * @see Player#aim()
+     * @see Player#canPlay()
+     * @see Player#getCurrentSquare()
+     * @see Player#getIndex()
+     * @see Player#moveTo(com.derniereligne.engine.board.Square)
+     * @see Player#wins(int)
+     *
+     * @since 1.0
+     */
     public Player playTurn(int targetedX, int targetedY) {
         Player nextPlayer = getNextPlayer();
         if (nextPlayer.getIndex() == activePlayer.getIndex()) {
@@ -84,17 +168,21 @@ public class Match {
                 nextRankAvailable ++;
             }
             int numberOfPlayersNotWinner = 0;
-            for (Player player : players)
-                if (player.canPlay())
+            for (Player player : players) {
+                if (player.canPlay()) {
                     numberOfPlayersNotWinner++;
+                }
+            }
             if (numberOfPlayersNotWinner == 0 || numberOfPlayersNotWinner == 1) {
                 //What to do when win ?
+            } else {
+                activePlayer.moveTo(board.getSquare(targetedX, targetedY));
+                activePlayer = nextPlayer;
             }
-            activePlayer.moveTo(board.getSquare(targetedX, targetedY));
-            activePlayer = nextPlayer;
         }
         return activePlayer;
     }
+
     /**
      * <b>Method to find the next player in this match.</b>
      * <div>

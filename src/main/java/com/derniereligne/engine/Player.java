@@ -82,6 +82,10 @@ public class Player {
         this.index = 0;
     }
 
+    public boolean isWinnerInMatch() {
+        return isWinnerInCurrentMatch;
+    }
+
     /**
      * <b>Prints the possible movements for this player.</b>
      *
@@ -129,6 +133,7 @@ public class Player {
 
     public void wins(int rank) {
         canPlay = false;
+        isWinnerInCurrentMatch = true;
         this.rank = rank;
     }
 
@@ -153,5 +158,10 @@ public class Player {
 
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public boolean equals(Object player) {
+        return (player != null && player.getClass() == Player.class && name.equals(((Player)player).name));
     }
 }
