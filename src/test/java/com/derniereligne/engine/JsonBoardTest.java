@@ -46,7 +46,7 @@ public class JsonBoardTest extends GameFactory {
 
     @Test
     public void testGetSvg() {
-        System.out.println(getSvg());
+        getSvg();
     }
 
 }

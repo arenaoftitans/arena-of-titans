@@ -5,7 +5,6 @@
  */
 package com.derniereligne.engine;
 
-import com.derniereligne.engine.JsonBoard;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.google.gson.Gson;
@@ -71,8 +70,8 @@ public class GameFactory {
         return boardName;
     }
 
-    public String getSvg() {
-        return new SvgBoardGenerator(jsonBoard, jsonBoard.getJsonSvg()).toString();
+    public void getSvg() {
+        new SvgBoardGenerator(jsonBoard, jsonBoard.getJsonSvg()).save();
     }
 
 }

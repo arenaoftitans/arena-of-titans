@@ -28,11 +28,11 @@ public class JsonSvg {
         List<List<Color>> disposition = new ArrayList<>();
 
         for (String partialLine : circleColors) {
-            appendLineDisposition(disposition, partialLine, numberArms / 2);
+            appendLineDisposition(disposition, partialLine, numberArms / 2 - 1);
         }
 
         for (String partialLine : armColors) {
-            appendLineDisposition(disposition, partialLine, numberArms);
+            appendLineDisposition(disposition, partialLine, numberArms - 1);
         }
 
         return disposition;
@@ -40,11 +40,12 @@ public class JsonSvg {
 
     private void appendLineDisposition(List<List<Color>> disposition, String partialLine,
             int numberTimeToRepeatPartialLine) {
+        String compleLineString = partialLine;
         for (int i = 0; i < numberTimeToRepeatPartialLine; i++) {
-            partialLine = partialLine + "," + partialLine;
+            compleLineString = compleLineString + "," + partialLine;
         }
 
-        String[] completeLine = partialLine.split(",");
+        String[] completeLine = compleLineString.split(",");
         List<Color> completeColorLine = new ArrayList<>();
         for (String color : completeLine) {
             completeColorLine.add(getColor(color));

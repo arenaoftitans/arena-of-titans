@@ -44,7 +44,6 @@ public class JsonBoard {
         int height = getHeight();
         int width = getWidth();
         Square[][] board = new Square[height][width];
-        System.out.println(jsonSvg);
         List<List<Color>> disposition = jsonSvg.getColorDisposition(circleColors, armColors, numberArms);
 
         for (int i = 0; i < height; i++) {

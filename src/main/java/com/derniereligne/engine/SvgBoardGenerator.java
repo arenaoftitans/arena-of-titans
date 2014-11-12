@@ -1,28 +1,22 @@
 package com.derniereligne.engine;
 
-import com.sun.org.apache.xml.internal.security.utils.DOMNamespaceContext;
-import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.filter.Filters;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 
 /**
  * This class generate the SVG based on a description saved in a config file.
@@ -31,7 +25,18 @@ import org.xml.sax.SAXException;
  */
 public class SvgBoardGenerator {
 
-    private static final XPath xPath = XPathFactory.newInstance().newXPath();
+    /**
+     * The XML namespace for XPath.
+     */
+    private static final Namespace ns = Namespace.getNamespace("ns", "http://www.w3.org/2000/svg");
+    /**
+     * The XML namespace the the elements we add.
+     */
+    private static final Namespace svgNs = Namespace.getNamespace("http://www.w3.org/2000/svg");
+    /**
+     * The common XPathFactory to create XPathExpression.
+     */
+    private static final XPathFactory xPathFactory = XPathFactory.instance();
 
     /**
      * The name of the SVG template file.
@@ -48,7 +53,7 @@ public class SvgBoardGenerator {
     /**
      * The node object representing the layer that will contain the board.
      */
-    private Node layer;
+    private Element layer;
     /**
      * The x coordinates of a square.
      */
@@ -133,7 +138,6 @@ public class SvgBoardGenerator {
         filledElementHeigth = Integer.parseInt(fill.get("height"));
         filledElementTag = fill.get("tag");
         loadTemplate();
-        //layer = document.getElementById(boardLayerId);
         generateSvgBoard();
     }
 
@@ -143,14 +147,11 @@ public class SvgBoardGenerator {
     private void loadTemplate() {
         try {
             InputStream templatePath = getClass().getResourceAsStream(templateName);
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            document = docBuilder.parse(templatePath);
-            NodeList nl = (NodeList) xPath.evaluate("//*[@id=\"" + boardLayerId + "\"]",
-                    document.getDocumentElement(), XPathConstants.NODESET);
-            layer = nl.item(0);
-        } catch (ParserConfigurationException | SAXException | IOException
-                | XPathExpressionException ex) {
+            SAXBuilder builder = new SAXBuilder();
+            document = builder.build(templatePath);
+            Element root = document.getRootElement();
+            layer = root.getChild("g", ns);
+        } catch (IOException | JDOMException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -166,24 +167,18 @@ public class SvgBoardGenerator {
         }
 
         rotateBoard();
-        try {
-            paintSvg();
-        } catch (XPathExpressionException ex) {
-            Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        paintSvg();
     }
 
     /**
      * Rotate the whole board of 45°.
      */
     private void rotateBoard() {
-        NodeList nodeList = layer.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node element = nodeList.item(i);
-            Node transformationAttribute = element.getAttributes().getNamedItem("transform");
-            String transformation = transformationAttribute.getNodeValue();
+        List<Element> elementList = layer.getChildren();
+        for (Element element : elementList) {
             int angle;
-            if (transformation.equals("")) {
+            if (element.getAttribute("transform") != null) {
+                String transformation = element.getAttribute("transform").getValue();
                 if (transformation.substring(9, 10).equals(" ")) {
                     angle = Integer.parseInt(transformation.substring(7, 9));
                 } else {
@@ -194,7 +189,7 @@ public class SvgBoardGenerator {
                 angle = 45;
             }
             String transformationValue = "rotate(" + angle + " " + rotationCenterX + " " + rotationCenterY + ")";
-            transformationAttribute.setTextContent(transformationValue);
+            element.setAttribute("transform", transformationValue);
         }
     }
 
@@ -206,15 +201,13 @@ public class SvgBoardGenerator {
         for (List<HashMap<String, String>> line : lines) {
             int xidPlus = 0;
             for (HashMap<String, String> element : line) {
-                Node svgElement = document.createElement(element.get("tag"));
-                svgElement.getAttributes().getNamedItem("d").setTextContent(element.get("d"));
-                svgElement.getAttributes().getNamedItem("id")
-                        .setTextContent(Integer.toString(xid + xidPlus)
-                                + "-"
-                                + Integer.toString(yid));
-                layer.appendChild(svgElement);
+                Element svgElement = new Element(element.get("tag"), svgNs);
+                svgElement.setAttribute("d", element.get("d"));
+                svgElement.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
+                layer.addContent(svgElement);
+                xidPlus++;
             }
-            yid += 1;
+            yid++;
         }
     }
 
@@ -226,22 +219,15 @@ public class SvgBoardGenerator {
         for (int i = 0; i < armsWidth; i++) {
             yid = lines.size();
             for (int j = 0; j < armsLength; j++) {
-                Node element = document.createElement(filledElementTag);
-                NamedNodeMap attributes = element.getAttributes();
-                attributes.getNamedItem("id")
-                        .setTextContent(Integer.toString(xid + xidPlus)
-                                + "-"
-                                + Integer.toString(yid));
-                attributes.getNamedItem("x")
-                        .setTextContent(Integer.toString(i * filledElementHeigth + originX));
-                attributes.getNamedItem("y")
-                        .setTextContent(Integer.toString(j * filledElementWidth + originY));
-                attributes.getNamedItem("height")
-                        .setTextContent(Integer.toString(filledElementHeigth));
-                attributes.getNamedItem("width")
-                        .setTextContent(Integer.toString(filledElementWidth));
+                Element element = new Element(filledElementTag, svgNs);
+                element.removeAttribute("xmlns");
+                element.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
+                element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
+                element.setAttribute("y", Integer.toString(j * filledElementWidth + originY));
+                element.setAttribute("height", Integer.toString(filledElementHeigth));
+                element.setAttribute("width", Integer.toString(filledElementWidth));
                 yid++;
-                layer.appendChild(element);
+                layer.addContent(element);
             }
             xidPlus++;
         }
@@ -253,26 +239,34 @@ public class SvgBoardGenerator {
      *
      * @throws XPathExpressionException
      */
-    private void paintSvg() throws XPathExpressionException {
+    private void paintSvg() {
         for (int y = 0; y < colorDisposition.size(); y++) {
             List<Color> line = colorDisposition.get(y);
             for (int x = 0; x < line.size(); x++) {
-                NodeList squares = (NodeList) xPath
-                        .evaluate(".//*[@id=\"" + x + "-" + y + "\"]",
-                                document.getDocumentElement(), XPathConstants.NODESET);
-                Node square = squares.item(0);
+                String expression = String.format(".//*[@id=\"%d-%d\"]", x, y);
+                XPathExpression<Element> squaresExpression = xPathFactory.compile(expression, Filters.element(), null, ns);
+                List<Element> squares = squaresExpression.evaluate(document);
+                Element square = squares.get(0);
                 Color color = colorDisposition.get(y).get(x);
                 String svgColor = color.toString().toLowerCase();
-                square.getAttributes()
-                        .getNamedItem("class")
-                        .setTextContent(svgColor + "-square");
+                square.setAttribute("class", svgColor + "-square");
             }
         }
     }
 
-    @Override
-    public String toString() {
-        return document.toString();
+    /**
+     * Save the generated SVG.
+     */
+    public void save() {
+        try {
+            XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+
+            // display nice nice
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(document, new FileWriter("/var/tmp/output.svg"));
+        } catch (IOException ex) {
+            Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
