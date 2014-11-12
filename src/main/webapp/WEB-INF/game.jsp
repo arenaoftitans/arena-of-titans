@@ -21,6 +21,6 @@
         </div>
     </div>
 
-        <c:import url="standard_board.svg" />
+        ${svgBoard}
     </body>
 </html>

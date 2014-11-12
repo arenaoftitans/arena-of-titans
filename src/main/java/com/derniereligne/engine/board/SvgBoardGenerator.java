@@ -1,9 +1,11 @@
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,10 @@ public class SvgBoardGenerator {
      * The common XPathFactory to create XPathExpression.
      */
     private static final XPathFactory xPathFactory = XPathFactory.instance();
+    /**
+     * The folder in which we must save the SVGs.
+     */
+    private static final String svgFilePath = "src/main/webapp/WEB-INF/svg/";
 
     /**
      * The name of the SVG template file.
@@ -48,6 +54,10 @@ public class SvgBoardGenerator {
      * The name of the SVG layer that will contain the board.
      */
     private final static String boardLayerId = "boardLayer";
+    /**
+     * The name of the board (used to save it in the correct file).
+     */
+    private final String boardName;
     /**
      * The SVG document object.
      */
@@ -120,8 +130,9 @@ public class SvgBoardGenerator {
      *
      * @param jsonSvg The JSON description of the SVG.
      */
-    public SvgBoardGenerator(JsonBoard jsonBoard) {
+    public SvgBoardGenerator(JsonBoard jsonBoard, String boardName) {
         JsonSvg jsonSvg = jsonBoard.getJsonSvg();
+        this.boardName = boardName;
         xid = 0;
         yid = 0;
         numberOfArms = jsonBoard.getNumberArms();
@@ -315,9 +326,8 @@ public class SvgBoardGenerator {
         try {
             XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 
-            // display nice nice
             xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(document, new FileWriter("/var/tmp/output.svg"));
+            xmlOutput.output(document, new FileWriter(svgFilePath + boardName + ".svg"));
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -325,6 +335,28 @@ public class SvgBoardGenerator {
 
     public List<List<Color>> getColorDisposition() {
         return colorDisposition;
+    }
+
+    public static Namespace getNamespace() {
+        return ns;
+    }
+
+    public static Namespace getSvgNamespace() {
+        return svgNs;
+    }
+
+    @Override
+    public String toString() {
+        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+        OutputStream os = new ByteArrayOutputStream();
+        try {
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(document, os);
+        } catch (IOException ex) {
+            Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return os.toString();
     }
 
 }

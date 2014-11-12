@@ -86,7 +86,7 @@ public class GameFactory {
             HEIGHT = jsonBoard.getHeight();
             INNER_CIRCLE_HIGHER_Y = jsonBoard.getInnerCircleHigherY();
             ARMS_WIDTH = jsonBoard.getArmsWidth();
-            svgBoardGenerator = new SvgBoardGenerator(jsonBoard);
+            svgBoardGenerator = new SvgBoardGenerator(jsonBoard, boardName);
             createBoard();
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,8 +122,8 @@ public class GameFactory {
         return boardName;
     }
 
-    public void getSvg() {
-        svgBoardGenerator.save();
+    public String getSvg() {
+        return svgBoardGenerator.toString();
     }
 
 }

@@ -9,14 +9,19 @@ import com.derniereligne.engine.Color;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -30,6 +35,8 @@ public class SvgBoardGeneratorTest {
     private SvgBoardGenerator svgBoardGenerator;
     private JsonSvg jsonSvg;
     private List<List<Color>> disposition;
+    private int height;
+    private int width;
 
     @Before
     public void init() {
@@ -40,8 +47,10 @@ public class SvgBoardGeneratorTest {
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
             JsonBoard jsonBoard = gson.fromJson(jsonObject.get("standardBoard"), JsonBoard.class);
+            height = jsonBoard.getHeight();
+            width = jsonBoard.getWidth();
 
-            svgBoardGenerator = new SvgBoardGenerator(jsonBoard);
+            svgBoardGenerator = new SvgBoardGenerator(jsonBoard, "standardBoard");
 
             disposition = svgBoardGenerator.getColorDisposition();
         } catch (IOException ex) {
@@ -50,8 +59,18 @@ public class SvgBoardGeneratorTest {
     }
 
     @Test
-    public void testGetSave() {
-
+    public void testToString() {
+        try {
+            String svgString = svgBoardGenerator.toString();
+            InputStream svg = new ByteArrayInputStream(svgString.getBytes(StandardCharsets.UTF_8));
+            SAXBuilder builder = new SAXBuilder();
+            Document document = builder.build(svg);
+            Element root = document.getRootElement();
+            Element layer = root.getChild("g", SvgBoardGenerator.getNamespace());
+            assertEquals(height * width, layer.getChildren().size());
+        } catch (JDOMException | IOException ex) {
+            Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Test
