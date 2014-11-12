@@ -35,7 +35,7 @@ public class AllCardsTest extends CardTest {
         expResult.add(new Square(0, 7, Color.RED));
         expResult.add(new Square(1, 7, Color.BLUE));
         expResult.add(new Square(1, 8, Color.BLUE));
-        System.out.println(instance.getPossibleMovements(currentSquare));
+
         test();
     }
 

@@ -174,7 +174,7 @@ public class Square {
      * </div>
      *
      * @param possibleSquaresColor
-     *          The set of colors given.
+     *          The set of colors given. If it contains Color.WHITE, returns true.
      *
      * @return
      *          True if its possible with the set of given colors to aim for this square.
@@ -187,7 +187,8 @@ public class Square {
      * @since 1.0
      */
     public boolean canMoveTo(Set<Color> possibleSquaresColor) {
-        return possibleSquaresColor.contains(color);
+        return possibleSquaresColor.contains(Color.WHITE) ||
+                possibleSquaresColor.contains(color);
     }
 
     /**

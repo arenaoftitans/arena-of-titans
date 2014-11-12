@@ -82,7 +82,7 @@ public class Play {
      * @see Color
      * @see BishopCard#BishopCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
      * @see KingCard#KingCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
-     * @see QueenCard#QueenCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color) 
+     * @see QueenCard#QueenCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
      * @see RiderCard#RiderCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
      * @see WarriorCard#WarriorCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
      * @see WizardCard#WizardCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)

@@ -8,22 +8,154 @@ import java.util.Set;
 
 public class RiderCard extends Card {
 
+    /**
+     * Used to get the squares located at the right and left of the given square.
+     *
+     * @see ProbableSquaresGetter#get
+     */
+    private final ProbableSquaresGetter possibleHorizontalSquaresGetter;
+    /**
+     * Used to get the squares located above and below the given square.
+     *
+     * @see ProbableSquaresGetter#get
+     */
+    private final ProbableSquaresGetter possibleVerticalSquaresGetter;
+    /**
+     * Used to get the temporary squares located at the right the given square.
+     *
+     * With this method we are sure we won't step outside the arm we are in.
+     *
+     * @see TemporarySquareGetter#get
+     */
+    private final TemporarySquareGetter rightSquareGetter;
+    /**
+     * Used to get the temporary squares located at the left the given square.
+     *
+     * With this method we are sure we won't step outside the arm we are in.
+     *
+     * @see TemporarySquareGetter#get
+     */
+    private final TemporarySquareGetter leftSquareGetter;
+
+    /**
+     * <b>Creates a new Rider.</b>
+     *
+     * This card has very specific movements. Thus it doesn't use Card constructor with movementsType.
+     *
+     * @param board
+     *        Reference to the board game.
+     *
+     * @param color
+     *        The color of the card.
+     */
     public RiderCard(Board board, Color color) {
         super(board, "Rider", 1, color);
+
+        possibleVerticalSquaresGetter = (Square square) -> {
+            return getPossibleVerticalSquares(square);
+        };
+
+        possibleHorizontalSquaresGetter = (Square square) -> {
+            return getPossibleHorizontalSquares(square);
+        };
+
+        rightSquareGetter = (Square square) -> {
+            return board.getRightSquare(square);
+        };
+        leftSquareGetter = (Square square) -> {
+            return board.getLeftSquare(square);
+        };
     }
 
     @Override
     public Set<Square> getPossibleMovements(Square currentSquare) {
         Set<Square> possibleMovements = new HashSet<>();
-        // Color is not relevant for those squares.
-        //TODO: maybe a "ANY" color ?
-        Square[] temporarySquares = {
-            new Square(currentSquare.getX(), currentSquare.getY() + 2, cardColor),
-            new Square(currentSquare.getX(), currentSquare.getY() - 2, cardColor)
-            };
+
+        Set<Square> temporaryVerticalSquares = new HashSet<>();
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.WHITE));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.WHITE));
+
+        Set<Square> temporaryHorizontalSquares = getTemporaryHorizontalSquares(currentSquare);
+
+        possibleMovements.addAll(
+                filterTemporarySquares(temporaryHorizontalSquares, possibleHorizontalSquaresGetter)
+        );
+        possibleMovements.addAll(
+                filterTemporarySquares(temporaryVerticalSquares, possibleVerticalSquaresGetter)
+        );
+
+        return possibleMovements;
+    }
+
+    /**
+     * <b>Returns the set of all temporary squares located at the left and the right of the current
+     * square.</b>
+     *
+     * @see RiderCard#leftSquareGetter
+     * @see RiderCard#rightSquareGetter
+     * @see RiderCard#getTemporaryHorizontalSquaresOnOneSide(com.derniereligne.engine.board.Square, com.derniereligne.engine.cards.TemporarySquareGetter)
+     *
+     * @param currentSquare
+     *        The start square.
+     *
+     * @return Set
+     *         The set of all temporary squares located at the left and the right of the current square.
+     */
+    private Set<Square> getTemporaryHorizontalSquares(Square currentSquare) {
+        Set<Square> temporarySquares = new HashSet<>();
+
+        temporarySquares.addAll(getTemporaryHorizontalSquaresOnOneSide(currentSquare, leftSquareGetter));
+        temporarySquares.addAll(getTemporaryHorizontalSquaresOnOneSide(currentSquare, rightSquareGetter));
+
+        return temporarySquares;
+    }
+
+    /**
+     * <b>Returns the set of the squares (2 max) from the current square.</b>
+     *
+     * @see TemporarySquareGetter#get
+     *
+     * @param currentSquare
+     *        The start square.
+     *
+     * @param temporarySquareGetter
+     *        The functional interface that get the horizontal square on the left or the right.
+     *
+     * @return
+     *         The set of the squares (2 max) from the current square.
+     */
+    private Set<Square> getTemporaryHorizontalSquaresOnOneSide(Square currentSquare, TemporarySquareGetter temporarySquareGetter) {
+        Set<Square> temporarySquares = new HashSet<>();
+
+        Square temporarySquare = temporarySquareGetter.get(currentSquare);
+        if (temporarySquare != null) {
+            temporarySquare = temporarySquareGetter.get(temporarySquare);
+            if (temporarySquare != null) {
+                temporarySquares.add(new Square(temporarySquare.getX(), temporarySquare.getY(), cardColor));
+            }
+        }
+
+        return temporarySquares;
+    }
+
+    /**
+     * <b>Returns only the possible squares on which we can move from a specific temporary square.</b>
+     *
+     * @param temporarySquares
+     *        The temporary square used in the movement.
+     *
+     * @param probableSquaresGetter
+     *        Functional interface thanks to which we can get the probable squares from the temporary
+     * square.
+     *
+     * @return Set
+     *         The possible squares.
+     */
+    private Set<Square> filterTemporarySquares(Set<Square> temporarySquares, ProbableSquaresGetter probableSquaresGetter) {
+        Set<Square> possibleMovements = new HashSet<>();
 
         for (Square temporarySquare : temporarySquares) {
-            Square[] possibleSquares = getPossibleSquares(temporarySquare);
+            Set<Square> possibleSquares = probableSquaresGetter.get(temporarySquare);
 
             add(possibleSquares, possibleMovements);
         }
@@ -31,19 +163,55 @@ public class RiderCard extends Card {
         return possibleMovements;
     }
 
-    private Square[] getPossibleSquares(Square temporarySquare) {
-        Square[] squares = new Square[2];
-        squares[0] = board.getLeftSquare(temporarySquare, possibleSquaresColor);
-        squares[1] = board.getRightSquare(temporarySquare, possibleSquaresColor);
+    /**
+     * <b>The possible Up and Down squares from the temporary square.</b>
+     *
+     * @param temporarySquare
+     *        The temporary square for this move.
+     *
+     * @return Set
+     *         The possible Up and Down squares from the temporary square.
+     */
+    private Set<Square> getPossibleVerticalSquares(Square temporarySquare) {
+        Set<Square> squares = new HashSet<>();
+        squares.add(board.getLeftSquare(temporarySquare, possibleSquaresColor));
+        squares.add(board.getRightSquare(temporarySquare, possibleSquaresColor));
 
         return squares;
     }
 
-    private void add(Square[] possibleSquares, Set<Square> possibleMovements) {
+    /**
+     * <b>The possible Left and Right squares from the temporary square.</b>
+     *
+     * @param temporarySquare
+     *        The temporary square for this move.
+     *
+     * @return Set
+     *         >The possible Left and Right squares from the temporary square.
+     */
+    private Set<Square> getPossibleHorizontalSquares(Square temporarySquare) {
+        Set<Square> squares = new HashSet<>();
+        squares.add(board.getUpSquare(temporarySquare, possibleSquaresColor));
+        squares.add(board.getDownSquare(temporarySquare, possibleSquaresColor));
+
+        return squares;
+    }
+
+    /**
+     * <b>Add the possible squares to the possible movements if they are not null and not empty.</b>
+     *
+     * @param possibleSquares
+     *        The set of all possible squares.
+     *
+     * @param possibleMovements
+     *        The set of all possible movements.
+     */
+    private void add(Set<Square> possibleSquares, Set<Square> possibleMovements) {
         for (Square square : possibleSquares) {
             if (square != null) {
-                possibleMovements.add(square);
+                addSquareIfEmpty(possibleMovements, square);
             }
         }
     }
+
 }

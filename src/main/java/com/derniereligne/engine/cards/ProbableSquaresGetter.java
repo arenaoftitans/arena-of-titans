@@ -12,9 +12,13 @@ import java.util.Set;
 public interface ProbableSquaresGetter {
 
     /**
+     * <b>Returns the set of the probable squares.</b>
      *
      * @param currentSquare
+     *        The start square.
+     *
      * @return
+     *        Set of probable squares.
      */
     public Set<Square> get(Square currentSquare);
 

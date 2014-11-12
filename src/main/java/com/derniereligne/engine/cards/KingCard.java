@@ -8,7 +8,7 @@ import java.util.Set;
 public class KingCard extends Card {
 
     public KingCard(Board board, Color color) {
-        super(board, "King", 3, color);
+        super(board, "King", 3, color, "line");
     }
 
     @Override
