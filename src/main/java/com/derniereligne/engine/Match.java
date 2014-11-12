@@ -21,27 +21,31 @@ public class Match {
     /**
      * The list of players in this match.
      *
-     * @since 1.0
-     */
-    Player[] players;
-    /**
-     * The player currently playing.
+     * @see Match#getPlayers()
      *
      * @since 1.0
      */
-    Player activePlayer;
+    private Player[] players;
+    /**
+     * The player currently playing.
+     *
+     * @see Match#getActivePlayer() 
+     *
+     * @since 1.0
+     */
+    private Player activePlayer;
     /**
      * The board these players play on.
      *
      * @since 1.0
      */
-    Board board;
+    private Board board;
     /**
      * Next available rank for winner.
      *
      * @since 1.0
      */
-    Integer nextRankAvailable = 1;
+    private Integer nextRankAvailable = 1;
 
     /**
      * <b>Constructor initializing a match with the given parameters.</b>
@@ -112,7 +116,7 @@ public class Match {
      * @see Match#activePlayer
      *
      * @see Player#getCurrentSquare()
-     * @see Player#getIndex() 
+     * @see Player#getIndex()
      *
      * @since 1.0
      */
@@ -157,7 +161,7 @@ public class Match {
     public Player playTurn(int targetedX, int targetedY) {
         Player nextPlayer = getNextPlayer();
         if (nextPlayer.getIndex() == activePlayer.getIndex()) {
-            //TODO add what to do when can't play
+            return null;
         }
         else {
             Set<Integer> aims = activePlayer.aim();
@@ -169,17 +173,49 @@ public class Match {
             }
             int numberOfPlayersNotWinner = 0;
             for (Player player : players) {
-                if (player.canPlay()) {
+                if (player != null && player.isWinnerInMatch()) {
                     numberOfPlayersNotWinner++;
                 }
             }
-            if (numberOfPlayersNotWinner == 0 || numberOfPlayersNotWinner == 1) {
-                //What to do when win ?
+            if (numberOfPlayersNotWinner == 1) {
+                return null;
             } else {
                 activePlayer.moveTo(board.getSquare(targetedX, targetedY));
                 activePlayer = nextPlayer;
             }
+            return activePlayer;
         }
+    }
+
+    /**
+     * <b>Return the list of players in game.</b>
+     *
+     * @return
+     *          List of players in game
+     *
+     * @see Match#players
+     *
+     * @see Player
+     *
+     * @since 1.0
+     */
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    /**
+     * <b>Return the active player.</b>
+     *
+     * @return
+     *          The active player
+     *
+     * @see Match#activePlayer
+     *
+     * @see Player
+     *
+     * @since 1.0
+     */
+    public Player getActivePlayer() {
         return activePlayer;
     }
 
