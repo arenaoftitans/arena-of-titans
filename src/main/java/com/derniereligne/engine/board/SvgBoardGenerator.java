@@ -1,8 +1,10 @@
-package com.derniereligne.engine;
+package com.derniereligne.engine.board;
 
+import com.derniereligne.engine.Color;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -118,11 +120,12 @@ public class SvgBoardGenerator {
      *
      * @param jsonSvg The JSON description of the SVG.
      */
-    public SvgBoardGenerator(JsonBoard jsonBoard, JsonSvg jsonSvg) {
+    public SvgBoardGenerator(JsonBoard jsonBoard) {
+        JsonSvg jsonSvg = jsonBoard.getJsonSvg();
         xid = 0;
         yid = 0;
         numberOfArms = jsonBoard.getNumberArms();
-        colorDisposition = jsonSvg.getColorDisposition(jsonBoard.getCircleColors(),
+        colorDisposition = generateColorDisposition(jsonBoard.getCircleColors(),
                 jsonBoard.getArmColors(), numberOfArms);
         armsWidth = jsonBoard.getArmsWidth();
         armsLength = jsonBoard.getArmsLength();
@@ -139,6 +142,57 @@ public class SvgBoardGenerator {
         filledElementTag = fill.get("tag");
         loadTemplate();
         generateSvgBoard();
+    }
+
+    /**
+     * Returns the matrix representing the color of the board.
+     *
+     * @param boardName
+     * @return
+     */
+    private List<List<Color>> generateColorDisposition(String[] circleColors, String[] armColors, int numberArms) {
+        List<List<Color>> disposition = new ArrayList<>();
+
+        for (String partialLine : circleColors) {
+            appendLineDisposition(disposition, partialLine, numberArms / 2 - 1);
+        }
+
+        for (String partialLine : armColors) {
+            appendLineDisposition(disposition, partialLine, numberArms - 1);
+        }
+
+        return disposition;
+    }
+
+    private void appendLineDisposition(List<List<Color>> disposition, String partialLine,
+            int numberTimeToRepeatPartialLine) {
+        String compleLineString = partialLine;
+        for (int i = 0; i < numberTimeToRepeatPartialLine; i++) {
+            compleLineString = compleLineString + "," + partialLine;
+        }
+
+        String[] completeLine = compleLineString.split(",");
+        List<Color> completeColorLine = new ArrayList<>();
+        for (String color : completeLine) {
+            completeColorLine.add(getColor(color));
+        }
+
+        disposition.add(completeColorLine);
+    }
+
+    private Color getColor(String colorName) {
+        switch (colorName) {
+            case "BLACK":
+                return Color.BLACK;
+            case "BLUE":
+                return Color.BLUE;
+            case "RED":
+                return Color.RED;
+            case "YELLOW":
+                return Color.YELLOW;
+            default:
+                return Color.ALL;
+        }
     }
 
     /**
@@ -267,6 +321,10 @@ public class SvgBoardGenerator {
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public List<List<Color>> getColorDisposition() {
+        return colorDisposition;
     }
 
 }

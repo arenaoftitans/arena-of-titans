@@ -277,4 +277,12 @@ public class Board {
     public String toString() {
         return Arrays.deepToString(board);
     }
+
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
+    }
 }

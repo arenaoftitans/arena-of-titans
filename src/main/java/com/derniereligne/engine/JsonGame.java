@@ -1,5 +1,6 @@
 package com.derniereligne.engine;
 
+import com.derniereligne.engine.board.JsonBoard;
 import java.util.Map;
 
 /**

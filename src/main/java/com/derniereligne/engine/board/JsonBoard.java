@@ -1,8 +1,6 @@
-package com.derniereligne.engine;
+package com.derniereligne.engine.board;
 
-import com.derniereligne.engine.board.Square;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 /**
  * Used by gson to represent a specific board from JSON to Java.
@@ -33,27 +31,6 @@ public class JsonBoard {
 
     public int getArmsWidth() {
         return armsWidth;
-    }
-
-    /**
-     * Return the matrix representing the board in Java for the game engine.
-     * @param boardName
-     * @return
-     */
-    public Square[][] getBoard(String boardName) {
-        int height = getHeight();
-        int width = getWidth();
-        Square[][] board = new Square[height][width];
-        List<List<Color>> disposition = jsonSvg.getColorDisposition(circleColors, armColors, numberArms);
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Color color = disposition.get(i).get(j);
-                board[i][j] = new Square(j, i, color);
-            }
-        }
-
-        return board;
     }
 
     public int getNumberArms() {

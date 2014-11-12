@@ -5,6 +5,8 @@
  */
 package com.derniereligne.engine;
 
+import com.derniereligne.engine.board.SvgBoardGenerator;
+import com.derniereligne.engine.board.JsonBoard;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.google.gson.Gson;
@@ -14,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
@@ -26,14 +29,42 @@ import org.apache.commons.io.FileUtils;
  */
 public class GameFactory {
 
+    /**
+     * The name of the JSON file.
+     */
     private final static String jsonFileName = "boards.json";
+    /**
+     * The name of the board.
+     */
     protected final String boardName;
+    /**
+     * The Java representation off the jsonBoard.
+     */
     protected final JsonBoard jsonBoard;
+    /**
+     * The width of the board.
+     */
     private final int WIDTH;
+    /**
+     * The height of the board.
+     */
     private final int HEIGHT;
-    private final Square[][] board;
+    /**
+     * The higher y coordinate of the circle.
+     */
     private final int INNER_CIRCLE_HIGHER_Y;
+    /**
+     * The width of the arms.
+     */
     private final int ARMS_WIDTH;
+    /**
+     * The board  as a double array of String.
+     */
+    private Square[][] board;
+    /**
+     * The object used to generate the SVG.
+     */
+    private SvgBoardGenerator svgBoardGenerator;
 
     public GameFactory() {
         this("standardBoard");
@@ -55,10 +86,31 @@ public class GameFactory {
             HEIGHT = jsonBoard.getHeight();
             INNER_CIRCLE_HIGHER_Y = jsonBoard.getInnerCircleHigherY();
             ARMS_WIDTH = jsonBoard.getArmsWidth();
-            board = jsonBoard.getBoard(boardName);
+            svgBoardGenerator = new SvgBoardGenerator(jsonBoard);
+            createBoard();
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
             throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    /**
+     * Return the matrix representing the board in Java for the game engine.
+     *
+     * @param boardName
+     * @return
+     */
+    private void createBoard() {
+        int height = HEIGHT;
+        int width = WIDTH;
+        board = new Square[height][width];
+        List<List<Color>> disposition = svgBoardGenerator.getColorDisposition();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Color color = disposition.get(i).get(j);
+                board[i][j] = new Square(j, i, color);
+            }
         }
     }
 
@@ -71,7 +123,7 @@ public class GameFactory {
     }
 
     public void getSvg() {
-        new SvgBoardGenerator(jsonBoard, jsonBoard.getJsonSvg()).save();
+        svgBoardGenerator.save();
     }
 
 }
