@@ -195,25 +195,10 @@ public class SvgBoardGenerator {
         String[] completeLine = compleLineString.split(",");
         List<Color> completeColorLine = new ArrayList<>();
         for (String color : completeLine) {
-            completeColorLine.add(getColor(color));
+            completeColorLine.add(Color.valueOf(color));
         }
 
         disposition.add(completeColorLine);
-    }
-
-    private Color getColor(String colorName) {
-        switch (colorName) {
-            case "BLACK":
-                return Color.BLACK;
-            case "BLUE":
-                return Color.BLUE;
-            case "RED":
-                return Color.RED;
-            case "YELLOW":
-                return Color.YELLOW;
-            default:
-                return Color.ALL;
-        }
     }
 
     /**
