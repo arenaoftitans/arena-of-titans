@@ -230,7 +230,6 @@ public class BoardTest {
         Square startSquare = board.getSquare(0, 7);
 
         board.getSquare(1, 6).setAsOccupied();
-        System.out.println(board.getDiagonalSquares(startSquare, possibleColors));
         assertEquals(expResult, board.getDiagonalSquares(startSquare, possibleColors));
     }
 

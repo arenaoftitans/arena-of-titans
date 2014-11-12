@@ -39,7 +39,6 @@ public class KnightMovementsCardTest extends MovementsCardTest {
         setCurrentSquare(3, 7);
         expResult.add(new Square(2, 5, cardColor));
         expResult.add(new Square(1, 6, cardColor));
-        System.out.println(instance.getPossibleMovements(currentSquare));
         test();
     }
 
@@ -80,8 +79,6 @@ public class KnightMovementsCardTest extends MovementsCardTest {
 
         expResult.add(new Square(6, 2, cardColor));
         expResult.add(new Square(2, 2, cardColor));
-
-        System.out.println(instance.getPossibleMovements(currentSquare));
 
         test();
     }
