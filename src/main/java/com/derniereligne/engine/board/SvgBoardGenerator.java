@@ -2,6 +2,7 @@ package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +46,11 @@ public class SvgBoardGenerator {
      * The folder in which we must save the SVGs.
      */
     private static final String svgFilePath = "src/main/webapp/WEB-INF/svg/";
-
+    /**
+     * The file in which the board is saved. This file is used as a cache to avoid regenerating the
+     * board if it already exits.
+     */
+    private final String svgFileName;
     /**
      * The name of the SVG template file.
      */
@@ -128,14 +133,16 @@ public class SvgBoardGenerator {
     private final List<List<HashMap<String, String>>> lines;
 
     /**
+     * @param jsonBoard
+     *        The JSON description of the board.
      *
-     * @param jsonBoard The JSON description of the board.
-     *
-     * @param jsonSvg The JSON description of the SVG.
+     * @param boardName
+     *        The name of the board being generated.
      */
     public SvgBoardGenerator(JsonBoard jsonBoard, String boardName) {
         JsonSvg jsonSvg = jsonBoard.getJsonSvg();
         this.boardName = boardName;
+        svgFileName = svgFilePath + boardName + ".svg";
         xid = 0;
         yid = 0;
         numberOfArms = jsonBoard.getNumberArms();
@@ -225,9 +232,28 @@ public class SvgBoardGenerator {
     }
 
     /**
-     * Generate all the board as described in the class attributes.
+     * Generate all the board as described in the class attributes. The board is only generated if
+     * it is not found in the cache.
+     *
+     * @return
+     *        The SVG as a String.
      */
-    private void generateSvgBoard() {
+    public String generateSvgBoard() {
+        File svgFile = new File(svgFileName);
+        if (svgFile.exists()) {
+            return toString();
+        }  else {
+            return regenerateSvgBoard();
+        }
+    }
+
+    /**
+     * Force the generation of the svg file.
+     *
+     * @return
+     *        The SVG as a String.
+     */
+    public String regenerateSvgBoard() {
         for (int i = 0; i < numberOfArms; i++) {
             rotateBoard();
             drawLines();
@@ -236,6 +262,9 @@ public class SvgBoardGenerator {
 
         rotateBoard();
         paintSvg();
+        save();
+
+        return toString();
     }
 
     /**
@@ -325,12 +354,12 @@ public class SvgBoardGenerator {
     /**
      * Save the generated SVG.
      */
-    public void save() {
+    private void save() {
         try {
             XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 
             xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(document, new FileWriter(svgFilePath + boardName + ".svg"));
+            xmlOutput.output(document, new FileWriter(svgFileName));
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
