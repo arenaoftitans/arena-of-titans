@@ -26,7 +26,6 @@ import org.junit.Before;
 public class SvgBoardGeneratorTest {
 
     private SvgBoardGenerator svgBoardGenerator;
-    private JsonSvg jsonSvg;
     private List<List<Color>> disposition;
     private int height;
     private int width;
