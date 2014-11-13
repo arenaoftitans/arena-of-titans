@@ -53,12 +53,15 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @param board
      *        Reference to the board game.
+     * @param name The name of the card.
+     *
+     * @param numberOfMovements The number of movements of the card.
      *
      * @param color
      *        The color of the card.
      */
     public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color) {
-        super(board, "Rider", 1, color);
+        super(board, name, numberOfMovements, color);
     }
 
     public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
