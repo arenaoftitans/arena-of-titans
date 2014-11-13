@@ -1,7 +1,8 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
+import java.util.Arrays;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -11,16 +12,23 @@ import org.junit.Test;
  *
  * This class test :
  * <ul>
- *  <li>Edge movements in arms</li>
- *  <li>Edge movements in the circle</li>
+ * <li>Edge movements in arms</li>
+ * <li>Edge movements in the circle</li>
  * </ul>
  * All tests are done with a wizard so colors don't infer with the test.
  *
  * @author "Dernière Ligne" first development team
  */
-public class AllCardsTest extends CardTest {
+public class AllMovementCardsTest extends MovementsCardTest {
 
     public Square startSquare;
+
+    @Override
+    public void initCard() {
+        cardColor = Color.RED;
+        Color[] additionnalColors = {Color.ALL};
+        instance = new LineAndDiagonalMovementsCard(board, null, 1, cardColor, Arrays.asList(additionnalColors));
+    }
 
     @After
     public void emptyStartSquare() {
@@ -103,7 +111,8 @@ public class AllCardsTest extends CardTest {
         // Set the position of the Wizard which will hinder the movement.
         setCurrentSquare(1, 6);
 
-        Card cardToPlay = new BishopCard(board, cardColor);
+        Color[] additionnalColors = {Color.BLACK};
+        MovementsCard cardToPlay = new DiagonalMovementsCard(board, null, 2, cardColor, Arrays.asList(additionnalColors));
         setStartSquare(0, 7);
 
         expResult.add(new Square(2, 5, cardColor));
@@ -121,7 +130,7 @@ public class AllCardsTest extends CardTest {
         // Set the position of the Wizard which will hinder the movement.
         setCurrentSquare(0, 7);
 
-        Card cardToPlay = new KingCard(board, cardColor);
+        MovementsCard cardToPlay = new LineMovementsCard(board, null, 3, cardColor);
         setStartSquare(0, 6);
 
         expResult.add(new Square(1, 6, cardColor));
@@ -135,7 +144,7 @@ public class AllCardsTest extends CardTest {
         // Set the position of the Wizard which will hinder the movement.
         setCurrentSquare(0, 7);
 
-        Card cardToPlay = new QueenCard(board, cardColor);
+        MovementsCard cardToPlay = new LineAndDiagonalMovementsCard(board, null, 2, cardColor);
         setStartSquare(0, 6);
 
         expResult.add(new Square(1, 6, cardColor));
@@ -149,19 +158,13 @@ public class AllCardsTest extends CardTest {
     public void getPossibleMovementsOverACardInLineAndDiagonalTestDiagonal() {
         setCurrentSquare(1, 6);
 
-        Card cardToPlay = new QueenCard(board, cardColor);
+        MovementsCard cardToPlay = new LineAndDiagonalMovementsCard(board, null, 2, cardColor);
         setStartSquare(0, 7);
 
         expResult.add(new Square(2, 5, cardColor));
         expResult.add(new Square(0, 8, cardColor));
         result = cardToPlay.getPossibleMovements(startSquare);
         assertEquals(expResult, result);
-    }
-
-    @Override
-    public void initCard() {
-        cardColor = Color.RED;
-        instance = new WizardCard(board, cardColor);
     }
 
 }

@@ -1,25 +1,30 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class RiderCard extends Card {
+public class KnightMovementsCard extends MovementsCard {
 
     /**
      * Used to get the squares located at the right and left of the given square.
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleHorizontalSquaresGetter;
+    private final ProbableSquaresGetter possibleHorizontalSquaresGetter = (Square square) -> {
+            return getPossibleHorizontalSquares(square);
+        };
     /**
      * Used to get the squares located above and below the given square.
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleVerticalSquaresGetter;
+    private final ProbableSquaresGetter possibleVerticalSquaresGetter = (Square square) -> {
+            return getPossibleVerticalSquares(square);
+        };
     /**
      * Used to get the temporary squares located at the right the given square.
      *
@@ -27,7 +32,9 @@ public class RiderCard extends Card {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter rightSquareGetter;
+    private final TemporarySquareGetter rightSquareGetter = (Square square) -> {
+            return board.getRightSquare(square);
+        };
     /**
      * Used to get the temporary squares located at the left the given square.
      *
@@ -35,36 +42,30 @@ public class RiderCard extends Card {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter leftSquareGetter;
+    private final TemporarySquareGetter leftSquareGetter = (Square square) -> {
+            return board.getLeftSquare(square);
+        };
 
     /**
      * <b>Creates a new Rider.</b>
      *
-     * This card has very specific movements. Thus it doesn't use Card constructor with movementsType.
+     * This card has very specific movements. Thus it doesn't use MovementsCard constructor with movementsType.
      *
      * @param board
      *        Reference to the board game.
+     * @param name The name of the card.
+     *
+     * @param numberOfMovements The number of movements of the card.
      *
      * @param color
      *        The color of the card.
      */
-    public RiderCard(Board board, Color color) {
-        super(board, "Rider", 1, color);
+    public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color) {
+        super(board, name, numberOfMovements, color);
+    }
 
-        possibleVerticalSquaresGetter = (Square square) -> {
-            return getPossibleVerticalSquares(square);
-        };
-
-        possibleHorizontalSquaresGetter = (Square square) -> {
-            return getPossibleHorizontalSquares(square);
-        };
-
-        rightSquareGetter = (Square square) -> {
-            return board.getRightSquare(square);
-        };
-        leftSquareGetter = (Square square) -> {
-            return board.getLeftSquare(square);
-        };
+    public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
+        super(board, name, numberOfMovements, color, addtionalMovementsColor);
     }
 
     @Override
@@ -72,8 +73,8 @@ public class RiderCard extends Card {
         Set<Square> possibleMovements = new HashSet<>();
 
         Set<Square> temporaryVerticalSquares = new HashSet<>();
-        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.WHITE));
-        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.WHITE));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() + 2, Color.ALL));
+        temporaryVerticalSquares.add(new Square(currentSquare.getX(), currentSquare.getY() - 2, Color.ALL));
 
         Set<Square> temporaryHorizontalSquares = getTemporaryHorizontalSquares(currentSquare);
 

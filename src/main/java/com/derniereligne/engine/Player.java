@@ -1,7 +1,7 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.Card;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
 import java.util.Set;
@@ -92,13 +92,13 @@ public class Player {
      * @param card
      *          The card used to find the possible movements.
      *
-     * @see Card
+     * @see MovementsCard
      * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square)
      * @see Square
      *
      * @since 1.0
      */
-    public void play(Card card) {
+    public void play(MovementsCard card) {
         Set<Square> possibleMovements = card.getPossibleMovements(currentSquare);
         System.out.println("Size: " + possibleMovements.size());
         System.out.println(possibleMovements.toString());

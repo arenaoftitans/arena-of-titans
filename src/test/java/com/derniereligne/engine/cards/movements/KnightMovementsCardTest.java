@@ -1,19 +1,19 @@
-package com.derniereligne.engine.cards;
+package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import org.junit.Test;
 
 /**
- * <b>Test class for RiderCard.</b>
- *
- * Test specific movement for the RiderCard.
+ * <b>Test class for KnightMovementsCard.</b>
+
+ Test specific movement for the KnightMovementsCard.
  *
  * @author "Dernière Ligne" first development team
  */
-public class RiderCardTest extends CardTest {
+public class KnightMovementsCardTest extends MovementsCardTest {
 
-    public RiderCardTest() {
+    public KnightMovementsCardTest() {
     }
 
     @Test
@@ -39,7 +39,6 @@ public class RiderCardTest extends CardTest {
         setCurrentSquare(3, 7);
         expResult.add(new Square(2, 5, cardColor));
         expResult.add(new Square(1, 6, cardColor));
-        System.out.println(instance.getPossibleMovements(currentSquare));
         test();
     }
 
@@ -81,15 +80,13 @@ public class RiderCardTest extends CardTest {
         expResult.add(new Square(6, 2, cardColor));
         expResult.add(new Square(2, 2, cardColor));
 
-        System.out.println(instance.getPossibleMovements(currentSquare));
-
         test();
     }
 
     @Override
     public void initCard() {
         cardColor = Color.RED;
-        instance = new RiderCard(board, cardColor);
+        instance = new KnightMovementsCard(board, null, 1, cardColor);
     }
 
 }

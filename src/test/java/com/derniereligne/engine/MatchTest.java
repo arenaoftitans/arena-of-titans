@@ -22,7 +22,8 @@ public class MatchTest {
 
     @Before
     public void setUp() {
-        board = new Board();
+        GameFactory gf = new GameFactory();
+        board = gf.getBoard();
         Player[] players = new Player[8];
         for (int i = 0; i < 8; i++)
             players[i] = new Player("player " + i);

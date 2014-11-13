@@ -1,17 +1,9 @@
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
-import com.google.gson.Gson;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 
 //TODO: Width and height contained in the board ?
 public class Board {
@@ -21,36 +13,13 @@ public class Board {
     private final Square[][] board;
     private final int INNER_CIRCLE_HIGHER_Y;
     private final int ARMS_WIDTH;
-    private static final String jsonFileName = "/com/derniereligne/engine/board/boards.json";
 
-    public Board() {
-        this("standard_board");
-    }
-
-    public Board(String boardName) {
-        try {
-            URI resource = getClass().getResource(jsonFileName).toURI();
-            String jsonString = FileUtils.readFileToString(new File(resource));
-
-            // We must correct the json we get from the file in order for gson
-            // to find the correct key and to correctly map the boards to their
-            // representation.
-            jsonString = "{\"boards\":" + jsonString + "}";
-
-            Gson gson = new Gson();
-            JsonGame jsonGame = gson.fromJson(jsonString, JsonGame.class);
-            JsonBoard jsonBoard = jsonGame.get(boardName);
-
-            // Initialize the board.
-            WIDTH = jsonBoard.getWidth();
-            HEIGHT = jsonBoard.getHeight();
-            INNER_CIRCLE_HIGHER_Y = jsonBoard.getInnerCircleHigherY();
-            ARMS_WIDTH = jsonBoard.getArmsWidth();
-            board = jsonBoard.getBoard(boardName);
-        } catch (IOException | URISyntaxException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+    public Board(int width, int height, int innerCircleHigherY, int armsWidth, Square[][] board) {
+        WIDTH = width;
+        HEIGHT = height;
+        INNER_CIRCLE_HIGHER_Y = innerCircleHigherY;
+        ARMS_WIDTH = armsWidth;
+        this.board = board;
     }
 
     /**
@@ -61,15 +30,18 @@ public class Board {
      * @return Square@x,y
      */
     public Square getSquare(int x, int y) {
-        return board[y][x];
+        if (isInBoard(x, y)) {
+            return board[y][x];
+        } else {
+            return null;
+        }
     }
 
     /**
      * Make sure that the abscissa is contained in the board.
      *
-     * Since the board is a circle represented in a matrix, we need to perform
-     * those operation with %WIDTH. If the abscissa is negative, we adjust it so
-     * it is becomes positive.
+     * Since the board is a circle represented in a matrix, we need to perform those operation with
+     * %WIDTH. If the abscissa is negative, we adjust it so it is becomes positive.
      *
      * @param x
      * @return
@@ -83,8 +55,7 @@ public class Board {
     }
 
     /**
-     * Get the array of the squares on which we can move if we do a Up/Down or
-     * Left/Right movement.
+     * Get the array of the squares on which we can move if we do a Up/Down or Left/Right movement.
      *
      * @param currentSquare
      * @param possibleSquaresColor
@@ -132,8 +103,7 @@ public class Board {
      *
      * @param x
      * @param y
-     * @return true if x and y are two possible index in the board, false
-     * otherwise.
+     * @return true if x and y are two possible index in the board, false otherwise.
      */
     private boolean isInBoard(int x, int y) {
         return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
@@ -144,9 +114,8 @@ public class Board {
     }
 
     /**
-     * If the square is on the left edge and in an arm, we cannot move to the
-     * square at its left (x-1). If we are not in an arm, we must correct the x
-     * coordinate.
+     * If the square is on the left edge and in an arm, we cannot move to the square at its left
+     * (x-1). If we are not in an arm, we must correct the x coordinate.
      *
      * @param square
      * @param possibleSquaresColor
@@ -171,7 +140,7 @@ public class Board {
      */
     public Square getLeftSquare(Square square) {
         Set<Color> colorSet = new HashSet<>();
-        colorSet.add(Color.WHITE);
+        colorSet.add(Color.ALL);
 
         return getLeftSquare(square, colorSet);
     }
@@ -215,7 +184,7 @@ public class Board {
      */
     public Square getRightSquare(Square square) {
         Set<Color> colorSet = new HashSet<>();
-        colorSet.add(Color.WHITE);
+        colorSet.add(Color.ALL);
 
         return getRightSquare(square, colorSet);
     }
@@ -231,8 +200,7 @@ public class Board {
     }
 
     /**
-     * Returns the array of 4 squares on which we can move if we do diagonals
-     * movements.
+     * Returns the array of 4 squares on which we can move if we do diagonals movements.
      *
      * @param currentSquare
      * @param possibleSquaresColor
@@ -312,5 +280,13 @@ public class Board {
     @Override
     public String toString() {
         return Arrays.deepToString(board);
+    }
+
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
     }
 }

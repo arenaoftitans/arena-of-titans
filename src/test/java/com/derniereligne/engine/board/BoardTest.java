@@ -6,9 +6,9 @@
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.Color;
+import com.derniereligne.engine.GameFactory;
 import java.util.HashSet;
 import java.util.Set;
-import jersey.repackaged.com.google.common.hash.HashCode;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,9 +24,9 @@ public class BoardTest {
 
     @Before
     public void initBoard() {
-        board = new Board();
+        board = new GameFactory().getBoard();
         possibleColors = new HashSet<>();
-        possibleColors.add(Color.WHITE);
+        possibleColors.add(Color.ALL);
     }
 
     @Test
@@ -230,7 +230,6 @@ public class BoardTest {
         Square startSquare = board.getSquare(0, 7);
 
         board.getSquare(1, 6).setAsOccupied();
-        System.out.println(board.getDiagonalSquares(startSquare, possibleColors));
         assertEquals(expResult, board.getDiagonalSquares(startSquare, possibleColors));
     }
 
