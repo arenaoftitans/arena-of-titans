@@ -43,7 +43,7 @@ public class SvgBoardGeneratorTest {
             height = jsonBoard.getHeight();
             width = jsonBoard.getWidth();
 
-            svgBoardGenerator = new SvgBoardGenerator(jsonBoard, "standardBoard");
+            svgBoardGenerator = new SvgBoardGenerator(jsonBoard, "standard");
 
             disposition = svgBoardGenerator.getColorDisposition();
         } catch (IOException ex) {
