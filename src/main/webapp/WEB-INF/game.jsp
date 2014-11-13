@@ -12,10 +12,6 @@
     </head>
     <body ng-app="lastLine">
         <div ng-controller="playButtons">
-            <label>x : </label>
-            <input type="text" ng-model="currentSquare.x" />
-            <label>y :  </label>
-            <input type="text" ng-model="currentSquare.y" />
             <div ng-repeat="color in colors">
                    <button ng-repeat="card in cards" ng-click="play(card, color)">{{ card }} {{ color }}</button>
         </div>

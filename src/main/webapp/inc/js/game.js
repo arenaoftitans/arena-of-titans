@@ -8,9 +8,6 @@ var nameSpace = angular.module("lastLine", []);
 nameSpace.controller("playButtons", ['$scope', '$http', function ($scope, $http) {
     $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
 
-    // Current square.
-    $scope.currentSquare = {x: 0, y: 0};
-
     // Card names and colors. Generate buttons for all combination of cards and
     // colors thanks to ng-repeat.
     $scope.colors = ['blue', 'red', 'black', 'yellow'];
@@ -22,13 +19,12 @@ nameSpace.controller("playButtons", ['$scope', '$http', function ($scope, $http)
       // the current position of the player. Get a list of the ids of the
       // squares on which the player can move.
       $http({
-        url: '/DerniereLigneGameEngine/rest/play',
+        url: '/DerniereLigneGameEngine/rest/getPossibleSquares',
         method: "GET",
         params: {
-          card: card,
-          color: color,
-          x: $scope.currentSquare.x,
-          y: $scope.currentSquare.y
+          card_name: card,
+          card_color: color,
+          player_id: "player"
         }
       }).success(function (data) {
         // Clean highlighted squares.

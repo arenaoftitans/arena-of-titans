@@ -23,6 +23,28 @@ public class MovementsCardsFactory {
      * @param jsonMovementsCards The Java version of the JSON object containing all the informations
      * to generate the cards.
      *
+     * @param colorNames The names of the colors used in the game.
+     *
+     * @return The list of the cards that we can use in the game.
+     */
+    public List<MovementsCard> getCardsFromColorNames(Board board, JsonMovementsCards jsonMovementsCards,
+            List<String> colorNames) {
+        List<Color> colors = new ArrayList<>();
+        for (String colorName : colorNames) {
+            colors.add(Color.valueOf(colorName));
+        }
+
+        return getCards(board, jsonMovementsCards, colors);
+    }
+
+    /**
+     * Generate the list of cards based on their description in the JSON file.
+     *
+     * @param board The game board, imperative to create the cards.
+     *
+     * @param jsonMovementsCards The Java version of the JSON object containing all the informations
+     * to generate the cards.
+     *
      * @param colors The color used in the game.
      *
      * @return The list of the cards that we can use in the game.

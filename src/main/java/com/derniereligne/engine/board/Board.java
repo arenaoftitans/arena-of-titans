@@ -30,7 +30,11 @@ public class Board {
      * @return Square@x,y
      */
     public Square getSquare(int x, int y) {
-        return board[y][x];
+        if (isInBoard(x, y)) {
+            return board[y][x];
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class MovementsCard {
@@ -214,6 +215,52 @@ public abstract class MovementsCard {
 
     public String getName() {
         return name;
+    }
+
+    public Color getColor() {
+        return cardColor;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.cardColor);
+        hash = 53 * hash + Objects.hashCode(this.possibleSquaresColor);
+        hash = 53 * hash + this.numberOfMovements;
+        hash = 53 * hash + Objects.hashCode(this.probableSquaresGetter);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MovementsCard other = (MovementsCard) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (this.cardColor != other.cardColor) {
+            return false;
+        }
+        if (!Objects.equals(this.possibleSquaresColor, other.possibleSquaresColor)) {
+            return false;
+        }
+        if (this.numberOfMovements != other.numberOfMovements) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "MovementsCard{" + "name=" + name + ", cardColor=" + cardColor
+                + ", possibleSquaresColor=" + possibleSquaresColor + ", numberOfMovements="
+                + numberOfMovements + '}';
     }
 
 }

@@ -9,6 +9,9 @@ import com.derniereligne.engine.board.SvgBoardGenerator;
 import com.derniereligne.engine.board.JsonBoard;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.cards.Deck;
+import com.derniereligne.engine.cards.movements.MovementsCard;
+import com.derniereligne.engine.cards.movements.MovementsCardsFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -62,13 +65,25 @@ public class GameFactory {
      */
     private final int ARMS_WIDTH;
     /**
-     * The board  as a double array of String.
+     * The board as a double array of String.
      */
     private Square[][] board;
     /**
      * The object used to generate the SVG.
      */
     private SvgBoardGenerator svgBoardGenerator;
+    /**
+     * The factory used to get all the cards.
+     */
+    private MovementsCardsFactory movementsCardsFactory;
+    /**
+     * The generate game board.
+     */
+    private Board gameBoard;
+    /**
+     * The generate Deck of cards.
+     */
+    private Deck deck;
 
     public GameFactory() {
         this("standard");
@@ -120,7 +135,22 @@ public class GameFactory {
     }
 
     public Board getBoard() {
-        return new Board(WIDTH, HEIGHT, INNER_CIRCLE_HIGHER_Y, ARMS_WIDTH, board);
+        if (gameBoard == null) {
+            gameBoard = new Board(WIDTH, HEIGHT, INNER_CIRCLE_HIGHER_Y, ARMS_WIDTH, board);
+        }
+
+        return gameBoard;
+    }
+
+    public Deck getDeck() {
+        if (deck == null) {
+            movementsCardsFactory = new MovementsCardsFactory();
+            List<MovementsCard> cards = movementsCardsFactory.getCardsFromColorNames(getBoard(),
+                    jsonGame.getMovementsCards(), jsonGame.getColors());
+            deck = new Deck(cards);
+        }
+
+        return deck;
     }
 
     public String getBoardName() {
