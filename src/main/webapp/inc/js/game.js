@@ -26,6 +26,20 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
     $scope.colors = ['blue', 'red', 'black', 'yellow'];
     $scope.cards = ['warrior', 'wizard', 'rider', 'bishop', 'queen', 'king', 'assassin'];
 
+    function resetHighlightedSquares() {
+      for (var index in $scope.highlightedSquares) {
+        var id = $scope.highlightedSquares[index];
+        angular.element(id).removeAttr('style', $scope.squaresDefaultStyle);
+      }
+    }
+
+    function highlightSquares() {
+      for (var index in $scope.highlightedSquares) {
+        var id = $scope.highlightedSquares[index];
+        angular.element(id).attr("style", "fill:green");
+      }
+    }
+
     // Function called when a button is clicked.
     $scope.viewPossibleMovements = function (card, color) {
 
@@ -42,19 +56,12 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         }
       })
               .success(function (data) {
-                // Clean highlighted squares.
-                for (var index in $scope.highlightedSquares) {
-                  var id = $scope.highlightedSquares[index];
-                  angular.element(id).removeAttr('style', $scope.squaresDefaultStyle);
-                }
+                resetHighlightedSquares();
 
                 $scope.highlightedSquares = data;
 
-                // Highlight new squares.
-                for (var index in $scope.highlightedSquares) {
-                  var id = $scope.highlightedSquares[index];
-                  angular.element(id).attr("style", "fill:green");
-                }
+                highlightSquares();
+
                 // Stores the selected card.
                 $scope.currentCard = {card_name: card, card_color: color};
               })
@@ -79,6 +86,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         })
                 .success(function (data) {
                   $scope.currentPlayerIndex = ($scope.currentPlayerIndex + 1) % $scope.players.length;
+                  resetHighlightedSquares();
                 })
                 .error(function (data) {
                   showHttpError(data);
