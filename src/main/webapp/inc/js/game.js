@@ -1,7 +1,16 @@
+
 /**
- * Angular application and controllers which controls the JS part of the game.
- * @type @exp;angular@call;module
+ * Use alert to print errors.
+ *
+ * @param {Object} data the response of the server.
+ *
+ * @returns {undefined}
  */
+function showHttpError(data) {
+  if (data.hasOwnProperty('error')) {
+    alert(data.error);
+  }
+}
 
 var nameSpace = angular.module("lastLine", []);
 
@@ -26,21 +35,23 @@ nameSpace.controller("playButtons", ['$scope', '$http', function ($scope, $http)
           card_color: color,
           player_id: "player"
         }
-      }).success(function (data) {
-        // Clean highlighted squares.
-        for (var index in $scope.highlightedSquares) {
-          var id = $scope.highlightedSquares[index];
-          angular.element(id).removeAttr('style', $scope.squaresDefaultStyle);
-        }
+      })
+              .success(function (data) {
+                // Clean highlighted squares.
+                for (var index in $scope.highlightedSquares) {
+                  var id = $scope.highlightedSquares[index];
+                  angular.element(id).removeAttr('style', $scope.squaresDefaultStyle);
+                }
 
-        $scope.highlightedSquares = data;
+                $scope.highlightedSquares = data;
 
-        // Highlight new squares.
-        for (var index in $scope.highlightedSquares) {
-          var id = $scope.highlightedSquares[index];
-          angular.element(id).attr("style", "fill:green");
-        }
-      });
+                // Highlight new squares.
+                for (var index in $scope.highlightedSquares) {
+                  var id = $scope.highlightedSquares[index];
+                  angular.element(id).attr("style", "fill:green");
+                }
+              })
+              .error(showHttpError);
     };
   }]);
 
@@ -65,12 +76,6 @@ nameSpace.controller('createGame', ['$scope', '$http', function ($scope, $http) 
                 angular.element('#createGame').hide();
                 angular.element('#game').show();
               })
-              .error(function (data, status) {
-                if (status >= 400 && status < 500) {
-                  if (data.hasOwnProperty("error")) {
-                    alert(data.error);
-                  }
-                }
-              });
+              .error(showHttpError);
     };
   }]);
