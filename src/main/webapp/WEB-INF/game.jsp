@@ -12,25 +12,33 @@
         <script src="inc/js/game.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">
-        <div id="createGame" ng-controller="createGame">
-            <form id="crateGameForm">
-                <label>Add players</label>
-                <div ng-repeat="player in players">
-                    <label>Name of player {{ player.index }}</label>
-                    <input type="text" ng-model="player.name" />
-                </div>
-                <button ng-click="createGame()">Create game</button>
-            </form>
-        </div>
-
-        <div id="game" class="hidden">
-            <div ng-controller="playButtons">
-                <div ng-repeat="color in colors">
-                    <button ng-repeat="card in cards" ng-click="play(card, color)">{{card}} {{color}}</button>
-                </div>
+        <div ng-controller="game">
+            <div id="createGame">
+                <form id="crateGameForm">
+                    <label>Add players</label>
+                    <div ng-repeat="player in players">
+                        <label>Name of player {{ player.index}}</label>
+                        <input type="text" ng-model="player.name" />
+                    </div>
+                    <button ng-click="createGame()">Create game</button>
+                </form>
             </div>
 
-            ${svgBoard}
+            <div id="game" class="hidden">
+                <div>
+                    <div>Player: {{currentPlayerIndex}}</div>
+                    <div ng-repeat="color in colors">
+                        <button ng-repeat="card in cards" ng-click="viewPossibleMovements(card, color)">{{card}} {{color}}</button>
+                    </div>
+                    <label>x</label>
+                    <input type="text" ng-model="squareX" />
+                    <label>y</label>
+                    <input type="text" ng-model="squareY" />
+                    <button ng-click="play()">Play</button>
+                </div>
+
+                ${svgBoard}
+            </div>
         </div>
     </body>
 </html>
