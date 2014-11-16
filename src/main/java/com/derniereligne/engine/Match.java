@@ -79,6 +79,15 @@ public class Match {
     }
 
     /**
+     * Returns the current square of the active player.
+     *
+     * @return Square
+     */
+    public Square getActivePlayerCurrentSquare() {
+        return activePlayer.getCurrentSquare();
+    }
+
+    /**
      * <b>Get the x coordinate of the active player.</b>
      *
      * @return The x coordinate of the square the active player is on.
@@ -241,14 +250,14 @@ public class Match {
     private Player getNextPlayer() {
         int activeIndex = activePlayer.getIndex();
         int testingIndex = activeIndex + 1;
-        while (testingIndex <= 7) {
+        while (testingIndex <= players.size() - 1) {
             if (players.get(testingIndex) != null) {
                 break;
             } else if (players.get(testingIndex) == null || !players.get(testingIndex).canPlay()) {
                 testingIndex++;
             }
         }
-        if (testingIndex == 8) {
+        if (testingIndex == players.size()) {
             testingIndex = 0;
             while (testingIndex <= activeIndex) {
                 if (players.get(testingIndex) != null) {
