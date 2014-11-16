@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.Response.Status;
 public class PossibleSquaresRest {
 
     private static final Response BAD_REQUEST = Response.status(Status.BAD_REQUEST).build();
+    private HttpSession session;
     private GameFactory gameFactory;
     private Board board;
     private Deck deck;
@@ -75,7 +77,7 @@ public class PossibleSquaresRest {
      */
     private boolean incorrectInputParemeters(String cardName, String cardColor, String playerId) {
         return cardName == null || cardColor == null || playerId == null
-                || !"player".equals(playerId);
+                || !"0".equals(playerId);
     }
 
     /**
