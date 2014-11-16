@@ -40,6 +40,28 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
       }
     }
 
+    function movePlayerTo(playerIndex, squareId) {
+      var playerId = 'player' + playerIndex;
+      var circleToDelete = document.getElementById(playerId);
+      if (circleToDelete) {
+        circleToDelete.parentNode.removeChild(circleToDelete);
+      }
+      var square = angular.element(squareId);
+      var height = parseInt(square.attr('height'));
+      var width = parseInt(square.attr('width'));
+      var x = parseInt(square.attr('x')) + width / 2;
+      var y = parseInt(square.attr('y')) + height / 2;
+      var radius = width / 4;
+      var transform = square.attr('transform');
+      var player = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      player.setAttribute('id', playerId);
+      player.setAttribute('cx', x);
+      player.setAttribute('cy', y);
+      player.setAttribute('r', radius);
+      player.setAttribute('transform', transform);
+      document.getElementById('boardLayer').appendChild(player);
+    }
+
     // Function called when a button is clicked.
     $scope.viewPossibleMovements = function (card, color) {
 
@@ -85,6 +107,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
           }
         })
                 .success(function (data) {
+                  movePlayerTo($scope.currentPlayerIndex, data[0]);
                   $scope.currentPlayerIndex = ($scope.currentPlayerIndex + 1) % $scope.players.length;
                   resetHighlightedSquares();
                 })

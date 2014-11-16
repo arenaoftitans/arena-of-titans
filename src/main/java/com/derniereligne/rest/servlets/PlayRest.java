@@ -101,7 +101,8 @@ public class PlayRest extends PossibleSquaresLister {
         int targetedY = Integer.parseInt(y);
         match.playTurn(targetedX, targetedY);
         Gson gson = new Gson();
-        String output = gson.toJson(selectedSquareId);
+        String[] selectedSquare = {selectedSquareId};
+        String output = gson.toJson(selectedSquare);
 
         return Response.status(Response.Status.OK).entity(output).build();
     }
