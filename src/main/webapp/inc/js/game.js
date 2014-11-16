@@ -42,4 +42,35 @@ nameSpace.controller("playButtons", ['$scope', '$http', function ($scope, $http)
         }
       });
     };
-}]);
+  }]);
+
+nameSpace.controller('createGame', ['$scope', '$http', function ($scope, $http) {
+    $scope.players = [];
+    $scope.numberMaximumOfPlayers = 8;
+    for (var i = 0; i < $scope.numberMaximumOfPlayers; i++) {
+      $scope.players.push({
+        index: i + 1,
+        name: ''
+      });
+    }
+
+    $scope.createGame = function () {
+      var players = {items: $scope.players};
+      $http({
+        url: '/DerniereLigneGameEngine/rest/createGame',
+        method: 'POST',
+        data: $scope.players
+      })
+              .success(function (data) {
+                angular.element('#createGame').hide();
+                angular.element('#game').show();
+              })
+              .error(function (data, status) {
+                if (status >= 400 && status < 500) {
+                  if (data.hasOwnProperty("error")) {
+                    alert(data.error);
+                  }
+                }
+              });
+    };
+  }]);

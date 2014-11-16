@@ -26,7 +26,7 @@ public class MatchTest {
         board = gf.getBoard();
         Player[] players = new Player[8];
         for (int i = 0; i < 8; i++)
-            players[i] = new Player("player " + i);
+            players[i] = new Player("player " + i, i);
         match = new Match(players, board);
     }
 
@@ -38,7 +38,7 @@ public class MatchTest {
     @Test
     public void testPlayTurnIfOnlyOnePlayer() {
         for (int i = 1; i <=7; i++) {
-            match.getPlayers()[i] = null;
+            match.getPlayers().set(i, null);
         }
         assertEquals(match.playTurn(defaultX, defaultY), null);
     }
@@ -48,7 +48,7 @@ public class MatchTest {
         match.getActivePlayer().moveTo(board.getSquare(16, 8));
         match.playTurn(16, 8);
 
-        assertTrue(match.getPlayers()[0].isWinnerInMatch());
+        assertTrue(match.getPlayers().get(0).isWinnerInMatch());
     }
 
     @Test
@@ -56,13 +56,13 @@ public class MatchTest {
         match.getActivePlayer().moveTo(board.getSquare(16, 8));
         match.playTurn(17, 8);
 
-        assertFalse(match.getPlayers()[0].isWinnerInMatch());
+        assertFalse(match.getPlayers().get(0).isWinnerInMatch());
     }
 
     @Test
     public void testPlayTurnForEndOfGame() {
         for (int i = 2; i <= 7; i++) {
-            match.getPlayers()[i] = null;
+            match.getPlayers().set(i, null);
         }
 
         match.getActivePlayer().moveTo(board.getSquare(16, 8));
@@ -71,7 +71,7 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnFirstPlayerPlayingInFullGame() {
-        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers()[1]);
+        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers().get(1));
     }
 
     @Test
@@ -80,14 +80,14 @@ public class MatchTest {
             match.playTurn(defaultX, defaultY);
         }
 
-        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers()[0]);
+        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers().get(0));
     }
 
     @Test
     public void testPlayTurnForFirstPlayerInPartialGame() {
-        match.getPlayers()[1] = null;
+        match.getPlayers().set(1, null);
 
-        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers()[2]);
+        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers().get(2));
     }
 
     @Test
@@ -96,9 +96,9 @@ public class MatchTest {
             match.playTurn(defaultX, defaultY);
         }
         for (int i = 0; i <= 5; i++) {
-            match.getPlayers()[i] = null;
+            match.getPlayers().set(i, null);
         }
-        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers()[6]);
+        assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers().get(6));
     }
 
 }

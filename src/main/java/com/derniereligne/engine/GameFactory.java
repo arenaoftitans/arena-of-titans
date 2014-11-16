@@ -12,6 +12,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCardsFactory;
+import com.derniereligne.rest.servlets.JsonPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -19,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,6 +87,10 @@ public class GameFactory {
      * The generate Deck of cards.
      */
     private Deck deck;
+    /**
+     * The current match.
+     */
+    private Match match;
 
     public GameFactory() {
         this("standard");
@@ -159,6 +166,30 @@ public class GameFactory {
 
     public String getSvg() {
         return svgBoardGenerator.toString();
+    }
+
+    public Match getMatch(JsonPlayer[] jsonPlayers) {
+        if (match == null) {
+            List<Player> players = getPlayers(jsonPlayers);
+            match = new Match(players, getBoard());
+        }
+
+        return match;
+    }
+
+    private List<Player> getPlayers(JsonPlayer[] jsonPlayers) {
+        List<Player> players = new ArrayList<>();
+
+        for (int i = 0; i < jsonPlayers.length; i++) {
+            JsonPlayer jsonPlayer = jsonPlayers[i];
+            String playerName = jsonPlayer.getName();
+            if (!playerName.equals("")) {
+                int playerIndex = jsonPlayer.getIndex();
+                players.add(new Player(playerName, playerIndex));
+            }
+        }
+
+        return players;
     }
 
 }

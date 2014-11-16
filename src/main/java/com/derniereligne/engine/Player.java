@@ -4,6 +4,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -26,14 +27,6 @@ public class Player {
      * @since 1.0
      */
     private final String name;
-    /**
-     * The board this player is currently playing on.
-     *
-     * @see Board
-     *
-     * @since 1.0
-     */
-    private Board board;
     /**
      * The square this player is on.
      *
@@ -65,6 +58,7 @@ public class Player {
      *
      * @param name
      *          The name of the player.
+     * @param index The index of the player.
      *
      * @see Player#board
      * @see Player#canPlay
@@ -74,12 +68,11 @@ public class Player {
      *
      * @since 1.0
      */
-    public Player(String name) {
+    public Player(String name, int index) {
         this.name = name;
-        this.board = null;
         this.currentSquare = null;
         this.canPlay = false;
-        this.index = 0;
+        this.index = index;
     }
 
     public boolean isWinnerInMatch() {
@@ -137,9 +130,7 @@ public class Player {
         this.rank = rank;
     }
 
-    public void newGameForPlayer(int index, Board board) {
-        this.index = index;
-        this.board = board;
+    public void initGame(Board board) {
         currentSquare = board.getSquare(index * 4, 8);
         isWinnerInCurrentMatch = false;
     }
@@ -163,5 +154,15 @@ public class Player {
     @Override
     public boolean equals(Object player) {
         return (player != null && player.getClass() == Player.class && name.equals(((Player)player).name));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.currentSquare);
+        hash = 89 * hash + (this.canPlay ? 1 : 0);
+        hash = 89 * hash + this.index;
+        return hash;
     }
 }
