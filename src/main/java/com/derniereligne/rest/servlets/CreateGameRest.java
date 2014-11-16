@@ -3,7 +3,11 @@ package com.derniereligne.rest.servlets;
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +23,7 @@ import javax.ws.rs.core.Response;
 public class CreateGameRest {
 
     private static final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
-    private JsonPlayer[] players;
+    private List<JsonPlayer> players;
 
     @Context
     ServletContext context;
@@ -31,9 +35,10 @@ public class CreateGameRest {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createGame(String jsonStringPlayers) {
         Gson gson = new Gson();
-        players = gson.fromJson(jsonStringPlayers, JsonPlayer[].class);
+        players = Arrays.asList(gson.fromJson(jsonStringPlayers, JsonPlayer[].class));
+        removeEmptyPlayers();
 
-        if (players.length < 2) {
+        if (players.size() < 2) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("{\"error\": \"Not enough players. 2 Players at least are required to start a game\"}")
                     .build();
@@ -44,6 +49,22 @@ public class CreateGameRest {
         req.getSession().setAttribute("match", match);
 
         return Response.status(Response.Status.OK).build();
+    }
+
+    /**
+     * Remove all players whose name is an empty string to the list of players.
+     */
+    private void removeEmptyPlayers() {
+        List<JsonPlayer> correctedListOfPlayers = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) {
+            JsonPlayer jsonPlayer = players.get(i);
+            if (!jsonPlayer.getName().equals("")) {
+                jsonPlayer.setIndex(correctedListOfPlayers.size());
+                correctedListOfPlayers.add(jsonPlayer);
+            }
+        }
+
+        players = correctedListOfPlayers;
     }
 
 }

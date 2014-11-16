@@ -1,6 +1,7 @@
 package com.derniereligne.rest.servlets;
 
 import com.derniereligne.engine.GameFactory;
+import com.derniereligne.engine.Match;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,13 +32,15 @@ import javax.ws.rs.core.Response.Status;
 public class PossibleSquaresRest {
 
     private static final Response BAD_REQUEST = Response.status(Status.BAD_REQUEST).build();
-    private HttpSession session;
+    private Match match;
     private GameFactory gameFactory;
     private Board board;
     private Deck deck;
 
     @Context
     ServletContext context;
+    @Context
+    HttpServletRequest req;
 
     /**
      * The servlet GET method.
@@ -55,6 +58,13 @@ public class PossibleSquaresRest {
     public Response getPossibleSquares(@QueryParam("card_name") String cardName,
             @QueryParam("card_color") String cardColor,
             @QueryParam("player_id") String playerId) {
+        match = (Match) req.getSession().getAttribute("match");
+        if (match == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("{\"error\": \"No match is running\"}")
+                    .build();
+        }
+
         if (incorrectInputParemeters(cardName, cardColor, playerId)) {
             return BAD_REQUEST;
         }

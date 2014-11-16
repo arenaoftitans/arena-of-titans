@@ -10,6 +10,10 @@ public class JsonPlayer {
         return index;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public String getName() {
         return name;
     }

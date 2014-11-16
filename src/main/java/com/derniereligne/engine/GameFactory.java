@@ -168,7 +168,7 @@ public class GameFactory {
         return svgBoardGenerator.toString();
     }
 
-    public Match getMatch(JsonPlayer[] jsonPlayers) {
+    public Match getMatch(List<JsonPlayer> jsonPlayers) {
         if (match == null) {
             List<Player> players = getPlayers(jsonPlayers);
             match = new Match(players, getBoard());
@@ -177,16 +177,14 @@ public class GameFactory {
         return match;
     }
 
-    private List<Player> getPlayers(JsonPlayer[] jsonPlayers) {
+    private List<Player> getPlayers(List<JsonPlayer> jsonPlayers) {
         List<Player> players = new ArrayList<>();
 
-        for (int i = 0; i < jsonPlayers.length; i++) {
-            JsonPlayer jsonPlayer = jsonPlayers[i];
+        for (int i = 0; i < jsonPlayers.size(); i++) {
+            JsonPlayer jsonPlayer = jsonPlayers.get(i);
             String playerName = jsonPlayer.getName();
-            if (!playerName.equals("")) {
-                int playerIndex = jsonPlayer.getIndex();
-                players.add(new Player(playerName, playerIndex));
-            }
+            int playerIndex = jsonPlayer.getIndex();
+            players.add(new Player(playerName, playerIndex));
         }
 
         return players;
