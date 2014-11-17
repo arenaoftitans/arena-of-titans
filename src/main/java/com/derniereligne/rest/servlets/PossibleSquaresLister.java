@@ -91,7 +91,7 @@ public abstract class PossibleSquaresLister {
         // Get the card.
         MovementsCard playableCard = deck.getCard(cardName, cardColor);
         if (playableCard == null) {
-            String message = "Cannot get the selected card.";
+            String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
             return buildBadResponse(message);
         }
 

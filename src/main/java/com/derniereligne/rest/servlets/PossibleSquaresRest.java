@@ -45,7 +45,7 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
 
         if (areInputParemetersIncorrect(cardName, cardColor, playerId)) {
             String message = String
-                    .format("Wrong input parameters. Cardrname: %s. CardColor: %s. PlayerId: %s.",
+                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
                             cardName, cardColor, playerId);
             return buildBadResponse(message);
         }
