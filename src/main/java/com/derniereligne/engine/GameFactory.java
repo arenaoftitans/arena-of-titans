@@ -247,7 +247,7 @@ public class GameFactory {
      */
     private List<Player> getPlayers(List<JsonPlayer> jsonPlayers) {
         return jsonPlayers.parallelStream()
-                .map(jsp -> new Player(jsp.getName(), jsp.getIndex()))
+                .map(jsplayer -> new Player(jsplayer.getName(), jsplayer.getIndex()))
                 .collect(Collectors.toList());
     }
 
