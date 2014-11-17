@@ -1,7 +1,6 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
 import java.util.Objects;
@@ -75,26 +74,18 @@ public class Player {
         this.index = index;
     }
 
-    public boolean isWinnerInMatch() {
-        return isWinnerInCurrentMatch;
-    }
-
     /**
-     * <b>Prints the possible movements for this player.</b>
+     * <b>Returns if this player is winner in the current match.</b>
      *
-     * @param card
-     *          The card used to find the possible movements.
+     * @return
+     *          If the player is winner in the current match.
      *
-     * @see MovementsCard
-     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square)
-     * @see Square
+     * @see Player#isWinnerInCurrentMatch
      *
      * @since 1.0
      */
-    public void play(MovementsCard card) {
-        Set<Square> possibleMovements = card.getPossibleMovements(currentSquare);
-        System.out.println("Size: " + possibleMovements.size());
-        System.out.println(possibleMovements.toString());
+    public boolean isWinnerInMatch() {
+        return isWinnerInCurrentMatch;
     }
 
     /**
@@ -120,21 +111,75 @@ public class Player {
         currentSquare.setAsOccupied();
     }
 
+    /**
+     * <b>Returns the square this player is on.</b>
+     *
+     * @return
+     *          The square this player is on.
+     *
+     * @see Player#currentSquare
+     *
+     * @since 1.0
+     */
     public Square getCurrentSquare() {
         return currentSquare;
     }
 
+    /**
+     * <b>Make this player a winner with a given rank.</b>
+     * <div>
+     *  This player will be stated as a winner but unable to play.
+     * </div>
+     *
+     * @param rank
+     *          Rank given to this player in the game.
+     *
+     * @see Player#canPlay
+     * @see Player#isWinnerInCurrentMatch
+     * @see Player#rank
+     *
+     * @since 1.0
+     */
     public void wins(int rank) {
         canPlay = false;
         isWinnerInCurrentMatch = true;
         this.rank = rank;
     }
 
+    /**
+     * <b>Initialize a game with the given board.</b>
+     * <div>
+     *  The player will be on a current square depending on its index.
+     * </div>
+     *
+     * @param board
+     *          Board where the game initialized will be played.
+     *
+     * @see Player#currentSquare
+     * @see Player#index
+     * @see Player#isWinnerInCurrentMatch
+     * @see Player#rank
+     */
     public void initGame(Board board) {
         currentSquare = board.getSquare(index * 4, 8);
+        currentSquare.setAsOccupied();
         isWinnerInCurrentMatch = false;
+        rank = -1;
     }
 
+    /**
+     * <b>Returns the goals of this player.</b>
+     * <div>
+     *  Returns the set of X coordinates that can make this player a winner.
+     * </div>
+     *
+     * @return
+     *          The goals of this player.
+     *
+     * @see Player#index
+     *
+     * @since 1.0
+     */
     public Set<Integer> aim() {
         int oppositeIndex = index + 4 * ((index >= 4) ? -1 : 1);
         Set<Integer> toReturn = new HashSet<>();
@@ -143,17 +188,55 @@ public class Player {
         return toReturn;
     }
 
+    /**
+     * <b>Returns if this player can play or not.</b>
+     *
+     * @return
+     *          If this player can play or not.
+     *
+     * @see Player#canPlay
+     *
+     * @since 1.0
+     */
     public boolean canPlay() {
         return canPlay;
     }
 
+    /**
+     * <b>Returns the index of this player in its current game.</b>
+     *
+     * @return
+     *          The index of this player in its current game.
+     *
+     * @see Player#index
+     *
+     * @since 1.0
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * <b>Returns if a player is the same as this one.</b>
+     * <div>
+     *  Returns true if the player in parameter as the same name as this player.
+     * </div>
+     *
+     * @param player
+     *          Player to compare with.
+     *
+     * @return
+     *          If the parameter and this player are the same.
+     *
+     * @see #name
+     *
+     * @since 1.0
+     */
     @Override
     public boolean equals(Object player) {
-        return (player != null && player.getClass() == Player.class && name.equals(((Player)player).name));
+        return (player != null
+                && player.getClass() == Player.class
+                && name.equals(((Player)player).name));
     }
 
     @Override
