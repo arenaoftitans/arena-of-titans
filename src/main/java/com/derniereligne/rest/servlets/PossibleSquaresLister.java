@@ -120,7 +120,7 @@ public abstract class PossibleSquaresLister {
     }
 
     protected Response buildBadResponse(String message) {
-        return BAD_REQUEST_BUILDER.entity("{\"error\": " + message + "}").build();
+        return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
     }
 
     protected abstract Response getJsonResponse(ArrayList<String> possibleSquaresIds);

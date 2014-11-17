@@ -40,7 +40,7 @@ public class CreateGameRest {
 
         if (players.size() < 2) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("{\"error\": \"Not enough players. 2 Players at least are required to start a game\"}")
+                    .entity("{\"error_to_display\": \"Not enough players. 2 Players at least are required to start a game\"}")
                     .build();
         }
 

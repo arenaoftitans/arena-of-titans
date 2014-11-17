@@ -7,8 +7,10 @@
  * @returns {undefined}
  */
 function showHttpError(data) {
-  if (data.hasOwnProperty('error')) {
-    alert(data.error);
+  if (data.hasOwnProperty('error_to_display')) {
+    alert(data.error_to_display);
+  } else {
+    console.log(data.error);
   }
 }
 
