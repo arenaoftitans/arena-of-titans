@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.SvgBoardGenerator;
@@ -25,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -48,7 +44,7 @@ public class GameFactory {
      */
     protected final JsonGame jsonGame;
     /**
-     * The Java representation off the jsonBoard.
+     * The Java representation of the jsonBoard.
      */
     protected final JsonBoard jsonBoard;
     /**
@@ -141,11 +137,26 @@ public class GameFactory {
         }
     }
 
+    /**
+     * <b>Returns the current gameBoard.</b>
+     * <div>
+     *  If the current gameBoard is null, we create a new board.
+     * </div>
+     *
+     * @return
+     *          The gameBoard
+     *
+     * @see Board
+     * @see Board#Board(int, int, int, int, com.derniereligne.engine.board.Square[][])
+     *
+     * @see GameFactory#getBoard()
+     *
+     * @since 1.0
+     */
     public Board getBoard() {
         if (gameBoard == null) {
             gameBoard = new Board(WIDTH, HEIGHT, INNER_CIRCLE_HIGHER_Y, ARMS_WIDTH, board);
         }
-
         return gameBoard;
     }
 
@@ -160,14 +171,57 @@ public class GameFactory {
         return deck;
     }
 
+    /**
+     * <b>Returns the name of the board.</b>
+     *
+     * @return
+     *          The name of the board.
+     *
+     * @see GameFactory#boardName
+     *
+     * @since 1.0
+     */
     public String getBoardName() {
         return boardName;
     }
 
+    /**
+     * <b>Returns the string associated to the SvgBoardGenerator.</b>
+     *
+     * @return
+     *          The string associated to the SvgBoardGenerator.
+     *
+     * @see GameFactory#svgBoardGenerator
+     *
+     * @see SvgBoardGenerator#toString()
+     *
+     * @since 1.0
+     */
     public String getSvg() {
         return svgBoardGenerator.toString();
     }
 
+    /**
+     * <b>Returns a match with the players given in parameter.</b>
+     * <div>
+     *  If the current match is null, creates a new match with the board and the players.
+     * </div>
+     *
+     * @param jsonPlayers
+     *          Players for the new match.
+     *
+     * @return
+     *          The current match.
+     *
+     * @see GameFactory#getBoard()
+     * @see GameFactory#getPlayers(java.util.List)
+     *
+     * @see JsonPlayer
+     * @see Match
+     * @see Match#Match(java.util.List, com.derniereligne.engine.board.Board)
+     *
+     * @since 1.0
+     */
     public Match getMatch(List<JsonPlayer> jsonPlayers) {
         if (match == null) {
             List<Player> players = getPlayers(jsonPlayers);
@@ -177,17 +231,26 @@ public class GameFactory {
         return match;
     }
 
+    /**
+     * <b>Returns a list of players from a list of jsonPlayers.</b>
+     *
+     * @param jsonPlayers
+     *          List to convert into players.
+     *
+     * @return
+     *          List converted in players.
+     *
+     * @see JsonPlayer
+     * @see JsonPlayer#getName()
+     * @see JsonPlayer#getIndex()
+     * @see Player#Player(java.lang.String, int)
+     *
+     * @since 1.0
+     */
     private List<Player> getPlayers(List<JsonPlayer> jsonPlayers) {
-        List<Player> players = new ArrayList<>();
-
-        for (int i = 0; i < jsonPlayers.size(); i++) {
-            JsonPlayer jsonPlayer = jsonPlayers.get(i);
-            String playerName = jsonPlayer.getName();
-            int playerIndex = jsonPlayer.getIndex();
-            players.add(new Player(playerName, playerIndex));
-        }
-
-        return players;
+        return jsonPlayers.parallelStream()
+                .map(jsp -> new Player(jsp.getName(), jsp.getIndex()))
+                .collect(Collectors.toList());
     }
 
 }
