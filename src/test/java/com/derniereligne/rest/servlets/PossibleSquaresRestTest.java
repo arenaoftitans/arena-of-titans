@@ -5,8 +5,8 @@
  */
 package com.derniereligne.rest.servlets;
 
-import com.jayway.restassured.RestAssured;
-import static com.jayway.restassured.RestAssured.given;
+import com.jayway.restassured.response.Response;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -16,106 +16,83 @@ import org.junit.Test;
  *
  * @author jenselme
  */
-public class PossibleSquaresRestTest {
+public class PossibleSquaresRestTest extends RestTest {
 
-    private static final String requestUrl = "/DerniereLigneGameEngine/rest/getPossibleSquares";
-    private String playerId;
+    private HashMap<String, String> defaultParameters;
 
     @Before
     public void setUp() {
-        RestAssured.basePath = "http://localhost:8080";
-        playerId = "0";
+        requestUrl = "/DerniereLigneGameEngine/rest/getPossibleSquares";
+        createGame();
+
+        defaultParameters = new HashMap<>();
+        defaultParameters.put("card_name", "king");
+        defaultParameters.put("card_color", "red");
+        defaultParameters.put("player_id", "0");
     }
 
     @Test
-    public void testGetPossibleSquares() {
-        String json = given()
-                .param("card_name", "king")
-                .param("card_color", "red")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .asString();
-        assertEquals("[\"#0-8\"]", json);
+    public void testGetPossibleSquaresBasicMovePlayer0() {
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(200, response.statusCode());
+        assertEquals("[\"#0-7\"]", response.asString());
+    }
 
-        json = given()
-                .param("card_name", "bishop")
-                .param("card_color", "red")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .asString();
+    @Test
+    public void testGetPossibleSquaresNoSquare() {
+        defaultParameters.put("card_name", "bishop");
+        Response response = getReponseGetJson(defaultParameters);
 
-        assertEquals("[\"#1-6\",\"#2-5\"]", json);
+        assertEquals(200, response.statusCode());
+        assertEquals("[]", response.asString());
     }
 
     @Test
     public void testGetPossibleSquaresWrongCardName() {
-        int status = given()
-                .param("card_name", "dorothy")
-                .param("card_color", "red")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.put("card_name", "dorothy");
+        Response res = getReponseGetJson(defaultParameters);
+        assertEquals(400, res.statusCode());
+        assertEquals("{\"error\": \"Cannot get the selected card: dorothy, red.\"}", res.asString());
     }
 
     @Test
     public void testGetPossibleSquaresNoCardName() {
-        int status = given()
-                .param("card_color", "red")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.remove("card_name");
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(400, response.statusCode());
+        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: null. CardColor: red. PlayerId: 0.\"}", response.asString());
     }
 
     @Test
     public void testGetPossibleSquaresWrongColor() {
-        int status = given()
-                .param("card_name", "king")
-                .param("card_color", "startgate")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.put("card_color", "startgate");
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(400, response.statusCode());
+        assertEquals("{\"error\": \"Cannot get the selected card: king, startgate.\"}", response.asString());
     }
 
     @Test
     public void testGetPossibleSquaresNoColor() {
-        int status = given()
-                .param("card_name", "king")
-                .param("player_id", playerId)
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.remove("card_color");
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(400, response.statusCode());
+        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: null. PlayerId: 0.\"}", response.asString());
     }
 
     @Test
     public void testGetPossibleSquaresWrongPlayer() {
-        int status = given()
-                .param("card_name", "king")
-                .param("card_color", "red")
-                .param("player_id", "dorothy")
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.put("player_id", "dorothy");
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(400, response.statusCode());
+        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: red. PlayerId: dorothy.\"}", response.asString());
     }
 
     @Test
     public void testGetPossibleSquaresNoPlayer() {
-        int status = given()
-                .param("card_name", "king")
-                .param("card_color", "red")
-                .when()
-                .get(requestUrl)
-                .statusCode();
-        assertEquals(400, status);
+        defaultParameters.remove("player_id");
+        Response response = getReponseGetJson(defaultParameters);
+        assertEquals(400, response.statusCode());
+        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: red. PlayerId: null.\"}", response.asString());
     }
 
 }
