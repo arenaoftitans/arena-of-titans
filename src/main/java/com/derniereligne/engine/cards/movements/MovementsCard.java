@@ -170,6 +170,7 @@ public abstract class MovementsCard {
      */
     private Set<Square> getNextPossibleSquares(Set<Square> probableSquares, int numberMovements) {
         Set<Square> movements = new HashSet<>();
+
         for (Square square : probableSquares) {
             if (square != null) {
                 addSquareIfEmpty(movements, square);
@@ -234,26 +235,13 @@ public abstract class MovementsCard {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final MovementsCard other = (MovementsCard) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (this.cardColor != other.cardColor) {
-            return false;
-        }
-        if (!Objects.equals(this.possibleSquaresColor, other.possibleSquaresColor)) {
-            return false;
-        }
-        if (this.numberOfMovements != other.numberOfMovements) {
-            return false;
-        }
-        return true;
+        MovementsCard other;
+        return (obj != null
+                && getClass() == obj.getClass()
+                && name.equals((other = (MovementsCard)obj).name)
+                && cardColor == other.cardColor
+                && Objects.equals(possibleSquaresColor, other.possibleSquaresColor)
+                && numberOfMovements == other.numberOfMovements);
     }
 
     @Override
