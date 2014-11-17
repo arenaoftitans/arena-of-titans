@@ -5,6 +5,7 @@ import com.derniereligne.engine.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <b>Factory used to create the list of the cards of the game as described in the configuration
@@ -29,10 +30,9 @@ public class MovementsCardsFactory {
      */
     public List<MovementsCard> getCardsFromColorNames(Board board, JsonMovementsCards jsonMovementsCards,
             List<String> colorNames) {
-        List<Color> colors = new ArrayList<>();
-        for (String colorName : colorNames) {
-            colors.add(Color.valueOf(colorName));
-        }
+        List<Color> colors = colorNames.parallelStream()
+                .map(str -> Color.valueOf(str))
+                .collect(Collectors.toList());
 
         return getCards(board, jsonMovementsCards, colors);
     }
@@ -53,6 +53,7 @@ public class MovementsCardsFactory {
             List<Color> colors) {
         List<MovementsCard> cards = new ArrayList<>();
         int numberCardsPerColor = jsonMovementsCards.getNumberCardsPerColor();
+
         for (JsonMovementsCard jsonCard : jsonMovementsCards.getCards()) {
             cards.addAll(getCards(board, jsonCard, colors, numberCardsPerColor));
         }
@@ -83,7 +84,7 @@ public class MovementsCardsFactory {
         Map<String, List<String>> complementaryColors = jsonCard.getComplementaryColors();
 
         for (Color color : colors) {
-            List<Color> additionalColors = getAdditionnalColors(additionalMovementsColors, complementaryColors, color);
+            List<Color> additionalColors = getAdditionalColors(additionalMovementsColors, complementaryColors, color);
             for (int i = 0; i < numberCardsPerColor; i++) {
                 MovementsCard card = getMovementsCard(board, name, movementType, numberOfMovements, color, additionalColors);
                 cards.add(card);
@@ -108,32 +109,18 @@ public class MovementsCardsFactory {
      * @return The list of additional colors for a card from the complementary colors or the
      * additional movements colors.
      */
-    private List<Color> getAdditionnalColors(List<String> additionalMovementsColors, Map<String, List<String>> complementaryColors, Color color) {
-        List<Color> additionalCardColors = new ArrayList<>();
+    private List<Color> getAdditionalColors(List<String> additionalMovementsColors, Map<String, List<String>> complementaryColors, Color color) {
+        List<String> additionalColorNames = new ArrayList<>();
         if (additionalMovementsColors != null) {
-            appendColor(additionalCardColors, additionalMovementsColors);
+            additionalColorNames.addAll(additionalMovementsColors);
         }
-
         if (complementaryColors != null) {
-            String cardColorName = color.toString();
-            List<String> complementaryColorList = complementaryColors.get(cardColorName);
-            appendColor(additionalCardColors, complementaryColorList);
+            additionalColorNames.addAll(complementaryColors.get(color.toString()));
         }
-
-        return additionalCardColors;
-    }
-
-    /**
-     * Transforms the name of the color into the color and add it to the additional colors.
-     *
-     * @param additionalCardColors The list of colors in which we add the colors.
-     *
-     * @param colorNames The list of the colors' names to add.
-     */
-    private void appendColor(List<Color> additionalCardColors, List<String> colorNames) {
-        for (String colorName : colorNames) {
-            additionalCardColors.add(Color.valueOf(colorName));
-        }
+        
+        return additionalColorNames.parallelStream()
+                    .map(str -> Color.valueOf(str))
+                    .collect(Collectors.toList());
     }
 
     /**
