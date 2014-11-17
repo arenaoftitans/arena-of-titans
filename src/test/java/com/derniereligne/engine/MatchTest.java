@@ -1,6 +1,11 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
+import com.derniereligne.engine.cards.movements.MovementsCard;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,6 +16,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class MatchTest {
+
     private Match match;
 
     private Board board;
@@ -25,8 +31,9 @@ public class MatchTest {
         GameFactory gf = new GameFactory();
         board = gf.getBoard();
         Player[] players = new Player[8];
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++) {
             players[i] = new Player("player " + i, i);
+        }
         match = new Match(players, board);
     }
 
@@ -37,7 +44,7 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnIfOnlyOnePlayer() {
-        for (int i = 1; i <=7; i++) {
+        for (int i = 1; i <= 7; i++) {
             match.getPlayers().set(i, null);
         }
         assertEquals(match.playTurn(defaultX, defaultY), null);
@@ -76,7 +83,7 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForLastPlayerInFullGame() {
-        for (int i = 0; i <=6; i++) {
+        for (int i = 0; i <= 6; i++) {
             match.playTurn(defaultX, defaultY);
         }
 
@@ -92,13 +99,23 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForLastPlayerInPartialGame() {
-        for (int i = 0; i <=6; i++) {
+        for (int i = 0; i <= 6; i++) {
             match.playTurn(defaultX, defaultY);
         }
         for (int i = 0; i <= 5; i++) {
             match.getPlayers().set(i, null);
         }
         assertEquals(match.playTurn(defaultX, defaultY), match.getPlayers().get(6));
+    }
+
+    @Test
+    public void testGetPossibleMovementsFirstMoveFirstPlayer() {
+        MovementsCard card = new LineAndDiagonalMovementsCard(board, null, 1, Color.RED);
+        Set<Square> possibleMovements = card.getPossibleMovements(match.getActivePlayerCurrentSquare());
+        Set<Square> expResult = new HashSet<>();
+        expResult.add(new Square(0, 7, Color.RED));
+
+        assertEquals(expResult, possibleMovements);
     }
 
 }
