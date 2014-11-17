@@ -6,6 +6,7 @@ import com.derniereligne.engine.board.Board;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class KnightMovementsCard extends MovementsCard {
 
@@ -208,11 +209,9 @@ public class KnightMovementsCard extends MovementsCard {
      *        The set of all possible movements.
      */
     private void add(Set<Square> possibleSquares, Set<Square> possibleMovements) {
-        for (Square square : possibleSquares) {
-            if (square != null) {
-                addSquareIfEmpty(possibleMovements, square);
-            }
-        }
+        possibleMovements.addAll(possibleSquares.parallelStream()
+                .filter(square -> square != null && !square.isOccupied())
+                .collect(Collectors.toList()));
     }
 
 }
