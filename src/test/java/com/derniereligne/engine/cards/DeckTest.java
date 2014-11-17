@@ -35,7 +35,6 @@ public class DeckTest {
     public void testGetCard_String_String() {
         assertEquals(new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.RED),
                 deck.getCard("Queen", "red"));
-        System.out.println(deck.getCard("Bishop", Color.BLACK));
 
         List<Color> additionalColors = new ArrayList<>();
         additionalColors.add(Color.BLUE);
