@@ -20,9 +20,7 @@ public class DiagonalMovementsCard extends MovementsCard {
 
     @Override
     public Set<Square> getPossibleMovements(Square currentSquare) {
-        Set<Square> possibleMovements = getDiagonalMovements(currentSquare);
-
-        return possibleMovements;
+        return getDiagonalMovements(currentSquare);
     }
 
 }
