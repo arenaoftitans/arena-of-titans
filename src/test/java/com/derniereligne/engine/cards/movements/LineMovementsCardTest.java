@@ -34,6 +34,17 @@ public class LineMovementsCardTest extends MovementsCardTest {
     }
 
     @Test
+    public void testGetPossibleMovementsOneMoveOnCircle() {
+        instance = new LineMovementsCard(board, null, 1, cardColor);
+        setCurrentSquare(2, 1);
+
+        expResult.add(new Square(2, 2, cardColor));
+        expResult.add(new Square(3, 1, cardColor));
+
+        test();
+    }
+
+    @Test
     public void testGetPossibleMovementsOnCircle() {
         setCurrentSquare(2, 1);
 

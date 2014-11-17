@@ -29,7 +29,6 @@ public class LineAndDiagonalMovementsCardTest extends MovementsCardTest {
         instance = new LineAndDiagonalMovementsCard(board, null, 1, cardColor);
         setCurrentSquare(0, 8);
         expResult.add(new Square(0, 7, cardColor));
-        expResult.add(new Square(1, 6, cardColor));
 
         test();
     }

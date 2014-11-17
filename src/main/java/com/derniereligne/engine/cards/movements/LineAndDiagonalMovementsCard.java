@@ -9,7 +9,7 @@ import java.util.Set;
 public class LineAndDiagonalMovementsCard extends MovementsCard {
 
     public LineAndDiagonalMovementsCard(Board board, String name, int numberOfMovements, Color color) {
-        super(board, name, 2, color);
+        super(board, name, numberOfMovements, color);
         probableSquaresGetter = lineAndDiagonalProbableSquaresGetter;
     }
 

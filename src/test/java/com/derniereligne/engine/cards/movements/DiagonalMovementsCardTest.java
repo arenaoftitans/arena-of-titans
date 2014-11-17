@@ -35,4 +35,11 @@ public class DiagonalMovementsCardTest extends MovementsCardTest {
         test();
     }
 
+    @Test
+    public void testGetPossibleMovementsStart() {
+        setCurrentSquare(0, 8);
+
+        test();
+    }
+
 }
