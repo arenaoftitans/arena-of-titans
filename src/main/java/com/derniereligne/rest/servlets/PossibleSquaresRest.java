@@ -40,9 +40,7 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
             @QueryParam("player_id") String playerId) {
         match = (Match) req.getSession().getAttribute("match");
         if (match == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("{\"error\": \"No match is running\"}")
-                    .build();
+            return buildBadResponse("No match is running");
         }
 
         if (areInputParemetersIncorrect(cardName, cardColor, playerId)) {
