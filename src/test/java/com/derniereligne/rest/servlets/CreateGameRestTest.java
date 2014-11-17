@@ -26,7 +26,7 @@ public class CreateGameRestTest extends RestTest {
 
     @Test
     public void createGameTwoPlayersEmptyPlayers() {
-        String json = "[{\"index\":1,\"name\":\"Toto\"},{\"index\":2,\"name\":\"Titi\"},{\"index\":3,\"name\":\"\"},{\"index\":4,\"name\":\"\"},{\"index\":5,\"name\":\"\"},{\"index\":6,\"name\":\"\"},{\"index\":7,\"name\":\"\"},{\"index\":8,\"name\":\"\"}]";
+        String json = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"},{\"index\":2,\"name\":\"\"},{\"index\":3,\"name\":\"\"},{\"index\":4,\"name\":\"\"},{\"index\":5,\"name\":\"\"},{\"index\":6,\"name\":\"\"},{\"index\":7,\"name\":\"\"}]";
         Response res = getResponsePostJson(json);
         assertEquals(200, res.statusCode());
         assertEquals(twoPlayersCorrectlyCreatedJsonResponse, res.asString());
@@ -34,7 +34,7 @@ public class CreateGameRestTest extends RestTest {
 
     @Test
     public void createGameTwoPlayersNoEmptyPlayers() {
-        String json = "[{\"index\":1,\"name\":\"Toto\"},{\"index\":2,\"name\":\"Titi\"}]";
+        String json = twoPlayersCorrectlyCreatedJsonResponse; // The request and its answer are the same.
         Response res = getResponsePostJson(json);
         assertEquals(200, res.statusCode());
         assertEquals(twoPlayersCorrectlyCreatedJsonResponse, res.asString());

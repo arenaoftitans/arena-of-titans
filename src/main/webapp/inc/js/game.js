@@ -125,7 +125,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
     $scope.numberMaximumOfPlayers = 8;
     for (var i = 0; i < $scope.numberMaximumOfPlayers; i++) {
       $scope.players.push({
-        index: i + 1,
+        index: i,
         name: ''
       });
     }
