@@ -60,7 +60,7 @@ public class PossibleSquaresRestTest extends RestTest {
         defaultParameters.remove("card_name");
         Response response = getReponseGetJson(defaultParameters);
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: null. CardColor: red. PlayerId: 0.\"}", response.asString());
+        assertEquals("{\"error\": \"Wrong input parameters. CardName: null. CardColor: red. PlayerId: 0.\"}", response.asString());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class PossibleSquaresRestTest extends RestTest {
         defaultParameters.remove("card_color");
         Response response = getReponseGetJson(defaultParameters);
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: null. PlayerId: 0.\"}", response.asString());
+        assertEquals("{\"error\": \"Wrong input parameters. CardName: king. CardColor: null. PlayerId: 0.\"}", response.asString());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PossibleSquaresRestTest extends RestTest {
         defaultParameters.put("player_id", "dorothy");
         Response response = getReponseGetJson(defaultParameters);
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: red. PlayerId: dorothy.\"}", response.asString());
+        assertEquals("{\"error\": \"Wrong input parameters. CardName: king. CardColor: red. PlayerId: dorothy.\"}", response.asString());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class PossibleSquaresRestTest extends RestTest {
         defaultParameters.remove("player_id");
         Response response = getReponseGetJson(defaultParameters);
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\": \"Wrong input parameters. Cardrname: king. CardColor: red. PlayerId: null.\"}", response.asString());
+        assertEquals("{\"error\": \"Wrong input parameters. CardName: king. CardColor: red. PlayerId: null.\"}", response.asString());
     }
 
 }
