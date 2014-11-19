@@ -57,8 +57,7 @@ public class CreateGameRest {
      */
     private void removeEmptyPlayers() {
         List<JsonPlayer> correctedListOfPlayers = new ArrayList<>();
-        for (int i = 0; i < players.size(); i++) {
-            JsonPlayer jsonPlayer = players.get(i);
+        for (JsonPlayer jsonPlayer : players) {
             if (!jsonPlayer.getName().equals("")) {
                 jsonPlayer.setIndex(correctedListOfPlayers.size());
                 correctedListOfPlayers.add(jsonPlayer);
