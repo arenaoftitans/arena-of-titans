@@ -123,17 +123,17 @@ public abstract class PossibleSquaresLister {
         return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
     }
 
-    protected Response getGameFactory(String cardName, String cardColor, String playerId) {
+    protected Response getGameFactoryResponse(String cardName, String cardColor, String playerId) {
         gameFactory = (GameFactory) req.getSession().getAttribute("gameFactory");
         if (gameFactory == null) {
             return buildBadResponse("No match is running");
         }
 
         init();
-        return initAndGetResponse(cardName, cardColor, playerId);
+        return checkParametersAndGetResponse(cardName, cardColor, playerId);
     }
 
-    protected abstract Response initAndGetResponse(String cardName, String cardColor, String playerId);
+    protected abstract Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId);
 
     protected abstract Response getJsonResponse(ArrayList<String> possibleSquaresIds);
 

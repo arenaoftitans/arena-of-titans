@@ -53,11 +53,11 @@ public class PlayRest extends PossibleSquaresLister {
             @QueryParam("y") String y) {
         this.x = x;
         this.y = y;
-        return getGameFactory(cardName, cardColor, playerId);
+        return getGameFactoryResponse(cardName, cardColor, playerId);
     }
 
     @Override
-    protected Response initAndGetResponse(String cardName, String cardColor, String playerId) {
+    protected Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId) {
         if (incorrectInputParemeters(cardName, cardColor, playerId)) {
             String message = String
                     .format("Wrong input parameters. Cardrname: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",

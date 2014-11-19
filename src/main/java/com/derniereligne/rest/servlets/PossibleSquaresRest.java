@@ -38,11 +38,11 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
     public Response getPossibleSquares(@QueryParam("card_name") String cardName,
             @QueryParam("card_color") String cardColor,
             @QueryParam("player_id") String playerId) {
-        return getGameFactory(cardName, cardColor, playerId);
+        return getGameFactoryResponse(cardName, cardColor, playerId);
     }
 
     @Override
-    protected Response initAndGetResponse(String cardName, String cardColor, String playerId) {
+    protected Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId) {
         if (areInputParemetersIncorrect(cardName, cardColor, playerId)) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
