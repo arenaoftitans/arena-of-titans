@@ -66,7 +66,7 @@ public abstract class PossibleSquaresLister {
      * Init the object's attributes.
      */
     protected void init() {
-        gameFactory = new GameFactory();
+        match = gameFactory.getMatch();
         board = gameFactory.getBoard();
         deck = gameFactory.getDeck();
     }
@@ -122,6 +122,18 @@ public abstract class PossibleSquaresLister {
     protected Response buildBadResponse(String message) {
         return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
     }
+
+    protected Response getGameFactory(String cardName, String cardColor, String playerId) {
+        gameFactory = (GameFactory) req.getSession().getAttribute("gameFactory");
+        if (gameFactory == null) {
+            return buildBadResponse("No match is running");
+        }
+
+        init();
+        return initAndGetResponse(cardName, cardColor, playerId);
+    }
+
+    protected abstract Response initAndGetResponse(String cardName, String cardColor, String playerId);
 
     protected abstract Response getJsonResponse(ArrayList<String> possibleSquaresIds);
 

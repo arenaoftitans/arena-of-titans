@@ -220,11 +220,9 @@ public class GameFactory {
      *
      * @since 1.0
      */
-    public Match getMatch(List<JsonPlayer> jsonPlayers) {
-        if (match == null) {
-            List<Player> players = getPlayers(jsonPlayers);
-            match = new Match(players, getBoard());
-        }
+    public Match createNewMatch(List<JsonPlayer> jsonPlayers) {
+        List<Player> players = getPlayers(jsonPlayers);
+        match = new Match(players, getBoard());
 
         return match;
     }
@@ -232,11 +230,9 @@ public class GameFactory {
     /**
      * <b>Returns a list of players from a list of jsonPlayers.</b>
      *
-     * @param jsonPlayers
-     *          List to convert into players.
+     * @param jsonPlayers List to convert into players.
      *
-     * @return
-     *          List converted in players.
+     * @return List converted in players.
      *
      * @see JsonPlayer
      * @see JsonPlayer#getName()
@@ -249,6 +245,10 @@ public class GameFactory {
         return jsonPlayers.parallelStream()
                 .map(jsplayer -> new Player(jsplayer.getName(), jsplayer.getIndex()))
                 .collect(Collectors.toList());
+    }
+
+    public Match getMatch() {
+        return match;
     }
 
 }

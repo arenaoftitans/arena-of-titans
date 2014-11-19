@@ -1,6 +1,6 @@
 package com.derniereligne.rest.servlets;
 
-import com.derniereligne.engine.Match;
+import com.derniereligne.engine.GameFactory;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,19 +38,17 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
     public Response getPossibleSquares(@QueryParam("card_name") String cardName,
             @QueryParam("card_color") String cardColor,
             @QueryParam("player_id") String playerId) {
-        match = (Match) req.getSession().getAttribute("match");
-        if (match == null) {
-            return buildBadResponse("No match is running");
-        }
+        return getGameFactory(cardName, cardColor, playerId);
+    }
 
+    @Override
+    protected Response initAndGetResponse(String cardName, String cardColor, String playerId) {
         if (areInputParemetersIncorrect(cardName, cardColor, playerId)) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
                             cardName, cardColor, playerId);
             return buildBadResponse(message);
         }
-
-        init();
 
         return getResponse(cardName, cardColor);
     }

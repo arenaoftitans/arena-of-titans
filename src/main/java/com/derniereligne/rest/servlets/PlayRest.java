@@ -51,37 +51,29 @@ public class PlayRest extends PossibleSquaresLister {
             @QueryParam("player_id") String playerId,
             @QueryParam("x") String x,
             @QueryParam("y") String y) {
-        match = (Match) req.getSession().getAttribute("match");
-        if (match == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("{\"error\": \"No match is running\"}")
-                    .build();
-        }
+        this.x = x;
+        this.y = y;
+        return getGameFactory(cardName, cardColor, playerId);
+    }
 
-        if (incorrectInputParemeters(cardName, cardColor, playerId, x, y)) {
+    @Override
+    protected Response initAndGetResponse(String cardName, String cardColor, String playerId) {
+        if (incorrectInputParemeters(cardName, cardColor, playerId)) {
             String message = String
                     .format("Wrong input parameters. Cardrname: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
                             cardName, cardColor, playerId, x, y);
             return buildBadResponse(message);
         }
 
-        init(x, y);
-
         return getResponse(cardName, cardColor);
     }
 
-    protected boolean incorrectInputParemeters(String cardName, String cardColor, String playerId, String x, String y) {
-        return areInputParemetersIncorrect(cardName, cardColor, playerId) || incorrectCoordinates(x, y);
+    protected boolean incorrectInputParemeters(String cardName, String cardColor, String playerId) {
+        return areInputParemetersIncorrect(cardName, cardColor, playerId) || incorrectCoordinates();
     }
 
-    protected boolean incorrectCoordinates(String x, String y) {
+    protected boolean incorrectCoordinates() {
         return x == null || y == null;
-    }
-
-    protected void init(String x, String y) {
-        init();
-        this.x = x;
-        this.y = y;
     }
 
     /**

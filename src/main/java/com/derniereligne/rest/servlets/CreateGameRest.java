@@ -45,8 +45,8 @@ public class CreateGameRest {
         }
 
         GameFactory gameFactory = new GameFactory();
-        Match match = gameFactory.getMatch(players);
-        req.getSession().setAttribute("match", match);
+        gameFactory.createNewMatch(players);
+        req.getSession().setAttribute("gameFactory", gameFactory);
 
         String output = gson.toJson(players);
         return Response.status(Response.Status.OK).entity(output).build();
