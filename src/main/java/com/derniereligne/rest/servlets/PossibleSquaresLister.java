@@ -7,8 +7,9 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -23,43 +24,61 @@ import javax.ws.rs.core.Response.Status;
  */
 public abstract class PossibleSquaresLister {
 
+    /**
+     * Static attribute used to create response with status code 400.
+     */
     protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Status.BAD_REQUEST);
-    protected Match match;
+    /**
+     * The map of all parameters passed in the URL.
+     */
+    protected Map<String, String> parameters;
+    /**
+     * The GameFactory of the current game.
+     */
     protected GameFactory gameFactory;
+    /**
+     * The Match the user is playing.
+     */
+    protected Match match;
+    /**
+     * The Board he is playing on.
+     */
     protected Board board;
+    /**
+     * His deck of cards.
+     */
     protected Deck deck;
 
+    /**
+     * The request done to the servlet.
+     */
     @Context
-    ServletContext context;
-    @Context
-    HttpServletRequest req;
+    HttpServletRequest request;
+
+    public PossibleSquaresLister() {
+        parameters = new HashMap<>();
+    }
 
     /**
      * Checks that the parameters are all their (ie not null).
      *
-     * @param cardName The name of the card.
-     *
-     * @param cardColor The color of the card.
-     *
-     * @param playerId The id of the player.
-     *
      * @return True if all the parameters are present.
      */
-    protected boolean areInputParemetersIncorrect(String cardName, String cardColor, String playerId) {
-        return cardName == null || cardColor == null || playerId == null
-                || isPlayerIdIncorrect(playerId);
+    protected boolean areInputParemetersIncorrect() {
+        return parameters.get("card_name") == null
+                || parameters.get("card_color") == null
+                || parameters.get("player_id") == null
+                || isPlayerIdIncorrect();
     }
 
     /**
      * Return true if it is playerId's turn.
      *
-     * @param playerId
-     *
      * @return true if it is playerId's turn, false otherwise.
      */
-    protected boolean isPlayerIdIncorrect(String playerId) {
+    protected boolean isPlayerIdIncorrect() {
         String currentPlayerId = Integer.toString(match.getActivePlayerIndex());
-        return !playerId.equals(currentPlayerId);
+        return !parameters.get("player_id").equals(currentPlayerId);
     }
 
     /**
@@ -74,13 +93,11 @@ public abstract class PossibleSquaresLister {
     /**
      * Return the proper answer to the request, ie the JSON answer or a BAD_REQUEST.
      *
-     * @param cardName The name of the card.
-     *
-     * @param cardColor The color of the card.
-     *
      * @return A JSON or BAD_REQUEST.
      */
-    protected Response getResponse(String cardName, String cardColor) {
+    protected Response getResponse() {
+        String cardName = parameters.get("card_name");
+        String cardColor = parameters.get("card_color");
         Square currentSquare = match.getActivePlayerCurrentSquare();
         if (currentSquare == null) {
             String message = "Cannot get active player's current square.";
@@ -103,10 +120,6 @@ public abstract class PossibleSquaresLister {
     /**
      * Returns the list of the ids of the possible squares.
      *
-     * @param playableCard The card the player wants to play.
-     *
-     * @param currentSquare The current square of the player.
-     *
      * @return Returns the list of the ids of the possible squares.
      */
     protected ArrayList<String> getPossibleSquaresIds(MovementsCard playableCard, Square currentSquare) {
@@ -119,22 +132,43 @@ public abstract class PossibleSquaresLister {
         return possibleSquaresIds;
     }
 
+    /**
+     * Create the bad Response object based on a message.
+     * @param message The message to send to the client.
+     * @return A JSON object containing the error message.
+     */
     protected Response buildBadResponse(String message) {
         return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
     }
 
-    protected Response getGameFactoryResponse(String cardName, String cardColor, String playerId) {
-        gameFactory = (GameFactory) req.getSession().getAttribute("gameFactory");
+    /**
+     * Get the GameFactory from the session and then continue with parameters check.
+     * @return
+     */
+    protected Response getGameFactoryResponse() {
+        gameFactory = (GameFactory) request.getSession().getAttribute("gameFactory");
         if (gameFactory == null) {
             return buildBadResponse("No match is running");
         }
 
         init();
-        return checkParametersAndGetResponse(cardName, cardColor, playerId);
+        return checkParametersAndGetResponse();
     }
 
-    protected abstract Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId);
+    /**
+     * Check that the passed parameters are consistent and returns a Response (400 if there is a
+     * problem) or goes on.
+     *
+     * @return A Response object.
+     */
+    protected abstract Response checkParametersAndGetResponse();
 
+    /**
+     * Format the JSON response from the list of all possible squares.
+     *
+     * @param possibleSquaresIds
+     * @return A response object.
+     */
     protected abstract Response getJsonResponse(ArrayList<String> possibleSquaresIds);
 
 }

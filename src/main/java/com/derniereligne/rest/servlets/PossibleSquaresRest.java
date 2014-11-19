@@ -1,6 +1,5 @@
 package com.derniereligne.rest.servlets;
 
-import com.derniereligne.engine.GameFactory;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,26 +37,26 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
     public Response getPossibleSquares(@QueryParam("card_name") String cardName,
             @QueryParam("card_color") String cardColor,
             @QueryParam("player_id") String playerId) {
-        return getGameFactoryResponse(cardName, cardColor, playerId);
+        parameters.put("card_name", cardName);
+        parameters.put("card_color", cardColor);
+        parameters.put("player_id", playerId);
+        return getGameFactoryResponse();
     }
 
     @Override
-    protected Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId) {
-        if (areInputParemetersIncorrect(cardName, cardColor, playerId)) {
+    protected Response checkParametersAndGetResponse() {
+        if (areInputParemetersIncorrect()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
-                            cardName, cardColor, playerId);
+                            parameters.get("card_name"),
+                            parameters.get("card_color"),
+                            parameters.get("player_id"));
             return buildBadResponse(message);
         }
 
-        return getResponse(cardName, cardColor);
+        return getResponse();
     }
 
-    /**
-     *
-     * @param possibleSquaresIds
-     * @return
-     */
     @Override
     protected Response getJsonResponse(ArrayList<String> possibleSquaresIds) {
         Gson gson = new Gson();

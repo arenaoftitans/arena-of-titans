@@ -1,6 +1,5 @@
 package com.derniereligne.rest.servlets;
 
-import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import javax.ws.rs.GET;
@@ -19,15 +18,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("/play")
 public class PlayRest extends PossibleSquaresLister {
-
-    /**
-     * x coordinate of the selected square.
-     */
-    private String x;
-    /**
-     * y coordinate of the selected square.
-     */
-    private String y;
 
     /**
      * The servlet GET method.
@@ -51,38 +41,52 @@ public class PlayRest extends PossibleSquaresLister {
             @QueryParam("player_id") String playerId,
             @QueryParam("x") String x,
             @QueryParam("y") String y) {
-        this.x = x;
-        this.y = y;
-        return getGameFactoryResponse(cardName, cardColor, playerId);
+        parameters.put("card_name", cardName);
+        parameters.put("card_color", cardColor);
+        parameters.put("player_id", playerId);
+        parameters.put("x", x);
+        parameters.put("y", y);
+        return getGameFactoryResponse();
     }
 
     @Override
-    protected Response checkParametersAndGetResponse(String cardName, String cardColor, String playerId) {
-        if (incorrectInputParemeters(cardName, cardColor, playerId)) {
+    protected Response checkParametersAndGetResponse() {
+        if (incorrectInputParemeters()) {
             String message = String
-                    .format("Wrong input parameters. Cardrname: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
-                            cardName, cardColor, playerId, x, y);
+                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
+                            parameters.get("card_name"),
+                            parameters.get("card_color"),
+                            parameters.get("player_id"),
+                            parameters.get("x"),
+                            parameters.get("y"));
             return buildBadResponse(message);
         }
 
-        return getResponse(cardName, cardColor);
-    }
-
-    protected boolean incorrectInputParemeters(String cardName, String cardColor, String playerId) {
-        return areInputParemetersIncorrect(cardName, cardColor, playerId) || incorrectCoordinates();
-    }
-
-    protected boolean incorrectCoordinates() {
-        return x == null || y == null;
+        return getResponse();
     }
 
     /**
+     * Return true if the input parameters are incorrect.
      *
-     * @param possibleSquaresIds
-     * @return
+     * @return true or false.
      */
+    protected boolean incorrectInputParemeters() {
+        return areInputParemetersIncorrect() || incorrectCoordinates();
+    }
+
+    /**
+     * Return true if one of the coordinates passed as parameters is null.
+     *
+     * @return true or false.
+     */
+    protected boolean incorrectCoordinates() {
+        return parameters.get("x") == null || parameters.get("y") == null;
+    }
+
     @Override
     protected Response getJsonResponse(ArrayList<String> possibleSquaresIds) {
+        String x = parameters.get("x");
+        String y = parameters.get("y");
         String selectedSquareId = String.format("#%s-%s", x, y);
         if (!possibleSquaresIds.contains(selectedSquareId)) {
             String message = "Invalid square.";
