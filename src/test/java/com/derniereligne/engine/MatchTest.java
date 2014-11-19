@@ -110,10 +110,11 @@ public class MatchTest {
 
     @Test
     public void testGetPossibleMovementsFirstMoveFirstPlayer() {
-        MovementsCard card = new LineAndDiagonalMovementsCard(board, null, 1, Color.RED);
+        MovementsCard card = new LineAndDiagonalMovementsCard(board, null, 2, Color.RED);
         Set<Square> possibleMovements = card.getPossibleMovements(match.getActivePlayerCurrentSquare());
         Set<Square> expResult = new HashSet<>();
         expResult.add(new Square(0, 7, Color.RED));
+        expResult.add(new Square(1, 6, Color.RED));
 
         assertEquals(expResult, possibleMovements);
     }
