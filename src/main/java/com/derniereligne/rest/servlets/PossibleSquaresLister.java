@@ -9,7 +9,6 @@ import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -119,24 +118,9 @@ public abstract class PossibleSquaresLister {
             return buildBadResponse(message);
         }
 
-        ArrayList<String> possibleSquaresIds = getPossibleSquaresIds(playableCard, currentSquare);
+        ArrayList<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
 
         return getJsonResponse(possibleSquaresIds);
-    }
-
-    /**
-     * Returns the list of the ids of the possible squares.
-     *
-     * @return Returns the list of the ids of the possible squares.
-     */
-    protected ArrayList<String> getPossibleSquaresIds(MovementsCard playableCard, Square currentSquare) {
-        Set<Square> possibleSquares = playableCard.getPossibleMovements(currentSquare);
-        ArrayList<String> possibleSquaresIds = new ArrayList<>();
-        for (Square square : possibleSquares) {
-            possibleSquaresIds.add(square.getCssId());
-        }
-
-        return possibleSquaresIds;
     }
 
     /**

@@ -22,8 +22,8 @@ public abstract class MovementsCardTest {
     protected static MovementsCard instance;
     protected static Color cardColor;
     protected Square currentSquare;
-    protected Set<Square> expResult;
-    protected Set<Square> result;
+    protected Set<String> expResult;
+    protected Set<String> result;
 
     @BeforeClass
     public static void initBoard() {

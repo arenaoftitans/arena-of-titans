@@ -6,11 +6,9 @@
 package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
-import com.derniereligne.engine.board.Square;
 import static com.derniereligne.engine.cards.movements.MovementsCardTest.cardColor;
 import java.util.Arrays;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -29,8 +27,8 @@ public class DiagonalMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovements() {
         setCurrentSquare(31, 2);
 
-        expResult.add(new Square(0, 3, Color.BLACK));
-        expResult.add(new Square(1, 2, Color.BLACK));
+        expResult.add("#0-3");
+        expResult.add("#1-2");
 
         test();
     }

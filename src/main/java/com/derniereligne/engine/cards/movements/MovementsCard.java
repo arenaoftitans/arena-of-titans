@@ -125,7 +125,7 @@ public abstract class MovementsCard {
      *
      * @return Set The set of all possible squares for this move.
      */
-    public abstract Set<Square> getPossibleMovements(Square currentSquare);
+    public abstract Set<String> getPossibleMovements(Square currentSquare);
 
     /**
      * <b>Returns the Set of all possible squares if we move in lines.</b>
@@ -134,7 +134,7 @@ public abstract class MovementsCard {
      *
      * @return Set The set of all possible squares for this move.
      */
-    protected Set<Square> getLineMovements(Square square) {
+    protected Set<String> getLineMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
     }
 
@@ -147,8 +147,8 @@ public abstract class MovementsCard {
      *
      * @return Set The Set of possible squares (on which we can move).
      */
-    private Set<Square> getPossibleMovements(Square currentSquare, int numberMovements) {
-        Set<Square> movements = new HashSet<>();
+    private Set<String> getPossibleMovements(Square currentSquare, int numberMovements) {
+        Set<String> movements = new HashSet<>();
         if (numberMovements > 0) {
             Set<Square> probableSquares = probableSquaresGetter.get(currentSquare);
             movements.addAll(getNextPossibleSquares(probableSquares, numberMovements));
@@ -168,8 +168,8 @@ public abstract class MovementsCard {
      *
      * @return The set of all possible squares.
      */
-    private Set<Square> getNextPossibleSquares(Set<Square> probableSquares, int numberMovements) {
-        Set<Square> movements = new HashSet<>();
+    private Set<String> getNextPossibleSquares(Set<Square> probableSquares, int numberMovements) {
+        Set<String> movements = new HashSet<>();
 
         for (Square square : probableSquares) {
             if (square != null) {
@@ -188,9 +188,9 @@ public abstract class MovementsCard {
      *
      * @param square The square to check.
      */
-    protected void addSquareIfEmpty(Set movements, Square square) {
+    protected void addSquareIfEmpty(Set<String> movements, Square square) {
         if (!square.isOccupied()) {
-            movements.add(square);
+            movements.add(square.getCssId());
         }
     }
 
@@ -200,7 +200,7 @@ public abstract class MovementsCard {
      * @param square
      * @return Set
      */
-    protected Set<Square> getDiagonalMovements(Square square) {
+    protected Set<String> getDiagonalMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
     }
 
@@ -210,7 +210,7 @@ public abstract class MovementsCard {
      * @param square
      * @return Set
      */
-    protected Set<Square> getLineAndDiagonalMovements(Square square) {
+    protected Set<String> getLineAndDiagonalMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
     }
 

@@ -9,7 +9,6 @@ import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import static com.derniereligne.engine.cards.movements.MovementsCardTest.cardColor;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -28,7 +27,7 @@ public class LineAndDiagonalMovementsCardTest extends MovementsCardTest {
         // The default instance has 2 moves.
         instance = new LineAndDiagonalMovementsCard(board, null, 1, cardColor);
         setCurrentSquare(0, 8);
-        expResult.add(new Square(0, 7, cardColor));
+        expResult.add("#0-7");
 
         test();
     }
@@ -37,8 +36,8 @@ public class LineAndDiagonalMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsTwoMoves() {
         setCurrentSquare(0, 8);
 
-        expResult.add(new Square(0, 7, cardColor));
-        expResult.add(new Square(1, 6, cardColor));
+        expResult.add("#0-7");
+        expResult.add("#1-6");
 
         test();
     }
@@ -54,10 +53,10 @@ public class LineAndDiagonalMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsMiddleArm() {
         setCurrentSquare(1, 6);
 
-        expResult.add(new Square(0, 7, cardColor));
-        expResult.add(new Square(0, 8, cardColor));
-        expResult.add(new Square(2, 5, cardColor));
-        expResult.add(new Square(3, 4, cardColor));
+        expResult.add("#0-7");
+        expResult.add("#0-8");
+        expResult.add("#2-5");
+        expResult.add("#3-4");
 
         test();
     }
