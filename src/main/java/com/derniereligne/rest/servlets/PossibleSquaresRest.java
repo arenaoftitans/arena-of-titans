@@ -34,12 +34,12 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPossibleSquares(@QueryParam("card_name") String cardName,
-            @QueryParam("card_color") String cardColor,
-            @QueryParam("player_id") String playerId) {
-        parameters.put("card_name", cardName);
-        parameters.put("card_color", cardColor);
-        parameters.put("player_id", playerId);
+    public Response getPossibleSquares(@QueryParam(CARD_NAME) String cardName,
+            @QueryParam(CARD_COLOR) String cardColor,
+            @QueryParam(PLAYER_ID) String playerId) {
+        parameters.put(CARD_NAME, cardName);
+        parameters.put(CARD_COLOR, cardColor);
+        parameters.put(PLAYER_ID, playerId);
         return getGameFactoryResponse();
     }
 
@@ -48,9 +48,9 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
         if (areInputParemetersIncorrect()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
-                            parameters.get("card_name"),
-                            parameters.get("card_color"),
-                            parameters.get("player_id"));
+                            parameters.get(CARD_NAME),
+                            parameters.get(CARD_COLOR),
+                            parameters.get(PLAYER_ID));
             return buildBadResponse(message);
         }
 

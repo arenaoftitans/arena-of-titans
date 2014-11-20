@@ -36,16 +36,16 @@ public class PlayRest extends PossibleSquaresLister {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response play(@QueryParam("card_name") String cardName,
-            @QueryParam("card_color") String cardColor,
-            @QueryParam("player_id") String playerId,
-            @QueryParam("x") String x,
-            @QueryParam("y") String y) {
-        parameters.put("card_name", cardName);
-        parameters.put("card_color", cardColor);
-        parameters.put("player_id", playerId);
-        parameters.put("x", x);
-        parameters.put("y", y);
+    public Response play(@QueryParam(CARD_NAME) String cardName,
+            @QueryParam(CARD_COLOR) String cardColor,
+            @QueryParam(PLAYER_ID) String playerId,
+            @QueryParam(X_COORD) String x,
+            @QueryParam(Y_COORD) String y) {
+        parameters.put(CARD_NAME, cardName);
+        parameters.put(CARD_COLOR, cardColor);
+        parameters.put(PLAYER_ID, playerId);
+        parameters.put(X_COORD, x);
+        parameters.put(Y_COORD, y);
         return getGameFactoryResponse();
     }
 
@@ -54,11 +54,11 @@ public class PlayRest extends PossibleSquaresLister {
         if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
-                            parameters.get("card_name"),
-                            parameters.get("card_color"),
-                            parameters.get("player_id"),
-                            parameters.get("x"),
-                            parameters.get("y"));
+                            parameters.get(CARD_NAME),
+                            parameters.get(CARD_COLOR),
+                            parameters.get(PLAYER_ID),
+                            parameters.get(X_COORD),
+                            parameters.get(Y_COORD));
             return buildBadResponse(message);
         }
 
@@ -80,13 +80,13 @@ public class PlayRest extends PossibleSquaresLister {
      * @return true or false.
      */
     protected boolean incorrectCoordinates() {
-        return parameters.get("x") == null || parameters.get("y") == null;
+        return parameters.get(X_COORD) == null || parameters.get(Y_COORD) == null;
     }
 
     @Override
     protected Response getJsonResponse(ArrayList<String> possibleSquaresIds) {
-        String x = parameters.get("x");
-        String y = parameters.get("y");
+        String x = parameters.get(X_COORD);
+        String y = parameters.get(Y_COORD);
         String selectedSquareId = String.format("#%s-%s", x, y);
         if (!possibleSquaresIds.contains(selectedSquareId)) {
             String message = "Invalid square.";

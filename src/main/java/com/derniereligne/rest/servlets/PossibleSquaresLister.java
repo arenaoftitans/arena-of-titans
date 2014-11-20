@@ -28,6 +28,13 @@ public abstract class PossibleSquaresLister {
      * Static attribute used to create response with status code 400.
      */
     protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Status.BAD_REQUEST);
+    protected static final String CARD_NAME = "card_name";
+    protected static final String CARD_COLOR = "card_color";
+    protected static final String PLAYER_ID = "player_id";
+    protected static final String X_COORD = "x";
+    protected static final String Y_COORD = "y";
+
+
     /**
      * The map of all parameters passed in the URL.
      */
@@ -65,9 +72,9 @@ public abstract class PossibleSquaresLister {
      * @return True if all the parameters are present.
      */
     protected boolean areInputParemetersIncorrect() {
-        return parameters.get("card_name") == null
-                || parameters.get("card_color") == null
-                || parameters.get("player_id") == null
+        return parameters.get(CARD_NAME) == null
+                || parameters.get(CARD_COLOR) == null
+                || parameters.get(PLAYER_ID) == null
                 || isPlayerIdIncorrect();
     }
 
@@ -78,7 +85,7 @@ public abstract class PossibleSquaresLister {
      */
     protected boolean isPlayerIdIncorrect() {
         String currentPlayerId = Integer.toString(match.getActivePlayerIndex());
-        return !parameters.get("player_id").equals(currentPlayerId);
+        return !parameters.get(PLAYER_ID).equals(currentPlayerId);
     }
 
     /**
@@ -96,8 +103,8 @@ public abstract class PossibleSquaresLister {
      * @return A JSON or BAD_REQUEST.
      */
     protected Response getResponse() {
-        String cardName = parameters.get("card_name");
-        String cardColor = parameters.get("card_color");
+        String cardName = parameters.get(CARD_NAME);
+        String cardColor = parameters.get(CARD_COLOR);
         Square currentSquare = match.getActivePlayerCurrentSquare();
         if (currentSquare == null) {
             String message = "Cannot get active player's current square.";
