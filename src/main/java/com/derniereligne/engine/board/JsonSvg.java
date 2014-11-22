@@ -1,9 +1,7 @@
 package com.derniereligne.engine.board;
 
-import com.derniereligne.engine.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Used by gson to represent a specific board from JSON to SVG.
@@ -16,8 +14,8 @@ public class JsonSvg {
 
     private String rotationCenter;
     private String fillOrigin;
-    private HashMap<String, String> fill;
-    private List<List<HashMap<String, String>>> lines;
+    private Map<String, String> fill;
+    private List<List<Map<String, String>>> lines;
 
     public String getRotationCenter() {
         return rotationCenter;
@@ -27,11 +25,11 @@ public class JsonSvg {
         return fillOrigin;
     }
 
-    public HashMap<String, String> getFill() {
+    public Map<String, String> getFill() {
         return fill;
     }
 
-    public List<List<HashMap<String, String>>> getLines() {
+    public List<List<Map<String, String>>> getLines() {
         return lines;
     }
 

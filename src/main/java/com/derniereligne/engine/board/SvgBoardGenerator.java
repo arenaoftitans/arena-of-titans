@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Document;
@@ -28,7 +28,7 @@ import org.jdom2.xpath.XPathFactory;
  *
  * @author jenselme
  */
-public class SvgBoardGenerator {
+public final class SvgBoardGenerator {
 
     /**
      * The XML namespace for XPath.
@@ -106,7 +106,7 @@ public class SvgBoardGenerator {
     /**
      * The description of the element used to fill the board.
      */
-    private final HashMap<String, String> fill;
+    private final Map<String, String> fill;
     /**
      * The width of the element used to fill the board.
      */
@@ -130,7 +130,7 @@ public class SvgBoardGenerator {
     /**
      * The lines of the element used to create the SVG (and not fill it).
      */
-    private final List<List<HashMap<String, String>>> lines;
+    private final List<List<Map<String, String>>> lines;
 
     /**
      * @param jsonBoard
@@ -280,9 +280,9 @@ public class SvgBoardGenerator {
      */
     private void drawLines() {
         yid = 0;
-        for (List<HashMap<String, String>> line : lines) {
+        for (List<Map<String, String>> line : lines) {
             int xidPlus = 0;
-            for (HashMap<String, String> element : line) {
+            for (Map<String, String> element : line) {
                 Element svgElement = new Element(element.get("tag"), svgNs);
                 svgElement.setAttribute("d", element.get("d"));
                 svgElement.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));

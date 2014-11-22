@@ -1,8 +1,8 @@
 package com.derniereligne.rest.servlets;
 
 import com.google.gson.Gson;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -58,7 +58,7 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
     }
 
     @Override
-    protected Response getJsonResponse(ArrayList<String> possibleSquaresIds) {
+    protected Response getJsonResponse(List<String> possibleSquaresIds) {
         Gson gson = new Gson();
         Collections.sort(possibleSquaresIds);
         String output = gson.toJson(possibleSquaresIds);

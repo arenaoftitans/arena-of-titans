@@ -1,7 +1,7 @@
 package com.derniereligne.rest.servlets;
 
 import com.google.gson.Gson;
-import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -84,7 +84,7 @@ public class PlayRest extends PossibleSquaresLister {
     }
 
     @Override
-    protected Response getJsonResponse(ArrayList<String> possibleSquaresIds) {
+    protected Response getJsonResponse(List<String> possibleSquaresIds) {
         String x = parameters.get(X_COORD);
         String y = parameters.get(Y_COORD);
         String selectedSquareId = String.format("#%s-%s", x, y);
