@@ -13,12 +13,12 @@ import static org.junit.Assert.*;
  *
  * @author jenselme
  */
-public class CreateGameRestTest extends RestTest {
+public class CreateGameRestIT extends RestTest {
 
     private final String twoPlayersCorrectlyCreatedJsonResponse;
     private final String notEngoughPlayersJsonResponse;
 
-    public CreateGameRestTest() {
+    public CreateGameRestIT() {
         requestUrl = "/DerniereLigneGameEngine/rest/createGame";
         twoPlayersCorrectlyCreatedJsonResponse = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"}]";
         notEngoughPlayersJsonResponse = "{\"error_to_display\": \"Not enough players. 2 Players at least are required to start a game\"}";

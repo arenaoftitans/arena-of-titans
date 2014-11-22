@@ -16,7 +16,7 @@ import org.junit.Test;
  *
  * @author jenselme
  */
-public class PossibleSquaresRestTest extends RestTest {
+public class PossibleSquaresRestIT extends RestTest {
 
     private HashMap<String, String> defaultParameters;
 
