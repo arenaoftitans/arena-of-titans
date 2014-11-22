@@ -105,8 +105,9 @@ public class Player {
      * @since 1.0
      */
     public void moveTo(Square square) {
-        if (currentSquare != null)
+        if (currentSquare != null) {
             currentSquare.empty();
+        }
         currentSquare = square;
         currentSquare.setAsOccupied();
     }
@@ -183,8 +184,9 @@ public class Player {
     public Set<Integer> aim() {
         int oppositeIndex = index + 4 * ((index >= 4) ? -1 : 1);
         Set<Integer> toReturn = new HashSet<>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++) {
             toReturn.add(4 * oppositeIndex + i);
+        }
         return toReturn;
     }
 
