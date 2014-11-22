@@ -32,7 +32,7 @@ public class GameFactory {
     /**
      * The name of the JSON file.
      */
-    private final static String jsonFileName = "games.json";
+    private final static String JSON_FILENAME = "games.json";
     /**
      * The name of the board.
      */
@@ -93,7 +93,7 @@ public class GameFactory {
     public GameFactory(String boardName) {
         this.boardName = boardName;
         try {
-            URI resource = getClass().getResource(jsonFileName).toURI();
+            URI resource = getClass().getResource(JSON_FILENAME).toURI();
             String jsonString = FileUtils.readFileToString(new File(resource));
 
             Gson gson = new Gson();

@@ -33,36 +33,36 @@ public final class SvgBoardGenerator {
     /**
      * The XML namespace for XPath.
      */
-    private static final Namespace ns = Namespace.getNamespace("ns", "http://www.w3.org/2000/svg");
+    private static final Namespace NS = Namespace.getNamespace("ns", "http://www.w3.org/2000/svg");
     /**
      * The XML namespace the the elements we add.
      */
-    private static final Namespace svgNs = Namespace.getNamespace("http://www.w3.org/2000/svg");
+    private static final Namespace SVG_NS = Namespace.getNamespace("http://www.w3.org/2000/svg");
     /**
      * The common XPathFactory to create XPathExpression.
      */
-    private static final XPathFactory xPathFactory = XPathFactory.instance();
+    private static final XPathFactory X_PATH_FACTORY = XPathFactory.instance();
     /**
      * The folder in which we must save the SVGs.
      */
-    private static final String svgFilePath = "src/main/webapp/WEB-INF/svg/";
+    private static final String SVG_FILENAME_PATH = "src/main/webapp/WEB-INF/svg/";
+    /**
+     * The name of the SVG template file.
+     */
+    private final static String TEMPLATE_NAME = "template.svg";
+    /**
+     * The name of the SVG layer that will contain the board.
+     */
+    private final static String BOARD_LAYER_ID = "boardLayer";
+    /**
+     * The name of the board (used to save it in the correct file).
+     */
+    private final String boardName;
     /**
      * The file in which the board is saved. This file is used as a cache to avoid regenerating the
      * board if it already exits.
      */
     private final String svgFileName;
-    /**
-     * The name of the SVG template file.
-     */
-    private final static String templateName = "template.svg";
-    /**
-     * The name of the SVG layer that will contain the board.
-     */
-    private final static String boardLayerId = "boardLayer";
-    /**
-     * The name of the board (used to save it in the correct file).
-     */
-    private final String boardName;
     /**
      * The SVG document object.
      */
@@ -133,16 +133,14 @@ public final class SvgBoardGenerator {
     private final List<List<Map<String, String>>> lines;
 
     /**
-     * @param jsonBoard
-     *        The JSON description of the board.
+     * @param jsonBoard The JSON description of the board.
      *
-     * @param boardName
-     *        The name of the board being generated.
+     * @param boardName The name of the board being generated.
      */
     public SvgBoardGenerator(JsonBoard jsonBoard, String boardName) {
         JsonSvg jsonSvg = jsonBoard.getJsonSvg();
         this.boardName = boardName;
-        svgFileName = svgFilePath + boardName + ".svg";
+        svgFileName = SVG_FILENAME_PATH + boardName + ".svg";
         xid = 0;
         yid = 0;
         numberOfArms = jsonBoard.getNumberArms();
@@ -206,11 +204,11 @@ public final class SvgBoardGenerator {
      */
     private void loadTemplate() {
         try {
-            InputStream templatePath = getClass().getResourceAsStream(templateName);
+            InputStream templatePath = getClass().getResourceAsStream(TEMPLATE_NAME);
             SAXBuilder builder = new SAXBuilder();
             document = builder.build(templatePath);
             Element root = document.getRootElement();
-            layer = root.getChild("g", ns);
+            layer = root.getChild("g", NS);
         } catch (IOException | JDOMException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -220,14 +218,13 @@ public final class SvgBoardGenerator {
      * Generate all the board as described in the class attributes. The board is only generated if
      * it is not found in the cache.
      *
-     * @return
-     *        The SVG as a String.
+     * @return The SVG as a String.
      */
     public String generateSvgBoard() {
         File svgFile = new File(svgFileName);
         if (svgFile.exists()) {
             return toString();
-        }  else {
+        } else {
             return regenerateSvgBoard();
         }
     }
@@ -235,8 +232,7 @@ public final class SvgBoardGenerator {
     /**
      * Force the generation of the svg file.
      *
-     * @return
-     *        The SVG as a String.
+     * @return The SVG as a String.
      */
     public String regenerateSvgBoard() {
         for (int i = 0; i < numberOfArms; i++) {
@@ -283,7 +279,7 @@ public final class SvgBoardGenerator {
         for (List<Map<String, String>> line : lines) {
             int xidPlus = 0;
             for (Map<String, String> element : line) {
-                Element svgElement = new Element(element.get("tag"), svgNs);
+                Element svgElement = new Element(element.get("tag"), SVG_NS);
                 svgElement.setAttribute("d", element.get("d"));
                 svgElement.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
                 layer.addContent(svgElement);
@@ -301,7 +297,7 @@ public final class SvgBoardGenerator {
         for (int i = 0; i < armsWidth; i++) {
             yid = lines.size();
             for (int j = 0; j < armsLength; j++) {
-                Element element = new Element(filledElementTag, svgNs);
+                Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
                 element.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
                 element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
@@ -326,7 +322,7 @@ public final class SvgBoardGenerator {
             List<Color> line = colorDisposition.get(y);
             for (int x = 0; x < line.size(); x++) {
                 String expression = String.format(".//*[@id=\"%d-%d\"]", x, y);
-                XPathExpression<Element> squaresExpression = xPathFactory.compile(expression, Filters.element(), null, ns);
+                XPathExpression<Element> squaresExpression = X_PATH_FACTORY.compile(expression, Filters.element(), null, NS);
                 List<Element> squares = squaresExpression.evaluate(document);
                 Element square = squares.get(0);
                 Color color = colorDisposition.get(y).get(x);
@@ -355,11 +351,11 @@ public final class SvgBoardGenerator {
     }
 
     public static Namespace getNamespace() {
-        return ns;
+        return NS;
     }
 
     public static Namespace getSvgNamespace() {
-        return svgNs;
+        return SVG_NS;
     }
 
     @Override
