@@ -15,17 +15,15 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleHorizontalSquaresGetter = (Square square) -> {
-        return getPossibleHorizontalSquares(square);
-    };
+    private final ProbableSquaresGetter possibleHorizontalSquaresGetter = (Square square) ->
+        getPossibleHorizontalSquares(square);
     /**
      * Used to get the squares located above and below the given square.
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleVerticalSquaresGetter = (Square square) -> {
-        return getPossibleVerticalSquares(square);
-    };
+    private final ProbableSquaresGetter possibleVerticalSquaresGetter = (Square square) ->
+        getPossibleVerticalSquares(square);
     /**
      * Used to get the temporary squares located at the right the given square.
      *
@@ -33,9 +31,8 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter rightSquareGetter = (Square square) -> {
-        return board.getRightSquare(square);
-    };
+    private final TemporarySquareGetter rightSquareGetter = (Square square) ->
+        board.getRightSquare(square);
     /**
      * Used to get the temporary squares located at the left the given square.
      *
@@ -43,9 +40,8 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter leftSquareGetter = (Square square) -> {
-        return board.getLeftSquare(square);
-    };
+    private final TemporarySquareGetter leftSquareGetter = (Square square) ->
+        board.getLeftSquare(square);
 
     /**
      * <b>Creates a new Rider.</b>

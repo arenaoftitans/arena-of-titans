@@ -103,12 +103,10 @@ public abstract class MovementsCard {
         this.possibleSquaresColor = new HashSet<>();
         this.possibleSquaresColor.add(color);
 
-        lineProbableSquaresGetter = (Square currentSquare) -> {
-            return board.getLineSquares(currentSquare, possibleSquaresColor);
-        };
-        diagonalProbableSquaresGetter = (Square currentSquare) -> {
-            return board.getDiagonalSquares(currentSquare, possibleSquaresColor);
-        };
+        lineProbableSquaresGetter = (Square currentSquare) ->
+            board.getLineSquares(currentSquare, possibleSquaresColor);
+        diagonalProbableSquaresGetter = (Square currentSquare) ->
+            board.getDiagonalSquares(currentSquare, possibleSquaresColor);
         lineAndDiagonalProbableSquaresGetter = (Square currentSquare) -> {
             Set<Square> possibleSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             possibleSquares.addAll(board.getLineSquares(currentSquare, possibleSquaresColor));
