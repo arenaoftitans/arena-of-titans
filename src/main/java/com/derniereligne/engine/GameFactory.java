@@ -48,19 +48,19 @@ public class GameFactory {
     /**
      * The width of the board.
      */
-    private final int WIDTH;
+    private final int width;
     /**
      * The height of the board.
      */
-    private final int HEIGHT;
+    private final int height;
     /**
      * The higher y coordinate of the circle.
      */
-    private final int INNER_CIRCLE_HIGHER_Y;
+    private final int innerCircleHigherY;
     /**
      * The width of the arms.
      */
-    private final int ARMS_WIDTH;
+    private final int armsWidth;
     /**
      * The board as a double array of String.
      */
@@ -103,10 +103,10 @@ public class GameFactory {
             jsonBoard = jsonGame.getBoard();
 
             // Initialize the board.
-            WIDTH = jsonBoard.getWidth();
-            HEIGHT = jsonBoard.getHeight();
-            INNER_CIRCLE_HIGHER_Y = jsonBoard.getInnerCircleHigherY();
-            ARMS_WIDTH = jsonBoard.getArmsWidth();
+            width = jsonBoard.getWidth();
+            height = jsonBoard.getHeight();
+            innerCircleHigherY = jsonBoard.getInnerCircleHigherY();
+            armsWidth = jsonBoard.getArmsWidth();
             svgBoardGenerator = new SvgBoardGenerator(jsonBoard, boardName);
             createBoard();
         } catch (IOException | URISyntaxException ex) {
@@ -122,8 +122,6 @@ public class GameFactory {
      * @return
      */
     private void createBoard() {
-        int height = HEIGHT;
-        int width = WIDTH;
         board = new Square[height][width];
         List<List<Color>> disposition = svgBoardGenerator.getColorDisposition();
 
@@ -153,7 +151,7 @@ public class GameFactory {
      */
     public Board getBoard() {
         if (gameBoard == null) {
-            gameBoard = new Board(WIDTH, HEIGHT, INNER_CIRCLE_HIGHER_Y, ARMS_WIDTH, board);
+            gameBoard = new Board(width, height, innerCircleHigherY, armsWidth, board);
         }
         return gameBoard;
     }

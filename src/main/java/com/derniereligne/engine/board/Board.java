@@ -8,17 +8,17 @@ import java.util.Set;
 //TODO: Width and height contained in the board ?
 public class Board {
 
-    private final int WIDTH;
-    private final int HEIGHT;
+    private final int width;
+    private final int height;
     private final Square[][] board;
-    private final int INNER_CIRCLE_HIGHER_Y;
-    private final int ARMS_WIDTH;
+    private final int innerCircleHigherY;
+    private final int armsWidth;
 
     public Board(int width, int height, int innerCircleHigherY, int armsWidth, Square[][] board) {
-        WIDTH = width;
-        HEIGHT = height;
-        INNER_CIRCLE_HIGHER_Y = innerCircleHigherY;
-        ARMS_WIDTH = armsWidth;
+        this.width = width;
+        this.height = height;
+        this.innerCircleHigherY = innerCircleHigherY;
+        this.armsWidth = armsWidth;
         this.board = board;
     }
 
@@ -48,10 +48,10 @@ public class Board {
      */
     public int correctAbs(int x) {
         while (x <= 0) {
-            x += WIDTH;
+            x += width;
         }
 
-        return x % WIDTH;
+        return x % width;
     }
 
     /**
@@ -106,7 +106,7 @@ public class Board {
      * @return true if x and y are two possible index in the board, false otherwise.
      */
     private boolean isInBoard(int x, int y) {
-        return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public Square getDownSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -152,7 +152,7 @@ public class Board {
      * @return boolean
      */
     private boolean isInArm(Square square) {
-        return square.getY() > INNER_CIRCLE_HIGHER_Y;
+        return square.getY() > innerCircleHigherY;
     }
 
     /**
@@ -162,7 +162,7 @@ public class Board {
      * @return boolean
      */
     private boolean onLeftEdge(Square square) {
-        return square.getX() % ARMS_WIDTH == 0;
+        return square.getX() % armsWidth == 0;
     }
 
     public Square getRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -196,7 +196,7 @@ public class Board {
      * @return boolean
      */
     private boolean onRightEdge(Square square) {
-        return square.getX() % ARMS_WIDTH == ARMS_WIDTH - 1;
+        return square.getX() % armsWidth == armsWidth - 1;
     }
 
     /**
@@ -234,7 +234,7 @@ public class Board {
      * @return boolean
      */
     private boolean onArmEdge(Square square) {
-        return square.getY() == INNER_CIRCLE_HIGHER_Y + 1;
+        return square.getY() == innerCircleHigherY + 1;
     }
 
     private Square getUpRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -264,7 +264,7 @@ public class Board {
      * @return
      */
     private boolean onCircleEdge(Square square) {
-        return square.getY() == INNER_CIRCLE_HIGHER_Y;
+        return square.getY() == innerCircleHigherY;
     }
 
     private Square getDownRightSquare(Square square, Set<Color> possibleSquaresColor) {
@@ -283,10 +283,10 @@ public class Board {
     }
 
     public int getWidth() {
-        return WIDTH;
+        return width;
     }
 
     public int getHeight() {
-        return HEIGHT;
+        return height;
     }
 }
