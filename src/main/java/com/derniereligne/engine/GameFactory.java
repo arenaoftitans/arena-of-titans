@@ -32,7 +32,7 @@ public class GameFactory {
     /**
      * The name of the JSON file.
      */
-    private final static String JSON_FILENAME = "games.json";
+    private static final String JSON_FILENAME = "games.json";
     /**
      * The name of the board.
      */

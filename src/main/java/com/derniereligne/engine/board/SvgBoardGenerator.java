@@ -49,7 +49,7 @@ public final class SvgBoardGenerator {
     /**
      * The name of the SVG template file.
      */
-    private final static String TEMPLATE_NAME = "template.svg";
+    private static final String TEMPLATE_NAME = "template.svg";
     /**
      * The name of the board (used to save it in the correct file).
      */
