@@ -42,6 +42,18 @@ public class BoardTest {
     }
 
     @Test
+    public void testGetSquareInBoard() {
+        Square square = board.getSquare(0, 8);
+
+        assertEquals(new Square(0, 8, Color.RED), square);
+    }
+
+    @Test
+    public void testGetSquareNotInBoard() {
+        assertNull(board.getSquare(-1, 0));
+    }
+
+    @Test
     public void testGetLineSquares() {
         Set<Square> expResult = new HashSet<>();
         expResult.add(board.getSquare(0, 7));
