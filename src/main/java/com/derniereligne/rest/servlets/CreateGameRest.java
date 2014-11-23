@@ -1,16 +1,12 @@
 package com.derniereligne.rest.servlets;
 
 import com.derniereligne.engine.GameFactory;
-import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -58,7 +54,7 @@ public class CreateGameRest {
     private void removeEmptyPlayers() {
         List<JsonPlayer> correctedListOfPlayers = new ArrayList<>();
         for (JsonPlayer jsonPlayer : players) {
-            if (!jsonPlayer.getName().equals("")) {
+            if (!"".equals(jsonPlayer.getName())) {
                 jsonPlayer.setIndex(correctedListOfPlayers.size());
                 correctedListOfPlayers.add(jsonPlayer);
             }

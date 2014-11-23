@@ -257,7 +257,7 @@ public final class SvgBoardGenerator {
             int angle;
             if (element.getAttribute("transform") != null) {
                 String transformation = element.getAttribute("transform").getValue();
-                if (transformation.substring(9, 10).equals(" ")) {
+                if (" ".equals(transformation.substring(9, 10))) {
                     angle = Integer.parseInt(transformation.substring(7, 9));
                 } else {
                     angle = Integer.parseInt(transformation.substring(7, 10));
