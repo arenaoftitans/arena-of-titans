@@ -40,4 +40,11 @@ public class DiagonalMovementsCardTest extends MovementsCardTest {
         test();
     }
 
+    @Test
+    public void testGetPossibleMovementsNoMovement() {
+        instance = new DiagonalMovementsCard(board, null, 1, cardColor);
+        setCurrentSquare(0, 8);
+        test();
+    }
+
 }
