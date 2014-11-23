@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 @Path("/createGame")
 public class CreateGameRest {
 
-    private static final Response BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
     private List<JsonPlayer> players;
 
     @Context

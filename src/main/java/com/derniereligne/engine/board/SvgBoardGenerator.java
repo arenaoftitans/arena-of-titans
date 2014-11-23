@@ -51,10 +51,6 @@ public final class SvgBoardGenerator {
      */
     private final static String TEMPLATE_NAME = "template.svg";
     /**
-     * The name of the SVG layer that will contain the board.
-     */
-    private final static String BOARD_LAYER_ID = "boardLayer";
-    /**
      * The name of the board (used to save it in the correct file).
      */
     private final String boardName;
@@ -140,7 +136,7 @@ public final class SvgBoardGenerator {
     public SvgBoardGenerator(JsonBoard jsonBoard, String boardName) {
         JsonSvg jsonSvg = jsonBoard.getJsonSvg();
         this.boardName = boardName;
-        svgFileName = SVG_FILENAME_PATH + boardName + ".svg";
+        svgFileName = SVG_FILENAME_PATH + this.boardName + ".svg";
         xid = 0;
         yid = 0;
         numberOfArms = jsonBoard.getNumberArms();
