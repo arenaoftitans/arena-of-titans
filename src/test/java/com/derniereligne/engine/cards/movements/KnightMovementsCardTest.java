@@ -25,7 +25,7 @@ public class KnightMovementsCardTest extends MovementsCardTest {
     @Test
     public void testGetPossibleMovementsUpRight() {
         setCurrentSquare(0, 8);
-        expResult.add("#1-6");
+        expResult.add("square-1-6");
         test();
     }
 
@@ -36,23 +36,23 @@ public class KnightMovementsCardTest extends MovementsCardTest {
     @Test
     public void testGetPossibleMovementsUpLeft() {
         setCurrentSquare(3, 7);
-        expResult.add("#2-5");
-        expResult.add("#1-6");
+        expResult.add("square-2-5");
+        expResult.add("square-1-6");
         test();
     }
 
     @Test
     public void testGetPossibleMovementsDownLeft() {
         setCurrentSquare(1, 6);
-        expResult.add("#0-8");
+        expResult.add("square-0-8");
         test();
     }
 
     @Test
     public void testGetPossibleMovementsDownRight() {
         setCurrentSquare(0, 4);
-        expResult.add("#1-6");
-        expResult.add("#2-5");
+        expResult.add("square-1-6");
+        expResult.add("square-2-5");
         test();
     }
 
@@ -60,7 +60,7 @@ public class KnightMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsLeftEdge() {
         setCurrentSquare(0, 6);
         // This square is on the good arm.
-        expResult.add("#2-5");
+        expResult.add("square-2-5");
         test();
     }
 
@@ -68,7 +68,7 @@ public class KnightMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsWithOccupiedTemporarySquare() {
         setCurrentSquare(0, 8);
         board.getSquare(0, 6).setAsOccupied();
-        expResult.add("#1-6");
+        expResult.add("square-1-6");
         test();
     }
 
@@ -76,8 +76,8 @@ public class KnightMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsInCircle() {
         setCurrentSquare(4, 1);
 
-        expResult.add("#6-2");
-        expResult.add("#2-2");
+        expResult.add("square-6-2");
+        expResult.add("square-2-2");
 
         test();
     }

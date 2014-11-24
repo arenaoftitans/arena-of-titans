@@ -87,7 +87,7 @@ public class PlayRest extends PossibleSquaresLister {
     protected Response getJsonResponse(List<String> possibleSquaresIds) {
         String x = parameters.get(X_COORD);
         String y = parameters.get(Y_COORD);
-        String selectedSquareId = String.format("#%s-%s", x, y);
+        String selectedSquareId = String.format("square-%s-%s", x, y);
         if (!possibleSquaresIds.contains(selectedSquareId)) {
             String message = "Invalid square.";
             return buildBadResponse(message);

@@ -35,7 +35,7 @@ public class PossibleSquaresRestIT extends RestTest {
     public void testGetPossibleSquaresBasicMovePlayer0() {
         Response response = getReponseGetJson(defaultParameters);
         assertEquals(200, response.statusCode());
-        assertEquals("[\"#0-7\"]", response.asString());
+        assertEquals("[\"square-0-7\"]", response.asString());
     }
 
     @Test

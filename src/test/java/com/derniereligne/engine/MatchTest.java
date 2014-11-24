@@ -113,8 +113,8 @@ public class MatchTest {
         MovementsCard card = new LineAndDiagonalMovementsCard(board, null, 2, Color.RED);
         Set<String> possibleMovements = card.getPossibleMovements(match.getActivePlayerCurrentSquare());
         Set<String> expResult = new HashSet<>();
-        expResult.add("#0-7");
-        expResult.add("#1-6");
+        expResult.add("square-0-7");
+        expResult.add("square-1-6");
 
         assertEquals(expResult, possibleMovements);
     }

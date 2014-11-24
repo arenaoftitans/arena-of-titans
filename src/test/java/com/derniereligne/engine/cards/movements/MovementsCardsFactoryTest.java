@@ -2,8 +2,6 @@ package com.derniereligne.engine.cards.movements;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.JsonGame;
-import com.derniereligne.engine.board.JsonBoard;
-import com.derniereligne.engine.board.SvgBoardGenerator;
 import com.derniereligne.engine.board.SvgBoardGeneratorTest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

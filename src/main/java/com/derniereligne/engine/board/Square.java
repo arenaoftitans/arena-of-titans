@@ -206,25 +206,7 @@ public class Square {
      * @since 1.0
      */
     public String getId() {
-        return String.format("%s-%s", x, y);
-    }
-
-    /**
-     * <b>Returns the CSS identifier of the board.</b>
-     * <div>
-     *  This identifier will be #x-y.
-     * </div>
-     *
-     * @return String
-     *          The CSS identifier whit a format #x-y
-     *
-     * @see Square#x
-     * @see Square#y
-     *
-     * @since 1.0
-     */
-    public String getCssId() {
-        return String.format("#%s-%s", x, y);
+        return String.format("square-%s-%s", x, y);
     }
 
     /**

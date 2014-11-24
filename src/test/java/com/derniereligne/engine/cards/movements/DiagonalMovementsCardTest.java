@@ -27,8 +27,8 @@ public class DiagonalMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovements() {
         setCurrentSquare(31, 2);
 
-        expResult.add("#0-3");
-        expResult.add("#1-2");
+        expResult.add("square-0-3");
+        expResult.add("square-1-2");
 
         test();
     }

@@ -27,7 +27,7 @@ public class LineMovementsCardTest extends MovementsCardTest {
         instance = new LineMovementsCard(board, null, 1, cardColor);
         setCurrentSquare(0, 8);
 
-        expResult.add("#0-7");
+        expResult.add("square-0-7");
 
         test();
     }
@@ -37,7 +37,7 @@ public class LineMovementsCardTest extends MovementsCardTest {
         instance = new LineMovementsCard(board, null, 2, cardColor);
         setCurrentSquare(0, 8);
 
-        expResult.add("#0-7");
+        expResult.add("square-0-7");
 
         test();
     }
@@ -47,8 +47,8 @@ public class LineMovementsCardTest extends MovementsCardTest {
         instance = new LineMovementsCard(board, null, 1, cardColor);
         setCurrentSquare(2, 1);
 
-        expResult.add("#2-2");
-        expResult.add("#3-1");
+        expResult.add("square-2-2");
+        expResult.add("square-3-1");
 
         test();
     }
@@ -57,10 +57,10 @@ public class LineMovementsCardTest extends MovementsCardTest {
     public void testGetPossibleMovementsOnCircle() {
         setCurrentSquare(2, 1);
 
-        expResult.add("#3-1");
-        expResult.add("#4-1");
-        expResult.add("#5-1");
-        expResult.add("#2-2");
+        expResult.add("square-3-1");
+        expResult.add("square-4-1");
+        expResult.add("square-5-1");
+        expResult.add("square-2-2");
 
         test();
     }
@@ -70,8 +70,8 @@ public class LineMovementsCardTest extends MovementsCardTest {
         setCurrentSquare(0, 8);
         currentSquare.empty();
 
-        expResult.add("#0-7");
-        expResult.add("#0-8"); // This square is empty, so we can move there.
+        expResult.add("square-0-7");
+        expResult.add("square-0-8"); // This square is empty, so we can move there.
 
         test();
     }

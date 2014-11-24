@@ -188,7 +188,7 @@ public abstract class MovementsCard {
      */
     protected void addSquareIfEmpty(Set<String> movements, Square square) {
         if (!square.isOccupied()) {
-            movements.add(square.getCssId());
+            movements.add(square.getId());
         }
     }
 

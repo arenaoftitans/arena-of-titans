@@ -151,7 +151,7 @@ public class KnightMovementsCard extends MovementsCard {
             possibleMovements.addAll(probableSquaresGetter.get(temporarySquare)
                     .parallelStream()
                     .filter(square -> square != null && !square.isOccupied())
-                    .map(square -> square.getCssId())
+                    .map(square -> square.getId())
                     .collect(Collectors.toSet()));
         }
 

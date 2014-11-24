@@ -278,7 +278,7 @@ public final class SvgBoardGenerator {
                 int currentXid = xid + xidPlus;
                 Element svgElement = new Element(element.get("tag"), SVG_NS);
                 svgElement.setAttribute("d", element.get("d"));
-                svgElement.setAttribute("id", String.format("%d-%d", currentXid, yid));
+                svgElement.setAttribute("id", String.format("square-%d-%d", currentXid, yid));
                 setNgClickDirective(svgElement, currentXid, yid);
                 layer.addContent(svgElement);
                 xidPlus++;
@@ -311,7 +311,7 @@ public final class SvgBoardGenerator {
                 int currentXid = xid + xidPlus;
                 Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
-                element.setAttribute("id", String.format("%d-%d", currentXid, yid));
+                element.setAttribute("id", String.format("square-%d-%d", currentXid, yid));
                 element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
                 element.setAttribute("y", Integer.toString(j * filledElementWidth + originY));
                 element.setAttribute("height", Integer.toString(filledElementHeigth));
@@ -334,7 +334,7 @@ public final class SvgBoardGenerator {
         for (int y = 0; y < colorDisposition.size(); y++) {
             List<Color> line = colorDisposition.get(y);
             for (int x = 0; x < line.size(); x++) {
-                String expression = String.format(".//*[@id=\"%d-%d\"]", x, y);
+                String expression = String.format(".//*[@id=\"square-%d-%d\"]", x, y);
                 XPathExpression<Element> squaresExpression = X_PATH_FACTORY.compile(expression, Filters.element(), null, NS);
                 List<Element> squares = squaresExpression.evaluate(document);
                 Element square = squares.get(0);

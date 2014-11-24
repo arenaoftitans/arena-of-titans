@@ -44,12 +44,7 @@ public class SquareTest {
 
     @Test
     public void testGetId() {
-        assertEquals("0-8", square.getId());
-    }
-
-    @Test
-    public void testGetCssId() {
-        assertEquals("#0-8", square.getCssId());
+        assertEquals("square-0-8", square.getId());
     }
 
 }
