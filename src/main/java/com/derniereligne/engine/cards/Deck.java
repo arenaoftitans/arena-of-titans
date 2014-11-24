@@ -49,7 +49,7 @@ public class Deck {
     }
 
     /**
-     * <b>Playing the given card and returning the new card for the hand.</b>
+     * <b>Playing the given card and returning the new card.</b>
      * <div>
      *  If the given card is null or if its not contained in the hand or if there is no more cards in the deck,
      * null will be returned.
@@ -70,18 +70,20 @@ public class Deck {
      * @since 1.0
      */
     public MovementsCard playCard(MovementsCard cardToPlay) {
-        if (cardToPlay != null && hand.contains(cardToPlay)) {
+        if (cardToPlay == null) {
+            return null;
+        } else if (!hand.contains(cardToPlay)) {
+            return null;
+        } else {
             hand.remove(cardToPlay);
             graveyard.add(cardToPlay);
             MovementsCard newCard = extractCardFromDeck();
-            if (newCard == null) {
+            if (newCard == null ) {
                 return null;
             } else {
                 hand.add(newCard);
                 return newCard;
             }
-        } else {
-            return null;
         }
     }
 
@@ -144,9 +146,12 @@ public class Deck {
      */
     private MovementsCard extractCardFromDeck() {
         Collections.shuffle(deck);
-        MovementsCard toReturn = deck.get(0);
+        MovementsCard toReturn = null;
+        if (deck.size() > 0) {
+            toReturn = deck.get(0);
+        }
         if (toReturn != null) {
-            deck.remove(toReturn);
+            deck.remove(0);
         }
         return toReturn;
     }
