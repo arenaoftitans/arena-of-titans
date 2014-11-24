@@ -48,13 +48,14 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
             if (circleToDelete) {
                 circleToDelete.parentNode.removeChild(circleToDelete);
             }
-            var square = angular.element(squareId);
-            var height = parseInt(square.attr('height'));
-            var width = parseInt(square.attr('width'));
-            var x = parseInt(square.attr('x')) + width / 2;
-            var y = parseInt(square.attr('y')) + height / 2;
+            var square = document.getElementById(squareId.substr(1));
+            var boundingBox = square.getBBox();
+            var height = Number(boundingBox.height);
+            var width = Number(boundingBox.width);
+            var x = Number(boundingBox.x) + width / 2;
+            var y = Number(boundingBox.y) + height / 2;
             var radius = width / 4;
-            var transform = square.attr('transform');
+            var transform = square.getAttribute('transform');
             var player = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             player.setAttribute('id', playerId);
             player.setAttribute('cx', x);
