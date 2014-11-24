@@ -11,6 +11,7 @@ import com.derniereligne.engine.cards.movements.DiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.KnightMovementsCard;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.LineMovementsCard;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -70,4 +71,68 @@ public class DeckTest {
         assertNull(deck.getCard("King", "king"));
     }
 
+    @Test
+    public void testInitDeck() {
+        int deckSize = deck.getDeck().size();
+        deck.initDeck();
+        assertEquals(deck.getDeck().size(), deckSize - deck.getGraveyard().size() - deck.getHand().size());
+        assertEquals(deck.getGraveyard().size(), 0);
+        assertEquals(deck.getHand().size(), 5);
+    }
+
+    @Test
+    public void testPlayCardWithExistingCard() {
+        int deckSize = deck.getDeck().size();
+        deck.initDeck();
+        MovementsCard playedCard = deck.getHand().get(0);
+        deck.playCard(playedCard);
+        assertEquals(deck.getDeck().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
+        assertEquals(deck.getHand().size(), 5);
+        assertEquals(deck.getGraveyard().size(), 1);
+        assertTrue(deck.getGraveyard().contains(playedCard));
+        assertFalse(deck.getHand().contains(playedCard));
+        assertFalse(deck.getDeck().contains(playedCard));
+        assertFalse(deck.getHand().contains(null));
+    }
+
+    @Test
+    public void testPlayCardWithNullCard() {
+        int deckSize = deck.getDeck().size();
+        deck.initDeck();
+        deck.playCard(null);
+        assertEquals(deck.getDeck().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
+        assertEquals(deck.getHand().size(), 5);
+        assertEquals(deck.getGraveyard().size(), 0);
+    }
+
+    @Test
+    public void testPlayNotContainedCard() {
+        int deckSize = deck.getDeck().size();
+        deck.initDeck();
+        deck.playCard(deck.getDeck().get(0));
+        assertEquals(deck.getDeck().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
+        assertEquals(deck.getHand().size(), 5);
+        assertEquals(deck.getGraveyard().size(), 0);
+    }
+
+    @Test
+    public void testExtractNull() {
+        int deckSize = deck.getDeck().size();
+        deck.initDeck();
+
+        while (deck.getHand().size() == 5) {
+            deck.playCard(deck.getHand().get(0));
+        }
+
+        assertEquals(deck.getDeck().size(), 0);
+        assertEquals(deck.getHand().size(), 4);
+        assertEquals(deck.getGraveyard().size(), deckSize - deck.getHand().size());
+
+        for (int i = 3; i >=0; i--) {
+            deck.playCard(deck.getHand().get(0));
+            assertEquals(deck.getDeck().size(), 0);
+            assertEquals(deck.getHand().size(), i);
+            assertEquals(deck.getGraveyard().size(), deckSize - deck.getHand().size());
+        }
+    }
 }
