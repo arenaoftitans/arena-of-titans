@@ -30,11 +30,6 @@
                     <div ng-repeat="color in colors">
                         <button ng-repeat="card in cards" ng-click="viewPossibleMovements(card, color)">{{card}} {{color}}</button>
                     </div>
-                    <label>x</label>
-                    <input type="text" ng-model="squareX" />
-                    <label>y</label>
-                    <input type="text" ng-model="squareY" />
-                    <button ng-click="play()">Play</button>
                 </div>
 
                 ${svgBoard}

@@ -275,14 +275,29 @@ public final class SvgBoardGenerator {
         for (List<Map<String, String>> line : lines) {
             int xidPlus = 0;
             for (Map<String, String> element : line) {
+                int currentXid = xid + xidPlus;
                 Element svgElement = new Element(element.get("tag"), SVG_NS);
                 svgElement.setAttribute("d", element.get("d"));
-                svgElement.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
+                svgElement.setAttribute("id", String.format("%d-%d", currentXid, yid));
+                setNgClickDirective(svgElement, currentXid, yid);
                 layer.addContent(svgElement);
                 xidPlus++;
             }
             yid++;
         }
+    }
+
+    /**
+     * Set the ng-click directive to the correct value.
+     *
+     * @param element The element on which to set the directive.
+     *
+     * @param elementXid The element x id.
+     *
+     * @param elementYid The element y id.
+     */
+    private void setNgClickDirective(Element element, int elementXid, int elementYid) {
+        element.setAttribute("ng-click", String.format("play(%s, %s)", elementXid, elementYid));
     }
 
     /**
@@ -293,13 +308,15 @@ public final class SvgBoardGenerator {
         for (int i = 0; i < armsWidth; i++) {
             yid = lines.size();
             for (int j = 0; j < armsLength; j++) {
+                int currentXid = xid + xidPlus;
                 Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
-                element.setAttribute("id", String.format("%d-%d", xid + xidPlus, yid));
+                element.setAttribute("id", String.format("%d-%d", currentXid, yid));
                 element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
                 element.setAttribute("y", Integer.toString(j * filledElementWidth + originY));
                 element.setAttribute("height", Integer.toString(filledElementHeigth));
                 element.setAttribute("width", Integer.toString(filledElementWidth));
+                setNgClickDirective(element, currentXid, yid);
                 yid++;
                 layer.addContent(element);
             }

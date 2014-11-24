@@ -20,8 +20,6 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.currentCard = {};
         $scope.currentPlayerIndex = 0;
-        $scope.squareX = '';
-        $scope.squareY = '';
 
         // Card names and colors. Generate buttons for all combination of cards and
         // colors thanks to ng-repeat.
@@ -38,7 +36,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         function highlightSquares() {
             for (var index in $scope.highlightedSquares) {
                 var id = $scope.highlightedSquares[index];
-                angular.element(id).attr("style", "fill:green");
+                angular.element(id).attr("style", "fill:green;cursor:pointer");
             }
         }
 
@@ -96,7 +94,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
                     });
         };
 
-        $scope.play = function () {
+        $scope.play = function (squareX, squareY) {
             if ($scope.currentCard !== {}) {
                 $http({
                     url: '/DerniereLigneGameEngine/rest/play',
@@ -105,8 +103,8 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
                         card_name: $scope.currentCard.card_name,
                         card_color: $scope.currentCard.card_color,
                         player_id: $scope.currentPlayerIndex,
-                        x: $scope.squareX,
-                        y: $scope.squareY
+                        x: squareX,
+                        y: squareY
                     }
                 })
                         .success(function (data) {
