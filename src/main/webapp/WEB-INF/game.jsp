@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" href="inc/css/global.css">
         <script src="inc/js/lib/jquery-2.1.1.js" type="text/javascript"></script>
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
+        <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/game.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">

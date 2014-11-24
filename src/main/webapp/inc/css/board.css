@@ -22,3 +22,8 @@ rect, path {
 .blue-square {
     fill: blue;
 }
+
+.highlightedSquare {
+    fill: green !important;
+    cursor: pointer;
+}

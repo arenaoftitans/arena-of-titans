@@ -29,14 +29,14 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         function resetHighlightedSquares() {
             for (var index in $scope.highlightedSquares) {
                 var id = $scope.highlightedSquares[index];
-                angular.element(id).removeAttr('style', $scope.squaresDefaultStyle);
+                d3.select('#' + id).classed('highlightedSquare', false);
             }
         }
 
         function highlightSquares() {
             for (var index in $scope.highlightedSquares) {
                 var id = $scope.highlightedSquares[index];
-                angular.element(id).attr("style", "fill:green;cursor:pointer");
+                d3.select('#' + id).classed('highlightedSquare', true);
             }
         }
 
@@ -46,7 +46,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
             if (circleToDelete) {
                 circleToDelete.parentNode.removeChild(circleToDelete);
             }
-            var square = document.getElementById(squareId.substr(1));
+            var square = document.getElementById(squareId);
             var boundingBox = square.getBBox();
             var height = Number(boundingBox.height);
             var width = Number(boundingBox.width);
