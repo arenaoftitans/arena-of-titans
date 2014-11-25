@@ -239,7 +239,7 @@ public abstract class MovementsCard {
             MovementsCard other = (MovementsCard) obj;
             boolean hasSameNameAndColor = name.equals(other.name) && cardColor.equals(other.cardColor);
             boolean hasSameAttributes = Objects.equals(possibleSquaresColor, other.possibleSquaresColor);
-            return (hasSameNameAndColor && hasSameAttributes);
+            return hasSameNameAndColor && hasSameAttributes;
         }
     }
 
