@@ -54,7 +54,7 @@ public class SvgBoardGeneratorTest {
     @Test
     public void testToString() {
         try {
-            String svgString = svgBoardGenerator.regenerateSvgBoard();
+            String svgString = svgBoardGenerator.toString();
             InputStream svg = new ByteArrayInputStream(svgString.getBytes(StandardCharsets.UTF_8));
             SAXBuilder builder = new SAXBuilder();
             Document document = builder.build(svg);
