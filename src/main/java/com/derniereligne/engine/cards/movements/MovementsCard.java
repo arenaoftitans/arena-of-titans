@@ -233,13 +233,14 @@ public abstract class MovementsCard {
 
     @Override
     public boolean equals(Object obj) {
-        MovementsCard other;
-        return obj != null
-                && getClass() == obj.getClass()
-                && name.equals((other = (MovementsCard)obj).name)
-                && cardColor == other.cardColor
-                && Objects.equals(possibleSquaresColor, other.possibleSquaresColor)
-                && numberOfMovements == other.numberOfMovements;
+        if (obj == null || MovementsCard.class != obj.getClass()) {
+           return false;
+        } else {
+            MovementsCard other = (MovementsCard) obj;
+            boolean hasSameNameAndColor = name.equals(other.name) && cardColor.equals(other.cardColor);
+            boolean hasSameAttributes = Objects.equals(possibleSquaresColor, other.possibleSquaresColor);
+            return (hasSameNameAndColor && hasSameAttributes);
+        }
     }
 
     @Override
