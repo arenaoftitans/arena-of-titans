@@ -9,15 +9,15 @@ import java.util.List;
 public class Deck {
     private List<MovementsCard> graveyard;
     private List<MovementsCard> hand;
-    private List<MovementsCard> deck;
+    private List<MovementsCard> remainingCards;
 
     /**
      * <b>Constructs a deck with empty hand and empty graveyard.</b>
      *
-     * @param deck
+     * @param remainingCards
      *          New deck of card to use.
      *
-     * @see #deck
+     * @see #remainingCards
      * @see #graveyard
      * @see #hand
      *
@@ -25,10 +25,10 @@ public class Deck {
      *
      * @since 1.0
      */
-    public Deck(List<MovementsCard> deck) {
+    public Deck(List<MovementsCard> remainingCards) {
         graveyard = new ArrayList<>();
         hand = new ArrayList<>();
-        this.deck = deck;
+        this.remainingCards = remainingCards;
     }
 
     /**
@@ -38,13 +38,13 @@ public class Deck {
      * </div>
      *
      * @see #hand
-     * @see #extractCardFromDeck()
+     * @see #extractCardFromRemainingCards()
      *
      * @since 1.0
      */
     public void initDeck() {
         for (int i = 0; i < 5; i++) {
-            hand.add(extractCardFromDeck());
+            hand.add(extractCardFromRemainingCards());
         }
     }
 
@@ -63,7 +63,7 @@ public class Deck {
      *
      * @see #graveyard
      * @see #hand
-     * @see #extractCardFromDeck()
+     * @see #extractCardFromRemainingCards()
      *
      * @see MovementsCard
      *
@@ -77,7 +77,7 @@ public class Deck {
         } else {
             hand.remove(cardToPlay);
             graveyard.add(cardToPlay);
-            MovementsCard newCard = extractCardFromDeck();
+            MovementsCard newCard = extractCardFromRemainingCards();
             if (newCard == null ) {
                 return null;
             } else {
@@ -88,17 +88,17 @@ public class Deck {
     }
 
     /**
-     * <b>Returns the deck.</b>
+     * <b>Returns the remaining cards.</b>
      *
      * @return
-     *          The deck.
+     *          The remaining cards.
      *
-     * @see #deck
+     * @see #remainingCards
      *
      * @since 1.0
      */
-    public List<MovementsCard> getDeck() {
-        return deck;
+    public List<MovementsCard> getRemainingCards() {
+        return remainingCards;
     }
 
     /**
@@ -130,7 +130,7 @@ public class Deck {
     }
 
     /**
-     * <b>Extracts a card from the deck.</b>
+     * <b>Extracts a card from the remaining cards.</b>
      * <div>
      *  Shuffles the deck, take the first one, remove it from the deck and returns it.
      * </div>
@@ -138,20 +138,20 @@ public class Deck {
      * @return
      *          A card from the deck.
      *
-     * @see #deck
+     * @see #remainingCards
      *
      * @see MovementsCard
      *
      * @since 1.0
      */
-    private MovementsCard extractCardFromDeck() {
-        Collections.shuffle(deck);
+    private MovementsCard extractCardFromRemainingCards() {
+        Collections.shuffle(remainingCards);
         MovementsCard toReturn = null;
-        if (deck.size() > 0) {
-            toReturn = deck.get(0);
+        if (remainingCards.size() > 0) {
+            toReturn = remainingCards.get(0);
         }
         if (toReturn != null) {
-            deck.remove(0);
+            remainingCards.remove(0);
         }
         return toReturn;
     }
@@ -218,7 +218,7 @@ public class Deck {
             return null;
         }
         cardName = cardName.toLowerCase();
-        for (MovementsCard card : deck) {
+        for (MovementsCard card : remainingCards) {
             String currentCardName = card.getName().toLowerCase();
             if (currentCardName.equals(cardName) && card.getColor().equals(cardColor)) {
                 return card;
