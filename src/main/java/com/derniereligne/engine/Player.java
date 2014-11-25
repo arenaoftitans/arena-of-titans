@@ -236,9 +236,9 @@ public class Player {
      */
     @Override
     public boolean equals(Object player) {
-        return (player != null
+        return player != null
                 && player.getClass() == Player.class
-                && name.equals(((Player)player).name));
+                && name.equals(((Player)player).name);
     }
 
     @Override

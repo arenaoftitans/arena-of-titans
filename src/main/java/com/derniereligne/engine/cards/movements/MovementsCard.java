@@ -234,12 +234,12 @@ public abstract class MovementsCard {
     @Override
     public boolean equals(Object obj) {
         MovementsCard other;
-        return (obj != null
+        return obj != null
                 && getClass() == obj.getClass()
                 && name.equals((other = (MovementsCard)obj).name)
                 && cardColor == other.cardColor
                 && Objects.equals(possibleSquaresColor, other.possibleSquaresColor)
-                && numberOfMovements == other.numberOfMovements);
+                && numberOfMovements == other.numberOfMovements;
     }
 
     @Override

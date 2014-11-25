@@ -254,7 +254,7 @@ public class Square {
             return false;
         } else {
             final Square other = (Square) obj;
-            return (x == other.x && y == other.y && color == other.color);
+            return x == other.x && y == other.y && color == other.color;
         }
     }
 
