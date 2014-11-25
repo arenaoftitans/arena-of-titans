@@ -5,6 +5,7 @@ import com.derniereligne.engine.board.Square;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <b>Class representating a match.</b>
@@ -152,10 +153,12 @@ public class Match {
      *
      * @see Board#getSquare(int, int)
      *
-     * @see Match#activePlayer
-     * @see Match#board
-     * @see Match#nextRankAvailable
-     * @see Match#getNextPlayer()
+     * @see #activePlayer
+     * @see #board
+     * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int) 
+     * @see #nextRankAvailable
+     * @see #getNextPlayer()
+     * @see #makeActivePlayerWinner()
      *
      * @see Player
      * @see Player#aim()
@@ -176,23 +179,64 @@ public class Match {
             Square activeSquare = activePlayer.getCurrentSquare();
             boolean aimsContainTargetedX = aims.contains(targetedX);
             if (aimsContainTargetedX && targetedY == 8 && activeSquare.getX() == targetedX && activeSquare.getY() == targetedY) {
-                activePlayer.wins(nextRankAvailable);
-                nextRankAvailable++;
+                makeActivePlayerWinner();
             }
-            int numberOfPlayersNotWinner = 0;
-            for (Player player : players) {
-                if (player != null && player.isWinnerInMatch()) {
-                    numberOfPlayersNotWinner++;
-                }
-            }
-            if (numberOfPlayersNotWinner == 1) {
-                return null;
-            } else {
-                activePlayer.moveTo(board.getSquare(targetedX, targetedY));
-                activePlayer = nextPlayer;
-            }
-            return activePlayer;
+
+            return continueGameIfEnoughPlayers(nextPlayer, targetedX, targetedY);
         }
+    }
+
+    /**
+     * <b>Continues the game if there are enough players in game.</b>
+     * If there are more than 1 non winner player, the active player moves and the active player changes.
+     *
+     * @param nextPlayer
+     *          Next active player
+     * @param targetedX
+     *          X where to go
+     * @param targetedY
+     *          Y where to go
+     *
+     * @return
+     *          The next active player.
+     *
+     * @see Board#getSquare(int, int)
+     *
+     * @see #activePlayer
+     * @see #board
+     * @see #players
+     *
+     * @see Player#moveTo(com.derniereligne.engine.board.Square)
+     */
+    private Player continueGameIfEnoughPlayers(Player nextPlayer, int targetedX, int targetedY) {
+        int numberOfPlayersNotWinner = players.parallelStream()
+                .filter(pl -> pl != null && !pl.isWinnerInMatch())
+                .collect(Collectors.toList()).size();
+
+        if (numberOfPlayersNotWinner == 1) {
+            return null;
+        } else {
+            activePlayer.moveTo(board.getSquare(targetedX, targetedY));
+            activePlayer = nextPlayer;
+        }
+        return activePlayer;
+    }
+
+    /**
+     * <b>Makes the active player a winner.</b>
+     * <ul>
+     *  <li>active player wins,</li>
+     *  <li>the next available rank is higher.</li>
+     * </ul>
+     *
+     * @see #activePlayer
+     * @see #nextRankAvailable
+     *
+     * @since 1.
+     */
+    private void makeActivePlayerWinner() {
+        activePlayer.wins(nextRankAvailable);
+        nextRankAvailable++;
     }
 
     /**
