@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
+    private static final int CARDS_IN_HANDS = 5;
     private List<MovementsCard> graveyard;
     private List<MovementsCard> hand;
     private List<MovementsCard> remainingCards;
@@ -43,7 +44,7 @@ public class Deck {
      * @since 1.0
      */
     public void initDeck() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < CARDS_IN_HANDS; i++) {
             hand.add(extractCardFromRemainingCards());
         }
     }
