@@ -47,11 +47,13 @@ public class Board {
      * @return
      */
     public int correctAbs(int x) {
-        while (x <= 0) {
-            x += width;
+        int xToCorrect = x;
+
+        while (xToCorrect <= 0) {
+            xToCorrect += width;
         }
 
-        return x % width;
+        return xToCorrect % width;
     }
 
     /**
