@@ -19,6 +19,8 @@ import java.util.Set;
  * @version 1.0
  */
 public class Player {
+    private static final int boardArmWidth = 4;
+    private static final int boardArmLength = 8;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -162,7 +164,7 @@ public class Player {
      * @see Player#rank
      */
     public void initGame(Board board) {
-        currentSquare = board.getSquare(index * 4, 8);
+        currentSquare = board.getSquare(index * boardArmWidth, boardArmLength);
         currentSquare.setAsOccupied();
         isWinnerInCurrentMatch = false;
         rank = -1;
@@ -182,9 +184,9 @@ public class Player {
      * @since 1.0
      */
     public Set<Integer> aim() {
-        int oppositeIndex = index + 4 * ((index >= 4) ? -1 : 1);
+        int oppositeIndex = index + boardArmWidth * ((index >= boardArmWidth) ? -1 : 1);
         Set<Integer> toReturn = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < boardArmWidth; i++) {
             toReturn.add(4 * oppositeIndex + i);
         }
         return toReturn;
