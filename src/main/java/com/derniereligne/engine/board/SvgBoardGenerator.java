@@ -127,7 +127,10 @@ public final class SvgBoardGenerator {
      * The lines of the element used to create the SVG (and not fill it).
      */
     private final List<List<Map<String, String>>> lines;
-
+    /**
+     * One of the attributes name.
+     */
+    private static final String transformString = "transform";
     /**
      * @param jsonBoard The JSON description of the board.
      *
@@ -251,8 +254,8 @@ public final class SvgBoardGenerator {
         List<Element> elementList = layer.getChildren();
         for (Element element : elementList) {
             int angle;
-            if (element.getAttribute("transform") != null) {
-                String transformation = element.getAttribute("transform").getValue();
+            if (element.getAttribute(transformString) != null) {
+                String transformation = element.getAttribute(transformString).getValue();
                 if (" ".equals(transformation.substring(9, 10))) {
                     angle = Integer.parseInt(transformation.substring(7, 9));
                 } else {
@@ -263,7 +266,7 @@ public final class SvgBoardGenerator {
                 angle = 45;
             }
             String transformationValue = "rotate(" + angle + " " + rotationCenterX + " " + rotationCenterY + ")";
-            element.setAttribute("transform", transformationValue);
+            element.setAttribute(transformString, transformationValue);
         }
     }
 
