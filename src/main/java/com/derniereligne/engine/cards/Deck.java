@@ -147,7 +147,7 @@ public class Deck {
     private MovementsCard extractCardFromRemainingCards() {
         Collections.shuffle(remainingCards);
         MovementsCard toReturn = null;
-        if (remainingCards.size() > 0) {
+        if (!remainingCards.isEmpty()) {
             toReturn = remainingCards.get(0);
         }
         if (toReturn != null) {
