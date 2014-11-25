@@ -21,6 +21,8 @@ import java.util.Set;
 public class Player {
     private static final int BOARD_ARM_WIDTH_AND_MODULO = 4;
     public static final int BOARD_ARM_LENGTH_AND_MAX_Y = 8;
+    private static final int HASH_BEGIN = 7;
+    private static final int HASH_MULTIPLIER = 89;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -245,8 +247,8 @@ public class Player {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        int hashMultiplier = 89;
+        int hash = HASH_BEGIN;
+        int hashMultiplier = HASH_MULTIPLIER;
         hash = hashMultiplier * hash + Objects.hashCode(this.name);
         hash = hashMultiplier * hash + Objects.hashCode(this.currentSquare);
         hash = hashMultiplier * hash + (this.canPlay ? 1 : 0);

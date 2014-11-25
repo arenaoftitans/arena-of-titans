@@ -20,6 +20,8 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Square {
+    private static final int HASH_BEGIN = 7;
+    private static final int HASH_MULTIPLIER = 89;
     /**
      * Used to know if there is a player on this square.
      *
@@ -139,6 +141,15 @@ public class Square {
      *
      * @see Square#occupied
      *
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + (this.occupied ? 1 : 0);
+        hash = 89 * hash + this.x;
+        hash = 89 * hash + this.y;
+        hash = 89 * hash + Objects.hashCode(this.color);
+        return hash;
+    }
      * @since 1.0
      */
     public boolean isOccupied() {
@@ -224,10 +235,17 @@ public class Square {
      *
      * @since 1.0
      */
+
     @Override
     public int hashCode() {
-        return ((11 * 7 + x) * 11 + y) * 11 + Objects.hashCode(color);
+        int hash = HASH_BEGIN;
+        hash = HASH_MULTIPLIER * hash + (this.occupied ? 1 : 0);
+        hash = HASH_MULTIPLIER * hash + this.x;
+        hash = HASH_MULTIPLIER * hash + this.y;
+        hash = HASH_MULTIPLIER * hash + Objects.hashCode(this.color);
+        return hash;
     }
+
 
     /**
      * <b>Returns true if the given object is the same square.</b>
