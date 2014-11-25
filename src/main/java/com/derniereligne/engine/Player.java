@@ -19,7 +19,7 @@ import java.util.Set;
  * @version 1.0
  */
 public class Player {
-    private static final int BOARD_ARM_WIDTH = 4;
+    private static final int BOARD_ARM_WIDTH_AND_MODULO = 4;
     public static final int BOARD_ARM_LENGTH_AND_MAX_Y = 8;
     /**
      * The name of the player.<br/>
@@ -164,7 +164,7 @@ public class Player {
      * @see Player#rank
      */
     public void initGame(Board board) {
-        currentSquare = board.getSquare(index * BOARD_ARM_WIDTH, BOARD_ARM_LENGTH_AND_MAX_Y);
+        currentSquare = board.getSquare(index * BOARD_ARM_WIDTH_AND_MODULO, BOARD_ARM_LENGTH_AND_MAX_Y);
         currentSquare.setAsOccupied();
         isWinnerInCurrentMatch = false;
         rank = -1;
@@ -184,10 +184,10 @@ public class Player {
      * @since 1.0
      */
     public Set<Integer> aim() {
-        int oppositeIndex = index + BOARD_ARM_WIDTH * ((index >= BOARD_ARM_WIDTH) ? -1 : 1);
+        int oppositeIndex = index + BOARD_ARM_WIDTH_AND_MODULO * ((index >= BOARD_ARM_WIDTH_AND_MODULO) ? -1 : 1);
         Set<Integer> toReturn = new HashSet<>();
-        for (int i = 0; i < BOARD_ARM_WIDTH; i++) {
-            toReturn.add(4 * oppositeIndex + i);
+        for (int i = 0; i < BOARD_ARM_WIDTH_AND_MODULO; i++) {
+            toReturn.add(BOARD_ARM_WIDTH_AND_MODULO * oppositeIndex + i);
         }
         return toReturn;
     }
@@ -246,10 +246,11 @@ public class Player {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.name);
-        hash = 89 * hash + Objects.hashCode(this.currentSquare);
-        hash = 89 * hash + (this.canPlay ? 1 : 0);
-        hash = 89 * hash + this.index;
+        int hashMultiplier = 89;
+        hash = hashMultiplier * hash + Objects.hashCode(this.name);
+        hash = hashMultiplier * hash + Objects.hashCode(this.currentSquare);
+        hash = hashMultiplier * hash + (this.canPlay ? 1 : 0);
+        hash = hashMultiplier * hash + this.index;
         return hash;
     }
 }

@@ -33,6 +33,13 @@ public class DeckTest {
     }
 
     @Test
+    public void testGetCard_String_Color() {
+        MovementsCard card = deck.getCard("Queen", Color.BLACK);
+        assertTrue(card != null);
+        assertEquals(card, new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.BLACK));
+    }
+
+    @Test
     public void testGetCard_String_String() {
         assertEquals(new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.RED),
                 deck.getCard("Queen", "red"));

@@ -218,10 +218,10 @@ public class Deck {
         if (cardName == null || cardColor == null) {
             return null;
         }
-        String cardNameLowerCase = cardName.toLowerCase();
+        cardName = cardName.toLowerCase();
         for (MovementsCard card : remainingCards) {
             String currentCardName = card.getName().toLowerCase();
-            if (currentCardName.equals(cardNameLowerCase) && card.getColor().equals(cardColor)) {
+            if (currentCardName.equals(cardName) && card.getColor().equals(cardColor)) {
                 return card;
             }
         }

@@ -233,7 +233,7 @@ public abstract class MovementsCard {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || MovementsCard.class != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
            return false;
         } else {
             MovementsCard other = (MovementsCard) obj;
