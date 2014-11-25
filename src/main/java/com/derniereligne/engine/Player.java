@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class Player {
     private static final int BOARD_ARM_WIDTH = 4;
-    private static final int BOARD_ARM_LENGTH = 8;
+    public static final int BOARD_ARM_LENGTH_AND_MAX_Y = 8;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -164,7 +164,7 @@ public class Player {
      * @see Player#rank
      */
     public void initGame(Board board) {
-        currentSquare = board.getSquare(index * BOARD_ARM_WIDTH, BOARD_ARM_LENGTH);
+        currentSquare = board.getSquare(index * BOARD_ARM_WIDTH, BOARD_ARM_LENGTH_AND_MAX_Y);
         currentSquare.setAsOccupied();
         isWinnerInCurrentMatch = false;
         rank = -1;

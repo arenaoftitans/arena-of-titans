@@ -155,7 +155,7 @@ public class Match {
      *
      * @see #activePlayer
      * @see #board
-     * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int) 
+     * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int)
      * @see #nextRankAvailable
      * @see #getNextPlayer()
      * @see #makeActivePlayerWinner()
@@ -178,7 +178,7 @@ public class Match {
             Set<Integer> aims = activePlayer.aim();
             Square activeSquare = activePlayer.getCurrentSquare();
             boolean aimsContainTargetedX = aims.contains(targetedX);
-            if (aimsContainTargetedX && targetedY == 8 && activeSquare.getX() == targetedX && activeSquare.getY() == targetedY) {
+            if (aimsContainTargetedX && targetedY == Player.BOARD_ARM_LENGTH_AND_MAX_Y && activeSquare.getX() == targetedX && activeSquare.getY() == targetedY) {
                 makeActivePlayerWinner();
             }
 
