@@ -217,7 +217,6 @@ public class Deck {
         if (cardName == null || cardColor == null) {
             return null;
         }
-
         cardName = cardName.toLowerCase();
         for (MovementsCard card : deck) {
             String currentCardName = card.getName().toLowerCase();
