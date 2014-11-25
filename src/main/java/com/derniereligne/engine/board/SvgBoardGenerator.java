@@ -130,7 +130,7 @@ public final class SvgBoardGenerator {
     /**
      * One of the attributes name.
      */
-    private static final String transformString = "transform";
+    private static final String TRANSFORM = "transform";
     /**
      * @param jsonBoard The JSON description of the board.
      *
@@ -254,8 +254,8 @@ public final class SvgBoardGenerator {
         List<Element> elementList = layer.getChildren();
         for (Element element : elementList) {
             int angle;
-            if (element.getAttribute(transformString) != null) {
-                String transformation = element.getAttribute(transformString).getValue();
+            if (element.getAttribute(TRANSFORM) != null) {
+                String transformation = element.getAttribute(TRANSFORM).getValue();
                 if (" ".equals(transformation.substring(9, 10))) {
                     angle = Integer.parseInt(transformation.substring(7, 9));
                 } else {
@@ -266,7 +266,7 @@ public final class SvgBoardGenerator {
                 angle = 45;
             }
             String transformationValue = "rotate(" + angle + " " + rotationCenterX + " " + rotationCenterY + ")";
-            element.setAttribute(transformString, transformationValue);
+            element.setAttribute(TRANSFORM, transformationValue);
         }
     }
 
