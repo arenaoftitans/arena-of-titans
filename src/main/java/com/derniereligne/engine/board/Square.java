@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class Square {
     private static final int HASH_BEGIN = 7;
-    private static final int HASH_MULTIPLIER = 89;
+    private static final int HASH_MULTIPLIER = 11;
     /**
      * Used to know if there is a player on this square.
      *
@@ -239,7 +239,6 @@ public class Square {
     @Override
     public int hashCode() {
         int hash = HASH_BEGIN;
-        hash = HASH_MULTIPLIER * hash + (this.occupied ? 1 : 0);
         hash = HASH_MULTIPLIER * hash + this.x;
         hash = HASH_MULTIPLIER * hash + this.y;
         hash = HASH_MULTIPLIER * hash + Objects.hashCode(this.color);
