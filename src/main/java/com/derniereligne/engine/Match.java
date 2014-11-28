@@ -4,6 +4,7 @@ import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,22 +60,23 @@ public class Match {
      *
      * @param players The list of players in this match.
      * @param board The board this match is played on.
+     * @param deckCreator To create an new deck for each player.
      *
      * @see Board
      * @see Player
-     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board)
+     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board, com.derniereligne.engine.cards.Deck)
      *
      * @since 1.0
      */
-    public Match(Player[] players, Board board) {
-        this(Arrays.asList(players), board);
+    public Match(Player[] players, Board board, DeckCreator deckCreator) {
+        this(Arrays.asList(players), board, deckCreator);
     }
 
-    public Match(List<Player> players, Board board) {
+    public Match(List<Player> players, Board board, DeckCreator deckCreator) {
         this.players = players;
         this.board = board;
         for (Player player: this.players) {
-            player.initGame(board);
+            player.initGame(board, deckCreator);
         }
         this.activePlayer = players.get(0);
     }
@@ -269,6 +271,14 @@ public class Match {
         return activePlayer;
     }
 
+    public String getActivePlayerName() {
+        return activePlayer.getName();
+    }
+
+    public List<Map<String, String>> getActivePlayerHandForJsonExport() {
+        return activePlayer.getDeck().getHandForJsonExport();
+    }
+
     /**
      * <b>Method to find the next player in this match.</b>
      * <div>
@@ -313,4 +323,5 @@ public class Match {
         }
         return players.get(testingIndex);
     }
+
 }

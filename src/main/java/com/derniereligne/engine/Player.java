@@ -2,6 +2,7 @@ package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.cards.Deck;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -53,6 +54,10 @@ public class Player {
      * @since 1.0
      */
     private int index;
+    /**
+     * The deck of this player.
+     */
+    private Deck deck;
     private boolean isWinnerInCurrentMatch;
     private int rank;
 
@@ -159,15 +164,17 @@ public class Player {
      *
      * @param board
      *          Board where the game initialized will be played.
+     * @param deckCreator To create the deck.
      *
      * @see Player#currentSquare
      * @see Player#index
      * @see Player#isWinnerInCurrentMatch
      * @see Player#rank
      */
-    public void initGame(Board board) {
+    public void initGame(Board board, DeckCreator deckCreator) {
         currentSquare = board.getSquare(index * BOARD_ARM_WIDTH_AND_MODULO, BOARD_ARM_LENGTH_AND_MAX_Y);
         currentSquare.setAsOccupied();
+        deck = deckCreator.create();
         isWinnerInCurrentMatch = false;
         rank = -1;
     }
@@ -222,6 +229,14 @@ public class Player {
         return index;
     }
 
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     /**
      * <b>Returns if a player is the same as this one.</b>
      * <div>
@@ -255,4 +270,5 @@ public class Player {
         hash = hashMultiplier * hash + this.index;
         return hash;
     }
+
 }

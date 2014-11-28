@@ -27,9 +27,11 @@
 
             <div id="game" class="hidden">
                 <div>
-                    <div>Player: {{currentPlayerIndex}}</div>
-                    <div ng-repeat="color in colors">
-                        <button ng-repeat="card in cards" ng-click="viewPossibleMovements(card, color)">{{card}} {{color}}</button>
+                    <div>Player: {{currentPlayer.name}}</div>
+                    <div ng-repeat="card in currentPlayerCards">
+                        <button ng-click="viewPossibleMovements(card.name, card.color)">
+                            {{card.name}} {{card.color}}
+                        </button>
                     </div>
                 </div>
 

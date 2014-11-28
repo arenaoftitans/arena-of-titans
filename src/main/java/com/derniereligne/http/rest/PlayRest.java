@@ -96,9 +96,16 @@ public class PlayRest extends PossibleSquaresLister {
         int targetedX = Integer.parseInt(x);
         int targetedY = Integer.parseInt(y);
         match.playTurn(targetedX, targetedY);
+
+        NextPlayer nextPlayer = new NextPlayer();
+        nextPlayer.init();
+        nextPlayer.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
+        nextPlayer.setNextPlayerName(match.getActivePlayerName());
+        nextPlayer.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
+        nextPlayer.setNewSquare(selectedSquareId);
+
         Gson gson = new Gson();
-        String[] selectedSquare = {selectedSquareId};
-        String output = gson.toJson(selectedSquare);
+        String output = gson.toJson(nextPlayer);
 
         return Response.status(Response.Status.OK).entity(output).build();
     }

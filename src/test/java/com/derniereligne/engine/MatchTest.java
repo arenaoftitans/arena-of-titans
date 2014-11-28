@@ -1,7 +1,6 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Board;
-import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.HashSet;
@@ -34,7 +33,7 @@ public class MatchTest {
         for (int i = 0; i < 8; i++) {
             players[i] = new Player("player " + i, i);
         }
-        match = new Match(players, board);
+        match = new Match(players, board, gf.getDeckCreator());
     }
 
     @After

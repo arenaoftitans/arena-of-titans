@@ -52,9 +52,9 @@ public abstract class PossibleSquaresLister {
      */
     protected Board board;
     /**
-     * His deck of cards.
+     * His currentPlayerDeck of cards.
      */
-    protected Deck deck;
+    protected Deck currentPlayerDeck;
 
     /**
      * The request done to the servlet.
@@ -93,8 +93,7 @@ public abstract class PossibleSquaresLister {
      */
     protected void init() {
         match = gameFactory.getMatch();
-        board = gameFactory.getBoard();
-        deck = gameFactory.getDeck();
+        currentPlayerDeck = match.getActivePlayer().getDeck();
     }
 
     /**
@@ -113,7 +112,7 @@ public abstract class PossibleSquaresLister {
         currentSquare.setAsOccupied();
 
         // Get the card.
-        MovementsCard playableCard = deck.getCard(cardName, cardColor);
+        MovementsCard playableCard = currentPlayerDeck.getCard(cardName, cardColor);
         if (playableCard == null) {
             String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
             return buildBadResponse(message);

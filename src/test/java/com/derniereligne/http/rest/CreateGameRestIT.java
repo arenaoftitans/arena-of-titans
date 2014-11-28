@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.rest.servlets;
+package com.derniereligne.http.rest;
 
+import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,29 +16,31 @@ import static org.junit.Assert.*;
  */
 public class CreateGameRestIT extends RestTest {
 
-    private final String twoPlayersCorrectlyCreatedJsonResponse;
+    private final String jsonCreateTwoPlayersNoEmptyPlayers;
+    private final String jsonCreateTwoPlayers;
     private final String notEngoughPlayersJsonResponse;
+    private static final String ID_FIRST_PLAYER = "0";
+    private static final String NAME_FIRST_PLAYER = "Toto";
+    private static final int NUMBER_CARDS_IN_HAND = 5;
 
     public CreateGameRestIT() {
         requestUrl = "/DerniereLigneGameEngine/rest/createGame";
-        twoPlayersCorrectlyCreatedJsonResponse = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"}]";
+        jsonCreateTwoPlayersNoEmptyPlayers = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"}]";
         notEngoughPlayersJsonResponse = "{\"error_to_display\": \"Not enough players. 2 Players at least are required to start a game\"}";
+        jsonCreateTwoPlayers = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"},{\"index\":2,\"name\":\"\"},{\"index\":3,\"name\":\"\"},{\"index\":4,\"name\":\"\"},{\"index\":5,\"name\":\"\"},{\"index\":6,\"name\":\"\"},{\"index\":7,\"name\":\"\"}]";
     }
 
     @Test
     public void createGameTwoPlayersEmptyPlayers() {
-        String json = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"},{\"index\":2,\"name\":\"\"},{\"index\":3,\"name\":\"\"},{\"index\":4,\"name\":\"\"},{\"index\":5,\"name\":\"\"},{\"index\":6,\"name\":\"\"},{\"index\":7,\"name\":\"\"}]";
-        Response res = getResponsePostJson(json);
-        assertEquals(200, res.statusCode());
-        assertEquals(twoPlayersCorrectlyCreatedJsonResponse, res.asString());
+        Response res = getResponsePostJson(jsonCreateTwoPlayers);
+        test(res);
     }
 
     @Test
     public void createGameTwoPlayersNoEmptyPlayers() {
-        String json = twoPlayersCorrectlyCreatedJsonResponse; // The request and its answer are the same.
+        String json = jsonCreateTwoPlayersNoEmptyPlayers;
         Response res = getResponsePostJson(json);
-        assertEquals(200, res.statusCode());
-        assertEquals(twoPlayersCorrectlyCreatedJsonResponse, res.asString());
+        test(res);
     }
 
     @Test
@@ -60,8 +63,16 @@ public class CreateGameRestIT extends RestTest {
     public void createGameTwoPlayersNonConsecutive() {
         String json = "[{\"index\":1,\"name\":\"Toto\"},{\"index\":2,\"name\":\"\"},{\"index\":3,\"name\":\"Titi\"}]";
         Response res = getResponsePostJson(json);
+        test(res);
+    }
+
+    private void test(Response res) {
         assertEquals(200, res.statusCode());
-        assertEquals(twoPlayersCorrectlyCreatedJsonResponse, res.asString());
+        Gson gson = new Gson();
+        NextPlayer nextPlayer = gson.fromJson(res.asString(), NextPlayer.class);
+        assertEquals(ID_FIRST_PLAYER, nextPlayer.getNextPlayerId());
+        assertEquals(NAME_FIRST_PLAYER, nextPlayer.getNextPlayerName());
+        assertEquals(NUMBER_CARDS_IN_HAND, nextPlayer.getNumberCardsNextPlayer());
     }
 
 }

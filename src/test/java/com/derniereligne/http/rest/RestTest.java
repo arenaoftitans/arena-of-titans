@@ -1,4 +1,4 @@
-package com.derniereligne.rest.servlets;
+package com.derniereligne.http.rest;
 
 import com.jayway.restassured.RestAssured;
 import static com.jayway.restassured.RestAssured.given;

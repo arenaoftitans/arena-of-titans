@@ -18,8 +18,8 @@ var nameSpace = angular.module("lastLine", []);
 
 nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.currentCard = {};
-        $scope.currentPlayerIndex = 0;
+        $scope.currentCards = [];
+        $scope.curentPlayer = {};
 
         // Card names and colors. Generate buttons for all combination of cards and
         // colors thanks to ng-repeat.
@@ -75,7 +75,7 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
                 params: {
                     card_name: card,
                     card_color: color,
-                    player_id: $scope.currentPlayerIndex
+                    player_id: $scope.currentPlayer.id
                 }
             })
                     .success(function (data) {
@@ -86,30 +86,31 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
                         highlightSquares();
 
                         // Stores the selected card.
-                        $scope.currentCard = {card_name: card, card_color: color};
+                        $scope.currentCards = {card_name: card, card_color: color};
                     })
                     .error(function (data) {
                         showHttpError(data);
-                        $scope.currentCard = {};
+                        $scope.currentCards = {};
                     });
         };
 
         $scope.play = function (squareX, squareY) {
-            if ($scope.currentCard !== {}) {
+            if ($scope.currentCards !== {}) {
                 $http({
                     url: '/DerniereLigneGameEngine/rest/play',
                     method: 'GET',
                     params: {
-                        card_name: $scope.currentCard.card_name,
-                        card_color: $scope.currentCard.card_color,
-                        player_id: $scope.currentPlayerIndex,
+                        card_name: $scope.currentCards.card_name,
+                        card_color: $scope.currentCards.card_color,
+                        player_id: $scope.currentPlayer.id,
                         x: squareX,
                         y: squareY
                     }
                 })
                         .success(function (data) {
-                            movePlayerTo($scope.currentPlayerIndex, data[0]);
-                            $scope.currentPlayerIndex = ($scope.currentPlayerIndex + 1) % $scope.players.length;
+                            movePlayerTo($scope.currentPlayer.id, data.newSquare);
+                            $scope.currentPlayer = data.nextPlayer;
+                            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
                             resetHighlightedSquares();
                         })
                         .error(function (data) {
@@ -138,8 +139,8 @@ nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
                     .success(function (data) {
                         angular.element('#createGame').hide();
                         angular.element('#game').show();
-                        $scope.players = data;
-                        $scope.currentPlayerIndex = 0;
+                        $scope.currentPlayer = data.nextPlayer;
+                        $scope.currentPlayerCards = data.possibleCardsNextPlayer;
                     })
                     .error(showHttpError);
         };

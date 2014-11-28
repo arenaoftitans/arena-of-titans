@@ -4,12 +4,17 @@ import com.derniereligne.engine.Color;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Deck {
 
     private static final int CARDS_IN_HANDS = 5;
+    private static final String CARD_NAME_KEY = "name";
+    private static final String CARD_COLOR_KEY = "color";
+
     private final List<MovementsCard> cardsList;
     private List<MovementsCard> graveyard;
     private List<MovementsCard> hand;
@@ -250,6 +255,17 @@ public class Deck {
      */
     public MovementsCard getFirstCardInHand() {
         return hand.get(0);
+    }
+
+    public List<Map<String, String>> getHandForJsonExport() {
+        return hand.parallelStream()
+                .map((card) -> {
+                    Map<String, String> jsonCard = new HashMap<>();
+                    jsonCard.put(CARD_NAME_KEY, card.getName());
+                    jsonCard.put(CARD_COLOR_KEY, card.getColor().toString());
+                    return jsonCard;
+                })
+                .collect(Collectors.toList());
     }
 
 }

@@ -19,7 +19,7 @@ public class DeckTest {
     @Before
     public void init() {
         GameFactory gameFactory = new GameFactory();
-        deck = gameFactory.getDeck();
+        deck = gameFactory.getDeckCreator().create();
     }
 
     @Test

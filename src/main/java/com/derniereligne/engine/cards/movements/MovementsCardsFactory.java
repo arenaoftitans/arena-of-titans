@@ -28,7 +28,7 @@ public class MovementsCardsFactory {
      *
      * @return The list of the cards that we can use in the game.
      */
-    public List<MovementsCard> getCardsFromColorNames(Board board, JsonMovementsCards jsonMovementsCards,
+    public static List<MovementsCard> getCardsFromColorNames(Board board, JsonMovementsCards jsonMovementsCards,
             List<String> colorNames) {
         List<Color> colors = colorNames.parallelStream()
                 .map(str -> Color.valueOf(str))
@@ -49,7 +49,7 @@ public class MovementsCardsFactory {
      *
      * @return The list of the cards that we can use in the game.
      */
-    public List<MovementsCard> getCards(Board board, JsonMovementsCards jsonMovementsCards,
+    public static List<MovementsCard> getCards(Board board, JsonMovementsCards jsonMovementsCards,
             List<Color> colors) {
         List<MovementsCard> cards = new ArrayList<>();
         int numberCardsPerColor = jsonMovementsCards.getNumberCardsPerColor();
@@ -74,7 +74,7 @@ public class MovementsCardsFactory {
      *
      * @return The list of all the cards of a specific name passed in parameter.
      */
-    private List<MovementsCard> getCards(Board board, JsonMovementsCard jsonCard, List<Color> colors,
+    private static List<MovementsCard> getCards(Board board, JsonMovementsCard jsonCard, List<Color> colors,
             int numberCardsPerColor) {
         List<MovementsCard> cards = new ArrayList<>();
         String movementType = jsonCard.getMovementsType();
@@ -109,7 +109,7 @@ public class MovementsCardsFactory {
      * @return The list of additional colors for a card from the complementary colors or the
      * additional movements colors.
      */
-    private List<Color> getAdditionalColors(List<String> additionalMovementsColors, Map<String, List<String>> complementaryColors, Color color) {
+    private static List<Color> getAdditionalColors(List<String> additionalMovementsColors, Map<String, List<String>> complementaryColors, Color color) {
         List<String> additionalColorNames = new ArrayList<>();
         if (additionalMovementsColors != null) {
             additionalColorNames.addAll(additionalMovementsColors);
@@ -117,7 +117,7 @@ public class MovementsCardsFactory {
         if (complementaryColors != null) {
             additionalColorNames.addAll(complementaryColors.get(color.toString()));
         }
-        
+
         return additionalColorNames.parallelStream()
                     .map(str -> Color.valueOf(str))
                     .collect(Collectors.toList());
@@ -140,7 +140,7 @@ public class MovementsCardsFactory {
      *
      * @return The created card or null if the type of movements is unknown.
      */
-    private MovementsCard getMovementsCard(Board board, String name, String movementType,
+    private static MovementsCard getMovementsCard(Board board, String name, String movementType,
             int numberOfMovements, Color color, List<Color> additionalColors) {
         switch (movementType) {
             case "line":

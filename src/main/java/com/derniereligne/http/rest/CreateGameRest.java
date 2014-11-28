@@ -1,6 +1,7 @@
 package com.derniereligne.http.rest;
 
 import com.derniereligne.engine.GameFactory;
+import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 public class CreateGameRest {
 
     private List<JsonPlayer> players;
+    private GameFactory gameFactory;
 
     @Context
     ServletContext context;
@@ -39,12 +41,11 @@ public class CreateGameRest {
                     .build();
         }
 
-        GameFactory gameFactory = new GameFactory();
+        gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
         req.getSession().setAttribute("gameFactory", gameFactory);
 
-        String output = gson.toJson(players);
-        return Response.status(Response.Status.OK).entity(output).build();
+        return getJsonResponse();
     }
 
     /**
@@ -60,6 +61,21 @@ public class CreateGameRest {
         }
 
         players = correctedListOfPlayers;
+    }
+
+    private Response getJsonResponse() {
+        Match match = gameFactory.getMatch();
+
+        NextPlayer nextPlayer = new NextPlayer();
+        nextPlayer.init();
+        nextPlayer.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
+        nextPlayer.setNextPlayerName(match.getActivePlayerName());
+        nextPlayer.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
+
+        Gson gson = new Gson();
+        String output = gson.toJson(nextPlayer);
+
+        return Response.status(Response.Status.OK).entity(output).build();
     }
 
 }

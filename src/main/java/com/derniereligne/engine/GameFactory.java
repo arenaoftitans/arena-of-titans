@@ -62,29 +62,21 @@ public class GameFactory {
      */
     private final int armsWidth;
     /**
-     * The board as a double array of String.
-     */
-    private Square[][] board;
-    /**
      * The object used to generate the SVG.
      */
     private SvgBoardGenerator svgBoardGenerator;
-    /**
-     * The factory used to get all the cards.
-     */
-    private MovementsCardsFactory movementsCardsFactory;
     /**
      * The generate game board.
      */
     private Board gameBoard;
     /**
-     * The generate Deck of cards.
-     */
-    private Deck deck;
-    /**
      * The current match.
      */
     private Match match;
+    /**
+     * The functional interface used to create decks.
+     */
+    private DeckCreator deckCreator;
 
     public GameFactory() {
         this("standard");
@@ -109,6 +101,13 @@ public class GameFactory {
             armsWidth = jsonBoard.getArmsWidth();
             svgBoardGenerator = new SvgBoardGenerator(jsonBoard, boardName);
             createBoard();
+            deckCreator = () -> {
+                List<MovementsCard> cards = MovementsCardsFactory.getCardsFromColorNames(gameBoard,
+                        jsonGame.getMovementsCards(), jsonGame.getColors());
+                Deck deck = new Deck(cards);
+
+                return deck;
+            };
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
             throw new ExceptionInInitializerError(ex);
@@ -122,7 +121,7 @@ public class GameFactory {
      * @return
      */
     private void createBoard() {
-        board = new Square[height][width];
+        Square[][] board = new Square[height][width];
         List<List<Color>> disposition = svgBoardGenerator.getColorDisposition();
 
         for (int i = 0; i < height; i++) {
@@ -131,47 +130,14 @@ public class GameFactory {
                 board[i][j] = new Square(j, i, color);
             }
         }
-    }
 
-    /**
-     * <b>Returns the current gameBoard.</b>
-     * <div>
-     *  If the current gameBoard is null, we create a new board.
-     * </div>
-     *
-     * @return
-     *          The gameBoard
-     *
-     * @see Board
-     * @see Board#Board(int, int, int, int, com.derniereligne.engine.board.Square[][])
-     *
-     * @see GameFactory#getBoard()
-     *
-     * @since 1.0
-     */
-    public Board getBoard() {
-        if (gameBoard == null) {
-            gameBoard = new Board(width, height, innerCircleHigherY, armsWidth, board);
-        }
-        return gameBoard;
-    }
-
-    public Deck getDeck() {
-        if (deck == null) {
-            movementsCardsFactory = new MovementsCardsFactory();
-            List<MovementsCard> cards = movementsCardsFactory.getCardsFromColorNames(getBoard(),
-                    jsonGame.getMovementsCards(), jsonGame.getColors());
-            deck = new Deck(cards);
-        }
-
-        return deck;
+        gameBoard = new Board(width, height, innerCircleHigherY, armsWidth, board);
     }
 
     /**
      * <b>Returns the name of the board.</b>
      *
-     * @return
-     *          The name of the board.
+     * @return The name of the board.
      *
      * @see GameFactory#boardName
      *
@@ -184,8 +150,7 @@ public class GameFactory {
     /**
      * <b>Returns the string associated to the SvgBoardGenerator.</b>
      *
-     * @return
-     *          The string associated to the SvgBoardGenerator.
+     * @return The string associated to the SvgBoardGenerator.
      *
      * @see GameFactory#svgBoardGenerator
      *
@@ -200,14 +165,12 @@ public class GameFactory {
     /**
      * <b>Returns a match with the players given in parameter.</b>
      * <div>
-     *  If the current match is null, creates a new match with the board and the players.
+     * If the current match is null, creates a new match with the board and the players.
      * </div>
      *
-     * @param jsonPlayers
-     *          Players for the new match.
+     * @param jsonPlayers Players for the new match.
      *
-     * @return
-     *          The current match.
+     * @return The current match.
      *
      * @see GameFactory#getBoard()
      * @see GameFactory#getPlayers(java.util.List)
@@ -220,7 +183,7 @@ public class GameFactory {
      */
     public Match createNewMatch(List<JsonPlayer> jsonPlayers) {
         List<Player> players = getPlayers(jsonPlayers);
-        match = new Match(players, getBoard());
+        match = new Match(players, gameBoard, deckCreator);
 
         return match;
     }
@@ -247,6 +210,14 @@ public class GameFactory {
 
     public Match getMatch() {
         return match;
+    }
+
+    public DeckCreator getDeckCreator() {
+        return deckCreator;
+    }
+
+    public Board getBoard() {
+        return gameBoard;
     }
 
 }

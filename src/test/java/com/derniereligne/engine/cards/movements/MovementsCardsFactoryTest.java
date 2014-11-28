@@ -38,7 +38,7 @@ public class MovementsCardsFactoryTest {
                 colors.add(Color.valueOf(colorName));
             }
 
-            cards = new MovementsCardsFactory().getCards(null, jsonMovementsCards, colors);
+            cards = MovementsCardsFactory.getCards(null, jsonMovementsCards, colors);
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
