@@ -64,7 +64,8 @@ public class Match {
      *
      * @see Board
      * @see Player
-     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board, com.derniereligne.engine.cards.Deck)
+     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board,
+     * com.derniereligne.engine.cards.Deck)
      *
      * @since 1.0
      */
@@ -75,9 +76,9 @@ public class Match {
     public Match(List<Player> players, Board board, DeckCreator deckCreator) {
         this.players = players;
         this.board = board;
-        for (Player player: this.players) {
+        this.players.parallelStream().forEach((player) -> {
             player.initGame(board, deckCreator);
-        }
+        });
         this.activePlayer = players.get(0);
     }
 
@@ -177,106 +178,10 @@ public class Match {
         if (nextPlayer.getIndex() == activePlayer.getIndex()) {
             return null;
         } else {
-            Set<Integer> aims = activePlayer.aim();
-            Square activeSquare = activePlayer.getCurrentSquare();
-            boolean aimsContainTargetedX = aims.contains(targetedX);
-            if (aimsContainTargetedX && targetedY == Player.BOARD_ARM_LENGTH_AND_MAX_Y && activeSquare.getX() == targetedX && activeSquare.getY() == targetedY) {
-                makeActivePlayerWinner();
-            }
+            checkIfActivePlayerWon(targetedX, targetedY);
 
             return continueGameIfEnoughPlayers(nextPlayer, targetedX, targetedY);
         }
-    }
-
-    /**
-     * <b>Continues the game if there are enough players in game.</b>
-     * If there are more than 1 non winner player, the active player moves and the active player changes.
-     *
-     * @param nextPlayer
-     *          Next active player
-     * @param targetedX
-     *          X where to go
-     * @param targetedY
-     *          Y where to go
-     *
-     * @return
-     *          The next active player.
-     *
-     * @see Board#getSquare(int, int)
-     *
-     * @see #activePlayer
-     * @see #board
-     * @see #players
-     *
-     * @see Player#moveTo(com.derniereligne.engine.board.Square)
-     */
-    private Player continueGameIfEnoughPlayers(Player nextPlayer, int targetedX, int targetedY) {
-        int numberOfPlayersNotWinner = players.parallelStream()
-                .filter(pl -> pl != null && !pl.isWinnerInMatch())
-                .collect(Collectors.toList()).size();
-
-        if (numberOfPlayersNotWinner == 1) {
-            return null;
-        } else {
-            activePlayer.moveTo(board.getSquare(targetedX, targetedY));
-            activePlayer = nextPlayer;
-        }
-        return activePlayer;
-    }
-
-    /**
-     * <b>Makes the active player a winner.</b>
-     * <ul>
-     *  <li>active player wins,</li>
-     *  <li>the next available rank is higher.</li>
-     * </ul>
-     *
-     * @see #activePlayer
-     * @see #nextRankAvailable
-     *
-     * @since 1.
-     */
-    private void makeActivePlayerWinner() {
-        activePlayer.wins(nextRankAvailable);
-        nextRankAvailable++;
-    }
-
-    /**
-     * <b>Return the list of players in game.</b>
-     *
-     * @return List of players in game
-     *
-     * @see Match#players
-     *
-     * @see Player
-     *
-     * @since 1.0
-     */
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    /**
-     * <b>Return the active player.</b>
-     *
-     * @return The active player
-     *
-     * @see Match#activePlayer
-     *
-     * @see Player
-     *
-     * @since 1.0
-     */
-    public Player getActivePlayer() {
-        return activePlayer;
-    }
-
-    public String getActivePlayerName() {
-        return activePlayer.getName();
-    }
-
-    public List<Map<String, String>> getActivePlayerHandForJsonExport() {
-        return activePlayer.getDeck().getHandForJsonExport();
     }
 
     /**
@@ -322,6 +227,156 @@ public class Match {
             }
         }
         return players.get(testingIndex);
+    }
+
+    /**
+     * If the active player has won, make it a winner.
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     */
+    private void checkIfActivePlayerWon(int targetedX, int targetedY) {
+        if (activePlayerHasReachedItsAim(targetedX, targetedY)) {
+            makeActivePlayerWinner();
+        }
+    }
+
+    /**
+     * Returns true if the active player stayed on the good last line for one turn.
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player has reached its aim.
+     */
+    private boolean activePlayerHasReachedItsAim(int targetedX, int targetedY) {
+        return isPlayerOnGoodArm(targetedX)
+                && isPlayerOnLastLine(targetedY)
+                && onLastLineSinceOneTurn(targetedX, targetedY);
+    }
+
+    /**
+     * Returns true if the active player is in the good arm.
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is in the good arm.
+     */
+    private boolean isPlayerOnGoodArm(int targetedX) {
+        Set<Integer> aim = activePlayer.aim();
+        return aim.contains(targetedX);
+    }
+
+    /**
+     * Is the active player is on the last line?
+     *
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is on the last line.
+     */
+    private boolean isPlayerOnLastLine(int targetedY) {
+        return targetedY == Player.BOARD_ARM_LENGTH_AND_MAX_Y;
+    }
+
+    /**
+     * Is the active player on the last line for one turn?
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is on the last line for one turn.
+     */
+    private boolean onLastLineSinceOneTurn(int targetedX, int targetedY) {
+        Square activeSquare = activePlayer.getCurrentSquare();
+        return activeSquare.getX() == targetedX && activeSquare.getY() == targetedY;
+    }
+
+    /**
+     * <b>Makes the active player a winner.</b>
+     * <ul>
+     * <li>active player wins,</li>
+     * <li>the next available rank is higher.</li>
+     * </ul>
+     *
+     * @see #activePlayer
+     * @see #nextRankAvailable
+     *
+     * @since 1.
+     */
+    private void makeActivePlayerWinner() {
+        activePlayer.wins(nextRankAvailable);
+        nextRankAvailable++;
+    }
+
+    /**
+     * <b>Continues the game if there are enough players in game.</b>
+     * If there are more than 1 non winner player, the active player moves and the active player
+     * changes.
+     *
+     * @param nextPlayer Next active player
+     * @param targetedX X where to go
+     * @param targetedY Y where to go
+     *
+     * @return The next active player.
+     *
+     * @see Board#getSquare(int, int)
+     *
+     * @see #activePlayer
+     * @see #board
+     * @see #players
+     *
+     * @see Player#moveTo(com.derniereligne.engine.board.Square)
+     */
+    private Player continueGameIfEnoughPlayers(Player nextPlayer, int targetedX, int targetedY) {
+        int numberOfPlayersNotWinner = players.parallelStream()
+                .filter(player -> player != null && !player.isWinnerInMatch())
+                .collect(Collectors.toList()).size();
+
+        if (numberOfPlayersNotWinner == 1) {
+            return null;
+        } else {
+            activePlayer.moveTo(board.getSquare(targetedX, targetedY));
+            activePlayer = nextPlayer;
+        }
+        return activePlayer;
+    }
+
+    /**
+     * <b>Return the list of players in game.</b>
+     *
+     * @return List of players in game
+     *
+     * @see Match#players
+     *
+     * @see Player
+     *
+     * @since 1.0
+     */
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * <b>Return the active player.</b>
+     *
+     * @return The active player
+     *
+     * @see Match#activePlayer
+     *
+     * @see Player
+     *
+     * @since 1.0
+     */
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
+    public String getActivePlayerName() {
+        return activePlayer.getName();
+    }
+
+    public List<Map<String, String>> getActivePlayerHandForJsonExport() {
+        return activePlayer.getDeck().getHandForJsonExport();
     }
 
 }
