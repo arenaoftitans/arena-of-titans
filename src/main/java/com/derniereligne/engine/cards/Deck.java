@@ -5,6 +5,7 @@ import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Deck {
     private static final int CARDS_IN_HANDS = 5;
@@ -191,10 +192,9 @@ public class Deck {
             return null;
         }
 
-        Color cardColor;
         // We test if the color exists.
         try {
-            cardColor = Color.valueOf(cardColorName.toUpperCase());
+            Color cardColor = Color.valueOf(cardColorName.toUpperCase());
             return getCard(cardName, cardColor);
         } catch (IllegalArgumentException ex) {
             return null;
@@ -215,17 +215,8 @@ public class Deck {
      * @return MovementsCard A card on the given board with the given type of the given color.
      */
     private MovementsCard getCard(String cardName, Color cardColor) {
-        if (cardName == null) {
-            return null;
-        }
-        cardName = cardName.toLowerCase();
-        for (MovementsCard card : remainingCards) {
-            String currentCardName = card.getName().toLowerCase();
-            if (currentCardName.equals(cardName) && card.getColor().equals(cardColor)) {
-                return card;
-            }
-        }
-
-        return null;
+        return remainingCards.parallelStream()
+            .filter(card -> card.getName().toLowerCase().equals(cardName.toLowerCase()) && card.getColor().equals(cardColor))
+            .findFirst().get();
     }
 }
