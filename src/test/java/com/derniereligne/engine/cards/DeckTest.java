@@ -26,18 +26,11 @@ public class DeckTest {
     }
 
     @Test
-    @Ignore
     public void testGetCard_String_String() {
-        assertEquals(new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.RED),
-                deck.getCard("Queen", "red"));
-
-        List<Color> additionalColors = new ArrayList<>();
-        additionalColors.add(Color.BLUE);
-
-        additionalColors = new ArrayList<>();
-        additionalColors.add(Color.ALL);
-        assertEquals(new LineAndDiagonalMovementsCard(null, "Wizard", 1, Color.YELLOW, additionalColors),
-                deck.getCard("Wizard", "yellow"));
+        MovementsCard card = deck.getFirstCardInHand();
+        String  name = card.getName();
+        String color = card.getColor().toString();
+        assertEquals(card, deck.getCard(name, color));
     }
 
     @Test
@@ -68,7 +61,6 @@ public class DeckTest {
     }
 
     @Test
-    @Ignore
     public void testPlayCardWithExistingCard() {
         int numberOfRemainingCardsBeforePlay = deck.getNumberCardsInStock();
         MovementsCard playedCard = deck.getFirstCardInHand();
@@ -78,10 +70,10 @@ public class DeckTest {
         assertEquals(numberOfRemainingCardsAfterPlay, numberOfRemainingCardsBeforePlay - 1);
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         assertEquals(deck.getNumberCardsInGraveyard(), 1);
-        //assertTrue(deck.getNumberCardsInGraveyard().contains(playedCard));
-        //assertFalse(deck.getFirstCardInHand().contains(playedCard));
-        //assertFalse(deck.getNumberCardsInStock().contains(playedCard));
-        //assertFalse(deck.getFirstCardInHand().contains(null));
+        assertTrue(deck.isCardInGraveyard(playedCard));
+        assertFalse(deck.isCardInHand(playedCard));
+        assertFalse(deck.isCardInStock(playedCard));
+        assertFalse(deck.isCardInHand(null));
     }
 
     @Test
@@ -89,14 +81,14 @@ public class DeckTest {
         int numberOfRemainingCards = deck.getNumberCardsInStock();
         deck.playCard(null);
         assertEquals(numberOfRemainingCards, deck.getNumberCardsInStock());
-        assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getFirstCardInHand());
+        assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         assertEquals(0, deck.getNumberCardsInGraveyard());
     }
 
     @Test
-    @Ignore
-    public void testPlayNotContainedCard() {
-        //deck.playCard(deck.getNumberCardsInStock().get(0));
+    public void testPlayCardWithACardWhichIsNotInTheHand() {
+        MovementsCard card = new LineAndDiagonalMovementsCard(null, "Void", 1, Color.BLACK);
+        deck.playCard(card);
         assertEquals(deck.getNumberCardsInStock(), NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInHand(), NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInGraveyard(), 0);
@@ -121,4 +113,5 @@ public class DeckTest {
         // 4 cards have not been played yet.
         assertEquals(NUMBER_TOTAL_OF_CARDS - 4, deck.getNumberCardsInGraveyard());
     }
+
 }

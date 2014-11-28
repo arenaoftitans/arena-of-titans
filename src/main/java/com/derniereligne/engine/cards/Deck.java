@@ -188,6 +188,18 @@ public class Deck {
             .findFirst().get();
     }
 
+    public boolean isCardInHand(MovementsCard card) {
+        return hand.contains(card);
+    }
+
+    public boolean isCardInStock(MovementsCard card) {
+        return stock.contains(card);
+    }
+
+    public boolean isCardInGraveyard(MovementsCard card) {
+        return graveyard.contains(card);
+    }
+
     /**
      * <b>Returns the number of cards in the stock.</b>
      *
