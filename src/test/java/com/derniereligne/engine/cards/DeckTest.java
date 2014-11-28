@@ -57,6 +57,11 @@ public class DeckTest {
     }
 
     @Test
+    public void testGetCardNullColor() {
+        assertNull(deck.getCard("Queen", null));
+    }
+
+    @Test
     public void testInitDeck() {
         int deckSize = deck.getRemainingCards().size();
         deck.initDeck();
