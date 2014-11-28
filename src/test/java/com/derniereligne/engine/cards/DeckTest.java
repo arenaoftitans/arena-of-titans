@@ -33,44 +33,22 @@ public class DeckTest {
     }
 
     @Test
-    public void testGetCard_String_Color() {
-        MovementsCard card = deck.getCard("Queen", Color.BLACK);
-        assertTrue(card != null);
-        assertEquals(card, new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.BLACK));
-    }
-
-    @Test
     public void testGetCard_String_String() {
         assertEquals(new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.RED),
                 deck.getCard("Queen", "red"));
 
         List<Color> additionalColors = new ArrayList<>();
         additionalColors.add(Color.BLUE);
-        assertEquals(new DiagonalMovementsCard(null, "Bishop", 2, Color.BLACK, additionalColors),
-                deck.getCard("Bishop", Color.BLACK));
 
         additionalColors = new ArrayList<>();
         additionalColors.add(Color.ALL);
         assertEquals(new LineAndDiagonalMovementsCard(null, "Wizard", 1, Color.YELLOW, additionalColors),
                 deck.getCard("Wizard", "yellow"));
-
-        assertEquals(new LineMovementsCard(null, "King", 3, Color.BLACK),
-                deck.getCard("King", Color.BLACK));
-
-        assertEquals(new KnightMovementsCard(null, "Knight", 1, Color.BLACK),
-                deck.getCard("Knight", Color.BLACK));
     }
 
     @Test
     public void testGetCardNullName() {
-        assertNull(deck.getCard(null, Color.BLACK));
         assertNull(deck.getCard(null, "Black"));
-    }
-
-    @Test
-    public void testGetCardInvalidCard() {
-        assertNull(deck.getCard("Spock", Color.BLACK));
-        assertNull(deck.getCard("Dorothy", Color.BLACK));
     }
 
     @Test

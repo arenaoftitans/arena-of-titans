@@ -214,8 +214,8 @@ public class Deck {
      *
      * @return MovementsCard A card on the given board with the given type of the given color.
      */
-    public MovementsCard getCard(String cardName, Color cardColor) {
-        if (cardName == null || cardColor == null) {
+    private MovementsCard getCard(String cardName, Color cardColor) {
+        if (cardName == null) {
             return null;
         }
         cardName = cardName.toLowerCase();
