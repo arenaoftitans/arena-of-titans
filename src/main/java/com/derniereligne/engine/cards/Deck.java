@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Deck {
+
     private static final int CARDS_IN_HANDS = 5;
+    private final List<MovementsCard> cardsList;
     private List<MovementsCard> graveyard;
     private List<MovementsCard> hand;
-    private List<MovementsCard> remainingCards;
+    private List<MovementsCard> stock;
 
     /**
      * <b>Constructs a deck with empty hand and empty graveyard.</b>
      *
-     * @param remainingCards
-     *          New deck of card to use.
+     * @param cardsList New deck of card to use.
      *
-     * @see #remainingCards
+     * @see #stock
      * @see #graveyard
      * @see #hand
      *
@@ -27,45 +28,55 @@ public class Deck {
      *
      * @since 1.0
      */
-    public Deck(List<MovementsCard> remainingCards) {
-        graveyard = new ArrayList<>();
+    public Deck(List<MovementsCard> cardsList) {
         hand = new ArrayList<>();
-        this.remainingCards = remainingCards;
+        graveyard = new ArrayList<>();
+        this.cardsList = cardsList;
+        initDeck();
     }
 
     /**
      * <b>Initialize the hand.</b>
      * <div>
-     *  Extracts 5 cards from the deck and put them in hand.
+     * Extracts 5 cards from the deck and put them in hand.
      * </div>
      *
      * @see #hand
-     * @see #extractCardFromRemainingCards()
+     * @see #drawNextCard()
      *
      * @since 1.0
      */
-    public void initDeck() {
+    private void initDeck() {
+        initStock();
         for (int i = 0; i < CARDS_IN_HANDS; i++) {
-            hand.add(extractCardFromRemainingCards());
+            hand.add(drawNextCard());
         }
+    }
+
+    /**
+     * Initialize the stock of cards.
+     *
+     * @see #stock
+     */
+    private void initStock() {
+        stock = new ArrayList<>(cardsList);
+        Collections.shuffle(stock);
     }
 
     /**
      * <b>Playing the given card and returning the new card.</b>
      * <div>
-     *  If the given card is null or if its not contained in the hand or if there is no more cards in the deck,
-     * null will be returned.
+     * If the given card is null or if its not contained in the hand or if there is no more cards in
+     * the deck, null will be returned.
      * </div>
      *
-     * @param cardToPlay
-     *          Try to play this card that should be contained in the hand.
+     * @param cardToPlay Try to play this card that should be contained in the hand.
      *
-     * @return
-     *          The new card taken from the deck.
+     * @return The new card taken from the deck.
      *
      * @see #graveyard
      * @see #hand
-     * @see #extractCardFromRemainingCards()
+     * @see #drawNextCard()
      *
      * @see MovementsCard
      *
@@ -77,37 +88,31 @@ public class Deck {
         } else if (!hand.contains(cardToPlay)) {
             return null;
         } else {
+            MovementsCard newCard = drawNextCard();
             hand.remove(cardToPlay);
             graveyard.add(cardToPlay);
-            MovementsCard newCard = extractCardFromRemainingCards();
-            if (newCard == null ) {
-                return null;
-            } else {
-                hand.add(newCard);
-                return newCard;
-            }
+            hand.add(newCard);
+            return newCard;
         }
     }
 
     /**
      * <b>Returns the remaining cards.</b>
      *
-     * @return
-     *          The remaining cards.
+     * @return The remaining cards.
      *
-     * @see #remainingCards
+     * @see #stock
      *
      * @since 1.0
      */
     public List<MovementsCard> getRemainingCards() {
-        return remainingCards;
+        return stock;
     }
 
     /**
      * <b>Returns the graveyard.</b>
      *
-     * @return
-     *          The graveyard.
+     * @return The graveyard.
      *
      * @see #graveyard
      *
@@ -120,8 +125,7 @@ public class Deck {
     /**
      * <b>Returns the hand.</b>
      *
-     * @return
-     *          The hand.
+     * @return The hand.
      *
      * @see #hand
      *
@@ -134,28 +138,31 @@ public class Deck {
     /**
      * <b>Extracts a card from the remaining cards.</b>
      * <div>
-     *  Shuffles the deck, take the first one, remove it from the deck and returns it.
+     * Shuffles the deck, take the first one, remove it from the deck and returns it.
      * </div>
      *
-     * @return
-     *          A card from the deck.
+     * @return A card from the deck.
      *
-     * @see #remainingCards
+     * @see #stock
      *
      * @see MovementsCard
      *
      * @since 1.0
      */
-    private MovementsCard extractCardFromRemainingCards() {
-        Collections.shuffle(remainingCards);
-        MovementsCard toReturn = null;
-        if (!remainingCards.isEmpty()) {
-            toReturn = remainingCards.get(0);
+    private MovementsCard drawNextCard() {
+        if (stock.isEmpty()) {
+            // Reinit deck
+            initStock();
+            // removeCardsInHandFromStock
+            hand.stream().forEach((card) -> {
+                stock.remove(card);
+            });
         }
-        if (toReturn != null) {
-            remainingCards.remove(0);
-        }
-        return toReturn;
+
+        MovementsCard drawnCard = stock.get(0);
+        stock.remove(drawnCard);
+
+        return drawnCard;
     }
 
     /**
@@ -215,7 +222,7 @@ public class Deck {
      * @return MovementsCard A card on the given board with the given type of the given color.
      */
     private MovementsCard getCard(String cardName, Color cardColor) {
-        return remainingCards.parallelStream()
+        return stock.parallelStream()
             .filter(card -> card.getName().toLowerCase().equals(cardName.toLowerCase()) && card.getColor().equals(cardColor))
             .findFirst().get();
     }

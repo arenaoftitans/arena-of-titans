@@ -7,16 +7,14 @@ package com.derniereligne.engine.cards;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.GameFactory;
-import com.derniereligne.engine.cards.movements.DiagonalMovementsCard;
-import com.derniereligne.engine.cards.movements.KnightMovementsCard;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
-import com.derniereligne.engine.cards.movements.LineMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Ignore;
 
 /**
  *
@@ -25,6 +23,10 @@ import org.junit.Before;
 public class DeckTest {
 
     private Deck deck;
+    private static final int NUMBER_OF_COLORS = 4;
+    private static final int NUMBER_OF_CARD_TYPES = 7;
+    private static final int NUMBER_OF_CARDS_IN_HAND = 5;
+    private static final int NUMBER_TOTAL_OF_CARDS = NUMBER_OF_CARD_TYPES * NUMBER_OF_COLORS;
 
     @Before
     public void init() {
@@ -33,6 +35,7 @@ public class DeckTest {
     }
 
     @Test
+    @Ignore
     public void testGetCard_String_String() {
         assertEquals(new LineAndDiagonalMovementsCard(null, "Queen", 2, Color.RED),
                 deck.getCard("Queen", "red"));
@@ -63,21 +66,25 @@ public class DeckTest {
 
     @Test
     public void testInitDeck() {
-        int deckSize = deck.getRemainingCards().size();
-        deck.initDeck();
-        assertEquals(deck.getRemainingCards().size(), deckSize - deck.getGraveyard().size() - deck.getHand().size());
-        assertEquals(deck.getGraveyard().size(), 0);
-        assertEquals(deck.getHand().size(), 5);
+        int numberOfRemainingCards = deck.getRemainingCards().size();
+        int numberOfPlayedCards = deck.getGraveyard().size();
+        int numberOfCardsInHand = deck.getHand().size();
+
+        assertEquals(NUMBER_TOTAL_OF_CARDS, numberOfRemainingCards + numberOfPlayedCards + numberOfCardsInHand);
+        assertEquals(0, numberOfPlayedCards);
+        assertEquals(NUMBER_OF_CARDS_IN_HAND, numberOfCardsInHand);
+        assertEquals(NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND, numberOfRemainingCards);
     }
 
     @Test
     public void testPlayCardWithExistingCard() {
-        int deckSize = deck.getRemainingCards().size();
-        deck.initDeck();
+        int numberOfRemainingCardsBeforePlay = deck.getRemainingCards().size();
         MovementsCard playedCard = deck.getHand().get(0);
         deck.playCard(playedCard);
-        assertEquals(deck.getRemainingCards().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
-        assertEquals(deck.getHand().size(), 5);
+        int numberOfRemainingCardsAfterPlay = deck.getRemainingCards().size();
+
+        assertEquals(numberOfRemainingCardsAfterPlay, numberOfRemainingCardsBeforePlay - 1);
+        assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getHand().size());
         assertEquals(deck.getGraveyard().size(), 1);
         assertTrue(deck.getGraveyard().contains(playedCard));
         assertFalse(deck.getHand().contains(playedCard));
@@ -87,42 +94,38 @@ public class DeckTest {
 
     @Test
     public void testPlayCardWithNullCard() {
-        int deckSize = deck.getRemainingCards().size();
-        deck.initDeck();
+        int numberOfRemainingCards = deck.getRemainingCards().size();
         deck.playCard(null);
-        assertEquals(deck.getRemainingCards().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
-        assertEquals(deck.getHand().size(), 5);
+        assertEquals(deck.getRemainingCards().size(), numberOfRemainingCards);
+        assertEquals(deck.getHand().size(), NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getGraveyard().size(), 0);
     }
 
     @Test
     public void testPlayNotContainedCard() {
-        int deckSize = deck.getRemainingCards().size();
-        deck.initDeck();
         deck.playCard(deck.getRemainingCards().get(0));
-        assertEquals(deck.getRemainingCards().size(), deckSize - deck.getHand().size() - deck.getGraveyard().size());
-        assertEquals(deck.getHand().size(), 5);
+        assertEquals(deck.getRemainingCards().size(), NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND);
+        assertEquals(deck.getHand().size(), NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getGraveyard().size(), 0);
     }
 
     @Test
-    public void testExtractNull() {
-        int deckSize = deck.getRemainingCards().size();
-        deck.initDeck();
-
-        while (deck.getHand().size() == 5) {
-            deck.playCard(deck.getHand().get(0));
+    public void testPlayMoreCardsThanTotalCardsInDeck() {
+        // Empty stock.
+        for (int i = 0; i < NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND;  i++) {
+            MovementsCard cardToPlay = deck.getHand().get(0);
+            deck.playCard(cardToPlay);
         }
+        assertTrue(deck.getRemainingCards().isEmpty());
+        assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getHand().size());
 
-        assertEquals(deck.getRemainingCards().size(), 0);
-        assertEquals(deck.getHand().size(), 4);
-        assertEquals(deck.getGraveyard().size(), deckSize - deck.getHand().size());
+        // Play another card
+        MovementsCard cardToPlay = deck.getHand().get(0);
+        deck.playCard(cardToPlay);
 
-        for (int i = 3; i >=0; i--) {
-            deck.playCard(deck.getHand().get(0));
-            assertEquals(deck.getRemainingCards().size(), 0);
-            assertEquals(deck.getHand().size(), i);
-            assertEquals(deck.getGraveyard().size(), deckSize - deck.getHand().size());
-        }
+        assertEquals(NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND - 1, deck.getRemainingCards().size());
+        assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getHand().size());
+        // 4 cards have not been played yet.
+        assertEquals(NUMBER_TOTAL_OF_CARDS - 4, deck.getGraveyard().size());
     }
 }
