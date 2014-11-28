@@ -97,45 +97,6 @@ public class Deck {
     }
 
     /**
-     * <b>Returns the remaining cards.</b>
-     *
-     * @return The remaining cards.
-     *
-     * @see #stock
-     *
-     * @since 1.0
-     */
-    public List<MovementsCard> getRemainingCards() {
-        return stock;
-    }
-
-    /**
-     * <b>Returns the graveyard.</b>
-     *
-     * @return The graveyard.
-     *
-     * @see #graveyard
-     *
-     * @since 1.0
-     */
-    public List<MovementsCard> getGraveyard() {
-        return graveyard;
-    }
-
-    /**
-     * <b>Returns the hand.</b>
-     *
-     * @return The hand.
-     *
-     * @see #hand
-     *
-     * @since 1.0
-     */
-    public List<MovementsCard> getHand() {
-        return hand;
-    }
-
-    /**
      * <b>Extracts a card from the remaining cards.</b>
      * <div>
      * Shuffles the deck, take the first one, remove it from the deck and returns it.
@@ -226,4 +187,57 @@ public class Deck {
             .filter(card -> card.getName().toLowerCase().equals(cardName.toLowerCase()) && card.getColor().equals(cardColor))
             .findFirst().get();
     }
+
+    /**
+     * <b>Returns the number of cards in the stock.</b>
+     *
+     * @return number of cards in the stock.
+     *
+     * @see #stock
+     *
+     * @since 1.0
+     */
+    public int getNumberCardsInStock() {
+        return stock.size();
+    }
+
+    /**
+     * <b>Returns the number of cards in graveyard.</b>
+     *
+     * @return Number of cards in the graveyard.
+     *
+     * @see #graveyard
+     *
+     * @since 1.0
+     */
+    public int getNumberCardsInGraveyard() {
+        return graveyard.size();
+    }
+
+    /**
+     * <b>Returns the number of cards in the hand.</b>
+     *
+     * @return Number of cards in the hand.
+     *
+     * @see #hand
+     *
+     * @since 1.0
+     */
+    public int getNumberCardsInHand() {
+        return hand.size();
+    }
+
+    /**
+     * <b>Returns the first card of the hand.</b>
+     *
+     * @return The first card of the hand.
+     *
+     * @see #hand
+     *
+     * @since 1.0
+     */
+    public MovementsCard getFirstCardInHand() {
+        return hand.get(0);
+    }
+
 }
