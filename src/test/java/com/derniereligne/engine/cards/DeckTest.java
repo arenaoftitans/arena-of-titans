@@ -4,12 +4,9 @@ import com.derniereligne.engine.Color;
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Ignore;
 
 public class DeckTest {
 
