@@ -7,7 +7,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCardsFactory;
-import com.derniereligne.rest.servlets.JsonPlayer;
+import com.derniereligne.http.rest.JsonPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

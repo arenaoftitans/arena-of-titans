@@ -1,4 +1,4 @@
-package com.derniereligne.rest.servlets;
+package com.derniereligne.http.rest;
 
 import com.google.gson.Gson;
 import java.util.List;

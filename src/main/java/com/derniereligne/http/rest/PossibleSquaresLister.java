@@ -1,4 +1,4 @@
-package com.derniereligne.rest.servlets;
+package com.derniereligne.http.rest;
 
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.Match;

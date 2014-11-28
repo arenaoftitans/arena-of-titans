@@ -1,4 +1,4 @@
-package com.derniereligne.servlets;
+package com.derniereligne.http;
 
 import com.derniereligne.engine.GameFactory;
 import java.io.IOException;
