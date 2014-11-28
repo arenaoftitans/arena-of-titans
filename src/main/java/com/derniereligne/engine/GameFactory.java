@@ -40,27 +40,27 @@ public class GameFactory {
     /**
      * The Java representation of a game.
      */
-    protected final JsonGame jsonGame;
+    protected JsonGame jsonGame;
     /**
      * The Java representation of the jsonBoard.
      */
-    protected final JsonBoard jsonBoard;
+    protected JsonBoard jsonBoard;
     /**
      * The width of the board.
      */
-    private final int width;
+    private int width;
     /**
      * The height of the board.
      */
-    private final int height;
+    private int height;
     /**
      * The higher y coordinate of the circle.
      */
-    private final int innerCircleHigherY;
+    private int innerCircleHigherY;
     /**
      * The width of the arms.
      */
-    private final int armsWidth;
+    private int armsWidth;
     /**
      * The object used to generate the SVG.
      */
@@ -87,31 +87,39 @@ public class GameFactory {
         try {
             URI resource = getClass().getResource(JSON_FILENAME).toURI();
             String jsonString = FileUtils.readFileToString(new File(resource));
+            initFromJson(jsonString);
 
-            Gson gson = new Gson();
-            JsonParser parser = new JsonParser();
-            JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-            jsonGame = gson.fromJson(jsonObject.get(boardName), JsonGame.class);
-            jsonBoard = jsonGame.getBoard();
-
-            // Initialize the board.
-            width = jsonBoard.getWidth();
-            height = jsonBoard.getHeight();
-            innerCircleHigherY = jsonBoard.getInnerCircleHigherY();
-            armsWidth = jsonBoard.getArmsWidth();
-            svgBoardGenerator = new SvgBoardGenerator(jsonBoard, boardName);
-            createBoard();
-            deckCreator = () -> {
-                List<MovementsCard> cards = MovementsCardsFactory.getCardsFromColorNames(gameBoard,
-                        jsonGame.getMovementsCards(), jsonGame.getColors());
-                Deck deck = new Deck(cards);
-
-                return deck;
-            };
+            initBoard();
         } catch (IOException | URISyntaxException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
             throw new ExceptionInInitializerError(ex);
         }
+    }
+
+    /**
+     * Parse the json and instantiate the json objects.
+     *
+     * @param jsonString The JSON.
+     */
+    private void initFromJson(String jsonString) {
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
+        jsonGame = gson.fromJson(jsonObject.get(boardName), JsonGame.class);
+        jsonBoard = jsonGame.getBoard();
+    }
+
+    /**
+     * Initialize the board.
+     */
+    private void initBoard() {
+        width = jsonBoard.getWidth();
+        height = jsonBoard.getHeight();
+        innerCircleHigherY = jsonBoard.getInnerCircleHigherY();
+        armsWidth = jsonBoard.getArmsWidth();
+        svgBoardGenerator = new SvgBoardGenerator(jsonBoard, boardName);
+        createBoard();
+        createDeckCreator();
     }
 
     /**
@@ -132,6 +140,16 @@ public class GameFactory {
         }
 
         gameBoard = new Board(width, height, innerCircleHigherY, armsWidth, board);
+    }
+
+    private void createDeckCreator() {
+        deckCreator = () -> {
+            List<MovementsCard> cards = MovementsCardsFactory.getCardsFromColorNames(gameBoard,
+                    jsonGame.getMovementsCards(), jsonGame.getColors());
+            Deck deck = new Deck(cards);
+
+            return deck;
+        };
     }
 
     /**
