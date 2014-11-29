@@ -207,26 +207,34 @@ public class Match {
      * @since 1.0
      */
     private Player getNextPlayer() {
-        int activeIndex = activePlayer.getIndex();
-        int testingIndex = activeIndex + 1;
-        while (testingIndex <= players.size() - 1) {
-            if (players.get(testingIndex) != null) {
+        int indexNextPlayer = getNextPlayerIndex(activePlayer.getIndex() + 1);
+
+        if (indexNextPlayer == players.size()) {
+            indexNextPlayer = getNextPlayerIndex(0);
+        }
+        return players.get(indexNextPlayer);
+    }
+
+    /**
+     * Returns the index of the next player who has an index >= to the index of the player passed as
+     * a parameter.
+     *
+     * @param indexNextPlayerStartValue Index from which to start the search.
+     *
+     * @return The index of the next player.
+     */
+    private int getNextPlayerIndex(int indexNextPlayerStartValue) {
+        int indexNextPlayer = indexNextPlayerStartValue;
+        while (indexNextPlayer < players.size()) {
+            // TODO: if player is not null, condition 1 is filled, so no need of cond 2?
+            if (players.get(indexNextPlayer) != null) {
                 break;
-            } else if (players.get(testingIndex) == null || !players.get(testingIndex).canPlay()) {
-                testingIndex++;
+            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).canPlay()) {
+                indexNextPlayer++;
             }
         }
-        if (testingIndex == players.size()) {
-            testingIndex = 0;
-            while (testingIndex <= activeIndex) {
-                if (players.get(testingIndex) != null) {
-                    break;
-                } else if (players.get(testingIndex) == null || !players.get(testingIndex).canPlay()) {
-                    testingIndex++;
-                }
-            }
-        }
-        return players.get(testingIndex);
+
+        return indexNextPlayer;
     }
 
     /**
