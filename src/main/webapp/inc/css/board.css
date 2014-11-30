@@ -1,3 +1,10 @@
+#gameBoard {
+    left: -285px;
+    position: absolute;
+    top: -586px;
+    transform: scale(0.4);
+}
+
 rect, path {
     opacity:0.25422764;
     stroke:#000000;

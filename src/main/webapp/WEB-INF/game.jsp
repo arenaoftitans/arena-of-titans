@@ -35,7 +35,9 @@
                     </div>
                 </div>
 
-                ${svgBoard}
+                <div id="gameBoardContainer">
+                    ${svgBoard}
+                </div>
             </div>
         </div>
     </body>
