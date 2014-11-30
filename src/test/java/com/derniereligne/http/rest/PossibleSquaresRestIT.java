@@ -19,8 +19,6 @@ import org.junit.Test;
  */
 public class PossibleSquaresRestIT extends RestTest {
 
-    private HashMap<String, String> defaultParameters;
-
     @Before
     public void setUp() {
         requestUrl = "/DerniereLigneGameEngine/rest/getPossibleSquares";

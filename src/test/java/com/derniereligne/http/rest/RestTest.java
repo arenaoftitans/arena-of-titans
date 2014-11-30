@@ -16,6 +16,7 @@ class RestTest {
     protected String jsonCreateTwoPlayersGame;
     protected String createGameUrl = "/DerniereLigneGameEngine/rest/createGame";
     protected String jSessionId;
+    protected HashMap<String, String> defaultParameters;
 
     public RestTest() {
         RestAssured.basePath = "http://localhost:8080";
