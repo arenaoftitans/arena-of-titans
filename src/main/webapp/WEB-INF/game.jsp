@@ -11,7 +11,8 @@
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
         <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
-        <script src="inc/js/game.js" type="text/javascript"></script>
+        <script src="inc/js/app/game/game-module.js" type="text/javascript"></script>
+        <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">
         <div ng-controller="game">
