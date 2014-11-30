@@ -14,9 +14,7 @@ function showHttpError(data) {
     }
 }
 
-var nameSpace = angular.module("lastLine", []);
-
-nameSpace.controller("game", ['$scope', '$http', function ($scope, $http) {
+app.controller("game", ['$scope', '$http', function ($scope, $http) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.currentCards = [];
         $scope.curentPlayer = {};
