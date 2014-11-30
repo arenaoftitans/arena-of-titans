@@ -27,9 +27,9 @@ public class PossibleSquaresRestIT extends RestTest {
         createGame();
 
         defaultParameters = new HashMap<>();
-        defaultParameters.put("card_name", "king");
-        defaultParameters.put("card_color", "red");
-        defaultParameters.put("player_id", "0");
+        defaultParameters.put(CARD_NAME_KEY, "king");
+        defaultParameters.put(COLOR_NAME_KEY, "red");
+        defaultParameters.put(PLAYER_ID_KEY, "0");
     }
 
     @Test

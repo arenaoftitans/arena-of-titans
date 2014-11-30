@@ -9,6 +9,9 @@ import java.util.HashMap;
 class RestTest {
 
     protected static final String SESSION_ID = "JSESSIONID";
+    protected static final String CARD_NAME_KEY = "card_name";
+    protected static final String COLOR_NAME_KEY = "card_color";
+    protected static final String PLAYER_ID_KEY = "player_id";
     protected String requestUrl;
     protected String jsonCreateTwoPlayersGame;
     protected String createGameUrl = "/DerniereLigneGameEngine/rest/createGame";
