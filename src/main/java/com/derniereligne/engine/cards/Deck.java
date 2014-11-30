@@ -188,9 +188,19 @@ public class Deck {
      * @return MovementsCard A card on the given board with the given type of the given color.
      */
     private MovementsCard getCard(String cardName, Color cardColor) {
-        return hand.parallelStream()
-            .filter(card -> card.getName().toLowerCase().equals(cardName.toLowerCase()) && card.getColor().equals(cardColor))
-            .findFirst().get();
+        if (cardName == null) {
+            return null;
+        }
+
+        cardName = cardName.toLowerCase();
+        for (MovementsCard card : hand) {
+            String currentCardName = card.getName().toLowerCase();
+            if (currentCardName.equals(cardName) && card.getColor().equals(cardColor)) {
+                return card;
+            }
+        }
+
+        return null;
     }
 
     public boolean isCardInHand(MovementsCard card) {

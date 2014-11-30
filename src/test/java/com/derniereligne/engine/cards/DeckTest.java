@@ -31,6 +31,11 @@ public class DeckTest {
     }
 
     @Test
+    public void testGetCardWrongCardName() {
+        assertNull(deck.getCard("Azerty", "Black"));
+    }
+
+    @Test
     public void testGetCardNullName() {
         assertNull(deck.getCard(null, "Black"));
     }
