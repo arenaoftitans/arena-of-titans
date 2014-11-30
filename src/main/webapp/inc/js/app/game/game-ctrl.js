@@ -1,20 +1,9 @@
-
-/**
- * Use alert to print errors.
- *
- * @param {Object} data the response of the server.
- *
- * @returns {undefined}
- */
-function showHttpError(data) {
-    if (data.hasOwnProperty('error_to_display')) {
-        alert(data.error_to_display);
-    } else {
-        console.log(data.error);
-    }
-}
-
-app.controller("game", ['$scope', '$http', function ($scope, $http) {
+app.controller("game", ['$scope',
+    '$http',
+    'showHttpError',
+    'squares',
+    'player',
+    function ($scope, $http, showHttpError, squares, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.currentCards = [];
         $scope.curentPlayer = {};
@@ -23,43 +12,6 @@ app.controller("game", ['$scope', '$http', function ($scope, $http) {
         // colors thanks to ng-repeat.
         $scope.colors = ['blue', 'red', 'black', 'yellow'];
         $scope.cards = ['warrior', 'wizard', 'rider', 'bishop', 'queen', 'king', 'assassin'];
-
-        function resetHighlightedSquares() {
-            for (var index in $scope.highlightedSquares) {
-                var id = $scope.highlightedSquares[index];
-                d3.select('#' + id).classed('highlightedSquare', false);
-            }
-        }
-
-        function highlightSquares() {
-            for (var index in $scope.highlightedSquares) {
-                var id = $scope.highlightedSquares[index];
-                d3.select('#' + id).classed('highlightedSquare', true);
-            }
-        }
-
-        function movePlayerTo(playerIndex, squareId) {
-            var playerId = 'player' + playerIndex;
-            var circleToDelete = document.getElementById(playerId);
-            if (circleToDelete) {
-                circleToDelete.parentNode.removeChild(circleToDelete);
-            }
-            var square = document.getElementById(squareId);
-            var boundingBox = square.getBBox();
-            var height = Number(boundingBox.height);
-            var width = Number(boundingBox.width);
-            var x = Number(boundingBox.x) + width / 2;
-            var y = Number(boundingBox.y) + height / 2;
-            var radius = width / 4;
-            var transform = square.getAttribute('transform');
-            var player = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            player.setAttribute('id', playerId);
-            player.setAttribute('cx', x);
-            player.setAttribute('cy', y);
-            player.setAttribute('r', radius);
-            player.setAttribute('transform', transform);
-            document.getElementById('boardLayer').appendChild(player);
-        }
 
         // Function called when a button is clicked.
         $scope.viewPossibleMovements = function (card, color) {
@@ -77,17 +29,17 @@ app.controller("game", ['$scope', '$http', function ($scope, $http) {
                 }
             })
                     .success(function (data) {
-                        resetHighlightedSquares();
+                        squares.reset($scope.highlightedSquares);
 
                         $scope.highlightedSquares = data;
 
-                        highlightSquares();
+                        squares.highlight($scope.highlightedSquares);
 
                         // Stores the selected card.
                         $scope.currentCards = {card_name: card, card_color: color};
                     })
                     .error(function (data) {
-                        showHttpError(data);
+                        showHttpError.show(data);
                         $scope.currentCards = {};
                     });
         };
@@ -106,13 +58,13 @@ app.controller("game", ['$scope', '$http', function ($scope, $http) {
                     }
                 })
                         .success(function (data) {
-                            movePlayerTo($scope.currentPlayer.id, data.newSquare);
+                            player.move($scope.currentPlayer.id, data.newSquare);
                             $scope.currentPlayer = data.nextPlayer;
                             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-                            resetHighlightedSquares();
+                            squares.reset($scope.highlightedSquares);
                         })
                         .error(function (data) {
-                            showHttpError(data);
+                            showHttpError.show(data);
                         });
             } else {
                 alert('Please select a card.');
@@ -140,6 +92,8 @@ app.controller("game", ['$scope', '$http', function ($scope, $http) {
                         $scope.currentPlayer = data.nextPlayer;
                         $scope.currentPlayerCards = data.possibleCardsNextPlayer;
                     })
-                    .error(showHttpError);
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
         };
     }]);
