@@ -54,6 +54,13 @@ public class Match {
     private Integer nextRankAvailable = 1;
 
     /**
+     * Used to know if active player has played once or twice
+     *
+     * @since 1.0
+     */
+    private boolean activeCanStillPlay;
+
+    /**
      * <b>Constructor initializing a match with the given parameters.</b>
      * <div>
      * By default, the active player is the first player in the list of players.
@@ -81,6 +88,7 @@ public class Match {
             player.initGame(board, deckCreator)
         );
         this.activePlayer = players.get(0);
+        this.activeCanStillPlay = true;
     }
 
     /**
@@ -346,7 +354,13 @@ public class Match {
             return null;
         } else {
             activePlayer.moveTo(board.getSquare(targetedX, targetedY));
-            activePlayer = nextPlayer;
+            if (!activeCanStillPlay) {
+                activePlayer = nextPlayer;
+                activeCanStillPlay = true;
+            }
+            else {
+                activeCanStillPlay = false;
+            }
         }
         return activePlayer;
     }

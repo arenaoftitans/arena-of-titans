@@ -77,12 +77,14 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnFirstPlayerPlayingInFullGame() {
+        match.playTurn(defaultX, defaultY, null);
         assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(1));
     }
 
     @Test
     public void testPlayTurnForLastPlayerInFullGame() {
-        for (int i = 0; i <= 6; i++) {
+        // Players play twice !
+        for (int i = 0; i <= 14; i++) {
             match.playTurn(defaultX, defaultY, null);
         }
 
@@ -92,6 +94,7 @@ public class MatchTest {
     @Test
     public void testPlayTurnForFirstPlayerInPartialGame() {
         match.getPlayers().set(1, null);
+        match.playTurn(defaultX, defaultY, null);
 
         assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(2));
     }
