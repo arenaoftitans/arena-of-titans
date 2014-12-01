@@ -121,9 +121,9 @@ public class Deck {
             // Reinit deck
             initStock();
             // removeCardsInHandFromStock
-            hand.stream().forEach(card -> {
-                stock.remove(card);
-            });
+            hand.stream().forEach(card ->
+                stock.remove(card)
+            );
         }
 
         MovementsCard drawnCard = stock.get(0);
