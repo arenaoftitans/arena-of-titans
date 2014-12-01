@@ -73,7 +73,7 @@ app.controller("game", ['$scope',
          * @param {type} squareY The y coordinate of the square on which the player wants to go.
          */
         $scope.play = function (squareX, squareY) {
-            if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
+            if (Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
                     method: 'GET',
