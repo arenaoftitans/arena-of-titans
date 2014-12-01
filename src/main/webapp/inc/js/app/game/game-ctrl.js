@@ -10,6 +10,23 @@ app.controller("game", ['$scope',
         $scope.numberMaximumOfPlayers = 8;
         $scope.players = player.init($scope.numberMaximumOfPlayers);
 
+        $scope.createGame = function () {
+            $http({
+                url: '/DerniereLigneGameEngine/rest/createGame',
+                method: 'POST',
+                data: $scope.players
+            })
+                    .success(function (data) {
+                        angular.element('#createGame').hide();
+                        angular.element('#game').show();
+                        $scope.currentPlayer = data.nextPlayer;
+                        $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
+        };
+
         $scope.viewPossibleMovements = function (card, color) {
 
             // Do a GET on a rest URL. Transmit the name of the card, its color and
@@ -65,23 +82,6 @@ app.controller("game", ['$scope',
             } else {
                 alert('Please select a card.');
             }
-        };
-
-        $scope.createGame = function () {
-            $http({
-                url: '/DerniereLigneGameEngine/rest/createGame',
-                method: 'POST',
-                data: $scope.players
-            })
-                    .success(function (data) {
-                        angular.element('#createGame').hide();
-                        angular.element('#game').show();
-                        $scope.currentPlayer = data.nextPlayer;
-                        $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
         };
     }
 ]);
