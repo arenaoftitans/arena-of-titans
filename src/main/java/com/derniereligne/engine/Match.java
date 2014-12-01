@@ -76,7 +76,7 @@ public class Match {
     public Match(List<Player> players, Board board, DeckCreator deckCreator) {
         this.players = players;
         this.board = board;
-        this.players.parallelStream().forEach((player) -> {
+        this.players.parallelStream().forEach(player -> {
             player.initGame(board, deckCreator);
         });
         this.activePlayer = players.get(0);
