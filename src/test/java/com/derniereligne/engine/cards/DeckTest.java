@@ -85,6 +85,7 @@ public class DeckTest {
         assertEquals(numberOfRemainingCards, deck.getNumberCardsInStock());
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         assertEquals(0, deck.getNumberCardsInGraveyard());
+        assertNull(deck.playCard(null));
     }
 
     @Test
@@ -94,6 +95,7 @@ public class DeckTest {
         assertEquals(deck.getNumberCardsInStock(), NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInHand(), NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInGraveyard(), 0);
+        assertNull(deck.playCard(card));
     }
 
     @Test
