@@ -13,6 +13,9 @@ app.controller("game", ['$scope',
         var viewPossibleMovements = '/DerniereLigneGameEngine/rest/getPossibleSquares';
         var playUrl = '/DerniereLigneGameEngine/rest/play';
 
+        /**
+         * Post the list of registered players and create the game.
+         */
         $scope.createGame = function () {
             $http({
                 url: createGameUrl,
@@ -30,11 +33,14 @@ app.controller("game", ['$scope',
                     });
         };
 
+        /**
+         * Do a GET on a rest URL. Transmit the name of the card, its color and the current position
+         * of the player. Get a list of the ids of the squares on which the player can move.
+         *
+         * @param {string} card The name of card the player wants to play.
+         * @param {string} color The color of the card the player want to play.
+         */
         $scope.viewPossibleMovements = function (card, color) {
-
-            // Do a GET on a rest URL. Transmit the name of the card, its color and
-            // the current position of the player. Get a list of the ids of the
-            // squares on which the player can move.
             $http({
                 url: viewPossibleMovements,
                 method: "GET",
@@ -60,6 +66,12 @@ app.controller("game", ['$scope',
                     });
         };
 
+        /**
+         * Play the move with the selected card.
+         *
+         * @param {type} squareX The x coordinate of the square on which the player wants to go.
+         * @param {type} squareY The y coordinate of the square on which the player wants to go.
+         */
         $scope.play = function (squareX, squareY) {
             if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
                 $http({

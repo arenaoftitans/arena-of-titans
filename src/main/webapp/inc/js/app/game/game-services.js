@@ -1,3 +1,9 @@
+/**
+ * Service containing functions to log the AJAX error messages.
+ *
+ * Exported function:
+ * - show
+ */
 angular.module('lastLine.game').factory('showHttpError', [
     function () {
         /**
@@ -20,8 +26,20 @@ angular.module('lastLine.game').factory('showHttpError', [
     }
 ]);
 
+/**
+ * Service containing functions to interact with the squares.
+ *
+ * Exported functions:
+ * - reset
+ * - highlight
+ */
 angular.module('lastLine.game').factory('squares', [
     function () {
+        /**
+         * Return the highlighted squares to their normal state.
+         *
+         * @param {type} highlightedSquares The list of the highlighted squares.
+         */
         var reset = function (highlightedSquares) {
             for (var index in highlightedSquares) {
                 var id = highlightedSquares[index];
@@ -29,6 +47,11 @@ angular.module('lastLine.game').factory('squares', [
             }
         };
 
+        /**
+         * Add a class to highlight the selected squares.
+         *
+         * @param {type} highlightedSquares The list of squares to highlight.
+         */
         var highlight = function (highlightedSquares) {
             for (var index in highlightedSquares) {
                 var id = highlightedSquares[index];
@@ -43,6 +66,13 @@ angular.module('lastLine.game').factory('squares', [
     }
 ]);
 
+/**
+ * Service containing functions to interact with the player.
+ *
+ * Exported functions:
+ * - move
+ * - init
+ */
 angular.module('lastLine.game').factory('player', [
     function () {
         var playerIdKey = 'id';
@@ -52,12 +82,23 @@ angular.module('lastLine.game').factory('player', [
         var transformKey = 'transform';
         var boardLayer = 'boardLayer';
 
+        /**
+         * Move the player to a new square.
+         *
+         * @param {type} playerIndex The id of the player who plays.
+         * @param {type} squareId The id of the square on which we want to move.
+         */
         var move = function (playerIndex, squareId) {
             var playerId = 'player' + playerIndex;
             deletePlayer(playerId);
             createNewCircle(playerId, squareId);
         };
 
+        /**
+         * Remove the player on its current square.
+         *
+         * @param {type} playerId The id of the player.
+         */
         var deletePlayer = function (playerId) {
             var circleToDelete = document.getElementById(playerId);
             if (circleToDelete) {
@@ -65,6 +106,12 @@ angular.module('lastLine.game').factory('player', [
             }
         };
 
+        /**
+         * Recreate the circle for the current player.
+         *
+         * @param {type} playerId The id of the player.
+         * @param {type} squareId The id of the square.
+         */
         var createNewCircle = function (playerId, squareId) {
             var player = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             var parameters = getNewCircleParameters(squareId);
@@ -77,6 +124,13 @@ angular.module('lastLine.game').factory('player', [
             document.getElementById(boardLayer).appendChild(player);
         };
 
+        /**
+         * Get the parameters of the new circle based on the size and position of the square on
+         * which the player wants to move.
+         *
+         * @param {type} squareId The id of the square.
+         * @returns {game-services_L57.getNewCircleParameters.parameters}
+         */
         var getNewCircleParameters = function (squareId) {
             var parameters = {};
             var square = document.getElementById(squareId);
@@ -91,6 +145,12 @@ angular.module('lastLine.game').factory('player', [
             return parameters;
         };
 
+        /**
+         * Initialize a new array of players.
+         *
+         * @param {type} numberMaximumOfPlayers
+         * @returns {Array}
+         */
         var init = function (numberMaximumOfPlayers) {
             var players = [];
             for (var i = 0; i < numberMaximumOfPlayers; i++) {
