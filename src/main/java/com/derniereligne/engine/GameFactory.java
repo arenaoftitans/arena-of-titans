@@ -146,9 +146,7 @@ public class GameFactory {
         deckCreator = () -> {
             List<MovementsCard> cards = MovementsCardsFactory.getCardsFromColorNames(gameBoard,
                     jsonGame.getMovementsCards(), jsonGame.getColors());
-            Deck deck = new Deck(cards);
-
-            return deck;
+            return new Deck(cards);
         };
     }
 
