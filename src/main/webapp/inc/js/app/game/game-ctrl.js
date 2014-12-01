@@ -5,14 +5,17 @@ app.controller("game", ['$scope',
     'player',
     function ($scope, $http, showHttpError, squares, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.currentCards = [];
+        $scope.selectedCard = [];
         $scope.curentPlayer = {};
         $scope.numberMaximumOfPlayers = 8;
         $scope.players = player.init($scope.numberMaximumOfPlayers);
+        var createGameUrl = '/DerniereLigneGameEngine/rest/createGame';
+        var viewPossibleMovements = '/DerniereLigneGameEngine/rest/getPossibleSquares';
+        var playUrl = '/DerniereLigneGameEngine/rest/play';
 
         $scope.createGame = function () {
             $http({
-                url: '/DerniereLigneGameEngine/rest/createGame',
+                url: createGameUrl,
                 method: 'POST',
                 data: $scope.players
             })
@@ -33,7 +36,7 @@ app.controller("game", ['$scope',
             // the current position of the player. Get a list of the ids of the
             // squares on which the player can move.
             $http({
-                url: '/DerniereLigneGameEngine/rest/getPossibleSquares',
+                url: viewPossibleMovements,
                 method: "GET",
                 params: {
                     card_name: card,
@@ -49,22 +52,22 @@ app.controller("game", ['$scope',
                         squares.highlight($scope.highlightedSquares);
 
                         // Stores the selected card.
-                        $scope.currentCards = {card_name: card, card_color: color};
+                        $scope.selectedCard = {card_name: card, card_color: color};
                     })
                     .error(function (data) {
                         showHttpError.show(data);
-                        $scope.currentCards = {};
+                        $scope.selectedCard = {};
                     });
         };
 
         $scope.play = function (squareX, squareY) {
-            if ($scope.currentCards !== {}) {
+            if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
                 $http({
-                    url: '/DerniereLigneGameEngine/rest/play',
+                    url: playUrl,
                     method: 'GET',
                     params: {
-                        card_name: $scope.currentCards.card_name,
-                        card_color: $scope.currentCards.card_color,
+                        card_name: $scope.selectedCard.card_name,
+                        card_color: $scope.selectedCard.card_color,
                         player_id: $scope.currentPlayer.id,
                         x: squareX,
                         y: squareY
