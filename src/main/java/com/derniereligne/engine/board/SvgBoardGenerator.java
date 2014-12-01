@@ -45,6 +45,10 @@ public final class SvgBoardGenerator {
      */
     private static final String TEMPLATE_NAME = "template.svg";
     /**
+     * The template of the id of the square.
+     */
+    private static final String ID_TEMPLATE = "square-%d-%d";
+    /**
      * The name of the board (used to save it in the correct file).
      */
     private final String boardName;
@@ -251,8 +255,9 @@ public final class SvgBoardGenerator {
                 int currentXid = xid + xidPlus;
                 Element svgElement = new Element(element.get("tag"), SVG_NS);
                 svgElement.setAttribute("d", element.get("d"));
-                svgElement.setAttribute("id", String.format("square-%d-%d", currentXid, yid));
-                setNgClickDirective(svgElement, currentXid, yid);
+                String squareId = String.format(ID_TEMPLATE, currentXid, yid);
+                svgElement.setAttribute("id", squareId);
+                setNgClickDirective(svgElement, squareId, currentXid, yid);
                 layer.addContent(svgElement);
                 xidPlus++;
             }
@@ -269,8 +274,8 @@ public final class SvgBoardGenerator {
      *
      * @param elementYid The element y id.
      */
-    private void setNgClickDirective(Element element, int elementXid, int elementYid) {
-        element.setAttribute("ng-click", String.format("play(%s, %s)", elementXid, elementYid));
+    private void setNgClickDirective(Element element, String squareId, int elementXid, int elementYid) {
+        element.setAttribute("ng-click", String.format("play('%s', %s, %s)", squareId, elementXid, elementYid));
     }
 
     /**
@@ -284,12 +289,13 @@ public final class SvgBoardGenerator {
                 int currentXid = xid + xidPlus;
                 Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
-                element.setAttribute("id", String.format("square-%d-%d", currentXid, yid));
+                String squareId = String.format(ID_TEMPLATE, currentXid, yid);
+                element.setAttribute("id", squareId);
                 element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
                 element.setAttribute("y", Integer.toString(j * filledElementWidth + originY));
                 element.setAttribute("height", Integer.toString(filledElementHeigth));
                 element.setAttribute("width", Integer.toString(filledElementWidth));
-                setNgClickDirective(element, currentXid, yid);
+                setNgClickDirective(element, squareId, currentXid, yid);
                 yid++;
                 layer.addContent(element);
             }

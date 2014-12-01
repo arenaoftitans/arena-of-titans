@@ -72,8 +72,9 @@ app.controller("game", ['$scope',
          * @param {type} squareX The x coordinate of the square on which the player wants to go.
          * @param {type} squareY The y coordinate of the square on which the player wants to go.
          */
-        $scope.play = function (squareX, squareY) {
-            if (Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
+        $scope.play = function (squareId, squareX, squareY) {
+            if (d3.select('#' + squareId).classed('highlightedSquare')
+                    && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
                     method: 'GET',
@@ -94,7 +95,7 @@ app.controller("game", ['$scope',
                         .error(function (data) {
                             showHttpError.show(data);
                         });
-            } else {
+            } else if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
                 alert('Please select a card.');
             }
         };
