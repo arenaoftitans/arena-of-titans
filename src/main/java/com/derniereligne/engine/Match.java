@@ -2,6 +2,7 @@ package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,7 @@ public class Match {
      *
      * @param targetedX The x coordinate to move to.
      * @param targetedY The y coordinate to move to.
+     * @param cardPlayed The card played to get there
      *
      * @return The next player to play.
      *
@@ -173,8 +175,9 @@ public class Match {
      *
      * @since 1.0
      */
-    public Player playTurn(int targetedX, int targetedY) {
+    public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
         Player nextPlayer = getNextPlayer();
+        activePlayer.getDeck().playCard(cardPlayed);
         if (nextPlayer.getIndex() == activePlayer.getIndex()) {
             return null;
         } else {

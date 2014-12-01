@@ -55,6 +55,10 @@ public abstract class PossibleSquaresLister {
      * His currentPlayerDeck of cards.
      */
     protected Deck currentPlayerDeck;
+    /**
+     * The last card played.
+     */
+    protected MovementsCard playableCard;
 
     /**
      * The request done to the servlet.
@@ -112,7 +116,7 @@ public abstract class PossibleSquaresLister {
         currentSquare.setAsOccupied();
 
         // Get the card.
-        MovementsCard playableCard = currentPlayerDeck.getCard(cardName, cardColor);
+        playableCard = currentPlayerDeck.getCard(cardName, cardColor);
         if (playableCard == null) {
             String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
             return buildBadResponse(message);

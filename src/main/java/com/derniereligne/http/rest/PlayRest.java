@@ -95,7 +95,7 @@ public class PlayRest extends PossibleSquaresLister {
 
         int targetedX = Integer.parseInt(x);
         int targetedY = Integer.parseInt(y);
-        match.playTurn(targetedX, targetedY);
+        match.playTurn(targetedX, targetedY, playableCard);
 
         return NextPlayerJsonBuilder.build(match, selectedSquareId);
     }
