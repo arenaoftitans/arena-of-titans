@@ -190,7 +190,7 @@ public class Deck {
      */
     private MovementsCard getCard(String cardName, Color cardColor) {
         return hand.parallelStream()
-                .filter(mc -> cardName.toLowerCase().equals(mc.getName().toLowerCase())
+                .filter(mc -> cardName.equalsIgnoreCase(mc.getName())
                     && mc.getColor().equals(cardColor))
                 .findFirst().get();
     }
