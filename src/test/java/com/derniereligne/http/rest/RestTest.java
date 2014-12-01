@@ -14,7 +14,7 @@ class RestTest {
     protected static final String PLAYER_ID_KEY = "player_id";
     protected String requestUrl;
     protected String jsonCreateTwoPlayersGame;
-    protected String createGameUrl = "/DerniereLigneGameEngine/rest/createGame";
+    protected String createGameUrl = "/aot/rest/createGame";
     protected String jSessionId;
     protected HashMap<String, String> defaultParameters;
 

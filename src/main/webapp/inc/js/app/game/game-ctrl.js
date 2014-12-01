@@ -9,9 +9,9 @@ app.controller("game", ['$scope',
         $scope.curentPlayer = {};
         $scope.numberMaximumOfPlayers = 8;
         $scope.players = player.init($scope.numberMaximumOfPlayers);
-        var createGameUrl = '/DerniereLigneGameEngine/rest/createGame';
-        var viewPossibleMovements = '/DerniereLigneGameEngine/rest/getPossibleSquares';
-        var playUrl = '/DerniereLigneGameEngine/rest/play';
+        var createGameUrl = '/aot/rest/createGame';
+        var viewPossibleMovements = '/aot/rest/getPossibleSquares';
+        var playUrl = '/aot/rest/play';
 
         /**
          * Post the list of registered players and create the game.

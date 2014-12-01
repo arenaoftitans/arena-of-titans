@@ -24,7 +24,7 @@ public class CreateGameRestIT extends RestTest {
     private static final int NUMBER_CARDS_IN_HAND = 5;
 
     public CreateGameRestIT() {
-        requestUrl = "/DerniereLigneGameEngine/rest/createGame";
+        requestUrl = "/aot/rest/createGame";
         jsonCreateTwoPlayersNoEmptyPlayers = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"}]";
         notEngoughPlayersJsonResponse = "{\"error_to_display\": \"Not enough players. 2 Players at least are required to start a game\"}";
         jsonCreateTwoPlayers = "[{\"index\":0,\"name\":\"Toto\"},{\"index\":1,\"name\":\"Titi\"},{\"index\":2,\"name\":\"\"},{\"index\":3,\"name\":\"\"},{\"index\":4,\"name\":\"\"},{\"index\":5,\"name\":\"\"},{\"index\":6,\"name\":\"\"},{\"index\":7,\"name\":\"\"}]";

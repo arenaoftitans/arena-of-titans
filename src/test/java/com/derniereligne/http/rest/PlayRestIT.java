@@ -20,7 +20,7 @@ public class PlayRestIT extends RestTest {
 
     @Before
     public void setUp() {
-        requestUrl = "/DerniereLigneGameEngine/rest/play";
+        requestUrl = "/aot/rest/play";
         createGame();
 
         defaultParameters = new HashMap<>();

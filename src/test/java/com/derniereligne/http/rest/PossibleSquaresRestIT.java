@@ -21,7 +21,7 @@ public class PossibleSquaresRestIT extends RestTest {
 
     @Before
     public void setUp() {
-        requestUrl = "/DerniereLigneGameEngine/rest/getPossibleSquares";
+        requestUrl = "/aot/rest/getPossibleSquares";
         createGame();
 
         defaultParameters = new HashMap<>();
