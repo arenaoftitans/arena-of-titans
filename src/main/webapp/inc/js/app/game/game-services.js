@@ -1,7 +1,7 @@
 angular.module('lastLine.game').factory('showHttpError', [
     function () {
         /**
-         * Use alert to print errors.
+         * Log errors to the console and display the errors to display.
          *
          * @param {Object} data the response of the server.
          *
@@ -91,8 +91,21 @@ angular.module('lastLine.game').factory('player', [
             return parameters;
         };
 
+        var init = function (numberMaximumOfPlayers) {
+            var players = [];
+            for (var i = 0; i < numberMaximumOfPlayers; i++) {
+                players.push({
+                    index: i,
+                    name: ''
+                });
+            }
+
+            return players;
+        };
+
         return {
-            move: move
+            move: move,
+            init: init
         };
     }
 ]);

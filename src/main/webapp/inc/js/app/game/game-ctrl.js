@@ -7,13 +7,9 @@ app.controller("game", ['$scope',
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.currentCards = [];
         $scope.curentPlayer = {};
+        $scope.numberMaximumOfPlayers = 8;
+        $scope.players = player.init($scope.numberMaximumOfPlayers);
 
-        // Card names and colors. Generate buttons for all combination of cards and
-        // colors thanks to ng-repeat.
-        $scope.colors = ['blue', 'red', 'black', 'yellow'];
-        $scope.cards = ['warrior', 'wizard', 'rider', 'bishop', 'queen', 'king', 'assassin'];
-
-        // Function called when a button is clicked.
         $scope.viewPossibleMovements = function (card, color) {
 
             // Do a GET on a rest URL. Transmit the name of the card, its color and
@@ -71,15 +67,6 @@ app.controller("game", ['$scope',
             }
         };
 
-        $scope.players = [];
-        $scope.numberMaximumOfPlayers = 8;
-        for (var i = 0; i < $scope.numberMaximumOfPlayers; i++) {
-            $scope.players.push({
-                index: i,
-                name: ''
-            });
-        }
-
         $scope.createGame = function () {
             $http({
                 url: '/DerniereLigneGameEngine/rest/createGame',
@@ -96,4 +83,5 @@ app.controller("game", ['$scope',
                         showHttpError.show(data);
                     });
         };
-    }]);
+    }
+]);
