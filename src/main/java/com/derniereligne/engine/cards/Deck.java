@@ -121,7 +121,7 @@ public class Deck {
             // Reinit deck
             initStock();
             // removeCardsInHandFromStock
-            hand.stream().forEach((card) -> {
+            hand.stream().forEach(card -> {
                 stock.remove(card);
             });
         }
@@ -261,7 +261,7 @@ public class Deck {
 
     public List<Map<String, String>> getHandForJsonExport() {
         return hand.parallelStream()
-                .map((card) -> {
+                .map(card -> {
                     Map<String, String> jsonCard = new HashMap<>();
                     jsonCard.put(CARD_NAME_KEY, card.getName());
                     jsonCard.put(CARD_COLOR_KEY, card.getColor().toString());
