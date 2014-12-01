@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class Deck {
@@ -169,7 +170,7 @@ public class Deck {
         try {
             Color cardColor = Color.valueOf(cardColorName.toUpperCase());
             return getCard(cardName, cardColor);
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | NoSuchElementException ex) {
             return null;
         }
     }
