@@ -238,18 +238,6 @@ public class Match {
     }
 
     /**
-     * If the active player has won, make it a winner.
-     *
-     * @param targetedX The X coordinate of the square on which the player wants to move.
-     * @param targetedY The Y coordinate of the square on which the player wants to move.
-     */
-    private void checkIfActivePlayerWon(int targetedX, int targetedY) {
-        if (activePlayerHasReachedItsAim(targetedX, targetedY)) {
-            makeActivePlayerWinner();
-        }
-    }
-
-    /**
      * Returns true if the active player stayed on the good last line for one turn.
      *
      * @param targetedX The X coordinate of the square on which the player wants to move.
@@ -295,8 +283,8 @@ public class Match {
      * @return True if the active player is on the last line for one turn.
      */
     private boolean onLastLineSinceOneTurn(int targetedX, int targetedY) {
-        Square activeSquare = activePlayer.getCurrentSquare();
-        return activeSquare.getX() == targetedX && activeSquare.getY() == targetedY;
+        Square lastSquare = activePlayer.getLastSquare();
+        return isPlayerOnGoodArm(lastSquare.getX()) && isPlayerOnLastLine(lastSquare.getY());
     }
 
     /**
