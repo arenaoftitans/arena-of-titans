@@ -1,8 +1,12 @@
+#gameBoardContainer {
+    height: 591px;
+}
+
 #gameBoard {
     left: -285px;
     position: absolute;
-    top: -586px;
-    transform: scale(0.4);
+    top: -680px;
+    transform: scale(0.3);
 }
 
 rect, path {
@@ -33,4 +37,11 @@ rect, path {
 .highlightedSquare {
     fill: green !important;
     cursor: pointer;
+}
+
+.movementsCard {
+    height: 160px;
+    cursor: pointer;
+    float: left;
+    margin: 5px;
 }

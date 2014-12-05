@@ -29,17 +29,20 @@
             </div>
 
             <div id="game" class="hidden">
-                <div>
-                    <div>Player: {{currentPlayer.name}}</div>
-                    <div ng-repeat="card in currentPlayerCards">
-                        <button ng-click="viewPossibleMovements(card.name, card.color)">
-                            {{card.name}} {{card.color}}
-                        </button>
-                    </div>
-                </div>
-
                 <div id="gameBoardContainer">
                     ${svgBoard}
+                </div>
+
+                <div>
+                    <div>Player: {{currentPlayer.name}}</div>
+                    <div id="movementsCardsInHand">
+                        <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
+                            <img class="movementsCard"
+                                 ng-click="viewPossibleMovements(card.name, card.color)"
+                                 ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                                 />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
