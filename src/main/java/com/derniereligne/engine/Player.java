@@ -223,6 +223,33 @@ public class Player {
     }
 
     /**
+     * Play the current move.
+     *
+     * @param board The game board.
+     *
+     * @param cardPlayed The MovementsCard the player played.
+     *
+     * @param targetedX The x coordinate on which he/she will move.
+     *
+     * @param targetedY The y coordinate on which he/she will move.
+     */
+    public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
+        numberMovesPlayed++;
+        deck.playCard(cardPlayed);
+        moveTo(board.getSquare(targetedX, targetedY));
+        if (numberMovesPlayed == MAX_NUMBER_MOVE_TO_PLAY) {
+            canPlay = false;
+        }
+    }
+
+    /**
+     * Pass this turn.
+     */
+    public void pass() {
+        canPlay = false;
+    }
+
+    /**
      * <b>Returns if this player can play or not.</b>
      *
      * @return If this player can play or not.

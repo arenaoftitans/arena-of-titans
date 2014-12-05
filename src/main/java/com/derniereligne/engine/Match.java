@@ -376,17 +376,14 @@ public class Match {
         }
     }
 
+    /**
      * Pass the turn of the current player.
      *
      * @return the next active player.
      */
     public Player passThisTurn() {
-        if (gameHasEnoughPlayersToContinue()) {
-            activePlayer = getNextPlayer();
-            return activePlayer;
-        } else {
-            return null;
-        }
+        activePlayer.pass();
+        return continueGameIfEnoughPlayers();
     }
 
     /**
