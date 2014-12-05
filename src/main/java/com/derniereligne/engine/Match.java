@@ -186,58 +186,6 @@ public class Match {
     }
 
     /**
-     * <b>Method to find the next player in this match.</b>
-     * <div>
-     * <ul>
-     * <li>First, it will skip all null players until it gets to a player or the end of the list of
-     * players,</li>
-     * <li>if the end is reached, the first step will start again.</li>
-     * </ul>
-     * Either a null player
-     * </div>
-     * This algorithm will reach either a non-null player in the game or the same player as the
-     * active one.
-     *
-     * @return The next active player.
-     *
-     * @see Match#activePlayer
-     * @see Match#players
-     *
-     * @see Player#getIndex()
-     *
-     * @since 1.0
-     */
-    private Player getNextPlayerInList() {
-        int indexNextPlayer = getNextPlayerIndex(activePlayer.getIndex() + 1);
-
-        if (indexNextPlayer == players.size()) {
-            indexNextPlayer = getNextPlayerIndex(0);
-        }
-        return players.get(indexNextPlayer);
-    }
-
-    /**
-     * Returns the index of the next player who has an index >= to the index of the player passed as
-     * a parameter.
-     *
-     * @param indexNextPlayerStartValue Index from which to start the search.
-     *
-     * @return The index of the next player.
-     */
-    private int getNextPlayerIndex(int indexNextPlayerStartValue) {
-        int indexNextPlayer = indexNextPlayerStartValue;
-        while (indexNextPlayer < players.size()) {
-            if (players.get(indexNextPlayer) != null) {
-                break;
-            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).hasWon()) {
-                indexNextPlayer++;
-            }
-        }
-
-        return indexNextPlayer;
-    }
-
-    /**
      * Returns true if the active player stayed on the good last line for one turn.
      *
      * @param targetedX The X coordinate of the square on which the player wants to move.
@@ -248,7 +196,7 @@ public class Match {
     private boolean activePlayerHasReachedItsAim(int targetedX, int targetedY) {
         return isPlayerOnGoodArm(targetedX)
                 && isPlayerOnLastLine(targetedY)
-                && onLastLineSinceOneTurn(targetedX, targetedY);
+                && onLastLineSinceOneTurn();
     }
 
     /**
@@ -282,7 +230,7 @@ public class Match {
      *
      * @return True if the active player is on the last line for one turn.
      */
-    private boolean onLastLineSinceOneTurn(int targetedX, int targetedY) {
+    private boolean onLastLineSinceOneTurn() {
         Square lastSquare = activePlayer.getLastSquare();
         return isPlayerOnGoodArm(lastSquare.getX()) && isPlayerOnLastLine(lastSquare.getY());
     }
@@ -353,15 +301,68 @@ public class Match {
     }
 
     /**
-     * Change the value of the current player to the player that will play next (it can be the same).
+     * Change the value of the current player to the player that will play next (it can be the
+     * same).
      *
      * @see Match#activePlayer
      */
     private void setNextPlayer() {
         if (!activePlayer.canPlay()) {
-            activePlayer =  getNextPlayerInList();
+            activePlayer = getNextPlayerInList();
             activePlayer.initTurn();
         }
+    }
+
+    /**
+     * <b>Method to find the next player in this match.</b>
+     * <div>
+     * <ul>
+     * <li>First, it will skip all null players until it gets to a player or the end of the list of
+     * players,</li>
+     * <li>if the end is reached, the first step will start again.</li>
+     * </ul>
+     * Either a null player
+     * </div>
+     * This algorithm will reach either a non-null player in the game or the same player as the
+     * active one.
+     *
+     * @return The next active player.
+     *
+     * @see Match#activePlayer
+     * @see Match#players
+     *
+     * @see Player#getIndex()
+     *
+     * @since 1.0
+     */
+    private Player getNextPlayerInList() {
+        int indexNextPlayer = getNextPlayerIndex(activePlayer.getIndex() + 1);
+
+        if (indexNextPlayer == players.size()) {
+            indexNextPlayer = getNextPlayerIndex(0);
+        }
+        return players.get(indexNextPlayer);
+    }
+
+    /**
+     * Returns the index of the next player who has an index >= to the index of the player passed as
+     * a parameter.
+     *
+     * @param indexNextPlayerStartValue Index from which to start the search.
+     *
+     * @return The index of the next player.
+     */
+    private int getNextPlayerIndex(int indexNextPlayerStartValue) {
+        int indexNextPlayer = indexNextPlayerStartValue;
+        while (indexNextPlayer < players.size()) {
+            if (players.get(indexNextPlayer) != null) {
+                break;
+            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).hasWon()) {
+                indexNextPlayer++;
+            }
+        }
+
+        return indexNextPlayer;
     }
 
     /**
