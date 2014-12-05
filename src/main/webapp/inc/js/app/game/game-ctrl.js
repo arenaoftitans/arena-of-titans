@@ -23,8 +23,8 @@ app.controller("game", ['$scope',
                 data: $scope.players
             })
                     .success(function (data) {
-                        angular.element('#createGame').hide();
-                        angular.element('#game').show();
+                        d3.select('#createGame').classed('hidden', true);
+                        d3.select('#game').classed('hidden', false);
                         $scope.currentPlayer = data.nextPlayer;
                         $scope.currentPlayerCards = data.possibleCardsNextPlayer;
                     })
