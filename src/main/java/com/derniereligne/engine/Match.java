@@ -355,9 +355,9 @@ public class Match {
     private int getNextPlayerIndex(int indexNextPlayerStartValue) {
         int indexNextPlayer = indexNextPlayerStartValue;
         while (indexNextPlayer < players.size()) {
-            if (players.get(indexNextPlayer) != null) {
+            if (players.get(indexNextPlayer) != null && !players.get(indexNextPlayer).hasWon()) {
                 break;
-            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).hasWon()) {
+            } else {
                 indexNextPlayer++;
             }
         }
