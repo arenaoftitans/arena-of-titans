@@ -84,8 +84,8 @@ public class Match {
     public Match(List<Player> players, Board board, DeckCreator deckCreator) {
         this.players = players;
         this.board = board;
-        this.players.parallelStream().forEach(player ->
-            player.initGame(board, deckCreator)
+        this.players.parallelStream().forEach(player
+                -> player.initGame(board, deckCreator)
         );
         this.activePlayer = players.get(0);
         this.activeCanStillPlay = true;
@@ -346,13 +346,7 @@ public class Match {
      * @see Player#moveTo(com.derniereligne.engine.board.Square)
      */
     private Player continueGameIfEnoughPlayers(Player nextPlayer, int targetedX, int targetedY) {
-        int numberOfPlayersNotWinner = players.parallelStream()
-                .filter(player -> player != null && !player.isWinnerInMatch())
-                .collect(Collectors.toList()).size();
-
-        if (numberOfPlayersNotWinner == 1) {
-            return null;
-        } else {
+        if (gameHasEnoughPlayersToContinue()) {
             activePlayer.moveTo(board.getSquare(targetedX, targetedY));
             if (!activeCanStillPlay) {
                 activePlayer = nextPlayer;
@@ -361,6 +355,21 @@ public class Match {
             else {
                 activeCanStillPlay = false;
             }
+            return activePlayer;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean gameHasEnoughPlayersToContinue() {
+        return getNumberOfPlayersNotWinner() > 1;
+    }
+
+    private int getNumberOfPlayersNotWinner() {
+        return players.parallelStream()
+                .filter(player -> player != null && !player.isWinnerInMatch())
+                .collect(Collectors.toList()).size();
+    }
         }
         return activePlayer;
     }
