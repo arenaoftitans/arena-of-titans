@@ -60,7 +60,6 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForPlayerMovingBeforeWinning() {
-        match.getActivePlayer().moveTo(board.getSquare(16, 8));
         match.playTurn(17, 8, null);
 
         assertFalse(match.getPlayers().get(0).isWinnerInMatch());
