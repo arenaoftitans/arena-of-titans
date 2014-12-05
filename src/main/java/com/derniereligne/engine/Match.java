@@ -170,12 +170,12 @@ public class Match {
      * @see #board
      * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int)
      * @see #nextRankAvailable
-     * @see #getNextPlayer()
+     * @see #getNextPlayerInList()
      * @see #makeActivePlayerWinner()
      *
      * @see Player
      * @see Player#aim()
-     * @see Player#canPlay()
+     * @see Player#hasWon()
      * @see Player#getCurrentSquare()
      * @see Player#getIndex()
      * @see Player#moveTo(com.derniereligne.engine.board.Square)
@@ -239,7 +239,7 @@ public class Match {
         while (indexNextPlayer < players.size()) {
             if (players.get(indexNextPlayer) != null) {
                 break;
-            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).canPlay()) {
+            } else if (players.get(indexNextPlayer) == null || !players.get(indexNextPlayer).hasWon()) {
                 indexNextPlayer++;
             }
         }

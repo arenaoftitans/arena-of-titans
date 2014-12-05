@@ -10,9 +10,8 @@ import java.util.Set;
 /**
  * <b>Class representating a player.</b>
  * <div>
- *  A player is representated by its name, the board its playing on,
- * the square it is on, if it is its turn to play and its number
- * (from 0 to 7, indeed there are between 1 and 8 players on the
+ * A player is representated by its name, the board its playing on, the square it is on, if it is
+ * its turn to play and its number (from 0 to 7, indeed there are between 1 and 8 players on the
  * same board).
  * </div>
  *
@@ -46,7 +45,7 @@ public class Player {
      *
      * @since 1.0
      */
-    private boolean canPlay;
+    private boolean hasWon;
     /**
      * The index of this player in the game.<br/>
      * This index is between 0 and 7, indeed there are between 1 and 8 players in a game.
@@ -69,7 +68,7 @@ public class Player {
      * @param index The index of the player.
      *
      * @see Player#board
-     * @see Player#canPlay
+     * @see Player#hasWon
      * @see Player#currentSquare
      * @see Player#index
      * @see Player#name
@@ -79,15 +78,14 @@ public class Player {
     public Player(String name, int index) {
         this.name = name;
         this.currentSquare = null;
-        this.canPlay = false;
+        this.hasWon = false;
         this.index = index;
     }
 
     /**
      * <b>Returns if this player is winner in the current match.</b>
      *
-     * @return
-     *          If the player is winner in the current match.
+     * @return If the player is winner in the current match.
      *
      * @see Player#isWinnerInCurrentMatch
      *
@@ -138,20 +136,19 @@ public class Player {
     /**
      * <b>Make this player a winner with a given rank.</b>
      * <div>
-     *  This player will be stated as a winner but unable to play.
+     * This player will be stated as a winner but unable to play.
      * </div>
      *
-     * @param rank
-     *          Rank given to this player in the game.
+     * @param rank Rank given to this player in the game.
      *
-     * @see Player#canPlay
+     * @see Player#hasWon
      * @see Player#isWinnerInCurrentMatch
      * @see Player#rank
      *
      * @since 1.0
      */
     public void wins(int rank) {
-        canPlay = false;
+        hasWon = true;
         isWinnerInCurrentMatch = true;
         this.rank = rank;
     }
