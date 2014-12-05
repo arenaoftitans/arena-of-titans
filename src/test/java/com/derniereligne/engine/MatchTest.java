@@ -125,7 +125,7 @@ public class MatchTest {
     @Test
     public void testPassThisTurn() {
         Player currentPlayer = match.getActivePlayer();
-        System.out.println(match.passThisTurn());
+        match.passThisTurn();
         assertNotEquals(match.getActivePlayer(), currentPlayer);
     }
 
