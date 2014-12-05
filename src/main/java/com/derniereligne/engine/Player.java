@@ -3,6 +3,7 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -19,10 +20,12 @@ import java.util.Set;
  * @version 1.0
  */
 public class Player {
+
     private static final int BOARD_ARM_WIDTH_AND_MODULO = 4;
     public static final int BOARD_ARM_LENGTH_AND_MAX_Y = 8;
     private static final int HASH_BEGIN = 7;
     private static final int HASH_MULTIPLIER = 89;
+    private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -39,7 +42,11 @@ public class Player {
      */
     private Square currentSquare;
     /**
-     * To know if it is this player's turn to play.
+     * The square on which the player was before his/her most recent move.
+     */
+    private Square lastSquare;
+    /**
+     * To know if this player has won.
      *
      * @see Player#choose()
      *
@@ -52,19 +59,26 @@ public class Player {
      *
      * @since 1.0
      */
-    private int index;
+    private final int index;
     /**
      * The deck of this player.
      */
     private Deck deck;
     private boolean isWinnerInCurrentMatch;
     private int rank;
+    /**
+     * True if this player can still play (eg still has a move)
+     */
+    private boolean canPlay;
+    /**
+     * Store the number of moves done in the current turn.
+     */
+    private int numberMovesPlayed;
 
     /**
      * <b>Constructor initiating the name with the given parameter.</b>
      *
-     * @param name
-     *          The name of the player.
+     * @param name The name of the player.
      * @param index The index of the player.
      *
      * @see Player#board
@@ -80,6 +94,8 @@ public class Player {
         this.currentSquare = null;
         this.hasWon = false;
         this.index = index;
+        this.canPlay = true;
+        numberMovesPlayed = 0;
     }
 
     /**
@@ -98,12 +114,11 @@ public class Player {
     /**
      * <b>Method to move this player to the given square.</b>
      * <div>
-     *  First, we will empty the square the player is on then replace
-     * it by the given square and set this last one occupied.
+     * First, we will empty the square the player is on then replace it by the given square and set
+     * this last one occupied.
      * </div>
      *
-     * @param square
-     *          The square to move this player to.
+     * @param square The square to move this player to.
      *
      * @see Square
      * @see Square#empty()
@@ -115,6 +130,7 @@ public class Player {
         if (currentSquare != null) {
             currentSquare.empty();
         }
+        lastSquare = currentSquare;
         currentSquare = square;
         currentSquare.setAsOccupied();
     }
@@ -122,8 +138,7 @@ public class Player {
     /**
      * <b>Returns the square this player is on.</b>
      *
-     * @return
-     *          The square this player is on.
+     * @return The square this player is on.
      *
      * @see Player#currentSquare
      *
@@ -131,6 +146,10 @@ public class Player {
      */
     public Square getCurrentSquare() {
         return currentSquare;
+    }
+
+    public Square getLastSquare() {
+        return lastSquare;
     }
 
     /**
@@ -156,11 +175,10 @@ public class Player {
     /**
      * <b>Initialize a game with the given board.</b>
      * <div>
-     *  The player will be on a current square depending on its index.
+     * The player will be on a current square depending on its index.
      * </div>
      *
-     * @param board
-     *          Board where the game initialized will be played.
+     * @param board Board where the game initialized will be played.
      * @param deckCreator To create the deck.
      *
      * @see Player#currentSquare
@@ -179,11 +197,10 @@ public class Player {
     /**
      * <b>Returns the goals of this player.</b>
      * <div>
-     *  Returns the set of X coordinates that can make this player a winner.
+     * Returns the set of X coordinates that can make this player a winner.
      * </div>
      *
-     * @return
-     *          The goals of this player.
+     * @return The goals of this player.
      *
      * @see Player#index
      *
@@ -199,10 +216,16 @@ public class Player {
     }
 
     /**
+     * Initialize a new turn for this player.
+     */
+    public void initTurn() {
+        numberMovesPlayed = 0;
+    }
+
+    /**
      * <b>Returns if this player can play or not.</b>
      *
-     * @return
-     *          If this player can play or not.
+     * @return If this player can play or not.
      *
      * @see Player#canPlay
      *
@@ -212,11 +235,25 @@ public class Player {
         return canPlay;
     }
 
+    public void canPlay(boolean canPlay) {
+        this.canPlay = canPlay;
+    }
+
+    /**
+     * Returns if this play has won or not.
+     *
+     * @see Player#hasWon
+     *
+     * @return if this play has won or not.
+     */
+    public boolean hasWon() {
+        return hasWon;
+    }
+
     /**
      * <b>Returns the index of this player in its current game.</b>
      *
-     * @return
-     *          The index of this player in its current game.
+     * @return The index of this player in its current game.
      *
      * @see Player#index
      *
@@ -237,14 +274,12 @@ public class Player {
     /**
      * <b>Returns if a player is the same as this one.</b>
      * <div>
-     *  Returns true if the player in parameter as the same name as this player.
+     * Returns true if the player in parameter as the same name as this player.
      * </div>
      *
-     * @param player
-     *          Player to compare with.
+     * @param player Player to compare with.
      *
-     * @return
-     *          If the parameter and this player are the same.
+     * @return If the parameter and this player are the same.
      *
      * @see #name
      *
@@ -254,7 +289,7 @@ public class Player {
     public boolean equals(Object player) {
         return player != null
                 && player.getClass() == Player.class
-                && name.equals(((Player)player).name);
+                && name.equals(((Player) player).name);
     }
 
     @Override
@@ -263,7 +298,7 @@ public class Player {
         int hashMultiplier = HASH_MULTIPLIER;
         hash = hashMultiplier * hash + Objects.hashCode(this.name);
         hash = hashMultiplier * hash + Objects.hashCode(this.currentSquare);
-        hash = hashMultiplier * hash + (this.canPlay ? 1 : 0);
+        hash = hashMultiplier * hash + (this.hasWon ? 1 : 0);
         hash = hashMultiplier * hash + this.index;
         return hash;
     }

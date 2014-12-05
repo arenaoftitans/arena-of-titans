@@ -54,13 +54,6 @@ public class Match {
     private Integer nextRankAvailable = 1;
 
     /**
-     * Used to know if active player has played once or twice
-     *
-     * @since 1.0
-     */
-    private boolean activeCanStillPlay;
-
-    /**
      * <b>Constructor initializing a match with the given parameters.</b>
      * <div>
      * By default, the active player is the first player in the list of players.
@@ -88,7 +81,6 @@ public class Match {
                 -> player.initGame(board, deckCreator)
         );
         this.activePlayer = players.get(0);
-        this.activeCanStillPlay = true;
     }
 
     /**
@@ -184,15 +176,13 @@ public class Match {
      * @since 1.0
      */
     public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
-        Player nextPlayer = getNextPlayer();
-        activePlayer.getDeck().playCard(cardPlayed);
-        if (nextPlayer.getIndex() == activePlayer.getIndex()) {
-            return null;
-        } else {
-            checkIfActivePlayerWon(targetedX, targetedY);
+        activePlayer.play(board, cardPlayed, targetedX, targetedY);
 
-            return continueGameIfEnoughPlayers(nextPlayer, targetedX, targetedY);
+        if (activePlayerHasReachedItsAim(targetedX, targetedY)) {
+            makeActivePlayerWinner();
         }
+
+        return continueGameIfEnoughPlayers();
     }
 
     /**
@@ -217,7 +207,7 @@ public class Match {
      *
      * @since 1.0
      */
-    private Player getNextPlayer() {
+    private Player getNextPlayerInList() {
         int indexNextPlayer = getNextPlayerIndex(activePlayer.getIndex() + 1);
 
         if (indexNextPlayer == players.size()) {
@@ -345,15 +335,9 @@ public class Match {
      *
      * @see Player#moveTo(com.derniereligne.engine.board.Square)
      */
-    private Player continueGameIfEnoughPlayers(Player nextPlayer, int targetedX, int targetedY) {
+    private Player continueGameIfEnoughPlayers() {
         if (gameHasEnoughPlayersToContinue()) {
-            activePlayer.moveTo(board.getSquare(targetedX, targetedY));
-            if (!activeCanStillPlay) {
-                activePlayer = nextPlayer;
-                activeCanStillPlay = true;
-            } else {
-                activeCanStillPlay = false;
-            }
+            setNextPlayer();
             return activePlayer;
         } else {
             return null;
@@ -362,6 +346,7 @@ public class Match {
 
     /**
      * Check if the number of players who can still play is greater than 1.
+     *
      * @return True if the of players that can still play is greater than 1.
      */
     private boolean gameHasEnoughPlayersToContinue() {
@@ -380,6 +365,17 @@ public class Match {
     }
 
     /**
+     * Change the value of the current player to the player that will play next (it can be the same).
+     *
+     * @see Match#activePlayer
+     */
+    private void setNextPlayer() {
+        if (!activePlayer.canPlay()) {
+            activePlayer =  getNextPlayerInList();
+            activePlayer.initTurn();
+        }
+    }
+
      * Pass the turn of the current player.
      *
      * @return the next active player.
