@@ -33,6 +33,7 @@ public abstract class PossibleSquaresLister {
     protected static final String PLAYER_ID = "player_id";
     protected static final String X_COORD = "x";
     protected static final String Y_COORD = "y";
+    protected static final String PASS = "pass";
 
 
     /**

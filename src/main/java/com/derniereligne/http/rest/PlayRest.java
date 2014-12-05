@@ -1,6 +1,5 @@
 package com.derniereligne.http.rest;
 
-import com.google.gson.Gson;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,6 +31,8 @@ public class PlayRest extends PossibleSquaresLister {
      *
      * @param y y coordinate of the selected square.
      *
+     * @param pass If this parameter is true, the player want to pass his/her turn.
+     *
      * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
      */
     @GET
@@ -40,18 +41,23 @@ public class PlayRest extends PossibleSquaresLister {
             @QueryParam(CARD_COLOR) String cardColor,
             @QueryParam(PLAYER_ID) String playerId,
             @QueryParam(X_COORD) String x,
-            @QueryParam(Y_COORD) String y) {
+            @QueryParam(Y_COORD) String y,
+            @QueryParam(PASS) String pass) {
         parameters.put(CARD_NAME, cardName);
         parameters.put(CARD_COLOR, cardColor);
         parameters.put(PLAYER_ID, playerId);
         parameters.put(X_COORD, x);
         parameters.put(Y_COORD, y);
+        parameters.put(PASS, pass);
         return getGameFactoryResponse();
     }
 
     @Override
     protected Response checkParametersAndGetResponse() {
-        if (incorrectInputParemeters()) {
+        if (playerWantsToPassThisTurn()) {
+            return passThisTurn();
+        }
+        else if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
                             parameters.get(CARD_NAME),
@@ -63,6 +69,25 @@ public class PlayRest extends PossibleSquaresLister {
         }
 
         return getResponse();
+    }
+
+    /**
+     * Returns true if the player wants to pass his/her turn.
+     *
+     * @return true if the player wants to pass his/her turn.
+     */
+    private boolean playerWantsToPassThisTurn() {
+        return "true".equalsIgnoreCase(parameters.get(PASS));
+    }
+
+    /**
+     * Pass the current active player's turn.
+     *
+     * @return The next player as a JSON.
+     */
+    private Response passThisTurn() {
+        match.passThisTurn();
+        return NextPlayerJsonBuilder.build(match);
     }
 
     /**

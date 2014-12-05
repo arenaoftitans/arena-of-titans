@@ -88,9 +88,7 @@ app.controller("game", ['$scope',
                 })
                         .success(function (data) {
                             player.move($scope.currentPlayer.id, data.newSquare);
-                            $scope.currentPlayer = data.nextPlayer;
-                            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-                            squares.reset($scope.highlightedSquares);
+                            updateScopeOnSuccessMove(data);
                         })
                         .error(function (data) {
                             showHttpError.show(data);
@@ -98,6 +96,35 @@ app.controller("game", ['$scope',
             } else if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
                 alert('Please select a card.');
             }
+        };
+
+        /**
+         * Update the scope based on the data send by the server when a move was successfull.
+         * @param {type} data The data recieved from the server.
+         */
+        function updateScopeOnSuccessMove(data) {
+            $scope.currentPlayer = data.nextPlayer;
+            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+            squares.reset($scope.highlightedSquares);
+        }
+
+        /**
+         * Pass this turn.
+         */
+        $scope.pass = function () {
+            $http({
+                url: playUrl,
+                method: 'GET',
+                params: {
+                    pass: true
+                }
+            })
+                    .success(function (data) {
+                        updateScopeOnSuccessMove(data);
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
         };
     }
 ]);

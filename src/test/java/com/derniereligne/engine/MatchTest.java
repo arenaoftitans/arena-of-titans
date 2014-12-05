@@ -6,6 +6,7 @@ import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -119,6 +120,13 @@ public class MatchTest {
         expResult.add("square-1-6");
 
         assertEquals(expResult, possibleMovements);
+    }
+
+    @Test
+    public void testPassThisTurn() {
+        Player currentPlayer = match.getActivePlayer();
+        System.out.println(match.passThisTurn());
+        assertNotEquals(match.getActivePlayer(), currentPlayer);
     }
 
 }

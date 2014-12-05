@@ -351,8 +351,7 @@ public class Match {
             if (!activeCanStillPlay) {
                 activePlayer = nextPlayer;
                 activeCanStillPlay = true;
-            }
-            else {
+            } else {
                 activeCanStillPlay = false;
             }
             return activePlayer;
@@ -361,17 +360,37 @@ public class Match {
         }
     }
 
+    /**
+     * Check if the number of players who can still play is greater than 1.
+     * @return True if the of players that can still play is greater than 1.
+     */
     private boolean gameHasEnoughPlayersToContinue() {
         return getNumberOfPlayersNotWinner() > 1;
     }
 
+    /**
+     * Return the number of players who can still play.
+     *
+     * @return the number of players who can still play.
+     */
     private int getNumberOfPlayersNotWinner() {
         return players.parallelStream()
                 .filter(player -> player != null && !player.isWinnerInMatch())
                 .collect(Collectors.toList()).size();
     }
+
+    /**
+     * Pass the turn of the current player.
+     *
+     * @return the next active player.
+     */
+    public Player passThisTurn() {
+        if (gameHasEnoughPlayersToContinue()) {
+            activePlayer = getNextPlayer();
+            return activePlayer;
+        } else {
+            return null;
         }
-        return activePlayer;
     }
 
     /**

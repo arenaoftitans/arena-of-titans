@@ -41,6 +41,7 @@
                                  ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
                                  />
                         </div>
+                        <button ng-click="pass()">Pass</button>
                     </div>
                 </div>
             </div>
