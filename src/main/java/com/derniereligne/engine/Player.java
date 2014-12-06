@@ -322,7 +322,8 @@ public class Player {
 
     private void revertToDefault() {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
-
+        deck.getHand().parallelStream()
+                .forEach(mvtc -> mvtc.revertToDefault());
     }
 
     public void addToNumberMoveToPlay(int numberToAdd) {

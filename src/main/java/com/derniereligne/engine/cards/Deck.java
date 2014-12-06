@@ -103,6 +103,10 @@ public class Deck {
         }
     }
 
+    public List<MovementsCard> getHand() {
+        return hand;
+    }
+
     /**
      * <b>Extracts a card from the remaining cards.</b>
      * <div>
