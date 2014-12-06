@@ -41,10 +41,9 @@ angular.module('lastLine.game').factory('squares', [
          * @param {type} highlightedSquares The list of the highlighted squares.
          */
         var reset = function (highlightedSquares) {
-            for (var index in highlightedSquares) {
-                var id = highlightedSquares[index];
-                d3.select('#' + id).classed('highlightedSquare', false);
-            }
+            highlightedSquares.forEach(function (value) {
+                d3.select('#' + value).classed('highlightedSquare', false);
+            });
         };
 
         /**
@@ -53,10 +52,9 @@ angular.module('lastLine.game').factory('squares', [
          * @param {type} highlightedSquares The list of squares to highlight.
          */
         var highlight = function (highlightedSquares) {
-            for (var index in highlightedSquares) {
-                var id = highlightedSquares[index];
-                d3.select('#' + id).classed('highlightedSquare', true);
-            }
+            highlightedSquares.forEach(function (value) {
+                d3.select('#' + value).classed('highlightedSquare', true);
+            });
         };
 
         return {
