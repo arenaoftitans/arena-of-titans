@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
  */
 public class MovementsCardsFactory {
 
+    private MovementsCardsFactory() {
+    }
+
     /**
      * Generate the list of cards based on their description in the JSON file.
      *

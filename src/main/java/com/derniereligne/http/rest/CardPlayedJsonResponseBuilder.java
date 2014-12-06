@@ -6,6 +6,9 @@ import javax.ws.rs.core.Response;
 
 public class CardPlayedJsonResponseBuilder {
 
+    private CardPlayedJsonResponseBuilder() {
+    }
+
     /**
      * Create the proper JSON response containing the information on the next player.
      *
