@@ -187,5 +187,4 @@ public class KnightMovementsCard extends MovementsCard {
 
         return squares;
     }
-
 }

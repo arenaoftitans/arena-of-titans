@@ -21,11 +21,11 @@ public abstract class MovementsCard {
     /**
      * The set of colors on which the card can move. Some cards have more than one color.
      */
-    protected final Set<Color> possibleSquaresColor;
+    protected Set<Color> possibleSquaresColor;
     /**
      * The maximum number of movements allowed for this card.
      */
-    protected final int numberOfMovements;
+    protected int numberOfMovements;
     /**
      * A reference to the game board, used to get possible movements.
      *
@@ -63,6 +63,10 @@ public abstract class MovementsCard {
      */
     protected final ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
 
+
+    protected int defaultNumberOfMovements;
+    protected Set<Color> defaultPossibleSquaresColor;
+
     /**
      * <b>Create a new card with the specified parameters.</b>
      *
@@ -81,6 +85,7 @@ public abstract class MovementsCard {
 
         if (addtionalMovementsColor != null) {
             possibleSquaresColor.addAll(addtionalMovementsColor);
+            defaultPossibleSquaresColor.addAll(addtionalMovementsColor);
         }
     }
 
@@ -99,9 +104,12 @@ public abstract class MovementsCard {
         this.board = board;
         this.name = name;
         this.numberOfMovements = numberOfMovements;
+        this.defaultNumberOfMovements = numberOfMovements;
         this.cardColor = color;
         this.possibleSquaresColor = new HashSet<>();
+        this.defaultPossibleSquaresColor = new HashSet<>();
         this.possibleSquaresColor.add(color);
+        this.defaultPossibleSquaresColor.add(color);
 
         lineProbableSquaresGetter = (Square currentSquare) ->
             board.getLineSquares(currentSquare, possibleSquaresColor);
@@ -210,6 +218,11 @@ public abstract class MovementsCard {
      */
     protected Set<String> getLineAndDiagonalMovements(Square square) {
         return getPossibleMovements(square, numberOfMovements);
+    }
+
+    public void revertToDefault() {
+        numberOfMovements = defaultNumberOfMovements;
+        possibleSquaresColor = defaultPossibleSquaresColor;
     }
 
     public String getName() {

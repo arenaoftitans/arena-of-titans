@@ -94,6 +94,7 @@ public class Deck {
         } else if (!hand.contains(cardToPlay)) {
             return null;
         } else {
+            cardToPlay.revertToDefault();
             MovementsCard newCard = drawNextCard();
             hand.remove(cardToPlay);
             graveyard.add(cardToPlay);

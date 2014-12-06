@@ -299,7 +299,6 @@ public class Player {
      * @param targetedY The y coordinate on which he/she will move.
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
-        numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
 
         trumpCards.parallelStream()
                 .forEach(tc -> tc.affect(this));
@@ -318,6 +317,12 @@ public class Player {
 
             canPlay = false;
         }
+        revertToDefault();
+    }
+
+    private void revertToDefault() {
+        numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
+
     }
 
     public void addToNumberMoveToPlay(int numberToAdd) {
