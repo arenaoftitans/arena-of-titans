@@ -42,9 +42,9 @@ public class Player {
      */
     private Square currentSquare;
     /**
-     * The square on which the player was before his/her most recent move.
+     * The square on which the player was at the end of the turn before the current one.
      */
-    private Square lastSquare;
+    private Square lastSquareOnLastTurn;
     /**
      * To know if this player has won.
      *
@@ -53,6 +53,10 @@ public class Player {
      * @since 1.0
      */
     private boolean hasWon;
+    /**
+     * The set of x coordinates in the aim of the player.
+     */
+    private Set<Integer> aim;
     /**
      * The index of this player in the game.<br/>
      * This index is between 0 and 7, indeed there are between 1 and 8 players in a game.
@@ -130,7 +134,6 @@ public class Player {
         if (currentSquare != null) {
             currentSquare.empty();
         }
-        lastSquare = currentSquare;
         currentSquare = square;
         currentSquare.setAsOccupied();
     }
@@ -149,7 +152,7 @@ public class Player {
     }
 
     public Square getLastSquare() {
-        return lastSquare;
+        return lastSquareOnLastTurn;
     }
 
     /**
@@ -192,6 +195,7 @@ public class Player {
         deck = deckCreator.create();
         isWinnerInCurrentMatch = false;
         rank = -1;
+        aim = aim();
     }
 
     /**
@@ -206,7 +210,7 @@ public class Player {
      *
      * @since 1.0
      */
-    public Set<Integer> aim() {
+    private Set<Integer> aim() {
         int oppositeIndex = index + BOARD_ARM_WIDTH_AND_MODULO * ((index >= BOARD_ARM_WIDTH_AND_MODULO) ? -1 : 1);
         Set<Integer> toReturn = new HashSet<>();
         for (int i = 0; i < BOARD_ARM_WIDTH_AND_MODULO; i++) {
@@ -219,7 +223,56 @@ public class Player {
      * Initialize a new turn for this player.
      */
     public void initTurn() {
+        lastSquareOnLastTurn = currentSquare;
         numberMovesPlayed = 0;
+    }
+
+    /**
+     * Returns true if the active player stayed on the good last line for one turn.
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player has reached its aim.
+     */
+    public boolean hasReachedItsAim() {
+        return isPlayerOnGoodArm(currentSquare.getX())
+                && isPlayerOnLastLine(currentSquare.getY())
+                && onLastLineSinceOneTurn();
+    }
+
+    /**
+     * Returns true if the active player is in the good arm.
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is in the good arm.
+     */
+    private boolean isPlayerOnGoodArm(int targetedX) {
+        return aim.contains(targetedX);
+    }
+
+    /**
+     * Is the active player is on the last line?
+     *
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is on the last line.
+     */
+    private boolean isPlayerOnLastLine(int targetedY) {
+        return targetedY == Player.BOARD_ARM_LENGTH_AND_MAX_Y;
+    }
+
+    /**
+     * Is the active player on the last line for one turn?
+     *
+     * @param targetedX The X coordinate of the square on which the player wants to move.
+     * @param targetedY The Y coordinate of the square on which the player wants to move.
+     *
+     * @return True if the active player is on the last line for one turn.
+     */
+    private boolean onLastLineSinceOneTurn() {
+        return isPlayerOnGoodArm(lastSquareOnLastTurn.getX()) && isPlayerOnLastLine(lastSquareOnLastTurn.getY());
     }
 
     /**
@@ -296,6 +349,10 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public int getRank() {
+        return rank;
     }
 
     /**

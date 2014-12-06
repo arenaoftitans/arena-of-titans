@@ -6,7 +6,6 @@ import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -163,7 +162,7 @@ public class Match {
      * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int)
      * @see #nextRankAvailable
      * @see #getNextPlayerInList()
-     * @see #makeActivePlayerWinner()
+     * @see #playerWinner()
      *
      * @see Player
      * @see Player#aim()
@@ -178,78 +177,7 @@ public class Match {
     public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
         activePlayer.play(board, cardPlayed, targetedX, targetedY);
 
-        if (activePlayerHasReachedItsAim(targetedX, targetedY)) {
-            makeActivePlayerWinner();
-        }
-
         return continueGameIfEnoughPlayers();
-    }
-
-    /**
-     * Returns true if the active player stayed on the good last line for one turn.
-     *
-     * @param targetedX The X coordinate of the square on which the player wants to move.
-     * @param targetedY The Y coordinate of the square on which the player wants to move.
-     *
-     * @return True if the active player has reached its aim.
-     */
-    private boolean activePlayerHasReachedItsAim(int targetedX, int targetedY) {
-        return isPlayerOnGoodArm(targetedX)
-                && isPlayerOnLastLine(targetedY)
-                && onLastLineSinceOneTurn();
-    }
-
-    /**
-     * Returns true if the active player is in the good arm.
-     *
-     * @param targetedX The X coordinate of the square on which the player wants to move.
-     *
-     * @return True if the active player is in the good arm.
-     */
-    private boolean isPlayerOnGoodArm(int targetedX) {
-        Set<Integer> aim = activePlayer.aim();
-        return aim.contains(targetedX);
-    }
-
-    /**
-     * Is the active player is on the last line?
-     *
-     * @param targetedY The Y coordinate of the square on which the player wants to move.
-     *
-     * @return True if the active player is on the last line.
-     */
-    private boolean isPlayerOnLastLine(int targetedY) {
-        return targetedY == Player.BOARD_ARM_LENGTH_AND_MAX_Y;
-    }
-
-    /**
-     * Is the active player on the last line for one turn?
-     *
-     * @param targetedX The X coordinate of the square on which the player wants to move.
-     * @param targetedY The Y coordinate of the square on which the player wants to move.
-     *
-     * @return True if the active player is on the last line for one turn.
-     */
-    private boolean onLastLineSinceOneTurn() {
-        Square lastSquare = activePlayer.getLastSquare();
-        return isPlayerOnGoodArm(lastSquare.getX()) && isPlayerOnLastLine(lastSquare.getY());
-    }
-
-    /**
-     * <b>Makes the active player a winner.</b>
-     * <ul>
-     * <li>active player wins,</li>
-     * <li>the next available rank is higher.</li>
-     * </ul>
-     *
-     * @see #activePlayer
-     * @see #nextRankAvailable
-     *
-     * @since 1.
-     */
-    private void makeActivePlayerWinner() {
-        activePlayer.wins(nextRankAvailable);
-        nextRankAvailable++;
     }
 
     /**
@@ -308,9 +236,39 @@ public class Match {
      */
     private void setNextPlayer() {
         if (!activePlayer.canPlay()) {
-            activePlayer = getNextPlayerInList();
-            activePlayer.initTurn();
+            activePlayer = getNextPlayer();
         }
+    }
+
+    private Player getNextPlayer() {
+        Player nextPlayer;
+        do {
+            nextPlayer = getNextPlayerInList();
+            nextPlayer.initTurn();
+
+            if (nextPlayer.hasReachedItsAim()) {
+                playerWinner(nextPlayer);
+            }
+        } while (nextPlayer.hasWon());
+
+        return nextPlayer;
+    }
+
+    /**
+     * <b>Makes the active player a winner.</b>
+     * <ul>
+     * <li>active player wins,</li>
+     * <li>the next available rank is higher.</li>
+     * </ul>
+     *
+     * @see #activePlayer
+     * @see #nextRankAvailable
+     *
+     * @since 1.
+     */
+    private void playerWinner(Player player) {
+        player.wins(nextRankAvailable);
+        nextRankAvailable++;
     }
 
     /**

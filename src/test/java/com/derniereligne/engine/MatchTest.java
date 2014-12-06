@@ -52,10 +52,68 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForWinningPlayer() {
-        match.getActivePlayer().moveTo(board.getSquare(16, 8));
         match.playTurn(16, 8, null);
+        assertFalse(match.getPlayers().get(0).hasWon());
 
-        assertTrue(match.getPlayers().get(0).isWinnerInMatch());
+        // Still in the same Turn
+        match.playTurn(16, 8, null);
+        assertFalse(match.getPlayers().get(0).hasWon());
+
+        // Play the others players
+        for (int i = 0; i <= 7; i++) {
+            match.playTurn(0, i, null);
+            match.playTurn(i, 0, null);
+        }
+
+        Player winner = match.getPlayers().get(0);
+        // The winner cannot be an active player
+        assertNotEquals(match.getActivePlayer(), winner);
+        assertTrue(winner.hasWon());
+        assertEquals(1, winner.getRank());
+    }
+
+    @Test
+    public void testPlayTurnForWinningPlayerPassSecondMove() {
+        match.playTurn(16, 8, null);
+        assertFalse(match.getPlayers().get(0).hasWon());
+
+        // Still in the same Turn
+        match.passThisTurn();
+        assertFalse(match.getPlayers().get(0).hasWon());
+
+        // Play the others players
+        for (int i = 0; i <= 7; i++) {
+            match.playTurn(0, i, null);
+            match.playTurn(i, 0, null);
+        }
+
+        Player winner = match.getPlayers().get(0);
+        // The winner cannot be an active player
+        assertNotEquals(match.getActivePlayer(), winner);
+        assertTrue(winner.hasWon());
+        assertEquals(1, winner.getRank());
+    }
+
+    @Test
+    public void testPlayTurnForWinningPlayerMoveDifferentSquareSecondMove() {
+        match.playTurn(16, 8, null);
+        assertFalse(match.getPlayers().get(0).hasWon());
+
+        // Still in the same Turn
+        match.playTurn(17, 8, null);
+        assertFalse(match.getPlayers().get(0).hasWon());
+
+        // Play the others players
+        for (int i = 0; i <= 7; i++) {
+            match.playTurn(0, i, null);
+            match.playTurn(i, 0, null);
+        }
+
+        Player winner = match.getPlayers().get(0);
+        // The winner cannot be an active player
+        assertNotEquals(match.getActivePlayer(), winner);
+        assertTrue(winner.hasWon());
+        assertEquals(1, winner.getRank());
     }
 
     @Test
@@ -71,8 +129,15 @@ public class MatchTest {
             match.getPlayers().set(i, null);
         }
 
-        match.getActivePlayer().moveTo(board.getSquare(16, 8));
-        assertEquals(match.playTurn(16, 8, null), null);
+        // We play player 1.
+        match.playTurn(16, 8, null);
+        match.playTurn(16, 8, null);
+
+        // We play player 2 so it is back at player 1, who wins. The match ends.
+        match.playTurn(0, 0, null);
+        match.playTurn(0, 0, null);
+
+        assertEquals(null, match.playTurn(16, 8, null));
     }
 
     @Test
