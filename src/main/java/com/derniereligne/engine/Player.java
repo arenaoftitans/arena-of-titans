@@ -4,9 +4,13 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
+import com.derniereligne.engine.cards.trumps.TrumpCard;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <b>Class representating a player.</b>
@@ -26,6 +30,8 @@ public class Player {
     private static final int HASH_BEGIN = 7;
     private static final int HASH_MULTIPLIER = 89;
     private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
+    private int numberMoveToPlay = 2;
+    private List<TrumpCard> trumpCards;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -100,6 +106,7 @@ public class Player {
         this.index = index;
         this.canPlay = true;
         numberMovesPlayed = 0;
+        this.trumpCards = new ArrayList<>();
     }
 
     /**
@@ -113,6 +120,10 @@ public class Player {
      */
     public boolean isWinnerInMatch() {
         return isWinnerInCurrentMatch;
+    }
+
+    public void addTrumpCard(TrumpCard toAdd) {
+        trumpCards.add(toAdd);
     }
 
     /**
@@ -288,12 +299,29 @@ public class Player {
      * @param targetedY The y coordinate on which he/she will move.
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
+        numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
+
+        trumpCards.parallelStream()
+                .forEach(tc -> tc.affect(this));
+
         numberMovesPlayed++;
         deck.playCard(cardPlayed);
         moveTo(board.getSquare(targetedX, targetedY));
-        if (numberMovesPlayed == MAX_NUMBER_MOVE_TO_PLAY) {
+        if (numberMovesPlayed == numberMoveToPlay) {
+            trumpCards.parallelStream()
+                    .forEach(tc -> tc.consume());
+
+            trumpCards = trumpCards.parallelStream()
+                    .filter(tc -> tc.getDuration() > 0)
+                    .collect(Collectors.toList());
+
+
             canPlay = false;
         }
+    }
+
+    public void addToNumberMoveToPlay(int numberToAdd) {
+        numberMoveToPlay += numberToAdd;
     }
 
     /**
