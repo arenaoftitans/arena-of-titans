@@ -56,8 +56,7 @@ public class PlayRest extends PossibleSquaresLister {
     protected Response checkParametersAndGetResponse() {
         if (playerWantsToPassThisTurn()) {
             return passThisTurn();
-        }
-        else if (incorrectInputParemeters()) {
+        } else if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
                             parameters.get(CARD_NAME),
