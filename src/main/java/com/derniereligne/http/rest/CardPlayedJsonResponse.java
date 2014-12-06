@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author jenselme
  */
-public class NextPlayer {
+public class CardPlayedJsonResponse {
 
     private static final String PLAYER_NAME_KEY = "name";
     private static final String PLAYER_ID_KEY = "id";
@@ -17,6 +17,8 @@ public class NextPlayer {
     private String newSquare;
     private Map<String, String> nextPlayer;
     private List<Map<String, String>> possibleCardsNextPlayer;
+    private boolean gameOver;
+    private List<String> winners;
 
     public Map<String, String> getNextPlayer() {
         return nextPlayer;
@@ -57,6 +59,14 @@ public class NextPlayer {
 
     public int getNumberCardsNextPlayer() {
         return possibleCardsNextPlayer.size();
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
     }
 
 }

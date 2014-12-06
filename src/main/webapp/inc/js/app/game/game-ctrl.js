@@ -9,6 +9,7 @@ app.controller("game", ['$scope',
         $scope.curentPlayer = {};
         $scope.numberMaximumOfPlayers = 8;
         $scope.players = player.init($scope.numberMaximumOfPlayers);
+        $scope.gameOver = false;
         var createGameUrl = '/aot/rest/createGame';
         var viewPossibleMovements = '/aot/rest/getPossibleSquares';
         var playUrl = '/aot/rest/play';
@@ -110,6 +111,8 @@ app.controller("game", ['$scope',
         function updateScopeOnSuccessMove(data) {
             $scope.currentPlayer = data.nextPlayer;
             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+            $scope.winners = data.winners;
+            $scope.gameOver = data.gameOver;
             squares.reset($scope.highlightedSquares);
         }
 

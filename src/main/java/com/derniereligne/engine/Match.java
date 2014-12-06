@@ -3,6 +3,7 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,14 @@ public class Match {
      * @since 1.0
      */
     private final List<Player> players;
+    /**
+     * The list of players who won the game.
+     */
+    private List<Player> winners;
+    /**
+     * True when the game is over.
+     */
+    private boolean gameOver;
     /**
      * The player currently playing.
      *
@@ -80,6 +89,8 @@ public class Match {
                 -> player.initGame(board, deckCreator)
         );
         this.activePlayer = players.get(0);
+        this.gameOver = false;
+        this.winners = new ArrayList<>();
     }
 
     /**
@@ -200,10 +211,11 @@ public class Match {
      * @see Player#moveTo(com.derniereligne.engine.board.Square)
      */
     private Player continueGameIfEnoughPlayers() {
+        setNextPlayer();
         if (gameHasEnoughPlayersToContinue()) {
-            setNextPlayer();
             return activePlayer;
         } else {
+            gameOver = true;
             return null;
         }
     }
@@ -225,7 +237,8 @@ public class Match {
     private int getNumberOfPlayersNotWinner() {
         return players.parallelStream()
                 .filter(player -> player != null && !player.isWinnerInMatch())
-                .collect(Collectors.toList()).size();
+                .collect(Collectors.toList())
+                .size();
     }
 
     /**
@@ -268,7 +281,12 @@ public class Match {
      */
     private void playerWinner(Player player) {
         player.wins(nextRankAvailable);
+        winners.add(player);
         nextRankAvailable++;
+
+        if (!gameHasEnoughPlayersToContinue()) {
+            gameOver = true;
+        }
     }
 
     /**
@@ -369,6 +387,16 @@ public class Match {
 
     public List<Map<String, String>> getActivePlayerHandForJsonExport() {
         return activePlayer.getDeck().getHandForJsonExport();
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
+
+    public List<String> getWinnerNames() {
+        return winners.parallelStream()
+                .map(player -> player.getName())
+                .collect(Collectors.toList());
     }
 
 }

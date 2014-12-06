@@ -4,7 +4,7 @@ import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
 import javax.ws.rs.core.Response;
 
-public class NextPlayerJsonBuilder {
+public class CardPlayedJsonResponseBuilder {
 
     /**
      * Create the proper JSON response containing the information on the next player.
@@ -13,9 +13,9 @@ public class NextPlayerJsonBuilder {
      * @return The response containing the JSON defined in the wiki.
      */
     public static Response build(Match match) {
-        NextPlayer nextPlayer = createNextPlayer(match);
+        CardPlayedJsonResponse cardPlayedJsonResponse = createCardPlayedJsonRespones(match);
 
-        String output = createOutputJson(nextPlayer);
+        String output = createOutputJson(cardPlayedJsonResponse);
 
         return Response.status(Response.Status.OK).entity(output).build();
     }
@@ -27,14 +27,16 @@ public class NextPlayerJsonBuilder {
      *
      * @return The nextPlayer object.
      */
-    private static NextPlayer createNextPlayer(Match match) {
-        NextPlayer nextPlayer = new NextPlayer();
-        nextPlayer.init();
-        nextPlayer.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
-        nextPlayer.setNextPlayerName(match.getActivePlayerName());
-        nextPlayer.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
+    private static CardPlayedJsonResponse createCardPlayedJsonRespones(Match match) {
+        CardPlayedJsonResponse cardPlayedJsonResponse = new CardPlayedJsonResponse();
+        cardPlayedJsonResponse.init();
+        cardPlayedJsonResponse.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
+        cardPlayedJsonResponse.setNextPlayerName(match.getActivePlayerName());
+        cardPlayedJsonResponse.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
+        cardPlayedJsonResponse.setGameOver(match.getGameOver());
+        cardPlayedJsonResponse.setWinners(match.getWinnerNames());
 
-        return nextPlayer;
+        return cardPlayedJsonResponse;
     }
 
     /**
@@ -44,9 +46,9 @@ public class NextPlayerJsonBuilder {
      *
      * @return The JSON.
      */
-    private static String createOutputJson(NextPlayer nextPlayer) {
+    private static String createOutputJson(CardPlayedJsonResponse cardPlayedJsonResponse) {
         Gson gson = new Gson();
-        return gson.toJson(nextPlayer);
+        return gson.toJson(cardPlayedJsonResponse);
     }
 
     /**
@@ -58,7 +60,7 @@ public class NextPlayerJsonBuilder {
      * @return The response containing the JSON defined in the wiki.
      */
     public static Response build(Match match, String selectedSquareId) {
-        NextPlayer nextPlayer = createNextPlayer(match);
+        CardPlayedJsonResponse nextPlayer = createCardPlayedJsonRespones(match);
         nextPlayer.setNewSquare(selectedSquareId);
 
         String output = createOutputJson(nextPlayer);

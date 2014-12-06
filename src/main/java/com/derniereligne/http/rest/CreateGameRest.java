@@ -44,7 +44,7 @@ public class CreateGameRest {
         gameFactory.createNewMatch(players);
         req.getSession().setAttribute("gameFactory", gameFactory);
 
-        return NextPlayerJsonBuilder.build(gameFactory.getMatch());
+        return CardPlayedJsonResponseBuilder.build(gameFactory.getMatch());
     }
 
     /**

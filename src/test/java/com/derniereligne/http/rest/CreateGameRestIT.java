@@ -69,7 +69,7 @@ public class CreateGameRestIT extends RestTest {
     private void test(Response res) {
         assertEquals(200, res.statusCode());
         Gson gson = new Gson();
-        NextPlayer nextPlayer = gson.fromJson(res.asString(), NextPlayer.class);
+        CardPlayedJsonResponse nextPlayer = gson.fromJson(res.asString(), CardPlayedJsonResponse.class);
         assertEquals(ID_FIRST_PLAYER, nextPlayer.getNextPlayerId());
         assertEquals(NAME_FIRST_PLAYER, nextPlayer.getNextPlayerName());
         assertEquals(NUMBER_CARDS_IN_HAND, nextPlayer.getNumberCardsNextPlayer());

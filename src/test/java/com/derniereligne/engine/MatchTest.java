@@ -68,6 +68,7 @@ public class MatchTest {
         Player winner = match.getPlayers().get(0);
         // The winner cannot be an active player
         assertNotEquals(match.getActivePlayer(), winner);
+        assertFalse(match.getGameOver());
         assertTrue(winner.hasWon());
         assertEquals(1, winner.getRank());
     }
@@ -138,6 +139,8 @@ public class MatchTest {
         match.playTurn(0, 0, null);
 
         assertEquals(null, match.playTurn(16, 8, null));
+        assertTrue(match.getPlayers().get(0).hasWon());
+        assertTrue(match.getGameOver());
     }
 
     @Test

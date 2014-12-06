@@ -27,7 +27,7 @@
                 </form>
             </div>
 
-            <div id="game" class="hidden">
+            <div id="game" class="hidden" ng-class="{hidden: gameOver}">
                 <div id="gameBoardContainer">
                     ${svgBoard}
                 </div>
@@ -45,6 +45,13 @@
                         <button ng-click="pass()">Pass</button>
                     </div>
                 </div>
+            </div>
+
+            <div ng-class="{hidden: !gameOver}">
+                The game is over. The winner are :
+                <ol>
+                    <li ng-repeat="player in winners">{{player}}</li>
+                </ol>
             </div>
         </div>
     </body>

@@ -87,7 +87,7 @@ public class PlayRest extends PossibleSquaresLister {
      */
     private Response passThisTurn() {
         match.passThisTurn();
-        return NextPlayerJsonBuilder.build(match);
+        return CardPlayedJsonResponseBuilder.build(match);
     }
 
     /**
@@ -122,7 +122,7 @@ public class PlayRest extends PossibleSquaresLister {
         int targetedY = Integer.parseInt(y);
         match.playTurn(targetedX, targetedY, playableCard);
 
-        return NextPlayerJsonBuilder.build(match, selectedSquareId);
+        return CardPlayedJsonResponseBuilder.build(match, selectedSquareId);
     }
 
 }
