@@ -44,4 +44,9 @@ rect, path {
     cursor: pointer;
     float: left;
     margin: 5px;
+    position: relative;
+}
+
+.selectedCard {
+    top: -20px;
 }

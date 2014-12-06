@@ -37,16 +37,16 @@ app.controller("game", ['$scope',
          * Do a GET on a rest URL. Transmit the name of the card, its color and the current position
          * of the player. Get a list of the ids of the squares on which the player can move.
          *
-         * @param {string} card The name of card the player wants to play.
-         * @param {string} color The color of the card the player want to play.
+         * @param {string} cardName The name of card the player wants to play.
+         * @param {string} cardColor The color of the card the player want to play.
          */
-        $scope.viewPossibleMovements = function (card, color) {
+        $scope.viewPossibleMovements = function (cardName, cardColor) {
             $http({
                 url: viewPossibleMovements,
                 method: "GET",
                 params: {
-                    card_name: card,
-                    card_color: color,
+                    card_name: cardName,
+                    card_color: cardColor,
                     player_id: $scope.currentPlayer.id
                 }
             })
@@ -58,12 +58,17 @@ app.controller("game", ['$scope',
                         squares.highlight($scope.highlightedSquares);
 
                         // Stores the selected card.
-                        $scope.selectedCard = {card_name: card, card_color: color};
+                        $scope.selectedCard = {card_name: cardName, card_color: cardColor};
                     })
                     .error(function (data) {
                         showHttpError.show(data);
                         $scope.selectedCard = {};
                     });
+        };
+
+        $scope.isSelected = function (cardName, cardColor) {
+            return $scope.selectedCard.card_name === cardName
+                    && $scope.selectedCard.card_color === cardColor;
         };
 
         /**

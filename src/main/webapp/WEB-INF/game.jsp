@@ -37,6 +37,7 @@
                     <div id="movementsCardsInHand">
                         <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
                             <img class="movementsCard"
+                                 ng-class="{selectedCard: isSelected(card.name, card.color)}"
                                  ng-click="viewPossibleMovements(card.name, card.color)"
                                  ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
                                  />
