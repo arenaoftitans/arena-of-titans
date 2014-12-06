@@ -10,7 +10,7 @@ public class Board {
 
     private final int width;
     private final int height;
-    private final Square[][] board;
+    private final Square[][] gameBoard;
     private final int innerCircleHigherY;
     private final int armsWidth;
 
@@ -19,7 +19,7 @@ public class Board {
         this.height = height;
         this.innerCircleHigherY = innerCircleHigherY;
         this.armsWidth = armsWidth;
-        this.board = board;
+        this.gameBoard = board;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Board {
      */
     public Square getSquare(int x, int y) {
         if (isInBoard(x, y)) {
-            return board[y][x];
+            return gameBoard[y][x];
         } else {
             return null;
         }
@@ -97,7 +97,7 @@ public class Board {
      * @return boolean
      */
     private boolean canMoveTo(int x, int y, Set<Color> possibleSquaresColor) {
-        return isInBoard(x, y) && board[y][x].canMoveTo(possibleSquaresColor);
+        return isInBoard(x, y) && gameBoard[y][x].canMoveTo(possibleSquaresColor);
     }
 
     /**
@@ -281,7 +281,7 @@ public class Board {
 
     @Override
     public String toString() {
-        return Arrays.deepToString(board);
+        return Arrays.deepToString(gameBoard);
     }
 
     public int getWidth() {
