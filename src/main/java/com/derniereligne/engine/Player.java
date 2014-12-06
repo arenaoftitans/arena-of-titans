@@ -225,6 +225,7 @@ public class Player {
     public void initTurn() {
         lastSquareOnLastTurn = currentSquare;
         numberMovesPlayed = 0;
+        canPlay = true;
     }
 
     /**
@@ -353,6 +354,10 @@ public class Player {
 
     public int getRank() {
         return rank;
+    }
+
+    public Set<Integer> getAim() {
+        return aim;
     }
 
     /**
