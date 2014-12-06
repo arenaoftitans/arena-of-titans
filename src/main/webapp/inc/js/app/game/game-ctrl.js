@@ -113,6 +113,7 @@ app.controller("game", ['$scope',
             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
             $scope.winners = data.winners;
             $scope.gameOver = data.gameOver;
+            $scope.selectedCard = {};
             squares.reset($scope.highlightedSquares);
         }
 
