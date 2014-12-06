@@ -286,6 +286,10 @@ public class Match {
 
         if (!gameHasEnoughPlayersToContinue()) {
             gameOver = true;
+            winners.add(players.parallelStream()
+                    .filter(pl -> pl != null && !pl.hasWon())
+                    .findFirst()
+                    .get());
         }
     }
 
