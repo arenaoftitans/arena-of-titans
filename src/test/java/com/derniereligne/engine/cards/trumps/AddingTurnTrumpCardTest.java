@@ -26,7 +26,7 @@ public class AddingTurnTrumpCardTest {
 
         trumpCard = new AddingTurnTrumpCard(null, 1, null, 0, 2);
         player1 = new Player("player1", 0);
-        player1.addTrumpCard(trumpCard);
+        player1.addTrumpCardToAffecting(trumpCard);
         player2 = new Player("player2", 1);
         List<Player> players = new ArrayList<>();
         players.add(player1);

@@ -31,7 +31,8 @@ public class Player {
     private static final int HASH_MULTIPLIER = 89;
     private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
     private int numberMoveToPlay = 2;
-    private List<TrumpCard> trumpCards;
+    private List<TrumpCard> affectingTrumpCards;
+    private List<TrumpCard> playableTrumpCards;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -106,7 +107,8 @@ public class Player {
         this.index = index;
         this.canPlay = true;
         numberMovesPlayed = 0;
-        this.trumpCards = new ArrayList<>();
+        affectingTrumpCards = new ArrayList<>();
+        playableTrumpCards = new ArrayList<>();
     }
 
     /**
@@ -122,8 +124,8 @@ public class Player {
         return isWinnerInCurrentMatch;
     }
 
-    public void addTrumpCard(TrumpCard toAdd) {
-        trumpCards.add(toAdd);
+    public void addTrumpCardToAffecting(TrumpCard toAdd) {
+        affectingTrumpCards.add(toAdd);
     }
 
     /**
@@ -300,17 +302,17 @@ public class Player {
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
 
-        trumpCards.parallelStream()
+        affectingTrumpCards.parallelStream()
                 .forEach(tc -> tc.affect(this));
 
         numberMovesPlayed++;
         deck.playCard(cardPlayed);
         moveTo(board.getSquare(targetedX, targetedY));
         if (numberMovesPlayed == numberMoveToPlay) {
-            trumpCards.parallelStream()
+            affectingTrumpCards.parallelStream()
                     .forEach(tc -> tc.consume());
 
-            trumpCards = trumpCards.parallelStream()
+            affectingTrumpCards = affectingTrumpCards.parallelStream()
                     .filter(tc -> tc.getDuration() > 0)
                     .collect(Collectors.toList());
 
@@ -324,6 +326,19 @@ public class Player {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
         deck.getHand().parallelStream()
                 .forEach(mvtc -> mvtc.revertToDefault());
+    }
+
+    public void playTrumpCard(TrumpCard playedTrumpCard, Player target) {
+        playableTrumpCards.remove(playedTrumpCard);
+        target.addTrumpCardToAffecting(playedTrumpCard);
+    }
+
+    public boolean canPlayTrumpCard(TrumpCard trumpCard) {
+        return playableTrumpCards.contains(trumpCard);
+    }
+
+    public void addTrumpCardToPlayable(TrumpCard playableTrumpCard) {
+        playableTrumpCards.add(playableTrumpCard);
     }
 
     public void addToNumberMoveToPlay(int numberToAdd) {
