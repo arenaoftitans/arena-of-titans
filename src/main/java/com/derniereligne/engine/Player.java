@@ -4,6 +4,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
+import com.derniereligne.engine.cards.trumps.AddingTurnTrumpCard;
 import com.derniereligne.engine.cards.trumps.TrumpCard;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -109,6 +110,11 @@ public class Player {
         numberMovesPlayed = 0;
         affectingTrumpCards = new ArrayList<>();
         playableTrumpCards = new ArrayList<>();
+        //TODO: remove when programming heroes
+        for (int i =0; i < 5; i++) {
+            playableTrumpCards.add(new AddingTurnTrumpCard("renfort " + i, 2, "Play more !", 0, 1));
+        }
+        //END of TODO
     }
 
     /**
