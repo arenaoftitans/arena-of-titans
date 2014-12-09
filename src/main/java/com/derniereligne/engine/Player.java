@@ -250,9 +250,6 @@ public class Player {
     /**
      * Returns true if the active player stayed on the good last line for one turn.
      *
-     * @param targetedX The X coordinate of the square on which the player wants to move.
-     * @param targetedY The Y coordinate of the square on which the player wants to move.
-     *
      * @return True if the active player has reached its aim.
      */
     public boolean hasReachedItsAim() {
@@ -330,8 +327,7 @@ public class Player {
 
     private void revertToDefault() {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
-        deck.getHand().parallelStream()
-                .forEach(mvtc -> mvtc.revertToDefault());
+        deck.revertToDefault();
     }
 
     public void playTrumpCard(TrumpCard playedTrumpCard, Player target) {

@@ -103,8 +103,9 @@ public class Deck {
         }
     }
 
-    public List<MovementsCard> getHand() {
-        return hand;
+    public void revertToDefault() {
+        hand.parallelStream()
+                .forEach(mvtc -> mvtc.revertToDefault());
     }
 
     /**
