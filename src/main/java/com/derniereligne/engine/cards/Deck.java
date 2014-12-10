@@ -59,6 +59,11 @@ public class Deck {
         }
     }
 
+    public void removePossibleColorFromHand(Color color) {
+        hand.parallelStream()
+                .forEach(mvtc -> mvtc.removePossibleColor(color));
+    }
+
     /**
      * Initialize the stock of cards.
      *

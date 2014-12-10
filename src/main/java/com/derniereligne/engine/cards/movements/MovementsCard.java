@@ -220,6 +220,10 @@ public abstract class MovementsCard {
         return getPossibleMovements(square, numberOfMovements);
     }
 
+    public void removePossibleColor(Color color) {
+        possibleSquaresColor.remove(color);
+    }
+
     public void revertToDefault() {
         numberOfMovements = defaultNumberOfMovements;
         possibleSquaresColor = defaultPossibleSquaresColor;

@@ -8,6 +8,13 @@ public abstract class TrumpCard {
     protected String description;
     protected int cost;
 
+    public TrumpCard(String name, int duration, String description, int cost) {
+        this.name = name;
+        this.duration = duration;
+        this.description = description;
+        this.cost = cost;
+    }
+
     public abstract void affect(Player player);
 
     public int getDuration() {

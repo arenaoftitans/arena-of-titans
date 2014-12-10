@@ -7,10 +7,7 @@ public class AddingTurnTrumpCard extends TrumpCard{
 
     public AddingTurnTrumpCard(String name, int duration, String description,
             int cost, int turnsToAdd) {
-        this.name = name;
-        this.duration = duration;
-        this.description = description;
-        this.cost = cost;
+        super(name, duration, description, cost);
         this.turnsToAdd = turnsToAdd;
     }
 
