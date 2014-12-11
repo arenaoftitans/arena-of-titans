@@ -13,17 +13,23 @@ import com.derniereligne.engine.Player;
  * @author gaussreload
  */
 public class RemovingColorTrumpCard extends TrumpCard{
-    private Color removedColor;
+    private Color[] removedColors;
 
     public RemovingColorTrumpCard(String name, int duration, String description,
-            int cost, Color color) {
+            int cost, Color... colors) {
         super(name, duration, description, cost);
-        this.removedColor = color;
+        if (colors.equals(Color.ALL)) {
+            removedColors = Color.values();
+        } else {
+            removedColors = colors;
+        }
     }
 
     @Override
     public void affect(Player player) {
-        player.getDeck().removePossibleColorFromHand(removedColor);
+        for (Color color : removedColors) {
+            player.getDeck().removePossibleColorFromHand(color);
+        }
     }
 
 }
