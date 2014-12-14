@@ -15,6 +15,8 @@ import com.derniereligne.engine.Player;
 public class RemovingColorTrumpCard extends TrumpCard{
     private Color[] removedColors;
 
+    private final EnumSet<Color> removedColors;
+
     public RemovingColorTrumpCard(String name, int duration, String description,
             int cost, Color... colors) {
         super(name, duration, description, cost);
