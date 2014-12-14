@@ -397,7 +397,8 @@ public class Match {
     }
 
     public List<Map<String, String>> getActivePlayerHandForJsonExport() {
-        return activePlayer.getDeck().getHandForJsonExport();
+        return activePlayer.getHandForJsonExport();
+    }
     }
 
     public boolean getGameOver() {
