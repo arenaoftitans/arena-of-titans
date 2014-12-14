@@ -35,9 +35,9 @@ public class RemovingColorTrumpCard extends TrumpCard {
 
     @Override
     public void affect(Player player) {
-        for (Color color : removedColors) {
+        removedColors.parallelStream().forEach((color) -> {
             player.getDeck().removePossibleColorFromHand(color);
-        }
+        });
     }
 
 }
