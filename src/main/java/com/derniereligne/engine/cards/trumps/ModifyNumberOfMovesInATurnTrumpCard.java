@@ -2,6 +2,12 @@ package com.derniereligne.engine.cards.trumps;
 
 import com.derniereligne.engine.Player;
 
+/**
+ * This kind of trump card modify the number of moves (plus or minus) a player can make in a turn.
+ *
+ * @author "Dernière Ligne" first development team
+ * @version 1.0
+ */
 public class ModifyNumberOfMovesInATurnTrumpCard extends TrumpCard{
     private final int turnsToAdd;
 

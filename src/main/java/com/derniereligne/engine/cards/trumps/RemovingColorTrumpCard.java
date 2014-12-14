@@ -12,19 +12,24 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- *
+ * This kind of trump card prevents the player to move on some colors.
  *
  * @author "Dernière Ligne" first development team
  * @version 1.0
  */
 public class RemovingColorTrumpCard extends TrumpCard {
 
+    /**
+     * The set of colors on which the player is not allowed to move to.
+     */
     private final EnumSet<Color> removedColors;
 
     public RemovingColorTrumpCard(String name, int duration, String description,
             int cost, Color... colors) {
         super(name, duration, description, cost);
+        // Create an empty EnumSet so we can use addAll to add the colors.
         removedColors = EnumSet.noneOf(Color.class);
+
         List<Color> colorsAsList = Arrays.asList(colors);
         if (colorsAsList.contains(Color.ALL)) {
             removedColors.addAll(Arrays.asList(Color.values()));
