@@ -10,6 +10,7 @@ app.controller("game", ['$scope',
         $scope.numberMaximumOfPlayers = 8;
         $scope.players = player.init($scope.numberMaximumOfPlayers);
         $scope.gameOver = false;
+        $scope.currentPlayer = {};
         var createGameUrl = '/aot/rest/createGame';
         var createGameMethod = 'POST';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
@@ -81,8 +82,8 @@ app.controller("game", ['$scope',
          * @param {type} squareX The x coordinate of the square on which the player wants to go.
          * @param {type} squareY The y coordinate of the square on which the player wants to go.
          */
-        $scope.play = function (squareId, squareX, squareY) {
-            if (d3.select('#' + squareId).classed('highlightedSquare')
+        $scope.play = function (squareName, squareX, squareY) {
+            if (d3.select('#' + squareName).classed('highlightedSquare')
                     && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
@@ -97,7 +98,7 @@ app.controller("game", ['$scope',
                 })
                         .success(function (data) {
                             player.move($scope.currentPlayer.id, data.newSquare);
-                            updateScopeOnSuccessMove(data);
+                            updateScopeOnSuccessfulMove(data);
                         })
                         .error(function (data) {
                             showHttpError.show(data);
@@ -111,7 +112,7 @@ app.controller("game", ['$scope',
          * Update the scope based on the data send by the server when a move was successfull.
          * @param {type} data The data recieved from the server.
          */
-        function updateScopeOnSuccessMove(data) {
+        function updateScopeOnSuccessfulMove(data) {
             $scope.currentPlayer = data.nextPlayer;
             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
             $scope.winners = data.winners;
@@ -132,7 +133,7 @@ app.controller("game", ['$scope',
                 }
             })
                     .success(function (data) {
-                        updateScopeOnSuccessMove(data);
+                        updateScopeOnSuccessfulMove(data);
                     })
                     .error(function (data) {
                         showHttpError.show(data);
