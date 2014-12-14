@@ -32,6 +32,7 @@ app.controller("game", ['$scope',
                         d3.select('#game').classed('hidden', false);
                         $scope.currentPlayer = data.nextPlayer;
                         $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+                        $scope.currentPlayerTrumps = data.trumpsNextPlayer;
                     })
                     .error(function (data) {
                         showHttpError.show(data);
@@ -115,6 +116,7 @@ app.controller("game", ['$scope',
         function updateScopeOnSuccessfulMove(data) {
             $scope.currentPlayer = data.nextPlayer;
             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+            $scope.currentPlayerTrumps = data.trumpsNextPlayer;
             $scope.winners = data.winners;
             $scope.gameOver = data.gameOver;
             $scope.selectedCard = {};
@@ -138,6 +140,10 @@ app.controller("game", ['$scope',
                     .error(function (data) {
                         showHttpError.show(data);
                     });
+        };
+
+        $scope.playTrump = function () {
+            alert('Not implemented yet');
         };
     }
 ]);

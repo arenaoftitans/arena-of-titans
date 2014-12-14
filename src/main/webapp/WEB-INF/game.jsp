@@ -44,6 +44,13 @@
                         </div>
                         <button ng-click="pass()">Pass</button>
                     </div>
+                    <div id="trumps">
+                        <div ng-repeat="trump in currentPlayerTrumps"
+                             ng-click="playTrump(trump.name)"
+                             class="trump">
+                            {{trump.name}}: {{trump.description}}
+                        </div>
+                    </div>
                 </div>
             </div>
 

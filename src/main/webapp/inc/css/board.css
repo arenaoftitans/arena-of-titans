@@ -50,3 +50,7 @@ rect, path {
 .selectedCard {
     top: -20px;
 }
+
+.trump {
+    cursor: pointer;
+}
