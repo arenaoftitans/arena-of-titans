@@ -11,8 +11,11 @@ app.controller("game", ['$scope',
         $scope.players = player.init($scope.numberMaximumOfPlayers);
         $scope.gameOver = false;
         var createGameUrl = '/aot/rest/createGame';
-        var viewPossibleMovements = '/aot/rest/getPossibleSquares';
+        var createGameMethod = 'POST';
+        var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
+        var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
+        var playMethod = 'GET';
 
         /**
          * Post the list of registered players and create the game.
@@ -20,7 +23,7 @@ app.controller("game", ['$scope',
         $scope.createGame = function () {
             $http({
                 url: createGameUrl,
-                method: 'POST',
+                method: createGameMethod,
                 data: $scope.players
             })
                     .success(function (data) {
@@ -43,8 +46,8 @@ app.controller("game", ['$scope',
          */
         $scope.viewPossibleMovements = function (cardName, cardColor) {
             $http({
-                url: viewPossibleMovements,
-                method: "GET",
+                url: viewPossibleMovementsUrl,
+                method: viewPossibleMovementsMethod,
                 params: {
                     card_name: cardName,
                     card_color: cardColor,
@@ -83,7 +86,7 @@ app.controller("game", ['$scope',
                     && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
-                    method: 'GET',
+                    method: playMethod,
                     params: {
                         card_name: $scope.selectedCard.card_name,
                         card_color: $scope.selectedCard.card_color,
@@ -123,7 +126,7 @@ app.controller("game", ['$scope',
         $scope.pass = function () {
             $http({
                 url: playUrl,
-                method: 'GET',
+                method: playMethod,
                 params: {
                     pass: true
                 }
