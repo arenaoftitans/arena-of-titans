@@ -48,6 +48,29 @@
                 }
             ]
         },
+        "trumps": [
+            {
+                "name": "Tower",
+                "cost": 5,
+                "description": "Prevent the player to move on some colors.",
+                "duration": 2,
+                "repeatForEachColor": true,
+                "parameters": {
+                    "type": "RemovingColorTrump"
+                }
+            },
+            {
+                "name": "Reinforcements",
+                "cost": 5,
+                "description": "Allow the player to play one more move.",
+                "duration": 1,
+                "repeatForEachColor": false,
+                "parameters": {
+                    "type": "ModifyNumberOfMovesInATurnTrump",
+                    "deltaOfMoves": 1
+                }
+            }
+        ],
         "board": {
             "numberArms": 8,
             "armsWidth": 4,
