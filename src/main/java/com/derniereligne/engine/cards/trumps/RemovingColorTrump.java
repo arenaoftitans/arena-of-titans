@@ -17,14 +17,14 @@ import java.util.List;
  * @author "Dernière Ligne" first development team
  * @version 1.0
  */
-public class RemovingColorTrumpCard extends TrumpCard {
+public class RemovingColorTrump extends Trump {
 
     /**
      * The set of colors on which the player is not allowed to move to.
      */
     private final EnumSet<Color> removedColors;
 
-    public RemovingColorTrumpCard(String name, int duration, String description,
+    public RemovingColorTrump(String name, int duration, String description,
             int cost, Color... colors) {
         super(name, duration, description, cost);
         // Create an empty EnumSet so we can use addAll to add the colors.

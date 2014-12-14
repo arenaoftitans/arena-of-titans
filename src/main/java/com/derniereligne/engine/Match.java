@@ -3,7 +3,7 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -151,7 +151,7 @@ public class Match {
         return activePlayer.getIndex();
     }
 
-    public void playTrumpCard(Player caster, Player target, TrumpCard trumpCard) {
+    public void playTrumpCard(Player caster, Player target, Trump trumpCard) {
         if (caster.canPlayTrumpCard(trumpCard) && activePlayer.equals(caster)) {
             caster.playTrumpCard(trumpCard, target);
         }

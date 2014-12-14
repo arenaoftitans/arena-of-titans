@@ -3,8 +3,8 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrumpCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
@@ -204,7 +204,7 @@ public class MatchTest {
         Player player2 = match.getPlayers().get(1);
         Player player3 = match.getPlayers().get(2);
 
-        TrumpCard trumpCard = new ModifyNumberOfMovesInATurnTrumpCard(null, 1, null, 0, 2);
+        Trump trumpCard = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, 2);
         player1.addTrumpCardToPlayable(trumpCard);
 
         assertEquals(match.getActivePlayer(), player1);

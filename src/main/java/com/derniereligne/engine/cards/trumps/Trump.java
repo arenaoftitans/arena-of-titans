@@ -10,7 +10,7 @@ import com.derniereligne.engine.Player;
  * @author "Dernière Ligne" first development team
  * @version 1.0
  */
-public abstract class TrumpCard {
+public abstract class Trump {
 
     /**
      * The name of the trump card.
@@ -29,7 +29,7 @@ public abstract class TrumpCard {
      */
     protected int cost;
 
-    public TrumpCard(String name, int duration, String description, int cost) {
+    public Trump(String name, int duration, String description, int cost) {
         this.name = name;
         this.duration = duration;
         this.description = description;

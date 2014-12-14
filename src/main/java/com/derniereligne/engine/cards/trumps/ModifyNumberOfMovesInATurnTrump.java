@@ -8,10 +8,10 @@ import com.derniereligne.engine.Player;
  * @author "Dernière Ligne" first development team
  * @version 1.0
  */
-public class ModifyNumberOfMovesInATurnTrumpCard extends TrumpCard{
+public class ModifyNumberOfMovesInATurnTrump extends Trump{
     private final int turnsToAdd;
 
-    public ModifyNumberOfMovesInATurnTrumpCard(String name, int duration, String description,
+    public ModifyNumberOfMovesInATurnTrump(String name, int duration, String description,
             int cost, int turnsToAdd) {
         super(name, duration, description, cost);
         this.turnsToAdd = turnsToAdd;

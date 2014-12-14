@@ -4,9 +4,9 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrumpCard;
-import com.derniereligne.engine.cards.trumps.RemovingColorTrumpCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.derniereligne.engine.cards.trumps.RemovingColorTrump;
+import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,8 +33,8 @@ public class Player {
     private static final int HASH_MULTIPLIER = 89;
     private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
     private int numberMoveToPlay = 2;
-    private List<TrumpCard> affectingTrumpCards;
-    private List<TrumpCard> playableTrumpCards;
+    private List<Trump> affectingTrumpCards;
+    private List<Trump> playableTrumpCards;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -112,11 +112,11 @@ public class Player {
         affectingTrumpCards = new ArrayList<>();
         playableTrumpCards = new ArrayList<>();
         //TODO: remove when programming heroes
-        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort1", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort2", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort3", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new RemovingColorTrumpCard("Tower1", 1, "Block a color !", 0, Color.BLACK));
-        playableTrumpCards.add(new RemovingColorTrumpCard("Tower2", 1, "Block a color !", 0, Color.BLUE));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrump("renfort1", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrump("renfort2", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrump("renfort3", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new RemovingColorTrump("Tower1", 1, "Block a color !", 0, Color.BLACK));
+        playableTrumpCards.add(new RemovingColorTrump("Tower2", 1, "Block a color !", 0, Color.BLUE));
         //END of TODO
     }
 
@@ -133,7 +133,7 @@ public class Player {
         return isWinnerInCurrentMatch;
     }
 
-    public void addTrumpCardToAffecting(TrumpCard toAdd) {
+    public void addTrumpCardToAffecting(Trump toAdd) {
         affectingTrumpCards.add(toAdd);
     }
 
@@ -333,16 +333,16 @@ public class Player {
         deck.revertToDefault();
     }
 
-    public void playTrumpCard(TrumpCard playedTrumpCard, Player target) {
+    public void playTrumpCard(Trump playedTrumpCard, Player target) {
         playableTrumpCards.remove(playedTrumpCard);
         target.addTrumpCardToAffecting(playedTrumpCard);
     }
 
-    public boolean canPlayTrumpCard(TrumpCard trumpCard) {
+    public boolean canPlayTrumpCard(Trump trumpCard) {
         return playableTrumpCards.contains(trumpCard);
     }
 
-    public void addTrumpCardToPlayable(TrumpCard playableTrumpCard) {
+    public void addTrumpCardToPlayable(Trump playableTrumpCard) {
         playableTrumpCards.add(playableTrumpCard);
     }
 
