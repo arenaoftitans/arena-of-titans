@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AddingTurnTrumpCardTest {
-    AddingTurnTrumpCard trumpCard;
+    ModifyNumberOfMovesInATurnTrumpCard trumpCard;
 
     Player player1;
     Player player2;
@@ -24,7 +24,7 @@ public class AddingTurnTrumpCardTest {
         GameFactory gf = new GameFactory();
         Board board = gf.getBoard();
 
-        trumpCard = new AddingTurnTrumpCard(null, 1, null, 0, 2);
+        trumpCard = new ModifyNumberOfMovesInATurnTrumpCard(null, 1, null, 0, 2);
         player1 = new Player("player1", 0);
         player1.addTrumpCardToAffecting(trumpCard);
         player2 = new Player("player2", 1);

@@ -8,7 +8,7 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
-import com.derniereligne.engine.cards.trumps.AddingTurnTrumpCard;
+import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrumpCard;
 import com.derniereligne.engine.cards.trumps.TrumpCard;
 import java.util.ArrayList;
 import java.util.HashSet;

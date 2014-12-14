@@ -4,7 +4,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.AddingTurnTrumpCard;
+import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrumpCard;
 import com.derniereligne.engine.cards.trumps.RemovingColorTrumpCard;
 import com.derniereligne.engine.cards.trumps.TrumpCard;
 import java.util.ArrayList;
@@ -112,9 +112,9 @@ public class Player {
         affectingTrumpCards = new ArrayList<>();
         playableTrumpCards = new ArrayList<>();
         //TODO: remove when programming heroes
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort1", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort2", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort3", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort1", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort2", 2, "Play more !", 0, 1));
+        playableTrumpCards.add(new ModifyNumberOfMovesInATurnTrumpCard("renfort3", 2, "Play more !", 0, 1));
         playableTrumpCards.add(new RemovingColorTrumpCard("Tower1", 1, "Block a color !", 0, Color.BLACK));
         playableTrumpCards.add(new RemovingColorTrumpCard("Tower2", 1, "Block a color !", 0, Color.BLUE));
         //END of TODO

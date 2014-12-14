@@ -2,10 +2,10 @@ package com.derniereligne.engine.cards.trumps;
 
 import com.derniereligne.engine.Player;
 
-public class AddingTurnTrumpCard extends TrumpCard{
+public class ModifyNumberOfMovesInATurnTrumpCard extends TrumpCard{
     private final int turnsToAdd;
 
-    public AddingTurnTrumpCard(String name, int duration, String description,
+    public ModifyNumberOfMovesInATurnTrumpCard(String name, int duration, String description,
             int cost, int turnsToAdd) {
         super(name, duration, description, cost);
         this.turnsToAdd = turnsToAdd;
