@@ -1,5 +1,6 @@
 package com.derniereligne.http.rest;
 
+import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ public class CardPlayedJsonResponse {
     private List<Map<String, String>> possibleCardsNextPlayer;
     private boolean gameOver;
     private List<String> winners;
+    private List<Map<String, String>> trumpsNextPlayer;
 
     public Map<String, String> getNextPlayer() {
         return nextPlayer;
@@ -67,6 +69,14 @@ public class CardPlayedJsonResponse {
 
     public void setWinners(List<String> winners) {
         this.winners = winners;
+    }
+
+    public List<Map<String, String>> getTrumpsNextPlayer() {
+        return this.trumpsNextPlayer;
+    }
+
+    public void setTrumpsNextPlayer(List<Map<String, String>> trumps) {
+        this.trumpsNextPlayer = trumps;
     }
 
 }

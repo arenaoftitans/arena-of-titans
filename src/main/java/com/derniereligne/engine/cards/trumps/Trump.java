@@ -36,6 +36,14 @@ public abstract class Trump {
         this.cost = cost;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Use this card for or against a specific player.
      *
