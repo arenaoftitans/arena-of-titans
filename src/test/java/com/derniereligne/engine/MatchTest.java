@@ -210,7 +210,7 @@ public class MatchTest {
         assertEquals(match.getActivePlayer(), player1);
         match.playTurn(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTrumpCard(player1, player2, trumpCard);
+        match.playTrumpCard(player2, trumpCard);
         match.playTurn(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
         match.playTurn(0, 0, null);

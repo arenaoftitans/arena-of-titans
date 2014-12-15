@@ -347,6 +347,13 @@ public class Player {
         return playableTrumps.contains(trumpCard);
     }
 
+    public boolean canPlayTrumpCard(String trumpName) {
+        return playableTrumps.parallelStream()
+                .map(trump -> trump.getName())
+                .collect(Collectors.toList())
+                .contains(trumpName);
+    }
+
     public void addTrumpCardToPlayable(Trump playableTrumpCard) {
         playableTrumps.add(playableTrumpCard);
     }
@@ -432,6 +439,13 @@ public class Player {
 
     public Set<Integer> getAim() {
         return aim;
+    }
+
+    public Trump getTrump(String trumpName) {
+        return playableTrumps.parallelStream()
+                .filter(trump -> trumpName.equals(trump.getName()))
+                .findFirst()
+                .get();
     }
 
     /**

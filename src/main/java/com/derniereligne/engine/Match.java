@@ -151,10 +151,14 @@ public class Match {
         return activePlayer.getIndex();
     }
 
-    public void playTrumpCard(Player caster, Player target, Trump trumpCard) {
-        if (caster.canPlayTrumpCard(trumpCard) && activePlayer.equals(caster)) {
-            caster.playTrumpCard(trumpCard, target);
-        }
+    public void playTrumpCard(String trumpName, int targetIndex) {
+        Trump trump = activePlayer.getTrump(trumpName);
+        Player target = players.get(targetIndex);
+        playTrumpCard(target, trump);
+    }
+
+    public void playTrumpCard(Player target, Trump trumpCard) {
+        activePlayer.playTrumpCard(trumpCard, target);
     }
 
     /**
@@ -412,6 +416,10 @@ public class Match {
         return winners.parallelStream()
                 .map(player -> player.getName())
                 .collect(Collectors.toList());
+    }
+
+    public boolean canActivePlayerPlayTrum(String trumpName, int targetIndex) {
+        return targetIndex < players.size() && activePlayer.canPlayTrumpCard(trumpName);
     }
 
 }
