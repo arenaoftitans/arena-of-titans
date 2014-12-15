@@ -333,20 +333,44 @@ public class Player {
         revertToDefault();
     }
 
+    /**
+     * Revert all the cards to their default behavior.
+     */
     private void revertToDefault() {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
         deck.revertToDefault();
     }
 
+    /**
+     * Play a trump card.
+     *
+     * @param playedTrumpCard The trump card to play.
+     *
+     * @param target The targeted player.
+     */
     public void playTrumpCard(Trump playedTrumpCard, Player target) {
         playableTrumps.remove(playedTrumpCard);
         target.addTrumpCardToAffecting(playedTrumpCard);
     }
 
+    /**
+     * Check whether you can play this trump.
+     *
+     * @param trumpCard The trump the player wants to play.
+     *
+     * @return true if the card can be played.
+     */
     public boolean canPlayTrumpCard(Trump trumpCard) {
         return playableTrumps.contains(trumpCard);
     }
 
+    /**
+     * Check whether you can play this trump.
+     *
+     * @param trumpName The name of the trump the player wants to play.
+     *
+     * @return true if the card can be played.
+     */
     public boolean canPlayTrumpCard(String trumpName) {
         return playableTrumps.parallelStream()
                 .map(trump -> trump.getName())
@@ -441,7 +465,16 @@ public class Player {
         return aim;
     }
 
-    public Trump getTrump(String trumpName) {
+    /**
+     * Get a trump by its name. You must check that this name is valid.
+     *
+     * @see Player#canPlayTrumpCard(java.lang.String)
+     *
+     * @param trumpName The name of the trump to get.
+     *
+     * @return the wanted trump.
+     */
+    public Trump getTrumpByName(String trumpName) {
         return playableTrumps.parallelStream()
                 .filter(trump -> trumpName.equals(trump.getName()))
                 .findFirst()

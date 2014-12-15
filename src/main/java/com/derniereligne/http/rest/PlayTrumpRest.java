@@ -1,8 +1,6 @@
 
 package com.derniereligne.http.rest;
 
-import com.derniereligne.http.rest.json.CardPlayedJsonResponseBuilder;
-import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -21,7 +19,7 @@ import javax.ws.rs.core.Response;
 public class PlayTrumpRest extends GameRest {
 
     private static final String TRUMP_NAME = "name";
-    private static final String PLAYER_INDEX = "index";
+    private static final String TARGETED_PLAYER_INDEX = "targetIndex";
 
     /**
      * The servlet GET method.
@@ -58,23 +56,30 @@ public class PlayTrumpRest extends GameRest {
         return parameters.get(TRUMP_NAME) == null || invalidPlayerIndex();
     }
 
+    /**
+     * Check whether the asked player index is valid or not.
+     *
+     * Check that it can correctly parse as an integer.
+     *
+     * @return
+     */
     protected boolean invalidPlayerIndex() {
         boolean canBeParseAsInteger = true;
         try {
-            Integer.parseInt(parameters.get(PLAYER_INDEX));
+            Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
         } catch (NumberFormatException exception) {
             canBeParseAsInteger = false;
         }
 
-        return parameters.get(PLAYER_INDEX) == null && !canBeParseAsInteger;
+        return !canBeParseAsInteger;
     }
 
     @Override
     protected Response getResponse() {
         String trumpName = parameters.get(TRUMP_NAME);
-        int targetIndex = Integer.parseInt(parameters.get(PLAYER_INDEX));
+        int targetIndex = Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
 
-        if (match.canActivePlayerPlayTrum(trumpName, targetIndex)) {
+        if (match.canActivePlayerPlayTrump(trumpName, targetIndex)) {
             match.playTrumpCard(trumpName, targetIndex);
             return Response.status(Response.Status.OK).build();
         } else {

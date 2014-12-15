@@ -151,12 +151,26 @@ public class Match {
         return activePlayer.getIndex();
     }
 
+    /**
+     * Play the trump.
+     *
+     * @param trumpName The name of the trump.
+     *
+     * @param targetIndex The index of the targeted player.
+     */
     public void playTrumpCard(String trumpName, int targetIndex) {
-        Trump trump = activePlayer.getTrump(trumpName);
+        Trump trump = activePlayer.getTrumpByName(trumpName);
         Player target = players.get(targetIndex);
         playTrumpCard(target, trump);
     }
 
+    /**
+     * Play a trump.
+     *
+     * @param target The targeted player.
+     *
+     * @param trumpCard The trump.
+     */
     public void playTrumpCard(Player target, Trump trumpCard) {
         activePlayer.playTrumpCard(trumpCard, target);
     }
@@ -418,7 +432,16 @@ public class Match {
                 .collect(Collectors.toList());
     }
 
-    public boolean canActivePlayerPlayTrum(String trumpName, int targetIndex) {
+    /**
+     * Check whether the active player can play this trump on the targeted player.
+     *
+     * @param trumpName The name of the trump.
+     *
+     * @param targetIndex The index of the targeted player.
+     *
+     * @return true if the trump can be played.
+     */
+    public boolean canActivePlayerPlayTrump(String trumpName, int targetIndex) {
         return targetIndex < players.size() && activePlayer.canPlayTrumpCard(trumpName);
     }
 
