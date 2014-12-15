@@ -33,6 +33,7 @@ public class CardPlayedJsonResponseBuilder {
     private static CardPlayedJsonResponse createCardPlayedJsonRespones(Match match) {
         CardPlayedJsonResponse cardPlayedJsonResponse = new CardPlayedJsonResponse();
         cardPlayedJsonResponse.init();
+        cardPlayedJsonResponse.setPlayers(match.getPlayersForJsonExport());
         cardPlayedJsonResponse.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
         cardPlayedJsonResponse.setNextPlayerName(match.getActivePlayerName());
         cardPlayedJsonResponse.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());

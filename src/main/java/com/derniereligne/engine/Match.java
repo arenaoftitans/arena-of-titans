@@ -6,6 +6,7 @@ import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -422,6 +423,17 @@ public class Match {
         return activePlayer.getTrumpsForJsonExport();
     }
 
+    public List<Map<String, String>> getPlayersForJsonExport() {
+        return players.parallelStream()
+                .map(player -> {
+                    Map<String, String> playerJson = new HashMap<>();
+                    playerJson.put("name", player.getName());
+                    playerJson.put("index", Integer.toString(player.getIndex()));
+                    return playerJson;
+                })
+                .collect(Collectors.toList());
+    }
+
     public boolean getGameOver() {
         return gameOver;
     }
@@ -442,7 +454,7 @@ public class Match {
      * @return true if the trump can be played.
      */
     public boolean canActivePlayerPlayTrump(String trumpName, int targetIndex) {
-        return targetIndex < players.size() && activePlayer.canPlayTrumpCard(trumpName);
+        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrumpCard(trumpName);
     }
 
 }

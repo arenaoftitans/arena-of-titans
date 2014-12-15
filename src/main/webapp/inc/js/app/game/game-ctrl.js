@@ -11,12 +11,16 @@ app.controller("game", ['$scope',
         $scope.players = player.init($scope.numberMaximumOfPlayers);
         $scope.gameOver = false;
         $scope.currentPlayer = {};
+        $scope.trumpTargetedPlayer = {};
+        var targetedPlayerForTrumpSelectorId = '#targetedPlayerForTrumpSelector';
         var createGameUrl = '/aot/rest/createGame';
         var createGameMethod = 'POST';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
+        var playTrumpUrl = '/aot/rest/playTrump';
+        var playTrumpMethod = 'GET';
 
         /**
          * Post the list of registered players and create the game.
@@ -33,6 +37,7 @@ app.controller("game", ['$scope',
                         $scope.currentPlayer = data.nextPlayer;
                         $scope.currentPlayerCards = data.possibleCardsNextPlayer;
                         $scope.currentPlayerTrumps = data.trumpsNextPlayer;
+                        $scope.players = data.players;
                     })
                     .error(function (data) {
                         showHttpError.show(data);
@@ -142,8 +147,45 @@ app.controller("game", ['$scope',
                     });
         };
 
-        $scope.playTrump = function () {
-            alert('Not implemented yet');
+        /**
+         * Play the clicked trump.
+         *
+         * @param {type} trumpName The name of the trump.
+         * @returns {undefined}
+         */
+        $scope.playTrump = function (trumpName) {
+            $scope.selectedTrumpName = trumpName;
+            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', false);
+        };
+
+        $scope.submitSelectTargetedPlayerForm = function () {
+            $http({
+                url: playTrumpUrl,
+                method: playTrumpMethod,
+                params: {
+                    targetIndex: $scope.trumpTargetedPlayer,
+                    name: $scope.selectedTrumpName
+                }
+            })
+                    .success(function (data) {
+                        updateScopeOnSuccessfulTrump(data);
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
+        };
+
+        $scope.cancelSelectTargetedPlayerForm = function () {
+            $scope.selectedTrumpName = '';
+            $scope.trumpTargetedPlayer = {};
+            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', true);
+        };
+
+        var updateScopeOnSuccessfulTrump = function (data) {
+            $scope.activeTrumps = data;
+            $scope.selectedTrumpName = '';
+            $scope.trumpTargetedPlayer = {};
+            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', true);
         };
     }
 ]);

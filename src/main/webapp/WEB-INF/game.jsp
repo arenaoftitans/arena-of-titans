@@ -54,6 +54,20 @@
                 </div>
             </div>
 
+            <div id="targetedPlayerForTrumpSelector" class="popup hidden">
+                <form id="targetedPlayerForTrumpSelectorForm">
+                    <label>Select the player on which to apply the trump.</label>
+                    <div ng-repeat="player in players" class="player">
+                        <input ng-model="$parent.trumpTargetedPlayer"
+                               ng-value="player.index"
+                               type="radio"
+                               name="targetPlayer" />{{player.name}}
+                    </div>
+                    <button ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
+                    <button ng-click="submitSelectTargetedPlayerForm()">OK</button>
+                </form>
+            </div>
+
             <div ng-class="{hidden: !gameOver}">
                 The game is over. The winner are :
                 <ol>

@@ -25,13 +25,16 @@ public class PlayTrumpRest extends GameRest {
      * The servlet GET method.
      *
      * @param trumpName The name of the card the player wish to play.
+     * @param targetIndex The index of the targeted player.
      *
      * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response play(@QueryParam(TRUMP_NAME) String trumpName) {
+    public Response play(@QueryParam(TRUMP_NAME) String trumpName,
+            @QueryParam(TARGETED_PLAYER_INDEX) String targetIndex) {
         parameters.put(TRUMP_NAME, trumpName);
+        parameters.put(TARGETED_PLAYER_INDEX, targetIndex);
         return getGameFactoryResponse();
     }
 
@@ -39,8 +42,9 @@ public class PlayTrumpRest extends GameRest {
     protected Response checkParametersAndGetResponse() {
         if (incorrectInputParemeters()) {
             String message = String
-                    .format("Wrong input parameters. trumpName: %s.",
-                            parameters.get(TRUMP_NAME));
+                    .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
+                            parameters.get(TRUMP_NAME),
+                            parameters.get(TARGETED_PLAYER_INDEX));
             return buildBadResponse(message);
         }
 
