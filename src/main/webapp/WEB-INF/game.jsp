@@ -10,12 +10,17 @@
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
         <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
+
         <script src="inc/js/app/create-game/create-game-module.js"></script>
         <script src="inc/js/app/create-game/create-game-services.js"></script>
         <script src="inc/js/app/create-game/create-game-ctrl.js"></script>
+
         <script src="inc/js/app/game/game-module.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
+
+        <script src="inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
+        <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">
         <div id="createGame" ng-controller="createGame">
@@ -81,13 +86,13 @@
                     <button ng-click="submitSelectTargetedPlayerForm()">OK</button>
                 </form>
             </div>
+        </div>
 
-            <div ng-class="{hidden: !gameOver}">
-                The game is over. The winner are :
-                <ol>
-                    <li ng-repeat="player in winners">{{player}}</li>
-                </ol>
-            </div>
+        <div ng-controller="gameOver" id="gameOverScreen" class="hidden">
+            The game is over. The winner are :
+            <ol>
+                <li ng-repeat="player in winners">{{player}}</li>
+            </ol>
         </div>
     </body>
 </html>

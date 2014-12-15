@@ -9,9 +9,9 @@ app.controller("game", ['$scope',
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.selectedCard = [];
         $scope.curentPlayer = {};
-        $scope.gameOver = false;
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
+        var gameId = '#game';
         var targetedPlayerForTrumpSelectorId = '#targetedPlayerForTrumpSelector';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
@@ -21,7 +21,7 @@ app.controller("game", ['$scope',
         var playTrumpMethod = 'GET';
 
         var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function () {
-            d3.select('#game').classed('hidden', false);
+            d3.select(gameId).classed('hidden', false);
             var game = createGame.get();
             updateGameParameters(game);
         });
@@ -36,10 +36,18 @@ app.controller("game", ['$scope',
             $scope.currentPlayerCards = game.possibleCardsNextPlayer;
             $scope.currentPlayerTrumps = game.trumpsNextPlayer;
             $scope.winners = game.winners;
-            $scope.gameOver = game.gameOver;
             $scope.selectedCard = {};
             $scope.activeTrumps = game.trumps;
             squares.reset($scope.highlightedSquares);
+
+            isGameOver(game.gameOver);
+        }
+
+        function isGameOver(gameOver) {
+            if (gameOver) {
+                $rootScope.$emit('gameOver', $scope.winners);
+                d3.select(gameId).classed('hidden', true);
+            }
         }
 
         /**
