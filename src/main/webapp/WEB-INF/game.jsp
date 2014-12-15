@@ -10,23 +10,26 @@
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
         <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
+        <script src="inc/js/app/create-game/create-game-module.js"></script>
+        <script src="inc/js/app/create-game/create-game-services.js"></script>
+        <script src="inc/js/app/create-game/create-game-ctrl.js"></script>
         <script src="inc/js/app/game/game-module.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">
-        <div ng-controller="game">
-            <div id="createGame">
-                <form id="crateGameForm">
-                    <label>Add players</label>
-                    <div ng-repeat="player in players">
-                        <label>Name of player {{ player.index}}</label>
-                        <input type="text" ng-model="player.name" />
-                    </div>
-                    <button ng-click="createGame()">Create game</button>
-                </form>
-            </div>
+        <div id="createGame" ng-controller="createGame">
+            <form id="crateGameForm">
+                <label>Add players</label>
+                <div ng-repeat="player in players">
+                    <label>Name of player {{ player.index}}</label>
+                    <input type="text" ng-model="player.name" />
+                </div>
+                <button ng-click="createGame()">Create game</button>
+            </form>
+        </div>
 
+        <div ng-controller="game">
             <div id="game" class="hidden" ng-class="{hidden: gameOver}">
                 <div id="gameBoardContainer">
                     ${svgBoard}

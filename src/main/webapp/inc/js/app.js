@@ -1,3 +1,4 @@
 var app = angular.module("lastLine", [
-    'lastLine.game'
+    'lastLine.game',
+    'lastLine.create-game'
 ]);
