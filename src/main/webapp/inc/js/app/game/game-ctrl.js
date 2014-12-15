@@ -125,6 +125,7 @@ app.controller("game", ['$scope',
             $scope.winners = data.winners;
             $scope.gameOver = data.gameOver;
             $scope.selectedCard = {};
+            $scope.activeTrumps = data.trumps;
             squares.reset($scope.highlightedSquares);
         }
 
