@@ -12,17 +12,15 @@ app.controller("game", ['$scope',
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
         var gameId = '#game';
-        var targetedPlayerForTrumpSelectorId = '#targetedPlayerForTrumpSelector';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
-        var playTrumpUrl = '/aot/rest/playTrump';
-        var playTrumpMethod = 'GET';
 
         var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function () {
             d3.select(gameId).classed('hidden', false);
             var game = createGame.get();
+            $scope.players = game.players;
             updateGameParameters(game);
         });
         $rootScope.$on('destroy', unbindOnGameCreatedEvent);
@@ -146,38 +144,12 @@ app.controller("game", ['$scope',
          * @returns {undefined}
          */
         $scope.playTrump = function (trumpName) {
-            $scope.selectedTrumpName = trumpName;
-            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', false);
+            $rootScope.$emit('wantToPlayTrump', trumpName, $scope.players);
         };
 
-        $scope.submitSelectTargetedPlayerForm = function () {
-            $http({
-                url: playTrumpUrl,
-                method: playTrumpMethod,
-                params: {
-                    targetIndex: $scope.trumpTargetedPlayer,
-                    name: $scope.selectedTrumpName
-                }
-            })
-                    .success(function (data) {
-                        updateScopeOnSuccessfulTrump(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
-        };
-
-        $scope.cancelSelectTargetedPlayerForm = function () {
-            $scope.selectedTrumpName = '';
-            $scope.trumpTargetedPlayer = {};
-            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', true);
-        };
-
-        var updateScopeOnSuccessfulTrump = function (data) {
-            $scope.activeTrumps = data;
-            $scope.selectedTrumpName = '';
-            $scope.trumpTargetedPlayer = {};
-            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', true);
-        };
+        var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {
+            $scope.activeTrumps = response;
+        });
+        $rootScope.$on('destroy', unbindTrumpPlayed);
     }
 ]);

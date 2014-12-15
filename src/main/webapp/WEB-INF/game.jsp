@@ -19,6 +19,9 @@
         <script src="inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
 
+        <script src="inc/js/app/play-trump/play-trump-module.js" type="text/javascript"></script>
+        <script src="inc/js/app/play-trump/play-trump-ctrl.js" type="text/javascript"></script>
+
         <script src="inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
         <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
@@ -72,20 +75,20 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="targetedPlayerForTrumpSelector" class="popup hidden">
-                <form id="targetedPlayerForTrumpSelectorForm">
-                    <label>Select the player on which to apply the trump.</label>
-                    <div ng-repeat="player in players" class="player">
-                        <input ng-model="$parent.trumpTargetedPlayer"
-                               ng-value="player.index"
-                               type="radio"
-                               name="targetPlayer" />{{player.name}}
-                    </div>
-                    <button ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
-                    <button ng-click="submitSelectTargetedPlayerForm()">OK</button>
-                </form>
-            </div>
+        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup hidden">
+            <form id="targetedPlayerForTrumpSelectorForm">
+                <label>Select the player on which to apply the trump.</label>
+                <div ng-repeat="player in players" class="player">
+                    <input ng-model="$parent.trumpTargetedPlayer"
+                           ng-value="player.index"
+                           type="radio"
+                           name="targetPlayer" />{{player.name}}
+                </div>
+                <button ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
+                <button ng-click="submitSelectTargetedPlayerForm()">OK</button>
+            </form>
         </div>
 
         <div ng-controller="gameOver" id="gameOverScreen" class="hidden">
