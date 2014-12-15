@@ -38,6 +38,7 @@ public class CardPlayedJsonResponseBuilder {
         cardPlayedJsonResponse.setNextPlayerName(match.getActivePlayerName());
         cardPlayedJsonResponse.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
         cardPlayedJsonResponse.setTrumpsNextPlayer(match.getActivePlayerTrumpsForJsonExport());
+        cardPlayedJsonResponse.setTrumps(match.getActiveTrumpsForJsonExport());
         cardPlayedJsonResponse.setGameOver(match.getGameOver());
         cardPlayedJsonResponse.setWinners(match.getWinnerNames());
 

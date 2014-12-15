@@ -453,6 +453,12 @@ public class Player {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getActiveTrumpNames() {
+        return affectingTrumps.parallelStream()
+                .map(trump -> trump.getName())
+                .collect(Collectors.toList());
+    }
+
     public String getName() {
         return name;
     }

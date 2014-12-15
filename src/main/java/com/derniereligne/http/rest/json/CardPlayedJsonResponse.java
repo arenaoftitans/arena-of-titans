@@ -21,6 +21,7 @@ public class CardPlayedJsonResponse {
     private List<String> winners;
     private List<Map<String, String>> trumpsNextPlayer;
     private List<Map<String, String>> players;
+    private List<TrumpPlayedJsonResponse> trumps;
 
     public Map<String, String> getNextPlayer() {
         return nextPlayer;
@@ -81,6 +82,10 @@ public class CardPlayedJsonResponse {
 
     public void setPlayers(List<Map<String, String>> players) {
         this.players = players;
+    }
+
+    public void setTrumps(List<TrumpPlayedJsonResponse> trumps) {
+        this.trumps = trumps;
     }
 
 }

@@ -1,6 +1,7 @@
 
 package com.derniereligne.http.rest;
 
+import com.derniereligne.http.rest.json.TrumpPlayedJsonResponseBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -85,7 +86,7 @@ public class PlayTrumpRest extends GameRest {
 
         if (match.canActivePlayerPlayTrump(trumpName, targetIndex)) {
             match.playTrumpCard(trumpName, targetIndex);
-            return Response.status(Response.Status.OK).build();
+            return TrumpPlayedJsonResponseBuilder.build(match);
         } else {
             String message = "You cannot play this trump.";
             return buildBadResponse(message);

@@ -51,6 +51,17 @@
                             {{trump.name}}: {{trump.description}}
                         </div>
                     </div>
+                    <div>
+                        Trumps currently active:
+                        <ul id="activeTrumps">
+                            <li ng-repeat="player in activeTrumps">
+                                For {{player.playerName}}:
+                                <ul ng-repeat="trump in player.trumpNames">
+                                    <li>{{trump}}</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
