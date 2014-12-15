@@ -5,6 +5,7 @@
  */
 package com.derniereligne.http.rest;
 
+import com.derniereligne.http.rest.json.CardPlayedJsonResponse;
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
 import org.junit.Test;

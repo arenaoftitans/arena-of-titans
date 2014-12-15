@@ -1,7 +1,14 @@
-package com.derniereligne.engine.cards.movements;
+package com.derniereligne.engine.cards.movements.json;
 
+import com.derniereligne.engine.cards.movements.json.JsonMovementsCard;
+import com.derniereligne.engine.cards.movements.json.JsonMovementsCards;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.cards.movements.DiagonalMovementsCard;
+import com.derniereligne.engine.cards.movements.KnightMovementsCard;
+import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
+import com.derniereligne.engine.cards.movements.LineMovementsCard;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

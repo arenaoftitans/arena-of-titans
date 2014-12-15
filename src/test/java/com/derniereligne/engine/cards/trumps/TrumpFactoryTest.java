@@ -5,6 +5,8 @@
  */
 package com.derniereligne.engine.cards.trumps;
 
+import com.derniereligne.engine.cards.trumps.json.TrumpFactory;
+import com.derniereligne.engine.cards.trumps.json.JsonTrump;
 import com.derniereligne.engine.JsonGame;
 import com.derniereligne.engine.board.SvgBoardGeneratorTest;
 import com.google.gson.Gson;

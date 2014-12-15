@@ -1,5 +1,5 @@
 
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.cards.trumps.json;
 
 public class JsonTrump {
 

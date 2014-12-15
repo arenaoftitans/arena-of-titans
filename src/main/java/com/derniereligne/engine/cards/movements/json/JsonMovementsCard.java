@@ -1,5 +1,5 @@
 
-package com.derniereligne.engine.cards.movements;
+package com.derniereligne.engine.cards.movements.json;
 
 import java.util.List;
 import java.util.Map;

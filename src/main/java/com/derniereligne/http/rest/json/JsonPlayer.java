@@ -1,5 +1,5 @@
 
-package com.derniereligne.http.rest;
+package com.derniereligne.http.rest.json;
 
 public class JsonPlayer {
 

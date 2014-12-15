@@ -1,5 +1,7 @@
 package com.derniereligne.http.rest;
 
+import com.derniereligne.http.rest.json.JsonPlayer;
+import com.derniereligne.http.rest.json.CardPlayedJsonResponseBuilder;
 import com.derniereligne.engine.GameFactory;
 import com.google.gson.Gson;
 import java.util.ArrayList;

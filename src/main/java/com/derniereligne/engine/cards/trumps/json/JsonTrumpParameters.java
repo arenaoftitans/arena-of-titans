@@ -1,11 +1,11 @@
 
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.cards.trumps.json;
 
 import com.derniereligne.engine.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-class JsonTrumpParameters {
+public class JsonTrumpParameters {
 
     private String type;
     private int deltaOfMoves;

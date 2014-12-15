@@ -1,4 +1,4 @@
-package com.derniereligne.http.rest;
+package com.derniereligne.http.rest.json;
 
 import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;

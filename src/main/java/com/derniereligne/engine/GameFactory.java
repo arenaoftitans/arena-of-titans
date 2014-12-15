@@ -1,13 +1,13 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.SvgBoardGenerator;
-import com.derniereligne.engine.board.JsonBoard;
+import com.derniereligne.engine.board.json.JsonBoard;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.movements.MovementsCardsFactory;
-import com.derniereligne.http.rest.JsonPlayer;
+import com.derniereligne.engine.cards.movements.json.MovementsCardsFactory;
+import com.derniereligne.http.rest.json.JsonPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

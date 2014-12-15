@@ -1,8 +1,8 @@
 package com.derniereligne.engine;
 
-import com.derniereligne.engine.cards.movements.JsonMovementsCards;
-import com.derniereligne.engine.board.JsonBoard;
-import com.derniereligne.engine.cards.trumps.JsonTrump;
+import com.derniereligne.engine.cards.movements.json.JsonMovementsCards;
+import com.derniereligne.engine.board.json.JsonBoard;
+import com.derniereligne.engine.cards.trumps.json.JsonTrump;
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package com.derniereligne.engine.board;
+package com.derniereligne.engine.board.json;
 
 import java.util.List;
 import java.util.Map;

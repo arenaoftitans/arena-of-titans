@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.engine.cards.movements;
+package com.derniereligne.engine.cards.movements.functionnal;
 
 import com.derniereligne.engine.board.Square;
 

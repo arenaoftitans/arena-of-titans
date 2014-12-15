@@ -1,6 +1,7 @@
 
 package com.derniereligne.engine.board;
 
+import com.derniereligne.engine.board.json.JsonBoard;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.JsonGame;
 import com.google.gson.Gson;

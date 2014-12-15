@@ -1,5 +1,7 @@
 package com.derniereligne.engine.cards.movements;
 
+import com.derniereligne.engine.cards.movements.json.MovementsCardsFactory;
+import com.derniereligne.engine.cards.movements.json.JsonMovementsCards;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.JsonGame;
 import com.derniereligne.engine.board.SvgBoardGeneratorTest;

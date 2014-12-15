@@ -1,4 +1,4 @@
-package com.derniereligne.http.rest;
+package com.derniereligne.http.rest.json;
 
 import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
