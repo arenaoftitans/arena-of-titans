@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.trumps;
 
-import com.derniereligne.engine.cards.trumps.json.TrumpFactory;
-import com.derniereligne.engine.cards.trumps.json.JsonTrump;
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.derniereligne.engine.trumps.RemovingColorTrump;
+import com.derniereligne.engine.trumps.json.TrumpFactory;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import com.derniereligne.engine.JsonGame;
 import com.derniereligne.engine.board.SvgBoardGeneratorTest;
 import com.google.gson.Gson;

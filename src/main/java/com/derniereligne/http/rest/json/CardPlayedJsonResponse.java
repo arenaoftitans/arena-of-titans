@@ -1,6 +1,6 @@
 package com.derniereligne.http.rest.json;
 
-import com.derniereligne.engine.cards.trumps.json.JsonTrump;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

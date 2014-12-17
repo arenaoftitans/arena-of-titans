@@ -4,8 +4,8 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.Trump;
-import com.derniereligne.engine.cards.trumps.json.JsonTrump;
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -126,7 +126,7 @@ public class Player {
         return isWinnerInCurrentMatch;
     }
 
-    public void addTrumpCardToAffecting(Trump toAdd) {
+    public void addTrumpToAffecting(Trump toAdd) {
         affectingTrumps.add(toAdd);
     }
 
@@ -333,34 +333,34 @@ public class Player {
     /**
      * Play a trump card.
      *
-     * @param playedTrumpCard The trump card to play.
+     * @param playedTrump The trump card to play.
      *
      * @param target The targeted player.
      */
-    public void playTrumpCard(Trump playedTrumpCard, Player target) {
-        playableTrumps.remove(playedTrumpCard);
-        target.addTrumpCardToAffecting(playedTrumpCard);
+    public void playTrump(Trump playedTrump, Player target) {
+        playableTrumps.remove(playedTrump);
+        target.addTrumpToAffecting(playedTrump);
     }
 
     /**
      * Play the trump card on this player.
      *
-     * @param playedTrumpCard The trump card you want to play.
+     * @param playedTrump The trump card you want to play.
      */
-    public void playTrumpCard(Trump playedTrumpCard) {
-        playableTrumps.remove(playedTrumpCard);
-        addTrumpCardToAffecting(playedTrumpCard);
+    public void playTrump(Trump playedTrump) {
+        playableTrumps.remove(playedTrump);
+        addTrumpToAffecting(playedTrump);
     }
 
     /**
      * Check whether you can play this trump.
      *
-     * @param trumpCard The trump the player wants to play.
+     * @param trump The trump the player wants to play.
      *
      * @return true if the card can be played.
      */
-    public boolean canPlayTrumpCard(Trump trumpCard) {
-        return playableTrumps.contains(trumpCard);
+    public boolean canPlayTrump(Trump trump) {
+        return playableTrumps.contains(trump);
     }
 
     /**
@@ -370,15 +370,15 @@ public class Player {
      *
      * @return true if the card can be played.
      */
-    public boolean canPlayTrumpCard(String trumpName) {
+    public boolean canPlayTrump(String trumpName) {
         return playableTrumps.parallelStream()
                 .map(trump -> trump.getName())
                 .collect(Collectors.toList())
                 .contains(trumpName);
     }
 
-    public void addTrumpCardToPlayable(Trump playableTrumpCard) {
-        playableTrumps.add(playableTrumpCard);
+    public void addTrumpToPlayable(Trump playableTrump) {
+        playableTrumps.add(playableTrump);
     }
 
     public void addToNumberMoveToPlay(int numberToAdd) {
@@ -474,7 +474,7 @@ public class Player {
     /**
      * Get a trump by its name. You must check that this name is valid.
      *
-     * @see Player#canPlayTrumpCard(java.lang.String)
+     * @see Player#canPlayTrump(java.lang.String)
      *
      * @param trumpName The name of the trump to get.
      *

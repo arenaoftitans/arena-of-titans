@@ -1,5 +1,5 @@
 
-package com.derniereligne.engine.cards.trumps.json;
+package com.derniereligne.engine.trumps.json;
 
 import com.derniereligne.engine.Color;
 import java.util.ArrayList;

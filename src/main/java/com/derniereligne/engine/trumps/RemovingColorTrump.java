@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.trumps;
 
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.Player;

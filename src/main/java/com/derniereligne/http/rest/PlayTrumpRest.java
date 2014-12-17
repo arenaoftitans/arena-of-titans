@@ -1,6 +1,6 @@
 package com.derniereligne.http.rest;
 
-import com.derniereligne.engine.cards.trumps.Trump;
+import com.derniereligne.engine.trumps.Trump;
 import com.derniereligne.http.rest.json.TrumpPlayedJsonResponseBuilder;
 import java.util.NoSuchElementException;
 import javax.ws.rs.GET;
@@ -112,13 +112,13 @@ public class PlayTrumpRest extends GameRest {
     @Override
     protected Response getResponse() {
         if (match.canActivePlayerPlayTrump(trump)) {
-            match.playTrumpCard(trump);
+            match.playTrump(trump);
             return TrumpPlayedJsonResponseBuilder.build(match);
         }
 
         int targetIndex = Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
         if (match.canActivePlayerPlayTrump(trump, targetIndex)) {
-            match.playTrumpCard(trump, targetIndex);
+            match.playTrump(trump, targetIndex);
             return TrumpPlayedJsonResponseBuilder.build(match);
         }
 

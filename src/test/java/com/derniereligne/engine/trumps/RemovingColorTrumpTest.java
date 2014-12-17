@@ -1,5 +1,7 @@
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.trumps;
 
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.RemovingColorTrump;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.Match;
@@ -44,16 +46,16 @@ public class RemovingColorTrumpTest {
         assertNotNull(activePlayer.getDeck().getFirstCardInHand());
         assertNotNull(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors());
         Color color = activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().iterator().next();
-        Trump trumpCard = new RemovingColorTrump("Remove", 1, null, 0, false, color);
-        trumpCard.affect(activePlayer);
+        Trump trump = new RemovingColorTrump("Remove", 1, null, 0, false, color);
+        trump.affect(activePlayer);
         assertFalse(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().contains(color));
     }
 
     @Test
     public void testRemovingAll() {
         Player activePlayer = match.getActivePlayer();
-        Trump trumpCard = new RemovingColorTrump("Remove", 1, null, 0, false, Color.ALL);
-        trumpCard.affect(activePlayer);
+        Trump trump = new RemovingColorTrump("Remove", 1, null, 0, false, Color.ALL);
+        trump.affect(activePlayer);
         assertEquals(0, activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().size());
     }
 }

@@ -1,4 +1,4 @@
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.trumps;
 
 import com.derniereligne.engine.Player;
 

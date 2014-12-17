@@ -3,8 +3,8 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.Trump;
-import com.derniereligne.engine.cards.trumps.json.JsonTrump;
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import com.derniereligne.http.rest.json.JsonPlayer;
 import com.derniereligne.http.rest.json.TrumpPlayedJsonResponse;
 import java.util.ArrayList;
@@ -163,9 +163,9 @@ public class Match {
      *
      * @param targetIndex The index of the targeted player.
      */
-    public void playTrumpCard(Trump trump, int targetIndex) {
+    public void playTrump(Trump trump, int targetIndex) {
         Player target = players.get(targetIndex);
-        playTrumpCard(target, trump);
+        Match.this.playTrump(target, trump);
     }
 
     /**
@@ -175,8 +175,8 @@ public class Match {
      *
      * @param trump The trump you want to play.
      */
-    public void playTrumpCard(Trump trump) {
-        activePlayer.playTrumpCard(trump);
+    public void playTrump(Trump trump) {
+        activePlayer.playTrump(trump);
     }
 
     /**
@@ -184,10 +184,10 @@ public class Match {
      *
      * @param target The targeted player.
      *
-     * @param trumpCard The trump.
+     * @param trump The trump.
      */
-    public void playTrumpCard(Player target, Trump trumpCard) {
-        activePlayer.playTrumpCard(trumpCard, target);
+    public void playTrump(Player target, Trump trump) {
+        activePlayer.playTrump(trump, target);
     }
 
     /**
@@ -481,7 +481,7 @@ public class Match {
      * @return true if the trump can be played.
      */
     public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
-        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrumpCard(trump);
+        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrump(trump);
     }
 
     /**
@@ -493,7 +493,7 @@ public class Match {
      * @return True if the player can play this trump.
      */
     public boolean canActivePlayerPlayTrump(Trump trump) {
-        return activePlayer.canPlayTrumpCard(trump) && !trump.mustTargetPlayer();
+        return activePlayer.canPlayTrump(trump) && !trump.mustTargetPlayer();
     }
 
     /**

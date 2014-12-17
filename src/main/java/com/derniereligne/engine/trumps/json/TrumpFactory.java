@@ -1,9 +1,9 @@
-package com.derniereligne.engine.cards.trumps.json;
+package com.derniereligne.engine.trumps.json;
 
 import com.derniereligne.engine.Color;
-import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
-import com.derniereligne.engine.cards.trumps.RemovingColorTrump;
-import com.derniereligne.engine.cards.trumps.Trump;
+import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.derniereligne.engine.trumps.RemovingColorTrump;
+import com.derniereligne.engine.trumps.Trump;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
