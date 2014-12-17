@@ -15,44 +15,87 @@
         <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="lastLine">
-        <div ng-controller="game">
-            <div id="createGame">
-                <form id="crateGameForm">
-                    <label>Add players</label>
-                    <div ng-repeat="player in players">
-                        <label>Name of player {{ player.index}}</label>
-                        <input type="text" ng-model="player.name" />
-                    </div>
-                    <button ng-click="createGame()">Create game</button>
-                </form>
-            </div>
 
-            <div id="game" class="hidden" ng-class="{hidden: gameOver}">
-                <div id="gameBoardContainer">
-                    ${svgBoard}
-                </div>
+        <div id="bloc_top"> 
 
-                <div>
-                    <div>Player: {{currentPlayer.name}}</div>
-                    <div id="movementsCardsInHand">
-                        <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
-                            <img class="movementsCard"
-                                 ng-class="{selectedCard: isSelected(card.name, card.color)}"
-                                 ng-click="viewPossibleMovements(card.name, card.color)"
-                                 ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
-                                 />
-                        </div>
-                        <button ng-click="pass()">Pass</button>
-                    </div>
-                </div>
-            </div>
-
-            <div ng-class="{hidden: !gameOver}">
-                The game is over. The winner are :
-                <ol>
-                    <li ng-repeat="player in winners">{{player}}</li>
-                </ol>
-            </div>
         </div>
+
+        <div id="bloc_total"> 
+
+            <div id="bloc_left">
+
+            </div> <!--bloc left-->	
+
+            <div id="bloc_middle">
+
+                <div ng-controller="game" id="gameController">
+                    <div id="createGame">
+                        <form id="crateGameForm">
+                            <label>Add players</label>
+                            <div ng-repeat="player in players">
+                                <label>Name of player {{ player.index}}</label>
+                                <input type="text" ng-model="player.name" />
+                            </div>
+                            <button ng-click="createGame()">Create game</button>
+                        </form>
+                    </div>
+
+
+
+
+                    <div id="game" class="hidden" ng-class="{hidden: gameOver}">
+
+                        <div id="bloc_middle_centre">
+
+                            <div id="gameBoardContainer">
+                                ${svgBoard}
+                            </div>
+
+
+                        </div> <!--bloc middle center -->
+
+                        <div id="bloc_middle_bottom">
+                            <center>
+                            <div>
+                                <div>Player: {{currentPlayer.name}}</div>
+                                <div id="movementsCardsInHand">
+                                    <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
+                                        <img class="movementsCard"
+                                             ng-class="{selectedCard: isSelected(card.name, card.color)}"
+                                             ng-click="viewPossibleMovements(card.name, card.color)"
+                                             ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                                             />
+                                    </div>
+                                    <button ng-click="pass()">Pass</button>
+                                </div>
+                            </div>
+                            </center>
+                        </div> <!--bloc middle bottom-->
+
+                    </div>
+
+                    <div ng-class="{hidden: !gameOver}">
+                        The game is over. The winner are :
+                        <ol>
+                            <li ng-repeat="player in winners">{{player}}</li>
+                        </ol>
+                    </div> <!--game over-->
+
+
+                </div>
+
+            </div> <!--bloc middle-->
+
+            <div id="bloc_right">
+                <div id="bloc_right_centre">
+
+                </div>
+
+                <div id="bloc_right_bottom">
+
+                </div>
+
+            </div> <!--bloc right-->
+        </div> <!--bloc total-->
     </body>
 </html>
