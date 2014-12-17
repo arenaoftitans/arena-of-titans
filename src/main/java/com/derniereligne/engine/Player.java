@@ -4,8 +4,6 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
-import com.derniereligne.engine.cards.trumps.RemovingColorTrump;
 import com.derniereligne.engine.cards.trumps.Trump;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +37,7 @@ public class Player {
 
     private int numberMoveToPlay = 2;
     private List<Trump> affectingTrumps;
-    private final List<Trump> playableTrumps;
+    private List<Trump> playableTrumps;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -115,14 +113,6 @@ public class Player {
         this.canPlay = true;
         numberMovesPlayed = 0;
         affectingTrumps = new ArrayList<>();
-        playableTrumps = new ArrayList<>();
-        //TODO: remove when programming heroes
-        playableTrumps.add(new ModifyNumberOfMovesInATurnTrump("renfort1", 2, "Play more !", 0, 1));
-        playableTrumps.add(new ModifyNumberOfMovesInATurnTrump("renfort2", 2, "Play more !", 0, 1));
-        playableTrumps.add(new ModifyNumberOfMovesInATurnTrump("renfort3", 2, "Play more !", 0, 1));
-        playableTrumps.add(new RemovingColorTrump("Tower1", 1, "Block a color !", 0, Color.BLACK));
-        playableTrumps.add(new RemovingColorTrump("Tower2", 1, "Block a color !", 0, Color.BLUE));
-        //END of TODO
     }
 
     /**
@@ -216,13 +206,14 @@ public class Player {
      * @see Player#isWinnerInCurrentMatch
      * @see Player#rank
      */
-    public void initGame(Board board, DeckCreator deckCreator) {
+    public void initGame(Board board, DeckCreator deckCreator, List<Trump> trumps) {
         currentSquare = board.getSquare(index * BOARD_ARM_WIDTH_AND_MODULO, BOARD_ARM_LENGTH_AND_MAX_Y);
         currentSquare.setAsOccupied();
         deck = deckCreator.create();
         isWinnerInCurrentMatch = false;
         rank = -1;
         aim = aim();
+        playableTrumps = trumps;
     }
 
     /**

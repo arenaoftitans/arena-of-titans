@@ -5,6 +5,7 @@ import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
 import com.derniereligne.engine.cards.trumps.Trump;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
@@ -36,7 +37,7 @@ public class MatchTest {
         for (int i = 0; i < 8; i++) {
             players[i] = new Player("player " + i, i);
         }
-        match = new Match(players, board, gf.getDeckCreator());
+        match = new Match(players, board, gf.getDeckCreator(), new ArrayList<>());
     }
 
     @After

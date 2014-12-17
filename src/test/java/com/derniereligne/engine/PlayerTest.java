@@ -31,7 +31,7 @@ public class PlayerTest {
     public void init() {
         gameFactory = new GameFactory();
         defaultPlayer = new Player(null, 0);
-        defaultPlayer.initGame(gameFactory.getBoard(), gameFactory.getDeckCreator());
+        defaultPlayer.initGame(gameFactory.getBoard(), gameFactory.getDeckCreator(), null);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class PlayerTest {
     public void testInitGamePlayerIndex1() {
         defaultPlayer = new Player(null, 1);
         GameFactory gf = new GameFactory();
-        defaultPlayer.initGame(gf.getBoard(), gf.getDeckCreator());
+        defaultPlayer.initGame(gf.getBoard(), gf.getDeckCreator(), null);
         // Check that the 1st square is OK
         Square currentSquare = defaultPlayer.getCurrentSquare();
         assertTrue(currentSquare.isOccupied());

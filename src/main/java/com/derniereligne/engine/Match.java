@@ -73,6 +73,7 @@ public class Match {
      * @param players The list of players in this match.
      * @param board The board this match is played on.
      * @param deckCreator To create an new deck for each player.
+     * @param trumps The list of this player trumps.
      *
      * @see Board
      * @see Player
@@ -81,15 +82,15 @@ public class Match {
      *
      * @since 1.0
      */
-    public Match(Player[] players, Board board, DeckCreator deckCreator) {
-        this(Arrays.asList(players), board, deckCreator);
+    public Match(Player[] players, Board board, DeckCreator deckCreator, List<Trump> trumps) {
+        this(Arrays.asList(players), board, deckCreator, trumps);
     }
 
-    public Match(List<Player> players, Board board, DeckCreator deckCreator) {
+    public Match(List<Player> players, Board board, DeckCreator deckCreator, List<Trump> trumps) {
         this.players = players;
         this.board = board;
         this.players.parallelStream().forEach(player
-                -> player.initGame(board, deckCreator)
+                -> player.initGame(board, deckCreator, trumps)
         );
         this.activePlayer = players.get(0);
         this.gameOver = false;

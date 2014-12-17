@@ -7,6 +7,8 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.movements.json.MovementsCardsFactory;
+import com.derniereligne.engine.cards.trumps.Trump;
+import com.derniereligne.engine.cards.trumps.json.TrumpFactory;
 import com.derniereligne.http.rest.json.JsonPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -199,7 +201,8 @@ public class GameFactory {
      */
     public Match createNewMatch(List<JsonPlayer> jsonPlayers) {
         List<Player> players = getPlayers(jsonPlayers);
-        match = new Match(players, gameBoard, deckCreator);
+        List<Trump> trumps = TrumpFactory.getTrumps(jsonGame.getTrumps());
+        match = new Match(players, gameBoard, deckCreator, trumps);
 
         return match;
     }

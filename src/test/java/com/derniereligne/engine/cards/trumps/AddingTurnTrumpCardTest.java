@@ -32,7 +32,7 @@ public class AddingTurnTrumpCardTest {
         players.add(player1);
         players.add(player2);
 
-        match = new Match(players, board, gf.getDeckCreator());
+        match = new Match(players, board, gf.getDeckCreator(), null);
     }
 
     @After
