@@ -7,10 +7,20 @@ app.controller('playTrump', ['$scope',
         var playTrumpUrl = '/aot/rest/playTrump';
         var playTrumpMethod = 'GET';
 
-        var unbind = $rootScope.$on('wantToPlayTrump', function (event, trumpName, players) {
-            $scope.trumpName = trumpName;
+        /**
+         * Get the trump the player clicked on and display a pop-up to select the target player and
+         * then play the trump or directly play the trump.
+         *
+         * @type @exp;$rootScope@call;$on
+         */
+        var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players) {
+            $scope.trumpName = trump.name;
             $scope.players = players;
-            selectTargetedPlayer();
+            if (trump.mustTargetPlayer) {
+                selectTargetedPlayer();
+            } else {
+                play();
+            }
         });
         $rootScope.$on('destroy', unbind);
 
@@ -18,7 +28,11 @@ app.controller('playTrump', ['$scope',
             d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', false);
         };
 
-        $scope.submitSelectTargetedPlayerForm = function () {
+        /**
+         * Play the trump.
+         * @returns {undefined}
+         */
+        var play = function () {
             $http({
                 url: playTrumpUrl,
                 method: playTrumpMethod,
@@ -35,8 +49,12 @@ app.controller('playTrump', ['$scope',
                     });
         };
 
+        $scope.submitSelectTargetedPlayerForm = function () {
+            play();
+        };
+
         $scope.cancelSelectTargetedPlayerForm = function () {
-            $scope.trumpTargetedPlayer = {};
+            $scope.trumpTargetedPlayer = undefined;
             hidde();
         };
 
@@ -47,7 +65,7 @@ app.controller('playTrump', ['$scope',
 
         var updateScopeOnSuccessfulTrump = function (data) {
             $rootScope.$emit('trumpPlayed', data);
-            $scope.trumpTargetedPlayer = {};
+            $scope.trumpTargetedPlayer = undefined;
             hidde();
         };
     }]);

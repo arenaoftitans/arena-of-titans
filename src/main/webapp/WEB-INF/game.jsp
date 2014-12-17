@@ -56,7 +56,7 @@
                     </div>
                     <div id="trumps">
                         <div ng-repeat="trump in currentPlayerTrumps"
-                             ng-click="playTrump(trump.name)"
+                             ng-click="playTrump(trump)"
                              class="trump">
                             {{trump.name}}: {{trump.description}}
                         </div>

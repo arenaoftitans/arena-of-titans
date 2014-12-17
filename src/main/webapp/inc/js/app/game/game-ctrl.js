@@ -141,8 +141,8 @@ app.controller("game", ['$scope',
          * @param {type} trumpName The name of the trump.
          * @returns {undefined}
          */
-        $scope.playTrump = function (trumpName) {
-            $rootScope.$emit('wantToPlayTrump', trumpName, $scope.players);
+        $scope.playTrump = function (trump) {
+            $rootScope.$emit('wantToPlayTrump', trump, $scope.players);
         };
 
         var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {

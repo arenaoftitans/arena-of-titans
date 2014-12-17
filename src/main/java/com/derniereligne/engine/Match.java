@@ -158,14 +158,24 @@ public class Match {
     /**
      * Play the trump.
      *
-     * @param trumpName The name of the trump.
+     * @param trump The trump.
      *
      * @param targetIndex The index of the targeted player.
      */
-    public void playTrumpCard(String trumpName, int targetIndex) {
-        Trump trump = activePlayer.getTrumpByName(trumpName);
+    public void playTrumpCard(Trump trump, int targetIndex) {
         Player target = players.get(targetIndex);
         playTrumpCard(target, trump);
+    }
+
+    /**
+     * Play a trump card that does not require a target player.
+     *
+     * You must check that the trump doesn't need a target player.
+     *
+     * @param trump The trump you want to play.
+     */
+    public void playTrumpCard(Trump trump) {
+        activePlayer.playTrumpCard(trump);
     }
 
     /**
@@ -462,14 +472,37 @@ public class Match {
     /**
      * Check whether the active player can play this trump on the targeted player.
      *
-     * @param trumpName The name of the trump.
+     * @param trump The trump.
      *
      * @param targetIndex The index of the targeted player.
      *
      * @return true if the trump can be played.
      */
-    public boolean canActivePlayerPlayTrump(String trumpName, int targetIndex) {
-        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrumpCard(trumpName);
+    public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
+        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrumpCard(trump);
+    }
+
+    /**
+     * Check whether the active player can play this trump and that it does not require a target
+     * player.
+     *
+     * @param trump The trump the player wants to play.
+     *
+     * @return True if the player can play this trump.
+     */
+    public boolean canActivePlayerPlayTrump(Trump trump) {
+        return activePlayer.canPlayTrumpCard(trump) && !trump.mustTargetPlayer();
+    }
+
+    /**
+     * Get the trump by its name.
+     *
+     * @param trumpName The name of the trump.
+     *
+     * @return The trump or null.
+     */
+    public Trump getTrumpForActivePlayer(String trumpName) {
+        return activePlayer.getTrumpByName(trumpName);
     }
 
 }

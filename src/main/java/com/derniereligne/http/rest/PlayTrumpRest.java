@@ -1,7 +1,8 @@
-
 package com.derniereligne.http.rest;
 
+import com.derniereligne.engine.cards.trumps.Trump;
 import com.derniereligne.http.rest.json.TrumpPlayedJsonResponseBuilder;
+import java.util.NoSuchElementException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,6 +23,8 @@ public class PlayTrumpRest extends GameRest {
     private static final String TRUMP_NAME = "name";
     private static final String TARGETED_PLAYER_INDEX = "targetIndex";
 
+    private Trump trump;
+
     /**
      * The servlet GET method.
      *
@@ -41,6 +44,7 @@ public class PlayTrumpRest extends GameRest {
 
     @Override
     protected Response checkParametersAndGetResponse() {
+        trump = getTrump();
         if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
@@ -53,12 +57,30 @@ public class PlayTrumpRest extends GameRest {
     }
 
     /**
+     * Get the trump by the given name or null if the trump doesn't exist.
+     *
+     * @return The trump.
+     */
+    private Trump getTrump() {
+        if (parameters.get(TRUMP_NAME) == null) {
+            return null;
+        } else {
+            try {
+                String trumpName = parameters.get(TRUMP_NAME);
+                return match.getTrumpForActivePlayer(trumpName);
+            } catch (NoSuchElementException ex) {
+                return null;
+            }
+        }
+    }
+
+    /**
      * Return true if the input parameters are incorrect.
      *
      * @return true or false.
      */
     protected boolean incorrectInputParemeters() {
-        return parameters.get(TRUMP_NAME) == null || invalidPlayerIndex();
+        return trump == null || invalidPlayerIndex();
     }
 
     /**
@@ -69,9 +91,17 @@ public class PlayTrumpRest extends GameRest {
      * @return
      */
     protected boolean invalidPlayerIndex() {
+        if (trump.mustTargetPlayer()) {
+            return canBeParsedAsInteger(parameters.get(TARGETED_PLAYER_INDEX));
+        } else {
+            return false;
+        }
+    }
+
+    private boolean canBeParsedAsInteger(String string) {
         boolean canBeParseAsInteger = true;
         try {
-            Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
+            Integer.parseInt(string);
         } catch (NumberFormatException exception) {
             canBeParseAsInteger = false;
         }
@@ -81,16 +111,19 @@ public class PlayTrumpRest extends GameRest {
 
     @Override
     protected Response getResponse() {
-        String trumpName = parameters.get(TRUMP_NAME);
-        int targetIndex = Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
-
-        if (match.canActivePlayerPlayTrump(trumpName, targetIndex)) {
-            match.playTrumpCard(trumpName, targetIndex);
+        if (match.canActivePlayerPlayTrump(trump)) {
+            match.playTrumpCard(trump);
             return TrumpPlayedJsonResponseBuilder.build(match);
-        } else {
-            String message = "You cannot play this trump.";
-            return buildBadResponse(message);
         }
+
+        int targetIndex = Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
+        if (match.canActivePlayerPlayTrump(trump, targetIndex)) {
+            match.playTrumpCard(trump, targetIndex);
+            return TrumpPlayedJsonResponseBuilder.build(match);
+        }
+
+        String message = "You cannot play this trump.";
+        return buildBadResponse(message);
     }
 
 }

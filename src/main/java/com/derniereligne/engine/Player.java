@@ -343,6 +343,16 @@ public class Player {
     }
 
     /**
+     * Play the trump card on this player.
+     *
+     * @param playedTrumpCard The trump card you want to play.
+     */
+    public void playTrumpCard(Trump playedTrumpCard) {
+        playableTrumps.remove(playedTrumpCard);
+        addTrumpCardToAffecting(playedTrumpCard);
+    }
+
+    /**
      * Check whether you can play this trump.
      *
      * @param trumpCard The trump the player wants to play.
