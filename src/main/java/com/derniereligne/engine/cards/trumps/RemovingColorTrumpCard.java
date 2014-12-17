@@ -18,7 +18,7 @@ public class RemovingColorTrumpCard extends TrumpCard{
     public RemovingColorTrumpCard(String name, int duration, String description,
             int cost, Color... colors) {
         super(name, duration, description, cost);
-        if (colors.equals(Color.ALL)) {
+        if (colors[0].equals(Color.ALL)) {
             removedColors = Color.values();
         } else {
             removedColors = colors;
