@@ -4,6 +4,7 @@ import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.trumps.Trump;
+import com.derniereligne.engine.cards.trumps.json.JsonTrump;
 import com.derniereligne.http.rest.json.TrumpPlayedJsonResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -421,7 +422,7 @@ public class Match {
         return activePlayer.getHandForJsonExport();
     }
 
-    public List<Map<String, String>> getActivePlayerTrumpsForJsonExport() {
+    public List<JsonTrump> getActivePlayerTrumpsForJsonExport() {
         return activePlayer.getTrumpsForJsonExport();
     }
 

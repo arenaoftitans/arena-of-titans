@@ -1,4 +1,3 @@
-
 package com.derniereligne.engine.cards.trumps.json;
 
 public class JsonTrump {
@@ -8,6 +7,7 @@ public class JsonTrump {
     private int duration;
     private int cost;
     private boolean repeatForEachColor;
+    private boolean mustTargetPlayer;
     private JsonTrumpParameters parameters;
 
     public String getName() {
@@ -22,6 +22,10 @@ public class JsonTrump {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getDuration() {
         return duration;
     }
@@ -32,6 +36,14 @@ public class JsonTrump {
 
     public boolean mustBeRepeatedForEachColor() {
         return repeatForEachColor;
+    }
+
+    public boolean mustTargetPlayer() {
+        return mustTargetPlayer;
+    }
+
+    public void setMusteTargetPlayer(boolean mustTargetPlayer) {
+        this.mustTargetPlayer = mustTargetPlayer;
     }
 
     public JsonTrumpParameters getParameters() {

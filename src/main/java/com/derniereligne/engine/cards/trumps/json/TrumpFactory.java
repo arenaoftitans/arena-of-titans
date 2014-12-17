@@ -1,7 +1,5 @@
 package com.derniereligne.engine.cards.trumps.json;
 
-import com.derniereligne.engine.cards.trumps.json.JsonTrumpParameters;
-import com.derniereligne.engine.cards.trumps.json.JsonTrump;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.cards.trumps.ModifyNumberOfMovesInATurnTrump;
 import com.derniereligne.engine.cards.trumps.RemovingColorTrump;
@@ -35,14 +33,15 @@ public class TrumpFactory {
         String description = jsonTrump.getDescription();
         int duration = jsonTrump.getDuration();
         int cost = jsonTrump.getCost();
+        boolean mustTargetPlayer = jsonTrump.mustTargetPlayer();
         JsonTrumpParameters jsonTrumpParameters = jsonTrump.getParameters();
 
         switch (jsonTrump.getType()) {
             case "ModifyNumberOfMovesInATurnTrump":
                 return new ModifyNumberOfMovesInATurnTrump(name, duration, description, cost,
-                        jsonTrumpParameters.getDeltaOfMoves());
+                        mustTargetPlayer, jsonTrumpParameters.getDeltaOfMoves());
             case "RemovingColorTrump":
-                return new RemovingColorTrump(name, duration, description, cost,
+                return new RemovingColorTrump(name, duration, description, cost, mustTargetPlayer,
                         jsonTrumpParameters.getColors(currentColor));
             default:
                 return null;

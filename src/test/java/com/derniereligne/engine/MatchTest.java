@@ -205,7 +205,7 @@ public class MatchTest {
         Player player2 = match.getPlayers().get(1);
         Player player3 = match.getPlayers().get(2);
 
-        Trump trumpCard = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, 2);
+        Trump trumpCard = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, false, 2);
         player1.addTrumpCardToPlayable(trumpCard);
 
         assertEquals(match.getActivePlayer(), player1);

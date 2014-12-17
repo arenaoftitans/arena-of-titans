@@ -55,6 +55,7 @@
                 "description": "Prevent the player to move on some colors.",
                 "duration": 2,
                 "repeatForEachColor": true,
+                "mustTargetPlayer": true,
                 "parameters": {
                     "type": "RemovingColorTrump"
                 }
@@ -65,6 +66,7 @@
                 "description": "Allow the player to play one more move.",
                 "duration": 1,
                 "repeatForEachColor": false,
+                "mustTargetPlayer": false,
                 "parameters": {
                     "type": "ModifyNumberOfMovesInATurnTrump",
                     "deltaOfMoves": 1

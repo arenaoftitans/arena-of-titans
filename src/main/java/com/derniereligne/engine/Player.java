@@ -5,8 +5,8 @@ import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.trumps.Trump;
+import com.derniereligne.engine.cards.trumps.json.JsonTrump;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +32,6 @@ public class Player {
     private static final int HASH_BEGIN = 7;
     private static final int HASH_MULTIPLIER = 89;
     private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
-    private static final String TRUMP_NAME_KEY = "name";
-    private static final String TRUMP_DESCRIPTION_KEY = "description";
 
     private int numberMoveToPlay = 2;
     private List<Trump> affectingTrumps;
@@ -433,12 +431,13 @@ public class Player {
         return deck.getHandForJsonExport();
     }
 
-    public List<Map<String, String>> getTrumpsForJsonExport() {
+    public List<JsonTrump> getTrumpsForJsonExport() {
         return playableTrumps.parallelStream()
                 .map(trump -> {
-                    Map<String, String> jsonTrump = new HashMap<>();
-                    jsonTrump.put(TRUMP_NAME_KEY, trump.getName());
-                    jsonTrump.put(TRUMP_DESCRIPTION_KEY, trump.getDescription());
+                    JsonTrump jsonTrump = new JsonTrump();
+                    jsonTrump.setName(trump.getName());
+                    jsonTrump.setDescription(trump.getDescription());
+                    jsonTrump.setMusteTargetPlayer(trump.mustTargetPlayer());
                     return jsonTrump;
                 })
                 .collect(Collectors.toList());

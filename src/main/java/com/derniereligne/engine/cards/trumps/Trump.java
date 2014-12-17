@@ -28,12 +28,17 @@ public abstract class Trump {
      * The cost of this trump card.
      */
     protected int cost;
+    /**
+     * If true, then this trump must be applied to another player.
+     */
+    protected boolean mustTargetPlayer;
 
-    public Trump(String name, int duration, String description, int cost) {
+    public Trump(String name, int duration, String description, int cost, boolean mustTargetPlayer) {
         this.name = name;
         this.duration = duration;
         this.description = description;
         this.cost = cost;
+        this.mustTargetPlayer = mustTargetPlayer;
     }
 
     public String getName() {
@@ -65,6 +70,10 @@ public abstract class Trump {
      */
     public void consume() {
         duration--;
+    }
+
+    public boolean mustTargetPlayer() {
+        return mustTargetPlayer;
     }
 
 }
