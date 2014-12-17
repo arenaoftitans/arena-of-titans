@@ -89,6 +89,15 @@ public abstract class MovementsCard {
             defaultPossibleSquaresColor.addAll(addtionalMovementsColor);
         }
     }
+    /**
+     * <b>Returns the possible colors where this card can land.</b>
+     *
+     * @return
+     *      The possible colors where this card can land.
+     */
+    public Set<Color> getSquarePossibleColors() {
+        return possibleSquaresColor;
+    }
 
     /**
      * <b>Create a new card with the specified parameters.</b>
