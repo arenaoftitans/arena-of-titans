@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RemovingColorTrumpCardTest {
+public class RemovingColorTrumpTest {
     Match match;
 
     @Before
@@ -28,7 +28,7 @@ public class RemovingColorTrumpCardTest {
         players.add(player1);
         players.add(player2);
 
-        match = new Match(players, gf.getBoard(), gf.getDeckCreator());
+        match = new Match(players, gf.getBoard(), gf.getDeckCreator(), new ArrayList<>());
     }
 
     @After
@@ -44,7 +44,7 @@ public class RemovingColorTrumpCardTest {
         assertNotNull(activePlayer.getDeck().getFirstCardInHand());
         assertNotNull(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors());
         Color color = activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().iterator().next();
-        TrumpCard trumpCard = new RemovingColorTrumpCard("Remove", 1, null, 0, color);
+        Trump trumpCard = new RemovingColorTrump("Remove", 1, null, 0, false, color);
         trumpCard.affect(activePlayer);
         assertFalse(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().contains(color));
     }
@@ -52,7 +52,7 @@ public class RemovingColorTrumpCardTest {
     @Test
     public void testRemovingAll() {
         Player activePlayer = match.getActivePlayer();
-        TrumpCard trumpCard = new RemovingColorTrumpCard("Remove", 1, null, 0, Color.ALL);
+        Trump trumpCard = new RemovingColorTrump("Remove", 1, null, 0, false, Color.ALL);
         trumpCard.affect(activePlayer);
         assertEquals(0, activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().size());
     }
