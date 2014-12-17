@@ -45,6 +45,9 @@ public class AddingTurnTrumpCardTest {
 
     @Test
     public void testAffect() {
+        trumpCard.affect(null);
+        TrumpCard trumpCard2 = new AddingTurnTrumpCard(null, 0, null, 0, 2);
+        player1.addTrumpCardToAffecting(trumpCard2);
         assertEquals(match.getActivePlayer(), player1);
         match.playTurn(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
