@@ -28,6 +28,10 @@ public class TrumpFactory {
 
     private static Trump getTrump(JsonTrump jsonTrump, Color currentColor) {
         String name = jsonTrump.getName();
+        return getTrump(jsonTrump, name, currentColor);
+    }
+
+    private static Trump getTrump(JsonTrump jsonTrump, String name, Color currentColor) {
         String description = jsonTrump.getDescription();
         int duration = jsonTrump.getDuration();
         int cost = jsonTrump.getCost();
@@ -49,7 +53,8 @@ public class TrumpFactory {
         List<Trump> colors = new ArrayList<>();
         for (Color color : Color.values()) {
             if (color != Color.ALL) {
-                colors.add(getTrump(jsonTrump, color));
+                String name = String.format("%s %s", jsonTrump.getName(), color.toString());
+                colors.add(getTrump(jsonTrump, name, color));
             }
         }
 
