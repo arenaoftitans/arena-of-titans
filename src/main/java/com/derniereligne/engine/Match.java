@@ -5,6 +5,7 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.cards.trumps.Trump;
 import com.derniereligne.engine.cards.trumps.json.JsonTrump;
+import com.derniereligne.http.rest.json.JsonPlayer;
 import com.derniereligne.http.rest.json.TrumpPlayedJsonResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -436,13 +437,14 @@ public class Match {
         return activePlayer.getTrumpsForJsonExport();
     }
 
-    public List<Map<String, String>> getPlayersForJsonExport() {
+    public List<JsonPlayer> getPlayersForJsonExport() {
         return players.parallelStream()
                 .map(player -> {
-                    Map<String, String> playerJson = new HashMap<>();
-                    playerJson.put("name", player.getName());
-                    playerJson.put("index", Integer.toString(player.getIndex()));
-                    return playerJson;
+                    JsonPlayer jsonPlayer = new JsonPlayer();
+                    jsonPlayer.setName(player.getName());
+                    jsonPlayer.setId(Integer.toString(player.getIndex()));
+                    jsonPlayer.setIndex(player.getIndex());
+                    return jsonPlayer;
                 })
                 .collect(Collectors.toList());
     }

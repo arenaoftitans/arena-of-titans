@@ -13,9 +13,15 @@ app.controller('playTrump', ['$scope',
          *
          * @type @exp;$rootScope@call;$on
          */
-        var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players) {
+        var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players,
+                currentPlayerIndex) {
+            console.log(JSON.stringify(players));
+            console.log(currentPlayerIndex);
             $scope.trumpName = trump.name;
-            $scope.players = players;
+            // We don't apply the trump on the current player.
+            $scope.players = players.filter(function (player) {
+                return player.index !== currentPlayerIndex;
+            });
             if (trump.mustTargetPlayer) {
                 selectTargetedPlayer();
             } else {
