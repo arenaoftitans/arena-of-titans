@@ -8,8 +8,7 @@ app.controller('createGame', ['$scope',
     '$rootScope',
     'showHttpError',
     'player',
-    'createGame',
-    function ($scope, $http, $rootScope, showHttpError, player, createGame) {
+    function ($scope, $http, $rootScope, showHttpError, player) {
         var createGameUrl = '/aot/rest/createGame';
         var createGameMethod = 'POST';
         var createGameDivId = '#createGame';
@@ -29,8 +28,10 @@ app.controller('createGame', ['$scope',
                         game.possibleCardsNextPlayer = data.possibleCardsNextPlayer;
                         game.trumpsNextPlayer = data.trumpsNextPlayer;
                         game.players = data.players;
-                        createGame.create(game);
-                        $rootScope.$emit('gameCreated');
+                        game.winners = [];
+                        game.trumps = [];
+                        game.gameOver = false
+                        $rootScope.$emit('gameCreated', game);
                     })
                     .error(function (data) {
                         showHttpError.show(data);

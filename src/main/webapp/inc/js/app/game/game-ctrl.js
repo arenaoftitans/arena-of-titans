@@ -4,8 +4,7 @@ app.controller("game", ['$scope',
     'showHttpError',
     'squares',
     'player',
-    'createGame',
-    function ($scope, $http, $rootScope, showHttpError, squares, player, createGame) {
+    function ($scope, $http, $rootScope, showHttpError, squares, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.selectedCard = [];
         $scope.curentPlayer = {};
@@ -17,9 +16,8 @@ app.controller("game", ['$scope',
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
 
-        var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function () {
+        var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
             d3.select(gameId).classed('hidden', false);
-            var game = createGame.get();
             $scope.players = game.players;
             updateGameParameters(game);
         });
