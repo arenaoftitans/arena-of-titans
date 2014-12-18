@@ -1,4 +1,4 @@
-package com.derniereligne.http.rest;
+package com.derniereligne.http.rest.json;
 
 import com.derniereligne.engine.Match;
 import com.google.gson.Gson;
@@ -33,9 +33,13 @@ public class CardPlayedJsonResponseBuilder {
     private static CardPlayedJsonResponse createCardPlayedJsonRespones(Match match) {
         CardPlayedJsonResponse cardPlayedJsonResponse = new CardPlayedJsonResponse();
         cardPlayedJsonResponse.init();
+        cardPlayedJsonResponse.setPlayers(match.getPlayersForJsonExport());
         cardPlayedJsonResponse.setNexPlayerId(Integer.toString(match.getActivePlayerIndex()));
+        cardPlayedJsonResponse.setNextPlayerIndex(match.getActivePlayerIndex());
         cardPlayedJsonResponse.setNextPlayerName(match.getActivePlayerName());
         cardPlayedJsonResponse.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());
+        cardPlayedJsonResponse.setTrumpsNextPlayer(match.getActivePlayerTrumpsForJsonExport());
+        cardPlayedJsonResponse.setTrumps(match.getActiveTrumpsForJsonExport());
         cardPlayedJsonResponse.setGameOver(match.getGameOver());
         cardPlayedJsonResponse.setWinners(match.getWinnerNames());
 

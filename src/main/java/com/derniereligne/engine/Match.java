@@ -3,9 +3,13 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.json.JsonTrump;
+import com.derniereligne.http.rest.json.JsonPlayer;
+import com.derniereligne.http.rest.json.TrumpPlayedJsonResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,6 +75,7 @@ public class Match {
      * @param players The list of players in this match.
      * @param board The board this match is played on.
      * @param deckCreator To create an new deck for each player.
+     * @param trumps The list of this player trumps.
      *
      * @see Board
      * @see Player
@@ -79,15 +84,15 @@ public class Match {
      *
      * @since 1.0
      */
-    public Match(Player[] players, Board board, DeckCreator deckCreator) {
-        this(Arrays.asList(players), board, deckCreator);
+    public Match(Player[] players, Board board, DeckCreator deckCreator, List<Trump> trumps) {
+        this(Arrays.asList(players), board, deckCreator, trumps);
     }
 
-    public Match(List<Player> players, Board board, DeckCreator deckCreator) {
+    public Match(List<Player> players, Board board, DeckCreator deckCreator, List<Trump> trumps) {
         this.players = players;
         this.board = board;
         this.players.parallelStream().forEach(player
-                -> player.initGame(board, deckCreator)
+                -> player.initGame(board, deckCreator, trumps)
         );
         this.activePlayer = players.get(0);
         this.gameOver = false;
@@ -151,10 +156,38 @@ public class Match {
         return activePlayer.getIndex();
     }
 
-    public void playTrumpCard(Player caster, Player target, TrumpCard trumpCard) {
-        if (caster.canPlayTrumpCard(trumpCard) && activePlayer.equals(caster)) {
-            caster.playTrumpCard(trumpCard, target);
-        }
+    /**
+     * Play the trump.
+     *
+     * @param trump The trump.
+     *
+     * @param targetIndex The index of the targeted player.
+     */
+    public void playTrump(Trump trump, int targetIndex) {
+        Player target = players.get(targetIndex);
+        Match.this.playTrump(target, trump);
+    }
+
+    /**
+     * Play a trump card that does not require a target player.
+     *
+     * You must check that the trump doesn't need a target player.
+     *
+     * @param trump The trump you want to play.
+     */
+    public void playTrump(Trump trump) {
+        activePlayer.playTrump(trump);
+    }
+
+    /**
+     * Play a trump.
+     *
+     * @param target The targeted player.
+     *
+     * @param trump The trump.
+     */
+    public void playTrump(Player target, Trump trump) {
+        activePlayer.playTrump(trump, target);
     }
 
     /**
@@ -397,7 +430,35 @@ public class Match {
     }
 
     public List<Map<String, String>> getActivePlayerHandForJsonExport() {
-        return activePlayer.getDeck().getHandForJsonExport();
+        return activePlayer.getHandForJsonExport();
+    }
+
+    public List<JsonTrump> getActivePlayerTrumpsForJsonExport() {
+        return activePlayer.getTrumpsForJsonExport();
+    }
+
+    public List<JsonPlayer> getPlayersForJsonExport() {
+        return players.parallelStream()
+                .map(player -> {
+                    JsonPlayer jsonPlayer = new JsonPlayer();
+                    jsonPlayer.setName(player.getName());
+                    jsonPlayer.setId(Integer.toString(player.getIndex()));
+                    jsonPlayer.setIndex(player.getIndex());
+                    return jsonPlayer;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<TrumpPlayedJsonResponse> getActiveTrumpsForJsonExport() {
+        return players.parallelStream()
+                .map(player -> {
+                    TrumpPlayedJsonResponse trumpPlayedJsonResponse = new TrumpPlayedJsonResponse();
+                    trumpPlayedJsonResponse.setPlayerName(player.getName());
+                    trumpPlayedJsonResponse.setPlayerIndex(player.getIndex());
+                    trumpPlayedJsonResponse.setTrumpNames(player.getActiveTrumpNames());
+                    return trumpPlayedJsonResponse;
+                })
+                .collect(Collectors.toList());
     }
 
     public boolean getGameOver() {
@@ -408,6 +469,42 @@ public class Match {
         return winners.parallelStream()
                 .map(player -> player.getName())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Check whether the active player can play this trump on the targeted player.
+     *
+     * @param trump The trump.
+     *
+     * @param targetIndex The index of the targeted player.
+     *
+     * @return true if the trump can be played.
+     */
+    public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
+        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrump(trump);
+    }
+
+    /**
+     * Check whether the active player can play this trump and that it does not require a target
+     * player.
+     *
+     * @param trump The trump the player wants to play.
+     *
+     * @return True if the player can play this trump.
+     */
+    public boolean canActivePlayerPlayTrump(Trump trump) {
+        return activePlayer.canPlayTrump(trump) && !trump.mustTargetPlayer();
+    }
+
+    /**
+     * Get the trump by its name.
+     *
+     * @param trumpName The name of the trump.
+     *
+     * @return The trump or null.
+     */
+    public Trump getTrumpForActivePlayer(String trumpName) {
+        return activePlayer.getTrumpByName(trumpName);
     }
 
 }

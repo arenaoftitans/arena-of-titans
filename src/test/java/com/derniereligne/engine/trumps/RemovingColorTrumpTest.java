@@ -1,5 +1,7 @@
-package com.derniereligne.engine.cards.trumps;
+package com.derniereligne.engine.trumps;
 
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.RemovingColorTrump;
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.Match;
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RemovingColorTrumpCardTest {
+public class RemovingColorTrumpTest {
     Match match;
 
     @Before
@@ -28,7 +30,7 @@ public class RemovingColorTrumpCardTest {
         players.add(player1);
         players.add(player2);
 
-        match = new Match(players, gf.getBoard(), gf.getDeckCreator());
+        match = new Match(players, gf.getBoard(), gf.getDeckCreator(), new ArrayList<>());
     }
 
     @After
@@ -44,16 +46,16 @@ public class RemovingColorTrumpCardTest {
         assertNotNull(activePlayer.getDeck().getFirstCardInHand());
         assertNotNull(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors());
         Color color = activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().iterator().next();
-        TrumpCard trumpCard = new RemovingColorTrumpCard("Remove", 1, null, 0, color);
-        trumpCard.affect(activePlayer);
+        Trump trump = new RemovingColorTrump("Remove", 1, null, 0, false, color);
+        trump.affect(activePlayer);
         assertFalse(activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().contains(color));
     }
 
     @Test
     public void testRemovingAll() {
         Player activePlayer = match.getActivePlayer();
-        TrumpCard trumpCard = new RemovingColorTrumpCard("Remove", 1, null, 0, Color.ALL);
-        trumpCard.affect(activePlayer);
+        Trump trump = new RemovingColorTrump("Remove", 1, null, 0, false, Color.ALL);
+        trump.affect(activePlayer);
         assertEquals(0, activePlayer.getDeck().getFirstCardInHand().getSquarePossibleColors().size());
     }
 }

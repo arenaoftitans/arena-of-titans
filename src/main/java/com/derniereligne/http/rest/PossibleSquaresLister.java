@@ -1,75 +1,21 @@
 package com.derniereligne.http.rest;
 
-import com.derniereligne.engine.GameFactory;
-import com.derniereligne.engine.Match;
-import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
-import com.derniereligne.engine.cards.Deck;
-import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-/**
- * <b>Rest servlet that returns the squares we can play.</b>
- *
- * Expect parameters: x, y, card, color.
- *
- * @author jenselme
- */
-public abstract class PossibleSquaresLister {
+public abstract class PossibleSquaresLister extends GameRest {
 
     /**
      * Static attribute used to create response with status code 400.
      */
-    protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Status.BAD_REQUEST);
     protected static final String CARD_NAME = "card_name";
     protected static final String CARD_COLOR = "card_color";
     protected static final String PLAYER_ID = "player_id";
     protected static final String X_COORD = "x";
     protected static final String Y_COORD = "y";
     protected static final String PASS = "pass";
-
-
-    /**
-     * The map of all parameters passed in the URL.
-     */
-    protected Map<String, String> parameters;
-    /**
-     * The GameFactory of the current game.
-     */
-    protected GameFactory gameFactory;
-    /**
-     * The Match the user is playing.
-     */
-    protected Match match;
-    /**
-     * The Board he is playing on.
-     */
-    protected Board board;
-    /**
-     * His currentPlayerDeck of cards.
-     */
-    protected Deck currentPlayerDeck;
-    /**
-     * The last card played.
-     */
-    protected MovementsCard playableCard;
-
-    /**
-     * The request done to the servlet.
-     */
-    @Context
-    HttpServletRequest request;
-
-    public PossibleSquaresLister() {
-        parameters = new HashMap<>();
-    }
 
     /**
      * Checks that the parameters are all their (ie not null).
@@ -93,19 +39,7 @@ public abstract class PossibleSquaresLister {
         return !parameters.get(PLAYER_ID).equals(currentPlayerId);
     }
 
-    /**
-     * Init the object's attributes.
-     */
-    protected void init() {
-        match = gameFactory.getMatch();
-        currentPlayerDeck = match.getActivePlayer().getDeck();
-    }
-
-    /**
-     * Return the proper answer to the request, ie the JSON answer or a BAD_REQUEST.
-     *
-     * @return A JSON or BAD_REQUEST.
-     */
+    @Override
     protected Response getResponse() {
         String cardName = parameters.get(CARD_NAME);
         String cardColor = parameters.get(CARD_COLOR);
@@ -127,37 +61,6 @@ public abstract class PossibleSquaresLister {
 
         return getJsonResponse(possibleSquaresIds);
     }
-
-    /**
-     * Create the bad Response object based on a message.
-     * @param message The message to send to the client.
-     * @return A JSON object containing the error message.
-     */
-    protected Response buildBadResponse(String message) {
-        return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
-    }
-
-    /**
-     * Get the GameFactory from the session and then continue with parameters check.
-     * @return
-     */
-    protected Response getGameFactoryResponse() {
-        gameFactory = (GameFactory) request.getSession().getAttribute("gameFactory");
-        if (gameFactory == null) {
-            return buildBadResponse("No match is running");
-        }
-
-        init();
-        return checkParametersAndGetResponse();
-    }
-
-    /**
-     * Check that the passed parameters are consistent and returns a Response (400 if there is a
-     * problem) or goes on.
-     *
-     * @return A Response object.
-     */
-    protected abstract Response checkParametersAndGetResponse();
 
     /**
      * Format the JSON response from the list of all possible squares.

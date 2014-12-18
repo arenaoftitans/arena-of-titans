@@ -1,42 +1,50 @@
 app.controller("game", ['$scope',
     '$http',
+    '$rootScope',
     'showHttpError',
     'squares',
     'player',
-    function ($scope, $http, showHttpError, squares, player) {
+    function ($scope, $http, $rootScope, showHttpError, squares, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.selectedCard = [];
         $scope.curentPlayer = {};
-        $scope.numberMaximumOfPlayers = 8;
-        $scope.players = player.init($scope.numberMaximumOfPlayers);
-        $scope.gameOver = false;
         $scope.currentPlayer = {};
-        var createGameUrl = '/aot/rest/createGame';
-        var createGameMethod = 'POST';
+        $scope.trumpTargetedPlayer = {};
+        var gameId = '#game';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
 
+        var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
+            d3.select(gameId).classed('hidden', false);
+            $scope.players = game.players;
+            updateGameParameters(game);
+        });
+        $rootScope.$on('destroy', unbindOnGameCreatedEvent);
+
         /**
-         * Post the list of registered players and create the game.
+         * Update the scope based on the data send by the server when a move was successfull.
+         * @param {type} game The data recieved from the server.
          */
-        $scope.createGame = function () {
-            $http({
-                url: createGameUrl,
-                method: createGameMethod,
-                data: $scope.players
-            })
-                    .success(function (data) {
-                        d3.select('#createGame').classed('hidden', true);
-                        d3.select('#game').classed('hidden', false);
-                        $scope.currentPlayer = data.nextPlayer;
-                        $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
-        };
+        function updateGameParameters(game) {
+            $scope.currentPlayer = game.nextPlayer;
+            $scope.currentPlayerCards = game.possibleCardsNextPlayer;
+            $scope.currentPlayerTrumps = game.trumpsNextPlayer;
+            $scope.winners = game.winners;
+            $scope.selectedCard = {};
+            $scope.activeTrumps = game.trumps;
+            squares.reset($scope.highlightedSquares);
+
+            isGameOver(game.gameOver);
+        }
+
+        function isGameOver(gameOver) {
+            if (gameOver) {
+                $rootScope.$emit('gameOver', $scope.winners);
+                d3.select(gameId).classed('hidden', true);
+            }
+        }
 
         /**
          * Do a GET on a rest URL. Transmit the name of the card, its color and the current position
@@ -98,7 +106,7 @@ app.controller("game", ['$scope',
                 })
                         .success(function (data) {
                             player.move($scope.currentPlayer.id, data.newSquare);
-                            updateScopeOnSuccessfulMove(data);
+                            updateGameParameters(data);
                         })
                         .error(function (data) {
                             showHttpError.show(data);
@@ -107,19 +115,6 @@ app.controller("game", ['$scope',
                 alert('Please select a card.');
             }
         };
-
-        /**
-         * Update the scope based on the data send by the server when a move was successfull.
-         * @param {type} data The data recieved from the server.
-         */
-        function updateScopeOnSuccessfulMove(data) {
-            $scope.currentPlayer = data.nextPlayer;
-            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-            $scope.winners = data.winners;
-            $scope.gameOver = data.gameOver;
-            $scope.selectedCard = {};
-            squares.reset($scope.highlightedSquares);
-        }
 
         /**
          * Pass this turn.
@@ -133,11 +128,26 @@ app.controller("game", ['$scope',
                 }
             })
                     .success(function (data) {
-                        updateScopeOnSuccessfulMove(data);
+                        updateGameParameters(data);
                     })
                     .error(function (data) {
                         showHttpError.show(data);
                     });
         };
+
+        /**
+         * Play the clicked trump.
+         *
+         * @param {type} trumpName The name of the trump.
+         * @returns {undefined}
+         */
+        $scope.playTrump = function (trump) {
+            $rootScope.$emit('wantToPlayTrump', trump, $scope.players, $scope.currentPlayer.index);
+        };
+
+        var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {
+            $scope.activeTrumps = response;
+        });
+        $rootScope.$on('destroy', unbindTrumpPlayed);
     }
 ]);

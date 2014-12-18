@@ -1,7 +1,8 @@
 package com.derniereligne.engine;
 
-import com.derniereligne.engine.cards.movements.JsonMovementsCards;
-import com.derniereligne.engine.board.JsonBoard;
+import com.derniereligne.engine.cards.movements.json.JsonMovementsCards;
+import com.derniereligne.engine.board.json.JsonBoard;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class JsonGame {
     private List<String> colors;
     private JsonMovementsCards movementsCards;
     private JsonBoard board;
+    private List<JsonTrump> trumps;
 
     public List<String> getColors() {
         return colors;
@@ -25,6 +27,10 @@ public class JsonGame {
 
     public JsonBoard getBoard() {
         return board;
+    }
+
+    public List<JsonTrump> getTrumps() {
+        return trumps;
     }
 
 }

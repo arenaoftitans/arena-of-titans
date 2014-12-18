@@ -1,5 +1,6 @@
 package com.derniereligne.http.rest;
 
+import com.derniereligne.http.rest.json.CardPlayedJsonResponseBuilder;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

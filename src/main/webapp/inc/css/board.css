@@ -1,8 +1,8 @@
-html, body 
+html, body
 { position:fixed;
-  height: 100%; 
-  width: 100%; 
-  margin: 0; 
+  height: 100%;
+  width: 100%;
+  margin: 0;
   padding: 0;
   background-image : url(/aot/inc/img/backgrounds/background.png);
 }
@@ -11,7 +11,7 @@ html, body
 div#bloc_top{
     width:100%;
     height:10%;
-    
+
 }
 
 div#bloc_total{
@@ -24,7 +24,7 @@ div#bloc_middle{
     float: left;
     width: 70%;
     height:100%;
-}	
+}
 
 div#bloc_middle_centre{
     width:100%;
@@ -90,6 +90,10 @@ div#bloc_middle_bottom{
     position: relative;
 }
 
+.movementsCardContainer {
+    display: table-cell;
+}
+
 .selectedCard {
     top: -20px;
 }
@@ -127,4 +131,8 @@ div#bloc_right_bottom{
 
 #gameController, #game {
     height: 100%;
+}
+
+.trump {
+    cursor: pointer;
 }

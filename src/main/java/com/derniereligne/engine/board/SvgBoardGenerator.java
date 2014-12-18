@@ -1,5 +1,7 @@
 package com.derniereligne.engine.board;
 
+import com.derniereligne.engine.board.json.JsonSvg;
+import com.derniereligne.engine.board.json.JsonBoard;
 import com.derniereligne.engine.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

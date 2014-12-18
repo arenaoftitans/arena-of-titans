@@ -3,8 +3,9 @@ package com.derniereligne.engine;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.AddingTurnTrumpCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.derniereligne.engine.trumps.Trump;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
@@ -36,7 +37,7 @@ public class MatchTest {
         for (int i = 0; i < 8; i++) {
             players[i] = new Player("player " + i, i);
         }
-        match = new Match(players, board, gf.getDeckCreator());
+        match = new Match(players, board, gf.getDeckCreator(), new ArrayList<>());
     }
 
     @After
@@ -199,18 +200,18 @@ public class MatchTest {
     }
 
     @Test
-    public void testPlayTrumpCard() {
+    public void testPlayTrump() {
         Player player1 = match.getPlayers().get(0);
         Player player2 = match.getPlayers().get(1);
         Player player3 = match.getPlayers().get(2);
 
-        TrumpCard trumpCard = new AddingTurnTrumpCard(null, 1, null, 0, 2);
-        player1.addTrumpCardToPlayable(trumpCard);
+        Trump trump = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, false, 2);
+        player1.addTrumpToPlayable(trump);
 
         assertEquals(match.getActivePlayer(), player1);
         match.playTurn(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTrumpCard(player1, player2, trumpCard);
+        match.playTrump(player2, trump);
         match.playTurn(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
         match.playTurn(0, 0, null);

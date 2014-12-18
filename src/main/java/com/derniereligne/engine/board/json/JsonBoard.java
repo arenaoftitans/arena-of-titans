@@ -1,4 +1,4 @@
-package com.derniereligne.engine.board;
+package com.derniereligne.engine.board.json;
 
 import com.google.gson.annotations.SerializedName;
 

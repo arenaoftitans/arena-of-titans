@@ -4,12 +4,12 @@ import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.MovementsCard;
-import com.derniereligne.engine.cards.trumps.AddingTurnTrumpCard;
-import com.derniereligne.engine.cards.trumps.RemovingColorTrumpCard;
-import com.derniereligne.engine.cards.trumps.TrumpCard;
+import com.derniereligne.engine.trumps.Trump;
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,9 +32,10 @@ public class Player {
     private static final int HASH_BEGIN = 7;
     private static final int HASH_MULTIPLIER = 89;
     private static final int MAX_NUMBER_MOVE_TO_PLAY = 2;
+
     private int numberMoveToPlay = 2;
-    private List<TrumpCard> affectingTrumpCards;
-    private List<TrumpCard> playableTrumpCards;
+    private List<Trump> affectingTrumps;
+    private List<Trump> playableTrumps;
     /**
      * The name of the player.<br/>
      * Once initialized, it cannot be modified.
@@ -109,15 +110,7 @@ public class Player {
         this.index = index;
         this.canPlay = true;
         numberMovesPlayed = 0;
-        affectingTrumpCards = new ArrayList<>();
-        playableTrumpCards = new ArrayList<>();
-        //TODO: remove when programming heroes
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort1", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort2", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new AddingTurnTrumpCard("renfort3", 2, "Play more !", 0, 1));
-        playableTrumpCards.add(new RemovingColorTrumpCard("Tower1", 1, "Block a color !", 0, Color.BLACK));
-        playableTrumpCards.add(new RemovingColorTrumpCard("Tower2", 1, "Block a color !", 0, Color.BLUE));
-        //END of TODO
+        affectingTrumps = new ArrayList<>();
     }
 
     /**
@@ -133,8 +126,8 @@ public class Player {
         return isWinnerInCurrentMatch;
     }
 
-    public void addTrumpCardToAffecting(TrumpCard toAdd) {
-        affectingTrumpCards.add(toAdd);
+    public void addTrumpToAffecting(Trump toAdd) {
+        affectingTrumps.add(toAdd);
     }
 
     /**
@@ -211,13 +204,14 @@ public class Player {
      * @see Player#isWinnerInCurrentMatch
      * @see Player#rank
      */
-    public void initGame(Board board, DeckCreator deckCreator) {
+    public void initGame(Board board, DeckCreator deckCreator, List<Trump> trumps) {
         currentSquare = board.getSquare(index * BOARD_ARM_WIDTH_AND_MODULO, BOARD_ARM_LENGTH_AND_MAX_Y);
         currentSquare.setAsOccupied();
         deck = deckCreator.create();
         isWinnerInCurrentMatch = false;
         rank = -1;
         aim = aim();
+        playableTrumps = trumps;
     }
 
     /**
@@ -308,17 +302,17 @@ public class Player {
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
 
-        affectingTrumpCards.parallelStream()
+        affectingTrumps.parallelStream()
                 .forEach(tc -> tc.affect(this));
 
         numberMovesPlayed++;
         deck.playCard(cardPlayed);
         moveTo(board.getSquare(targetedX, targetedY));
         if (numberMovesPlayed == numberMoveToPlay) {
-            affectingTrumpCards.parallelStream()
+            affectingTrumps.parallelStream()
                     .forEach(tc -> tc.consume());
 
-            affectingTrumpCards = affectingTrumpCards.parallelStream()
+            affectingTrumps = affectingTrumps.parallelStream()
                     .filter(tc -> tc.getDuration() > 0)
                     .collect(Collectors.toList());
 
@@ -328,22 +322,63 @@ public class Player {
         revertToDefault();
     }
 
+    /**
+     * Revert all the cards to their default behavior.
+     */
     private void revertToDefault() {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
         deck.revertToDefault();
     }
 
-    public void playTrumpCard(TrumpCard playedTrumpCard, Player target) {
-        playableTrumpCards.remove(playedTrumpCard);
-        target.addTrumpCardToAffecting(playedTrumpCard);
+    /**
+     * Play a trump card.
+     *
+     * @param playedTrump The trump card to play.
+     *
+     * @param target The targeted player.
+     */
+    public void playTrump(Trump playedTrump, Player target) {
+        playableTrumps.remove(playedTrump);
+        target.addTrumpToAffecting(playedTrump);
     }
 
-    public boolean canPlayTrumpCard(TrumpCard trumpCard) {
-        return playableTrumpCards.contains(trumpCard);
+    /**
+     * Play the trump card on this player.
+     *
+     * @param playedTrump The trump card you want to play.
+     */
+    public void playTrump(Trump playedTrump) {
+        playableTrumps.remove(playedTrump);
+        addTrumpToAffecting(playedTrump);
     }
 
-    public void addTrumpCardToPlayable(TrumpCard playableTrumpCard) {
-        playableTrumpCards.add(playableTrumpCard);
+    /**
+     * Check whether you can play this trump.
+     *
+     * @param trump The trump the player wants to play.
+     *
+     * @return true if the card can be played.
+     */
+    public boolean canPlayTrump(Trump trump) {
+        return playableTrumps.contains(trump);
+    }
+
+    /**
+     * Check whether you can play this trump.
+     *
+     * @param trumpName The name of the trump the player wants to play.
+     *
+     * @return true if the card can be played.
+     */
+    public boolean canPlayTrump(String trumpName) {
+        return playableTrumps.parallelStream()
+                .map(trump -> trump.getName())
+                .collect(Collectors.toList())
+                .contains(trumpName);
+    }
+
+    public void addTrumpToPlayable(Trump playableTrump) {
+        playableTrumps.add(playableTrump);
     }
 
     public void addToNumberMoveToPlay(int numberToAdd) {
@@ -402,6 +437,28 @@ public class Player {
         return deck;
     }
 
+    public List<Map<String, String>> getHandForJsonExport() {
+        return deck.getHandForJsonExport();
+    }
+
+    public List<JsonTrump> getTrumpsForJsonExport() {
+        return playableTrumps.parallelStream()
+                .map(trump -> {
+                    JsonTrump jsonTrump = new JsonTrump();
+                    jsonTrump.setName(trump.getName());
+                    jsonTrump.setDescription(trump.getDescription());
+                    jsonTrump.setMusteTargetPlayer(trump.mustTargetPlayer());
+                    return jsonTrump;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getActiveTrumpNames() {
+        return affectingTrumps.parallelStream()
+                .map(trump -> trump.getName())
+                .collect(Collectors.toList());
+    }
+
     public String getName() {
         return name;
     }
@@ -412,6 +469,22 @@ public class Player {
 
     public Set<Integer> getAim() {
         return aim;
+    }
+
+    /**
+     * Get a trump by its name. You must check that this name is valid.
+     *
+     * @see Player#canPlayTrump(java.lang.String)
+     *
+     * @param trumpName The name of the trump to get.
+     *
+     * @return the wanted trump.
+     */
+    public Trump getTrumpByName(String trumpName) {
+        return playableTrumps.parallelStream()
+                .filter(trump -> trumpName.equals(trump.getName()))
+                .findFirst()
+                .get();
     }
 
     /**

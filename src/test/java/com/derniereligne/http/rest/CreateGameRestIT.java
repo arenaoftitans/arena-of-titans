@@ -5,6 +5,7 @@
  */
 package com.derniereligne.http.rest;
 
+import com.derniereligne.http.rest.json.CardPlayedJsonResponse;
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
 import org.junit.Test;
@@ -69,10 +70,11 @@ public class CreateGameRestIT extends RestTest {
     private void test(Response res) {
         assertEquals(200, res.statusCode());
         Gson gson = new Gson();
-        CardPlayedJsonResponse nextPlayer = gson.fromJson(res.asString(), CardPlayedJsonResponse.class);
-        assertEquals(ID_FIRST_PLAYER, nextPlayer.getNextPlayerId());
-        assertEquals(NAME_FIRST_PLAYER, nextPlayer.getNextPlayerName());
-        assertEquals(NUMBER_CARDS_IN_HAND, nextPlayer.getNumberCardsNextPlayer());
+        CardPlayedJsonResponse cardPlayedJsonResponse = gson.fromJson(res.asString(), CardPlayedJsonResponse.class);
+        assertEquals(ID_FIRST_PLAYER, cardPlayedJsonResponse.getNextPlayerId());
+        assertEquals(NAME_FIRST_PLAYER, cardPlayedJsonResponse.getNextPlayerName());
+        assertEquals(NUMBER_CARDS_IN_HAND, cardPlayedJsonResponse.getNumberCardsNextPlayer());
+        assertFalse(cardPlayedJsonResponse.getTrumpsNextPlayer().isEmpty());
     }
 
 }

@@ -1,7 +1,7 @@
-package com.derniereligne.http.rest;
+package com.derniereligne.http.rest.json;
 
+import com.derniereligne.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,30 +11,30 @@ import java.util.Map;
  */
 public class CardPlayedJsonResponse {
 
-    private static final String PLAYER_NAME_KEY = "name";
-    private static final String PLAYER_ID_KEY = "id";
-
     private String newSquare;
-    private Map<String, String> nextPlayer;
+    private JsonPlayer nextPlayer;
     private List<Map<String, String>> possibleCardsNextPlayer;
     private boolean gameOver;
     private List<String> winners;
+    private List<JsonTrump> trumpsNextPlayer;
+    private List<JsonPlayer> players;
+    private List<TrumpPlayedJsonResponse> trumps;
 
-    public Map<String, String> getNextPlayer() {
+    public JsonPlayer getNextPlayer() {
         return nextPlayer;
     }
 
     public void init() {
-        this.nextPlayer = new HashMap<>();
+        this.nextPlayer = new JsonPlayer();
         this.possibleCardsNextPlayer = new ArrayList<>();
     }
 
     public void setNextPlayerName(String name) {
-        nextPlayer.put(PLAYER_NAME_KEY, name);
+        nextPlayer.setName(name);
     }
 
     public void setNexPlayerId(String id) {
-        nextPlayer.put(PLAYER_ID_KEY, id);
+        nextPlayer.setId(id);
     }
 
     public List<Map<String, String>> getPossibleCardsNextPlayer() {
@@ -50,11 +50,19 @@ public class CardPlayedJsonResponse {
     }
 
     public String getNextPlayerId() {
-        return nextPlayer.get(PLAYER_ID_KEY);
+        return nextPlayer.getId();
+    }
+
+    public int getNextPlayerIndex() {
+        return nextPlayer.getIndex();
+    }
+
+    public void setNextPlayerIndex(int index) {
+        nextPlayer.setIndex(index);
     }
 
     public String getNextPlayerName() {
-        return nextPlayer.get(PLAYER_NAME_KEY);
+        return nextPlayer.getName();
     }
 
     public int getNumberCardsNextPlayer() {
@@ -67,6 +75,22 @@ public class CardPlayedJsonResponse {
 
     public void setWinners(List<String> winners) {
         this.winners = winners;
+    }
+
+    public List<JsonTrump> getTrumpsNextPlayer() {
+        return this.trumpsNextPlayer;
+    }
+
+    public void setTrumpsNextPlayer(List<JsonTrump> trumps) {
+        this.trumpsNextPlayer = trumps;
+    }
+
+    public void setPlayers(List<JsonPlayer> players) {
+        this.players = players;
+    }
+
+    public void setTrumps(List<TrumpPlayedJsonResponse> trumps) {
+        this.trumps = trumps;
     }
 
 }
