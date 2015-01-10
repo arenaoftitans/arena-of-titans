@@ -4,10 +4,12 @@ import com.derniereligne.engine.cards.movements.functionnal.ProbableSquaresGette
 import com.derniereligne.engine.Color;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.board.Board;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class MovementsCard {
 
@@ -79,16 +81,23 @@ public abstract class MovementsCard {
      *
      * @param color The color of the card.
      *
-     * @param addtionalMovementsColor The additional color a card can go to.
+     * @param additionalMovementsColor The additional color a card can go to.
      */
-    public MovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
+    public MovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> additionalMovementsColor) {
         this(board, name, numberOfMovements, color);
 
-        if (addtionalMovementsColor != null) {
-            possibleSquaresColor.addAll(addtionalMovementsColor);
-            defaultPossibleSquaresColor.addAll(addtionalMovementsColor);
+        if (additionalMovementsColor != null) {
+            if (additionalMovementsColor.contains(Color.ALL)) {
+                additionalMovementsColor = Arrays.asList(Color.values())
+                        .parallelStream()
+                        .filter(col -> col != Color.ALL)
+                        .collect(Collectors.toList());
+            }
+            possibleSquaresColor.addAll(additionalMovementsColor);
+            defaultPossibleSquaresColor.addAll(additionalMovementsColor);
         }
     }
+
     /**
      * <b>Returns the possible colors where this card can land.</b>
      *

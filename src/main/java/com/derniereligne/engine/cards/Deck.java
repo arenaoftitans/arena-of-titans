@@ -270,6 +270,10 @@ public class Deck {
         return hand.get(0);
     }
 
+    public void setFirstCardInHand(MovementsCard card) {
+        hand.set(0, card);
+    }
+
     public List<Map<String, String>> getHandForJsonExport() {
         return hand.parallelStream()
                 .map(card -> {
