@@ -1,6 +1,7 @@
 package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Board;
+import com.derniereligne.engine.cards.Deck;
 import com.derniereligne.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
@@ -197,6 +198,16 @@ public class MatchTest {
         Player currentPlayer = match.getActivePlayer();
         match.passThisTurn();
         assertNotEquals(match.getActivePlayer(), currentPlayer);
+    }
+
+    @Test
+    public void testDiscard() {
+        Player currentPlayer = match.getActivePlayer();
+        Deck deck = currentPlayer.getDeck();
+        MovementsCard card = deck.getFirstCardInHand();
+        match.discard(card);
+        assertTrue(currentPlayer.canPlay());
+        assertFalse(deck.isCardInHand(card));
     }
 
     @Test

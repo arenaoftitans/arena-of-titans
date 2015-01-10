@@ -396,6 +396,16 @@ public class Match {
     }
 
     /**
+     * Discard a card for the current player.
+     *
+     * @param card Card to discard.
+     */
+    public void discard(MovementsCard card) {
+        activePlayer.discard(card);
+        continueGameIfEnoughPlayers();
+    }
+
+    /**
      * <b>Return the list of players in game.</b>
      *
      * @return List of players in game

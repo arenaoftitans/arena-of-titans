@@ -7,6 +7,7 @@ package com.derniereligne.engine;
 
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Test;
@@ -145,4 +146,19 @@ public class PlayerTest {
         defaultPlayer.pass();
         assertFalse(defaultPlayer.canPlay());
     }
+
+    @Test
+    public void testDiscard() {
+        Deck deck = defaultPlayer.getDeck();
+        MovementsCard card = deck.getFirstCardInHand();
+        defaultPlayer.discard(card);
+        assertTrue(defaultPlayer.canPlay());
+        assertFalse(deck.isCardInHand(card));
+
+        card = deck.getFirstCardInHand();
+        defaultPlayer.discard(card);
+        assertFalse(defaultPlayer.canPlay());
+        assertFalse(deck.isCardInHand(card));
+    }
+
 }

@@ -146,6 +146,10 @@ public class Player {
      * @since 1.0
      */
     public void moveTo(Square square) {
+        if (square == null) {
+            return;
+        }
+
         if (currentSquare != null) {
             currentSquare.empty();
         }
@@ -308,7 +312,11 @@ public class Player {
 
         numberMovesPlayed++;
         deck.playCard(cardPlayed);
-        moveTo(board.getSquare(targetedX, targetedY));
+
+        if (board != null) {
+            moveTo(board.getSquare(targetedX, targetedY));
+        }
+
         if (numberMovesPlayed == numberMoveToPlay) {
             affectingTrumps.parallelStream()
                     .forEach(tc -> tc.consume());
@@ -316,7 +324,6 @@ public class Player {
             affectingTrumps = affectingTrumps.parallelStream()
                     .filter(tc -> tc.getDuration() > 0)
                     .collect(Collectors.toList());
-
 
             canPlay = false;
         }
@@ -391,6 +398,15 @@ public class Player {
      */
     public void pass() {
         canPlay = false;
+    }
+
+    /**
+     * Discard a card.
+     *
+     * @param card Card to discard.
+     */
+    public void discard(MovementsCard card) {
+        play(null, card, -1, -1);
     }
 
     /**
