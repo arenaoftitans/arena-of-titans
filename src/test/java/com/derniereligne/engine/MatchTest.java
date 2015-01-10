@@ -237,4 +237,18 @@ public class MatchTest {
         assertEquals(match.getActivePlayer(), player3);
     }
 
+    @Test
+    public void testTrumpWhenPass() {
+        Player player1 = match.getPlayers().get(0);
+
+        Trump trump = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, false, 2);
+        assertTrue(player1.getActiveTrumpNames().isEmpty());
+        match.playTrump(trump);
+
+        assertTrue(player1.getActiveTrumpNames().contains(trump.getName()));
+        player1.pass();
+        assertEquals(0, trump.getDuration());
+        assertTrue(player1.getActiveTrumpNames().isEmpty());
+    }
+
 }

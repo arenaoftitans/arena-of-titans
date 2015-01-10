@@ -283,7 +283,7 @@ public class Player {
         makeAffectedByTrumps();
         playThisTurn(board, cardPlayed, targetedX, targetedY);
 
-        consumeAffectingTrumps();
+        consumeAffectingTrumpsAtEndOfTurn();
 
         revertToDefault();
     }
@@ -336,17 +336,21 @@ public class Player {
         currentSquare.setAsOccupied();
     }
 
-    private void consumeAffectingTrumps() {
+    private void consumeAffectingTrumpsAtEndOfTurn() {
         if (numberMovesPlayed == numberMoveToPlay) {
-            affectingTrumps.parallelStream()
-                    .forEach(tc -> tc.consume());
-
-            affectingTrumps = affectingTrumps.parallelStream()
-                    .filter(tc -> tc.getDuration() > 0)
-                    .collect(Collectors.toList());
-
-            canPlay = false;
+            consumeAffectingTrumps();
         }
+    }
+
+    private void consumeAffectingTrumps() {
+        affectingTrumps.parallelStream()
+                .forEach(tc -> tc.consume());
+
+        affectingTrumps = affectingTrumps.parallelStream()
+                .filter(tc -> tc.getDuration() > 0)
+                .collect(Collectors.toList());
+
+        canPlay = false;
     }
 
     /**
@@ -417,6 +421,7 @@ public class Player {
      */
     public void pass() {
         canPlay = false;
+        consumeAffectingTrumps();
     }
 
     /**
