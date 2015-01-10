@@ -80,30 +80,30 @@
                                             <button ng-click="noCardSelectedPopupHidden()">OK</button>
                                         </div>
                                     </div>
+                                    <div id="trumps">
+                                        <div ng-repeat="trump in currentPlayerTrumps"
+                                             ng-click="playTrump(trump)"
+                                             class="trump">
+                                            {{trump.name}}: {{trump.description}}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        Trumps currently active:
+                                        <ul id="activeTrumps">
+                                            <li ng-repeat="player in activeTrumps">
+                                                For {{player.playerName}}:
+                                                <ul ng-repeat="trump in player.trumpNames">
+                                                    <li>{{trump}}</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </center>
                         </div> <!--bloc middle bottom-->
 
                     </div>
 
-                </div>
-                <div id="trumps">
-                    <div ng-repeat="trump in currentPlayerTrumps"
-                         ng-click="playTrump(trump)"
-                         class="trump">
-                        {{trump.name}}: {{trump.description}}
-                    </div>
-                </div>
-                <div>
-                    Trumps currently active:
-                    <ul id="activeTrumps">
-                        <li ng-repeat="player in activeTrumps">
-                            For {{player.playerName}}:
-                            <ul ng-repeat="trump in player.trumpNames">
-                                <li>{{trump}}</li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
             </div> <!--bloc middle-->
             <div id="bloc_right">
