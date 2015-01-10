@@ -131,33 +131,6 @@ public class Player {
     }
 
     /**
-     * <b>Method to move this player to the given square.</b>
-     * <div>
-     * First, we will empty the square the player is on then replace it by the given square and set
-     * this last one occupied.
-     * </div>
-     *
-     * @param square The square to move this player to.
-     *
-     * @see Square
-     * @see Square#empty()
-     * @see Square#setAsOccupied()
-     *
-     * @since 1.0
-     */
-    public void moveTo(Square square) {
-        if (square == null) {
-            return;
-        }
-
-        if (currentSquare != null) {
-            currentSquare.empty();
-        }
-        currentSquare = square;
-        currentSquare.setAsOccupied();
-    }
-
-    /**
      * <b>Returns the square this player is on.</b>
      *
      * @return The square this player is on.
@@ -306,17 +279,63 @@ public class Player {
      * @param targetedY The y coordinate on which he/she will move.
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
+        makeAffectedByTrumps();
+        playThisTurn(board, cardPlayed, targetedX, targetedY);
 
+        consumeAffectingTrumps();
+
+        revertToDefault();
+    }
+
+    public void makeAffectedByTrumps() {
         affectingTrumps.parallelStream()
                 .forEach(tc -> tc.affect(this));
+    }
 
+    public void playThisTurn(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
         numberMovesPlayed++;
         deck.playCard(cardPlayed);
+        moveTo(board, targetedX, targetedY);
+    }
 
-        if (board != null) {
-            moveTo(board.getSquare(targetedX, targetedY));
+    private void moveTo(Board board, int targetedX, int targetedY) {
+        if (board == null) {
+            return;
         }
 
+        Square square = board.getSquare(targetedX, targetedY);
+        moveTo(square);
+    }
+
+    /**
+     * <b>Method to move this player to the given square.</b>
+     * <div>
+     * First, we will empty the square the player is on then replace it by the given square and set
+     * this last one occupied.
+     * </div>
+     *
+     * @param square The square to move this player to.
+     *
+     * @see Square
+     * @see Square#empty()
+     * @see Square#setAsOccupied()
+     *
+     * @since 1.0
+     */
+    public void moveTo(Square square) {
+        if (square == null) {
+            return;
+        }
+
+        if (currentSquare != null) {
+            currentSquare.empty();
+        }
+
+        currentSquare = square;
+        currentSquare.setAsOccupied();
+    }
+
+    private void consumeAffectingTrumps() {
         if (numberMovesPlayed == numberMoveToPlay) {
             affectingTrumps.parallelStream()
                     .forEach(tc -> tc.consume());
@@ -327,7 +346,6 @@ public class Player {
 
             canPlay = false;
         }
-        revertToDefault();
     }
 
     /**
