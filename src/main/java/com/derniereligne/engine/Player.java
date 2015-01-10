@@ -220,6 +220,7 @@ public class Player {
         numberMovesPlayed = 0;
         canPlay = true;
         deck.initForTurn();
+        makeAffectedByTrumps();
     }
 
     /**
