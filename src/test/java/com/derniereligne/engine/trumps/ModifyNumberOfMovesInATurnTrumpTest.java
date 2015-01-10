@@ -1,7 +1,5 @@
 package com.derniereligne.engine.trumps;
 
-import com.derniereligne.engine.trumps.Trump;
-import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
 import com.derniereligne.engine.GameFactory;
 import com.derniereligne.engine.Match;
 import com.derniereligne.engine.Player;
