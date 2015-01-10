@@ -16,6 +16,7 @@ public abstract class PossibleSquaresLister extends GameRest {
     protected static final String X_COORD = "x";
     protected static final String Y_COORD = "y";
     protected static final String PASS = "pass";
+    protected static final String DISCARD_SELECTED_CARD = "discard";
 
     /**
      * Checks that the parameters are all their (ie not null).

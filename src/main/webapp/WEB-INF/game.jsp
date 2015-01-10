@@ -74,6 +74,11 @@
                                                  />
                                         </div>
                                         <button ng-click="pass()">Pass</button>
+                                        <button ng-click="discard()">Discard selected card.</button>
+                                        <div id="noCardSelectedPopup" class="hidden popup">
+                                            You must select a card to discard.<br />
+                                            <button ng-click="noCardSelectedPopupHidden()">OK</button>
+                                        </div>
                                     </div>
                                 </div>
                             </center>

@@ -1,5 +1,6 @@
 package com.derniereligne.http.rest;
 
+import com.derniereligne.engine.cards.movements.MovementsCard;
 import com.derniereligne.http.rest.json.CardPlayedJsonResponseBuilder;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -34,6 +35,8 @@ public class PlayRest extends PossibleSquaresLister {
      *
      * @param pass If this parameter is true, the player want to pass his/her turn.
      *
+     * @param discard If instead of playing the selected card, the player wants to discard it.
+     *
      * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
      */
     @GET
@@ -43,13 +46,15 @@ public class PlayRest extends PossibleSquaresLister {
             @QueryParam(PLAYER_ID) String playerId,
             @QueryParam(X_COORD) String x,
             @QueryParam(Y_COORD) String y,
-            @QueryParam(PASS) String pass) {
+            @QueryParam(PASS) String pass,
+            @QueryParam(DISCARD_SELECTED_CARD) String discard) {
         parameters.put(CARD_NAME, cardName);
         parameters.put(CARD_COLOR, cardColor);
         parameters.put(PLAYER_ID, playerId);
         parameters.put(X_COORD, x);
         parameters.put(Y_COORD, y);
         parameters.put(PASS, pass);
+        parameters.put(DISCARD_SELECTED_CARD, discard);
         return getGameFactoryResponse();
     }
 
@@ -57,6 +62,8 @@ public class PlayRest extends PossibleSquaresLister {
     protected Response checkParametersAndGetResponse() {
         if (playerWantsToPassThisTurn()) {
             return passThisTurn();
+        } else if (playerWantsToDiscardACard() && !areInputParemetersIncorrect()) {
+            return discardCard();
         } else if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
@@ -87,6 +94,23 @@ public class PlayRest extends PossibleSquaresLister {
      */
     private Response passThisTurn() {
         match.passThisTurn();
+        return CardPlayedJsonResponseBuilder.build(match);
+    }
+
+    private boolean playerWantsToDiscardACard() {
+        return "true".equalsIgnoreCase(parameters.get(DISCARD_SELECTED_CARD));
+    }
+
+    private Response discardCard() {
+        String cardName = parameters.get(CARD_NAME);
+        String cardColor = parameters.get(CARD_COLOR);
+        MovementsCard cardToDiscard = currentPlayerDeck.getCard(cardName, cardColor);
+        if (cardToDiscard == null) {
+            String message = String.format("Unknown card: %s, %s", cardName, cardColor);
+            return buildBadResponse(message);
+        }
+
+        match.discard(cardToDiscard);
         return CardPlayedJsonResponseBuilder.build(match);
     }
 

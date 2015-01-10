@@ -11,6 +11,7 @@ app.controller("game", ['$scope',
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
         var gameId = '#game';
+        var noCardSelectedPopupId = '#noCardSelectedPopup';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
@@ -133,6 +134,33 @@ app.controller("game", ['$scope',
                     .error(function (data) {
                         showHttpError.show(data);
                     });
+        };
+
+        $scope.discard = function () {
+            if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
+                d3.select(noCardSelectedPopupId).classed('hidden', false);
+            } else {
+                $http({
+                    url: playUrl,
+                    method: playMethod,
+                    params: {
+                        discard: true,
+                        card_name: $scope.selectedCard.card_name,
+                        card_color: $scope.selectedCard.card_color,
+                        player_id: $scope.currentPlayer.id
+                    }
+                })
+                        .success(function (data) {
+                            updateGameParameters(data);
+                        })
+                        .error(function (data) {
+                            showHttpError.show(data);
+                        });
+            }
+        };
+
+        $scope.noCardSelectedPopupHidden = function () {
+            d3.select(noCardSelectedPopupId).classed('hidden', true);
         };
 
         /**
