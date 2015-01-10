@@ -242,6 +242,7 @@ public class Player {
         lastSquareOnLastTurn = currentSquare;
         numberMovesPlayed = 0;
         canPlay = true;
+        deck.initForTurn();
     }
 
     /**

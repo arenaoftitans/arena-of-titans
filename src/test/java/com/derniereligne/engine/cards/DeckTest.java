@@ -69,7 +69,11 @@ public class DeckTest {
         deck.playCard(playedCard);
         int numberOfRemainingCardsAfterPlay = deck.getNumberCardsInStock();
 
-        assertEquals(numberOfRemainingCardsAfterPlay, numberOfRemainingCardsBeforePlay - 1);
+        assertEquals(numberOfRemainingCardsAfterPlay, numberOfRemainingCardsBeforePlay);
+        assertEquals(NUMBER_OF_CARDS_IN_HAND - 1, deck.getNumberCardsInHand());
+        deck.initForTurn();
+        int numberOfRemainingCardsAfterInitTurn = deck.getNumberCardsInStock();
+        assertEquals(numberOfRemainingCardsAfterInitTurn, numberOfRemainingCardsBeforePlay - 1);
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         assertEquals(deck.getNumberCardsInGraveyard(), 1);
         assertTrue(deck.isCardInGraveyard(playedCard));
@@ -85,7 +89,6 @@ public class DeckTest {
         assertEquals(numberOfRemainingCards, deck.getNumberCardsInStock());
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         assertEquals(0, deck.getNumberCardsInGraveyard());
-        assertNull(deck.playCard(null));
     }
 
     @Test
@@ -95,7 +98,6 @@ public class DeckTest {
         assertEquals(deck.getNumberCardsInStock(), NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInHand(), NUMBER_OF_CARDS_IN_HAND);
         assertEquals(deck.getNumberCardsInGraveyard(), 0);
-        assertNull(deck.playCard(card));
     }
 
     @Test
@@ -104,6 +106,7 @@ public class DeckTest {
         for (int i = 0; i < NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND;  i++) {
             MovementsCard cardToPlay = deck.getFirstCardInHand();
             deck.playCard(cardToPlay);
+            deck.initForTurn();
         }
         assertTrue(deck.getNumberCardsInStock() == 0);
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
@@ -111,8 +114,9 @@ public class DeckTest {
         // Play another card
         MovementsCard cardToPlay = deck.getFirstCardInHand();
         deck.playCard(cardToPlay);
+        deck.initForTurn();
 
-        assertEquals(NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND - 1, deck.getNumberCardsInStock());
+        assertEquals(NUMBER_TOTAL_OF_CARDS - NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInStock());
         assertEquals(NUMBER_OF_CARDS_IN_HAND, deck.getNumberCardsInHand());
         // 4 cards have not been played yet.
         assertEquals(NUMBER_TOTAL_OF_CARDS - 4, deck.getNumberCardsInGraveyard());

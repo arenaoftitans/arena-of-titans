@@ -54,7 +54,11 @@ public class Deck {
      */
     private void initDeck() {
         initStock();
-        for (int i = 0; i < CARDS_IN_HANDS; i++) {
+        initForTurn();
+    }
+
+    public void initForTurn() {
+        while (hand.size() < CARDS_IN_HANDS) {
             hand.add(drawNextCard());
         }
     }
@@ -93,18 +97,11 @@ public class Deck {
      *
      * @since 1.0
      */
-    public MovementsCard playCard(MovementsCard cardToPlay) {
-        if (cardToPlay == null) {
-            return null;
-        } else if (!hand.contains(cardToPlay)) {
-            return null;
-        } else {
+    public void playCard(MovementsCard cardToPlay) {
+        if (cardToPlay != null && hand.contains(cardToPlay)) {
             cardToPlay.revertToDefault();
-            MovementsCard newCard = drawNextCard();
             hand.remove(cardToPlay);
             graveyard.add(cardToPlay);
-            hand.add(newCard);
-            return newCard;
         }
     }
 
