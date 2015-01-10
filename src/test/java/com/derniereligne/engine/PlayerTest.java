@@ -5,14 +5,9 @@
  */
 package com.derniereligne.engine;
 
-import com.derniereligne.engine.board.Board;
 import com.derniereligne.engine.board.Square;
 import com.derniereligne.engine.cards.Deck;
-import com.derniereligne.engine.trumps.ModifyNumberOfMovesInATurnTrump;
-import com.derniereligne.engine.trumps.Trump;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
