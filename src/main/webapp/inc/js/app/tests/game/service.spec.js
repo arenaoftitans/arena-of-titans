@@ -46,34 +46,6 @@ describe('game', function () {
 
 });
 
-describe('game', function () {
-    var squares, scope, compile, dom;
-
-    beforeEach(angular.mock.module('lastLine.game'));
-
-    beforeEach(angular.mock.inject(function ($rootScope, $compile, _squares_) {
-        squares = _squares_;
-        compile = $compile;
-        scope = $rootScope.$new();
-    }));
-
-    beforeEach(function () {
-        dom = angular.element('<div id="square-0-0"></div>');
-        compile(dom)(scope);
-        scope.$apply();
-    });
-
-    it('Highlight', function () {
-        dom = angular.element('<div id="square-0-0"></div>');
-        compile(dom)(scope);
-        scope.$apply();
-        var squareName = 'square-0-0';
-        squares.highlight([squareName]);
-        scope.$apply();
-    });
-
-});
-
 describe('player', function () {
     var playerService, scope, square, compiled;
 
