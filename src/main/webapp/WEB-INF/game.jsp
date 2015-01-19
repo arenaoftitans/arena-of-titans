@@ -8,7 +8,6 @@
         <link rel="stylesheet" type="text/css" href="inc/css/board.css">
         <link rel="stylesheet" type="text/css" href="inc/css/global.css">
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
-        <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
 
         <script src="inc/js/app/create-game/create-game-module.js"></script>

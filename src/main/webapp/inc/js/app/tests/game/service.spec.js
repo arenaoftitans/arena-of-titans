@@ -70,7 +70,6 @@ describe('game', function () {
         var squareName = 'square-0-0';
         squares.highlight([squareName]);
         scope.$apply();
-        //expect(d3.select('#square-0-0').classed('highlightedSquare')).toBe(true);
     });
 
 });
