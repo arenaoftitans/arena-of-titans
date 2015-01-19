@@ -130,6 +130,12 @@ public class Player {
         affectingTrumps.add(toAdd);
     }
 
+    public void disableAffectingTrumpName(String trumpName) {
+        affectingTrumps.parallelStream()
+                .filter(tc -> tc.isEnabled() && tc.getName().equals(trumpName))
+                .findFirst().get().disable();
+    }
+
     /**
      * <b>Returns the square this player is on.</b>
      *
@@ -345,7 +351,10 @@ public class Player {
 
     private void consumeAffectingTrumps() {
         affectingTrumps.parallelStream()
-                .forEach(tc -> tc.consume());
+                .forEach(tc -> {
+                    tc.consume();
+                    tc.enable();
+                });
 
         affectingTrumps = affectingTrumps.parallelStream()
                 .filter(tc -> tc.getDuration() > 0)
