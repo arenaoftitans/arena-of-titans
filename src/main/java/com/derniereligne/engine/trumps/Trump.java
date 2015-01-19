@@ -32,13 +32,15 @@ public abstract class Trump {
      * If true, then this trump must be applied to another player.
      */
     protected boolean mustTargetPlayer;
+    protected boolean enabled;
 
-    public Trump(String name, int duration, String description, int cost, boolean mustTargetPlayer) {
+    public Trump(String name, int duration, String description, int cost, boolean mustTargetPlayer, boolean enabled) {
         this.name = name;
         this.duration = duration;
         this.description = description;
         this.cost = cost;
         this.mustTargetPlayer = mustTargetPlayer;
+        this.enabled = enabled;
     }
 
     public String getName() {
@@ -47,6 +49,18 @@ public abstract class Trump {
 
     public String getDescription() {
         return description;
+    }
+
+    public void enable() {
+        this.enabled = true;
+    }
+
+    public void disable() {
+        this.enabled = false;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**

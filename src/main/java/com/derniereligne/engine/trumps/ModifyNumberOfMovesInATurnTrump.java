@@ -13,7 +13,7 @@ public class ModifyNumberOfMovesInATurnTrump extends Trump{
 
     public ModifyNumberOfMovesInATurnTrump(String name, int duration, String description,
             int cost, boolean mustTargetPlayer, int deltaOfMoves) {
-        super(name, duration, description, cost, mustTargetPlayer);
+        super(name, duration, description, cost, mustTargetPlayer, true);
         this.deltaOfMoves = deltaOfMoves;
     }
 
