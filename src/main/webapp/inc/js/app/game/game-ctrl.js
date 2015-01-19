@@ -33,6 +33,7 @@ app.controller("game", ['$scope',
             $scope.currentPlayerTrumps = game.trumpsNextPlayer;
             $scope.winners = game.winners;
             $scope.selectedCard = {};
+            $scope.highlightedSquares = [];
             $scope.activeTrumps = game.trumps;
 
             isGameOver(game.gameOver);
