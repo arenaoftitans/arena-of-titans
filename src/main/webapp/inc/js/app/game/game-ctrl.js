@@ -86,7 +86,7 @@ app.controller("game", ['$scope',
          * @param {type} squareY The y coordinate of the square on which the player wants to go.
          */
         $scope.play = function (squareName, squareX, squareY) {
-            if (d3.select('#' + squareName).classed('highlightedSquare')
+            if ($scope.highlightedSquares.indexOf(squareName) > -1
                     && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
