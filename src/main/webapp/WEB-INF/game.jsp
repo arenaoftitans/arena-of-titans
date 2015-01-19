@@ -118,7 +118,7 @@
             </div> <!--bloc right-->
         </div> <!--bloc total-->
 
-        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup hidden">
+        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup" ng-class="{hidden: !showTargetedPlayerForTrumpSelector}">
             <form id="targetedPlayerForTrumpSelectorForm">
                 <label>Select the player on which to apply the trump.</label>
                 <div ng-repeat="player in players" class="player">
