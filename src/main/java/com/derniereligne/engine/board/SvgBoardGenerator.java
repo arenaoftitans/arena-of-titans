@@ -322,6 +322,10 @@ public final class SvgBoardGenerator {
                 Color color = colorDisposition.get(y).get(x);
                 String svgColor = color.toString().toLowerCase();
                 square.setAttribute("class", svgColor + "-square");
+                square.setAttribute("ng-class",
+                        String.format("{%s: highlightedSquares.indexOf('%s') > -1}",
+                                "highlightedSquare", String.format("square-%d-%d", x, y))
+                );
             }
         }
     }

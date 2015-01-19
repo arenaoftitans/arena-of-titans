@@ -28,44 +28,6 @@ angular.module('lastLine.game').factory('showHttpError', [
 ]);
 
 /**
- * Service containing functions to interact with the squares.
- *
- * Exported functions:
- * - reset
- * - highlight
- */
-angular.module('lastLine.game').factory('squares', [
-    function () {
-        /**
-         * Return the highlighted squares to their normal state.
-         *
-         * @param {type} highlightedSquares The list of the highlighted squares.
-         */
-        var reset = function (highlightedSquares) {
-            highlightedSquares.forEach(function (value) {
-                d3.select('#' + value).classed('highlightedSquare', false);
-            });
-        };
-
-        /**
-         * Add a class to highlight the selected squares.
-         *
-         * @param {type} highlightedSquares The list of squares to highlight.
-         */
-        var highlight = function (highlightedSquares) {
-            highlightedSquares.forEach(function (value) {
-                d3.select('#' + value).classed('highlightedSquare', true);
-            });
-        };
-
-        return {
-            reset: reset,
-            highlight: highlight
-        };
-    }
-]);
-
-/**
  * Service containing functions to interact with the player.
  *
  * Exported functions:

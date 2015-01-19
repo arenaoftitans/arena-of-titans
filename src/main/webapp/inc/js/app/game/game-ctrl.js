@@ -2,9 +2,8 @@ app.controller("game", ['$scope',
     '$http',
     '$rootScope',
     'showHttpError',
-    'squares',
     'player',
-    function ($scope, $http, $rootScope, showHttpError, squares, player) {
+    function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.selectedCard = [];
         $scope.curentPlayer = {};
@@ -35,7 +34,6 @@ app.controller("game", ['$scope',
             $scope.winners = game.winners;
             $scope.selectedCard = {};
             $scope.activeTrumps = game.trumps;
-            squares.reset($scope.highlightedSquares);
 
             isGameOver(game.gameOver);
         }
@@ -65,11 +63,7 @@ app.controller("game", ['$scope',
                 }
             })
                     .success(function (data) {
-                        squares.reset($scope.highlightedSquares);
-
                         $scope.highlightedSquares = data;
-
-                        squares.highlight($scope.highlightedSquares);
 
                         // Stores the selected card.
                         $scope.selectedCard = {card_name: cardName, card_color: cardColor};
