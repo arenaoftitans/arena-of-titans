@@ -10,7 +10,7 @@ app.controller("game", ['$scope',
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
         $scope.gameStarted = false;
-        var noCardSelectedPopupId = '#noCardSelectedPopup';
+        $scope.showNoCardSelectedPopup = false;
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
@@ -132,7 +132,7 @@ app.controller("game", ['$scope',
 
         $scope.discard = function () {
             if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
-                d3.select(noCardSelectedPopupId).classed('hidden', false);
+                $scope.showNoCardSelectedPopup = true;
             } else {
                 $http({
                     url: playUrl,
@@ -154,7 +154,7 @@ app.controller("game", ['$scope',
         };
 
         $scope.noCardSelectedPopupHidden = function () {
-            d3.select(noCardSelectedPopupId).classed('hidden', true);
+            $scope.showNoCardSelectedPopup = false;
         };
 
         /**
