@@ -51,7 +51,7 @@
 
                 <div ng-controller="game" id="gameController">
 
-                    <div id="game" class="hidden" ng-class="{hidden: gameOver}">
+                    <div id="game" ng-class="{hidden: gameOver || !gameStarted}">
 
                         <div id="bloc_middle_centre">
 

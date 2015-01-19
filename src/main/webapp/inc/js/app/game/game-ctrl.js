@@ -9,7 +9,7 @@ app.controller("game", ['$scope',
         $scope.curentPlayer = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
-        var gameId = '#game';
+        $scope.gameStarted = false;
         var noCardSelectedPopupId = '#noCardSelectedPopup';
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
@@ -17,7 +17,7 @@ app.controller("game", ['$scope',
         var playMethod = 'GET';
 
         var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
-            d3.select(gameId).classed('hidden', false);
+            $scope.gameStarted = true;
             $scope.players = game.players;
             updateGameParameters(game);
         });
@@ -41,7 +41,6 @@ app.controller("game", ['$scope',
         function isGameOver(gameOver) {
             if (gameOver) {
                 $rootScope.$emit('gameOver', $scope.winners);
-                d3.select(gameId).classed('hidden', true);
             }
         }
 
