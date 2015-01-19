@@ -290,6 +290,7 @@ public class Player {
 
     public void makeAffectedByTrumps() {
         affectingTrumps.parallelStream()
+                .filter(tc -> tc.isEnabled())
                 .forEach(tc -> tc.affect(this));
     }
 
