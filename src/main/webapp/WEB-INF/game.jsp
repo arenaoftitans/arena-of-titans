@@ -38,7 +38,7 @@
 
             <div id="bloc_middle">
 
-                <div id="createGame" ng-controller="createGame">
+                <div id="createGame" ng-controller="createGame" ng-class="{hidden: gameCreated}">
                     <form id="crateGameForm">
                         <label>Add players</label>
                         <div ng-repeat="player in players">

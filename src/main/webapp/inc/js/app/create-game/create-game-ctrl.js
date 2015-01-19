@@ -11,10 +11,10 @@ app.controller('createGame', ['$scope',
     function ($scope, $http, $rootScope, showHttpError, player) {
         var createGameUrl = '/aot/rest/createGame';
         var createGameMethod = 'POST';
-        var createGameDivId = '#createGame';
         var game = {};
         var numberMaximumOfPlayers = 8;
         $scope.players = player.init(numberMaximumOfPlayers);
+        $scope.gameCreated = false;
 
         $scope.createGame = function () {
             $http({
@@ -23,14 +23,14 @@ app.controller('createGame', ['$scope',
                 data: $scope.players
             })
                     .success(function (data) {
-                        d3.select(createGameDivId).classed('hidden', true);
                         game.nextPlayer = data.nextPlayer;
                         game.possibleCardsNextPlayer = data.possibleCardsNextPlayer;
                         game.trumpsNextPlayer = data.trumpsNextPlayer;
                         game.players = data.players;
                         game.winners = [];
                         game.trumps = [];
-                        game.gameOver = false
+                        game.gameOver = false;
+                        $scope.gameCreated = true;
                         $rootScope.$emit('gameCreated', game);
                     })
                     .error(function (data) {
