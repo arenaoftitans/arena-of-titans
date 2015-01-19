@@ -132,7 +132,7 @@
             </form>
         </div>
 
-        <div ng-controller="gameOver" id="gameOverScreen" class="hidden popup">
+        <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
             The game is over. The winner are :
             <ol>
                 <li ng-repeat="player in winners">{{player}}</li>
