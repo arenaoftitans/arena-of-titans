@@ -4,7 +4,7 @@
  * Exported function:
  * - show
  */
-angular.module('lastLine.game').factory('showHttpError', [
+gameModule.factory('showHttpError', [
     function () {
         /**
          * Log errors to the console and display the errors to display.
@@ -34,7 +34,7 @@ angular.module('lastLine.game').factory('showHttpError', [
  * - move
  * - init
  */
-angular.module('lastLine.game').factory('player', [
+gameModule.factory('player', [
     function () {
         var playerIdKey = 'id';
         var xCoordCircleKey = 'cx';

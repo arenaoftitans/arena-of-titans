@@ -1,4 +1,4 @@
-app.controller('gameOver', ['$scope',
+gameOverModule.controller('gameOver', ['$scope',
     '$rootScope',
     function ($scope, $rootScope) {
         $scope.winners = {};

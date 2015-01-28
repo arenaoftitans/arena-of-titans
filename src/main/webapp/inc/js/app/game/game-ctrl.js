@@ -1,4 +1,4 @@
-app.controller("game", ['$scope',
+gameModule.controller("game", ['$scope',
     '$http',
     '$rootScope',
     'showHttpError',

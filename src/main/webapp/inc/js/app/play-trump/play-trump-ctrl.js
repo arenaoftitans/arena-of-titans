@@ -1,4 +1,4 @@
-app.controller('playTrump', ['$scope',
+playTrumpModule.controller('playTrump', ['$scope',
     '$rootScope',
     '$http',
     'showHttpError',
