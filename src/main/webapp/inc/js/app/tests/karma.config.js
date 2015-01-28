@@ -18,7 +18,9 @@ module.exports = function(config) {
       '../../lib/angular.js',
       'angular-mocks.js',
       '../../app.js',
-      '../game/*.js',
+      '../game/game-module.js',
+      '../game/game-services.js',
+      '../game/game-ctrl.js',
       '**/*.js'
     ],
 
