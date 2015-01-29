@@ -91,6 +91,9 @@ describe('game', function () {
     });
 
     it('card should not be selected', function () {
+        // No card selected
+        expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
+        // Inexistant card selected
         $scope.selectedCard.card_name = cardName;
         $scope.selectedCard.card_color = cardColor;
         expect($scope.isSelected('cardName', 'cardColor')).toBe(false);

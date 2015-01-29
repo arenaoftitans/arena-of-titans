@@ -5,7 +5,7 @@ gameModule.controller("game", ['$scope',
     'player',
     function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.selectedCard = [];
+        $scope.selectedCard = {};
         $scope.curentPlayer = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
