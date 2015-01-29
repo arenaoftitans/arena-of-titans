@@ -84,4 +84,16 @@ describe('game', function () {
         expect(square.attr('class')).toContain('highlightedSquare');
     });
 
+    it('card should be selected', function () {
+        $scope.selectedCard.card_name = cardName;
+        $scope.selectedCard.card_color = cardColor;
+        expect($scope.isSelected(cardName, cardColor)).toBe(true);
+    });
+
+    it('card should not be selected', function () {
+        $scope.selectedCard.card_name = cardName;
+        $scope.selectedCard.card_color = cardColor;
+        expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
+    });
+
 });
