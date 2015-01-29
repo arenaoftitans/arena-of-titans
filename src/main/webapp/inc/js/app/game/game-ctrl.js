@@ -66,7 +66,7 @@ gameModule.controller("game", ['$scope',
                         $scope.highlightedSquares = data;
 
                         // Stores the selected card.
-                        $scope.selectedCard = {card_name: cardName, card_color: cardColor};
+                        $scope.selectedCard = {name: cardName, color: cardColor};
                     })
                     .error(function (data) {
                         showHttpError.show(data);
@@ -75,8 +75,8 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.isSelected = function (cardName, cardColor) {
-            return $scope.selectedCard.card_name === cardName
-                    && $scope.selectedCard.card_color === cardColor;
+            return $scope.selectedCard.name === cardName
+                    && $scope.selectedCard.color === cardColor;
         };
 
         /**
@@ -92,8 +92,8 @@ gameModule.controller("game", ['$scope',
                     url: playUrl,
                     method: playMethod,
                     params: {
-                        card_name: $scope.selectedCard.card_name,
-                        card_color: $scope.selectedCard.card_color,
+                        card_name: $scope.selectedCard.name,
+                        card_color: $scope.selectedCard.color,
                         player_id: $scope.currentPlayer.id,
                         x: squareX,
                         y: squareY
@@ -139,8 +139,8 @@ gameModule.controller("game", ['$scope',
                     method: playMethod,
                     params: {
                         discard: true,
-                        card_name: $scope.selectedCard.card_name,
-                        card_color: $scope.selectedCard.card_color,
+                        card_name: $scope.selectedCard.name,
+                        card_color: $scope.selectedCard.color,
                         player_id: $scope.currentPlayer.id
                     }
                 })

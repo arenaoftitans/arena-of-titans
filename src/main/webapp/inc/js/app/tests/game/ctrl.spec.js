@@ -24,8 +24,8 @@ describe('game', function () {
     var playMethod = 'GET';
 
     function selecteCard() {
-        $scope.selectedCard.card_name = cardName;
-        $scope.selectedCard.card_color = cardColor;
+        $scope.selectedCard.name = cardName;
+        $scope.selectedCard.color = cardColor;
     }
 
     beforeEach(angular.mock.module('lastLine.game'));
@@ -94,7 +94,7 @@ describe('game', function () {
         it('correct card selected', function () {
             $scope.viewPossibleMovements(cardName, cardColor);
             $httpBackend.flush();
-            expect($scope.selectedCard).toEqual({card_name: cardName, card_color: cardColor});
+            expect($scope.selectedCard).toEqual(player1Cards[0]);
         });
 
         it('correct squares are highlighted', function () {
