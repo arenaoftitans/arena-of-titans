@@ -70,33 +70,39 @@ describe('game', function () {
         expect($scope).toBeDefined();
     });
 
-    it('view possible movements: correct card selected', function () {
-        $scope.viewPossibleMovements(cardName, cardColor);
-        $httpBackend.flush();
-        expect($scope.selectedCard).toEqual({card_name: cardName, card_color: cardColor});
+    describe('viewPossibleMovements', function () {
+        it('correct card selected', function () {
+            $scope.viewPossibleMovements(cardName, cardColor);
+            $httpBackend.flush();
+            expect($scope.selectedCard).toEqual({card_name: cardName, card_color: cardColor});
+        });
+
+        it('correct squares are highlighted', function () {
+            $scope.viewPossibleMovements(cardName, cardColor);
+            $httpBackend.flush();
+            expect($scope.highlightedSquares).toEqual(["square-0-0", "square-1-1"]);
+            $scope.$digest();
+            expect(square.attr('class')).toContain('highlightedSquare');
+        });
     });
 
-    it('view possible movements: correct squares are highlighted', function () {
-        $scope.viewPossibleMovements(cardName, cardColor);
-        $httpBackend.flush();
-        expect($scope.highlightedSquares).toEqual(["square-0-0", "square-1-1"]);
-        $scope.$digest();
-        expect(square.attr('class')).toContain('highlightedSquare');
+    describe('isSelected', function () {
+        it('card should be selected', function () {
+            $scope.selectedCard.card_name = cardName;
+            $scope.selectedCard.card_color = cardColor;
+            expect($scope.isSelected(cardName, cardColor)).toBe(true);
+        });
+
+        it('card should not be selected', function () {
+            // No card selected
+            expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
+            // Inexistant card selected
+            $scope.selectedCard.card_name = cardName;
+            $scope.selectedCard.card_color = cardColor;
+            expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
+        });
     });
 
-    it('card should be selected', function () {
-        $scope.selectedCard.card_name = cardName;
-        $scope.selectedCard.card_color = cardColor;
-        expect($scope.isSelected(cardName, cardColor)).toBe(true);
-    });
-
-    it('card should not be selected', function () {
-        // No card selected
-        expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
-        // Inexistant card selected
-        $scope.selectedCard.card_name = cardName;
-        $scope.selectedCard.card_color = cardColor;
-        expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
     });
 
 });
