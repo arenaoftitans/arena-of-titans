@@ -227,4 +227,18 @@ describe('game', function () {
         });
     });
 
+    describe('playTrump', function () {
+        var $rootScope;
+
+        beforeEach(inject(function (_$rootScope_) {
+            $rootScope = _$rootScope_;
+        }));
+
+        it('must emit "wantToPlayTrump"', function () {
+            spyOn($rootScope, "$emit");
+            $scope.playTrump(null);
+            expect($scope.$emit).toHaveBeenCalled();
+        });
+    });
+
 });
