@@ -47,18 +47,23 @@ describe('game', function () {
 });
 
 describe('player', function () {
-    var playerService, scope, square, compiled;
+    var playerService, $scope, $compile;
+    var player;
 
     beforeEach(angular.mock.module('lastLine.game'));
 
-    beforeEach(angular.mock.inject(function ($rootScope, $compile, _player_) {
+    beforeEach(angular.mock.inject(function ($rootScope, _$compile_, _player_) {
         playerService = _player_;
-        var squareHtml = '<svg><rect id="square-0-0" x="0" y="0" height="90" width="90"/></svg>';
-        square = angular.element(squareHtml);
-        scope = $rootScope.$new();
-        compiled = $compile(square);
-        compiled(scope);
-        scope.$digest();
+        $compile = _$compile_;
+        $scope = $rootScope.$new();
+    }));
+
+    beforeEach(inject(function () {
+        var playerHtml = '<circle cx="0" cy="0" radius="90" width="90"/>';
+        player = angular.element(playerHtml);
+        var compiled = $compile(player);
+        compiled($scope);
+        $scope.$digest();
     }));
 
     it('init', function () {
@@ -71,9 +76,16 @@ describe('player', function () {
     });
 
     it('move', function () {
-       var playerIndex = '0';
-       var squareId = '#square-0-0';
-       //playerService.move(playerIndex, squareId);
+        var x = '10';
+        var y = '30';
+
+        expect(player.attr('cx')).toBe('0');
+        expect(player.attr('cy')).toBe('0');
+
+        playerService.move(player, x, y);
+
+        expect(player.attr('cx')).toBe(x);
+        expect(player.attr('cy')).toBe(y);
     });
 
 });
