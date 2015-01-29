@@ -144,6 +144,15 @@ describe('game', function () {
         });
     });
 
+    describe('pass', function () {
+        it('pass', function () {
+            $scope.pass();
+            $httpBackend.flush();
+            expect($scope.currentPlayer).toEqual(player2);
+            expect($scope.currentPlayerCards).toEqual(player2Cards);
+            expect($scope.selectedCard).toEqual({});
+            expect($scope.highlightedSquares).toEqual([]);
+        });
     });
 
 });
