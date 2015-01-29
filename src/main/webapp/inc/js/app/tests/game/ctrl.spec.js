@@ -81,6 +81,10 @@ describe('game', function () {
                 });
     }));
 
+    beforeEach(function () {
+        alert = jasmine.createSpy('alert');
+    });
+
 
     it('should have scope to be defined', function () {
         expect($scope).toBeDefined();
@@ -114,6 +118,29 @@ describe('game', function () {
             // Inexistant card selected
             selecteCard();
             expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
+        });
+    });
+
+    describe('play', function () {
+        it('cannot, no card selected', function () {
+            $scope.highlightedSquares = ['square-0-0'];
+            $scope.play('square-0-0', '0', '0');
+            expect(alert).toHaveBeenCalledWith('Please select a card.');
+        });
+
+        it('cannot, no highlightedSquares and card selected', function () {
+            selecteCard();
+            $scope.play('square-0-0', '0', '0');
+            expect(alert).not.toHaveBeenCalled();
+        });
+
+        it('play', function () {
+            selecteCard();
+            $scope.highlightedSquares = ['square-0-0'];
+            $scope.currentPlayer.id = 0;
+            //$scope.play('square-0-0', '0', '0');
+            //$httpBackend.flush();
+            //console.error(angular.element('#square-0-0').attr('class'))
         });
     });
 
