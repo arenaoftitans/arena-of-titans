@@ -14,6 +14,10 @@ describe('game', function () {
     var playUrl = '/aot/rest/play';
     var playMethod = 'GET';
 
+    function selecteCard() {
+        $scope.selectedCard.card_name = cardName;
+        $scope.selectedCard.card_color = cardColor;
+    }
 
     beforeEach(angular.mock.module('lastLine.game'));
 
@@ -88,8 +92,7 @@ describe('game', function () {
 
     describe('isSelected', function () {
         it('card should be selected', function () {
-            $scope.selectedCard.card_name = cardName;
-            $scope.selectedCard.card_color = cardColor;
+            selecteCard();
             expect($scope.isSelected(cardName, cardColor)).toBe(true);
         });
 
@@ -97,8 +100,7 @@ describe('game', function () {
             // No card selected
             expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
             // Inexistant card selected
-            $scope.selectedCard.card_name = cardName;
-            $scope.selectedCard.card_color = cardColor;
+            selecteCard();
             expect($scope.isSelected('cardName', 'cardColor')).toBe(false);
         });
     });
