@@ -21,6 +21,8 @@ module.exports = function(config) {
       '../game/game-module.js',
       '../game/game-services.js',
       '../game/game-ctrl.js',
+      'util.js',
+      'util.spec.js',
       '**/*.js'
     ],
 
