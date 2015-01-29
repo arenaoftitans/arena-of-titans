@@ -252,6 +252,12 @@ describe('game', function () {
             $scope.playTrump(null);
             expect($scope.$emit).toHaveBeenCalled();
         });
+
+        it('must repond to "trumpPlayed"', function () {
+            var response = ['trump1', 'trump2'];
+            $rootScope.$emit('trumpPlayed', response);
+            expect($scope.activeTrumps).toEqual(response);
+        });
     });
 
 });
