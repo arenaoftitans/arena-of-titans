@@ -9,7 +9,7 @@ describe('game', function () {
 
     var createGameUrl = '/aot/rest/createGame';
     var createGameMethod = 'POST';
-    var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares?card_color=' + cardColor + '&card_name=' + cardName;
+    var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
     var viewPossibleMovementsMethod = 'GET';
     var playUrl = '/aot/rest/play';
     var playMethod = 'GET';
@@ -50,7 +50,10 @@ describe('game', function () {
                     ]
                 });
 
-        $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrl)
+        var viewPossibleMovementsParameters = {card_color: cardColor, card_name: cardName};
+        var viewPossibleMovementsUrlWithParameters = setUrlParameters(viewPossibleMovementsUrl,
+                viewPossibleMovementsParameters);
+        $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrlWithParameters)
                 .respond(["square-0-0", "square-1-1"]);
 
         $httpBackend.when(playMethod, playUrl)
