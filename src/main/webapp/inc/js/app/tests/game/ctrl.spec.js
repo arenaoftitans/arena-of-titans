@@ -2,7 +2,6 @@
 
 describe('game', function () {
     var $scope, controller, $httpBackend;
-    var square;
 
     var cardName = 'King';
     var cardColor = 'Red';
@@ -30,71 +29,11 @@ describe('game', function () {
 
     beforeEach(angular.mock.module('lastLine.game'));
 
-    beforeEach(angular.mock.inject(function ($rootScope, $controller, $compile) {
+    beforeEach(angular.mock.inject(function ($rootScope, $controller) {
         $scope = $rootScope.$new();
         controller = $controller;
         controller('game', {$scope: $scope});
-        var squareHtml = '<div id="square-0-0"></div>';
-        square = angular.element(squareHtml);
-        square.attr('ng-class', "{highlightedSquare: highlightedSquares.indexOf('square-0-0') > -1}");
-        var compiled = $compile(square);
-        compiled($scope);
         $scope.$digest();
-    }));
-
-    beforeEach(angular.mock.inject(function ($rootScope, $controller, _$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-
-        $httpBackend.when(createGameMethod, createGameUrl)
-                .respond({
-                    nextPlayer: player1,
-                    possibleCardsNextPlayer: player1Cards
-                });
-
-        var viewPossibleMovementsParameters = {card_color: cardColor, card_name: cardName};
-        var viewPossibleMovementsUrlWithParameters = setUrlParameters(viewPossibleMovementsUrl,
-                viewPossibleMovementsParameters);
-        $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrlWithParameters)
-                .respond(["square-0-0", "square-1-1"]);
-
-        var playParameters = {
-            card_color: cardColor,
-            card_name: cardName,
-            player_id: 0,
-            x: 0,
-            y: 0
-        };
-        var playUrlWithParameters = setUrlParameters(playUrl, playParameters);
-        $httpBackend.when(playMethod, playUrlWithParameters)
-                .respond({
-                    newSquare: "square-0-0",
-                    nextPlayer: player1,
-                    possibleCardsNextPlayer: player1Cards
-                });
-
-        playUrlWithParameters = setUrlParameters(playUrl, {pass: true});
-        $httpBackend.when(playMethod, playUrlWithParameters)
-                .respond({
-                    newSquare: "square-0-0",
-                    nextPlayer: player2,
-                    possibleCardsNextPlayer: player2Cards
-                });
-
-        playParameters = {
-            card_color: player1Cards[0].color,
-            card_name: player1Cards[0].name,
-            discard: true,
-            player_id: player1.id
-        };
-        playUrlWithParameters = setUrlParameters(playUrl, playParameters);
-        $httpBackend.when(playMethod, playUrlWithParameters)
-                .respond({
-                    possibleCardsNextPlayer: [],
-                    trumps: [],
-                    winners: [],
-                    trumpsNextPlayer: [],
-                    nextPlayer: player1
-                });
     }));
 
     beforeEach(function () {
@@ -107,6 +46,26 @@ describe('game', function () {
     });
 
     describe('viewPossibleMovements', function () {
+        var square, $httpBackend;
+
+        beforeEach(inject(function (_$httpBackend_) {
+            $httpBackend = _$httpBackend_;
+
+            var viewPossibleMovementsParameters = {card_color: cardColor, card_name: cardName};
+            var viewPossibleMovementsUrlWithParameters = setUrlParameters(viewPossibleMovementsUrl,
+                    viewPossibleMovementsParameters);
+            $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrlWithParameters)
+                    .respond(["square-0-0", "square-1-1"]);
+        }));
+
+        beforeEach(inject(function ($compile) {
+            var squareHtml = '<div id="square-0-0"></div>';
+            square = angular.element(squareHtml);
+            square.attr('ng-class', "{highlightedSquare: highlightedSquares.indexOf('square-0-0') > -1}");
+            var compiled = $compile(square);
+            compiled($scope);
+        }));
+
         it('correct card selected', function () {
             $scope.viewPossibleMovements(cardName, cardColor);
             $httpBackend.flush();
@@ -138,6 +97,27 @@ describe('game', function () {
     });
 
     describe('play', function () {
+        var $httpBackend;
+
+        beforeEach(inject(function (_$httpBackend_) {
+            $httpBackend = _$httpBackend_;
+            var playParameters = {
+                card_color: cardColor,
+                card_name: cardName,
+                player_id: 0,
+                x: 0,
+                y: 0
+            };
+            var playUrlWithParameters = setUrlParameters(playUrl, playParameters);
+
+            $httpBackend.when(playMethod, playUrlWithParameters)
+                    .respond({
+                        newSquare: "square-0-0",
+                        nextPlayer: player1,
+                        possibleCardsNextPlayer: player1Cards
+                    });
+        }));
+
         it('cannot, no card selected', function () {
             $scope.highlightedSquares = ['square-0-0'];
             $scope.play('square-0-0', '0', '0');
@@ -161,6 +141,19 @@ describe('game', function () {
     });
 
     describe('pass', function () {
+        var $httpBackend;
+
+        beforeEach(inject(function (_$httpBackend_) {
+            $httpBackend = _$httpBackend_;
+            var playUrlWithParameters = setUrlParameters(playUrl, {pass: true});
+            $httpBackend.when(playMethod, playUrlWithParameters)
+                    .respond({
+                        newSquare: "square-0-0",
+                        nextPlayer: player2,
+                        possibleCardsNextPlayer: player2Cards
+                    });
+        }));
+
         it('pass', function () {
             $scope.pass();
             $httpBackend.flush();
@@ -172,7 +165,27 @@ describe('game', function () {
     });
 
     describe('discard', function () {
-        var popup;
+        var popup, $httpBackend;
+
+        beforeEach(inject(function (_$httpBackend_) {
+            $httpBackend = _$httpBackend_;
+
+            var playParameters = {
+                card_color: player1Cards[0].color,
+                card_name: player1Cards[0].name,
+                discard: true,
+                player_id: player1.id
+            };
+            var playUrlWithParameters = setUrlParameters(playUrl, playParameters);
+            $httpBackend.when(playMethod, playUrlWithParameters)
+                    .respond({
+                        possibleCardsNextPlayer: [],
+                        trumps: [],
+                        winners: [],
+                        trumpsNextPlayer: [],
+                        nextPlayer: player1
+                    });
+        }));
 
         beforeEach(inject(function ($compile) {
             var popupHtml = '<div></div>';
