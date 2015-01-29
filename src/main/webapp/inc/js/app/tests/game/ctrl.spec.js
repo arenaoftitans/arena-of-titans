@@ -9,11 +9,11 @@ describe('game', function () {
 
     var player1 = {name: "Toto", id: "0"};
     var player1Cards = [
-        {name: "King", color: "Red"},
+        {name: "King", color: "Red"}
     ];
     var player2 = {name: "Tata", id: "1"};
     var player2Cards = [
-        {name: "Wizard", color: "Yellow"},
+        {name: "Wizard", color: "Yellow"}
     ];
 
     var createGameUrl = '/aot/rest/createGame';
@@ -78,6 +78,22 @@ describe('game', function () {
                     newSquare: "square-0-0",
                     nextPlayer: player2,
                     possibleCardsNextPlayer: player2Cards
+                });
+
+        playParameters = {
+            card_color: player1Cards[0].color,
+            card_name: player1Cards[0].name,
+            discard: true,
+            player_id: player1.id
+        };
+        playUrlWithParameters = setUrlParameters(playUrl, playParameters);
+        $httpBackend.when(playMethod, playUrlWithParameters)
+                .respond({
+                    possibleCardsNextPlayer: [],
+                    trumps: [],
+                    winners: [],
+                    trumpsNextPlayer: [],
+                    nextPlayer: player1
                 });
     }));
 
@@ -152,6 +168,62 @@ describe('game', function () {
             expect($scope.currentPlayerCards).toEqual(player2Cards);
             expect($scope.selectedCard).toEqual({});
             expect($scope.highlightedSquares).toEqual([]);
+        });
+    });
+
+    describe('discard', function () {
+        var popup;
+
+        beforeEach(inject(function ($compile) {
+            var popupHtml = '<div></div>';
+            popup = angular.element(popupHtml);
+            popup.attr('ng-class', "{hidden: !showNoCardSelectedPopup}");
+            var compiled = $compile(popup);
+            compiled($scope);
+            $scope.$digest();
+        }));
+
+        beforeEach(function () {
+            $scope.currentPlayer = player1;
+            $scope.currentPlayerCards = player1Cards;
+            $scope.selectedCard = player1Cards[0];
+        });
+
+        it('no card selected', function () {
+            $scope.selectedCard = {};
+            expect($scope.selectedCard).toEqual({});
+            $scope.discard();
+            $scope.$digest();
+            expect($scope.currentPlayer).toEqual(player1);
+            expect($scope.currentPlayerCards).toEqual(player1Cards);
+            expect($scope.selectedCard).toEqual({});
+            expect($scope.highlightedSquares).toEqual([]);
+        });
+
+        it('popup must appear when no card is selected', function () {
+            $scope.selectedCard = {};
+            expect(popup.attr('class')).toContain('hidden');
+            $scope.discard();
+            $scope.$digest();
+            expect(popup.attr('class')).not.toContain('hidden');
+        });
+
+        it('discard a card', function () {
+            expect(Object.getOwnPropertyNames($scope.selectedCard).length === 0).toBe(false);
+            $scope.discard();
+            $httpBackend.flush();
+            expect($scope.showNoCardSelectedPopup).toBe(false);
+            expect($scope.currentPlayer).toEqual(player1);
+            expect($scope.currentPlayerCards).toEqual([]);
+            expect($scope.selectedCard).toEqual({});
+            expect($scope.highlightedSquares).toEqual([]);
+        });
+
+        it('popup must not appear if a card is selected', function () {
+            expect(popup.attr('class')).toContain('hidden');
+            $scope.discard();
+            $httpBackend.flush();
+            expect(popup.attr('class')).toContain('hidden');
         });
     });
 
