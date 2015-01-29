@@ -7,6 +7,15 @@ describe('game', function () {
     var cardName = 'King';
     var cardColor = 'Red';
 
+    var player1 = {name: "Toto", id: "0"};
+    var player1Cards = [
+        {name: "King", color: "Red"},
+    ];
+    var player2 = {name: "Tata", id: "1"};
+    var player2Cards = [
+        {name: "Wizard", color: "Yellow"},
+    ];
+
     var createGameUrl = '/aot/rest/createGame';
     var createGameMethod = 'POST';
     var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
@@ -38,16 +47,8 @@ describe('game', function () {
 
         $httpBackend.when(createGameMethod, createGameUrl)
                 .respond({
-                    nextPlayer: {
-                        name: "Toto",
-                        id: "0"
-                    },
-                    possibleCardsNextPlayer: [
-                        {
-                            name: "King",
-                            color: "Red"
-                        }
-                    ]
+                    nextPlayer: player1,
+                    possibleCardsNextPlayer: player1Cards
                 });
 
         var viewPossibleMovementsParameters = {card_color: cardColor, card_name: cardName};
@@ -56,19 +57,27 @@ describe('game', function () {
         $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrlWithParameters)
                 .respond(["square-0-0", "square-1-1"]);
 
-        $httpBackend.when(playMethod, playUrl)
+        var playParameters = {
+            card_color: cardColor,
+            card_name: cardName,
+            player_id: 0,
+            x: 0,
+            y: 0
+        };
+        var playUrlWithParameters = setUrlParameters(playUrl, playParameters);
+        $httpBackend.when(playMethod, playUrlWithParameters)
                 .respond({
-                    newSquare: "#0-8",
-                    nextPlayer: {
-                        name: "Toto",
-                        id: "0"
-                    },
-                    possibleCardsNextPlayer: [
-                        {
-                            name: "King",
-                            color: "Red"
-                        }
-                    ]
+                    newSquare: "square-0-0",
+                    nextPlayer: player1,
+                    possibleCardsNextPlayer: player1Cards
+                });
+
+        playUrlWithParameters = setUrlParameters(playUrl, {pass: true});
+        $httpBackend.when(playMethod, playUrlWithParameters)
+                .respond({
+                    newSquare: "square-0-0",
+                    nextPlayer: player2,
+                    possibleCardsNextPlayer: player2Cards
                 });
     }));
 
