@@ -1,7 +1,7 @@
 'use strict';
 
 describe('game', function () {
-    var $scope, controller, $httpBackend;
+    var $scope, controller;
 
     var cardName = 'King';
     var cardColor = 'Red';
@@ -15,8 +15,6 @@ describe('game', function () {
         {name: "Wizard", color: "Yellow"}
     ];
 
-    var createGameUrl = '/aot/rest/createGame';
-    var createGameMethod = 'POST';
     var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
     var viewPossibleMovementsMethod = 'GET';
     var playUrl = '/aot/rest/play';
