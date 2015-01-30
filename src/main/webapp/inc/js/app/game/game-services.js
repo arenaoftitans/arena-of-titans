@@ -37,8 +37,23 @@ gameModule.factory('showHttpError', [
 gameModule.factory('player', [
     function () {
         var move = function (player, x, y) {
-            player.attr('cx', x);
-            player.attr('cy', y);
+            try {
+                var square = document.getElementById('square-' + x + '-' + y);
+                var boundingBox = square.getBBox();
+                var height = Number(boundingBox.height);
+                var width = Number(boundingBox.width);
+                var x = Number(boundingBox.x) + width / 2;
+                var y = Number(boundingBox.y) + height / 2;
+                var radius = width / 4;
+                var transform = square.getAttribute('transform');
+                player.attr('cx', x);
+                player.attr('cy', y);
+                player.attr('r', radius);
+                player.attr('transform', transform);
+            } catch (err) {
+                player.attr('cx', x);
+                player.attr('cy', y);
+            }
         };
 
         /**
