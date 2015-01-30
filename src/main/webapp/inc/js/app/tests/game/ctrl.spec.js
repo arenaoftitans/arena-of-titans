@@ -119,6 +119,7 @@ describe('game', function () {
         beforeEach(function () {
             $scope.currentPlayer = player1;
             $scope.currentPlayerCards = player1Cards;
+            $scope.players = [player1, player2];
         });
 
         it('cannot, no card selected', function () {
@@ -156,6 +157,10 @@ describe('game', function () {
                         possibleCardsNextPlayer: player2Cards
                     });
         }));
+
+        beforeEach(function () {
+            $scope.players = [player1, player2];
+        });
 
         it('pass', function () {
             $scope.pass();
@@ -202,6 +207,7 @@ describe('game', function () {
         beforeEach(function () {
             $scope.currentPlayer = player1;
             $scope.currentPlayerCards = player1Cards;
+            $scope.players = [player1, player2];
             $scope.selectedCard = player1Cards[0];
         });
 

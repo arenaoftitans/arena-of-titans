@@ -5,6 +5,7 @@ gameModule.controller("game", ['$scope',
     'player',
     function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
+        $scope.players = player.init(8);
         $scope.selectedCard = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
@@ -17,7 +18,12 @@ gameModule.controller("game", ['$scope',
 
         var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
             $scope.gameStarted = true;
-            $scope.players = game.players;
+            for (var i in game.players) {
+                var player = $scope.players[i];
+                var playerUpdated = game.players[i];
+                player.id = playerUpdated.id;
+                player.name = playerUpdated.name;
+            }
             updateGameParameters(game);
         });
         $rootScope.$on('destroy', unbindOnGameCreatedEvent);
@@ -27,7 +33,8 @@ gameModule.controller("game", ['$scope',
          * @param {type} game The data recieved from the server.
          */
         function updateGameParameters(game) {
-            $scope.currentPlayer = game.nextPlayer;
+            // The server cannot know about pawns. We get it from $scope.players
+            $scope.currentPlayer = $scope.players[game.nextPlayer.id];
             $scope.currentPlayerCards = game.possibleCardsNextPlayer;
             $scope.currentPlayerTrumps = game.trumpsNextPlayer;
             $scope.winners = game.winners;
