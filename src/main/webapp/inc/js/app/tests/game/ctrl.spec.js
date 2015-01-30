@@ -6,11 +6,11 @@ describe('game', function () {
     var cardName = 'King';
     var cardColor = 'Red';
 
-    var player1 = {name: "Toto", id: "0"};
+    var player1 = {name: "Toto", id: "0", pawn: angular.element()};
     var player1Cards = [
         {name: "King", color: "Red"}
     ];
-    var player2 = {name: "Tata", id: "1"};
+    var player2 = {name: "Tata", id: "1", pawn: angular.element()};
     var player2Cards = [
         {name: "Wizard", color: "Yellow"}
     ];
@@ -136,7 +136,6 @@ describe('game', function () {
         it('play', function () {
             selecteCard();
             $scope.highlightedSquares = ['square-0-0'];
-            $scope.currentPlayer.id = 0;
             $scope.play('square-0-0', '0', '0');
             $httpBackend.flush();
             expect($scope.currentPlayer).toEqual(player1);

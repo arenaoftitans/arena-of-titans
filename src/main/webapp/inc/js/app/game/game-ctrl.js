@@ -6,7 +6,6 @@ gameModule.controller("game", ['$scope',
     function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.selectedCard = {};
-        $scope.curentPlayer = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
         $scope.gameStarted = false;
@@ -100,9 +99,7 @@ gameModule.controller("game", ['$scope',
                     }
                 })
                         .success(function (data) {
-                            var playerId = 'player' + $scope.currentPlayer.id;
-                            var playerElement = document.getElementById(playerId);
-                            var playerPawn = angular.element(playerElement);
+                            var playerPawn = $scope.currentPlayer.pawn;
                             player.move(playerPawn, data.newSquare.x, data.newSquare.y);
                             updateGameParameters(data);
                         })

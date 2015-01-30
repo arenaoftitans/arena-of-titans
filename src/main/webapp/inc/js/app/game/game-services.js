@@ -36,7 +36,7 @@ gameModule.factory('showHttpError', [
  */
 gameModule.factory('player', [
     function () {
-        var move = function (player, x, y) {
+        var move = function (pawn, x, y) {
             try {
                 var square = document.getElementById('square-' + x + '-' + y);
                 var boundingBox = square.getBBox();
@@ -46,13 +46,13 @@ gameModule.factory('player', [
                 var y = Number(boundingBox.y) + height / 2;
                 var radius = width / 4;
                 var transform = square.getAttribute('transform');
-                player.attr('cx', x);
-                player.attr('cy', y);
-                player.attr('r', radius);
-                player.attr('transform', transform);
+                pawn.attr('cx', x);
+                pawn.attr('cy', y);
+                pawn.attr('r', radius);
+                pawn.attr('transform', transform);
             } catch (err) {
-                player.attr('cx', x);
-                player.attr('cy', y);
+                pawn.attr('cx', x);
+                pawn.attr('cy', y);
             }
         };
 
@@ -65,9 +65,12 @@ gameModule.factory('player', [
         var init = function (numberMaximumOfPlayers) {
             var players = [];
             for (var i = 0; i < numberMaximumOfPlayers; i++) {
+                var pawnElement = document.getElementById('player' + i);
+                var pawn = angular.element(pawnElement);
                 players.push({
                     index: i,
-                    name: ''
+                    name: '',
+                    pawn: pawn
                 });
             }
 
