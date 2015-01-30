@@ -110,11 +110,16 @@ describe('game', function () {
 
             $httpBackend.when(playMethod, playUrlWithParameters)
                     .respond({
-                        newSquare: "square-0-0",
+                        newSquare: {x: 0, y: 0},
                         nextPlayer: player1,
-                        possibleCardsNextPlayer: player1Cards
+                        possibleCardsNextPlayer: player2Cards
                     });
         }));
+
+        beforeEach(function () {
+            $scope.currentPlayer = player1;
+            $scope.currentPlayerCards = player1Cards;
+        });
 
         it('cannot, no card selected', function () {
             $scope.highlightedSquares = ['square-0-0'];
@@ -132,9 +137,10 @@ describe('game', function () {
             selecteCard();
             $scope.highlightedSquares = ['square-0-0'];
             $scope.currentPlayer.id = 0;
-            //$scope.play('square-0-0', '0', '0');
-            //$httpBackend.flush();
-            //console.error(angular.element('#square-0-0').attr('class'))
+            $scope.play('square-0-0', '0', '0');
+            $httpBackend.flush();
+            expect($scope.currentPlayer).toEqual(player1);
+            expect($scope.currentPlayerCards).toEqual(player2Cards);
         });
     });
 
@@ -146,7 +152,7 @@ describe('game', function () {
             var playUrlWithParameters = setUrlParameters(playUrl, {pass: true});
             $httpBackend.when(playMethod, playUrlWithParameters)
                     .respond({
-                        newSquare: "square-0-0",
+                        newSquare: {x: 0, y: 0},
                         nextPlayer: player2,
                         possibleCardsNextPlayer: player2Cards
                     });

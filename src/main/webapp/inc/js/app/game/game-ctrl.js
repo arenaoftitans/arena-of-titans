@@ -100,7 +100,10 @@ gameModule.controller("game", ['$scope',
                     }
                 })
                         .success(function (data) {
-                            player.move($scope.currentPlayer.id, data.newSquare);
+                            var playerId = 'player' + $scope.currentPlayer.id;
+                            var playerElement = document.getElementById(playerId);
+                            var playerPawn = angular.element(playerElement);
+                            player.move(playerPawn, data.newSquare.x, data.newSquare.y);
                             updateGameParameters(data);
                         })
                         .error(function (data) {
