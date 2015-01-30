@@ -70,6 +70,7 @@ public final class SvgBoardGenerator {
      * The y coordinates of a square.
      */
     private int yid;
+    private int currentPlayerIndex;
     /**
      * How the color are disposed on the board.
      */
@@ -126,6 +127,7 @@ public final class SvgBoardGenerator {
      * One of the attributes name.
      */
     private static final String TRANSFORM = "transform";
+
     /**
      * @param jsonBoard The JSON description of the board.
      *
@@ -289,12 +291,15 @@ public final class SvgBoardGenerator {
             yid = lines.size();
             for (int j = 0; j < armsLength; j++) {
                 int currentXid = xid + xidPlus;
+                int x = i * filledElementHeigth + originX;
+                int y = j * filledElementWidth + originY;
+                drawPawn(currentXid, yid, x, y);
                 Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
                 String squareId = String.format(ID_TEMPLATE, currentXid, yid);
                 element.setAttribute("id", squareId);
-                element.setAttribute("x", Integer.toString(i * filledElementHeigth + originX));
-                element.setAttribute("y", Integer.toString(j * filledElementWidth + originY));
+                element.setAttribute("x", Integer.toString(x));
+                element.setAttribute("y", Integer.toString(y));
                 element.setAttribute("height", Integer.toString(filledElementHeigth));
                 element.setAttribute("width", Integer.toString(filledElementWidth));
                 setNgClickDirective(element, squareId, currentXid, yid);
@@ -304,6 +309,23 @@ public final class SvgBoardGenerator {
             xidPlus++;
         }
         xid += armsWidth;
+    }
+
+    private void drawPawn(int xid, int yid, int x, int y) {
+        int maxYid = lines.size() + armsLength - 1;
+        if (xid % armsWidth == 0 && yid == maxYid) {
+            Element pawn = new Element("circle", SVG_NS);
+            pawn.removeAttribute("xmlns");
+            pawn.setAttribute("id", "player" + currentPlayerIndex);
+            pawn.setAttribute("class", "pawn");
+            x += filledElementWidth / 2;
+            y += filledElementHeigth / 2;
+            pawn.setAttribute("cx", Integer.toString(x));
+            pawn.setAttribute("cy", Integer.toString(y));
+            pawn.setAttribute("r", Integer.toString(filledElementWidth / 4));
+            layer.addContent(pawn);
+            currentPlayerIndex++;
+        }
     }
 
     /**
