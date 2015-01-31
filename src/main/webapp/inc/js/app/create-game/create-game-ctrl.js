@@ -3,7 +3,7 @@
  *
  * Emit a 'gameCreated' signal when done.
  */
-app.controller('createGame', ['$scope',
+createGameModule.controller('createGame', ['$scope',
     '$http',
     '$rootScope',
     'showHttpError',
@@ -11,7 +11,7 @@ app.controller('createGame', ['$scope',
     function ($scope, $http, $rootScope, showHttpError, player) {
         var createGameUrl = '/aot/rest/createGame';
         var createGameMethod = 'POST';
-        var game = {};
+        $scope.game = {};
         var numberMaximumOfPlayers = 8;
         $scope.players = player.init(numberMaximumOfPlayers);
         $scope.gameCreated = false;
@@ -23,15 +23,15 @@ app.controller('createGame', ['$scope',
                 data: $scope.players
             })
                     .success(function (data) {
-                        game.nextPlayer = data.nextPlayer;
-                        game.possibleCardsNextPlayer = data.possibleCardsNextPlayer;
-                        game.trumpsNextPlayer = data.trumpsNextPlayer;
-                        game.players = data.players;
-                        game.winners = [];
-                        game.trumps = [];
-                        game.gameOver = false;
+                        $scope.game.nextPlayer = data.nextPlayer;
+                        $scope.game.possibleCardsNextPlayer = data.possibleCardsNextPlayer;
+                        $scope.game.trumpsNextPlayer = data.trumpsNextPlayer;
+                        $scope.game.players = data.players;
+                        $scope.game.winners = [];
+                        $scope.game.trumps = [];
+                        $scope.game.gameOver = false;
                         $scope.gameCreated = true;
-                        $rootScope.$emit('gameCreated', game);
+                        $rootScope.$emit('gameCreated', $scope.game);
                     })
                     .error(function (data) {
                         showHttpError.show(data);
