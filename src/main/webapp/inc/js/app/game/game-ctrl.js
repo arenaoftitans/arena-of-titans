@@ -27,6 +27,10 @@ gameModule.controller("game", ['$scope',
                 player.id = playerUpdated.id;
                 player.name = playerUpdated.name;
             }
+            // Remove unused player from $scope.players
+            var actualNumberOfPlayers = game.players.length;
+            $scope.players.splice(actualNumberOfPlayers);
+
             updateGameParameters(game);
         });
         $rootScope.$on('destroy', unbindOnGameCreatedEvent);
