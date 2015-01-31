@@ -6,6 +6,7 @@ gameModule.controller("game", ['$scope',
     function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(8);
+        $scope.activePawns = [];
         $scope.selectedCard = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
@@ -21,6 +22,7 @@ gameModule.controller("game", ['$scope',
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];
+                $scope.activePawns.push(player.pawn.attr('id'));
                 player.id = playerUpdated.id;
                 player.name = playerUpdated.name;
             }
