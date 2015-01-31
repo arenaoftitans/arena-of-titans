@@ -1,7 +1,5 @@
 package com.aot.engine.trumps;
 
-import com.aot.engine.trumps.Trump;
-import com.aot.engine.trumps.RemovingColorTrump;
 import com.aot.engine.Color;
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;

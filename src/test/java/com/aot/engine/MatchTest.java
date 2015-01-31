@@ -1,9 +1,5 @@
 package com.aot.engine;
 
-import com.aot.engine.Color;
-import com.aot.engine.Match;
-import com.aot.engine.Player;
-import com.aot.engine.GameFactory;
 import com.aot.engine.board.Board;
 import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
