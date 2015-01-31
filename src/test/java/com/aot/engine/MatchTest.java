@@ -262,7 +262,9 @@ public class MatchTest {
         playFirstCard();
         playFirstCard();
 
+        assertNotEquals(match.getActivePlayer(), player1);
         passAllPlayersExceptPlayer1();
+        assertEquals(match.getActivePlayer(), player1);
 
         // Test first card (already there on previous turn)
         MovementsCard card = player1.getDeck().getFirstCardInHand();
@@ -288,7 +290,7 @@ public class MatchTest {
 
     private void passAllPlayersExceptPlayer1() {
         for (int i = 1; i < 8; i++) {
-            match.getPlayers().get(i).pass();
+            match.passThisTurn();
         }
     }
 
@@ -300,6 +302,19 @@ public class MatchTest {
         assertFalse(card.getSquarePossibleColors().isEmpty());
         card = player1.getDeck().getFirstCardInHand();
         assertTrue(card.getSquarePossibleColors().isEmpty());
+    }
+
+    @Test
+    public void testTrumpMustNotBePermanantOnCardsInHand() {
+        applyAllPossibleRemovingColorTrumpsOnPlayer1();
+        match.passThisTurn();
+        passAllPlayersExceptPlayer1();
+        match.passThisTurn();
+        passAllPlayersExceptPlayer1();
+        match.passThisTurn();
+        MovementsCard card = player1.getDeck().getFirstCardInHand();
+        card.revertToDefault();
+        assertFalse(card.getSquarePossibleColors().isEmpty());
     }
 
 }

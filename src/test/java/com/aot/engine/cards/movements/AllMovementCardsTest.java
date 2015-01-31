@@ -191,4 +191,13 @@ public class AllMovementCardsTest extends MovementsCardTest {
         Assert.assertTrue(instance.getSquarePossibleColors().contains(cardColor));
     }
 
+    @Test
+    public void revertToDefaultMultipleTimes() {
+        instance.removePossibleColor(cardColor);
+        instance.revertToDefault();
+        instance.removePossibleColor(cardColor);
+        instance.revertToDefault();
+        Assert.assertTrue(instance.getSquarePossibleColors().contains(cardColor));
+    }
+
 }

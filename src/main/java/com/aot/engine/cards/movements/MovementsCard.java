@@ -245,7 +245,7 @@ public abstract class MovementsCard {
 
     public void revertToDefault() {
         numberOfMovements = defaultNumberOfMovements;
-        possibleSquaresColor = defaultPossibleSquaresColor;
+        possibleSquaresColor = new HashSet<>(defaultPossibleSquaresColor);
     }
 
     public String getName() {
