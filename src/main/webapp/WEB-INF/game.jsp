@@ -23,7 +23,7 @@
         <script src="inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
         <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
-    <body ng-app="lastLine">
+    <body ng-app="aot">
 
         <div id="bloc_top">
 

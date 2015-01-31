@@ -3,9 +3,9 @@
 describe('play trump', function () {
     var $scope, $rootScope;
 
-    beforeEach(angular.mock.module('lastLine.play-trump'));
+    beforeEach(angular.mock.module('aot.play-trump'));
 
-    beforeEach(module('lastLine.game'));
+    beforeEach(module('aot.game'));
 
     beforeEach(inject(function (_$rootScope_, $controller) {
         $rootScope = _$rootScope_;

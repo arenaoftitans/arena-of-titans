@@ -8,9 +8,9 @@
  * </ul>
  * @type @exp;angular@call;module
  */
-var app = angular.module("lastLine", [
-    'lastLine.game',
-    'lastLine.create-game',
-    'lastLine.game-over',
-    'lastLine.play-trump'
+var app = angular.module("aot", [
+    'aot.game',
+    'aot.create-game',
+    'aot.game-over',
+    'aot.play-trump'
 ]);

@@ -3,7 +3,7 @@
 describe('game', function () {
     var showHttpError;
 
-    beforeEach(angular.mock.module('lastLine.game'));
+    beforeEach(angular.mock.module('aot.game'));
 
     beforeEach(angular.mock.inject(function (_showHttpError_) {
         showHttpError = _showHttpError_;
@@ -50,7 +50,7 @@ describe('player', function () {
     var playerService, $scope, $compile;
     var player;
 
-    beforeEach(angular.mock.module('lastLine.game'));
+    beforeEach(angular.mock.module('aot.game'));
 
     beforeEach(angular.mock.inject(function ($rootScope, _$compile_, _player_) {
         playerService = _player_;

@@ -25,7 +25,7 @@ describe('game', function () {
         $scope.selectedCard.color = cardColor;
     }
 
-    beforeEach(angular.mock.module('lastLine.game'));
+    beforeEach(angular.mock.module('aot.game'));
 
     beforeEach(angular.mock.inject(function ($rootScope, $controller) {
         $scope = $rootScope.$new();

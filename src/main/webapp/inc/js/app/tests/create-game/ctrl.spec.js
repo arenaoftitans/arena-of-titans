@@ -29,9 +29,9 @@ describe('create game', function () {
         ]
     };
 
-    beforeEach(angular.mock.module('lastLine.create-game'));
+    beforeEach(angular.mock.module('aot.create-game'));
 
-    beforeEach(module('lastLine.game'));
+    beforeEach(module('aot.game'));
 
     beforeEach(inject(function (_$rootScope_, $controller) {
         $rootScope = _$rootScope_;

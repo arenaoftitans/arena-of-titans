@@ -1,1 +1,1 @@
-var playTrumpModule = angular.module('lastLine.play-trump', []);
+var playTrumpModule = angular.module('aot.play-trump', []);
