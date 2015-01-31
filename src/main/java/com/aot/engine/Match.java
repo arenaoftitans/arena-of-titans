@@ -249,10 +249,10 @@ public class Match {
      * @see Player#moveTo(com.aot.engine.board.Square)
      */
     private Player continueGameIfEnoughPlayers() {
-        activePlayer.revertToDefault();
-        setNextPlayer();
-        activePlayer.makeAffectedByTrumps();
         if (gameHasEnoughPlayersToContinue()) {
+            activePlayer.revertToDefault();
+            setNextPlayer();
+            activePlayer.makeAffectedByTrumps();
             return activePlayer;
         } else {
             gameOver = true;
@@ -302,7 +302,7 @@ public class Match {
             if (nextPlayer.hasReachedItsAim()) {
                 playerWinner(nextPlayer);
             }
-        } while (nextPlayer.hasWon());
+        } while (nextPlayer.hasWon() && !gameOver);
 
         return nextPlayer;
     }
@@ -326,10 +326,12 @@ public class Match {
 
         if (!gameHasEnoughPlayersToContinue()) {
             gameOver = true;
-            winners.add(players.parallelStream()
+            // If we are here, there is only one or zero player left. If the laste remaining players
+            // won during the same turn, there is no more player who has not won. This is the easiest
+            // way to add the potential non winner.
+            winners.addAll(players.parallelStream()
                     .filter(pl -> pl != null && !pl.hasWon())
-                    .findFirst()
-                    .get());
+                    .collect(Collectors.toList()));
         }
     }
 

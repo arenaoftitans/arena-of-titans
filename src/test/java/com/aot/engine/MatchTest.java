@@ -151,6 +151,23 @@ public class MatchTest {
     }
 
     @Test
+    public void testTwoPlayersWonAtTheSameTime() {
+        for (int i = 2; i <= 7; i++) {
+            match.getPlayers().set(i, null);
+        }
+
+        // We play player 1.
+        match.playTurn(16, 8, null);
+        match.playTurn(16, 8, null);
+
+        // We play player 2.
+        match.playTurn(20, 8, null);
+        match.playTurn(20, 8, null);
+
+        assertTrue(match.getGameOver());
+    }
+
+    @Test
     public void testPlayTurnFirstPlayerPlayingInFullGame() {
         match.playTurn(defaultX, defaultY, null);
         assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(1));
