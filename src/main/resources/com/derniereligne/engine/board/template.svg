@@ -7,10 +7,8 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="1968.25"
    id="gameBoard"
-   inkscape:version="0.48.5 r10040"
    sodipodi:docname="output.svg"
    version="1.1"
    width="1968.25">
@@ -20,18 +18,6 @@
      bordercolor="#666666"
      borderopacity="1.0"
      id="base"
-     inkscape:current-layer="layer1"
-     inkscape:cx="2091.441"
-     inkscape:cy="695.413316"
-     inkscape:document-units="px"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:window-height="834"
-     inkscape:window-maximized="1"
-     inkscape:window-width="1600"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:zoom="0.12374369"
      pagecolor="#ffffff"
      showgrid="false"
      fit-margin-top="0"
@@ -51,8 +37,6 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="boardLayer">
   </g>
 </svg>
