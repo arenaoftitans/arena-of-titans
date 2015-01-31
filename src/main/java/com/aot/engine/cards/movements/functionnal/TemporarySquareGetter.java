@@ -10,7 +10,7 @@ import com.aot.engine.board.Square;
 /**
  * <b>Interface used to to abstract the way we get probable squares from the board.</b>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  */
 @FunctionalInterface
 public interface TemporarySquareGetter {

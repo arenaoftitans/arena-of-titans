@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * <b>Factory used to create the list of the cards of the game as described in the configuration
  * file.</b>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public class MovementsCardsFactory {

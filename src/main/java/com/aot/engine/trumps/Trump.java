@@ -7,7 +7,7 @@ import com.aot.engine.Player;
  *
  * It contains all common attributes and methods of the the trump cards.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public abstract class Trump {

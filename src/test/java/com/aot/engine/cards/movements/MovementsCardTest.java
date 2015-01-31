@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 /**
  * <b>Provides common attributes and methods to test cards.</b>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  */
 public abstract class MovementsCardTest {
 

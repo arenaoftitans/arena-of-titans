@@ -5,7 +5,7 @@ import com.aot.engine.Player;
 /**
  * This kind of trump card modify the number of moves (plus or minus) a player can make in a turn.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public class ModifyNumberOfMovesInATurnTrump extends Trump{

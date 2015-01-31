@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * </ul>
  * </div>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public class Match {

@@ -9,7 +9,7 @@ import org.junit.Test;
 
  Test specific movement for the KnightMovementsCard.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  */
 public class KnightMovementsCardTest extends MovementsCardTest {
 

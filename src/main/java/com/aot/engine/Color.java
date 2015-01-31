@@ -5,7 +5,7 @@ package com.aot.engine;
  *
  * The white color corresponds to any colors.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public enum Color {

@@ -21,7 +21,7 @@ import org.junit.Test;
  * </ul>
  * All tests are done with a wizard so colors don't infer with the test.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  */
 public class AllMovementCardsTest extends MovementsCardTest {
 

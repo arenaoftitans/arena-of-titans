@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * This kind of trump card prevents the player to move on some colors.
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public class RemovingColorTrump extends Trump {

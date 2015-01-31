@@ -26,7 +26,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * <b>Create all element needed for a game (Board and Deck).</b>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  * @version 1.0
  */
 public class GameFactory {

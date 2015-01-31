@@ -5,7 +5,7 @@ import com.aot.engine.cards.Deck;
 /**
  * <b>Interface used to easily create a deck per player.</b>
  *
- * @author "Dernière Ligne" first development team
+ * @author "Arena of Titans" first development team
  */
 @FunctionalInterface
 public interface DeckCreator {
