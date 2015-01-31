@@ -5,6 +5,7 @@ import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.aot.engine.trumps.RemovingColorTrump;
 import com.aot.engine.trumps.Trump;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class MatchTest {
     private Board board;
     private final int defaultX = 0;
     private final int defaultY = 0;
+    private Player player1;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -39,6 +41,7 @@ public class MatchTest {
             players[i] = new Player("player " + i, i);
         }
         match = new Match(players, board, gf.getDeckCreator(), new ArrayList<>());
+        player1 = match.getPlayers().get(0);
     }
 
     @After
@@ -249,6 +252,54 @@ public class MatchTest {
         player1.pass();
         assertEquals(0, trump.getDuration());
         assertTrue(player1.getActiveTrumpNames().isEmpty());
+    }
+
+    @Test
+    public void testTrumpOnDrawnCards() {
+        applyAllPossibleRemovingColorTrumpsOnPlayer1();
+        assertEquals(4, player1.getActiveTrumpNames().size());
+
+        playFirstCard();
+        playFirstCard();
+
+        passAllPlayersExceptPlayer1();
+
+        // Test first card (already there on previous turn)
+        MovementsCard card = player1.getDeck().getFirstCardInHand();
+        assertTrue(card.getSquarePossibleColors().isEmpty());
+        // Test last card (just drawn).
+        card = player1.getDeck().getLastCardInHand();
+        assertTrue(card.getSquarePossibleColors().isEmpty());
+    }
+
+    private void applyAllPossibleRemovingColorTrumpsOnPlayer1() {
+        for (Color color : Color.values()) {
+            if (color != Color.ALL) {
+                RemovingColorTrump trump = new RemovingColorTrump("remove" + color, 2, null, 1, true, color);
+                player1.playTrump(trump);
+            }
+        }
+    }
+
+    private void playFirstCard() {
+        MovementsCard card = player1.getDeck().getFirstCardInHand();
+        match.playTurn(0, 0, card);
+    }
+
+    private void passAllPlayersExceptPlayer1() {
+        for (int i = 1; i < 8; i++) {
+            match.getPlayers().get(i).pass();
+        }
+    }
+
+    @Test
+    public void testTrumpWhenDiscardingACard() {
+        applyAllPossibleRemovingColorTrumpsOnPlayer1();
+        MovementsCard card = player1.getDeck().getFirstCardInHand();
+        match.discard(card);
+        assertFalse(card.getSquarePossibleColors().isEmpty());
+        card = player1.getDeck().getFirstCardInHand();
+        assertTrue(card.getSquarePossibleColors().isEmpty());
     }
 
 }

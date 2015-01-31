@@ -220,7 +220,6 @@ public class Player {
         numberMovesPlayed = 0;
         canPlay = true;
         deck.initForTurn();
-        makeAffectedByTrumps();
     }
 
     /**
@@ -280,12 +279,9 @@ public class Player {
      * @param targetedY The y coordinate on which he/she will move.
      */
     public void play(Board board, MovementsCard cardPlayed, int targetedX, int targetedY) {
-        makeAffectedByTrumps();
         playThisTurn(board, cardPlayed, targetedX, targetedY);
 
         consumeAffectingTrumpsAtEndOfTurn();
-
-        revertToDefault();
     }
 
     public void makeAffectedByTrumps() {
@@ -356,7 +352,7 @@ public class Player {
     /**
      * Revert all the cards to their default behavior.
      */
-    private void revertToDefault() {
+    public void revertToDefault() {
         numberMoveToPlay = MAX_NUMBER_MOVE_TO_PLAY;
         deck.revertToDefault();
     }

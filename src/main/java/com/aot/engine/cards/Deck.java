@@ -267,6 +267,10 @@ public class Deck {
         return hand.get(0);
     }
 
+    public MovementsCard getLastCardInHand() {
+        return hand.get(hand.size() - 1);
+    }
+
     public void setFirstCardInHand(MovementsCard card) {
         hand.set(0, card);
     }

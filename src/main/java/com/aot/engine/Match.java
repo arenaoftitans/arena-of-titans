@@ -78,8 +78,7 @@ public class Match {
      *
      * @see Board
      * @see Player
-     * @see Player#newGameForPlayer(int, com.aot.engine.board.Board,
-     * com.aot.engine.cards.Deck)
+     * @see Player#newGameForPlayer(int, com.aot.engine.board.Board, com.aot.engine.cards.Deck)
      *
      * @since 1.0
      */
@@ -250,7 +249,9 @@ public class Match {
      * @see Player#moveTo(com.aot.engine.board.Square)
      */
     private Player continueGameIfEnoughPlayers() {
+        activePlayer.revertToDefault();
         setNextPlayer();
+        activePlayer.makeAffectedByTrumps();
         if (gameHasEnoughPlayersToContinue()) {
             return activePlayer;
         } else {
