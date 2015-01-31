@@ -78,6 +78,11 @@
                                             You must select a card to discard.<br />
                                             <button ng-click="noCardSelectedPopupHidden()">OK</button>
                                         </div>
+                                        <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
+                                            Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?
+                                            <button ng-click="confirmDiscard()">OK</button>
+                                            <button ng-click="hiddeDiscardPopup()">Cancel</button>
+                                        </div>
                                     </div>
                                     <div id="trumps">
                                         <div ng-repeat="trump in currentPlayerTrumps"

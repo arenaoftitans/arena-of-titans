@@ -12,6 +12,7 @@ gameModule.controller("game", ['$scope',
         $scope.trumpTargetedPlayer = {};
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
+        $scope.showDiscardConfirmationPopup = false;
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
@@ -143,23 +144,32 @@ gameModule.controller("game", ['$scope',
             if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
                 $scope.showNoCardSelectedPopup = true;
             } else {
-                $http({
-                    url: playUrl,
-                    method: playMethod,
-                    params: {
-                        discard: true,
-                        card_name: $scope.selectedCard.name,
-                        card_color: $scope.selectedCard.color,
-                        player_id: $scope.currentPlayer.id
-                    }
-                })
-                        .success(function (data) {
-                            updateGameParameters(data);
-                        })
-                        .error(function (data) {
-                            showHttpError.show(data);
-                        });
+                $scope.showDiscardConfirmationPopup = true;
             }
+        };
+
+        $scope.confirmDiscard = function () {
+            $http({
+                url: playUrl,
+                method: playMethod,
+                params: {
+                    discard: true,
+                    card_name: $scope.selectedCard.name,
+                    card_color: $scope.selectedCard.color,
+                    player_id: $scope.currentPlayer.id
+                }
+            })
+                    .success(function (data) {
+                        updateGameParameters(data);
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
+            $scope.hiddeDiscardPopup();
+        };
+
+        $scope.hiddeDiscardPopup = function () {
+            $scope.showDiscardConfirmationPopup = false;
         };
 
         $scope.noCardSelectedPopupHidden = function () {
