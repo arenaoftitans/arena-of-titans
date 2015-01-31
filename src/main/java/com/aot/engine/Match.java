@@ -79,8 +79,8 @@ public class Match {
      *
      * @see Board
      * @see Player
-     * @see Player#newGameForPlayer(int, com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.cards.Deck)
+     * @see Player#newGameForPlayer(int, com.aot.engine.board.Board,
+     * com.aot.engine.cards.Deck)
      *
      * @since 1.0
      */
@@ -210,7 +210,7 @@ public class Match {
      *
      * @see #activePlayer
      * @see #board
-     * @see #continueGameIfEnoughPlayers(com.derniereligne.engine.Player, int, int)
+     * @see #continueGameIfEnoughPlayers(com.aot.engine.Player, int, int)
      * @see #nextRankAvailable
      * @see #getNextPlayerInList()
      * @see #playerWinner()
@@ -220,7 +220,7 @@ public class Match {
      * @see Player#hasWon()
      * @see Player#getCurrentSquare()
      * @see Player#getIndex()
-     * @see Player#moveTo(com.derniereligne.engine.board.Square)
+     * @see Player#moveTo(com.aot.engine.board.Square)
      * @see Player#wins(int)
      *
      * @since 1.0
@@ -248,7 +248,7 @@ public class Match {
      * @see #board
      * @see #players
      *
-     * @see Player#moveTo(com.derniereligne.engine.board.Square)
+     * @see Player#moveTo(com.aot.engine.board.Square)
      */
     private Player continueGameIfEnoughPlayers() {
         setNextPlayer();

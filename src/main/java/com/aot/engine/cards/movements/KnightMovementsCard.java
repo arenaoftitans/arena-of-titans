@@ -92,8 +92,8 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see RiderCard#leftSquareGetter
      * @see RiderCard#rightSquareGetter
-     * @see RiderCard#getTemporaryHorizontalSquaresOnOneSide(com.derniereligne.engine.board.Square,
-     * com.derniereligne.engine.cards.TemporarySquareGetter)
+     * @see RiderCard#getTemporaryHorizontalSquaresOnOneSide(com.aot.engine.board.Square,
+     * com.aot.engine.cards.TemporarySquareGetter)
      *
      * @param currentSquare The start square.
      *

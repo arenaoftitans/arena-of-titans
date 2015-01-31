@@ -155,17 +155,17 @@ public class Deck {
      *
      * @see Board
      * @see Color
-     * @see BishopCard#BishopCard(com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.Color)
-     * @see KingCard#KingCard(com.derniereligne.engine.board.Board, com.derniereligne.engine.Color)
-     * @see QueenCard#QueenCard(com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.Color)
-     * @see RiderCard#RiderCard(com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.Color)
-     * @see WarriorCard#WarriorCard(com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.Color)
-     * @see WizardCard#WizardCard(com.derniereligne.engine.board.Board,
-     * com.derniereligne.engine.Color)
+     * @see BishopCard#BishopCard(com.aot.engine.board.Board,
+     * com.aot.engine.Color)
+     * @see KingCard#KingCard(com.aot.engine.board.Board, com.aot.engine.Color)
+     * @see QueenCard#QueenCard(com.aot.engine.board.Board,
+     * com.aot.engine.Color)
+     * @see RiderCard#RiderCard(com.aot.engine.board.Board,
+     * com.aot.engine.Color)
+     * @see WarriorCard#WarriorCard(com.aot.engine.board.Board,
+     * com.aot.engine.Color)
+     * @see WizardCard#WizardCard(com.aot.engine.board.Board,
+     * com.aot.engine.Color)
      *
      * @since 1.0
      */

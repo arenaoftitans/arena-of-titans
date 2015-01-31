@@ -32,37 +32,37 @@ public abstract class MovementsCard {
     /**
      * A reference to the game board, used to get possible movements.
      *
-     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square)
-     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square, int)
+     * @see Card#getPossibleMovements(com.aot.engine.board.Square)
+     * @see Card#getPossibleMovements(com.aot.engine.board.Square, int)
      */
     protected Board board;
     /**
      * Used to get the probable squares for a specific card.
      *
-     * @see Card#Card(com.derniereligne.engine.board.Board, java.lang.String, int,
-     * com.derniereligne.engine.Color, java.lang.String)
+     * @see Card#Card(com.aot.engine.board.Board, java.lang.String, int,
+     * com.aot.engine.Color, java.lang.String)
      */
     protected ProbableSquaresGetter probableSquaresGetter;
     /**
      * Used to get the Up, Down, Left and Right squares when we search the possible movements in
      * line.
      *
-     * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
+     * @see Board#getLineSquares(com.aot.engine.board.Square, java.util.Set)
      */
     protected final ProbableSquaresGetter lineProbableSquaresGetter;
     /**
      * Used to get the Up Left, Up Right, Down Left, Down Right squares when we search the possible
      * movements in diagonal.
      *
-     * @see Board#getDiagonalSquares(com.derniereligne.engine.board.Square, java.util.Set)
+     * @see Board#getDiagonalSquares(com.aot.engine.board.Square, java.util.Set)
      */
     protected final ProbableSquaresGetter diagonalProbableSquaresGetter;
     /**
      * Used to get all the adjacent squares when we search the possible movements in line and
      * diagonal.
      *
-     * @see Board#getLineSquares(com.derniereligne.engine.board.Square, java.util.Set)
-     * @see Board#getDiagonalSquares(com.derniereligne.engine.board.Square, java.util.Set)
+     * @see Board#getLineSquares(com.aot.engine.board.Square, java.util.Set)
+     * @see Board#getDiagonalSquares(com.aot.engine.board.Square, java.util.Set)
      */
     protected final ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
 
@@ -185,7 +185,7 @@ public abstract class MovementsCard {
      * <b>Select only the possible square among probable squares and then search all possible
      * movements starting at these squares.</b>
      *
-     * @see Card#getPossibleMovements(com.derniereligne.engine.board.Square, int)
+     * @see Card#getPossibleMovements(com.aot.engine.board.Square, int)
      *
      * @param probableSquares The set of all probable squares.
      *

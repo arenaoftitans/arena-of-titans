@@ -195,7 +195,7 @@ public class GameFactory {
      *
      * @see JsonPlayer
      * @see Match
-     * @see Match#Match(java.util.List, com.derniereligne.engine.board.Board)
+     * @see Match#Match(java.util.List, com.aot.engine.board.Board)
      *
      * @since 1.0
      */
