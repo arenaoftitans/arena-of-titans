@@ -42,7 +42,9 @@ public abstract class MovementsCardTest {
 
     @After
     public void emptySquare() {
-        currentSquare.empty();
+        if (currentSquare != null) {
+            currentSquare.empty();
+        }
     }
 
     public void setCurrentSquare(int x, int y) {

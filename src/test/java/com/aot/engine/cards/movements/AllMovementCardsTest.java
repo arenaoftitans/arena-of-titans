@@ -1,13 +1,10 @@
 package com.aot.engine.cards.movements;
 
-import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
-import com.aot.engine.cards.movements.LineMovementsCard;
-import com.aot.engine.cards.movements.MovementsCard;
-import com.aot.engine.cards.movements.DiagonalMovementsCard;
 import com.aot.engine.Color;
 import com.aot.engine.board.Square;
 import java.util.Arrays;
 import org.junit.After;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -169,6 +166,29 @@ public class AllMovementCardsTest extends MovementsCardTest {
         expResult.add("square-0-8");
         result = cardToPlay.getPossibleMovements(startSquare);
         assertEquals(expResult, result);
+    }
+
+    @Test
+    public void removePossibleColor() {
+        Assert.assertTrue(instance.getSquarePossibleColors().contains(cardColor));
+        instance.removePossibleColor(cardColor);
+        Assert.assertFalse(instance.getSquarePossibleColors().contains(cardColor));
+    }
+
+    @Test
+    public void removePossibleColorMultipleTimes() {
+        Assert.assertTrue(instance.getSquarePossibleColors().contains(cardColor));
+        instance.removePossibleColor(cardColor);
+        instance.removePossibleColor(cardColor);
+        Assert.assertFalse(instance.getSquarePossibleColors().contains(cardColor));
+    }
+
+    @Test
+    public void revertToDefault() {
+        instance.removePossibleColor(cardColor);
+        Assert.assertFalse(instance.getSquarePossibleColors().contains(cardColor));
+        instance.revertToDefault();
+        Assert.assertTrue(instance.getSquarePossibleColors().contains(cardColor));
     }
 
 }
