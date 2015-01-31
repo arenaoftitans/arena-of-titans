@@ -8,7 +8,6 @@
         <link rel="stylesheet" type="text/css" href="inc/css/board.css">
         <link rel="stylesheet" type="text/css" href="inc/css/global.css">
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
-        <script src="inc/js/lib/d3.js" charset="utf-8" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
 
         <script src="inc/js/app/create-game/create-game-module.js"></script>
@@ -38,7 +37,7 @@
 
             <div id="bloc_middle">
 
-                <div id="createGame" ng-controller="createGame">
+                <div id="createGame" ng-controller="createGame" ng-class="{hidden: gameCreated}">
                     <form id="crateGameForm">
                         <label>Add players</label>
                         <div ng-repeat="player in players">
@@ -51,7 +50,7 @@
 
                 <div ng-controller="game" id="gameController">
 
-                    <div id="game" class="hidden" ng-class="{hidden: gameOver}">
+                    <div id="game" ng-class="{hidden: gameOver || !gameStarted}">
 
                         <div id="bloc_middle_centre">
 
@@ -75,7 +74,7 @@
                                         </div>
                                         <button ng-click="pass()">Pass</button>
                                         <button ng-click="discard()">Discard selected card.</button>
-                                        <div id="noCardSelectedPopup" class="hidden popup">
+                                        <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
                                             You must select a card to discard.<br />
                                             <button ng-click="noCardSelectedPopupHidden()">OK</button>
                                         </div>
@@ -118,7 +117,7 @@
             </div> <!--bloc right-->
         </div> <!--bloc total-->
 
-        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup hidden">
+        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup" ng-class="{hidden: !showTargetedPlayerForTrumpSelector}">
             <form id="targetedPlayerForTrumpSelectorForm">
                 <label>Select the player on which to apply the trump.</label>
                 <div ng-repeat="player in players" class="player">
@@ -132,7 +131,7 @@
             </form>
         </div>
 
-        <div ng-controller="gameOver" id="gameOverScreen" class="hidden popup">
+        <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
             The game is over. The winner are :
             <ol>
                 <li ng-repeat="player in winners">{{player}}</li>

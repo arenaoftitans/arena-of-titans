@@ -1,4 +1,3 @@
-
 package com.derniereligne.engine.board;
 
 import com.derniereligne.engine.board.json.JsonBoard;
@@ -15,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -30,6 +30,7 @@ public class SvgBoardGeneratorTest {
     private List<List<Color>> disposition;
     private int height;
     private int width;
+    private Element layer;
 
     @Before
     public void init() {
@@ -47,25 +48,35 @@ public class SvgBoardGeneratorTest {
             svgBoardGenerator = new SvgBoardGenerator(jsonBoard, "standard");
 
             disposition = svgBoardGenerator.getColorDisposition();
+
+            layer = getLayer();
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @Test
-    public void testToString() {
+    public Element getLayer() {
         try {
             String svgString = svgBoardGenerator.toString();
             InputStream svg = new ByteArrayInputStream(svgString.getBytes(StandardCharsets.UTF_8));
             SAXBuilder builder = new SAXBuilder();
             Document document = builder.build(svg);
             Element root = document.getRootElement();
-            Element layer = root.getChild("g", SvgBoardGenerator.getNamespace());
-            assertEquals(height * width, layer.getChildren().size());
+            return root.getChild("g", SvgBoardGenerator.getNamespace());
         } catch (JDOMException | IOException ex) {
             Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
         }
+
+        return null;
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals(height * width, layer.getChildren().parallelStream()
+                .filter(elt -> !"circle".equals(elt.getName()))
+                .collect(Collectors.toList())
+                .size());
     }
 
     @Test
@@ -88,6 +99,12 @@ public class SvgBoardGeneratorTest {
         assertEquals(Color.YELLOW, disposition.get(0).get(15));
         assertEquals(Color.YELLOW, disposition.get(0).get(31));
         assertEquals(Color.BLACK, disposition.get(8).get(31));
+    }
+
+    @Test
+    public void testPawns() {
+        List<Element> pawns = layer.getChildren("circle", SvgBoardGenerator.getNamespace());
+        assertEquals(8, pawns.size());
     }
 
 }

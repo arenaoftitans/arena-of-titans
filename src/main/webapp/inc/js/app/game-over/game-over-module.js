@@ -1,1 +1,1 @@
-angular.module('lastLine.game-over', []);
+var gameOverModule = angular.module('lastLine.game-over', []);

@@ -146,7 +146,7 @@ public class PlayRest extends PossibleSquaresLister {
         int targetedY = Integer.parseInt(y);
         match.playTurn(targetedX, targetedY, playableCard);
 
-        return CardPlayedJsonResponseBuilder.build(match, selectedSquareId);
+        return CardPlayedJsonResponseBuilder.build(match, targetedX, targetedY);
     }
 
 }

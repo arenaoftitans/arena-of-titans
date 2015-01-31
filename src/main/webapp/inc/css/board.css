@@ -74,6 +74,10 @@ rect, path {
     cursor: pointer;
 }
 
+.pawn {
+    fill: black;
+}
+
 div#bloc_middle_bottom{
     width:100%;
     height:26%;

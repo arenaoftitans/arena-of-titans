@@ -1,9 +1,9 @@
-app.controller('playTrump', ['$scope',
+playTrumpModule.controller('playTrump', ['$scope',
     '$rootScope',
     '$http',
     'showHttpError',
     function ($scope, $rootScope, $http, showHttpError) {
-        var targetedPlayerForTrumpSelectorId = '#targetedPlayerForTrumpSelector';
+        $scope.showTargetedPlayerForTrumpSelector = false;
         var playTrumpUrl = '/aot/rest/playTrump';
         var playTrumpMethod = 'GET';
 
@@ -15,8 +15,6 @@ app.controller('playTrump', ['$scope',
          */
         var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players,
                 currentPlayerIndex) {
-            console.log(JSON.stringify(players));
-            console.log(currentPlayerIndex);
             $scope.trumpName = trump.name;
             // We don't apply the trump on the current player.
             $scope.players = players.filter(function (player) {
@@ -31,7 +29,7 @@ app.controller('playTrump', ['$scope',
         $rootScope.$on('destroy', unbind);
 
         var selectTargetedPlayer = function () {
-            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', false);
+            $scope.showTargetedPlayerForTrumpSelector = true;
         };
 
         /**
@@ -66,7 +64,7 @@ app.controller('playTrump', ['$scope',
 
 
         var hidde = function () {
-            d3.select(targetedPlayerForTrumpSelectorId).classed('hidden', true);
+            $scope.showTargetedPlayerForTrumpSelector = false;
         };
 
         var updateScopeOnSuccessfulTrump = function (data) {

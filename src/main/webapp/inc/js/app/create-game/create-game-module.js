@@ -1,1 +1,1 @@
-angular.module('lastLine.create-game', []);
+var createGameModule = angular.module('lastLine.create-game', []);

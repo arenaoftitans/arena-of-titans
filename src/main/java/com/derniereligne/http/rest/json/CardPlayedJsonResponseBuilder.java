@@ -62,13 +62,14 @@ public class CardPlayedJsonResponseBuilder {
      * Create the proper JSON response containing the information on the next player.
      *
      * @param match The current match.
-     * @param selectedSquareId The square on which the player wants to go.
+     * @param targetedX
+     * @param targetedY
      *
      * @return The response containing the JSON defined in the wiki.
      */
-    public static Response build(Match match, String selectedSquareId) {
+    public static Response build(Match match, int targetedX, int targetedY) {
         CardPlayedJsonResponse nextPlayer = createCardPlayedJsonRespones(match);
-        nextPlayer.setNewSquare(selectedSquareId);
+        nextPlayer.setNewSquare(targetedX, targetedY);
 
         String output = createOutputJson(nextPlayer);
 

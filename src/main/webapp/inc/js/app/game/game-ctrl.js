@@ -1,25 +1,29 @@
-app.controller("game", ['$scope',
+gameModule.controller("game", ['$scope',
     '$http',
     '$rootScope',
     'showHttpError',
-    'squares',
     'player',
-    function ($scope, $http, $rootScope, showHttpError, squares, player) {
+    function ($scope, $http, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.selectedCard = [];
-        $scope.curentPlayer = {};
+        $scope.players = player.init(8);
+        $scope.selectedCard = {};
         $scope.currentPlayer = {};
         $scope.trumpTargetedPlayer = {};
-        var gameId = '#game';
-        var noCardSelectedPopupId = '#noCardSelectedPopup';
+        $scope.gameStarted = false;
+        $scope.showNoCardSelectedPopup = false;
         var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
 
         var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
-            d3.select(gameId).classed('hidden', false);
-            $scope.players = game.players;
+            $scope.gameStarted = true;
+            for (var i in game.players) {
+                var player = $scope.players[i];
+                var playerUpdated = game.players[i];
+                player.id = playerUpdated.id;
+                player.name = playerUpdated.name;
+            }
             updateGameParameters(game);
         });
         $rootScope.$on('destroy', unbindOnGameCreatedEvent);
@@ -29,13 +33,14 @@ app.controller("game", ['$scope',
          * @param {type} game The data recieved from the server.
          */
         function updateGameParameters(game) {
-            $scope.currentPlayer = game.nextPlayer;
+            // The server cannot know about pawns. We get it from $scope.players
+            $scope.currentPlayer = $scope.players[game.nextPlayer.id];
             $scope.currentPlayerCards = game.possibleCardsNextPlayer;
             $scope.currentPlayerTrumps = game.trumpsNextPlayer;
             $scope.winners = game.winners;
             $scope.selectedCard = {};
+            $scope.highlightedSquares = [];
             $scope.activeTrumps = game.trumps;
-            squares.reset($scope.highlightedSquares);
 
             isGameOver(game.gameOver);
         }
@@ -43,7 +48,6 @@ app.controller("game", ['$scope',
         function isGameOver(gameOver) {
             if (gameOver) {
                 $rootScope.$emit('gameOver', $scope.winners);
-                d3.select(gameId).classed('hidden', true);
             }
         }
 
@@ -65,14 +69,10 @@ app.controller("game", ['$scope',
                 }
             })
                     .success(function (data) {
-                        squares.reset($scope.highlightedSquares);
-
                         $scope.highlightedSquares = data;
 
-                        squares.highlight($scope.highlightedSquares);
-
                         // Stores the selected card.
-                        $scope.selectedCard = {card_name: cardName, card_color: cardColor};
+                        $scope.selectedCard = {name: cardName, color: cardColor};
                     })
                     .error(function (data) {
                         showHttpError.show(data);
@@ -81,8 +81,8 @@ app.controller("game", ['$scope',
         };
 
         $scope.isSelected = function (cardName, cardColor) {
-            return $scope.selectedCard.card_name === cardName
-                    && $scope.selectedCard.card_color === cardColor;
+            return $scope.selectedCard.name === cardName
+                    && $scope.selectedCard.color === cardColor;
         };
 
         /**
@@ -92,21 +92,22 @@ app.controller("game", ['$scope',
          * @param {type} squareY The y coordinate of the square on which the player wants to go.
          */
         $scope.play = function (squareName, squareX, squareY) {
-            if (d3.select('#' + squareName).classed('highlightedSquare')
+            if ($scope.highlightedSquares.indexOf(squareName) > -1
                     && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
                 $http({
                     url: playUrl,
                     method: playMethod,
                     params: {
-                        card_name: $scope.selectedCard.card_name,
-                        card_color: $scope.selectedCard.card_color,
+                        card_name: $scope.selectedCard.name,
+                        card_color: $scope.selectedCard.color,
                         player_id: $scope.currentPlayer.id,
                         x: squareX,
                         y: squareY
                     }
                 })
                         .success(function (data) {
-                            player.move($scope.currentPlayer.id, data.newSquare);
+                            var playerPawn = $scope.currentPlayer.pawn;
+                            player.move(playerPawn, data.newSquare.x, data.newSquare.y);
                             updateGameParameters(data);
                         })
                         .error(function (data) {
@@ -138,15 +139,15 @@ app.controller("game", ['$scope',
 
         $scope.discard = function () {
             if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
-                d3.select(noCardSelectedPopupId).classed('hidden', false);
+                $scope.showNoCardSelectedPopup = true;
             } else {
                 $http({
                     url: playUrl,
                     method: playMethod,
                     params: {
                         discard: true,
-                        card_name: $scope.selectedCard.card_name,
-                        card_color: $scope.selectedCard.card_color,
+                        card_name: $scope.selectedCard.name,
+                        card_color: $scope.selectedCard.color,
                         player_id: $scope.currentPlayer.id
                     }
                 })
@@ -160,7 +161,7 @@ app.controller("game", ['$scope',
         };
 
         $scope.noCardSelectedPopupHidden = function () {
-            d3.select(noCardSelectedPopupId).classed('hidden', true);
+            $scope.showNoCardSelectedPopup = false;
         };
 
         /**

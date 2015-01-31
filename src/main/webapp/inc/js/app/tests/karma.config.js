@@ -15,11 +15,18 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../../lib/d3.js',
       '../../lib/angular.js',
       'angular-mocks.js',
       '../../app.js',
-      '../game/*.js',
+      '../game/game-module.js',
+      '../game/game-services.js',
+      '../game/game-ctrl.js',
+      '../create-game/create-game-module.js',
+      '../create-game/create-game-ctrl.js',
+      '../play-trump/play-trump-module.js',
+      '../play-trump/play-trump-ctrl.js',
+      'util.js',
+      'util.spec.js',
       '**/*.js'
     ],
 
