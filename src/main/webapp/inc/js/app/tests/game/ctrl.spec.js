@@ -232,7 +232,7 @@ describe('game', function () {
 
         it('discard a card', function () {
             expect(Object.getOwnPropertyNames($scope.selectedCard).length === 0).toBe(false);
-            $scope.discard();
+            $scope.confirmDiscard();
             $httpBackend.flush();
             expect($scope.showNoCardSelectedPopup).toBe(false);
             expect($scope.currentPlayer).toEqual(player1);
@@ -243,9 +243,15 @@ describe('game', function () {
 
         it('popup must not appear if a card is selected', function () {
             expect(popup.attr('class')).toContain('hidden');
-            $scope.discard();
+            $scope.confirmDiscard();
             $httpBackend.flush();
             expect(popup.attr('class')).toContain('hidden');
+        });
+
+        it('confirm popup must appear when asked to discard a card', function () {
+            expect($scope.showDiscardConfirmationPopup).toBe(false);
+            $scope.discard();
+            expect($scope.showDiscardConfirmationPopup).toBe(true);
         });
     });
 
