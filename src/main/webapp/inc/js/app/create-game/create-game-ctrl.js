@@ -17,10 +17,15 @@ createGameModule.controller('createGame', ['$scope',
         $scope.gameCreated = false;
 
         $scope.createGame = function () {
+            // JSON.stringify of a player with a pawn can crash on some browsers like Chrome.
+            var players = $scope.players.map(function (player) {
+                return {name: player.name, index: player.index};
+            });
+
             $http({
                 url: createGameUrl,
                 method: createGameMethod,
-                data: $scope.players
+                data: players
             })
                     .success(function (data) {
                         $scope.game.nextPlayer = data.nextPlayer;
