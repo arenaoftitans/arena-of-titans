@@ -23,6 +23,7 @@ describe('game', function () {
     var getGameMethod = 'GET';
 
     function selecteCard() {
+        $scope.selectedCard = {};
         $scope.selectedCard.name = cardName;
         $scope.selectedCard.color = cardColor;
     }
@@ -205,7 +206,7 @@ describe('game', function () {
             $httpBackend.flush();
             expect($scope.currentPlayer).toEqual(player2);
             expect($scope.currentPlayerCards).toEqual(player2Cards);
-            expect($scope.selectedCard).toEqual({});
+            expect($scope.selectedCard).toEqual(null);
             expect($scope.highlightedSquares).toEqual([]);
         });
     });
@@ -248,18 +249,18 @@ describe('game', function () {
         });
 
         it('no card selected', function () {
-            $scope.selectedCard = {};
-            expect($scope.selectedCard).toEqual({});
+            $scope.selectedCard = null;
+            expect($scope.selectedCard).toEqual(null);
             $scope.discard();
             $scope.$digest();
             expect($scope.currentPlayer).toEqual(player1);
             expect($scope.currentPlayerCards).toEqual(player1Cards);
-            expect($scope.selectedCard).toEqual({});
+            expect($scope.selectedCard).toEqual(null);
             expect($scope.highlightedSquares).toEqual([]);
         });
 
         it('popup must appear when no card is selected', function () {
-            $scope.selectedCard = {};
+            $scope.selectedCard = null;
             expect(popup.attr('class')).toContain('hidden');
             $scope.discard();
             $scope.$digest();
@@ -273,7 +274,7 @@ describe('game', function () {
             expect($scope.showNoCardSelectedPopup).toBe(false);
             expect($scope.currentPlayer).toEqual(player1);
             expect($scope.currentPlayerCards).toEqual([]);
-            expect($scope.selectedCard).toEqual({});
+            expect($scope.selectedCard).toEqual(null);
             expect($scope.highlightedSquares).toEqual([]);
         });
 
@@ -296,6 +297,7 @@ describe('game', function () {
 
         beforeEach(inject(function (_$rootScope_) {
             $rootScope = _$rootScope_;
+            $scope.currentPlayer = player1;
         }));
 
         it('must emit "wantToPlayTrump"', function () {
