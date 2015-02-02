@@ -17,9 +17,23 @@ gameModule.controller("game", ['$scope',
         var viewPossibleMovementsMethod = 'GET';
         var playUrl = '/aot/rest/play';
         var playMethod = 'GET';
+        var getGameUrl = '/aot/rest/createGame';
 
-        var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
-            $scope.gameStarted = true;
+        $rootScope.$watch('$viewContentLoaded', function () {
+            $http.get(getGameUrl)
+                    .success(function (game) {
+                        createGame(game);
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
+        });
+
+        function createGame(game) {
+            // If currentPlayer exists we must not update it or some tests will fail.
+            if (Object.getOwnPropertyNames($scope.currentPlayer).length !== 0) {
+                return;
+            }
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];
@@ -31,9 +45,10 @@ gameModule.controller("game", ['$scope',
             var actualNumberOfPlayers = game.players.length;
             $scope.players.splice(actualNumberOfPlayers);
 
+            $scope.gameStarted = true;
+
             updateGameParameters(game);
-        });
-        $rootScope.$on('destroy', unbindOnGameCreatedEvent);
+        }
 
         /**
          * Update the scope based on the data send by the server when a move was successfull.

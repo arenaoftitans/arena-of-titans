@@ -1,7 +1,7 @@
 'use strict';
 
 describe('game', function () {
-    var $scope, controller;
+    var $scope, $httpBackend, controller;
 
     var cardName = 'King';
     var cardColor = 'Red';
@@ -19,6 +19,8 @@ describe('game', function () {
     var viewPossibleMovementsMethod = 'GET';
     var playUrl = '/aot/rest/play';
     var playMethod = 'GET';
+    var getGameUrl = '/aot/rest/createGame';
+    var getGameMethod = 'GET';
 
     function selecteCard() {
         $scope.selectedCard.name = cardName;
@@ -26,6 +28,38 @@ describe('game', function () {
     }
 
     beforeEach(angular.mock.module('aot.game'));
+
+    beforeEach(inject(function (_$httpBackend_) {
+        $httpBackend = _$httpBackend_;
+
+        var gameCreatedData = {
+            players: [{
+                    name: "Toto",
+                    index: 0,
+                    id: '0'
+                }],
+            nextPlayer: {
+                name: "Toto",
+                id: "0"
+            },
+            possibleCardsNextPlayer: [
+                {
+                    name: "King",
+                    color: "Red"
+                }
+            ],
+            trumpsNextPlayer: [
+                {
+                    name: "Reinforcement",
+                    description: "Allow the player to play one more move.",
+                    mustTargetPlayer: false
+                }
+            ]
+        };
+
+        $httpBackend.when(getGameMethod, getGameUrl)
+                .respond(gameCreatedData);
+    }));
 
     beforeEach(angular.mock.inject(function ($rootScope, $controller) {
         $scope = $rootScope.$new();
@@ -44,17 +78,19 @@ describe('game', function () {
     });
 
     describe('viewPossibleMovements', function () {
-        var square, $httpBackend;
+        var square;
 
-        beforeEach(inject(function (_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-
-            var viewPossibleMovementsParameters = {card_color: cardColor, card_name: cardName};
+        beforeEach(function () {
+            var viewPossibleMovementsParameters = {
+                card_color: cardColor,
+                card_name: cardName,
+                player_id: 0
+            };
             var viewPossibleMovementsUrlWithParameters = setUrlParameters(viewPossibleMovementsUrl,
                     viewPossibleMovementsParameters);
             $httpBackend.when(viewPossibleMovementsMethod, viewPossibleMovementsUrlWithParameters)
                     .respond(["square-0-0", "square-1-1"]);
-        }));
+        });
 
         beforeEach(inject(function ($compile) {
             var squareHtml = '<div id="square-0-0"></div>';
@@ -63,6 +99,14 @@ describe('game', function () {
             var compiled = $compile(square);
             compiled($scope);
         }));
+
+        beforeEach(function () {
+            selecteCard();
+        });
+
+        beforeEach(function () {
+            $scope.currentPlayer = player1;
+        });
 
         it('correct card selected', function () {
             $scope.viewPossibleMovements(cardName, cardColor);
@@ -95,10 +139,7 @@ describe('game', function () {
     });
 
     describe('play', function () {
-        var $httpBackend;
-
-        beforeEach(inject(function (_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
+        beforeEach(function () {
             var playParameters = {
                 card_color: cardColor,
                 card_name: cardName,
@@ -114,7 +155,7 @@ describe('game', function () {
                         nextPlayer: player1,
                         possibleCardsNextPlayer: player2Cards
                     });
-        }));
+        });
 
         beforeEach(function () {
             $scope.currentPlayer = player1;
@@ -145,10 +186,7 @@ describe('game', function () {
     });
 
     describe('pass', function () {
-        var $httpBackend;
-
-        beforeEach(inject(function (_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
+        beforeEach(function () {
             var playUrlWithParameters = setUrlParameters(playUrl, {pass: true});
             $httpBackend.when(playMethod, playUrlWithParameters)
                     .respond({
@@ -156,7 +194,7 @@ describe('game', function () {
                         nextPlayer: player2,
                         possibleCardsNextPlayer: player2Cards
                     });
-        }));
+        });
 
         beforeEach(function () {
             $scope.players = [player1, player2];
@@ -173,11 +211,9 @@ describe('game', function () {
     });
 
     describe('discard', function () {
-        var popup, $httpBackend;
+        var popup;
 
-        beforeEach(inject(function (_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-
+        beforeEach(function () {
             var playParameters = {
                 card_color: player1Cards[0].color,
                 card_name: player1Cards[0].name,
@@ -193,7 +229,7 @@ describe('game', function () {
                         trumpsNextPlayer: [],
                         nextPlayer: player1
                     });
-        }));
+        });
 
         beforeEach(inject(function ($compile) {
             var popupHtml = '<div></div>';

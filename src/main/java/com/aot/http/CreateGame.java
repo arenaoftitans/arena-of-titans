@@ -1,6 +1,5 @@
 package com.aot.http;
 
-import com.aot.engine.GameFactory;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,24 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Game", urlPatterns = {"/game"})
-public class Game extends HttpServlet {
-
-    private static final String VIEW = "/WEB-INF/game.jsp";
-    private GameFactory gameFactory;
-    private String svgBoard;
-
-    @Override
-    public void init() {
-        gameFactory = new GameFactory();
-        svgBoard = gameFactory.getSvg();
-    }
+@WebServlet(name = "CreateGame", urlPatterns = {"/createGame"})
+public class CreateGame extends HttpServlet {
+    private static final String VIEW = "/WEB-INF/createGame.jsp";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("svgBoard", svgBoard);
         this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
     }
-
 }

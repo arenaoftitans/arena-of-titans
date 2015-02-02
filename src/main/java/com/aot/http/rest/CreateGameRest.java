@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,6 +21,8 @@ import javax.ws.rs.core.Response;
 @Path("/createGame")
 public class CreateGameRest {
 
+    private final static String GAME_FACTORY = "gameFactory";
+
     private List<JsonPlayer> players;
     private GameFactory gameFactory;
 
@@ -29,7 +32,6 @@ public class CreateGameRest {
     HttpServletRequest req;
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createGame(String jsonStringPlayers) {
         Gson gson = new Gson();
@@ -44,8 +46,16 @@ public class CreateGameRest {
 
         gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
-        req.getSession().setAttribute("gameFactory", gameFactory);
+        req.getSession().setAttribute(GAME_FACTORY, gameFactory);
 
+        return Response.ok().build();
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGame() {
+        gameFactory = (GameFactory) req.getSession().getAttribute(GAME_FACTORY);
         return CardPlayedJsonResponseBuilder.build(gameFactory.getMatch());
     }
 
