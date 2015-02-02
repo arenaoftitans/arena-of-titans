@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Game", urlPatterns = {"/game"})
 public class Game extends HttpServlet {
 
+    private static final String GAME_FACTORY = "gameFactory";
     private static final String VIEW = "/WEB-INF/game.jsp";
+    private static final String CREATE_GAME = "/aot/createGame";
+
     private GameFactory gameFactory;
     private String svgBoard;
 
@@ -25,7 +28,13 @@ public class Game extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("svgBoard", svgBoard);
-        this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+        Object obj = request.getSession().getAttribute(GAME_FACTORY);
+        if (obj == null) {
+            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            response.setHeader("location", CREATE_GAME);
+        } else {
+            this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+        }
     }
 
 }
