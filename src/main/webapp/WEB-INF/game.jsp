@@ -29,15 +29,13 @@
 
         </div>
 
-        <div id="bloc_total">
+        <div id="bloc_total" ng-controller="game">
 
             <div id="bloc_left">
 
             </div> <!--bloc left-->
 
             <div id="bloc_middle">
-
-                <div ng-controller="game" id="gameController">
 
                     <div id="game" ng-class="{hidden: gameOver || !gameStarted}">
 
@@ -97,7 +95,6 @@
 
                     </div>
 
-                </div>
             </div> <!--bloc middle-->
             <div id="bloc_right">
                 <div id="bloc_right_centre">
