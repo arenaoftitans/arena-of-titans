@@ -2,7 +2,7 @@
 describe('create game', function () {
     var $httpBackend, $scope, $rootScope;
 
-    var createGameUrl = '/aot/rest/createGame';
+    var createGameUrl = '/rest/createGame';
     var createGameMethod = 'POST';
 
     var gameCreatedData = {
