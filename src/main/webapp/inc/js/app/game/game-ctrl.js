@@ -7,19 +7,33 @@ gameModule.controller("game", ['$scope',
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(8);
         $scope.activePawns = [];
-        $scope.selectedCard = {};
-        $scope.currentPlayer = {};
-        $scope.trumpTargetedPlayer = {};
+        $scope.selectedCard = null;
+        $scope.currentPlayer = null;
+        $scope.trumpTargetedPlayer = null;
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
-        var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
+        var viewPossibleMovementsUrl = '/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
-        var playUrl = '/aot/rest/play';
+        var playUrl = '/rest/play';
         var playMethod = 'GET';
+        var getGameUrl = '/rest/createGame';
 
-        var unbindOnGameCreatedEvent = $rootScope.$on('gameCreated', function (event, game) {
-            $scope.gameStarted = true;
+        $rootScope.$watch('$viewContentLoaded', function () {
+            $http.get(getGameUrl)
+                    .success(function (game) {
+                        createGame(game);
+                    })
+                    .error(function (data) {
+                        showHttpError.show(data);
+                    });
+        });
+
+        function createGame(game) {
+            // If currentPlayer exists we must not update it or some tests will fail.
+            if ($scope.currentPlayer !== null) {
+                return;
+            }
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];
@@ -31,9 +45,10 @@ gameModule.controller("game", ['$scope',
             var actualNumberOfPlayers = game.players.length;
             $scope.players.splice(actualNumberOfPlayers);
 
+            $scope.gameStarted = true;
+
             updateGameParameters(game);
-        });
-        $rootScope.$on('destroy', unbindOnGameCreatedEvent);
+        }
 
         /**
          * Update the scope based on the data send by the server when a move was successfull.
@@ -45,7 +60,7 @@ gameModule.controller("game", ['$scope',
             $scope.currentPlayerCards = game.possibleCardsNextPlayer;
             $scope.currentPlayerTrumps = game.trumpsNextPlayer;
             $scope.winners = game.winners;
-            $scope.selectedCard = {};
+            $scope.selectedCard = null;
             $scope.highlightedSquares = [];
             $scope.activeTrumps = game.trumps;
 
@@ -83,12 +98,13 @@ gameModule.controller("game", ['$scope',
                     })
                     .error(function (data) {
                         showHttpError.show(data);
-                        $scope.selectedCard = {};
+                        $scope.selectedCard = null;
                     });
         };
 
         $scope.isSelected = function (cardName, cardColor) {
-            return $scope.selectedCard.name === cardName
+            return $scope.selectedCard !== null
+                    && $scope.selectedCard.name === cardName
                     && $scope.selectedCard.color === cardColor;
         };
 
@@ -100,7 +116,7 @@ gameModule.controller("game", ['$scope',
          */
         $scope.play = function (squareName, squareX, squareY) {
             if ($scope.highlightedSquares.indexOf(squareName) > -1
-                    && Object.getOwnPropertyNames($scope.selectedCard).length !== 0) {
+                    && $scope.selectedCard !== null) {
                 $http({
                     url: playUrl,
                     method: playMethod,
@@ -120,7 +136,7 @@ gameModule.controller("game", ['$scope',
                         .error(function (data) {
                             showHttpError.show(data);
                         });
-            } else if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
+            } else if ($scope.selectedCard === null) {
                 alert('Please select a card.');
             }
         };
@@ -145,7 +161,7 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.discard = function () {
-            if (Object.getOwnPropertyNames($scope.selectedCard).length === 0) {
+            if ($scope.selectedCard === null) {
                 $scope.showNoCardSelectedPopup = true;
             } else {
                 $scope.showDiscardConfirmationPopup = true;

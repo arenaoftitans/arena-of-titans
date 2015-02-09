@@ -47,7 +47,7 @@ describe('play trump', function () {
 
     describe('play', function () {
         var $httpBackend;
-        var playTrumpUrl = '/aot/rest/playTrump';
+        var playTrumpUrl = '/rest/playTrump';
         var playTrumpMethod = 'GET';
 
         beforeEach(inject(function (_$httpBackend_) {

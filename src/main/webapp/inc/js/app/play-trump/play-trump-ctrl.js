@@ -4,7 +4,7 @@ playTrumpModule.controller('playTrump', ['$scope',
     'showHttpError',
     function ($scope, $rootScope, $http, showHttpError) {
         $scope.showTargetedPlayerForTrumpSelector = false;
-        var playTrumpUrl = '/aot/rest/playTrump';
+        var playTrumpUrl = '/rest/playTrump';
         var playTrumpMethod = 'GET';
 
         /**

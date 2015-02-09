@@ -15,16 +15,8 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>Game</servlet-name>
-        <servlet-class>com.aot.http.Game</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Game</servlet-name>
-        <url-pattern>/game</url-pattern>
     </servlet-mapping>
 </web-app>

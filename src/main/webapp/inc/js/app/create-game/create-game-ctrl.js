@@ -5,16 +5,15 @@
  */
 createGameModule.controller('createGame', ['$scope',
     '$http',
-    '$rootScope',
     'showHttpError',
     'player',
-    function ($scope, $http, $rootScope, showHttpError, player) {
-        var createGameUrl = '/aot/rest/createGame';
+    function ($scope, $http, showHttpError, player) {
+        var createGameUrl = '/rest/createGame';
         var createGameMethod = 'POST';
+        var gameUrl = '/game';
         $scope.game = {};
         var numberMaximumOfPlayers = 8;
         $scope.players = player.init(numberMaximumOfPlayers);
-        $scope.gameCreated = false;
 
         $scope.createGame = function () {
             // JSON.stringify of a player with a pawn can crash on some browsers like Chrome.
@@ -27,16 +26,8 @@ createGameModule.controller('createGame', ['$scope',
                 method: createGameMethod,
                 data: players
             })
-                    .success(function (data) {
-                        $scope.game.nextPlayer = data.nextPlayer;
-                        $scope.game.possibleCardsNextPlayer = data.possibleCardsNextPlayer;
-                        $scope.game.trumpsNextPlayer = data.trumpsNextPlayer;
-                        $scope.game.players = data.players;
-                        $scope.game.winners = [];
-                        $scope.game.trumps = [];
-                        $scope.game.gameOver = false;
-                        $scope.gameCreated = true;
-                        $rootScope.$emit('gameCreated', $scope.game);
+                    .success(function () {
+                        window.location = gameUrl;
                     })
                     .error(function (data) {
                         showHttpError.show(data);

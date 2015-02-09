@@ -4,7 +4,7 @@ html, body
   width: 100%;
   margin: 0;
   padding: 0;
-  background-image : url(/aot/inc/img/backgrounds/background.png);
+  background-image : url(/inc/img/backgrounds/background.png);
 }
 
 
@@ -29,7 +29,7 @@ div#bloc_middle{
 div#bloc_middle_centre{
     width:100%;
     height:74%;
-    background: url(/aot/inc/img/backgrounds/plateau.png);
+    background: url(/inc/img/backgrounds/plateau.png);
     background-size: 100% 100%;
 }
 
@@ -81,7 +81,7 @@ rect, path {
 div#bloc_middle_bottom{
     width:100%;
     height:26%;
-    background: url(/aot/inc/img/backgrounds/cartes.png);
+    background: url(/inc/img/backgrounds/cartes.png);
     background-size: 100% 100%;
 }
 
@@ -107,7 +107,7 @@ div#bloc_left{
     float:left;
     width:15%;
     height: 100%;
-    background: url(/aot/inc/img/backgrounds/jauge.png);
+    background: url(/inc/img/backgrounds/jauge.png);
     background-size: 100% 100%;
 }
 
@@ -121,7 +121,7 @@ div#bloc_right{
 div#bloc_right_centre{
     width:100%;
     height:74%;
-    background: url(/aot/inc/img/backgrounds/infos.png);
+    background: url(/inc/img/backgrounds/infos.png);
     background-size: 100% 100%;
 }
 
@@ -129,7 +129,7 @@ div#bloc_right_centre{
 div#bloc_right_bottom{
     width:100%;
     height:26%;
-    background: url(/aot/inc/img/backgrounds/chrono.png);
+    background: url(/inc/img/backgrounds/chrono.png);
     background-size: 100% 100%;
 }
 
