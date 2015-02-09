@@ -1,6 +1,8 @@
 // Karma configuration
 // Generated on Wed Dec 10 2014 11:44:22 GMT+0100 (CET)
 
+var root = '../../../main/webapp/inc/js';
+
 module.exports = function(config) {
   config.set({
 
@@ -15,14 +17,14 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../../lib/angular.js',
+      root + '/lib/angular.js',
       'angular-mocks.js',
-      '../../app.js',
-      '../game/game-module.js',
-      '../game/game-services.js',
-      '../game/game-ctrl.js',
-      '../play-trump/play-trump-module.js',
-      '../play-trump/play-trump-ctrl.js',
+      root + '/app.js',
+      root + '/app/game/game-module.js',
+      root + '/app/game/game-services.js',
+      root + '/app/game/game-ctrl.js',
+      root + '/app/play-trump/play-trump-module.js',
+      root + '/app/play-trump/play-trump-ctrl.js',
       'util.js',
       'util.spec.js',
       '**/*.js'
