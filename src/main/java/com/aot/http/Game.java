@@ -13,7 +13,7 @@ public class Game extends HttpServlet {
 
     private static final String GAME_FACTORY = "gameFactory";
     private static final String VIEW = "/WEB-INF/game.jsp";
-    private static final String CREATE_GAME = "/aot/createGame";
+    private static final String CREATE_GAME = "/createGame";
 
     private GameFactory gameFactory;
     private String svgBoard;

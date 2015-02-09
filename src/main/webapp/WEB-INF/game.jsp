@@ -56,7 +56,7 @@
                                             <img class="movementsCard"
                                                  ng-class="{selectedCard: isSelected(card.name, card.color)}"
                                                  ng-click="viewPossibleMovements(card.name, card.color)"
-                                                 ng-src="/aot/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                                                 ng-src="/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
                                                  />
                                         </div>
                                         <button ng-click="pass()">Pass</button>

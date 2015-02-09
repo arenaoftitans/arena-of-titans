@@ -8,9 +8,9 @@ createGameModule.controller('createGame', ['$scope',
     'showHttpError',
     'player',
     function ($scope, $http, showHttpError, player) {
-        var createGameUrl = '/aot/rest/createGame';
+        var createGameUrl = '/rest/createGame';
         var createGameMethod = 'POST';
-        var gameUrl = '/aot/game';
+        var gameUrl = '/game';
         $scope.game = {};
         var numberMaximumOfPlayers = 8;
         $scope.players = player.init(numberMaximumOfPlayers);

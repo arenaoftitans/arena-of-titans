@@ -15,11 +15,11 @@ describe('game', function () {
         {name: "Wizard", color: "Yellow"}
     ];
 
-    var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
+    var viewPossibleMovementsUrl = '/rest/getPossibleSquares';
     var viewPossibleMovementsMethod = 'GET';
-    var playUrl = '/aot/rest/play';
+    var playUrl = '/rest/play';
     var playMethod = 'GET';
-    var getGameUrl = '/aot/rest/createGame';
+    var getGameUrl = '/rest/createGame';
     var getGameMethod = 'GET';
 
     function selecteCard() {

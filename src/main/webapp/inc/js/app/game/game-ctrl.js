@@ -13,11 +13,11 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
-        var viewPossibleMovementsUrl = '/aot/rest/getPossibleSquares';
+        var viewPossibleMovementsUrl = '/rest/getPossibleSquares';
         var viewPossibleMovementsMethod = 'GET';
-        var playUrl = '/aot/rest/play';
+        var playUrl = '/rest/play';
         var playMethod = 'GET';
-        var getGameUrl = '/aot/rest/createGame';
+        var getGameUrl = '/rest/createGame';
 
         $rootScope.$watch('$viewContentLoaded', function () {
             $http.get(getGameUrl)
