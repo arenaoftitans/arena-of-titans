@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.engine.trumps;
+package com.aot.engine.trumps;
 
-import com.derniereligne.engine.Player;
+import com.aot.engine.Player;
 
 /**
  *
