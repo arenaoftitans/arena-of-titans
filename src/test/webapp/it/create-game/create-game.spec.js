@@ -7,6 +7,7 @@ describe('create game', function () {
 
     function submitFormNotEngouthPlayers(alertBox) {
         submitForm.click().then(function () {
+            browser.sleep(500);
             alertBox = browser.driver.switchTo().alert();
             expect(alertBox.getText()).toEqual(notEnoughPlayersMessage);
         }).then(function () {
