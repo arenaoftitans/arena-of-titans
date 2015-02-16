@@ -3,17 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.derniereligne.engine.trumps;
+package com.aot.engine.trumps;
 
-import com.derniereligne.engine.Color;
-import com.derniereligne.engine.GameFactory;
-import com.derniereligne.engine.Match;
-import com.derniereligne.engine.Player;
-import com.derniereligne.engine.board.Board;
-import java.util.ArrayList;
-import java.util.List;
+import com.aot.engine.Player;
 import org.junit.After;
-import org.junit.Assert;
 import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
