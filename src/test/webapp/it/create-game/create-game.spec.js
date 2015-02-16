@@ -3,10 +3,11 @@ describe('create game', function () {
     var createGameUrl = '/createGame';
     var notEnoughPlayersMessage = 'Not enough players. 2 Players at least are required to start a game';
     var numberPlayers = 8;
-    var submitForm = element(by.buttonText('Create game'));
+    var createGameForm = element(by.buttonText('Create game'));
 
-    function submitFormNotEngouthPlayers(alertBox) {
-        submitForm.click().then(function () {
+    function submitFormNotEngouthPlayers() {
+        var alertBox;
+        createGameForm.click().then(function () {
             browser.sleep(500);
             alertBox = browser.driver.switchTo().alert();
             expect(alertBox.getText()).toEqual(notEnoughPlayersMessage);
@@ -34,28 +35,36 @@ describe('create game', function () {
     });
 
     it('should not create game without players', function () {
-        var alertBox;
-        submitFormNotEngouthPlayers(alertBox);
+        submitFormNotEngouthPlayers();
     });
 
     it('should not create game with only 1 player', function () {
-        var alertBox;
-
-        player1Input.sendKeys('player1').then(function () {
-            submitFormNotEngouthPlayers(alertBox);
-        });
+        player1Input.sendKeys('player1').then(submitFormNotEngouthPlayers);
     });
 
     it('should create game with 2 players', function () {
-        player1Input.sendKeys('player1').then(function () {
-            player2Input.sendKeys('player2').then(function () {
-                submitForm.click().then(function () {
-                    // We must wait for the browser to go to the right page.
-                    browser.sleep(500);
-                    expect(browser.getCurrentUrl()).toMatch(/\/game$/);
-                });
-            });
-        });
+        enterPlayer1()
+                .then(enterPlayer2)
+                .then(submitForm)
+                .then(check);
+
+        function enterPlayer1() {
+            return player1Input.sendKeys('player1');
+        }
+
+        function enterPlayer2() {
+            return player2Input.sendKeys('player2');
+        }
+
+        function submitForm() {
+            return createGameForm.click();
+        }
+
+        function check() {
+            // We must wait for the browser to go to the right page.
+            browser.sleep(500);
+            expect(browser.getCurrentUrl()).toMatch(/\/game$/);
+        }
     });
 
 });
