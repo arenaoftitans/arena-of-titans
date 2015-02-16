@@ -26,7 +26,7 @@ public class RemovingColorTrump extends Trump {
 
     public RemovingColorTrump(String name, int duration, String description,
             int cost, boolean mustTargetPlayer, Color... colors) {
-        super(name, duration, description, cost, mustTargetPlayer);
+        super(name, duration, description, cost, mustTargetPlayer, true);
         // Create an empty EnumSet so we can use addAll to add the colors.
         removedColors = EnumSet.noneOf(Color.class);
 
