@@ -117,8 +117,8 @@
                            type="radio"
                            name="targetPlayer" />{{player.name}}
                 </div>
-                <button class="ok-button" ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
-                <button class="cancel-button" ng-click="submitSelectTargetedPlayerForm()">OK</button>
+                <button class="cancel-button" ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
+                <button class="ok-button" ng-click="submitSelectTargetedPlayerForm()">OK</button>
             </form>
         </div>
 
