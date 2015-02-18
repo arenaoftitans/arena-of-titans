@@ -67,8 +67,8 @@
                                         </div>
                                         <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
                                             Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?
-                                            <button ng-click="confirmDiscard()">OK</button>
-                                            <button ng-click="hiddeDiscardPopup()">Cancel</button>
+                                            <button class="ok-button" ng-click="confirmDiscard()">OK</button>
+                                            <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
                                         </div>
                                     </div>
                                     <div id="trumps">
@@ -117,8 +117,8 @@
                            type="radio"
                            name="targetPlayer" />{{player.name}}
                 </div>
-                <button ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
-                <button ng-click="submitSelectTargetedPlayerForm()">OK</button>
+                <button class="ok-button" ng-click="cancelSelectTargetedPlayerForm()">Cancel</button>
+                <button class="cancel-button" ng-click="submitSelectTargetedPlayerForm()">OK</button>
             </form>
         </div>
 
