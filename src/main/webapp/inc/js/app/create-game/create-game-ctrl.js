@@ -3,11 +3,12 @@
  *
  * Emit a 'gameCreated' signal when done.
  */
-createGameModule.controller('createGame', ['$scope',
+createGameModule.controller('createGame', ['$window',
+    '$scope',
     '$http',
     'showHttpError',
     'player',
-    function ($scope, $http, showHttpError, player) {
+    function ($window, $scope, $http, showHttpError, player) {
         var createGameUrl = '/rest/createGame';
         var createGameMethod = 'POST';
         var gameUrl = '/game';
@@ -27,7 +28,7 @@ createGameModule.controller('createGame', ['$scope',
                 data: players
             })
                     .success(function () {
-                        window.location = gameUrl;
+                        $window.location = gameUrl;
                     })
                     .error(function (data) {
                         showHttpError.show(data);
