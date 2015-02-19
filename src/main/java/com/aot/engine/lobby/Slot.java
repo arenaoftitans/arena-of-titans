@@ -25,6 +25,14 @@ public class Slot {
         this.player = player;
     }
 
+    public boolean isOpened() {
+        return (state.equals(SlotStateEnum.OPEN));
+    }
+
+    public boolean isTaken() {
+        return (state.equals(SlotStateEnum.TAKEN));
+    }
+
     public void setState(SlotStateEnum state) {
         this.state = state;
     }
