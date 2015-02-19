@@ -29,8 +29,8 @@ public class Slot {
         return (state.equals(SlotStateEnum.OPEN));
     }
 
-    public boolean isTaken() {
-        return (state.equals(SlotStateEnum.TAKEN));
+    public boolean isReserved() {
+        return (state.equals(SlotStateEnum.RESERVED));
     }
 
     public void setState(SlotStateEnum state) {
