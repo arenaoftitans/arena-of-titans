@@ -21,7 +21,7 @@ public class Slot {
     }
 
     public Slot(Player player) {
-        this.state = SlotStateEnum.TAKEN;
+        this.state = SlotStateEnum.CLOSED;
         this.player = player;
     }
 
