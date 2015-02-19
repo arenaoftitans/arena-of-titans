@@ -14,6 +14,7 @@ import java.security.SecureRandom;
  * @author gaussreload
  */
 public class Lobby {
+    private static final int MAX_PLAYER = 8;
     private final Player host;
     private final Slot[] slots;
     private final String lobbyId = new BigInteger(100, new SecureRandom()).toString(32);
@@ -21,9 +22,9 @@ public class Lobby {
 
     public Lobby(Player host) {
         this.host = host;
-        slots = new Slot[8];
+        slots = new Slot[MAX_PLAYER];
         slots[0] = new Slot(host);
-        for (int i=1; i<=7; i++) {
+        for (int i=1; i < MAX_PLAYER; i++) {
             slots[i]=new Slot(SlotStateEnum.CLOSED);
         }
     }
@@ -45,8 +46,24 @@ public class Lobby {
         slots[index].setState(SlotStateEnum.RESERVED);
     }
 
-    public void addPlayer(int index, Player player) {
-        slots[index].setPlayer(player);
+    public boolean addPublicPlayer(Player player) {
+        for (int i=0; i < MAX_PLAYER; i++) {
+            if (slots[i].isOpened()) {
+                slots[i].setPlayer(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean addInvitedPlayer(Player player) {
+        for (int i = 0; i < MAX_PLAYER; i++) {
+            if (slots[i].isReserved()) {
+                slots[i].setPlayer(player);
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getLobbyId() {
