@@ -1,4 +1,4 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;

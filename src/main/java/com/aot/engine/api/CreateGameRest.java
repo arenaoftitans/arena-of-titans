@@ -1,7 +1,7 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
-import com.aot.http.rest.json.JsonPlayer;
-import com.aot.http.rest.json.CardPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.JsonPlayer;
+import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.google.gson.Gson;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.board.Square;
 import java.util.ArrayList;

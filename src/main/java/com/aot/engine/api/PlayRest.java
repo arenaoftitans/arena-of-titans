@@ -1,7 +1,7 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.cards.movements.MovementsCard;
-import com.aot.http.rest.json.CardPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

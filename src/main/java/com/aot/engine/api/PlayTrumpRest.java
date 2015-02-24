@@ -1,7 +1,7 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.trumps.Trump;
-import com.aot.http.rest.json.TrumpPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
 import java.util.NoSuchElementException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
