@@ -2,7 +2,6 @@ package com.aot.engine.api.json;
 
 import com.aot.engine.Match;
 import com.google.gson.Gson;
-import javax.ws.rs.core.Response;
 
 public class CardPlayedJsonResponseBuilder {
 
@@ -15,12 +14,12 @@ public class CardPlayedJsonResponseBuilder {
      * @param match The current match.
      * @return The response containing the JSON defined in the wiki.
      */
-    public static Response build(Match match) {
+    public static String build(Match match) {
         CardPlayedJsonResponse cardPlayedJsonResponse = createCardPlayedJsonRespones(match);
 
         String output = createOutputJson(cardPlayedJsonResponse);
 
-        return Response.status(Response.Status.OK).entity(output).build();
+        return output;
     }
 
     /**
@@ -67,13 +66,13 @@ public class CardPlayedJsonResponseBuilder {
      *
      * @return The response containing the JSON defined in the wiki.
      */
-    public static Response build(Match match, int targetedX, int targetedY) {
+    public static String build(Match match, int targetedX, int targetedY) {
         CardPlayedJsonResponse nextPlayer = createCardPlayedJsonRespones(match);
         nextPlayer.setNewSquare(targetedX, targetedY);
 
         String output = createOutputJson(nextPlayer);
 
-        return Response.status(Response.Status.OK).entity(output).build();
+        return output;
     }
 
 }

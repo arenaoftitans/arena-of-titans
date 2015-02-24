@@ -1,15 +1,13 @@
 package com.aot.engine.api;
 
 import com.google.gson.Gson;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import java.util.Map;
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 /**
  * <b>Rest servlet that returns the squares we can play.</b>
@@ -18,33 +16,18 @@ import javax.ws.rs.core.Response.Status;
  *
  * @author jenselme
  */
-@Path("/getPossibleSquares")
+@ServerEndpoint("api/getPossibleSquares")
 public class PossibleSquaresRest extends PossibleSquaresLister {
 
-    /**
-     * The servlet GET method.
-     *
-     * @param cardName The name of the card the player wish to play.
-     *
-     * @param cardColor The color of the card the player wish to play.
-     *
-     * @param playerId The id of the player.
-     *
-     * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPossibleSquares(@QueryParam(CARD_NAME) String cardName,
-            @QueryParam(CARD_COLOR) String cardColor,
-            @QueryParam(PLAYER_ID) String playerId) {
-        parameters.put(CARD_NAME, cardName);
-        parameters.put(CARD_COLOR, cardColor);
-        parameters.put(PLAYER_ID, playerId);
-        return getGameFactoryResponse();
+    @OnMessage
+    public void getPossibleSquares(String message, Session session) throws IOException {
+        Gson gson = new Gson();
+        parameters = gson.fromJson(message, Map.class);
+        session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
     @Override
-    protected Response checkParametersAndGetResponse() {
+    protected String checkParametersAndGetResponse() {
         if (areInputParemetersIncorrect()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
@@ -58,12 +41,12 @@ public class PossibleSquaresRest extends PossibleSquaresLister {
     }
 
     @Override
-    protected Response getJsonResponse(List<String> possibleSquaresIds) {
+    protected String getJsonResponse(List<String> possibleSquaresIds) {
         Gson gson = new Gson();
         Collections.sort(possibleSquaresIds);
         String output = gson.toJson(possibleSquaresIds);
 
-        return Response.status(Status.OK).entity(output).build();
+        return output;
     }
 
 }

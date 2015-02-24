@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
  *
  * @author jenselme
  */
-public abstract class GameRest {
+public abstract class GameApi {
 
     protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Response.Status.BAD_REQUEST);
 
@@ -53,7 +53,7 @@ public abstract class GameRest {
     @Context
     HttpServletRequest request;
 
-    public GameRest() {
+    public GameApi() {
         parameters = new HashMap<>();
     }
 
@@ -70,7 +70,7 @@ public abstract class GameRest {
      *
      * @return A JSON or BAD_REQUEST.
      */
-    protected abstract Response getResponse();
+    protected abstract String getResponse();
 
     /**
      * Create the bad Response object based on a message.
@@ -78,8 +78,8 @@ public abstract class GameRest {
      * @param message The message to send to the client.
      * @return A JSON object containing the error message.
      */
-    protected Response buildBadResponse(String message) {
-        return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
+    protected String buildBadResponse(String message) {
+        return "{\"error\": \"" + message + "\"}";
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class GameRest {
      *
      * @return
      */
-    protected Response getGameFactoryResponse() {
+    protected String getGameFactoryResponse() {
         gameFactory = (GameFactory) request.getSession().getAttribute("gameFactory");
         if (gameFactory == null) {
             return buildBadResponse("No match is running");
@@ -103,6 +103,6 @@ public abstract class GameRest {
      *
      * @return A Response object.
      */
-    protected abstract Response checkParametersAndGetResponse();
+    protected abstract String checkParametersAndGetResponse();
 
 }

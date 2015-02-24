@@ -2,13 +2,13 @@ package com.aot.engine.api;
 
 import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
+import com.google.gson.Gson;
+import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.Map;
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 /**
  * <b>Rest servlet that returns the squares we can play.</b>
@@ -17,49 +17,18 @@ import javax.ws.rs.core.Response;
  *
  * @author jenselme
  */
-@Path("/play")
+@ServerEndpoint("/api/play")
 public class PlayRest extends PossibleSquaresLister {
 
-    /**
-     * The servlet GET method.
-     *
-     * @param cardName The name of the card the player wish to play.
-     *
-     * @param cardColor The color of the card the player wish to play.
-     *
-     * @param playerId The id of the player.
-     *
-     * @param x x coordinate of the selected square.
-     *
-     * @param y y coordinate of the selected square.
-     *
-     * @param pass If this parameter is true, the player want to pass his/her turn.
-     *
-     * @param discard If instead of playing the selected card, the player wants to discard it.
-     *
-     * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response play(@QueryParam(CARD_NAME) String cardName,
-            @QueryParam(CARD_COLOR) String cardColor,
-            @QueryParam(PLAYER_ID) String playerId,
-            @QueryParam(X_COORD) String x,
-            @QueryParam(Y_COORD) String y,
-            @QueryParam(PASS) String pass,
-            @QueryParam(DISCARD_SELECTED_CARD) String discard) {
-        parameters.put(CARD_NAME, cardName);
-        parameters.put(CARD_COLOR, cardColor);
-        parameters.put(PLAYER_ID, playerId);
-        parameters.put(X_COORD, x);
-        parameters.put(Y_COORD, y);
-        parameters.put(PASS, pass);
-        parameters.put(DISCARD_SELECTED_CARD, discard);
-        return getGameFactoryResponse();
+    @OnMessage
+    public void play(String message, Session session) throws IOException {
+        Gson gson = new Gson();
+        parameters = gson.fromJson(message, Map.class);
+        session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
     @Override
-    protected Response checkParametersAndGetResponse() {
+    protected String checkParametersAndGetResponse() {
         if (playerWantsToPassThisTurn()) {
             return passThisTurn();
         } else if (playerWantsToDiscardACard() && !areInputParemetersIncorrect()) {
@@ -92,7 +61,7 @@ public class PlayRest extends PossibleSquaresLister {
      *
      * @return The next player as a JSON.
      */
-    private Response passThisTurn() {
+    private String passThisTurn() {
         match.passThisTurn();
         return CardPlayedJsonResponseBuilder.build(match);
     }
@@ -101,7 +70,7 @@ public class PlayRest extends PossibleSquaresLister {
         return "true".equalsIgnoreCase(parameters.get(DISCARD_SELECTED_CARD));
     }
 
-    private Response discardCard() {
+    private String discardCard() {
         String cardName = parameters.get(CARD_NAME);
         String cardColor = parameters.get(CARD_COLOR);
         MovementsCard cardToDiscard = currentPlayerDeck.getCard(cardName, cardColor);
@@ -133,7 +102,7 @@ public class PlayRest extends PossibleSquaresLister {
     }
 
     @Override
-    protected Response getJsonResponse(List<String> possibleSquaresIds) {
+    protected String getJsonResponse(List<String> possibleSquaresIds) {
         String x = parameters.get(X_COORD);
         String y = parameters.get(Y_COORD);
         String selectedSquareId = String.format("square-%s-%s", x, y);

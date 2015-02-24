@@ -56,7 +56,9 @@ public class CreateGameRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
         gameFactory = (GameFactory) req.getSession().getAttribute(GAME_FACTORY);
-        return CardPlayedJsonResponseBuilder.build(gameFactory.getMatch());
+        return Response.status(Response.Status.OK)
+                .entity(CardPlayedJsonResponseBuilder.build(gameFactory.getMatch()))
+                .build();
     }
 
     /**
