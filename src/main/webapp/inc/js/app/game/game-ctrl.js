@@ -1,9 +1,10 @@
 gameModule.controller("game", ['$scope',
     '$http',
+    '$websocket',
     '$rootScope',
     'showHttpError',
     'player',
-    function ($scope, $http, $rootScope, showHttpError, player) {
+    function ($scope, $http, $websocket, $rootScope, showHttpError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(8);
         $scope.activePawns = [];
@@ -13,10 +14,31 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
-        var viewPossibleMovementsUrl = '/rest/getPossibleSquares';
-        var viewPossibleMovementsMethod = 'GET';
-        var playUrl = '/rest/play';
-        var playMethod = 'GET';
+        var viewPossibleMovementsUrl = '/api/getPossibleSquares';
+        var viewPossibleMovementsWs = $websocket('ws://localhost:8080' + viewPossibleMovementsUrl);
+        viewPossibleMovementsWs.onMessage(function (data) {
+            $scope.highlightedSquares = data;
+        });
+        /*
+         .error(function (data) {
+         showHttpError.show(data);
+         $scope.selectedCard = null;
+         });*/
+        var playUrl = '/api/play';
+        var playWs = $websocket('ws://localhost:8080' + playUrl);
+        playWs.onMessage(function (data) {
+            if (data.hasOwnProperty('newSquare')) {
+                var playerPawn = $scope.currentPlayer.pawn;
+                player.move(playerPawn, data.newSquare.x, data.newSquare.y);
+            }
+
+            updateGameParameters(data);
+        });
+        /*
+         .error(function (data) {
+         showHttpError.show(data);
+         });
+         */
         var getGameUrl = '/rest/createGame';
 
         $rootScope.$watch('$viewContentLoaded', function () {
@@ -81,25 +103,15 @@ gameModule.controller("game", ['$scope',
          * @param {string} cardColor The color of the card the player want to play.
          */
         $scope.viewPossibleMovements = function (cardName, cardColor) {
-            $http({
-                url: viewPossibleMovementsUrl,
-                method: viewPossibleMovementsMethod,
-                params: {
-                    card_name: cardName,
-                    card_color: cardColor,
-                    player_id: $scope.currentPlayer.id
-                }
-            })
-                    .success(function (data) {
-                        $scope.highlightedSquares = data;
-
-                        // Stores the selected card.
-                        $scope.selectedCard = {name: cardName, color: cardColor};
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                        $scope.selectedCard = null;
-                    });
+            var data = {
+                card_name: cardName,
+                card_color: cardColor,
+                player_id: $scope.currentPlayer.id
+            };
+            // Stores the selected card.
+            $scope.selectedCard = {name: cardName, color: cardColor};
+            // TODO: handle errors
+            viewPossibleMovementsWs.send(data);
         };
 
         $scope.isSelected = function (cardName, cardColor) {
@@ -117,25 +129,15 @@ gameModule.controller("game", ['$scope',
         $scope.play = function (squareName, squareX, squareY) {
             if ($scope.highlightedSquares.indexOf(squareName) > -1
                     && $scope.selectedCard !== null) {
-                $http({
-                    url: playUrl,
-                    method: playMethod,
-                    params: {
-                        card_name: $scope.selectedCard.name,
-                        card_color: $scope.selectedCard.color,
-                        player_id: $scope.currentPlayer.id,
-                        x: squareX,
-                        y: squareY
-                    }
-                })
-                        .success(function (data) {
-                            var playerPawn = $scope.currentPlayer.pawn;
-                            player.move(playerPawn, data.newSquare.x, data.newSquare.y);
-                            updateGameParameters(data);
-                        })
-                        .error(function (data) {
-                            showHttpError.show(data);
-                        });
+                var data = {
+                    card_name: $scope.selectedCard.name,
+                    card_color: $scope.selectedCard.color,
+                    player_id: $scope.currentPlayer.id,
+                    x: squareX,
+                    y: squareY
+                };
+                // TODO: handle error.
+                playWs.send(data);
             } else if ($scope.selectedCard === null) {
                 alert('Please select a card.');
             }
@@ -145,19 +147,10 @@ gameModule.controller("game", ['$scope',
          * Pass this turn.
          */
         $scope.pass = function () {
-            $http({
-                url: playUrl,
-                method: playMethod,
-                params: {
-                    pass: true
-                }
-            })
-                    .success(function (data) {
-                        updateGameParameters(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            var data = {
+                pass: true
+            };
+            playWs.send(data);
         };
 
         $scope.discard = function () {
@@ -169,22 +162,13 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.confirmDiscard = function () {
-            $http({
-                url: playUrl,
-                method: playMethod,
-                params: {
-                    discard: true,
-                    card_name: $scope.selectedCard.name,
-                    card_color: $scope.selectedCard.color,
-                    player_id: $scope.currentPlayer.id
-                }
-            })
-                    .success(function (data) {
-                        updateGameParameters(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            var data = {
+                discard: true,
+                card_name: $scope.selectedCard.name,
+                card_color: $scope.selectedCard.color,
+                player_id: $scope.currentPlayer.id
+            };
+            playWs.send(data);
             $scope.hiddeDiscardPopup();
         };
 
