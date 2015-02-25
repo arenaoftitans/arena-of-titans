@@ -1,11 +1,16 @@
 playTrumpModule.controller('playTrump', ['$scope',
     '$rootScope',
     '$http',
+    '$websocket',
     'showHttpError',
-    function ($scope, $rootScope, $http, showHttpError) {
+    function ($scope, $rootScope, $http, $websocket, showHttpError) {
         $scope.showTargetedPlayerForTrumpSelector = false;
-        var playTrumpUrl = '/rest/playTrump';
-        var playTrumpMethod = 'GET';
+        var playTrumpUrl = '/api/playTrump';
+        var playTrumpWs = $websocket('ws://localhost:8080' + playTrumpUrl);
+        // TODO: handle errors.
+        playTrumpWs.onMessage(function (data) {
+            updateScopeOnSuccessfulTrump(data);
+        });
 
         /**
          * Get the trump the player clicked on and display a pop-up to select the target player and
@@ -37,20 +42,11 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
-            $http({
-                url: playTrumpUrl,
-                method: playTrumpMethod,
-                params: {
-                    targetIndex: $scope.trumpTargetedPlayer,
-                    name: $scope.trumpName
-                }
-            })
-                    .success(function (data) {
-                        updateScopeOnSuccessfulTrump(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            var data = {
+                targetIndex: $scope.trumpTargetedPlayer,
+                name: $scope.trumpName
+            };
+            playTrumpWs.send(data);
         };
 
         $scope.submitSelectTargetedPlayerForm = function () {
