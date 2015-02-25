@@ -8,7 +8,10 @@ import com.aot.engine.cards.movements.MovementsCard;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.ws.rs.core.Response;
 
 /**
@@ -46,12 +49,8 @@ public abstract class GameApi {
      * The last card played.
      */
     protected MovementsCard playableCard;
-
-    /**
-     * The request done to the servlet.
-     */
-    @Context
-    HttpServletRequest request;
+    protected Session wsSession;
+    protected HttpSession httpSession;
 
     public GameApi() {
         parameters = new HashMap<>();
@@ -88,7 +87,7 @@ public abstract class GameApi {
      * @return
      */
     protected String getGameFactoryResponse() {
-        gameFactory = (GameFactory) request.getSession().getAttribute("gameFactory");
+        gameFactory = (GameFactory) httpSession.getAttribute("gameFactory");
         if (gameFactory == null) {
             return buildBadResponse("No match is running");
         }
@@ -104,5 +103,12 @@ public abstract class GameApi {
      * @return A Response object.
      */
     protected abstract String checkParametersAndGetResponse();
+
+    @OnOpen
+    protected void open(Session session, EndpointConfig config) {
+        this.wsSession = session;
+        this.httpSession = (HttpSession) config.getUserProperties()
+                .get(HttpSession.class.getName());
+    }
 
 }
