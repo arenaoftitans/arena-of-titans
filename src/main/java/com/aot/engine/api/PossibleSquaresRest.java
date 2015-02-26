@@ -16,7 +16,7 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author jenselme
  */
-@ServerEndpoint("api/getPossibleSquares")
+@ServerEndpoint("/api/getPossibleSquares")
 public class PossibleSquaresRest extends PossibleSquaresLister {
 
     @OnMessage
