@@ -1,4 +1,4 @@
-package com.aot.engine.api;
+package com.aot.http.rest;
 
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
