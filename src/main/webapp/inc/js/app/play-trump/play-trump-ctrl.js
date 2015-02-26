@@ -44,8 +44,9 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
+            var targetIndex = $scope.trumpTargetedPlayer == undefined? '' : $scope.trumpTargetedPlayer.toString();
             var data = {
-                targetIndex: $scope.trumpTargetedPlayer,
+                targetIndex: targetIndex,
                 name: $scope.trumpName
             };
             playTrumpWs.send(data);
