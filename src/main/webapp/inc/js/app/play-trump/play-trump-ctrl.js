@@ -6,8 +6,12 @@ playTrumpModule.controller('playTrump', ['$scope',
         var playTrumpUrl = '/api/playTrump';
         var playTrumpWs = $websocket('ws://localhost:8080' + playTrumpUrl);
         // TODO: handle errors.
-        playTrumpWs.onMessage(function (data) {
-            updateScopeOnSuccessfulTrump(data);
+        playTrumpWs.onMessage(function (event) {
+            console.log(event);
+            updateScopeOnSuccessfulTrump(JSON.parse(event.data));
+        });
+        playTrumpWs.onError(function (event) {
+            alert(event.data);
         });
 
         /**

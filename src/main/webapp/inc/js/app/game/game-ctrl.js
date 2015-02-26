@@ -16,8 +16,11 @@ gameModule.controller("game", ['$scope',
         $scope.showDiscardConfirmationPopup = false;
         var viewPossibleMovementsUrl = '/api/getPossibleSquares';
         var viewPossibleMovementsWs = $websocket('ws://localhost:8080' + viewPossibleMovementsUrl);
-        viewPossibleMovementsWs.onMessage(function (data) {
-            $scope.highlightedSquares = data;
+        viewPossibleMovementsWs.onMessage(function (event) {
+            $scope.highlightedSquares = JSON.parse(event.data);
+        });
+        viewPossibleMovementsWs.onError(function (event) {
+            alert(event.data);
         });
         /*
          .error(function (data) {
@@ -26,7 +29,8 @@ gameModule.controller("game", ['$scope',
          });*/
         var playUrl = '/api/play';
         var playWs = $websocket('ws://localhost:8080' + playUrl);
-        playWs.onMessage(function (data) {
+        playWs.onMessage(function (event) {
+            var data = JSON.parse(event.data);
             if (data.hasOwnProperty('newSquare')) {
                 var playerPawn = $scope.currentPlayer.pawn;
                 player.move(playerPawn, data.newSquare.x, data.newSquare.y);
