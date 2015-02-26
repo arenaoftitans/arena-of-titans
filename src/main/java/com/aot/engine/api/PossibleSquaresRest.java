@@ -1,11 +1,16 @@
 package com.aot.engine.api;
 
 import com.google.gson.Gson;
+import java.util.logging.Logger;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
@@ -16,7 +21,7 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author jenselme
  */
-@ServerEndpoint("/api/getPossibleSquares")
+@ServerEndpoint(value="/api/getPossibleSquares", configurator=GetHttpSessionConfigurator.class)
 public class PossibleSquaresRest extends PossibleSquaresLister {
 
     @OnMessage

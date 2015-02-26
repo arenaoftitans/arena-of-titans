@@ -105,7 +105,7 @@ public abstract class GameApi {
     protected abstract String checkParametersAndGetResponse();
 
     @OnOpen
-    protected void open(Session session, EndpointConfig config) {
+    public void open(Session session, EndpointConfig config) {
         this.wsSession = session;
         this.httpSession = (HttpSession) config.getUserProperties()
                 .get(HttpSession.class.getName());
