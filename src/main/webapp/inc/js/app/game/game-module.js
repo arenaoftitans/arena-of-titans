@@ -1,1 +1,1 @@
-var gameModule = angular.module('aot.game', []);
+var gameModule = angular.module('aot.game', ['ngWebSocket']);

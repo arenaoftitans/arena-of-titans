@@ -12,6 +12,7 @@
         <title>AOT create Game</title>
         <link rel="stylesheet" type="text/css" href="inc/css/global.css">
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
+        <script src="inc/js/lib/angular-websocket.js" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
 
         <script src="inc/js/app/create-game/create-game-module.js"></script>
