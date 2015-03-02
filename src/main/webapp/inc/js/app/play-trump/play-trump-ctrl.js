@@ -7,7 +7,6 @@ playTrumpModule.controller('playTrump', ['$scope',
         var playTrumpWs = $websocket('ws://localhost:8080' + playTrumpUrl);
         // TODO: handle errors.
         playTrumpWs.onMessage(function (event) {
-            console.log(event);
             updateScopeOnSuccessfulTrump(JSON.parse(event.data));
         });
         playTrumpWs.onError(function (event) {
@@ -44,7 +43,8 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
-            var targetIndex = $scope.trumpTargetedPlayer == undefined? '' : $scope.trumpTargetedPlayer.toString();
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? '' :
+                    $scope.trumpTargetedPlayer.toString();
             var data = {
                 targetIndex: targetIndex,
                 name: $scope.trumpName
@@ -53,7 +53,11 @@ playTrumpModule.controller('playTrump', ['$scope',
         };
 
         $scope.submitSelectTargetedPlayerForm = function () {
-            play();
+            var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
+                    $scope.trumpTargetedPlayer !== undefined;
+            if (playerCorrectlyTargeted) {
+                play();
+            }
         };
 
         $scope.cancelSelectTargetedPlayerForm = function () {
