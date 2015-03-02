@@ -29,6 +29,15 @@ public class Lobby {
         }
     }
 
+    public boolean canBePubliclyJoined() {
+        for (Slot slot : slots) {
+            if (slot.isOpened()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Player getHost() {
         return host;
     }
