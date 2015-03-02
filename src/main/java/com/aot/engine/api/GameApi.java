@@ -1,4 +1,4 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;
@@ -8,7 +8,10 @@ import com.aot.engine.cards.movements.MovementsCard;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.ws.rs.core.Response;
 
 /**
@@ -18,7 +21,7 @@ import javax.ws.rs.core.Response;
  *
  * @author jenselme
  */
-public abstract class GameRest {
+public abstract class GameApi {
 
     protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Response.Status.BAD_REQUEST);
 
@@ -46,14 +49,10 @@ public abstract class GameRest {
      * The last card played.
      */
     protected MovementsCard playableCard;
+    protected Session wsSession;
+    protected HttpSession httpSession;
 
-    /**
-     * The request done to the servlet.
-     */
-    @Context
-    HttpServletRequest request;
-
-    public GameRest() {
+    public GameApi() {
         parameters = new HashMap<>();
     }
 
@@ -70,7 +69,7 @@ public abstract class GameRest {
      *
      * @return A JSON or BAD_REQUEST.
      */
-    protected abstract Response getResponse();
+    protected abstract String getResponse();
 
     /**
      * Create the bad Response object based on a message.
@@ -78,8 +77,8 @@ public abstract class GameRest {
      * @param message The message to send to the client.
      * @return A JSON object containing the error message.
      */
-    protected Response buildBadResponse(String message) {
-        return BAD_REQUEST_BUILDER.entity("{\"error\": \"" + message + "\"}").build();
+    protected String buildBadResponse(String message) {
+        return "{\"error\": \"" + message + "\"}";
     }
 
     /**
@@ -87,8 +86,8 @@ public abstract class GameRest {
      *
      * @return
      */
-    protected Response getGameFactoryResponse() {
-        gameFactory = (GameFactory) request.getSession().getAttribute("gameFactory");
+    protected String getGameFactoryResponse() {
+        gameFactory = (GameFactory) httpSession.getAttribute("gameFactory");
         if (gameFactory == null) {
             return buildBadResponse("No match is running");
         }
@@ -103,6 +102,13 @@ public abstract class GameRest {
      *
      * @return A Response object.
      */
-    protected abstract Response checkParametersAndGetResponse();
+    protected abstract String checkParametersAndGetResponse();
+
+    @OnOpen
+    public void open(Session session, EndpointConfig config) {
+        this.wsSession = session;
+        this.httpSession = (HttpSession) config.getUserProperties()
+                .get(HttpSession.class.getName());
+    }
 
 }

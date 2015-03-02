@@ -1,11 +1,17 @@
 playTrumpModule.controller('playTrump', ['$scope',
     '$rootScope',
-    '$http',
-    'showHttpError',
-    function ($scope, $rootScope, $http, showHttpError) {
+    '$websocket',
+    function ($scope, $rootScope, $websocket) {
         $scope.showTargetedPlayerForTrumpSelector = false;
-        var playTrumpUrl = '/rest/playTrump';
-        var playTrumpMethod = 'GET';
+        var playTrumpUrl = '/api/playTrump';
+        var playTrumpWs = $websocket('ws://localhost:8080' + playTrumpUrl);
+        // TODO: handle errors.
+        playTrumpWs.onMessage(function (event) {
+            updateScopeOnSuccessfulTrump(JSON.parse(event.data));
+        });
+        playTrumpWs.onError(function (event) {
+            alert(event.data);
+        });
 
         /**
          * Get the trump the player clicked on and display a pop-up to select the target player and
@@ -37,24 +43,21 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
-            $http({
-                url: playTrumpUrl,
-                method: playTrumpMethod,
-                params: {
-                    targetIndex: $scope.trumpTargetedPlayer,
-                    name: $scope.trumpName
-                }
-            })
-                    .success(function (data) {
-                        updateScopeOnSuccessfulTrump(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? '' :
+                    $scope.trumpTargetedPlayer.toString();
+            var data = {
+                targetIndex: targetIndex,
+                name: $scope.trumpName
+            };
+            playTrumpWs.send(data);
         };
 
         $scope.submitSelectTargetedPlayerForm = function () {
-            play();
+            var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
+                    $scope.trumpTargetedPlayer !== undefined;
+            if (playerCorrectlyTargeted) {
+                play();
+            }
         };
 
         $scope.cancelSelectTargetedPlayerForm = function () {

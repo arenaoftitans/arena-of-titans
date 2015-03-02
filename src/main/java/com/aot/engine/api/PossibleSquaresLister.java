@@ -1,11 +1,10 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.board.Square;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.Response;
 
-public abstract class PossibleSquaresLister extends GameRest {
+public abstract class PossibleSquaresLister extends GameApi {
 
     /**
      * Static attribute used to create response with status code 400.
@@ -41,7 +40,7 @@ public abstract class PossibleSquaresLister extends GameRest {
     }
 
     @Override
-    protected Response getResponse() {
+    protected String getResponse() {
         String cardName = parameters.get(CARD_NAME);
         String cardColor = parameters.get(CARD_COLOR);
         Square currentSquare = match.getActivePlayerCurrentSquare();
@@ -69,6 +68,6 @@ public abstract class PossibleSquaresLister extends GameRest {
      * @param possibleSquaresIds
      * @return A response object.
      */
-    protected abstract Response getJsonResponse(List<String> possibleSquaresIds);
+    protected abstract String getJsonResponse(List<String> possibleSquaresIds);
 
 }

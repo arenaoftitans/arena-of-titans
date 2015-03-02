@@ -1,4 +1,4 @@
-package com.aot.http.rest.json;
+package com.aot.engine.api.json;
 
 import com.aot.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;

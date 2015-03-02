@@ -1,14 +1,14 @@
-package com.aot.http.rest;
+package com.aot.engine.api;
 
 import com.aot.engine.trumps.Trump;
-import com.aot.http.rest.json.TrumpPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.Map;
 import java.util.NoSuchElementException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 /**
  * <b>Rest servlet that plays a trump card.</b>
@@ -17,33 +17,23 @@ import javax.ws.rs.core.Response;
  *
  * @author jenselme
  */
-@Path("/playTrump")
-public class PlayTrumpRest extends GameRest {
+@ServerEndpoint(value="/api/playTrump",  configurator=GetHttpSessionConfigurator.class)
+public class PlayTrumpRest extends GameApi {
 
     private static final String TRUMP_NAME = "name";
     private static final String TARGETED_PLAYER_INDEX = "targetIndex";
 
     private Trump trump;
 
-    /**
-     * The servlet GET method.
-     *
-     * @param trumpName The name of the card the player wish to play.
-     * @param targetIndex The index of the targeted player.
-     *
-     * @return A BAD_REQUEST or the JSON answer if everything worked correctly.
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response play(@QueryParam(TRUMP_NAME) String trumpName,
-            @QueryParam(TARGETED_PLAYER_INDEX) String targetIndex) {
-        parameters.put(TRUMP_NAME, trumpName);
-        parameters.put(TARGETED_PLAYER_INDEX, targetIndex);
-        return getGameFactoryResponse();
+    @OnMessage
+    public void play(String message, Session session) throws IOException {
+        Gson gson = new Gson();
+        parameters = gson.fromJson(message, Map.class);
+        session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
     @Override
-    protected Response checkParametersAndGetResponse() {
+    protected String checkParametersAndGetResponse() {
         trump = getTrump();
         if (incorrectInputParemeters()) {
             String message = String
@@ -110,7 +100,7 @@ public class PlayTrumpRest extends GameRest {
     }
 
     @Override
-    protected Response getResponse() {
+    protected String getResponse() {
         if (match.canActivePlayerPlayTrump(trump)) {
             match.playTrump(trump);
             return TrumpPlayedJsonResponseBuilder.build(match);

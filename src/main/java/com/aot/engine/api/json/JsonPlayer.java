@@ -1,5 +1,5 @@
 
-package com.aot.http.rest.json;
+package com.aot.engine.api.json;
 
 public class JsonPlayer {
 

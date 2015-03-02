@@ -1,7 +1,7 @@
 package com.aot.http.rest;
 
-import com.aot.http.rest.json.JsonPlayer;
-import com.aot.http.rest.json.CardPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.JsonPlayer;
+import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -56,7 +56,9 @@ public class CreateGameRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
         gameFactory = (GameFactory) req.getSession().getAttribute(GAME_FACTORY);
-        return CardPlayedJsonResponseBuilder.build(gameFactory.getMatch());
+        return Response.status(Response.Status.OK)
+                .entity(CardPlayedJsonResponseBuilder.build(gameFactory.getMatch()))
+                .build();
     }
 
     /**

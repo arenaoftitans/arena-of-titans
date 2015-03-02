@@ -1,1 +1,1 @@
-var playTrumpModule = angular.module('aot.play-trump', []);
+var playTrumpModule = angular.module('aot.play-trump', ['ngWebSocket']);

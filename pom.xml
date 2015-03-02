@@ -113,11 +113,17 @@
             <artifactId>jaxen</artifactId>
             <version>1.1.6</version>
         </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>
-           aot
+            aot
         </finalName>
         <plugins>
             <plugin>
