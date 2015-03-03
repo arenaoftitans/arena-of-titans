@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
  */
 public class LobbyList {
     private List<Lobby> lobbyList;
+    private List<Lobby> playingLobbies;
 
     public LobbyList() {
         this.lobbyList = new ArrayList<>();
+        this.playingLobbies = new ArrayList<>();
     }
 
     public boolean addLobby(Lobby lobbyToAdd) {
@@ -33,6 +35,17 @@ public class LobbyList {
         }
     }
 
+    private Lobby getLobbyFromId(String lobbyId) {
+        List<Lobby> lobbysWithId = lobbyList.parallelStream()
+                .filter(lobby -> lobby.getLobbyId().equals(lobbyId))
+                .collect(Collectors.toList());
+        if (lobbysWithId.isEmpty()) {
+            return null;
+        } else {
+            return lobbysWithId.get(0);
+        }
+    }
+
     public boolean joinLobby(String lobbyId, Player player) {
         List<Lobby> lobbysWithId = lobbyList.parallelStream()
                 .filter(lobby -> lobby.getLobbyId().equals(lobbyId))
@@ -42,7 +55,6 @@ public class LobbyList {
         } else {
             return joinLobby(lobbysWithId.get(0), player);
         }
-
     }
 
     private boolean joinLobby(Lobby lobbyToJoin, Player player) {
@@ -52,6 +64,11 @@ public class LobbyList {
             lobbyToJoin.addPublicPlayer(player);
             return true;
         }
+    }
+
+    private void moveLobbyToPlaying(Lobby lobbyToMove) {
+        lobbyList.remove(lobbyToMove);
+        playingLobbies.add(lobbyToMove);
     }
 
     public List<Lobby> getLobbyList() {
