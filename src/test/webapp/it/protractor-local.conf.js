@@ -5,8 +5,6 @@ exports.config = {
     maxSessions: 1,
     multiCapabilities: [
         {browserName: 'chrome'},
-        // Selenium and protractor don't work with firefox 35 yet.
-        // See: https://github.com/angular/protractor/issues/1734
-        //{browserName: 'firefox'}
+        {browserName: 'firefox'}
     ]
 };
