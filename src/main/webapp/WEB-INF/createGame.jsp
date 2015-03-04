@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,5 +40,7 @@
                 <button ng-click="createGame()">Create game</button>
             </form>
         </div>
+
+        <t:piwik />
     </body>
 </html>
