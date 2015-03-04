@@ -20,6 +20,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       root + '/lib/angular.js',
+      root + '/lib/angular-websocket.js',
+      root + '/lib/angular-websocket-mock.js',
       'angular-mocks.js',
       root + '/app.js',
       root + '/app/game/game-module.js',
