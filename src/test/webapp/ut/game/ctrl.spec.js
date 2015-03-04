@@ -80,6 +80,11 @@ describe('game', function () {
         expect($scope).toBeDefined();
     });
 
+    it('should be create', function () {
+        $httpBackend.flush();
+        expect($scope.currentPlayer).not.toBe(null);
+    });
+
     describe('viewPossibleMovements', function () {
         var square;
 
