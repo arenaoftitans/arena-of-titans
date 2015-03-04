@@ -1,3 +1,5 @@
+/* global by, element, expect, $$, browser */
+
 describe('game', function () {
     var createGameForm = element(by.buttonText('Create game'));
     var createGameUrl = '/createGame';

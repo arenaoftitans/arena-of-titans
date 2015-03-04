@@ -1,3 +1,5 @@
+/* global angular, jasmine, expect */
+
 'use strict';
 
 describe('game', function () {

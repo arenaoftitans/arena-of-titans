@@ -1,3 +1,5 @@
+/* global expect */
+
 'use strict';
 
 describe('util', function () {

@@ -1,3 +1,5 @@
+/* global playTrumpModule */
+
 playTrumpModule.controller('playTrump', ['$scope',
     '$rootScope',
     '$websocket',
@@ -13,12 +15,6 @@ playTrumpModule.controller('playTrump', ['$scope',
             alert(event.data);
         });
 
-        /**
-         * Get the trump the player clicked on and display a pop-up to select the target player and
-         * then play the trump or directly play the trump.
-         *
-         * @type @exp;$rootScope@call;$on
-         */
         var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players,
                 currentPlayerIndex) {
             $scope.trumpName = trump.name;

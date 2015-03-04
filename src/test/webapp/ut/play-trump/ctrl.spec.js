@@ -1,3 +1,5 @@
+/* global angular, expect */
+
 'use strict';
 
 describe('play trump', function () {

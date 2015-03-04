@@ -1,3 +1,5 @@
+/* global gameOverModule */
+
 gameOverModule.controller('gameOver', ['$scope',
     '$rootScope',
     function ($scope, $rootScope) {

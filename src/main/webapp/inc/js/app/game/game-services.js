@@ -1,3 +1,5 @@
+/* global gameModule, angular */
+
 /**
  * Service containing functions to log the AJAX error messages.
  *

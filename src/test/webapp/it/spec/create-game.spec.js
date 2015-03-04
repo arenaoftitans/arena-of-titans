@@ -1,3 +1,5 @@
+/* global by, element, browser, expect, $$ */
+
 describe('create game', function () {
     var player1Input, player2Input;
     var createGameUrl = '/createGame';

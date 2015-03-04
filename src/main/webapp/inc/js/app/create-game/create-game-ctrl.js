@@ -1,3 +1,5 @@
+/* global createGameModule */
+
 /**
  * Post the list of registered players and create the game.
  *
