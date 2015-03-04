@@ -6,7 +6,8 @@ playTrumpModule.controller('playTrump', ['$scope',
     function ($scope, $rootScope, $websocket) {
         $scope.showTargetedPlayerForTrumpSelector = false;
         var playTrumpUrl = '/api/playTrump';
-        var playTrumpWs = $websocket('ws://localhost:8080' + playTrumpUrl);
+        var wsHost = 'ws://localhost:8080';
+        var playTrumpWs = $websocket(wsHost + playTrumpUrl);
         // TODO: handle errors.
         playTrumpWs.onMessage(function (event) {
             updateScopeOnSuccessfulTrump(JSON.parse(event.data));

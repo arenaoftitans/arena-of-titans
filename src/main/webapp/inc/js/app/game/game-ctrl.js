@@ -14,8 +14,9 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
+        var wsHost = 'ws://localhost:8080';
         var viewPossibleMovementsUrl = '/api/getPossibleSquares';
-        var viewPossibleMovementsWs = $websocket('ws://localhost:8080' + viewPossibleMovementsUrl);
+        var viewPossibleMovementsWs = $websocket(wsHost + viewPossibleMovementsUrl);
         viewPossibleMovementsWs.onMessage(function (event) {
             $scope.highlightedSquares = JSON.parse(event.data);
         });
@@ -28,7 +29,7 @@ gameModule.controller("game", ['$scope',
          $scope.selectedCard = null;
          });*/
         var playUrl = '/api/play';
-        var playWs = $websocket('ws://localhost:8080' + playUrl);
+        var playWs = $websocket(wsHost + playUrl);
         playWs.onMessage(function (event) {
             var data = JSON.parse(event.data);
             if (data.hasOwnProperty('newSquare')) {
