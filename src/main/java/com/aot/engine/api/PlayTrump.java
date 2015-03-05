@@ -4,7 +4,6 @@ import com.aot.engine.trumps.Trump;
 import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
@@ -20,26 +19,37 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value="/api/playTrump",  configurator=GetHttpSessionConfigurator.class)
 public class PlayTrump extends GameApi {
 
-    private static final String TRUMP_NAME = "name";
-    private static final String TARGETED_PLAYER_INDEX = "targetIndex";
+    private class WsTrump {
+        private String name;
+        private Integer targetIndex;
 
+        public String getName() {
+            return name;
+        }
+
+        public Integer getTargetIndex() {
+            return targetIndex;
+        }
+    }
+
+    private WsTrump wsTrump;
     private Trump trump;
 
     @OnMessage
     public void play(String message, Session session) throws IOException {
         Gson gson = new Gson();
-        parameters = gson.fromJson(message, Map.class);
+        wsTrump = gson.fromJson(message, WsTrump.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
     @Override
     protected String checkParametersAndGetResponse() {
         trump = getTrump();
-        if (incorrectInputParemeters()) {
+        if (trump == null) {
             String message = String
                     .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
-                            parameters.get(TRUMP_NAME),
-                            parameters.get(TARGETED_PLAYER_INDEX));
+                            wsTrump.getName(),
+                            wsTrump.getTargetIndex());
             return buildBadResponse(message);
         }
 
@@ -52,51 +62,16 @@ public class PlayTrump extends GameApi {
      * @return The trump.
      */
     private Trump getTrump() {
-        if (parameters.get(TRUMP_NAME) == null) {
+        String trumpName = wsTrump.getName();
+        if (trumpName == null) {
             return null;
         } else {
             try {
-                String trumpName = parameters.get(TRUMP_NAME);
                 return match.getTrumpForActivePlayer(trumpName);
             } catch (NoSuchElementException ex) {
                 return null;
             }
         }
-    }
-
-    /**
-     * Return true if the input parameters are incorrect.
-     *
-     * @return true or false.
-     */
-    protected boolean incorrectInputParemeters() {
-        return trump == null || invalidPlayerIndex();
-    }
-
-    /**
-     * Check whether the asked player index is valid or not.
-     *
-     * Check that it can correctly parse as an integer.
-     *
-     * @return
-     */
-    protected boolean invalidPlayerIndex() {
-        if (trump.mustTargetPlayer()) {
-            return canBeParsedAsInteger(parameters.get(TARGETED_PLAYER_INDEX));
-        } else {
-            return false;
-        }
-    }
-
-    private boolean canBeParsedAsInteger(String string) {
-        boolean canBeParseAsInteger = true;
-        try {
-            Integer.parseInt(string);
-        } catch (NumberFormatException exception) {
-            canBeParseAsInteger = false;
-        }
-
-        return !canBeParseAsInteger;
     }
 
     @Override
@@ -106,7 +81,7 @@ public class PlayTrump extends GameApi {
             return TrumpPlayedJsonResponseBuilder.build(match);
         }
 
-        int targetIndex = Integer.parseInt(parameters.get(TARGETED_PLAYER_INDEX));
+        int targetIndex = wsTrump.getTargetIndex();
         if (match.canActivePlayerPlayTrump(trump, targetIndex)) {
             match.playTrump(trump, targetIndex);
             return TrumpPlayedJsonResponseBuilder.build(match);

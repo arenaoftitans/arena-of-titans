@@ -4,25 +4,17 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-/**
- * <b>Rest servlet that returns the squares we can play.</b>
- *
- * Expect parameters: x, y, card, color.
- *
- * @author jenselme
- */
 @ServerEndpoint(value="/api/getPossibleSquares", configurator=GetHttpSessionConfigurator.class)
 public class PossibleSquares extends PossibleSquaresLister {
 
     @OnMessage
     public void getPossibleSquares(String message, Session session) throws IOException {
         Gson gson = new Gson();
-        parameters = gson.fromJson(message, Map.class);
+        wsMove = gson.fromJson(message, WsMove.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
@@ -31,9 +23,9 @@ public class PossibleSquares extends PossibleSquaresLister {
         if (areInputParemetersIncorrect()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
-                            parameters.get(CARD_NAME),
-                            parameters.get(CARD_COLOR),
-                            parameters.get(PLAYER_ID));
+                            wsMove.getCardName(),
+                            wsMove.getCardColor(),
+                            wsMove.getPlayerId());
             return buildBadResponse(message);
         }
 

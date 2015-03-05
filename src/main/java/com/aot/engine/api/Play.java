@@ -5,15 +5,14 @@ import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**
  * <b>Rest servlet that returns the squares we can play.</b>
- *
- * Expect parameters: x, y, card, color.
+
+ Expect wsMove: x, y, card, color.
  *
  * @author jenselme
  */
@@ -23,37 +22,28 @@ public class Play extends PossibleSquaresLister {
     @OnMessage
     public void play(String message, Session session) throws IOException {
         Gson gson = new Gson();
-        parameters = gson.fromJson(message, Map.class);
+        wsMove = gson.fromJson(message, WsMove.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());
     }
 
     @Override
     protected String checkParametersAndGetResponse() {
-        if (playerWantsToPassThisTurn()) {
+        if (wsMove.isPass()) {
             return passThisTurn();
-        } else if (playerWantsToDiscardACard() && !areInputParemetersIncorrect()) {
+        } else if (wsMove.isDiscard()&& !areInputParemetersIncorrect()) {
             return discardCard();
         } else if (incorrectInputParemeters()) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
-                            parameters.get(CARD_NAME),
-                            parameters.get(CARD_COLOR),
-                            parameters.get(PLAYER_ID),
-                            parameters.get(X_COORD),
-                            parameters.get(Y_COORD));
+                            wsMove.getCardName(),
+                            wsMove.getCardColor(),
+                            wsMove.getPlayerId(),
+                            wsMove.getX(),
+                            wsMove.getY());
             return buildBadResponse(message);
         }
 
         return getResponse();
-    }
-
-    /**
-     * Returns true if the player wants to pass his/her turn.
-     *
-     * @return true if the player wants to pass his/her turn.
-     */
-    private boolean playerWantsToPassThisTurn() {
-        return "true".equalsIgnoreCase(parameters.get(PASS));
     }
 
     /**
@@ -66,13 +56,9 @@ public class Play extends PossibleSquaresLister {
         return CardPlayedJsonResponseBuilder.build(match);
     }
 
-    private boolean playerWantsToDiscardACard() {
-        return "true".equalsIgnoreCase(parameters.get(DISCARD_SELECTED_CARD));
-    }
-
     private String discardCard() {
-        String cardName = parameters.get(CARD_NAME);
-        String cardColor = parameters.get(CARD_COLOR);
+        String cardName = wsMove.getCardName();
+        String cardColor = wsMove.getCardColor();
         MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
         if (cardToDiscard == null) {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
@@ -84,7 +70,7 @@ public class Play extends PossibleSquaresLister {
     }
 
     /**
-     * Return true if the input parameters are incorrect.
+     * Return true if the input wsMove are incorrect.
      *
      * @return true or false.
      */
@@ -93,29 +79,27 @@ public class Play extends PossibleSquaresLister {
     }
 
     /**
-     * Return true if one of the coordinates passed as parameters is null.
+     * Return true if one of the coordinates passed as wsMove is null.
      *
      * @return true or false.
      */
     protected boolean incorrectCoordinates() {
-        return parameters.get(X_COORD) == null || parameters.get(Y_COORD) == null;
+        return wsMove.getX() == null || wsMove.getY() == null;
     }
 
     @Override
     protected String getJsonResponse(List<String> possibleSquaresIds) {
-        String x = parameters.get(X_COORD);
-        String y = parameters.get(Y_COORD);
+        int x = wsMove.getX();
+        int y = wsMove.getY();
         String selectedSquareId = String.format("square-%s-%s", x, y);
         if (!possibleSquaresIds.contains(selectedSquareId)) {
             String message = "Invalid square.";
             return buildBadResponse(message);
         }
 
-        int targetedX = Integer.parseInt(x);
-        int targetedY = Integer.parseInt(y);
-        match.playTurn(targetedX, targetedY, playableCard);
+        match.playTurn(x, y, playableCard);
 
-        return CardPlayedJsonResponseBuilder.build(match, targetedX, targetedY);
+        return CardPlayedJsonResponseBuilder.build(match, x, y);
     }
 
 }

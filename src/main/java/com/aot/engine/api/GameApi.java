@@ -2,31 +2,17 @@ package com.aot.engine.api;
 
 import com.aot.engine.Match;
 import com.aot.engine.board.Board;
-import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.MovementsCard;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.ws.rs.core.Response;
 
-/**
- * <b>Rest servlet that returns the squares we can play.</b>
- *
- * Expect parameters: x, y, card, color.
- *
- * @author jenselme
- */
 public abstract class GameApi {
 
     protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Response.Status.BAD_REQUEST);
 
-    /**
-     * The map of all parameters passed in the URL.
-     */
-    protected Map<String, String> parameters;
     /**
      * The Match the user is playing.
      */
@@ -41,10 +27,6 @@ public abstract class GameApi {
     protected MovementsCard playableCard;
     protected Session wsSession;
     protected HttpSession httpSession;
-
-    public GameApi() {
-        parameters = new HashMap<>();
-    }
 
     /**
      * Return the proper answer to the request, ie the JSON answer or a BAD_REQUEST.
@@ -77,12 +59,6 @@ public abstract class GameApi {
         return checkParametersAndGetResponse();
     }
 
-    /**
-     * Check that the passed parameters are consistent and returns a Response (400 if there is a
-     * problem) or goes on.
-     *
-     * @return A Response object.
-     */
     protected abstract String checkParametersAndGetResponse();
 
     @OnOpen
