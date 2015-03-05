@@ -110,15 +110,19 @@ gameModule.factory('player', [
  * Exported function:
  * - parse(event, callback): callback is called only if event.data doesn't contain any error.
  */
-gameModule.factory('ws', ['handleError',
-    function (handleError) {
-        var parse = function (event, callback) {
+gameModule.factory('ws', ['$q', 'handleError',
+    function ($q, handleError) {
+        var parse = function (event) {
+            var deferred = $q.defer();
             var data = JSON.parse(event.data);
             if (handleError.hasError(data)) {
                 handleError.show(data);
+                deferred.reject('data has own property error or error_to_display');
             } else {
-                callback(data);
+                deferred.resolve(data);
             }
+
+            return deferred.promise;
         };
 
         return {

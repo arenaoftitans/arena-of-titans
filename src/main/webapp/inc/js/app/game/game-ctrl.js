@@ -19,7 +19,7 @@ gameModule.controller("game", ['$scope',
         var viewPossibleMovementsUrl = '/api/getPossibleSquares';
         var viewPossibleMovementsWs = $websocket(host + viewPossibleMovementsUrl);
         viewPossibleMovementsWs.onMessage(function (event) {
-            ws.parse(event, function (data) {
+            ws.parse(event).then(function (data) {
                 $scope.highlightedSquares = data;
             });
         });
@@ -28,7 +28,7 @@ gameModule.controller("game", ['$scope',
         var playUrl = '/api/play';
         var playWs = $websocket(host + playUrl);
         playWs.onMessage(function (event) {
-            ws.parse(event, function (data) {
+            ws.parse(event).then(function (data) {
                 if (data.hasOwnProperty('newSquare')) {
                     var playerPawn = $scope.currentPlayer.pawn;
                     player.move(playerPawn, data.newSquare.x, data.newSquare.y);

@@ -11,7 +11,7 @@ playTrumpModule.controller('playTrump', ['$scope',
         var host = 'ws://localhost:8080';
         var playTrumpWs = $websocket(host + playTrumpUrl);
         playTrumpWs.onMessage(function (event) {
-            ws.parse(event, updateScopeOnSuccessfulTrump);
+            ws.parse(event).then(updateScopeOnSuccessfulTrump);
         });
         playTrumpWs.onError(handleError.show);
 
