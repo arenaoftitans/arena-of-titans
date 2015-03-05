@@ -2,9 +2,9 @@ gameModule.controller("game", ['$scope',
     '$http',
     '$websocket',
     '$rootScope',
-    'showHttpError',
+    'handleError',
     'player',
-    function ($scope, $http, $websocket, $rootScope, showHttpError, player) {
+    function ($scope, $http, $websocket, $rootScope, handleError, player) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(8);
         $scope.activePawns = [];
@@ -25,7 +25,7 @@ gameModule.controller("game", ['$scope',
         });
         /*
          .error(function (data) {
-         showHttpError.show(data);
+         handleError.show(data);
          $scope.selectedCard = null;
          });*/
         var playUrl = '/api/play';
@@ -41,7 +41,7 @@ gameModule.controller("game", ['$scope',
         });
         /*
          .error(function (data) {
-         showHttpError.show(data);
+         handleError.show(data);
          });
          */
         var getGameUrl = '/rest/createGame';
@@ -52,7 +52,7 @@ gameModule.controller("game", ['$scope',
                         createGame(game);
                     })
                     .error(function (data) {
-                        showHttpError.show(data);
+                        handleError.show(data);
                     });
         });
 

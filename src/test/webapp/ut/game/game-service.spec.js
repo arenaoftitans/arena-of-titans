@@ -3,12 +3,12 @@
 'use strict';
 
 describe('game', function () {
-    var showHttpError;
+    var handleError;
 
     beforeEach(angular.mock.module('aot.game'));
 
-    beforeEach(angular.mock.inject(function (_showHttpError_) {
-        showHttpError = _showHttpError_;
+    beforeEach(angular.mock.inject(function (_handleError_) {
+        handleError = _handleError_;
     }));
 
     beforeEach(function () {
@@ -19,21 +19,21 @@ describe('game', function () {
     it('Check that an error is logged', function () {
         var errorMessage = 'An error';
         var error = {'error': errorMessage};
-        showHttpError.show(error);
+        handleError.show(error);
         expect(console.log).toHaveBeenCalledWith(errorMessage);
     });
 
     it('Check that errors are logged', function () {
         var errorMessage = ['Error 1', 'Error 2'];
         var error = {error: errorMessage};
-        showHttpError.show(error);
+        handleError.show(error);
         expect(console.log).toHaveBeenCalledWith(errorMessage);
     });
 
     it('Display error', function () {
         var displayedError = 'Error displayed';
         var error = {error_to_display: displayedError};
-        showHttpError.show(error);
+        handleError.show(error);
         expect(alert).toHaveBeenCalledWith(displayedError);
     });
 
@@ -41,7 +41,7 @@ describe('game', function () {
         var loggedMessage = 'Error logged';
         var displayedError = 'Error displayed';
         var error = {error: loggedMessage, error_to_display: displayedError};
-        showHttpError.show(error);
+        handleError.show(error);
         expect(console.log).toHaveBeenCalledWith(loggedMessage);
         expect(alert).toHaveBeenCalledWith(displayedError);
     });

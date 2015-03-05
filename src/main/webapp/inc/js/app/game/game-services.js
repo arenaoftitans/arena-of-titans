@@ -6,7 +6,7 @@
  * Exported function:
  * - show
  */
-gameModule.factory('showHttpError', [
+gameModule.factory('handleError', [
     function () {
         /**
          * Log errors to the console and display the errors to display.
