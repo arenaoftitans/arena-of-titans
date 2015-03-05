@@ -8,9 +8,9 @@
 createGameModule.controller('createGame', ['$window',
     '$scope',
     '$http',
-    'showHttpError',
+    'handleError',
     'player',
-    function ($window, $scope, $http, showHttpError, player) {
+    function ($window, $scope, $http, handleError, player) {
         var createGameUrl = '/rest/createGame';
         var createGameMethod = 'POST';
         var gameUrl = '/game';
@@ -33,7 +33,7 @@ createGameModule.controller('createGame', ['$window',
                         $window.location = gameUrl;
                     })
                     .error(function (data) {
-                        showHttpError.show(data);
+                        handleError.show(data);
                     });
         };
     }]);

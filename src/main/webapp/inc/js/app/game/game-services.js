@@ -8,6 +8,16 @@
  */
 gameModule.factory('handleError', [
     function () {
+        var hasError = function (data, type) {
+            if (type) {
+                return data.hasOwnProperty(type);
+            }
+
+            var hasErrorToDisplay = data.hasOwnProperty('error_to_display');
+            var hasError = data.hasOwnProperty('error');
+            return hasError || hasErrorToDisplay;
+        };
+
         /**
          * Log errors to the console and display the errors to display.
          *
@@ -20,20 +30,20 @@ gameModule.factory('handleError', [
                 data = data.data;
             }
 
-            var hasErrorToDisplay = data.hasOwnProperty('error_to_display');
-            var hasError = data.hasOwnProperty('error');
-            if (hasErrorToDisplay) {
+            if (hasError(data, 'error_to_display')) {
                 alert(data.error_to_display);
             }
-            if (hasError) {
+            if (hasError(data, 'error')) {
                 console.log(data.error);
             }
-            if (!hasError && !hasErrorToDisplay) {
+            if (!hasError(data)) {
                 console.error(data);
             }
         };
+
         return {
-            show: show
+            show: show,
+            hasError: hasError
         };
     }
 ]);
@@ -91,6 +101,28 @@ gameModule.factory('player', [
         return {
             move: move,
             init: init
+        };
+    }
+]);
+
+
+/**
+ * Exported function:
+ * - parse(event, callback): callback is called only if event.data doesn't contain any error.
+ */
+gameModule.factory('ws', ['handleError',
+    function (handleError) {
+        var parse = function (event, callback) {
+            var data = JSON.parse(event.data);
+            if (handleError.hasError(data)) {
+                handleError.show(data);
+            } else {
+                callback(data);
+            }
+        };
+
+        return {
+            parse: parse
         };
     }
 ]);

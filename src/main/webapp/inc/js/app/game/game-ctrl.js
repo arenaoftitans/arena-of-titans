@@ -4,7 +4,8 @@ gameModule.controller("game", ['$scope',
     '$rootScope',
     'handleError',
     'player',
-    function ($scope, $http, $websocket, $rootScope, handleError, player) {
+    'ws',
+    function ($scope, $http, $websocket, $rootScope, handleError, player, ws) {
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(8);
         $scope.activePawns = [];
@@ -18,20 +19,23 @@ gameModule.controller("game", ['$scope',
         var viewPossibleMovementsUrl = '/api/getPossibleSquares';
         var viewPossibleMovementsWs = $websocket(host + viewPossibleMovementsUrl);
         viewPossibleMovementsWs.onMessage(function (event) {
-            $scope.highlightedSquares = JSON.parse(event.data);
+            ws.parse(event, function (data) {
+                $scope.highlightedSquares = data;
+            });
         });
         viewPossibleMovementsWs.onError(handleError.show);
 
         var playUrl = '/api/play';
         var playWs = $websocket(host + playUrl);
         playWs.onMessage(function (event) {
-            var data = JSON.parse(event.data);
-            if (data.hasOwnProperty('newSquare')) {
-                var playerPawn = $scope.currentPlayer.pawn;
-                player.move(playerPawn, data.newSquare.x, data.newSquare.y);
-            }
+            ws.parse(event, function (data) {
+                if (data.hasOwnProperty('newSquare')) {
+                    var playerPawn = $scope.currentPlayer.pawn;
+                    player.move(playerPawn, data.newSquare.x, data.newSquare.y);
+                }
 
-            updateGameParameters(data);
+                updateGameParameters(data);
+            });
         });
         playWs.onError(handleError.show);
 
