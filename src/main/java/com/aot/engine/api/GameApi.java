@@ -1,13 +1,11 @@
 package com.aot.engine.api;
 
-import com.aot.engine.GameFactory;
 import com.aot.engine.Match;
 import com.aot.engine.board.Board;
 import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.MovementsCard;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
@@ -30,10 +28,6 @@ public abstract class GameApi {
      */
     protected Map<String, String> parameters;
     /**
-     * The GameFactory of the current game.
-     */
-    protected GameFactory gameFactory;
-    /**
      * The Match the user is playing.
      */
     protected Match match;
@@ -41,10 +35,6 @@ public abstract class GameApi {
      * The Board he is playing on.
      */
     protected Board board;
-    /**
-     * His currentPlayerDeck of cards.
-     */
-    protected Deck currentPlayerDeck;
     /**
      * The last card played.
      */
@@ -54,14 +44,6 @@ public abstract class GameApi {
 
     public GameApi() {
         parameters = new HashMap<>();
-    }
-
-    /**
-     * Init the object's attributes.
-     */
-    protected void init() {
-        match = gameFactory.getMatch();
-        currentPlayerDeck = match.getActivePlayer().getDeck();
     }
 
     /**
@@ -87,12 +69,11 @@ public abstract class GameApi {
      * @return
      */
     protected String getGameFactoryResponse() {
-        gameFactory = (GameFactory) httpSession.getAttribute("gameFactory");
-        if (gameFactory == null) {
+        match = (Match) httpSession.getAttribute("match");
+        if (match == null) {
             return buildBadResponse("No match is running");
         }
 
-        init();
         return checkParametersAndGetResponse();
     }
 

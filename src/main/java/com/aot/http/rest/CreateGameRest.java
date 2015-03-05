@@ -3,6 +3,7 @@ package com.aot.http.rest;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
+import com.aot.engine.Match;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,10 +22,9 @@ import javax.ws.rs.core.Response;
 @Path("/createGame")
 public class CreateGameRest {
 
-    private final static String GAME_FACTORY = "gameFactory";
+    private final static String MATCH = "match";
 
     private List<JsonPlayer> players;
-    private GameFactory gameFactory;
 
     @Context
     ServletContext context;
@@ -44,9 +44,10 @@ public class CreateGameRest {
                     .build();
         }
 
-        gameFactory = new GameFactory();
+        GameFactory gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
-        req.getSession().setAttribute(GAME_FACTORY, gameFactory);
+        Match match = gameFactory.getMatch();
+        req.getSession().setAttribute(MATCH, match);
 
         return Response.ok().build();
     }
@@ -55,9 +56,9 @@ public class CreateGameRest {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
-        gameFactory = (GameFactory) req.getSession().getAttribute(GAME_FACTORY);
+        Match match = (Match) req.getSession().getAttribute(MATCH);
         return Response.status(Response.Status.OK)
-                .entity(CardPlayedJsonResponseBuilder.build(gameFactory.getMatch()))
+                .entity(CardPlayedJsonResponseBuilder.build(match))
                 .build();
     }
 

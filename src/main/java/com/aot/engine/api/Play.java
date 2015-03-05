@@ -78,7 +78,7 @@ public class Play extends PossibleSquaresLister {
     private String discardCard() {
         String cardName = parameters.get(CARD_NAME);
         String cardColor = parameters.get(CARD_COLOR);
-        MovementsCard cardToDiscard = currentPlayerDeck.getCard(cardName, cardColor);
+        MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
         if (cardToDiscard == null) {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
             return buildBadResponse(message);

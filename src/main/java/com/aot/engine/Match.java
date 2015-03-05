@@ -7,6 +7,7 @@ import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
+import com.aot.engine.cards.Deck;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -152,6 +153,10 @@ public class Match {
      */
     public int getActivePlayerIndex() {
         return activePlayer.getIndex();
+    }
+
+    public Deck getActivePlayerDeck() {
+        return activePlayer.getDeck();
     }
 
     /**

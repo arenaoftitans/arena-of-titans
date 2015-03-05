@@ -51,7 +51,7 @@ public abstract class PossibleSquaresLister extends GameApi {
         currentSquare.setAsOccupied();
 
         // Get the card.
-        playableCard = currentPlayerDeck.getCard(cardName, cardColor);
+        playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
         if (playableCard == null) {
             String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
             return buildBadResponse(message);
