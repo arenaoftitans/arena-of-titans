@@ -13,6 +13,7 @@ describe('game', function () {
 
     beforeEach(function () {
         console.log = jasmine.createSpy('log');
+        console.error = jasmine.createSpy('error');
         alert = jasmine.createSpy('alert');
     });
 
@@ -44,6 +45,12 @@ describe('game', function () {
         handleError.show(error);
         expect(console.log).toHaveBeenCalledWith(loggedMessage);
         expect(alert).toHaveBeenCalledWith(displayedError);
+    });
+
+    it('Log unknow object to console.error', function () {
+        var data = {hello: 'world'};
+        handleError.show(data);
+        expect(console.error).toHaveBeenCalledWith(data);
     });
 
 });
