@@ -105,7 +105,7 @@ gameModule.controller("game", ['$scope',
             var data = {
                 card_name: cardName,
                 card_color: cardColor,
-                player_id: $scope.currentPlayer.id.toString()
+                player_id: $scope.currentPlayer.id
             };
             // Stores the selected card.
             $scope.selectedCard = {name: cardName, color: cardColor};
@@ -131,9 +131,9 @@ gameModule.controller("game", ['$scope',
                 var data = {
                     card_name: $scope.selectedCard.name,
                     card_color: $scope.selectedCard.color,
-                    player_id: $scope.currentPlayer.id.toString(),
-                    x: squareX.toString(),
-                    y: squareY.toString()
+                    player_id: $scope.currentPlayer.id,
+                    x: squareX,
+                    y: squareY
                 };
                 // TODO: handle error.
                 playWs.send(data);
@@ -147,7 +147,7 @@ gameModule.controller("game", ['$scope',
          */
         $scope.pass = function () {
             var data = {
-                pass: true.toString()
+                pass: true
             };
             playWs.send(data);
         };
@@ -162,10 +162,10 @@ gameModule.controller("game", ['$scope',
 
         $scope.confirmDiscard = function () {
             var data = {
-                discard: true.toString(),
+                discard: true,
                 card_name: $scope.selectedCard.name,
                 card_color: $scope.selectedCard.color,
-                player_id: $scope.currentPlayer.id.toString()
+                player_id: $scope.currentPlayer.id
             };
             playWs.send(data);
             $scope.hiddeDiscardPopup();

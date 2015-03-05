@@ -39,8 +39,8 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
-            var targetIndex = $scope.trumpTargetedPlayer === undefined ? '' :
-                    $scope.trumpTargetedPlayer.toString();
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? -1 :
+                    $scope.trumpTargetedPlayer;
             var data = {
                 targetIndex: targetIndex,
                 name: $scope.trumpName
