@@ -5,7 +5,7 @@
 describe('play trump', function () {
     var $scope, $rootScope;
 
-    beforeEach(angular.mock.module('aot.play-trump'));
+    beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock', 'aot.play-trump'));
 
     beforeEach(module('aot.game'));
 
@@ -48,22 +48,20 @@ describe('play trump', function () {
     });
 
     describe('play', function () {
-        var $httpBackend;
-        var playTrumpUrl = '/rest/playTrump';
-        var playTrumpMethod = 'GET';
+        var $websocketBackend;
+        var playTrumpUrl = 'ws://localhost:8080/api/playTrump';
 
-        beforeEach(inject(function (_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
+        beforeEach(inject(function (_$websocketBackend_) {
+            $websocketBackend = _$websocketBackend_;
+            $websocketBackend.mock();
+            $websocketBackend.expectConnect(playTrumpUrl);
 
-            var playTrumpParameters = {name: 'trump'};
-            var playTrumpUrlWithParameters = setUrlParameters(playTrumpUrl, playTrumpParameters);
-            $httpBackend.when(playTrumpMethod, playTrumpUrlWithParameters)
-                    .respond(["square-0-0", "square-1-1"]);
+            var event = data2event(["square-0-0", "square-1-1"]);
+            $websocketBackend.expectSend(event);
         }));
 
         it('success', function () {
             $rootScope.$emit('wantToPlayTrump', trump, players, currentPlayerIndex);
-            $httpBackend.flush();
             expect($scope.trumpTargetedPlayer).not.toBeDefined();
             expect($scope.showTargetedPlayerForTrumpSelector).toBe(false);
         });
