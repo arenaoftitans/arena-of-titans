@@ -16,6 +16,10 @@ gameModule.factory('handleError', [
          * @returns {undefined}
          */
         var show = function (data) {
+            if (data.hasOwnProperty('data')) {
+                data = data.data;
+            }
+
             if (data.hasOwnProperty('error_to_display')) {
                 alert(data.error_to_display);
             }

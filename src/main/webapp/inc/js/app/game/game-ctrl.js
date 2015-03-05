@@ -20,14 +20,8 @@ gameModule.controller("game", ['$scope',
         viewPossibleMovementsWs.onMessage(function (event) {
             $scope.highlightedSquares = JSON.parse(event.data);
         });
-        viewPossibleMovementsWs.onError(function (event) {
-            alert(event.data);
-        });
-        /*
-         .error(function (data) {
-         handleError.show(data);
-         $scope.selectedCard = null;
-         });*/
+        viewPossibleMovementsWs.onError(handleError.show);
+
         var playUrl = '/api/play';
         var playWs = $websocket(host + playUrl);
         playWs.onMessage(function (event) {
@@ -39,13 +33,9 @@ gameModule.controller("game", ['$scope',
 
             updateGameParameters(data);
         });
-        /*
-         .error(function (data) {
-         handleError.show(data);
-         });
-         */
-        var getGameUrl = '/rest/createGame';
+        playWs.onError(handleError.show);
 
+        var getGameUrl = '/rest/createGame';
         $rootScope.$watch('$viewContentLoaded', function () {
             $http.get(getGameUrl)
                     .success(function (game) {
