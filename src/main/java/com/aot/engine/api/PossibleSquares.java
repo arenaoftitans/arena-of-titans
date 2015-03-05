@@ -22,7 +22,7 @@ import javax.websocket.server.ServerEndpoint;
  * @author jenselme
  */
 @ServerEndpoint(value="/api/getPossibleSquares", configurator=GetHttpSessionConfigurator.class)
-public class PossibleSquaresRest extends PossibleSquaresLister {
+public class PossibleSquares extends PossibleSquaresLister {
 
     @OnMessage
     public void getPossibleSquares(String message, Session session) throws IOException {
