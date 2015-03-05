@@ -29,6 +29,7 @@ module.exports = function(config) {
       root + '/app/game/game-ctrl.js',
       root + '/app/play-trump/play-trump-module.js',
       root + '/app/play-trump/play-trump-ctrl.js',
+      'utils.js',
       '**/*.js'
     ],
 
