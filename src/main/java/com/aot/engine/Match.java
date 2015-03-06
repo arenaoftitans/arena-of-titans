@@ -9,6 +9,7 @@ import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
 import com.aot.engine.cards.Deck;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
  * @author "Arena of Titans" first development team
  * @version 1.0
  */
-public class Match implements JsonExportable {
+public class Match {
 
     /**
      * The list of players in this match.
@@ -525,17 +526,29 @@ public class Match implements JsonExportable {
         return activePlayer.getTrumpByName(trumpName);
     }
 
-    @Override
-    public void prepareForJsonExport() {
+    public String toJson() {
+        prepareForJsonExport();
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    private void prepareForJsonExport() {
         players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
             deck.prepareForJsonExport();
         });
     }
 
-    @Override
-    public void resetAfterJsonImport() {
+    public static Match fromJson(String json) {
+        Gson gson = new Gson();
+        Match match = gson.fromJson(json, Match.class);
+        match.resetAfterJsonImport();
+
+        return match;
+    }
+
+    private void resetAfterJsonImport() {
         players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
-            deck.resetAfterJsonImport();
+            deck.resetAfterJsonImport(board);
         });
     }
 

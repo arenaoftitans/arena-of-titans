@@ -197,7 +197,7 @@ public class KnightMovementsCard extends MovementsCard {
 
     @Override
     public void prepareForJsonExport() {
-        super.nullifyLambdas();
+        super.prepareForJsonExport();
         possibleHorizontalSquaresGetter = null;
         possibleVerticalSquaresGetter = null;
         rightSquareGetter = null;
@@ -205,8 +205,7 @@ public class KnightMovementsCard extends MovementsCard {
     }
 
     @Override
-    public void resetAfterJsonImport() {
-        super.denullifyLambdas();
+    protected void resetPossibleSquareGetter() {
         resetLambdas();
     }
 

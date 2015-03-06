@@ -50,10 +50,10 @@ public class CreateGameRest {
         gameFactory.createNewMatch(players);
         Match match = gameFactory.getMatch();
 
+        match.toJson();
         JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
         try (Jedis jedis = pool.getResource()) {
-            match.prepareForJsonExport();
-            String matchJson = gson.toJson(match);
+            String matchJson = match.toJson();
             jedis.hset(Redis.GAME_KEY_PART + 1,
                     Redis.MATCH_KEY, matchJson);
             jedis.expire(Redis.GAME_KEY_PART + 1, Redis.GAME_EXPIRE);

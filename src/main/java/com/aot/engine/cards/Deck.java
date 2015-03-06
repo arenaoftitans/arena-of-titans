@@ -2,6 +2,7 @@ package com.aot.engine.cards;
 
 import com.aot.engine.Color;
 import com.aot.engine.api.json.JsonExportable;
+import com.aot.engine.board.Board;
 import com.aot.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -295,10 +296,10 @@ public class Deck implements JsonExportable {
     }
 
     @Override
-    public void resetAfterJsonImport() {
-        hand.parallelStream().forEach(card -> card.resetAfterJsonImport());
-        stock.parallelStream().forEach(card -> card.resetAfterJsonImport());
-        graveyard.parallelStream().forEach(card -> card.resetAfterJsonImport());
+    public void resetAfterJsonImport(Board board) {
+        hand.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+        stock.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+        graveyard.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
     }
 
 }

@@ -290,9 +290,12 @@ public abstract class MovementsCard implements JsonExportable {
     }
 
     @Override
-    public abstract void prepareForJsonExport();
+    public void prepareForJsonExport() {
+        nullifyLambdas();
+        board = null;
+    }
 
-    protected void nullifyLambdas() {
+    private void nullifyLambdas() {
         probableSquaresGetter = null;
         lineAndDiagonalProbableSquaresGetter = null;
         lineProbableSquaresGetter = null;
@@ -300,10 +303,16 @@ public abstract class MovementsCard implements JsonExportable {
     }
 
     @Override
-    public abstract void resetAfterJsonImport();
-
-    protected void denullifyLambdas() {
-        resetLambdas();
+    public void resetAfterJsonImport(Board board) {
+        denullifyLambdas();
+        this.board = board;
     }
+
+    private void denullifyLambdas() {
+        resetLambdas();
+        resetPossibleSquareGetter();
+    }
+
+    protected abstract void resetPossibleSquareGetter();
 
 }

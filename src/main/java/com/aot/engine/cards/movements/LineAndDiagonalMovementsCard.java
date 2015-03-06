@@ -10,16 +10,16 @@ public class LineAndDiagonalMovementsCard extends MovementsCard {
 
     public LineAndDiagonalMovementsCard(Board board, String name, int numberOfMovements, Color color) {
         super(board, name, numberOfMovements, color);
-        resetLambdas();
+        setPossibleSquareGetter();
     }
 
-    private void resetLambdas() {
+    private void setPossibleSquareGetter() {
         probableSquaresGetter = lineAndDiagonalProbableSquaresGetter;
     }
 
     public LineAndDiagonalMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         super(board, name, numberOfMovements, color, addtionalMovementsColor);
-        resetLambdas();
+        setPossibleSquareGetter();
     }
 
     @Override
@@ -28,13 +28,8 @@ public class LineAndDiagonalMovementsCard extends MovementsCard {
     }
 
     @Override
-    public void prepareForJsonExport() {
-        super.nullifyLambdas();
+    protected void resetPossibleSquareGetter() {
+        probableSquaresGetter = lineProbableSquaresGetter;
     }
 
-    @Override
-    public void resetAfterJsonImport() {
-        super.denullifyLambdas();
-        resetLambdas();
-    }
 }

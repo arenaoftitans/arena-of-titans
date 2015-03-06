@@ -1,13 +1,14 @@
 package com.aot.engine.cards.movements;
 
 import com.aot.engine.Color;
+import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.board.Board;
 import com.aot.engine.board.Square;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LineMovementsCard extends MovementsCard {
+public class LineMovementsCard extends MovementsCard implements JsonExportable {
 
 
     public LineMovementsCard(Board board, String name, int numberOfMovements, Color color) {
@@ -15,16 +16,16 @@ public class LineMovementsCard extends MovementsCard {
         defaultNumberOfMovements = numberOfMovements;
         defaultPossibleSquaresColor = new HashSet<>();
         defaultPossibleSquaresColor.add(color);
-        resetLambdas();
+        setPossibleSquareGetter();
     }
 
-    private void resetLambdas() {
+    private void setPossibleSquareGetter() {
         probableSquaresGetter = lineProbableSquaresGetter;
     }
 
     public LineMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         super(board, name, numberOfMovements, color, addtionalMovementsColor);
-        resetLambdas();
+        setPossibleSquareGetter();
     }
 
     @Override
@@ -33,13 +34,7 @@ public class LineMovementsCard extends MovementsCard {
     }
 
     @Override
-    public void prepareForJsonExport() {
-        super.nullifyLambdas();
-    }
-
-    @Override
-    public void resetAfterJsonImport() {
-        super.denullifyLambdas();
-        resetLambdas();
+    protected void resetPossibleSquareGetter() {
+        setPossibleSquareGetter();
     }
 }
