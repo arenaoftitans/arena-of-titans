@@ -3,10 +3,14 @@ package com.aot.engine.api;
 import com.aot.engine.Match;
 import com.aot.engine.board.Board;
 import com.aot.engine.cards.movements.MovementsCard;
+import com.google.gson.Gson;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 public abstract class GameApi {
 
@@ -24,6 +28,7 @@ public abstract class GameApi {
     protected MovementsCard playableCard;
     protected Session wsSession;
     protected HttpSession httpSession;
+    protected String gameId;
 
     /**
      * Return the proper answer to the request, ie the JSON answer or a BAD_REQUEST.
@@ -48,11 +53,20 @@ public abstract class GameApi {
      * @return
      */
     protected String getGameFactoryResponse() {
-        match = (Match) httpSession.getAttribute("match");
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
+
+        try (Jedis jedis = pool.getResource()) {
+            String matchJson = jedis.hget(Redis.GAME_KEY_PART + gameId,
+                    Redis.MATCH_KEY);
+            Gson gson = new Gson();
+            match = gson.fromJson(matchJson, Match.class);
+        }
+
         if (match == null) {
             return buildBadResponse("No match is running");
         }
 
+        pool.destroy();
         return checkParametersAndGetResponse();
     }
 

@@ -4,6 +4,7 @@ import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;
+import com.aot.engine.api.Redis;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +25,6 @@ import redis.clients.jedis.JedisPoolConfig;
 
 @Path("/createGame")
 public class CreateGameRest {
-
-    private final static String MATCH = "match";
-    private final static String REDIS_GAME_KEY_PART = "game:";
-    // time in seconds after which the game is deleted (48h).
-    private final static int GAME_EXPIRE = 172_800;
 
     private List<JsonPlayer> players;
 
@@ -54,12 +50,13 @@ public class CreateGameRest {
         gameFactory.createNewMatch(players);
         Match match = gameFactory.getMatch();
 
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
         try (Jedis jedis = pool.getResource()) {
             match.prepareForJsonExport();
             String matchJson = gson.toJson(match);
-            jedis.hset(REDIS_GAME_KEY_PART + 1, "match", matchJson);
-            jedis.expire(REDIS_GAME_KEY_PART + 1, GAME_EXPIRE);
+            jedis.hset(Redis.GAME_KEY_PART + 1,
+                    Redis.MATCH_KEY, matchJson);
+            jedis.expire(Redis.GAME_KEY_PART + 1, Redis.GAME_EXPIRE);
         }
         pool.destroy();
 
