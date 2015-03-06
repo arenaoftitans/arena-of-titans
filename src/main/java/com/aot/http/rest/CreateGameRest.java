@@ -26,6 +26,9 @@ import redis.clients.jedis.JedisPoolConfig;
 public class CreateGameRest {
 
     private final static String MATCH = "match";
+    private final static String REDIS_GAME_KEY_PART = "game:";
+    // time in seconds after which the game is deleted (48h).
+    private final static int GAME_EXPIRE = 172_800;
 
     private List<JsonPlayer> players;
 
@@ -55,7 +58,8 @@ public class CreateGameRest {
         try (Jedis jedis = pool.getResource()) {
             match.prepareForJsonExport();
             String matchJson = gson.toJson(match);
-            jedis.hset("game:" + 1, "match", matchJson);
+            jedis.hset(REDIS_GAME_KEY_PART + 1, "match", matchJson);
+            jedis.expire(REDIS_GAME_KEY_PART + 1, GAME_EXPIRE);
         }
         pool.destroy();
 
