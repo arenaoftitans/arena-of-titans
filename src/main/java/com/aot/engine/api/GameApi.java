@@ -7,11 +7,8 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.ws.rs.core.Response;
 
 public abstract class GameApi {
-
-    protected static final Response.ResponseBuilder BAD_REQUEST_BUILDER = Response.status(Response.Status.BAD_REQUEST);
 
     /**
      * The Match the user is playing.
