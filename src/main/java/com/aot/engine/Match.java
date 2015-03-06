@@ -1,5 +1,6 @@
 package com.aot.engine;
 
+import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.board.Board;
 import com.aot.engine.board.Square;
 import com.aot.engine.cards.movements.MovementsCard;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * @author "Arena of Titans" first development team
  * @version 1.0
  */
-public class Match {
+public class Match implements JsonExportable {
 
     /**
      * The list of players in this match.
@@ -36,7 +37,7 @@ public class Match {
      *
      * @since 1.0
      */
-    private final List<Player> players;
+    private List<Player> players;
     /**
      * The list of players who won the game.
      */
@@ -58,7 +59,7 @@ public class Match {
      *
      * @since 1.0
      */
-    private final Board board;
+    private Board board;
     /**
      * Next available rank for winner.
      *
@@ -522,6 +523,20 @@ public class Match {
      */
     public Trump getTrumpForActivePlayer(String trumpName) {
         return activePlayer.getTrumpByName(trumpName);
+    }
+
+    @Override
+    public void prepareForJsonExport() {
+        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
+            deck.prepareForJsonExport();
+        });
+    }
+
+    @Override
+    public void resetAfterJsonImport() {
+        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
+            deck.resetAfterJsonImport();
+        });
     }
 
 }

@@ -2,6 +2,7 @@ package com.aot.engine.cards.movements;
 
 import com.aot.engine.cards.movements.functionnal.ProbableSquaresGetter;
 import com.aot.engine.Color;
+import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.board.Square;
 import com.aot.engine.board.Board;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class MovementsCard {
+public abstract class MovementsCard implements JsonExportable {
 
     /**
      * The name of the card.
@@ -39,8 +40,8 @@ public abstract class MovementsCard {
     /**
      * Used to get the probable squares for a specific card.
      *
-     * @see Card#Card(com.aot.engine.board.Board, java.lang.String, int,
-     * com.aot.engine.Color, java.lang.String)
+     * @see Card#Card(com.aot.engine.board.Board, java.lang.String, int, com.aot.engine.Color,
+     * java.lang.String)
      */
     protected ProbableSquaresGetter probableSquaresGetter;
     /**
@@ -49,14 +50,14 @@ public abstract class MovementsCard {
      *
      * @see Board#getLineSquares(com.aot.engine.board.Square, java.util.Set)
      */
-    protected final ProbableSquaresGetter lineProbableSquaresGetter;
+    protected ProbableSquaresGetter lineProbableSquaresGetter;
     /**
      * Used to get the Up Left, Up Right, Down Left, Down Right squares when we search the possible
      * movements in diagonal.
      *
      * @see Board#getDiagonalSquares(com.aot.engine.board.Square, java.util.Set)
      */
-    protected final ProbableSquaresGetter diagonalProbableSquaresGetter;
+    protected ProbableSquaresGetter diagonalProbableSquaresGetter;
     /**
      * Used to get all the adjacent squares when we search the possible movements in line and
      * diagonal.
@@ -64,8 +65,7 @@ public abstract class MovementsCard {
      * @see Board#getLineSquares(com.aot.engine.board.Square, java.util.Set)
      * @see Board#getDiagonalSquares(com.aot.engine.board.Square, java.util.Set)
      */
-    protected final ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
-
+    protected ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter;
 
     protected int defaultNumberOfMovements;
     protected Set<Color> defaultPossibleSquaresColor;
@@ -101,8 +101,7 @@ public abstract class MovementsCard {
     /**
      * <b>Returns the possible colors where this card can land.</b>
      *
-     * @return
-     *      The possible colors where this card can land.
+     * @return The possible colors where this card can land.
      */
     public Set<Color> getSquarePossibleColors() {
         return possibleSquaresColor;
@@ -130,10 +129,14 @@ public abstract class MovementsCard {
         this.possibleSquaresColor.add(color);
         this.defaultPossibleSquaresColor.add(color);
 
-        lineProbableSquaresGetter = (Square currentSquare) ->
-            board.getLineSquares(currentSquare, possibleSquaresColor);
-        diagonalProbableSquaresGetter = (Square currentSquare) ->
-            board.getDiagonalSquares(currentSquare, possibleSquaresColor);
+        resetLambdas();
+    }
+
+    private void resetLambdas() {
+        lineProbableSquaresGetter = (Square currentSquare)
+                -> board.getLineSquares(currentSquare, possibleSquaresColor);
+        diagonalProbableSquaresGetter = (Square currentSquare)
+                -> board.getDiagonalSquares(currentSquare, possibleSquaresColor);
         lineAndDiagonalProbableSquaresGetter = (Square currentSquare) -> {
             Set<Square> possibleSquares = board.getDiagonalSquares(currentSquare, possibleSquaresColor);
             possibleSquares.addAll(board.getLineSquares(currentSquare, possibleSquaresColor));
@@ -270,7 +273,7 @@ public abstract class MovementsCard {
     @Override
     public boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass()) {
-           return false;
+            return false;
         } else {
             MovementsCard other = (MovementsCard) obj;
             boolean hasSameNameAndColor = name.equals(other.name) && cardColor.equals(other.cardColor);
@@ -284,6 +287,23 @@ public abstract class MovementsCard {
         return "MovementsCard{" + "name=" + name + ", cardColor=" + cardColor
                 + ", possibleSquaresColor=" + possibleSquaresColor + ", numberOfMovements="
                 + numberOfMovements + '}';
+    }
+
+    @Override
+    public abstract void prepareForJsonExport();
+
+    protected void nullifyLambdas() {
+        probableSquaresGetter = null;
+        lineAndDiagonalProbableSquaresGetter = null;
+        lineProbableSquaresGetter = null;
+        diagonalProbableSquaresGetter = null;
+    }
+
+    @Override
+    public abstract void resetAfterJsonImport();
+
+    protected void denullifyLambdas() {
+        resetLambdas();
     }
 
 }

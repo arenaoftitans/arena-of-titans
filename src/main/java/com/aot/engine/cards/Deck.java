@@ -1,6 +1,7 @@
 package com.aot.engine.cards;
 
 import com.aot.engine.Color;
+import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-public class Deck {
+public class Deck implements JsonExportable {
 
     private static final int CARDS_IN_HANDS = 5;
     private static final String CARD_NAME_KEY = "name";
@@ -284,6 +285,20 @@ public class Deck {
                     return jsonCard;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void prepareForJsonExport() {
+        hand.parallelStream().forEach(card -> card.prepareForJsonExport());
+        stock.parallelStream().forEach(card -> card.prepareForJsonExport());
+        graveyard.parallelStream().forEach(card -> card.prepareForJsonExport());
+    }
+
+    @Override
+    public void resetAfterJsonImport() {
+        hand.parallelStream().forEach(card -> card.resetAfterJsonImport());
+        stock.parallelStream().forEach(card -> card.resetAfterJsonImport());
+        graveyard.parallelStream().forEach(card -> card.resetAfterJsonImport());
     }
 
 }
