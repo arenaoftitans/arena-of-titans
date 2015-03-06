@@ -18,6 +18,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 @Path("/createGame")
 public class CreateGameRest {
@@ -47,9 +50,16 @@ public class CreateGameRest {
         GameFactory gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
         Match match = gameFactory.getMatch();
-        req.getSession().setAttribute(MATCH, match);
 
-        return Response.ok().build();
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+        try (Jedis jedis = pool.getResource()) {
+            match.prepareForJsonExport();
+            String matchJson = gson.toJson(match);
+            jedis.hset("game:" + 1, "match", matchJson);
+        }
+        pool.destroy();
+
+        return Response.status(Response.Status.OK).entity("{\"game_id\": \"1\"}").build();
     }
 
     @GET
