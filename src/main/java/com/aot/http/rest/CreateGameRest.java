@@ -3,9 +3,7 @@ package com.aot.http.rest;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
-import com.aot.engine.Match;
-import com.aot.engine.api.Redis;
-import com.aot.engine.trumps.RemovingColorTrump;
+import com.aot.engine.api.GameApi;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,12 +18,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 @Path("/createGame")
-public class CreateGameRest {
+public class CreateGameRest extends GameApi {
 
     private List<JsonPlayer> players;
 
@@ -49,16 +44,9 @@ public class CreateGameRest {
 
         GameFactory gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
-        Match match = gameFactory.getMatch();
+        match = gameFactory.getMatch();
 
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
-        try (Jedis jedis = pool.getResource()) {
-            String matchJson = match.toJson();
-            jedis.hset(Redis.GAME_KEY_PART + 1,
-                    Redis.MATCH_KEY, matchJson);
-            jedis.expire(Redis.GAME_KEY_PART + 1, Redis.GAME_EXPIRE);
-        }
-        pool.destroy();
+        saveMatch();
 
         return Response.status(Response.Status.OK).entity("{\"game_id\": \"1\"}").build();
     }
@@ -67,14 +55,7 @@ public class CreateGameRest {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
-        Match match = null;
-
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
-        try (Jedis jedis = pool.getResource()) {
-            String matchJson = jedis.hget(Redis.GAME_KEY_PART + 1, Redis.MATCH_KEY);
-            match = Match.fromJson(matchJson);
-        }
-        pool.destroy();
+        retrieveMatch();
 
         return Response.status(Response.Status.OK)
                 .entity(CardPlayedJsonResponseBuilder.build(match))
@@ -94,6 +75,16 @@ public class CreateGameRest {
         }
 
         players = correctedListOfPlayers;
+    }
+
+    @Override
+    protected String getResponse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected String checkParametersAndGetResponse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

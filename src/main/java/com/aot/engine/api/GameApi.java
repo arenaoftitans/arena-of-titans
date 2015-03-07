@@ -77,4 +77,26 @@ public abstract class GameApi {
                 .get(HttpSession.class.getName());
     }
 
+    protected void saveMatch() {
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
+        try (Jedis jedis = pool.getResource()) {
+            String matchJson = match.toJson();
+            jedis.hset(Redis.GAME_KEY_PART + 1,
+                    Redis.MATCH_KEY, matchJson);
+            jedis.expire(Redis.GAME_KEY_PART + 1, Redis.GAME_EXPIRE);
+        }
+        pool.destroy();
+    }
+
+    protected Match retrieveMatch() {
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+        try (Jedis jedis = pool.getResource()) {
+            String matchJson = jedis.hget(Redis.GAME_KEY_PART + 1, Redis.MATCH_KEY);
+            match = Match.fromJson(matchJson);
+        }
+        pool.destroy();
+
+        return match;
+    }
+
 }
