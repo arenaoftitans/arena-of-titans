@@ -5,6 +5,7 @@ import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;
 import com.aot.engine.api.Redis;
+import com.aot.engine.trumps.RemovingColorTrump;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,6 @@ public class CreateGameRest {
         gameFactory.createNewMatch(players);
         Match match = gameFactory.getMatch();
 
-        match.toJson();
         JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
         try (Jedis jedis = pool.getResource()) {
             String matchJson = match.toJson();
@@ -67,7 +67,15 @@ public class CreateGameRest {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
-        Match match = (Match) req.getSession().getAttribute(MATCH);
+        Match match = null;
+
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+        try (Jedis jedis = pool.getResource()) {
+            String matchJson = jedis.hget(Redis.GAME_KEY_PART + 1, Redis.MATCH_KEY);
+            match = Match.fromJson(matchJson);
+        }
+        pool.destroy();
+
         return Response.status(Response.Status.OK)
                 .entity(CardPlayedJsonResponseBuilder.build(match))
                 .build();
