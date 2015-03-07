@@ -3,7 +3,6 @@ package com.aot.engine.api;
 import com.aot.engine.Match;
 import com.aot.engine.board.Board;
 import com.aot.engine.cards.movements.MovementsCard;
-import com.google.gson.Gson;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
@@ -58,8 +57,7 @@ public abstract class GameApi {
         try (Jedis jedis = pool.getResource()) {
             String matchJson = jedis.hget(Redis.GAME_KEY_PART + gameId,
                     Redis.MATCH_KEY);
-            Gson gson = new Gson();
-            match = gson.fromJson(matchJson, Match.class);
+            match = Match.fromJson(matchJson);
         }
 
         if (match == null) {
