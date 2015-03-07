@@ -7,7 +7,8 @@ playTrumpModule.controller('playTrump', ['$scope',
     'ws',
     function ($scope, $rootScope, $websocket, handleError, ws) {
         $scope.showTargetedPlayerForTrumpSelector = false;
-        var playTrumpUrl = '/api/playTrump';
+        var gameId = location.pathname.split('/').pop();
+        var playTrumpUrl = '/api/playTrump/' + gameId;
         var host = 'ws://localhost:8080';
         var playTrumpWs = $websocket(host + playTrumpUrl);
         playTrumpWs.onMessage(function (event) {

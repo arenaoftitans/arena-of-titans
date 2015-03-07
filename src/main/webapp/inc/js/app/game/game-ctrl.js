@@ -15,8 +15,11 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
+        var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
-        var viewPossibleMovementsUrl = '/api/getPossibleSquares';
+        var viewPossibleMovementsUrl = '/api/getPossibleSquares/' + gameId;
+        var playUrl = '/api/play/' + gameId;
+        var playWs = $websocket(host + playUrl);
         var viewPossibleMovementsWs = $websocket(host + viewPossibleMovementsUrl);
         viewPossibleMovementsWs.onMessage(function (event) {
             ws.parse(event).then(function (data) {
@@ -25,8 +28,6 @@ gameModule.controller("game", ['$scope',
         });
         viewPossibleMovementsWs.onError(handleError.show);
 
-        var playUrl = '/api/play';
-        var playWs = $websocket(host + playUrl);
         playWs.onMessage(function (event) {
             ws.parse(event).then(function (data) {
                 if (data.hasOwnProperty('newSquare')) {
