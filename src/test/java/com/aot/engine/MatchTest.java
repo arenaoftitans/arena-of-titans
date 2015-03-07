@@ -412,6 +412,7 @@ public class MatchTest {
 
         // java type
         assertTrue(jTrump.has("java_type"));
+        assertNotEquals(Trump.class.toString(), jTrump.get("java_type").getAsString());
 
         // Name
         String name = jTrump.get("name").getAsString();
@@ -434,6 +435,7 @@ public class MatchTest {
 
         // javaType
         assertTrue(jCard.has("java_type"));
+        assertNotEquals(MovementsCard.class.toString(), jCard.get("java_type").getAsString());
 
         // name
         String name = jCard.get("name").getAsString();

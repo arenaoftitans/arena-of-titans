@@ -22,13 +22,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -575,7 +573,7 @@ public class Match {
             // obj must be serialized by a new Gson to avoid infinite recurtion.
             Gson gson = new Gson();
             JsonObject jsonTrump = gson.toJsonTree(obj, type).getAsJsonObject();
-            jsonTrump.addProperty(JSON_JAVA_TYPE_KEY, type.toString());
+            jsonTrump.addProperty(JSON_JAVA_TYPE_KEY, obj.getClass().toString());
 
             return jsonTrump;
         }
