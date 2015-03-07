@@ -29,8 +29,9 @@ createGameModule.controller('createGame', ['$window',
                 method: createGameMethod,
                 data: players
             })
-                    .success(function () {
-                        $window.location = gameUrl;
+                    .success(function (data) {
+                        var gameId = data.game_id;
+                        $window.location = gameUrlRoot + gameId;
                     })
                     .error(function (data) {
                         handleError.show(data);
