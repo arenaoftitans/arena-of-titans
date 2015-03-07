@@ -282,6 +282,20 @@ public abstract class MovementsCard implements JsonExportable {
         }
     }
 
+    public Board getBoardCopy() {
+        if (board == null) {
+            return null;
+        }
+        return new Board(board);
+    }
+
+    public boolean lambdasAllNonNull() {
+        return probableSquaresGetter != null
+                && lineProbableSquaresGetter != null
+                && diagonalProbableSquaresGetter != null
+                && lineAndDiagonalProbableSquaresGetter != null;
+    }
+
     @Override
     public String toString() {
         return "MovementsCard{" + "name=" + name + ", cardColor=" + cardColor

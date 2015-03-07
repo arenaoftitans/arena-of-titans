@@ -489,6 +489,12 @@ public class MatchTest {
         Deck deck = match.getActivePlayerDeck();
         Deck deckFromJson = matchFromJson.getActivePlayerDeck();
         assertEquals(deck, deckFromJson);
+
+        // Card : board and lambdas not null
+        MovementsCard cardFromJson = matchFromJson.getActivePlayerDeck().getFirstCardInHand();
+        Board boardCardFromJson = cardFromJson.getBoardCopy();
+        assertEquals(board, boardCardFromJson);
+        assertTrue(cardFromJson.lambdasAllNonNull());
     }
 
 }

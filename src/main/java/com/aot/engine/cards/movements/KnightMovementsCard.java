@@ -59,6 +59,14 @@ public class KnightMovementsCard extends MovementsCard {
         resetLambdas();
     }
 
+    @Override
+    public boolean lambdasAllNonNull() {
+        return possibleHorizontalSquaresGetter != null
+                && possibleVerticalSquaresGetter != null
+                && rightSquareGetter != null
+                && leftSquareGetter != null;
+    }
+
     private void resetLambdas() {
         leftSquareGetter = (Square square) -> board.getLeftSquare(square);
         rightSquareGetter = (Square square) -> board.getRightSquare(square);

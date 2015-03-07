@@ -27,6 +27,7 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -624,6 +625,8 @@ public class Match {
         players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
             deck.resetAfterJsonImport(board);
         });
+
+        activePlayer = players.get(activePlayer.getIndex());
     }
 
     @Override
