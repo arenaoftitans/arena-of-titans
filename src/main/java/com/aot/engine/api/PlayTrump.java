@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -16,7 +17,7 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author jenselme
  */
-@ServerEndpoint(value="/api/playTrump",  configurator=GetHttpSessionConfigurator.class)
+@ServerEndpoint(value="/api/playTrump/{id}",  configurator=GetHttpSessionConfigurator.class)
 public class PlayTrump extends GameApi {
 
     private class WsTrump {
@@ -36,7 +37,8 @@ public class PlayTrump extends GameApi {
     private Trump trump;
 
     @OnMessage
-    public void play(String message, Session session) throws IOException {
+    public void play(@PathParam("id") String id, String message, Session session) throws IOException {
+        this.gameId = id;
         Gson gson = new Gson();
         wsTrump = gson.fromJson(message, WsTrump.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());

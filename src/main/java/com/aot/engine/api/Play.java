@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -16,11 +17,12 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author jenselme
  */
-@ServerEndpoint(value = "/api/play", configurator = GetHttpSessionConfigurator.class)
+@ServerEndpoint(value = "/api/play/{id}", configurator = GetHttpSessionConfigurator.class)
 public class Play extends PossibleSquaresLister {
 
     @OnMessage
-    public void play(String message, Session session) throws IOException {
+    public void play(@PathParam("id") String id, String message, Session session) throws IOException {
+        this.gameId = id;
         Gson gson = new Gson();
         wsMove = gson.fromJson(message, WsMove.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());

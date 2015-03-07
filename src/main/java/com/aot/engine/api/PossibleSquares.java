@@ -1,18 +1,21 @@
 package com.aot.engine.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value="/api/getPossibleSquares", configurator=GetHttpSessionConfigurator.class)
+@ServerEndpoint(value="/api/getPossibleSquares/{id}", configurator=GetHttpSessionConfigurator.class)
 public class PossibleSquares extends PossibleSquaresLister {
 
     @OnMessage
-    public void getPossibleSquares(String message, Session session) throws IOException {
+    public void getPossibleSquares(@PathParam("id") String id, String message, Session session) throws IOException {
+        this.gameId = id;
         Gson gson = new Gson();
         wsMove = gson.fromJson(message, WsMove.class);
         session.getBasicRemote().sendText(getGameFactoryResponse());
