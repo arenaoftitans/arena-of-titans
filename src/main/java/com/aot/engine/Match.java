@@ -1,6 +1,5 @@
 package com.aot.engine;
 
-import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.board.Board;
 import com.aot.engine.board.Square;
 import com.aot.engine.cards.movements.MovementsCard;
@@ -9,9 +8,27 @@ import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
 import com.aot.engine.cards.Deck;
+import com.aot.engine.cards.movements.DiagonalMovementsCard;
+import com.aot.engine.cards.movements.KnightMovementsCard;
+import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
+import com.aot.engine.cards.movements.LineMovementsCard;
+import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
+import com.aot.engine.trumps.RemovingColorTrump;
+import com.aot.engine.trumps.TrumpBlockingTrump;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +47,8 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Match {
+
+    private static final String JSON_JAVA_TYPE_KEY = "java_type";
 
     /**
      * The list of players in this match.
@@ -484,6 +503,14 @@ public class Match {
         return gameOver;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public Integer getNextRankAvailable() {
+        return nextRankAvailable;
+    }
+
     public List<String> getWinnerNames() {
         return winners.parallelStream()
                 .map(player -> player.getName())
@@ -528,7 +555,10 @@ public class Match {
 
     public String toJson() {
         prepareForJsonExport();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Trump.class, new SerializeAbstract<Trump>())
+                .registerTypeAdapter(MovementsCard.class, new SerializeAbstract<MovementsCard>())
+                .create();
         return gson.toJson(this);
     }
 
@@ -536,6 +566,19 @@ public class Match {
         players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
             deck.prepareForJsonExport();
         });
+    }
+
+    private class SerializeAbstract<T> implements JsonSerializer<T> {
+
+        @Override
+        public JsonElement serialize(T obj, Type type, JsonSerializationContext jsc) {
+            // obj must be serialized by a new Gson to avoid infinite recurtion.
+            Gson gson = new Gson();
+            JsonObject jsonTrump = gson.toJsonTree(obj, type).getAsJsonObject();
+            jsonTrump.addProperty(JSON_JAVA_TYPE_KEY, type.toString());
+
+            return jsonTrump;
+        }
     }
 
     public static Match fromJson(String json) {

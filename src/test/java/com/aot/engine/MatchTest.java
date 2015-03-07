@@ -4,16 +4,28 @@ import com.aot.engine.board.Board;
 import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.aot.engine.cards.movements.MovementsCard;
+import com.aot.engine.cards.movements.functionnal.ProbableSquaresGetter;
 import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
 import com.aot.engine.trumps.RemovingColorTrump;
 import com.aot.engine.trumps.Trump;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.junit.After;
+import org.junit.Assert;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,7 +52,9 @@ public class MatchTest {
         for (int i = 0; i < 8; i++) {
             players[i] = new Player("player " + i, i);
         }
-        match = new Match(players, board, gf.getDeckCreator(), new ArrayList<>());
+        List<Trump> trumpList = new ArrayList<>();
+        trumpList.add(new RemovingColorTrump("my trump", 10, "test", 101, true));
+        match = new Match(players, board, gf.getDeckCreator(), trumpList);
         player1 = match.getPlayers().get(0);
     }
 
@@ -332,6 +346,129 @@ public class MatchTest {
         MovementsCard card = player1.getDeck().getFirstCardInHand();
         card.revertToDefault();
         assertFalse(card.getSquarePossibleColors().isEmpty());
+    }
+
+    @Test
+    public void testToJsonStandardType() {
+        // Test that each standard field are correctly serialized.
+        Gson gson = new Gson();
+        JsonObject jsonMatch = getMatchAsJsonObject();
+
+        // gameOver
+        JsonElement jGameOver = jsonMatch.get("gameOver");
+        Boolean gameOver = gson.fromJson(jGameOver, Boolean.class);
+        assertEquals(match.getGameOver(), gameOver);
+
+        // board
+        JsonElement jBoard = jsonMatch.get("board");
+        Board board = gson.fromJson(jBoard, Board.class);
+        assertEquals(match.getBoard(), board);
+
+        // nextRankAvailable
+        JsonElement jNextRank = jsonMatch.get("nextRankAvailable");
+        Integer nextRank = gson.fromJson(jNextRank, Integer.class);
+        assertEquals(match.getNextRankAvailable(), nextRank);
+    }
+
+    private JsonObject getMatchAsJsonObject() {
+        return new JsonParser().parse(match.toJson()).getAsJsonObject();
+    }
+
+    @Test
+    public void testToJsonPlayerStandardField() {
+        // Test only some fields
+        Assert.assertNotNull(match.getActivePlayer());
+        Gson gson = new Gson();
+        JsonObject jPlayer = getActivePlayerAsJsonObject();
+
+        // name
+        JsonElement jName = jPlayer.get("name");
+        String name = gson.fromJson(jName, String.class);
+        assertEquals(match.getActivePlayerName(), name);
+
+        // canPlay
+        JsonElement jCanPlay = jPlayer.get("canPlay");
+        Boolean canPlay = gson.fromJson(jCanPlay, Boolean.class);
+        assertEquals(match.getActivePlayer().canPlay(), canPlay);
+
+        // aim
+        JsonElement jAim = jPlayer.get("aim");
+        Type aimType = new TypeToken<Set<Integer>>() {}.getType();
+        Set<Integer> aim = gson.fromJson(jAim, aimType);
+        assertEquals(match.getActivePlayer().getAim(), aim);
+    }
+
+    private JsonObject getActivePlayerAsJsonObject() {
+        return getMatchAsJsonObject().get("activePlayer").getAsJsonObject();
+    }
+
+    @Test
+    public void testToJsonPlayerTrumps() {
+        JsonObject jPlayer = getActivePlayerAsJsonObject();
+        JsonArray jPlayableTrumps = jPlayer.get("playableTrumps").getAsJsonArray();
+        assertEquals(match.getActivePlayer().getTrumpsForJsonExport().size(), jPlayableTrumps.size());
+
+        JsonObject jTrump = jPlayableTrumps.get(0).getAsJsonObject();
+
+        // java type
+        assertTrue(jTrump.has("java_type"));
+
+        // Name
+        String name = jTrump.get("name").getAsString();
+        assertEquals(match.getActivePlayer().getTrumpsForJsonExport().get(0).getName(), name);
+    }
+
+    @Test
+    public void testToJsonPlayerDeck() {
+        Gson gson = new Gson();
+        // We only test the hand. The rest works exactly the same.
+        JsonObject jDeck = getActivePlayerDeckAsJsonObject();
+        JsonArray jHand = jDeck.get("hand").getAsJsonArray();
+
+        // Number of cards.
+        List<Map<String, String>> hand = match.getActivePlayer().getHandForJsonExport();
+        assertEquals(hand.size(), jHand.size());
+
+        MovementsCard card = match.getActivePlayer().getDeck().getFirstCardInHand();
+        JsonObject jCard = jHand.get(0).getAsJsonObject();
+
+        // javaType
+        assertTrue(jCard.has("java_type"));
+
+        // name
+        String name = jCard.get("name").getAsString();
+        assertEquals(card.getName(), name);
+
+        // possibleSquaresColor
+        Type possibleSquaresColorType = new TypeToken<Set<Color>>() {}.getType();
+        Set<Color> possibleSquaresColor = gson.fromJson(jCard.get("defaultPossibleSquaresColor"),
+                possibleSquaresColorType);
+        assertEquals(card.getSquarePossibleColors(), possibleSquaresColor);
+
+        // board
+        Board board = gson.fromJson(jCard.get("board"), Board.class);
+        assertNull(board);
+
+        // Lambdas
+        ProbableSquaresGetter probableSquaresGetter = gson.fromJson(jCard.get("probableSquaresGetter"),
+                ProbableSquaresGetter.class);
+        assertNull(probableSquaresGetter);
+
+        ProbableSquaresGetter lineProbableSquaresGetter = gson.fromJson(jCard.get("lineProbableSquaresGetter"),
+                ProbableSquaresGetter.class);
+        assertNull(lineProbableSquaresGetter);
+
+        ProbableSquaresGetter diagonalProbableSquaresGetter = gson.fromJson(jCard.get("diagonalProbableSquaresGetter"),
+                ProbableSquaresGetter.class);
+        assertNull(diagonalProbableSquaresGetter);
+
+        ProbableSquaresGetter lineAndDiagonalProbableSquaresGetter = gson.fromJson(jCard.get("lineAndDiagonalProbableSquaresGetter"),
+                ProbableSquaresGetter.class);
+        assertNull(lineAndDiagonalProbableSquaresGetter);
+    }
+
+    private JsonObject getActivePlayerDeckAsJsonObject() {
+        return getActivePlayerAsJsonObject().get("deck").getAsJsonObject();
     }
 
 }

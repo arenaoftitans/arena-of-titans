@@ -291,4 +291,43 @@ public class Board {
     public int getHeight() {
         return height;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + this.width;
+        hash = 29 * hash + this.height;
+        hash = 29 * hash + Arrays.deepHashCode(this.gameBoard);
+        hash = 29 * hash + this.innerCircleHigherY;
+        hash = 29 * hash + this.armsWidth;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Board other = (Board) obj;
+        if (this.width != other.width) {
+            return false;
+        }
+        if (this.height != other.height) {
+            return false;
+        }
+        if (!Arrays.deepEquals(this.gameBoard, other.gameBoard)) {
+            return false;
+        }
+        if (this.innerCircleHigherY != other.innerCircleHigherY) {
+            return false;
+        }
+        if (this.armsWidth != other.armsWidth) {
+            return false;
+        }
+        return true;
+    }
+
 }
