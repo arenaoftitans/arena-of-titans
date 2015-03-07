@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Deck implements JsonExportable {
@@ -300,6 +301,40 @@ public class Deck implements JsonExportable {
         hand.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
         stock.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
         graveyard.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.cardsList);
+        hash = 47 * hash + Objects.hashCode(this.graveyard);
+        hash = 47 * hash + Objects.hashCode(this.hand);
+        hash = 47 * hash + Objects.hashCode(this.stock);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Deck other = (Deck) obj;
+        if (!Objects.equals(this.cardsList, other.cardsList)) {
+            return false;
+        }
+        if (!Objects.equals(this.graveyard, other.graveyard)) {
+            return false;
+        }
+        if (!Objects.equals(this.hand, other.hand)) {
+            return false;
+        }
+        if (!Objects.equals(this.stock, other.stock)) {
+            return false;
+        }
+        return true;
     }
 
 }

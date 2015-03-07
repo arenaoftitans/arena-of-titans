@@ -22,6 +22,14 @@ public class Board {
         this.gameBoard = board;
     }
 
+    public Board(Board another) {
+        this.width = another.width;
+        this.height = another.height;
+        this.innerCircleHigherY = another.innerCircleHigherY;
+        this.armsWidth = another.armsWidth;
+        this.gameBoard = Arrays.copyOf(another.gameBoard, another.gameBoard.length);
+    }
+
     /**
      * Get the square located at (x,y)
      *

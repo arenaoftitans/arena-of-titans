@@ -362,7 +362,7 @@ public class MatchTest {
         // board
         JsonElement jBoard = jsonMatch.get("board");
         Board board = gson.fromJson(jBoard, Board.class);
-        assertEquals(match.getBoard(), board);
+        assertEquals(match.getBoardCopy(), board);
 
         // nextRankAvailable
         JsonElement jNextRank = jsonMatch.get("nextRankAvailable");
@@ -471,6 +471,24 @@ public class MatchTest {
 
     private JsonObject getActivePlayerDeckAsJsonObject() {
         return getActivePlayerAsJsonObject().get("deck").getAsJsonObject();
+    }
+
+    @Test
+    public void testFromJson() {
+        // Only Movements cards and trumps must be manually tested.
+        String jMatch = match.toJson();
+        Match matchFromJson = Match.fromJson(jMatch);
+        assertEquals(match, matchFromJson);
+
+        // Trumps
+        List<Trump> playableTrumps = match.getActivePlayer().getPlayableTrumpsCopy();
+        List<Trump> playableTrumpsFromJson = matchFromJson.getActivePlayer().getPlayableTrumpsCopy();
+        assertEquals(playableTrumps, playableTrumpsFromJson);
+
+        // Deck
+        Deck deck = match.getActivePlayerDeck();
+        Deck deckFromJson = matchFromJson.getActivePlayerDeck();
+        assertEquals(deck, deckFromJson);
     }
 
 }

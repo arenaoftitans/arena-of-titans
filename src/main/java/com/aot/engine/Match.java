@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -501,8 +502,8 @@ public class Match {
         return gameOver;
     }
 
-    public Board getBoard() {
-        return board;
+    public Board getBoardCopy() {
+        return new Board(board);
     }
 
     public Integer getNextRankAvailable() {
@@ -580,17 +581,91 @@ public class Match {
     }
 
     public static Match fromJson(String json) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Trump.class, new DeserializeAbstract<Trump>())
+                .registerTypeAdapter(MovementsCard.class, new DeserializeAbstract<MovementsCard>())
+                .create();
         Match match = gson.fromJson(json, Match.class);
         match.resetAfterJsonImport();
 
         return match;
     }
 
+    private static class DeserializeAbstract<T> implements JsonDeserializer<T> {
+
+        @Override
+        public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+            JsonObject jsonObj = je.getAsJsonObject();
+            String javaType = jsonObj.get(JSON_JAVA_TYPE_KEY).getAsString();
+            jsonObj.remove(JSON_JAVA_TYPE_KEY);
+
+            if (javaType.equals(ModifyNumberOfMovesInATurnTrump.class.toString())) {
+                return jdc.deserialize(jsonObj, ModifyNumberOfMovesInATurnTrump.class);
+            } else if (javaType.equals(RemovingColorTrump.class.toString())) {
+                return jdc.deserialize(jsonObj, RemovingColorTrump.class);
+            } else if (javaType.equals(TrumpBlockingTrump.class.toString())) {
+                return jdc.deserialize(jsonObj, TrumpBlockingTrump.class);
+            } else if (javaType.equals(DiagonalMovementsCard.class.toString())) {
+                return jdc.deserialize(jsonObj, DiagonalMovementsCard.class);
+            } else if (javaType.equals(KnightMovementsCard.class.toString())) {
+                return jdc.deserialize(jsonObj, KnightMovementsCard.class);
+            } else if (javaType.equals(LineAndDiagonalMovementsCard.class.toString())) {
+                return jdc.deserialize(jsonObj, LineAndDiagonalMovementsCard.class);
+            } else if (javaType.equals(LineMovementsCard.class.toString())) {
+                return jdc.deserialize(jsonObj, LineMovementsCard.class);
+            } else {
+                return null;
+            }
+        }
+
+    }
+
     private void resetAfterJsonImport() {
         players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
             deck.resetAfterJsonImport(board);
         });
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.players);
+        hash = 61 * hash + Objects.hashCode(this.winners);
+        hash = 61 * hash + (this.gameOver ? 1 : 0);
+        hash = 61 * hash + Objects.hashCode(this.activePlayer);
+        hash = 61 * hash + Objects.hashCode(this.board);
+        hash = 61 * hash + Objects.hashCode(this.nextRankAvailable);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Match other = (Match) obj;
+        if (!Objects.equals(this.players, other.players)) {
+            return false;
+        }
+        if (!Objects.equals(this.winners, other.winners)) {
+            return false;
+        }
+        if (this.gameOver != other.gameOver) {
+            return false;
+        }
+        if (!Objects.equals(this.activePlayer, other.activePlayer)) {
+            return false;
+        }
+        if (!Objects.equals(this.board, other.board)) {
+            return false;
+        }
+        if (!Objects.equals(this.nextRankAvailable, other.nextRankAvailable)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -534,6 +534,10 @@ public class Player {
                 .get();
     }
 
+    public List<Trump> getPlayableTrumpsCopy() {
+        return new ArrayList<> (playableTrumps);
+    }
+
     /**
      * <b>Returns if a player is the same as this one.</b>
      * <div>
