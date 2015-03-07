@@ -29,7 +29,7 @@ public class LineAndDiagonalMovementsCard extends MovementsCard {
 
     @Override
     protected void resetPossibleSquareGetter() {
-        probableSquaresGetter = lineProbableSquaresGetter;
+        setPossibleSquareGetter();
     }
 
 }
