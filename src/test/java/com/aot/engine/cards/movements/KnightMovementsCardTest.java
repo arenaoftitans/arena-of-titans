@@ -1,6 +1,5 @@
 package com.aot.engine.cards.movements;
 
-import com.aot.engine.cards.movements.KnightMovementsCard;
 import com.aot.engine.Color;
 import org.junit.Test;
 
