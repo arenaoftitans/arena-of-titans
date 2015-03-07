@@ -14,7 +14,7 @@ public class DiagonalMovementsCard extends MovementsCard {
     }
 
     private void setPossibleSquareGetter() {
-        probableSquaresGetter = lineProbableSquaresGetter;
+        probableSquaresGetter = diagonalProbableSquaresGetter;
     }
 
     @Override
