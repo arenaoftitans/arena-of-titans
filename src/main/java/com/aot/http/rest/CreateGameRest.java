@@ -3,7 +3,7 @@ package com.aot.http.rest;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
-import com.aot.engine.api.GameApi;
+import com.aot.engine.api.GameApiOld;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/createGame")
-public class CreateGameRest extends GameApi {
+public class CreateGameRest extends GameApiOld {
 
     private List<JsonPlayer> players;
 

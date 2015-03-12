@@ -18,7 +18,7 @@ import javax.websocket.server.ServerEndpoint;
  * @author jenselme
  */
 @ServerEndpoint(value="/api/playTrump/{id}",  configurator=GetHttpSessionConfigurator.class)
-public class PlayTrump extends GameApi {
+public class PlayTrump extends GameApiOld {
 
     private class WsTrump {
         private String name;

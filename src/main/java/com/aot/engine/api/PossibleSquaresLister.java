@@ -4,7 +4,7 @@ import com.aot.engine.board.Square;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PossibleSquaresLister extends GameApi {
+public abstract class PossibleSquaresLister extends GameApiOld {
 
     protected class WsMove {
 
