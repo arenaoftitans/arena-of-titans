@@ -1,0 +1,423 @@
+html, body 
+{ 	height: 100%; 
+	width: 100%; 
+	margin: 0; 
+	padding: 0;
+	background-image : url(/inc/img/backgrounds/background.png);
+}
+
+#logo{
+	margin-left: auto;
+	margin-right: auto;
+	width:200px;
+	height:70px;
+	background: url(/inc/img/arena_of_titans_new_logo.png);
+	background-size: 100% 100%;
+}
+
+.board{
+	margin-top: 3%;
+	background: url(/inc/img/backgrounds/texture.png);
+    background-size: 100% 100%;
+	}
+	
+
+#bloc_gauge, #bloc_board, #bloc_right
+{
+	display: inline-block;
+	vertical-align: top;
+}
+	
+#bloc_top{
+	margin-left: auto;
+	margin-right: auto;
+	width:1280px;
+	margin-top:6px;
+	height:70px;
+	}
+	
+
+	
+#bloc_total{
+	margin-left: auto;
+	margin-right: auto;
+	width:1280px;
+	margin-top:2px;
+	margin-bottom:5px;
+	height:550px;
+	z-index:0;
+	}	
+	
+#bloc_board{
+	text-align: center;
+	width:896px;
+	height:74%;
+	background: url(/inc/img/backgrounds/plateau.png);
+    background-size: 100% 100%;
+	}
+	
+#gameBoardContainer {
+    height: 430px;
+}
+
+#gameBoard {
+    left: -285px;
+    position: absolute;
+    top: -705px;
+    transform: scale(0.2);
+}
+
+rect, path {
+    opacity:0.8;
+    stroke:#000000;
+    stroke-width:2.24024391;
+    stroke-miterlimit:4;
+    stroke-opacity:1;
+    stroke-dasharray:none;
+}
+
+.red-square {
+    fill: red;
+}
+
+.yellow-square {
+    fill: yellow;
+}
+
+.black-square {
+    fill: black;
+}
+
+.blue-square {
+    fill: blue;
+}
+
+.highlightedSquare {
+    fill: green !important;
+    cursor: pointer;
+}
+
+.pawn {
+    fill: black;
+}
+
+#bloc_cards{
+	width:896px;
+	height:26%;
+	background: url(/inc/img/backgrounds/cartes.png);
+    background-size: 100% 100%;
+	margin-left: 192px;
+}
+	
+.movementsCard {
+    left:27%;
+    float: left;
+    height: 100px;
+    cursor: pointer;
+    margin: 5px;
+    position: relative;
+}
+
+.movementsCardContainer {
+    display: table-cell;
+}
+
+.selectedCard {
+    top: -20px;
+}
+
+#bloc_gauge{
+	float:left;
+	width:192px;
+	height: 100%;
+	background: url(/inc/img/backgrounds/jauge.png);
+    background-size: 100% 100%;
+	}
+
+
+#bloc_right{
+	float: right;
+	width:192px;
+	height:100%;
+	}
+	
+#bloc_right_centre{
+	width:192px;
+	height:74%;
+	background: url(/inc/img/backgrounds/infos.png);
+    background-size: 100% 100%;
+	}
+
+
+#bloc_right_bottom{
+	width:192px;
+	height:26%;
+	background: url(/inc/img/backgrounds/chrono.png);
+    background-size: 100% 100%;
+	}
+
+#gameController, #game {
+    height: 100%;
+}
+
+.trump {
+    cursor: pointer;
+}
+
+#trumps {
+    color: black;
+    width: 9%;
+    height: 100%;
+    font-weight: bold;
+    position: absolute;
+    top: 167px;
+    left: 8px;
+}	
+	
+@media screen and (min-width: 1440px){
+
+#bloc_top{
+	width:1440px;
+	}
+	
+#bloc_total{
+	width:1440px;
+	}	
+	
+#bloc_board{
+	width:1008px;
+	}
+
+#bloc_cards{
+	width:1008px;
+	margin-left: 216px;
+	}
+
+#bloc_gauge{
+	width:216px;
+	}
+
+
+#bloc_right{
+	width:216px;
+	}
+	
+#bloc_right_centre{
+	width:216px;
+	}
+
+
+#bloc_right_bottom{
+	width:216px;
+	}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1280px){
+
+#bloc_top{
+	width:1024px;
+	}
+	
+#bloc_total{
+	width:1024px;
+	}	
+	
+#bloc_board{
+	width:716px;
+	}
+
+#bloc_cards{
+	width:716px;
+	margin-left: 154px;
+	}
+
+#bloc_gauge{
+	width:154px;
+	}
+
+
+#bloc_right{
+	width:154px;
+	}
+	
+#bloc_right_centre{
+	width:154px;
+	}
+
+
+#bloc_right_bottom{
+	width:154px;
+	}
+}
+
+@media screen and (min-width: 900px) and (max-width: 1024px){
+
+#bloc_top{
+	width:900px;
+	}
+
+#bloc_total{
+	width:900px;
+	}	
+	
+#bloc_board{
+	width:630px;
+	}
+
+#bloc_cards{
+	width:630px;
+	margin-left: 135px;
+	}
+
+#bloc_gauge{
+	width:135px;
+	}
+
+
+#bloc_right{
+	width:135px;
+	}
+	
+#bloc_right_centre{
+	width:135px;
+	}
+
+
+#bloc_right_bottom{
+	width:135px;
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 900px){
+
+#bloc_top{
+	width:768px;
+	}
+	
+#bloc_total{
+	width:768px;
+	}	
+	
+#bloc_board{
+	width:653px;
+	}
+
+#bloc_cards{
+	width:768px;
+	height:13%;
+	margin-left: 0;
+	}
+
+#bloc_gauge{
+	float: none;
+	width:768px;
+	height: 13%;
+	background: url(/inc/img/backgrounds/jauge_horizontale.png);
+    background-size: 100% 100%;
+	}
+
+
+#bloc_right{
+	width:115px;
+	height:74%;
+	}
+	
+#bloc_right_centre{
+	width:115px;
+	}
+
+
+#bloc_right_bottom{
+	width:115px;
+	}
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px){
+
+#bloc_top{
+	width:600px;
+	}
+
+#bloc_total{
+	width:600px;
+	}	
+	
+#bloc_board{
+	width:510px;
+	}
+
+#bloc_cards{
+	width:600px;
+	height:13%;
+	margin-left: 0;
+	}
+
+#bloc_gauge{
+	float: none;
+	width:600px;
+	height: 13%;
+	background: url(/inc/img/backgrounds/jauge_horizontale.png);
+    background-size: 100% 100%;
+	}
+
+
+#bloc_right{
+	width:90px;
+	height:74%;
+	}
+	
+#bloc_right_centre{
+	width:90px;
+	}
+
+
+#bloc_right_bottom{
+	width:90px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	
+#bloc_top{
+	width:470px;
+	}
+	
+#bloc_total{
+	width:470px;
+	}	
+	
+#bloc_board{
+	width:400px;
+	}
+
+#bloc_cards{
+	width:470px;
+	height:13%;
+	margin-left: 0;
+	}
+
+#bloc_gauge{
+	float: none;
+	width:470px;
+	height: 13%;
+	background: url(/inc/img/backgrounds/jauge_horizontale.png);
+    background-size: 100% 100%;
+	}
+
+
+#bloc_right{
+	width:70px;
+	height:74%;
+	}
+	
+#bloc_right_centre{
+	width:70px;
+	}
+
+
+#bloc_right_bottom{
+	width:70px;
+	}
+}
+
+
