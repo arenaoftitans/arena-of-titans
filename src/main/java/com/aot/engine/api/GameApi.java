@@ -41,8 +41,6 @@ public class GameApi {
 
     private Gson gson = new Gson();
     private GameApiJson.Move move;
-    // The JSON to be send to the client.
-    private String response;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session) throws IOException {
@@ -72,12 +70,13 @@ public class GameApi {
             throws IOException {
         move = gson.fromJson(message, GameApiJson.Move.class);
 
+        String response;
         switch (move.getRequestType()) {
             case VIEW_POSSIBLE_SQUARES:
-                getPossibleSquares();
+                response = getPossibleSquares();
                 break;
             case PLAY:
-                play();
+                response = play();
                 break;
             default:
                 response = buildBadResponse("Unknow resquest type.");
@@ -87,20 +86,20 @@ public class GameApi {
         session.getBasicRemote().sendText(response);
     }
 
-    private void getPossibleSquares() {
+    private String getPossibleSquares() {
         if (move.areInputParemetersIncorrect(match)) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
                             move.getCardName(),
                             move.getCardColor(),
                             move.getPlayerId());
-            response = buildBadResponse(message);
+            return buildBadResponse(message);
         } else {
             String cardName = move.getCardName();
             String cardColor = move.getCardColor();
             Square currentSquare = match.getActivePlayerCurrentSquare();
             if (currentSquare == null) {
-                response = buildBadResponse("Cannot get active player's current square.");
+                return buildBadResponse("Cannot get active player's current square.");
             } else {
                 currentSquare.setAsOccupied();
 
@@ -108,13 +107,13 @@ public class GameApi {
                 playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
                 if (playableCard == null) {
                     String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
-                    response = buildBadResponse(message);
+                    return buildBadResponse(message);
                 } else {
                     List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
                     Collections.sort(possibleSquaresIds);
                     JsonObject jsonResponse = new JsonObject();
                     jsonResponse.add("possible_squares", gson.toJsonTree(possibleSquaresIds));
-                    response = gson.toJson(jsonResponse);
+                    return gson.toJson(jsonResponse);
                 }
             }
         }
@@ -124,7 +123,7 @@ public class GameApi {
         return "{\"error\": \"" + message + "\"}";
     }
 
-    private void play() {
+    private String play() {
         if (move.pass()) {
             passThisTurn();
         } else if (move.discard() && !move.areInputParemetersIncorrect(match)) {
@@ -137,14 +136,14 @@ public class GameApi {
                             move.getPlayerId(),
                             move.getX(),
                             move.getY());
-            response = buildBadResponse(message);
+            return buildBadResponse(message);
         } else {
             String cardName = move.getCardName();
             String cardColor = move.getCardColor();
             Square currentSquare = match.getActivePlayerCurrentSquare();
             if (currentSquare == null) {
                 String message = "Cannot get active player's current square.";
-                response = buildBadResponse(message);
+                return buildBadResponse(message);
             }
             currentSquare.setAsOccupied();
 
@@ -152,7 +151,7 @@ public class GameApi {
             playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
             if (playableCard == null) {
                 String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
-                response = buildBadResponse(message);
+                return buildBadResponse(message);
             }
 
             List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
@@ -162,31 +161,33 @@ public class GameApi {
             String selectedSquareId = String.format("square-%s-%s", x, y);
             if (!possibleSquaresIds.contains(selectedSquareId)) {
                 String message = "Invalid square.";
-                response = buildBadResponse(message);
+                return buildBadResponse(message);
             }
 
             match.playTurn(x, y, playableCard);
 
-            response = "{\"play\": " + CardPlayedJsonResponseBuilder.build(match, x, y) + "}";
+            return "{\"play\": " + CardPlayedJsonResponseBuilder.build(match, x, y) + "}";
         }
+
+        return null;
     }
 
-    private void passThisTurn() {
+    private String passThisTurn() {
         match.passThisTurn();
-        response = CardPlayedJsonResponseBuilder.build(match);
+        return CardPlayedJsonResponseBuilder.build(match);
     }
 
-    private void discardCard(GameApiJson.Move move) {
+    private String discardCard(GameApiJson.Move move) {
         String cardName = move.getCardName();
         String cardColor = move.getCardColor();
         MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
         if (cardToDiscard == null) {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
-            response = buildBadResponse(message);
+            return buildBadResponse(message);
         }
 
         match.discard(cardToDiscard);
-        response = CardPlayedJsonResponseBuilder.build(match);
+        return CardPlayedJsonResponseBuilder.build(match);
     }
 
     private boolean incorrectInputParemeters(GameApiJson.Move move) {
