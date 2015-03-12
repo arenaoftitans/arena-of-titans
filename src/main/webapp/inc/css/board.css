@@ -140,3 +140,13 @@ div#bloc_right_bottom{
 .trump {
     cursor: pointer;
 }
+
+#trumps {
+    color: black;
+    width: 9%;
+    height: 100%;
+    font-weight: bold;
+    position: absolute;
+    top: 167px;
+    left: 8px;
+}
