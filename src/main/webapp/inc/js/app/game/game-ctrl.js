@@ -19,30 +19,27 @@ gameModule.controller("game", ['$scope',
         var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
         var gameApiUrl = '/api/game/' + gameId;
-        var playUrl = '/api/play/' + gameId;
-        var playWs = $websocket(host + playUrl);
         var gameApi = $websocket(host + gameApiUrl);
+        // Requests type
+        var rt = {view: 'VIEW_POSSIBLE_SQUARES',
+            play: 'PLAY'};
 
         gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
                 if (data.hasOwnProperty('possible_squares')) {
                     $scope.highlightedSquares = data.possible_squares;
+                } else if (data.hasOwnProperty('play')) {
+                    data = data.play;
+                    if (data.hasOwnProperty('newSquare')) {
+                        var playerPawn = $scope.currentPlayer.pawn;
+                        player.move(playerPawn, data.newSquare.x, data.newSquare.y);
+                    }
+
+                    updateGameParameters(data);
                 }
             });
         });
         gameApi.onError(handleError.show);
-
-        playWs.onMessage(function (event) {
-            ws.parse(event).then(function (data) {
-                if (data.hasOwnProperty('newSquare')) {
-                    var playerPawn = $scope.currentPlayer.pawn;
-                    player.move(playerPawn, data.newSquare.x, data.newSquare.y);
-                }
-
-                updateGameParameters(data);
-            });
-        });
-        playWs.onError(handleError.show);
 
         var getGameUrl = '/rest/createGame';
         $rootScope.$watch('$viewContentLoaded', function () {
@@ -108,13 +105,14 @@ gameModule.controller("game", ['$scope',
          */
         $scope.viewPossibleMovements = function (cardName, cardColor) {
             var data = {
+                rt: rt.view,
                 card_name: cardName,
                 card_color: cardColor,
                 player_id: $scope.currentPlayer.id
             };
             // Stores the selected card.
             $scope.selectedCard = {name: cardName, color: cardColor};
-            gameApi.send({possible_squares: data});
+            gameApi.send(data);
         };
 
         $scope.isSelected = function (cardName, cardColor) {
@@ -133,6 +131,7 @@ gameModule.controller("game", ['$scope',
             if ($scope.highlightedSquares.indexOf(squareName) > -1
                     && $scope.selectedCard !== null) {
                 var data = {
+                    rt: rt.play,
                     card_name: $scope.selectedCard.name,
                     card_color: $scope.selectedCard.color,
                     player_id: $scope.currentPlayer.id,
@@ -140,7 +139,7 @@ gameModule.controller("game", ['$scope',
                     y: squareY
                 };
                 // TODO: handle error.
-                playWs.send(data);
+                gameApi.send(data);
             } else if ($scope.selectedCard === null) {
                 alert('Please select a card.');
             }
@@ -151,9 +150,10 @@ gameModule.controller("game", ['$scope',
          */
         $scope.pass = function () {
             var data = {
+                rt: rt.play,
                 pass: true
             };
-            playWs.send(data);
+            gameApi.send(data);
         };
 
         $scope.discard = function () {
@@ -166,12 +166,13 @@ gameModule.controller("game", ['$scope',
 
         $scope.confirmDiscard = function () {
             var data = {
+                rt: rt.play,
                 discard: true,
                 card_name: $scope.selectedCard.name,
                 card_color: $scope.selectedCard.color,
                 player_id: $scope.currentPlayer.id
             };
-            playWs.send(data);
+            gameApi.send(data);
             $scope.hiddeDiscardPopup();
         };
 

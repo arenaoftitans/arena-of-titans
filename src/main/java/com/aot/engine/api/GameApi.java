@@ -1,12 +1,12 @@
 package com.aot.engine.api;
 
 import com.aot.engine.Match;
+import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.board.Board;
 import com.aot.engine.board.Square;
 import com.aot.engine.cards.movements.MovementsCard;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +25,6 @@ import redis.clients.jedis.JedisPoolConfig;
 @ServerEndpoint(value = "/api/game/{id}")
 public class GameApi {
 
-    private static final String POSSIBLE_SQUARES = "possible_squares";
-
     /**
      * The Match the user is playing.
      */
@@ -41,6 +39,8 @@ public class GameApi {
     protected MovementsCard playableCard;
     protected String gameId;
 
+    private Gson gson = new Gson();
+    private GameApiJson.Move move;
     // The JSON to be send to the client.
     private String response;
 
@@ -70,21 +70,24 @@ public class GameApi {
     @OnMessage
     public void gameResponse(@PathParam("id") String id, String message, Session session)
             throws IOException {
+        move = gson.fromJson(message, GameApiJson.Move.class);
 
-        Gson gson = new Gson();
-        JsonObject data = gson.fromJson(message, JsonElement.class).getAsJsonObject();
-
-        if (data.has(POSSIBLE_SQUARES)) {
-            data = data.get(POSSIBLE_SQUARES).getAsJsonObject();
-            getPossibleSquares(data);
+        switch (move.getRequestType()) {
+            case VIEW_POSSIBLE_SQUARES:
+                getPossibleSquares();
+                break;
+            case PLAY:
+                play();
+                break;
+            default:
+                response = buildBadResponse("Unknow resquest type.");
+                break;
         }
 
         session.getBasicRemote().sendText(response);
     }
 
-    private void getPossibleSquares(JsonObject data) {
-        Gson gson = new Gson();
-        GameApiJson.Move move = gson.fromJson(data, GameApiJson.Move.class);
+    private void getPossibleSquares() {
         if (move.areInputParemetersIncorrect(match)) {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
@@ -110,7 +113,7 @@ public class GameApi {
                     List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
                     Collections.sort(possibleSquaresIds);
                     JsonObject jsonResponse = new JsonObject();
-                    jsonResponse.add(POSSIBLE_SQUARES, gson.toJsonTree(possibleSquaresIds));
+                    jsonResponse.add("possible_squares", gson.toJsonTree(possibleSquaresIds));
                     response = gson.toJson(jsonResponse);
                 }
             }
@@ -119,6 +122,79 @@ public class GameApi {
 
     private String buildBadResponse(String message) {
         return "{\"error\": \"" + message + "\"}";
+    }
+
+    private void play() {
+        if (move.pass()) {
+            passThisTurn();
+        } else if (move.discard() && !move.areInputParemetersIncorrect(match)) {
+            discardCard(move);
+        } else if (incorrectInputParemeters(move)) {
+            String message = String
+                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
+                            move.getCardName(),
+                            move.getCardColor(),
+                            move.getPlayerId(),
+                            move.getX(),
+                            move.getY());
+            response = buildBadResponse(message);
+        } else {
+            String cardName = move.getCardName();
+            String cardColor = move.getCardColor();
+            Square currentSquare = match.getActivePlayerCurrentSquare();
+            if (currentSquare == null) {
+                String message = "Cannot get active player's current square.";
+                response = buildBadResponse(message);
+            }
+            currentSquare.setAsOccupied();
+
+            // Get the card.
+            playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
+            if (playableCard == null) {
+                String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
+                response = buildBadResponse(message);
+            }
+
+            List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
+
+            int x = move.getX();
+            int y = move.getY();
+            String selectedSquareId = String.format("square-%s-%s", x, y);
+            if (!possibleSquaresIds.contains(selectedSquareId)) {
+                String message = "Invalid square.";
+                response = buildBadResponse(message);
+            }
+
+            match.playTurn(x, y, playableCard);
+
+            response = "{\"play\": " + CardPlayedJsonResponseBuilder.build(match, x, y) + "}";
+        }
+    }
+
+    private void passThisTurn() {
+        match.passThisTurn();
+        response = CardPlayedJsonResponseBuilder.build(match);
+    }
+
+    private void discardCard(GameApiJson.Move move) {
+        String cardName = move.getCardName();
+        String cardColor = move.getCardColor();
+        MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
+        if (cardToDiscard == null) {
+            String message = String.format("Unknown card: %s, %s", cardName, cardColor);
+            response = buildBadResponse(message);
+        }
+
+        match.discard(cardToDiscard);
+        response = CardPlayedJsonResponseBuilder.build(match);
+    }
+
+    private boolean incorrectInputParemeters(GameApiJson.Move move) {
+        return move.areInputParemetersIncorrect(match) || incorrectCoordinates(move);
+    }
+
+    private boolean incorrectCoordinates(GameApiJson.Move move) {
+        return move.getX() == null || move.getY() == null;
     }
 
     private void saveMatch() {

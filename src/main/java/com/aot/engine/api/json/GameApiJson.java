@@ -1,6 +1,7 @@
 package com.aot.engine.api.json;
 
 import com.aot.engine.Match;
+import com.aot.engine.api.RequestType;
 
 public class GameApiJson {
 
@@ -13,6 +14,7 @@ public class GameApiJson {
         private Integer y;
         private boolean pass;
         private boolean discard;
+        private RequestType rt;
 
         public String getCardName() {
             return card_name;
@@ -52,6 +54,10 @@ public class GameApiJson {
         public boolean isPlayerIdIncorrect(Match match) {
             String currentPlayerId = Integer.toString(match.getActivePlayerIndex());
             return !getPlayerId().equals(currentPlayerId);
+        }
+
+        public RequestType getRequestType() {
+            return rt;
         }
     }
 
