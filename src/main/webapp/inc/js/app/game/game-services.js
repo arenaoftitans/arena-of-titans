@@ -115,7 +115,9 @@ gameModule.factory('ws', ['$q', 'handleError',
         var parse = function (event) {
             var deferred = $q.defer();
             var data = JSON.parse(event.data);
-            if (handleError.hasError(data)) {
+            if (data === null) {
+                deferred.reject('Empty response');
+            } else if (handleError.hasError(data)) {
                 handleError.show(data);
                 deferred.reject('data has own property error or error_to_display');
             } else {

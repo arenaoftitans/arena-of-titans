@@ -15,18 +15,22 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
+
         var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
-        var viewPossibleMovementsUrl = '/api/getPossibleSquares/' + gameId;
+        var gameApiUrl = '/api/game/' + gameId;
         var playUrl = '/api/play/' + gameId;
         var playWs = $websocket(host + playUrl);
-        var viewPossibleMovementsWs = $websocket(host + viewPossibleMovementsUrl);
-        viewPossibleMovementsWs.onMessage(function (event) {
+        var gameApi = $websocket(host + gameApiUrl);
+
+        gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
-                $scope.highlightedSquares = data;
+                if (data.hasOwnProperty('possible_squares')) {
+                    $scope.highlightedSquares = data.possible_squares;
+                }
             });
         });
-        viewPossibleMovementsWs.onError(handleError.show);
+        gameApi.onError(handleError.show);
 
         playWs.onMessage(function (event) {
             ws.parse(event).then(function (data) {
@@ -110,8 +114,7 @@ gameModule.controller("game", ['$scope',
             };
             // Stores the selected card.
             $scope.selectedCard = {name: cardName, color: cardColor};
-            // TODO: handle errors
-            viewPossibleMovementsWs.send(data);
+            gameApi.send({possible_squares: data});
         };
 
         $scope.isSelected = function (cardName, cardColor) {
