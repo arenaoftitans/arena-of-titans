@@ -54,7 +54,8 @@ public class MatchTest {
             players[i] = new Player("player " + i, i);
         }
         List<Trump> trumpList = new ArrayList<>();
-        trumpList.add(new RemovingColorTrump("my trump", 10, "test", 101, true));
+        Color[] colors = {Color.RED};
+        trumpList.add(new RemovingColorTrump("my trump", 10, "test", 101, true, colors));
         match = new Match(players, board, gf.getDeckCreator(), trumpList);
         player1 = match.getPlayers().get(0);
     }
@@ -418,6 +419,11 @@ public class MatchTest {
         // Name
         String name = jTrump.get("name").getAsString();
         assertEquals(match.getActivePlayer().getTrumpsForJsonExport().get(0).getName(), name);
+
+        // Special fields
+        assertTrue(jTrump.has("removedColors"));
+        JsonArray colors = jTrump.get("removedColors").getAsJsonArray();
+        assertEquals(1, colors.size());
     }
 
     @Test

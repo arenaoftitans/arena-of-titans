@@ -1,6 +1,9 @@
 package com.aot.engine.trumps;
 
 import com.aot.engine.Player;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.util.Objects;
 
 /**
@@ -131,6 +134,15 @@ public abstract class Trump {
             return false;
         }
         return true;
+    }
+
+    //public abstract String toJson();
+    public JsonElement toJson() {
+        Gson gson = new Gson();
+        JsonObject jsonTrump = gson.toJsonTree(this, this.getClass()).getAsJsonObject();
+        jsonTrump.addProperty("java_type", this.getClass().toString());
+
+        return jsonTrump;
     }
 
 }

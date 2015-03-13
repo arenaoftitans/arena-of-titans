@@ -564,8 +564,8 @@ public class Match {
     public String toJson() {
         prepareForJsonExport();
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Trump.class, new SerializeAbstract<Trump>())
-                .registerTypeAdapter(MovementsCard.class, new SerializeAbstract<MovementsCard>())
+                .registerTypeAdapter(Trump.class, new SerializeTrumps())
+                .registerTypeAdapter(MovementsCard.class, new SerializeMovementCards())
                 .create();
         return gson.toJson(this);
     }
@@ -576,16 +576,25 @@ public class Match {
         });
     }
 
-    private class SerializeAbstract<T> implements JsonSerializer<T> {
+    private class SerializeTrumps implements JsonSerializer<Trump> {
 
         @Override
-        public JsonElement serialize(T obj, Type type, JsonSerializationContext jsc) {
+        public JsonElement serialize(Trump t, Type type, JsonSerializationContext jsc) {
+            return t.toJson();
+        }
+
+    }
+
+    private class SerializeMovementCards implements JsonSerializer<MovementsCard> {
+
+        @Override
+        public JsonElement serialize(MovementsCard obj, Type type, JsonSerializationContext jsc) {
             // obj must be serialized by a new Gson to avoid infinite recurtion.
             Gson gson = new Gson();
-            JsonObject jsonTrump = gson.toJsonTree(obj, type).getAsJsonObject();
-            jsonTrump.addProperty(JSON_JAVA_TYPE_KEY, obj.getClass().toString());
+            JsonObject jsonCard = gson.toJsonTree(obj, type).getAsJsonObject();
+            jsonCard.addProperty(JSON_JAVA_TYPE_KEY, obj.getClass().toString());
 
-            return jsonTrump;
+            return jsonCard;
         }
     }
 
