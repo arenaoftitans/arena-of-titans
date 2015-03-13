@@ -192,7 +192,8 @@ gameModule.controller("game", ['$scope',
          * @returns {undefined}
          */
         $scope.playTrump = function (trump) {
-            $rootScope.$emit('wantToPlayTrump', trump, $scope.players, $scope.currentPlayer.index);
+            $rootScope.$emit('wantToPlayTrump', trump, $scope.players, $scope.currentPlayer.index,
+                    $scope.currentPlayer.id);
         };
 
         var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {

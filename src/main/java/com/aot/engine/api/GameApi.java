@@ -50,15 +50,11 @@ public class GameApi {
         if (clientRequest.isPlayerIdCorrect(match)) {
             response = playGame();
         } else {
-            response = buildErrorToDisplay("Not your turn");
+            response = GameApiJson.buildErrorToDisplay("Not your turn");
         }
 
         redis.saveMatch(match);
         session.getBasicRemote().sendText(response);
-    }
-
-    private String buildErrorToDisplay(String message) {
-        return "{\"error_to_display\": \"" + message + "\"}";
     }
 
     private String playGame() {
@@ -72,7 +68,7 @@ public class GameApi {
                 response = play();
                 break;
             default:
-                response = buildError("Unknow resquest type.");
+                response = GameApiJson.buildError("Unknow resquest type.");
                 break;
         }
 
@@ -90,7 +86,7 @@ public class GameApi {
                             clientRequest.getCardName(),
                             clientRequest.getCardColor(),
                             clientRequest.getPlayerId());
-            response = buildError(message);
+            response = GameApiJson.buildError(message);
         }
 
         return response;
@@ -103,7 +99,7 @@ public class GameApi {
         if (currentSquare != null) {
             response = listSquaresForPlayedCard(currentSquare);
         } else {
-            response = buildError("Cannot get square.");
+            response = GameApiJson.buildError("Cannot get square.");
         }
 
         return response;
@@ -130,11 +126,7 @@ public class GameApi {
     private String cannotGetCardMessage() {
         String message = String.format("Cannot get the selected card: %s, %s.",
                 clientRequest.getCardName(), clientRequest.getCardColor());
-        return buildError(message);
-    }
-
-    private String buildError(String message) {
-        return "{\"error\": \"" + message + "\"}";
+        return GameApiJson.buildError(message);
     }
 
     private String play() {
@@ -146,7 +138,7 @@ public class GameApi {
             response = playOrDiscardCard();
         } else {
             String message = String.format("Wrong card: %s, %s", clientRequest.getCardName(), clientRequest.getCardColor());
-            response = buildError(message);
+            response = GameApiJson.buildError(message);
         }
 
         return response;
@@ -176,7 +168,7 @@ public class GameApi {
             response = CardPlayedJsonResponseBuilder.build(match, "play");
         } else {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
-            response = buildError(message);
+            response = GameApiJson.buildError(message);
         }
 
         return response;
@@ -198,7 +190,7 @@ public class GameApi {
                             clientRequest.getPlayerId(),
                             clientRequest.getX(),
                             clientRequest.getY());
-            response = buildError(message);
+            response = GameApiJson.buildError(message);
         }
 
         return response;
@@ -215,7 +207,7 @@ public class GameApi {
             match.playCard(x, y, playedCard);
             response = CardPlayedJsonResponseBuilder.build(match, x, y, "play");
         } else {
-            response = buildError("Invalid destination.");
+            response = GameApiJson.buildError("Invalid destination.");
         }
 
         return response;

@@ -258,7 +258,7 @@ public class MatchTest {
         assertEquals(match.getActivePlayer(), player1);
         match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTrump(player2, trump);
+        match.playTrump(trump, player2.getIndex());
         match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
         match.playCard(0, 0, null);
@@ -279,7 +279,7 @@ public class MatchTest {
 
         Trump trump = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, false, 2);
         assertTrue(player1.getActiveTrumpNames().isEmpty());
-        match.playTrump(trump);
+        match.playTrump(trump, null);
 
         assertTrue(player1.getActiveTrumpNames().contains(trump.getName()));
         player1.pass();

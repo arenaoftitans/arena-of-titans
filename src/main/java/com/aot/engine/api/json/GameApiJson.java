@@ -62,4 +62,34 @@ public class GameApiJson {
         }
     }
 
+    public class PlayTrumpRequest {
+
+        private String name;
+        private Integer target_index;
+        private String player_id;
+
+        public String getTrumpName() {
+            return name;
+        }
+
+        public Integer getTargetIndex() {
+            return target_index;
+        }
+
+        public String getPlayerId() {
+            return player_id;
+        }
+
+        public boolean isIdCorrect(Match match) {
+            return player_id != null && player_id.equals(match.getActivePlayeId());
+        }
+    }
+
+    public static String buildErrorToDisplay(String message) {
+        return "{\"error_to_display\": \"" + message + "\"}";
+    }
+
+    public static String buildError(String message) {
+        return "{\"error\": \"" + message + "\"}";
+    }
 }

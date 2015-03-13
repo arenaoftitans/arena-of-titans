@@ -1,11 +1,15 @@
 package com.aot.engine.api;
 
+import com.aot.engine.Match;
+import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -17,54 +21,56 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author jenselme
  */
-@ServerEndpoint(value="/api/playTrump/{id}",  configurator=GetHttpSessionConfigurator.class)
-public class PlayTrump extends GameApiOld {
+@ServerEndpoint(value = "/api/playTrump/{id}", configurator = GetRedis.class)
+public class PlayTrump {
 
-    private class WsTrump {
-        private String name;
-        private Integer targetIndex;
+    private GameApiJson.PlayTrumpRequest playTrumpRequest;
+    private Redis redis;
+    private String gameId;
+    private Match match;
 
-        public String getName() {
-            return name;
-        }
-
-        public Integer getTargetIndex() {
-            return targetIndex;
-        }
+    @OnOpen
+    public void open(@PathParam("id") String id, Session session, EndpointConfig config) {
+        gameId = id;
+        redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
+        match = redis.getMatch(gameId);
     }
-
-    private WsTrump wsTrump;
-    private Trump trump;
 
     @OnMessage
-    public void play(@PathParam("id") String id, String message, Session session) throws IOException {
-        this.gameId = id;
+    public void play(String message, Session session) throws IOException {
+        String response;
         Gson gson = new Gson();
-        wsTrump = gson.fromJson(message, WsTrump.class);
-        session.getBasicRemote().sendText(getGameFactoryResponse());
-    }
+        playTrumpRequest = gson.fromJson(message, GameApiJson.PlayTrumpRequest.class);
+        match = redis.getMatch(gameId);
 
-    @Override
-    protected String checkParametersAndGetResponse() {
-        trump = getTrump();
-        if (trump == null) {
-            String message = String
-                    .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
-                            wsTrump.getName(),
-                            wsTrump.getTargetIndex());
-            return buildBadResponse(message);
+        if (playTrumpRequest.isIdCorrect(match)) {
+            response = playTrump();
+        } else {
+            response = GameApiJson.buildErrorToDisplay("Not your turn.");
         }
 
-        return getResponse();
+        redis.saveMatch(match);
+        session.getBasicRemote().sendText(response);
     }
 
-    /**
-     * Get the trump by the given name or null if the trump doesn't exist.
-     *
-     * @return The trump.
-     */
+    private String playTrump() {
+        String response;
+        Trump trump = getTrump();
+        if (trump != null) {
+            response = playThisTrump(trump);
+        } else {
+            String message = String
+                    .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
+                            playTrumpRequest.getTrumpName(),
+                            playTrumpRequest.getTargetIndex());
+            response = GameApiJson.buildError(message);
+        }
+
+        return response;
+    }
+
     private Trump getTrump() {
-        String trumpName = wsTrump.getName();
+        String trumpName = playTrumpRequest.getTrumpName();
         if (trumpName == null) {
             return null;
         } else {
@@ -76,21 +82,18 @@ public class PlayTrump extends GameApiOld {
         }
     }
 
-    @Override
-    protected String getResponse() {
-        if (match.canActivePlayerPlayTrump(trump)) {
-            match.playTrump(trump);
-            return TrumpPlayedJsonResponseBuilder.build(match);
-        }
+    private String playThisTrump(Trump trump) {
+        String response;
+        Integer targetIndex = playTrumpRequest.getTargetIndex();
 
-        int targetIndex = wsTrump.getTargetIndex();
         if (match.canActivePlayerPlayTrump(trump, targetIndex)) {
             match.playTrump(trump, targetIndex);
-            return TrumpPlayedJsonResponseBuilder.build(match);
+            response = TrumpPlayedJsonResponseBuilder.build(match);
+        } else {
+            response = GameApiJson.buildError("You cannot play this trump.");
         }
 
-        String message = "You cannot play this trump.";
-        return buildBadResponse(message);
+        return response;
     }
 
 }

@@ -195,9 +195,14 @@ public class Match {
      *
      * @param targetIndex The index of the targeted player.
      */
-    public void playTrump(Trump trump, int targetIndex) {
-        Player target = players.get(targetIndex);
-        Match.this.playTrump(target, trump);
+    public void playTrump(Trump trump, Integer targetIndex) {
+        if (targetIndex == null) {
+            playTrump(trump);
+        } else {
+            Player target = players.get(targetIndex);
+            activePlayer.playTrump(trump, target);
+            //playTrump(target, trump);
+        }
     }
 
     /**
@@ -207,19 +212,8 @@ public class Match {
      *
      * @param trump The trump you want to play.
      */
-    public void playTrump(Trump trump) {
+    private void playTrump(Trump trump) {
         activePlayer.playTrump(trump);
-    }
-
-    /**
-     * Play a trump.
-     *
-     * @param target The targeted player.
-     *
-     * @param trump The trump.
-     */
-    public void playTrump(Player target, Trump trump) {
-        activePlayer.playTrump(trump, target);
     }
 
     /**
@@ -534,20 +528,15 @@ public class Match {
      *
      * @return true if the trump can be played.
      */
-    public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
-        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrump(trump);
-    }
-
-    /**
-     * Check whether the active player can play this trump and that it does not require a target
-     * player.
-     *
-     * @param trump The trump the player wants to play.
-     *
-     * @return True if the player can play this trump.
-     */
-    public boolean canActivePlayerPlayTrump(Trump trump) {
-        return activePlayer.canPlayTrump(trump) && !trump.mustTargetPlayer();
+    public boolean canActivePlayerPlayTrump(Trump trump, Integer targetIndex) {
+        if (trump.mustTargetPlayer()) {
+            return targetIndex != null
+                    && 0 <= targetIndex
+                    && targetIndex < players.size()
+                    && activePlayer.canPlayTrump(trump);
+        } else {
+            return activePlayer.canPlayTrump(trump);
+        }
     }
 
     /**
