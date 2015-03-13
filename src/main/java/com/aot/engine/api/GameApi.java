@@ -56,6 +56,7 @@ public class GameApi {
         String response;
         Gson gson = new Gson();
         clientRequest = gson.fromJson(message, GameApiJson.ClientRequest.class);
+        retrieveMatch();
 
         if (clientRequest.isPlayerIdCorrect(match)) {
             response = playGame();
@@ -63,6 +64,7 @@ public class GameApi {
             response = buildErrorToDisplay("Not your turn");
         }
 
+        saveMatch();
         session.getBasicRemote().sendText(response);
     }
 
