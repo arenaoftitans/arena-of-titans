@@ -6,24 +6,24 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Arena Of Titans</title>
-        <link rel="stylesheet" type="text/css" href="inc/css/board.css">
-        <link rel="stylesheet" type="text/css" href="inc/css/global.css">
-        <script src="inc/js/lib/angular.js" type="text/javascript"></script>
-        <script src="inc/js/lib/angular-websocket.js" type="text/javascript"></script>
-        <script src="inc/js/app.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="/inc/css/board.css">
+        <link rel="stylesheet" type="text/css" href="/inc/css/global.css">
+        <script src="/inc/js/lib/angular.js" type="text/javascript"></script>
+        <script src="/inc/js/lib/angular-websocket.js" type="text/javascript"></script>
+        <script src="/inc/js/app.js" type="text/javascript"></script>
 
-        <script src="inc/js/app/create-game/create-game-module.js"></script>
-        <script src="inc/js/app/create-game/create-game-ctrl.js"></script>
+        <script src="/inc/js/app/create-game/create-game-module.js"></script>
+        <script src="/inc/js/app/create-game/create-game-ctrl.js"></script>
 
-        <script src="inc/js/app/game/game-module.js" type="text/javascript"></script>
-        <script src="inc/js/app/game/game-services.js" type="text/javascript"></script>
-        <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game/game-module.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game/game-services.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
 
-        <script src="inc/js/app/play-trump/play-trump-module.js" type="text/javascript"></script>
-        <script src="inc/js/app/play-trump/play-trump-ctrl.js" type="text/javascript"></script>
+        <script src="/inc/js/app/play-trump/play-trump-module.js" type="text/javascript"></script>
+        <script src="/inc/js/app/play-trump/play-trump-ctrl.js" type="text/javascript"></script>
 
-        <script src="inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
-        <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="aot">
 

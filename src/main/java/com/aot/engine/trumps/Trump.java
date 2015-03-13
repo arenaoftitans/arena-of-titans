@@ -1,6 +1,10 @@
 package com.aot.engine.trumps;
 
 import com.aot.engine.Player;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.util.Objects;
 
 /**
  * Mother class of all trump cards.
@@ -88,6 +92,57 @@ public abstract class Trump {
 
     public boolean mustTargetPlayer() {
         return mustTargetPlayer;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + this.duration;
+        hash = 23 * hash + Objects.hashCode(this.description);
+        hash = 23 * hash + this.cost;
+        hash = 23 * hash + (this.mustTargetPlayer ? 1 : 0);
+        hash = 23 * hash + (this.enabled ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Trump other = (Trump) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (this.duration != other.duration) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (this.cost != other.cost) {
+            return false;
+        }
+        if (this.mustTargetPlayer != other.mustTargetPlayer) {
+            return false;
+        }
+        if (this.enabled != other.enabled) {
+            return false;
+        }
+        return true;
+    }
+
+    //public abstract String toJson();
+    public JsonElement toJson() {
+        Gson gson = new Gson();
+        JsonObject jsonTrump = gson.toJsonTree(this, this.getClass()).getAsJsonObject();
+        jsonTrump.addProperty("java_type", this.getClass().toString());
+
+        return jsonTrump;
     }
 
 }

@@ -13,7 +13,7 @@ createGameModule.controller('createGame', ['$window',
     function ($window, $scope, $http, handleError, player) {
         var createGameUrl = '/rest/createGame';
         var createGameMethod = 'POST';
-        var gameUrl = '/game';
+        var gameUrlRoot = '/game/';
         $scope.game = {};
         var numberMaximumOfPlayers = 8;
         $scope.players = player.init(numberMaximumOfPlayers);
@@ -29,8 +29,9 @@ createGameModule.controller('createGame', ['$window',
                 method: createGameMethod,
                 data: players
             })
-                    .success(function () {
-                        $window.location = gameUrl;
+                    .success(function (data) {
+                        var gameId = data.game_id;
+                        $window.location = gameUrlRoot + gameId;
                     })
                     .error(function (data) {
                         handleError.show(data);

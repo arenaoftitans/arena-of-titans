@@ -7,7 +7,10 @@ playTrumpModule.controller('playTrump', ['$scope',
     'ws',
     function ($scope, $rootScope, $websocket, handleError, ws) {
         $scope.showTargetedPlayerForTrumpSelector = false;
-        var playTrumpUrl = '/api/playTrump';
+        $scope.currentPlayerId = null;
+
+        var gameId = location.pathname.split('/').pop();
+        var playTrumpUrl = '/api/playTrump/' + gameId;
         var host = 'ws://localhost:8080';
         var playTrumpWs = $websocket(host + playTrumpUrl);
         playTrumpWs.onMessage(function (event) {
@@ -16,8 +19,9 @@ playTrumpModule.controller('playTrump', ['$scope',
         playTrumpWs.onError(handleError.show);
 
         var unbind = $rootScope.$on('wantToPlayTrump', function (event, trump, players,
-                currentPlayerIndex) {
+                currentPlayerIndex, currentPlayerId) {
             $scope.trumpName = trump.name;
+            $scope.currentPlayerId = currentPlayerId;
             // We don't apply the trump on the current player.
             $scope.players = players.filter(function (player) {
                 return player.index !== currentPlayerIndex;
@@ -39,11 +43,12 @@ playTrumpModule.controller('playTrump', ['$scope',
          * @returns {undefined}
          */
         var play = function () {
-            var targetIndex = $scope.trumpTargetedPlayer === undefined ? -1 :
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? null :
                     $scope.trumpTargetedPlayer;
             var data = {
-                targetIndex: targetIndex,
-                name: $scope.trumpName
+                target_index: targetIndex,
+                name: $scope.trumpName,
+                player_id: $scope.currentPlayerId
             };
             playTrumpWs.send(data);
         };

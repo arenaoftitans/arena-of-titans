@@ -17,15 +17,13 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleHorizontalSquaresGetter = (Square square) ->
-        getPossibleHorizontalSquares(square);
+    private ProbableSquaresGetter possibleHorizontalSquaresGetter;
     /**
      * Used to get the squares located above and below the given square.
      *
      * @see ProbableSquaresGetter#get
      */
-    private final ProbableSquaresGetter possibleVerticalSquaresGetter = (Square square) ->
-        getPossibleVerticalSquares(square);
+    private ProbableSquaresGetter possibleVerticalSquaresGetter;
     /**
      * Used to get the temporary squares located at the right the given square.
      *
@@ -33,8 +31,7 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter rightSquareGetter = (Square square) ->
-        board.getRightSquare(square);
+    private TemporarySquareGetter rightSquareGetter;
     /**
      * Used to get the temporary squares located at the left the given square.
      *
@@ -42,8 +39,7 @@ public class KnightMovementsCard extends MovementsCard {
      *
      * @see TemporarySquareGetter#get
      */
-    private final TemporarySquareGetter leftSquareGetter = (Square square) ->
-        board.getLeftSquare(square);
+    private TemporarySquareGetter leftSquareGetter;
 
     /**
      * <b>Creates a new Rider.</b>
@@ -60,10 +56,27 @@ public class KnightMovementsCard extends MovementsCard {
      */
     public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color) {
         super(board, name, numberOfMovements, color);
+        resetLambdas();
+    }
+
+    @Override
+    public boolean lambdasAllNonNull() {
+        return possibleHorizontalSquaresGetter != null
+                && possibleVerticalSquaresGetter != null
+                && rightSquareGetter != null
+                && leftSquareGetter != null;
+    }
+
+    private void resetLambdas() {
+        leftSquareGetter = (Square square) -> board.getLeftSquare(square);
+        rightSquareGetter = (Square square) -> board.getRightSquare(square);
+        possibleVerticalSquaresGetter = (Square square) -> getPossibleVerticalSquares(square);
+        possibleHorizontalSquaresGetter = (Square square) -> getPossibleHorizontalSquares(square);
     }
 
     public KnightMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         super(board, name, numberOfMovements, color, addtionalMovementsColor);
+        resetLambdas();
     }
 
     @Override
@@ -189,4 +202,19 @@ public class KnightMovementsCard extends MovementsCard {
 
         return squares;
     }
+
+    @Override
+    public void prepareForJsonExport() {
+        super.prepareForJsonExport();
+        possibleHorizontalSquaresGetter = null;
+        possibleVerticalSquaresGetter = null;
+        rightSquareGetter = null;
+        leftSquareGetter = null;
+    }
+
+    @Override
+    protected void resetPossibleSquareGetter() {
+        resetLambdas();
+    }
+
 }

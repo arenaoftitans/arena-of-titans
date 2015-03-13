@@ -6,12 +6,14 @@ import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
+import com.aot.engine.api.json.MatchJson;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
 import com.aot.engine.cards.Deck;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +38,7 @@ public class Match {
      *
      * @since 1.0
      */
-    private final List<Player> players;
+    private List<Player> players;
     /**
      * The list of players who won the game.
      */
@@ -58,13 +60,14 @@ public class Match {
      *
      * @since 1.0
      */
-    private final Board board;
+    private Board board;
     /**
      * Next available rank for winner.
      *
      * @since 1.0
      */
     private Integer nextRankAvailable = 1;
+    private String id = "1";
 
     /**
      * <b>Constructor initializing a match with the given parameters.</b>
@@ -155,6 +158,14 @@ public class Match {
         return activePlayer.getIndex();
     }
 
+    public String getActivePlayeId() {
+        return activePlayer.getId();
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public Deck getActivePlayerDeck() {
         return activePlayer.getDeck();
     }
@@ -166,9 +177,14 @@ public class Match {
      *
      * @param targetIndex The index of the targeted player.
      */
-    public void playTrump(Trump trump, int targetIndex) {
-        Player target = players.get(targetIndex);
-        Match.this.playTrump(target, trump);
+    public void playTrump(Trump trump, Integer targetIndex) {
+        if (targetIndex == null) {
+            playTrump(trump);
+        } else {
+            Player target = players.get(targetIndex);
+            activePlayer.playTrump(trump, target);
+            //playTrump(target, trump);
+        }
     }
 
     /**
@@ -178,19 +194,8 @@ public class Match {
      *
      * @param trump The trump you want to play.
      */
-    public void playTrump(Trump trump) {
+    private void playTrump(Trump trump) {
         activePlayer.playTrump(trump);
-    }
-
-    /**
-     * Play a trump.
-     *
-     * @param target The targeted player.
-     *
-     * @param trump The trump.
-     */
-    public void playTrump(Player target, Trump trump) {
-        activePlayer.playTrump(trump, target);
     }
 
     /**
@@ -228,7 +233,7 @@ public class Match {
      *
      * @since 1.0
      */
-    public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
+    public Player playCard(int targetedX, int targetedY, MovementsCard cardPlayed) {
         activePlayer.play(board, cardPlayed, targetedX, targetedY);
 
         return continueGameIfEnoughPlayers();
@@ -482,6 +487,14 @@ public class Match {
         return gameOver;
     }
 
+    public Board getBoardCopy() {
+        return new Board(board);
+    }
+
+    public Integer getNextRankAvailable() {
+        return nextRankAvailable;
+    }
+
     public List<String> getWinnerNames() {
         return winners.parallelStream()
                 .map(player -> player.getName())
@@ -497,20 +510,15 @@ public class Match {
      *
      * @return true if the trump can be played.
      */
-    public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
-        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrump(trump);
-    }
-
-    /**
-     * Check whether the active player can play this trump and that it does not require a target
-     * player.
-     *
-     * @param trump The trump the player wants to play.
-     *
-     * @return True if the player can play this trump.
-     */
-    public boolean canActivePlayerPlayTrump(Trump trump) {
-        return activePlayer.canPlayTrump(trump) && !trump.mustTargetPlayer();
+    public boolean canActivePlayerPlayTrump(Trump trump, Integer targetIndex) {
+        if (trump.mustTargetPlayer()) {
+            return targetIndex != null
+                    && 0 <= targetIndex
+                    && targetIndex < players.size()
+                    && activePlayer.canPlayTrump(trump);
+        } else {
+            return activePlayer.canPlayTrump(trump);
+        }
     }
 
     /**
@@ -522,6 +530,79 @@ public class Match {
      */
     public Trump getTrumpForActivePlayer(String trumpName) {
         return activePlayer.getTrumpByName(trumpName);
+    }
+
+    public String toJson() {
+        prepareForJsonExport();
+        return MatchJson.to(this);
+    }
+
+    private void prepareForJsonExport() {
+        players.parallelStream().forEach((player) -> player.prepareForJsonExport());
+    }
+
+    public static Match fromJson(String json) {
+        Match match = MatchJson.from(json);
+
+        if (match != null) {
+            match.resetAfterJsonImport();
+        }
+
+        return match;
+    }
+
+    public void resetAfterJsonImport() {
+        players.stream().forEach((player) -> player.resetAfterJsonImport(board));
+
+        activePlayer = players.get(activePlayer.getIndex());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.players);
+        hash = 61 * hash + Objects.hashCode(this.winners);
+        hash = 61 * hash + (this.gameOver ? 1 : 0);
+        hash = 61 * hash + Objects.hashCode(this.activePlayer);
+        hash = 61 * hash + Objects.hashCode(this.board);
+        hash = 61 * hash + Objects.hashCode(this.nextRankAvailable);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Match other = (Match) obj;
+        if (!Objects.equals(this.players, other.players)) {
+            return false;
+        }
+        if (!Objects.equals(this.winners, other.winners)) {
+            return false;
+        }
+        if (this.gameOver != other.gameOver) {
+            return false;
+        }
+        if (!Objects.equals(this.activePlayer, other.activePlayer)) {
+            return false;
+        }
+        if (!Objects.equals(this.board, other.board)) {
+            return false;
+        }
+        if (!Objects.equals(this.nextRankAvailable, other.nextRankAvailable)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isSquareInBoard(Square square) {
+        Square squareFromBoard = board.getSquare(square.getX(), square.getY());
+
+        return square == squareFromBoard;
     }
 
 }

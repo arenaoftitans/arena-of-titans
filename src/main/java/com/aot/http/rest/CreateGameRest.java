@@ -3,7 +3,8 @@ package com.aot.http.rest;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
-import com.aot.engine.Match;
+import com.aot.engine.api.GameApiOld;
+import com.aot.engine.api.Redis;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,9 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/createGame")
-public class CreateGameRest {
-
-    private final static String MATCH = "match";
+public class CreateGameRest extends GameApiOld {
 
     private List<JsonPlayer> players;
 
@@ -46,17 +45,20 @@ public class CreateGameRest {
 
         GameFactory gameFactory = new GameFactory();
         gameFactory.createNewMatch(players);
-        Match match = gameFactory.getMatch();
-        req.getSession().setAttribute(MATCH, match);
+        match = gameFactory.getMatch();
 
-        return Response.ok().build();
+        Redis redis = (Redis) context.getAttribute(Redis.REDIS_SERVLET);
+        redis.saveMatch(match);
+
+        return Response.status(Response.Status.OK).entity("{\"game_id\": \"1\"}").build();
     }
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGame() {
-        Match match = (Match) req.getSession().getAttribute(MATCH);
+        retrieveMatch();
+
         return Response.status(Response.Status.OK)
                 .entity(CardPlayedJsonResponseBuilder.build(match))
                 .build();
@@ -75,6 +77,16 @@ public class CreateGameRest {
         }
 
         players = correctedListOfPlayers;
+    }
+
+    @Override
+    protected String getResponse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected String checkParametersAndGetResponse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

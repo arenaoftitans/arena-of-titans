@@ -19,4 +19,8 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>com.aot.engine.api.InitializeRedisPool</listener-class>
+    </listener>
 </web-app>
