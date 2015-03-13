@@ -11,26 +11,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.websocket.CloseReason;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
-@ServerEndpoint(value = "/api/game/{id}")
+@ServerEndpoint(value = "/api/game/{id}", configurator=GetRedis.class)
 public class GameApi {
 
     protected Match match;
     protected String gameId;
     private GameApiJson.ClientRequest clientRequest;
+    private Redis redis;
 
     @OnOpen
-    public void open(@PathParam("id") String id, Session session) throws IOException {
+    public void open(@PathParam("id") String id, Session session, EndpointConfig config) throws IOException {
         gameId = id;
-        retrieveMatch();
+        redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
+        match = redis.getMatch(id);
 
         if (match == null) {
             CloseReason.CloseCode cc = () -> 1002;
@@ -39,24 +39,13 @@ public class GameApi {
         }
     }
 
-    private void retrieveMatch() {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
-        try (Jedis jedis = pool.getResource()) {
-            String matchJson = jedis.hget(Redis.GAME_KEY_PART + gameId,
-                    Redis.MATCH_KEY);
-            match = Match.fromJson(matchJson);
-        }
-
-        pool.destroy();
-    }
-
     @OnMessage
     public void gameMessage(String message, Session session)
             throws IOException {
         String response;
         Gson gson = new Gson();
         clientRequest = gson.fromJson(message, GameApiJson.ClientRequest.class);
-        retrieveMatch();
+        match = redis.getMatch(gameId);
 
         if (clientRequest.isPlayerIdCorrect(match)) {
             response = playGame();
@@ -64,7 +53,7 @@ public class GameApi {
             response = buildErrorToDisplay("Not your turn");
         }
 
-        saveMatch();
+        redis.saveMatch(match);
         session.getBasicRemote().sendText(response);
     }
 
@@ -243,17 +232,6 @@ public class GameApi {
         }
 
         return message;
-    }
-
-    private void saveMatch() {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), Redis.SERVER_HOST);
-        try (Jedis jedis = pool.getResource()) {
-            String matchJson = match.toJson();
-            jedis.hset(Redis.GAME_KEY_PART + gameId,
-                    Redis.MATCH_KEY, matchJson);
-            jedis.expire(Redis.GAME_KEY_PART + gameId, Redis.GAME_EXPIRE);
-        }
-        pool.destroy();
     }
 
 }

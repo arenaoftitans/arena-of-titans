@@ -85,6 +85,7 @@ public class Match {
      * @since 1.0
      */
     private Integer nextRankAvailable = 1;
+    private String id = "1";
 
     /**
      * <b>Constructor initializing a match with the given parameters.</b>
@@ -177,6 +178,10 @@ public class Match {
 
     public String getActivePlayeId() {
         return activePlayer.getId();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Deck getActivePlayerDeck() {

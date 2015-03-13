@@ -4,6 +4,7 @@ import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.aot.engine.api.GameApiOld;
+import com.aot.engine.api.Redis;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,8 @@ public class CreateGameRest extends GameApiOld {
         gameFactory.createNewMatch(players);
         match = gameFactory.getMatch();
 
-        saveMatch();
+        Redis redis = (Redis) context.getAttribute(Redis.REDIS_SERVLET);
+        redis.saveMatch(match);
 
         return Response.status(Response.Status.OK).entity("{\"game_id\": \"1\"}").build();
     }
