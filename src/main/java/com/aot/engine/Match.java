@@ -6,25 +6,9 @@ import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
+import com.aot.engine.api.json.MatchJson;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
 import com.aot.engine.cards.Deck;
-import com.aot.engine.cards.movements.DiagonalMovementsCard;
-import com.aot.engine.cards.movements.KnightMovementsCard;
-import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
-import com.aot.engine.cards.movements.LineMovementsCard;
-import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
-import com.aot.engine.trumps.RemovingColorTrump;
-import com.aot.engine.trumps.TrumpBlockingTrump;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,8 +30,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Match {
-
-    private static final String JSON_JAVA_TYPE_KEY = "java_type";
 
     /**
      * The list of players in this match.
@@ -85,6 +67,7 @@ public class Match {
      * @since 1.0
      */
     private Integer nextRankAvailable = 1;
+    private String id = "1";
 
     /**
      * <b>Constructor initializing a match with the given parameters.</b>
@@ -175,6 +158,14 @@ public class Match {
         return activePlayer.getIndex();
     }
 
+    public String getActivePlayeId() {
+        return activePlayer.getId();
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public Deck getActivePlayerDeck() {
         return activePlayer.getDeck();
     }
@@ -186,9 +177,14 @@ public class Match {
      *
      * @param targetIndex The index of the targeted player.
      */
-    public void playTrump(Trump trump, int targetIndex) {
-        Player target = players.get(targetIndex);
-        Match.this.playTrump(target, trump);
+    public void playTrump(Trump trump, Integer targetIndex) {
+        if (targetIndex == null) {
+            playTrump(trump);
+        } else {
+            Player target = players.get(targetIndex);
+            activePlayer.playTrump(trump, target);
+            //playTrump(target, trump);
+        }
     }
 
     /**
@@ -198,19 +194,8 @@ public class Match {
      *
      * @param trump The trump you want to play.
      */
-    public void playTrump(Trump trump) {
+    private void playTrump(Trump trump) {
         activePlayer.playTrump(trump);
-    }
-
-    /**
-     * Play a trump.
-     *
-     * @param target The targeted player.
-     *
-     * @param trump The trump.
-     */
-    public void playTrump(Player target, Trump trump) {
-        activePlayer.playTrump(trump, target);
     }
 
     /**
@@ -248,7 +233,7 @@ public class Match {
      *
      * @since 1.0
      */
-    public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
+    public Player playCard(int targetedX, int targetedY, MovementsCard cardPlayed) {
         activePlayer.play(board, cardPlayed, targetedX, targetedY);
 
         return continueGameIfEnoughPlayers();
@@ -525,20 +510,15 @@ public class Match {
      *
      * @return true if the trump can be played.
      */
-    public boolean canActivePlayerPlayTrump(Trump trump, int targetIndex) {
-        return 0 <= targetIndex && targetIndex < players.size() && activePlayer.canPlayTrump(trump);
-    }
-
-    /**
-     * Check whether the active player can play this trump and that it does not require a target
-     * player.
-     *
-     * @param trump The trump the player wants to play.
-     *
-     * @return True if the player can play this trump.
-     */
-    public boolean canActivePlayerPlayTrump(Trump trump) {
-        return activePlayer.canPlayTrump(trump) && !trump.mustTargetPlayer();
+    public boolean canActivePlayerPlayTrump(Trump trump, Integer targetIndex) {
+        if (trump.mustTargetPlayer()) {
+            return targetIndex != null
+                    && 0 <= targetIndex
+                    && targetIndex < players.size()
+                    && activePlayer.canPlayTrump(trump);
+        } else {
+            return activePlayer.canPlayTrump(trump);
+        }
     }
 
     /**
@@ -554,76 +534,25 @@ public class Match {
 
     public String toJson() {
         prepareForJsonExport();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Trump.class, new SerializeAbstract<Trump>())
-                .registerTypeAdapter(MovementsCard.class, new SerializeAbstract<MovementsCard>())
-                .create();
-        return gson.toJson(this);
+        return MatchJson.to(this);
     }
 
     private void prepareForJsonExport() {
-        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
-            deck.prepareForJsonExport();
-        });
-    }
-
-    private class SerializeAbstract<T> implements JsonSerializer<T> {
-
-        @Override
-        public JsonElement serialize(T obj, Type type, JsonSerializationContext jsc) {
-            // obj must be serialized by a new Gson to avoid infinite recurtion.
-            Gson gson = new Gson();
-            JsonObject jsonTrump = gson.toJsonTree(obj, type).getAsJsonObject();
-            jsonTrump.addProperty(JSON_JAVA_TYPE_KEY, obj.getClass().toString());
-
-            return jsonTrump;
-        }
+        players.parallelStream().forEach((player) -> player.prepareForJsonExport());
     }
 
     public static Match fromJson(String json) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Trump.class, new DeserializeAbstract<Trump>())
-                .registerTypeAdapter(MovementsCard.class, new DeserializeAbstract<MovementsCard>())
-                .create();
-        Match match = gson.fromJson(json, Match.class);
-        match.resetAfterJsonImport();
+        Match match = MatchJson.from(json);
+
+        if (match != null) {
+            match.resetAfterJsonImport();
+        }
 
         return match;
     }
 
-    private static class DeserializeAbstract<T> implements JsonDeserializer<T> {
-
-        @Override
-        public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
-            JsonObject jsonObj = je.getAsJsonObject();
-            String javaType = jsonObj.get(JSON_JAVA_TYPE_KEY).getAsString();
-            jsonObj.remove(JSON_JAVA_TYPE_KEY);
-
-            if (javaType.equals(ModifyNumberOfMovesInATurnTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, ModifyNumberOfMovesInATurnTrump.class);
-            } else if (javaType.equals(RemovingColorTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, RemovingColorTrump.class);
-            } else if (javaType.equals(TrumpBlockingTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, TrumpBlockingTrump.class);
-            } else if (javaType.equals(DiagonalMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, DiagonalMovementsCard.class);
-            } else if (javaType.equals(KnightMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, KnightMovementsCard.class);
-            } else if (javaType.equals(LineAndDiagonalMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, LineAndDiagonalMovementsCard.class);
-            } else if (javaType.equals(LineMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, LineMovementsCard.class);
-            } else {
-                return null;
-            }
-        }
-
-    }
-
-    private void resetAfterJsonImport() {
-        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
-            deck.resetAfterJsonImport(board);
-        });
+    public void resetAfterJsonImport() {
+        players.stream().forEach((player) -> player.resetAfterJsonImport(board));
 
         activePlayer = players.get(activePlayer.getIndex());
     }
@@ -668,6 +597,12 @@ public class Match {
             return false;
         }
         return true;
+    }
+
+    public boolean isSquareInBoard(Square square) {
+        Square squareFromBoard = board.getSquare(square.getX(), square.getY());
+
+        return square == squareFromBoard;
     }
 
 }

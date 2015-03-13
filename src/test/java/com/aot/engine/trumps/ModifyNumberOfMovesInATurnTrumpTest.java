@@ -51,21 +51,21 @@ public class ModifyNumberOfMovesInATurnTrumpTest {
         Trump trump2 = new ModifyNumberOfMovesInATurnTrump(null, 0, null, 0, false, 2);
         player1.addTrumpToAffecting(trump2);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
     }
 }
