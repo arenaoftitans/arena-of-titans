@@ -1,6 +1,7 @@
 package com.aot.engine;
 
 import com.aot.engine.board.Board;
+import com.aot.engine.board.Square;
 import com.aot.engine.cards.Deck;
 import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
 import com.aot.engine.cards.movements.MovementsCard;
@@ -68,22 +69,22 @@ public class MatchTest {
         for (int i = 1; i <= 7; i++) {
             match.getPlayers().set(i, null);
         }
-        assertEquals(match.playTurn(defaultX, defaultY, null), null);
+        assertEquals(match.playCard(defaultX, defaultY, null), null);
     }
 
     @Test
     public void testPlayTurnForWinningPlayer() {
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
         assertFalse(match.getPlayers().get(0).hasWon());
 
         // Still in the same Turn
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
         assertFalse(match.getPlayers().get(0).hasWon());
 
         // Play the others players
         for (int i = 0; i <= 7; i++) {
-            match.playTurn(0, i, null);
-            match.playTurn(i, 0, null);
+            match.playCard(0, i, null);
+            match.playCard(i, 0, null);
         }
 
         Player winner = match.getPlayers().get(0);
@@ -96,7 +97,7 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForWinningPlayerPassSecondMove() {
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
         assertFalse(match.getPlayers().get(0).hasWon());
 
         // Still in the same Turn
@@ -105,8 +106,8 @@ public class MatchTest {
 
         // Play the others players
         for (int i = 0; i <= 7; i++) {
-            match.playTurn(0, i, null);
-            match.playTurn(i, 0, null);
+            match.playCard(0, i, null);
+            match.playCard(i, 0, null);
         }
 
         Player winner = match.getPlayers().get(0);
@@ -118,17 +119,17 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForWinningPlayerMoveDifferentSquareSecondMove() {
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
         assertFalse(match.getPlayers().get(0).hasWon());
 
         // Still in the same Turn
-        match.playTurn(17, 8, null);
+        match.playCard(17, 8, null);
         assertFalse(match.getPlayers().get(0).hasWon());
 
         // Play the others players
         for (int i = 0; i <= 7; i++) {
-            match.playTurn(0, i, null);
-            match.playTurn(i, 0, null);
+            match.playCard(0, i, null);
+            match.playCard(i, 0, null);
         }
 
         Player winner = match.getPlayers().get(0);
@@ -140,7 +141,7 @@ public class MatchTest {
 
     @Test
     public void testPlayTurnForPlayerMovingBeforeWinning() {
-        match.playTurn(17, 8, null);
+        match.playCard(17, 8, null);
 
         assertFalse(match.getPlayers().get(0).isWinnerInMatch());
     }
@@ -152,14 +153,14 @@ public class MatchTest {
         }
 
         // We play player 1.
-        match.playTurn(16, 8, null);
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
+        match.playCard(16, 8, null);
 
         // We play player 2 so it is back at player 1, who wins. The match ends.
-        match.playTurn(0, 0, null);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
+        match.playCard(0, 0, null);
 
-        assertEquals(null, match.playTurn(16, 8, null));
+        assertEquals(null, match.playCard(16, 8, null));
         assertTrue(match.getPlayers().get(0).hasWon());
         assertTrue(match.getGameOver());
     }
@@ -171,49 +172,49 @@ public class MatchTest {
         }
 
         // We play player 1.
-        match.playTurn(16, 8, null);
-        match.playTurn(16, 8, null);
+        match.playCard(16, 8, null);
+        match.playCard(16, 8, null);
 
         // We play player 2.
-        match.playTurn(20, 8, null);
-        match.playTurn(20, 8, null);
+        match.playCard(20, 8, null);
+        match.playCard(20, 8, null);
 
         assertTrue(match.getGameOver());
     }
 
     @Test
     public void testPlayTurnFirstPlayerPlayingInFullGame() {
-        match.playTurn(defaultX, defaultY, null);
-        assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(1));
+        match.playCard(defaultX, defaultY, null);
+        assertEquals(match.playCard(defaultX, defaultY, null), match.getPlayers().get(1));
     }
 
     @Test
     public void testPlayTurnForLastPlayerInFullGame() {
         // Players play twice !
         for (int i = 0; i <= 14; i++) {
-            match.playTurn(defaultX, defaultY, null);
+            match.playCard(defaultX, defaultY, null);
         }
 
-        assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(0));
+        assertEquals(match.playCard(defaultX, defaultY, null), match.getPlayers().get(0));
     }
 
     @Test
     public void testPlayTurnForFirstPlayerInPartialGame() {
         match.getPlayers().set(1, null);
-        match.playTurn(defaultX, defaultY, null);
+        match.playCard(defaultX, defaultY, null);
 
-        assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(2));
+        assertEquals(match.playCard(defaultX, defaultY, null), match.getPlayers().get(2));
     }
 
     @Test
     public void testPlayTurnForLastPlayerInPartialGame() {
         for (int i = 0; i <= 6; i++) {
-            match.playTurn(defaultX, defaultY, null);
+            match.playCard(defaultX, defaultY, null);
         }
         for (int i = 0; i <= 5; i++) {
             match.getPlayers().set(i, null);
         }
-        assertEquals(match.playTurn(defaultX, defaultY, null), match.getPlayers().get(6));
+        assertEquals(match.playCard(defaultX, defaultY, null), match.getPlayers().get(6));
     }
 
     @Test
@@ -254,20 +255,20 @@ public class MatchTest {
         player1.addTrumpToPlayable(trump);
 
         assertEquals(match.getActivePlayer(), player1);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player1);
         match.playTrump(player2, trump);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player2);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player3);
-        match.playTurn(0, 0, null);
+        match.playCard(0, 0, null);
         assertEquals(match.getActivePlayer(), player3);
     }
 
@@ -316,7 +317,7 @@ public class MatchTest {
 
     private void playFirstCard() {
         MovementsCard card = player1.getDeck().getFirstCardInHand();
-        match.playTurn(0, 0, card);
+        match.playCard(0, 0, card);
     }
 
     private void passAllPlayersExceptPlayer1() {

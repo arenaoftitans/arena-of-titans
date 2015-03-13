@@ -3,14 +3,12 @@ package com.aot.engine.api;
 import com.aot.engine.Match;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
-import com.aot.engine.board.Board;
+import com.aot.engine.api.json.PossibleSquaresJson;
 import com.aot.engine.board.Square;
 import com.aot.engine.cards.movements.MovementsCard;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.websocket.CloseReason;
 import javax.websocket.OnMessage;
@@ -25,22 +23,9 @@ import redis.clients.jedis.JedisPoolConfig;
 @ServerEndpoint(value = "/api/game/{id}")
 public class GameApi {
 
-    /**
-     * The Match the user is playing.
-     */
     protected Match match;
-    /**
-     * The Board he is playing on.
-     */
-    protected Board board;
-    /**
-     * The last card played.
-     */
-    protected MovementsCard playableCard;
     protected String gameId;
-
-    private Gson gson = new Gson();
-    private GameApiJson.Move move;
+    private GameApiJson.ClientRequest clientRequest;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session) throws IOException {
@@ -66,136 +51,196 @@ public class GameApi {
     }
 
     @OnMessage
-    public void gameResponse(@PathParam("id") String id, String message, Session session)
+    public void gameMessage(String message, Session session)
             throws IOException {
-        move = gson.fromJson(message, GameApiJson.Move.class);
-
         String response;
-        switch (move.getRequestType()) {
-            case VIEW_POSSIBLE_SQUARES:
-                response = getPossibleSquares();
-                break;
-            case PLAY:
-                response = play();
-                break;
-            default:
-                response = buildBadResponse("Unknow resquest type.");
-                break;
+        Gson gson = new Gson();
+        clientRequest = gson.fromJson(message, GameApiJson.ClientRequest.class);
+
+        if (clientRequest.isPlayerIdCorrect(match)) {
+            response = playGame();
+        } else {
+            response = buildErrorToDisplay("Not your turn");
         }
 
         session.getBasicRemote().sendText(response);
     }
 
-    private String getPossibleSquares() {
-        if (move.areInputParemetersIncorrect(match)) {
-            String message = String
-                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
-                            move.getCardName(),
-                            move.getCardColor(),
-                            move.getPlayerId());
-            return buildBadResponse(message);
-        } else {
-            String cardName = move.getCardName();
-            String cardColor = move.getCardColor();
-            Square currentSquare = match.getActivePlayerCurrentSquare();
-            if (currentSquare == null) {
-                return buildBadResponse("Cannot get active player's current square.");
-            } else {
-                currentSquare.setAsOccupied();
-
-                // Get the card.
-                playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
-                if (playableCard == null) {
-                    String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
-                    return buildBadResponse(message);
-                } else {
-                    List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
-                    Collections.sort(possibleSquaresIds);
-                    JsonObject jsonResponse = new JsonObject();
-                    jsonResponse.add("possible_squares", gson.toJsonTree(possibleSquaresIds));
-                    return gson.toJson(jsonResponse);
-                }
-            }
-        }
+    private String buildErrorToDisplay(String message) {
+        return "{\"error_to_display\": \"" + message + "\"}";
     }
 
-    private String buildBadResponse(String message) {
+    private String playGame() {
+        String response;
+
+        switch (clientRequest.getRequestType()) {
+            case VIEW_POSSIBLE_SQUARES:
+                response = listOfPossibleSquares();
+                break;
+            case PLAY:
+                response = play();
+                break;
+            default:
+                response = buildError("Unknow resquest type.");
+                break;
+        }
+
+        return response;
+    }
+
+    private String listOfPossibleSquares() {
+        String response;
+
+        if (clientRequest.nonNullCardNameAndColor(match)) {
+            response = listSquaresFromCurrentSquare();
+        } else {
+            String message = String
+                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
+                            clientRequest.getCardName(),
+                            clientRequest.getCardColor(),
+                            clientRequest.getPlayerId());
+            response = buildError(message);
+        }
+
+        return response;
+    }
+
+    private String listSquaresFromCurrentSquare() {
+        String response;
+        Square currentSquare = match.getActivePlayerCurrentSquare();
+
+        if (currentSquare != null) {
+            response = listSquaresForPlayedCard(currentSquare);
+        } else {
+            response = buildError("Cannot get square.");
+        }
+
+        return response;
+    }
+
+    private String listSquaresForPlayedCard(Square currentSquare) {
+        String response;
+
+        MovementsCard playedCard = getPlayedCard();
+
+        if (playedCard != null) {
+            response = PossibleSquaresJson.get(playedCard, currentSquare, "possible_squares");
+        } else {
+            response = cannotGetCardMessage();
+        }
+
+        return response;
+    }
+
+    private MovementsCard getPlayedCard() {
+        return match.getActivePlayerDeck().getCard(clientRequest.getCardName(), clientRequest.getCardColor());
+    }
+
+    private String cannotGetCardMessage() {
+        String message = String.format("Cannot get the selected card: %s, %s.",
+                clientRequest.getCardName(), clientRequest.getCardColor());
+        return buildError(message);
+    }
+
+    private String buildError(String message) {
         return "{\"error\": \"" + message + "\"}";
     }
 
     private String play() {
-        if (move.pass()) {
-            passThisTurn();
-        } else if (move.discard() && !move.areInputParemetersIncorrect(match)) {
-            discardCard(move);
-        } else if (incorrectInputParemeters(move)) {
-            String message = String
-                    .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
-                            move.getCardName(),
-                            move.getCardColor(),
-                            move.getPlayerId(),
-                            move.getX(),
-                            move.getY());
-            return buildBadResponse(message);
+        String response;
+
+        if (clientRequest.pass()) {
+            response = passThisTurn();
+        } else if (clientRequest.nonNullCardNameAndColor(match)) {
+            response = playOrDiscardCard();
         } else {
-            String cardName = move.getCardName();
-            String cardColor = move.getCardColor();
-            Square currentSquare = match.getActivePlayerCurrentSquare();
-            if (currentSquare == null) {
-                String message = "Cannot get active player's current square.";
-                return buildBadResponse(message);
-            }
-            currentSquare.setAsOccupied();
-
-            // Get the card.
-            playableCard = match.getActivePlayerDeck().getCard(cardName, cardColor);
-            if (playableCard == null) {
-                String message = String.format("Cannot get the selected card: %s, %s.", cardName, cardColor);
-                return buildBadResponse(message);
-            }
-
-            List<String> possibleSquaresIds = new ArrayList<>(playableCard.getPossibleMovements(currentSquare));
-
-            int x = move.getX();
-            int y = move.getY();
-            String selectedSquareId = String.format("square-%s-%s", x, y);
-            if (!possibleSquaresIds.contains(selectedSquareId)) {
-                String message = "Invalid square.";
-                return buildBadResponse(message);
-            }
-
-            match.playTurn(x, y, playableCard);
-
-            return "{\"play\": " + CardPlayedJsonResponseBuilder.build(match, x, y) + "}";
+            String message = String.format("Wrong card: %s, %s", clientRequest.getCardName(), clientRequest.getCardColor());
+            response = buildError(message);
         }
 
-        return null;
+        return response;
     }
 
     private String passThisTurn() {
         match.passThisTurn();
-        return CardPlayedJsonResponseBuilder.build(match);
+        return CardPlayedJsonResponseBuilder.build(match, "play");
     }
 
-    private String discardCard(GameApiJson.Move move) {
+    private String playOrDiscardCard() {
+        if (clientRequest.discard()) {
+            return discardCard(clientRequest);
+        } else {
+            return playCard();
+        }
+    }
+
+    private String discardCard(GameApiJson.ClientRequest move) {
         String cardName = move.getCardName();
         String cardColor = move.getCardColor();
         MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
-        if (cardToDiscard == null) {
+
+        String response;
+        if (cardToDiscard != null) {
+            match.discard(cardToDiscard);
+            response = CardPlayedJsonResponseBuilder.build(match, "play");
+        } else {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
-            return buildBadResponse(message);
+            response = buildError(message);
         }
 
-        match.discard(cardToDiscard);
-        return CardPlayedJsonResponseBuilder.build(match);
+        return response;
     }
 
-    private boolean incorrectInputParemeters(GameApiJson.Move move) {
-        return move.areInputParemetersIncorrect(match) || incorrectCoordinates(move);
+    private String playCard() {
+        String response;
+        MovementsCard playedCard = getPlayedCard();
+        Square currentSquare = match.getActivePlayerCurrentSquare();
+
+        if (clientRequest.nonNullDestinationCoordinates() && playedCard != null && currentSquare != null) {
+            response = moveToNewSquare(playedCard, currentSquare);
+        } else {
+            String message = String
+                    .format("Wrong input parameters. %s.\n.CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
+                            getComplementaryMessage(playedCard, currentSquare),
+                            clientRequest.getCardName(),
+                            clientRequest.getCardColor(),
+                            clientRequest.getPlayerId(),
+                            clientRequest.getX(),
+                            clientRequest.getY());
+            response = buildError(message);
+        }
+
+        return response;
     }
 
-    private boolean incorrectCoordinates(GameApiJson.Move move) {
-        return move.getX() == null || move.getY() == null;
+    private String moveToNewSquare(MovementsCard playedCard, Square currentSquare) {
+        String response;
+        List< String> possibleSquaresIds = new ArrayList<>(playedCard.getPossibleMovements(currentSquare));
+        int x = clientRequest.getX();
+        int y = clientRequest.getY();
+        String selectedSquareId = String.format("square-%s-%s", x, y);
+
+        if (possibleSquaresIds.contains(selectedSquareId)) {
+            match.playCard(x, y, playedCard);
+            response = CardPlayedJsonResponseBuilder.build(match, x, y, "play");
+        } else {
+            response = buildError("Invalid destination.");
+        }
+
+        return response;
+    }
+
+    private String getComplementaryMessage(MovementsCard playedCard, Square currentSquare) {
+        String message;
+        if (playedCard == null) {
+            message = "Cannot get the selected card.";
+        } else if (currentSquare == null) {
+            message = "Cannot get active player's current square.";
+        } else {
+            message = "At least one of the destination coordinates is null.";
+        }
+
+        return message;
     }
 
     private void saveMatch() {

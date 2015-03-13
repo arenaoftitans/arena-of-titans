@@ -5,7 +5,7 @@ import com.aot.engine.api.RequestType;
 
 public class GameApiJson {
 
-    public class Move {
+    public class ClientRequest {
 
         private String card_name;
         private String card_color;
@@ -44,16 +44,17 @@ public class GameApiJson {
             return discard;
         }
 
-        public boolean areInputParemetersIncorrect(Match match) {
-            return getCardName() == null
-                    || getCardColor() == null
-                    || getPlayerId() == null
-                    || isPlayerIdIncorrect(match);
+        public boolean nonNullCardNameAndColor(Match match) {
+            return getCardName() != null
+                    && getCardColor() != null;
         }
 
-        public boolean isPlayerIdIncorrect(Match match) {
-            String currentPlayerId = Integer.toString(match.getActivePlayerIndex());
-            return !getPlayerId().equals(currentPlayerId);
+        public boolean nonNullDestinationCoordinates() {
+            return getX() != null && getY() != null;
+        }
+
+        public boolean isPlayerIdCorrect(Match match) {
+            return getPlayerId() != null && getPlayerId().equals(match.getActivePlayeId());
         }
 
         public RequestType getRequestType() {

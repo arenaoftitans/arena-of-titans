@@ -151,6 +151,7 @@ gameModule.controller("game", ['$scope',
         $scope.pass = function () {
             var data = {
                 rt: rt.play,
+                player_id: $scope.currentPlayer.id,
                 pass: true
             };
             gameApi.send(data);

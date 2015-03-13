@@ -175,6 +175,10 @@ public class Match {
         return activePlayer.getIndex();
     }
 
+    public String getActivePlayeId() {
+        return activePlayer.getId();
+    }
+
     public Deck getActivePlayerDeck() {
         return activePlayer.getDeck();
     }
@@ -248,7 +252,7 @@ public class Match {
      *
      * @since 1.0
      */
-    public Player playTurn(int targetedX, int targetedY, MovementsCard cardPlayed) {
+    public Player playCard(int targetedX, int targetedY, MovementsCard cardPlayed) {
         activePlayer.play(board, cardPlayed, targetedX, targetedY);
 
         return continueGameIfEnoughPlayers();
