@@ -579,7 +579,7 @@ public class Player implements JsonExportable {
 
     @Override
     public void prepareForJsonExport() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        deck.prepareForJsonExport();
     }
 
     @Override

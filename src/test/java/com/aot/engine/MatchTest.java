@@ -373,7 +373,9 @@ public class MatchTest {
     }
 
     private JsonObject getMatchAsJsonObject() {
-        return new JsonParser().parse(match.toJson()).getAsJsonObject();
+        String matchJson = match.toJson();
+        match.resetAfterJsonImport();
+        return new JsonParser().parse(matchJson).getAsJsonObject();
     }
 
     @Test
@@ -406,7 +408,7 @@ public class MatchTest {
 
     @Test
     public void testToJsonPlayerTrumps() {
-        JsonObject jPlayer = getActivePlayerAsJsonObject();
+        JsonObject jPlayer = getFirstPlayer();
         JsonArray jPlayableTrumps = jPlayer.get("playableTrumps").getAsJsonArray();
         assertEquals(match.getActivePlayer().getTrumpsForJsonExport().size(), jPlayableTrumps.size());
 
@@ -424,6 +426,10 @@ public class MatchTest {
         assertTrue(jTrump.has("removedColors"));
         JsonArray colors = jTrump.get("removedColors").getAsJsonArray();
         assertEquals(1, colors.size());
+    }
+
+    private JsonObject getFirstPlayer() {
+        return getMatchAsJsonObject().get("players").getAsJsonArray().get(0).getAsJsonObject();
     }
 
     @Test

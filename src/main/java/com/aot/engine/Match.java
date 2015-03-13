@@ -6,25 +6,9 @@ import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
+import com.aot.engine.api.json.MatchJson;
 import com.aot.engine.api.json.TrumpPlayedJsonResponse;
 import com.aot.engine.cards.Deck;
-import com.aot.engine.cards.movements.DiagonalMovementsCard;
-import com.aot.engine.cards.movements.KnightMovementsCard;
-import com.aot.engine.cards.movements.LineAndDiagonalMovementsCard;
-import com.aot.engine.cards.movements.LineMovementsCard;
-import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
-import com.aot.engine.trumps.RemovingColorTrump;
-import com.aot.engine.trumps.TrumpBlockingTrump;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,8 +30,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class Match {
-
-    private static final String JSON_JAVA_TYPE_KEY = "java_type";
 
     /**
      * The list of players in this match.
@@ -552,47 +534,16 @@ public class Match {
 
     public String toJson() {
         prepareForJsonExport();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Trump.class, new SerializeTrumps())
-                .registerTypeAdapter(MovementsCard.class, new SerializeMovementCards())
-                .create();
-        return gson.toJson(this);
+        return MatchJson.to(this);
     }
 
     private void prepareForJsonExport() {
-        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
-            deck.prepareForJsonExport();
-        });
-    }
-
-    private class SerializeTrumps implements JsonSerializer<Trump> {
-
-        @Override
-        public JsonElement serialize(Trump t, Type type, JsonSerializationContext jsc) {
-            return t.toJson();
-        }
-
-    }
-
-    private class SerializeMovementCards implements JsonSerializer<MovementsCard> {
-
-        @Override
-        public JsonElement serialize(MovementsCard obj, Type type, JsonSerializationContext jsc) {
-            // obj must be serialized by a new Gson to avoid infinite recurtion.
-            Gson gson = new Gson();
-            JsonObject jsonCard = gson.toJsonTree(obj, type).getAsJsonObject();
-            jsonCard.addProperty(JSON_JAVA_TYPE_KEY, obj.getClass().toString());
-
-            return jsonCard;
-        }
+        players.parallelStream().forEach((player) -> player.prepareForJsonExport());
     }
 
     public static Match fromJson(String json) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Trump.class, new DeserializeAbstract<Trump>())
-                .registerTypeAdapter(MovementsCard.class, new DeserializeAbstract<MovementsCard>())
-                .create();
-        Match match = gson.fromJson(json, Match.class);
+        Match match = MatchJson.from(json);
+
         if (match != null) {
             match.resetAfterJsonImport();
         }
@@ -600,36 +551,7 @@ public class Match {
         return match;
     }
 
-    private static class DeserializeAbstract<T> implements JsonDeserializer<T> {
-
-        @Override
-        public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
-            JsonObject jsonObj = je.getAsJsonObject();
-            String javaType = jsonObj.get(JSON_JAVA_TYPE_KEY).getAsString();
-            jsonObj.remove(JSON_JAVA_TYPE_KEY);
-
-            if (javaType.equals(ModifyNumberOfMovesInATurnTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, ModifyNumberOfMovesInATurnTrump.class);
-            } else if (javaType.equals(RemovingColorTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, RemovingColorTrump.class);
-            } else if (javaType.equals(TrumpBlockingTrump.class.toString())) {
-                return jdc.deserialize(jsonObj, TrumpBlockingTrump.class);
-            } else if (javaType.equals(DiagonalMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, DiagonalMovementsCard.class);
-            } else if (javaType.equals(KnightMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, KnightMovementsCard.class);
-            } else if (javaType.equals(LineAndDiagonalMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, LineAndDiagonalMovementsCard.class);
-            } else if (javaType.equals(LineMovementsCard.class.toString())) {
-                return jdc.deserialize(jsonObj, LineMovementsCard.class);
-            } else {
-                return null;
-            }
-        }
-
-    }
-
-    private void resetAfterJsonImport() {
+    public void resetAfterJsonImport() {
         players.stream().forEach((player) -> player.resetAfterJsonImport(board));
 
         activePlayer = players.get(activePlayer.getIndex());
