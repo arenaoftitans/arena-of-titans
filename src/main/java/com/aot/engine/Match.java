@@ -590,7 +590,9 @@ public class Match {
                 .registerTypeAdapter(MovementsCard.class, new DeserializeAbstract<MovementsCard>())
                 .create();
         Match match = gson.fromJson(json, Match.class);
-        match.resetAfterJsonImport();
+        if (match != null) {
+            match.resetAfterJsonImport();
+        }
 
         return match;
     }

@@ -33,7 +33,7 @@ public class GameApi {
         retrieveMatch();
 
         if (match == null) {
-            CloseReason.CloseCode cc = () -> 404;
+            CloseReason.CloseCode cc = () -> 1002;
             CloseReason cr = new CloseReason(cc, "No match is running");
             session.close(cr);
         }
