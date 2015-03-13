@@ -621,9 +621,7 @@ public class Match {
     }
 
     private void resetAfterJsonImport() {
-        players.parallelStream().map((player) -> player.getDeck()).forEach((deck) -> {
-            deck.resetAfterJsonImport(board);
-        });
+        players.stream().forEach((player) -> player.resetAfterJsonImport(board));
 
         activePlayer = players.get(activePlayer.getIndex());
     }
@@ -668,6 +666,12 @@ public class Match {
             return false;
         }
         return true;
+    }
+
+    public boolean isSquareInBoard(Square square) {
+        Square squareFromBoard = board.getSquare(square.getX(), square.getY());
+
+        return square == squareFromBoard;
     }
 
 }

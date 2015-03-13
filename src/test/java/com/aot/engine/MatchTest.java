@@ -495,6 +495,10 @@ public class MatchTest {
         Board boardCardFromJson = cardFromJson.getBoardCopy();
         assertEquals(board, boardCardFromJson);
         assertTrue(cardFromJson.lambdasAllNonNull());
+
+        // currentSquare
+        Square currentSquareFromJson = matchFromJson.getActivePlayerCurrentSquare();
+        assertTrue(matchFromJson.isSquareInBoard(currentSquareFromJson));
     }
 
 }
