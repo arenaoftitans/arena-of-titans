@@ -55,7 +55,7 @@
                 <div id="bloc_cards">
                     <center>
                         <div>
-                            <div>Player: {{currentPlayer.name}}</div>
+                            <div id="player_name">Player: {{currentPlayer.name}}</div>
                             <div id="movementsCardsInHand">
                                 <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
                                     <img class="movementsCard"
@@ -67,11 +67,11 @@
                                 <button ng-click="pass()">Pass</button>
                                 <button ng-click="discard()">Discard selected card.</button>
                                 <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
-                                    You must select a card to discard.<br />
-                                    <button ng-click="noCardSelectedPopupHidden()">OK</button>
+                                    <p class="textPopup"> You must select a card to discard.</p><br />
+                                    <button class="ok-button" ng-click="noCardSelectedPopupHidden()">OK</button>
                                 </div>
                                 <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
-                                    Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?
+                                    <p class="textPopup">Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?</p>
                                     <button class="ok-button" ng-click="confirmDiscard()">OK</button>
                                     <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
                                 </div>
@@ -105,7 +105,7 @@
 
         <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup" ng-class="{hidden: !showTargetedPlayerForTrumpSelector}">
             <form id="targetedPlayerForTrumpSelectorForm">
-                <label>Select the player on which to apply the trump.</label>
+                <p class="textPopup">Select the player on which to apply the trump.</p>
                 <div ng-repeat="player in players" class="player">
                     <input ng-model="$parent.trumpTargetedPlayer"
                            ng-value="player.index"
@@ -118,9 +118,9 @@
         </div>
 
         <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
-            The game is over. The winner are :
+            <p class="textPopup">The game is over. The winner are :</p>
             <ol>
-                <li ng-repeat="player in winners">{{player}}</li>
+                <li class="textPopup" ng-repeat="player in winners">{{player}}</li>
             </ol>
         </div>
     </body>

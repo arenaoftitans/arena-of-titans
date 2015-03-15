@@ -6,6 +6,17 @@ html, body
 	background-image : url(/inc/img/backgrounds/background.png);
 }
 
+.player
+{
+    margin-left: 10%;
+}
+
+#player_name
+{
+    color: black;
+    font-weight: bold;
+}
+
 #logo{
 	margin-left: auto;
 	margin-right: auto;
