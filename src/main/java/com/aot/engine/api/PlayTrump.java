@@ -1,6 +1,5 @@
 package com.aot.engine.api;
 
-import com.aot.engine.Match;
 import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
@@ -15,12 +14,9 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = "/api/playTrump/{id}", configurator = GetRedis.class)
-public class PlayTrump {
+public class PlayTrump extends WebsocketApi {
 
     private GameApiJson.PlayTrumpRequest playTrumpRequest;
-    private Redis redis;
-    private String gameId;
-    private Match match;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session, EndpointConfig config) {
@@ -34,16 +30,16 @@ public class PlayTrump {
         String response;
         Gson gson = new Gson();
         playTrumpRequest = gson.fromJson(message, GameApiJson.PlayTrumpRequest.class);
-        match = redis.getMatch(gameId);
 
         if (playTrumpRequest.isIdCorrect(match)) {
+            match = redis.getMatch(gameId);
             response = playTrump();
+            redis.saveMatch(match);
+            sendResponseToAllPlayers(response);
         } else {
             response = GameApiJson.buildErrorToDisplay("Not your turn.");
+            session.getBasicRemote().sendText(response);
         }
-
-        redis.saveMatch(match);
-        session.getBasicRemote().sendText(response);
     }
 
     private String playTrump() {

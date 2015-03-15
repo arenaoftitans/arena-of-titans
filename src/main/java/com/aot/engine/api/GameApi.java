@@ -12,22 +12,34 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
+import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/api/game/{id}", configurator=GetRedis.class)
-public class GameApi {
+@ServerEndpoint(value = "/api/game/{id}", configurator = GetRedis.class)
+public class GameApi extends WebsocketApi {
 
-    protected Match match;
-    protected String gameId;
     private GameApiJson.ClientRequest clientRequest;
-    private Redis redis;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session, EndpointConfig config) throws IOException {
+        if (match == null) {
+            initializeMatch(id, session, config);
+        }
+
+        if (session.isOpen()) {
+            String sessionId = session.getId();
+            synchronized (players) {
+                players.put(sessionId, session);
+            }
+            redis.saveSessionId(gameId, sessionId);
+        }
+    }
+
+    private void initializeMatch(String id, Session session, EndpointConfig config) throws IOException {
         gameId = id;
         redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
         match = redis.getMatch(id);
@@ -39,22 +51,28 @@ public class GameApi {
         }
     }
 
+    @OnClose
+    public void close(Session session) {
+        String sessionId = session.getId();
+        removeSessionId(sessionId);
+    }
+
     @OnMessage
     public void gameMessage(String message, Session session)
             throws IOException {
         String response;
         Gson gson = new Gson();
         clientRequest = gson.fromJson(message, GameApiJson.ClientRequest.class);
-        match = redis.getMatch(gameId);
 
         if (clientRequest.isPlayerIdCorrect(match)) {
+            match = redis.getMatch(gameId);
             response = playGame();
+            redis.saveMatch(match);
+            sendResponseToAllPlayers(response);
         } else {
             response = GameApiJson.buildErrorToDisplay("Not your turn");
+            session.getBasicRemote().sendText(response);
         }
-
-        redis.saveMatch(match);
-        session.getBasicRemote().sendText(response);
     }
 
     private String playGame() {
