@@ -1,7 +1,7 @@
-html, body 
-{ 	height: 100%; 
-	width: 100%; 
-	margin: 0; 
+html, body
+{ 	height: 100%;
+	width: 100%;
+	margin: 0;
 	padding: 0;
 	background-image : url(/inc/img/backgrounds/background.png);
 }
@@ -15,19 +15,12 @@ html, body
 	background-size: 100% 100%;
 }
 
-.board{
-	margin-top: 3%;
-	background: url(/inc/img/backgrounds/texture.png);
-    background-size: 100% 100%;
-	}
-	
-
 #bloc_gauge, #bloc_board, #bloc_right
 {
 	display: inline-block;
 	vertical-align: top;
 }
-	
+
 #bloc_top{
 	margin-left: auto;
 	margin-right: auto;
@@ -35,32 +28,36 @@ html, body
 	margin-top:6px;
 	height:70px;
 	}
-	
 
-	
+
+
 #bloc_total{
 	margin-left: auto;
 	margin-right: auto;
 	width:1280px;
 	margin-top:2px;
 	margin-bottom:5px;
-	height:550px;
+	height:600px;
 	z-index:0;
-	}	
-	
+	}
+
 #bloc_board{
-	text-align: center;
-	width:896px;
-	height:74%;
-	background: url(/inc/img/backgrounds/plateau.png);
+    margin-left: 192px;
+    width:896px;
+    height:74%;
+    background: url(/inc/img/backgrounds/plateau.png);
     background-size: 100% 100%;
 	}
-	
+
 #gameBoardContainer {
+    text-align: center;
     height: 430px;
 }
 
 #gameBoard {
+    margin-top: 3%;
+    background: url(/inc/img/backgrounds/texture.png);
+    background-size: 100% 100%;
     left: -285px;
     position: absolute;
     top: -705px;
@@ -108,7 +105,7 @@ rect, path {
     background-size: 100% 100%;
 	margin-left: 192px;
 }
-	
+
 .movementsCard {
     left:27%;
     float: left;
@@ -127,10 +124,11 @@ rect, path {
 }
 
 #bloc_gauge{
-	float:left;
-	width:192px;
-	height: 100%;
-	background: url(/inc/img/backgrounds/jauge.png);
+    margin-top: -600px;
+    float: left;
+    width:192px;
+    height: 100%;
+    background: url(/inc/img/backgrounds/jauge.png);
     background-size: 100% 100%;
 	}
 
@@ -140,7 +138,7 @@ rect, path {
 	width:192px;
 	height:100%;
 	}
-	
+
 #bloc_right_centre{
 	width:192px;
 	height:74%;
@@ -172,19 +170,20 @@ rect, path {
     position: absolute;
     top: 167px;
     left: 8px;
-}	
-	
+}
+
 @media screen and (min-width: 1440px){
 
 #bloc_top{
 	width:1440px;
 	}
-	
+
 #bloc_total{
 	width:1440px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 216px;
 	width:1008px;
 	}
 
@@ -201,7 +200,7 @@ rect, path {
 #bloc_right{
 	width:216px;
 	}
-	
+
 #bloc_right_centre{
 	width:216px;
 	}
@@ -217,12 +216,13 @@ rect, path {
 #bloc_top{
 	width:1024px;
 	}
-	
+
 #bloc_total{
 	width:1024px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 154px;
 	width:716px;
 	}
 
@@ -239,7 +239,7 @@ rect, path {
 #bloc_right{
 	width:154px;
 	}
-	
+
 #bloc_right_centre{
 	width:154px;
 	}
@@ -258,9 +258,10 @@ rect, path {
 
 #bloc_total{
 	width:900px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 135px;
 	width:630px;
 	}
 
@@ -277,7 +278,7 @@ rect, path {
 #bloc_right{
 	width:135px;
 	}
-	
+
 #bloc_right_centre{
 	width:135px;
 	}
@@ -293,12 +294,13 @@ rect, path {
 #bloc_top{
 	width:768px;
 	}
-	
+
 #bloc_total{
 	width:768px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 0;
 	width:653px;
 	}
 
@@ -309,6 +311,7 @@ rect, path {
 	}
 
 #bloc_gauge{
+	margin-top: 0;
 	float: none;
 	width:768px;
 	height: 13%;
@@ -321,7 +324,7 @@ rect, path {
 	width:115px;
 	height:74%;
 	}
-	
+
 #bloc_right_centre{
 	width:115px;
 	}
@@ -340,9 +343,10 @@ rect, path {
 
 #bloc_total{
 	width:600px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 0;
 	width:510px;
 	}
 
@@ -353,6 +357,7 @@ rect, path {
 	}
 
 #bloc_gauge{
+	margin-top: 0;
 	float: none;
 	width:600px;
 	height: 13%;
@@ -365,7 +370,7 @@ rect, path {
 	width:90px;
 	height:74%;
 	}
-	
+
 #bloc_right_centre{
 	width:90px;
 	}
@@ -377,16 +382,17 @@ rect, path {
 }
 
 @media screen and (max-width: 600px){
-	
+
 #bloc_top{
 	width:470px;
 	}
-	
+
 #bloc_total{
 	width:470px;
-	}	
-	
+	}
+
 #bloc_board{
+	margin-left: 0;
 	width:400px;
 	}
 
@@ -397,6 +403,7 @@ rect, path {
 	}
 
 #bloc_gauge{
+	margin-top: 0;
 	float: none;
 	width:470px;
 	height: 13%;
@@ -409,7 +416,7 @@ rect, path {
 	width:70px;
 	height:74%;
 	}
-	
+
 #bloc_right_centre{
 	width:70px;
 	}

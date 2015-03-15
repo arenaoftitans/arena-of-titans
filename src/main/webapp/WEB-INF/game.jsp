@@ -52,10 +52,6 @@
                     </div>
                 </div> <!--bloc right-->
 
-                <div id="bloc_gauge">
-
-                </div> <!--bloc gauge-->
-
                 <div id="bloc_cards">
                     <center>
                         <div>
@@ -101,7 +97,9 @@
                         </div>
                     </center>
                 </div> <!--bloc cards-->
+                <div id="bloc_gauge">
 
+                </div> <!--bloc gauge-->
             </div>
         </div> <!--bloc total-->
 
