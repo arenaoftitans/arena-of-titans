@@ -113,7 +113,7 @@ rect, path {
 	width:896px;
 	height:26%;
 	background: url(/inc/img/backgrounds/cartes.png);
-    background-size: 100% 100%;
+        background-size: 100% 100%;
 	margin-left: 192px;
 }
 
@@ -124,6 +124,11 @@ rect, path {
     cursor: pointer;
     margin: 5px;
     position: relative;
+}
+
+.trumpCard
+{
+    cursor: pointer;
 }
 
 .movementsCardContainer {
@@ -169,18 +174,11 @@ rect, path {
     height: 100%;
 }
 
-.trump {
-    cursor: pointer;
-}
-
 #trumps {
-    color: black;
-    width: 9%;
-    height: 100%;
-    font-weight: bold;
     position: absolute;
-    top: 167px;
-    left: 8px;
+    top: -743px;
+    left: -83px;
+    transform: scale(0.15);
 }
 
 @media screen and (min-width: 1440px){

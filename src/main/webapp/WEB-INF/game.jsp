@@ -77,10 +77,11 @@
                                 </div>
                             </div>
                             <div id="trumps">
-                                <div ng-repeat="trump in currentPlayerTrumps"
-                                     ng-click="playTrump(trump)"
-                                     class="trump">
-                                    {{trump.name}}: {{trump.description}}
+                                <div ng-repeat="trump in currentPlayerTrumps" class="trumpsContainer">
+                                    <img class="trumpCard"
+                                         ng-click="playTrump(trump)"
+                                         ng-src="/inc/img/cards/trumps/{{trump.name| lowercase}}.png"
+                                         />
                                 </div>
                             </div>
                             <div>
