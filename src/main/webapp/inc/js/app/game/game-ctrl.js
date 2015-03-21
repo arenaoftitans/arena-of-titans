@@ -22,7 +22,9 @@ gameModule.controller("game", ['$scope',
         var gameApi = $websocket(host + gameApiUrl);
         // Requests type
         var rt = {view: 'VIEW_POSSIBLE_SQUARES',
-            play: 'PLAY'};
+            play: 'PLAY',
+            play_trump: 'PLAY_TRUMP'
+        };
 
         gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
@@ -106,9 +108,11 @@ gameModule.controller("game", ['$scope',
         $scope.viewPossibleMovements = function (cardName, cardColor) {
             var data = {
                 rt: rt.view,
-                card_name: cardName,
-                card_color: cardColor,
-                player_id: $scope.currentPlayer.id
+                player_id: $scope.currentPlayer.id,
+                play_request: {
+                    card_name: cardName,
+                    card_color: cardColor
+                }
             };
             // Stores the selected card.
             $scope.selectedCard = {name: cardName, color: cardColor};
@@ -132,11 +136,13 @@ gameModule.controller("game", ['$scope',
                     && $scope.selectedCard !== null) {
                 var data = {
                     rt: rt.play,
-                    card_name: $scope.selectedCard.name,
-                    card_color: $scope.selectedCard.color,
                     player_id: $scope.currentPlayer.id,
-                    x: squareX,
-                    y: squareY
+                    play_request: {
+                        card_name: $scope.selectedCard.name,
+                        card_color: $scope.selectedCard.color,
+                        x: squareX,
+                        y: squareY
+                    }
                 };
                 // TODO: handle error.
                 gameApi.send(data);
@@ -152,7 +158,9 @@ gameModule.controller("game", ['$scope',
             var data = {
                 rt: rt.play,
                 player_id: $scope.currentPlayer.id,
-                pass: true
+                play_request: {
+                    pass: true
+                }
             };
             gameApi.send(data);
         };
@@ -168,10 +176,12 @@ gameModule.controller("game", ['$scope',
         $scope.confirmDiscard = function () {
             var data = {
                 rt: rt.play,
-                discard: true,
-                card_name: $scope.selectedCard.name,
-                card_color: $scope.selectedCard.color,
-                player_id: $scope.currentPlayer.id
+                player_id: $scope.currentPlayer.id,
+                play_request: {
+                    discard: true,
+                    card_name: $scope.selectedCard.name,
+                    card_color: $scope.selectedCard.color
+                }
             };
             gameApi.send(data);
             $scope.hiddeDiscardPopup();

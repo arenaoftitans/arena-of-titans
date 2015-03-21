@@ -46,9 +46,12 @@ playTrumpModule.controller('playTrump', ['$scope',
             var targetIndex = $scope.trumpTargetedPlayer === undefined ? null :
                     $scope.trumpTargetedPlayer;
             var data = {
-                target_index: targetIndex,
-                name: $scope.trumpName,
-                player_id: $scope.currentPlayerId
+                rt: 'PLAY_TRUMP',
+                player_id: $scope.currentPlayerId,
+                trump_request: {
+                    target_index: targetIndex,
+                    name: $scope.trumpName
+                }
             };
             playTrumpWs.send(data);
         };

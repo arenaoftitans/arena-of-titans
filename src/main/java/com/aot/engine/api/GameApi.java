@@ -1,6 +1,5 @@
 package com.aot.engine.api;
 
-import com.aot.engine.Match;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.api.json.PossibleSquaresJson;
@@ -22,7 +21,9 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/api/game/{id}", configurator = GetRedis.class)
 public class GameApi extends WebsocketApi {
 
-    private GameApiJson.ClientRequest clientRequest;
+    private String playerId;
+    private GameApiJson.PlayerRequest playerRequest;
+    private GameApiJson.PlayRequest playRequest;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session, EndpointConfig config) throws IOException {
@@ -32,9 +33,7 @@ public class GameApi extends WebsocketApi {
 
         if (session.isOpen()) {
             String sessionId = session.getId();
-            synchronized (players) {
-                players.put(sessionId, session);
-            }
+            players.put(sessionId, session);
             redis.saveSessionId(gameId, sessionId);
         }
     }
@@ -62,9 +61,10 @@ public class GameApi extends WebsocketApi {
             throws IOException {
         String response;
         Gson gson = new Gson();
-        clientRequest = gson.fromJson(message, GameApiJson.ClientRequest.class);
+        playerRequest = gson.fromJson(message, GameApiJson.PlayerRequest.class);
+        playerId = playerRequest.getPlayerId();
 
-        if (clientRequest.isPlayerIdCorrect(match)) {
+        if (playerRequest.isPlayerIdCorrect(match)) {
             match = redis.getMatch(gameId);
             response = playGame();
             redis.saveMatch(match);
@@ -78,11 +78,13 @@ public class GameApi extends WebsocketApi {
     private String playGame() {
         String response;
 
-        switch (clientRequest.getRequestType()) {
+        switch (playerRequest.getRequestType()) {
             case VIEW_POSSIBLE_SQUARES:
+                playRequest = playerRequest.getPlayRequest();
                 response = listOfPossibleSquares();
                 break;
             case PLAY:
+                playRequest = playerRequest.getPlayRequest();
                 response = play();
                 break;
             default:
@@ -96,14 +98,14 @@ public class GameApi extends WebsocketApi {
     private String listOfPossibleSquares() {
         String response;
 
-        if (clientRequest.nonNullCardNameAndColor(match)) {
+        if (playRequest.nonNullCardNameAndColor(match)) {
             response = listSquaresFromCurrentSquare();
         } else {
             String message = String
                     .format("Wrong input parameters. CardName: %s. CardColor: %s. PlayerId: %s.",
-                            clientRequest.getCardName(),
-                            clientRequest.getCardColor(),
-                            clientRequest.getPlayerId());
+                            playRequest.getCardName(),
+                            playRequest.getCardColor(),
+                            playerId);
             response = GameApiJson.buildError(message);
         }
 
@@ -138,24 +140,24 @@ public class GameApi extends WebsocketApi {
     }
 
     private MovementsCard getPlayedCard() {
-        return match.getActivePlayerDeck().getCard(clientRequest.getCardName(), clientRequest.getCardColor());
+        return match.getActivePlayerDeck().getCard(playRequest.getCardName(), playRequest.getCardColor());
     }
 
     private String cannotGetCardMessage() {
         String message = String.format("Cannot get the selected card: %s, %s.",
-                clientRequest.getCardName(), clientRequest.getCardColor());
+                playRequest.getCardName(), playRequest.getCardColor());
         return GameApiJson.buildError(message);
     }
 
     private String play() {
         String response;
 
-        if (clientRequest.pass()) {
+        if (playRequest.pass()) {
             response = passThisTurn();
-        } else if (clientRequest.nonNullCardNameAndColor(match)) {
+        } else if (playRequest.nonNullCardNameAndColor(match)) {
             response = playOrDiscardCard();
         } else {
-            String message = String.format("Wrong card: %s, %s", clientRequest.getCardName(), clientRequest.getCardColor());
+            String message = String.format("Wrong card: %s, %s", playRequest.getCardName(), playRequest.getCardColor());
             response = GameApiJson.buildError(message);
         }
 
@@ -168,16 +170,16 @@ public class GameApi extends WebsocketApi {
     }
 
     private String playOrDiscardCard() {
-        if (clientRequest.discard()) {
-            return discardCard(clientRequest);
+        if (playRequest.discard()) {
+            return discardCard();
         } else {
             return playCard();
         }
     }
 
-    private String discardCard(GameApiJson.ClientRequest move) {
-        String cardName = move.getCardName();
-        String cardColor = move.getCardColor();
+    private String discardCard() {
+        String cardName = playRequest.getCardName();
+        String cardColor = playRequest.getCardColor();
         MovementsCard cardToDiscard = match.getActivePlayerDeck().getCard(cardName, cardColor);
 
         String response;
@@ -197,17 +199,17 @@ public class GameApi extends WebsocketApi {
         MovementsCard playedCard = getPlayedCard();
         Square currentSquare = match.getActivePlayerCurrentSquare();
 
-        if (clientRequest.nonNullDestinationCoordinates() && playedCard != null && currentSquare != null) {
+        if (playRequest.nonNullDestinationCoordinates() && playedCard != null && currentSquare != null) {
             response = moveToNewSquare(playedCard, currentSquare);
         } else {
             String message = String
                     .format("Wrong input parameters. %s.\n.CardName: %s. CardColor: %s. PlayerId: %s. X: %s. Y: %s.",
                             getComplementaryMessage(playedCard, currentSquare),
-                            clientRequest.getCardName(),
-                            clientRequest.getCardColor(),
-                            clientRequest.getPlayerId(),
-                            clientRequest.getX(),
-                            clientRequest.getY());
+                            playRequest.getCardName(),
+                            playRequest.getCardColor(),
+                            playerId,
+                            playRequest.getX(),
+                            playRequest.getY());
             response = GameApiJson.buildError(message);
         }
 
@@ -217,8 +219,8 @@ public class GameApi extends WebsocketApi {
     private String moveToNewSquare(MovementsCard playedCard, Square currentSquare) {
         String response;
         List< String> possibleSquaresIds = new ArrayList<>(playedCard.getPossibleMovements(currentSquare));
-        int x = clientRequest.getX();
-        int y = clientRequest.getY();
+        int x = playRequest.getX();
+        int y = playRequest.getY();
         String selectedSquareId = String.format("square-%s-%s", x, y);
 
         if (possibleSquaresIds.contains(selectedSquareId)) {

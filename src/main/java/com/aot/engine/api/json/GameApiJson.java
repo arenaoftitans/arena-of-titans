@@ -5,16 +5,42 @@ import com.aot.engine.api.RequestType;
 
 public class GameApiJson {
 
-    public class ClientRequest {
+    public class PlayerRequest {
+
+        private RequestType rt;
+        private String player_id;
+        private PlayRequest play_request;
+        private PlayTrumpRequest trump_request;
+
+        public String getPlayerId() {
+            return player_id;
+        }
+
+        public boolean isPlayerIdCorrect(Match match) {
+            return getPlayerId() != null && getPlayerId().equals(match.getActivePlayeId());
+        }
+
+        public RequestType getRequestType() {
+            return rt;
+        }
+
+        public PlayRequest getPlayRequest() {
+            return play_request;
+        }
+
+        public PlayTrumpRequest getPlayTrumpRequest() {
+            return trump_request;
+        }
+    }
+
+    public class PlayRequest {
 
         private String card_name;
         private String card_color;
-        private String player_id;
         private Integer x;
         private Integer y;
         private boolean pass;
         private boolean discard;
-        private RequestType rt;
 
         public String getCardName() {
             return card_name;
@@ -22,10 +48,6 @@ public class GameApiJson {
 
         public String getCardColor() {
             return card_color;
-        }
-
-        public String getPlayerId() {
-            return player_id;
         }
 
         public Integer getX() {
@@ -53,20 +75,12 @@ public class GameApiJson {
             return getX() != null && getY() != null;
         }
 
-        public boolean isPlayerIdCorrect(Match match) {
-            return getPlayerId() != null && getPlayerId().equals(match.getActivePlayeId());
-        }
-
-        public RequestType getRequestType() {
-            return rt;
-        }
     }
 
     public class PlayTrumpRequest {
 
         private String name;
         private Integer target_index;
-        private String player_id;
 
         public String getTrumpName() {
             return name;
@@ -76,13 +90,6 @@ public class GameApiJson {
             return target_index;
         }
 
-        public String getPlayerId() {
-            return player_id;
-        }
-
-        public boolean isIdCorrect(Match match) {
-            return player_id != null && player_id.equals(match.getActivePlayeId());
-        }
     }
 
     public static String buildErrorToDisplay(String message) {

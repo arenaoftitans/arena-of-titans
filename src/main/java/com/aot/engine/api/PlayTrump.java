@@ -16,6 +16,7 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/api/playTrump/{id}", configurator = GetRedis.class)
 public class PlayTrump extends WebsocketApi {
 
+    private GameApiJson.PlayerRequest playerRequest;
     private GameApiJson.PlayTrumpRequest playTrumpRequest;
 
     @OnOpen
@@ -29,9 +30,10 @@ public class PlayTrump extends WebsocketApi {
     public void play(String message, Session session) throws IOException {
         String response;
         Gson gson = new Gson();
-        playTrumpRequest = gson.fromJson(message, GameApiJson.PlayTrumpRequest.class);
+        playerRequest = gson.fromJson(message, GameApiJson.PlayerRequest.class);
+        playTrumpRequest = playerRequest.getPlayTrumpRequest();
 
-        if (playTrumpRequest.isIdCorrect(match)) {
+        if (playerRequest.isPlayerIdCorrect(match)) {
             match = redis.getMatch(gameId);
             response = playTrump();
             redis.saveMatch(match);
