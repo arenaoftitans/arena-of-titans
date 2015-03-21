@@ -29,6 +29,7 @@ gameModule.controller("game", ['$scope',
 
         gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
+                                    console.error('coucou');
                 if (data.hasOwnProperty('possible_squares')) {
                     $scope.highlightedSquares = data.possible_squares;
                 } else if (data.hasOwnProperty('play')) {

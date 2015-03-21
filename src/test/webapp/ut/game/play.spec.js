@@ -266,25 +266,4 @@ describe('game', function () {
         });
     });
 
-    describe('playTrump', function () {
-        var $rootScope;
-
-        beforeEach(inject(function (_$rootScope_) {
-            $rootScope = _$rootScope_;
-            $scope.currentPlayer = player1;
-        }));
-
-        it('must emit "wantToPlayTrump"', function () {
-            spyOn($rootScope, "$emit");
-            $scope.playTrump(null);
-            expect($scope.$emit).toHaveBeenCalled();
-        });
-
-        it('must repond to "trumpPlayed"', function () {
-            var response = ['trump1', 'trump2'];
-            $rootScope.$emit('trumpPlayed', response);
-            expect($scope.activeTrumps).toEqual(response);
-        });
-    });
-
 });
