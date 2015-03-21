@@ -5,7 +5,7 @@ import com.aot.engine.Match;
 import com.google.gson.Gson;
 import java.util.List;
 
-public class TrumpPlayedJsonResponseBuilder {
+public class TrumpPlayedJsonResponseBuilder extends JsonResponse {
 
     private TrumpPlayedJsonResponseBuilder() {
     }
@@ -15,7 +15,7 @@ public class TrumpPlayedJsonResponseBuilder {
 
         String output = createOutputJson(trumpPlayedJsonResponse);
 
-        return output;
+        return formatJsonWithRequestType(output, "play_trump");
     }
 
     private static String createOutputJson(List<TrumpPlayedJsonResponse> trumpPlayedJsonResponse) {

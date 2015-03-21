@@ -3,12 +3,15 @@ package com.aot.engine.api;
 import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.api.json.PossibleSquaresJson;
+import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
 import com.aot.engine.board.Square;
 import com.aot.engine.cards.movements.MovementsCard;
+import com.aot.engine.trumps.Trump;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -24,6 +27,7 @@ public class GameApi extends WebsocketApi {
     private String playerId;
     private GameApiJson.PlayerRequest playerRequest;
     private GameApiJson.PlayRequest playRequest;
+    private GameApiJson.PlayTrumpRequest playTrumpRequest;
 
     @OnOpen
     public void open(@PathParam("id") String id, Session session, EndpointConfig config) throws IOException {
@@ -86,6 +90,10 @@ public class GameApi extends WebsocketApi {
             case PLAY:
                 playRequest = playerRequest.getPlayRequest();
                 response = play();
+                break;
+            case PLAY_TRUMP:
+                playTrumpRequest = playerRequest.getPlayTrumpRequest();
+                response = playTrump();
                 break;
             default:
                 response = GameApiJson.buildError("Unknow resquest type.");
@@ -244,6 +252,49 @@ public class GameApi extends WebsocketApi {
         }
 
         return message;
+    }
+
+    private String playTrump() {
+        String response;
+        Trump trump = getTrump();
+        if (trump != null) {
+            response = playThisTrump(trump);
+        } else {
+            String message = String
+                    .format("Wrong input parameters. trumpName: %s., targetIndex: %s.",
+                            playTrumpRequest.getTrumpName(),
+                            playTrumpRequest.getTargetIndex());
+            response = GameApiJson.buildError(message);
+        }
+
+        return response;
+    }
+
+    private Trump getTrump() {
+        String trumpName = playTrumpRequest.getTrumpName();
+        if (trumpName == null) {
+            return null;
+        } else {
+            try {
+                return match.getTrumpForActivePlayer(trumpName);
+            } catch (NoSuchElementException ex) {
+                return null;
+            }
+        }
+    }
+
+    private String playThisTrump(Trump trump) {
+        String response;
+        Integer targetIndex = playTrumpRequest.getTargetIndex();
+
+        if (match.canActivePlayerPlayTrump(trump, targetIndex)) {
+            match.playTrump(trump, targetIndex);
+            response = TrumpPlayedJsonResponseBuilder.build(match);
+        } else {
+            response = GameApiJson.buildError("You cannot play this trump.");
+        }
+
+        return response;
     }
 
 }

@@ -19,19 +19,16 @@
         <script src="/inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="/inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
 
-        <script src="/inc/js/app/play-trump/play-trump-module.js" type="text/javascript"></script>
-        <script src="/inc/js/app/play-trump/play-trump-ctrl.js" type="text/javascript"></script>
-
         <script src="/inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
         <script src="/inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
-    <body ng-app="aot">
+    <body ng-app="aot" ng-controller="game">
 
         <div id="bloc_top">
 
         </div>
 
-        <div id="bloc_total" ng-controller="game">
+        <div id="bloc_total">
 
             <div id="bloc_left">
 
@@ -110,10 +107,10 @@
             </div> <!--bloc right-->
         </div> <!--bloc total-->
 
-        <div ng-controller="playTrump" id="targetedPlayerForTrumpSelector" class="popup" ng-class="{hidden: !showTargetedPlayerForTrumpSelector}">
+        <div id="targetedPlayerForTrumpSelector" class="popup" ng-class="{hidden: !showTargetedPlayerForTrumpSelector}">
             <form id="targetedPlayerForTrumpSelectorForm">
                 <label>Select the player on which to apply the trump.</label>
-                <div ng-repeat="player in players" class="player">
+                <div ng-repeat="player in otherPlayers" class="player">
                     <input ng-model="$parent.trumpTargetedPlayer"
                            ng-value="player.index"
                            type="radio"

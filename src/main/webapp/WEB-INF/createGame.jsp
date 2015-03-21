@@ -23,9 +23,6 @@
         <script src="inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
 
-        <script src="inc/js/app/play-trump/play-trump-module.js" type="text/javascript"></script>
-        <script src="inc/js/app/play-trump/play-trump-ctrl.js" type="text/javascript"></script>
-
         <script src="inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
         <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>

@@ -15,6 +15,7 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
+        $scope.showTargetedPlayerForTrumpSelector = false;
 
         var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
@@ -38,6 +39,8 @@ gameModule.controller("game", ['$scope',
                     }
 
                     updateGameParameters(data);
+                } else if (data.hasOwnProperty('play_trump')) {
+                    updateScopeOnSuccessfulTrump(data);
                 }
             });
         });
@@ -202,13 +205,62 @@ gameModule.controller("game", ['$scope',
          * @returns {undefined}
          */
         $scope.playTrump = function (trump) {
-            $rootScope.$emit('wantToPlayTrump', trump, $scope.players, $scope.currentPlayer.index,
-                    $scope.currentPlayer.id);
+            $scope.trumpName = trump.name;
+            // We can't apply the trump on the current player.
+            $scope.otherPlayers = $scope.players.filter(function (player) {
+                return player.index !== $scope.currentPlayer.index;
+            });
+            if (trump.mustTargetPlayer) {
+                selectTrumpTargetedPlayer();
+            } else {
+                playTrump();
+            }
         };
 
-        var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {
-            $scope.activeTrumps = response;
-        });
-        $rootScope.$on('destroy', unbindTrumpPlayed);
+        var selectTrumpTargetedPlayer = function () {
+            $scope.showTargetedPlayerForTrumpSelector = true;
+        };
+
+        /**
+         * Play the trump.
+         * @returns {undefined}
+         */
+        var playTrump = function () {
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? null :
+                    $scope.trumpTargetedPlayer;
+            var data = {
+                rt: rt.play_trump,
+                player_id: $scope.currentPlayer.id,
+                trump_request: {
+                    target_index: targetIndex,
+                    name: $scope.trumpName
+                }
+            };
+            gameApi.send(data);
+        };
+
+        $scope.submitSelectTargetedPlayerForm = function () {
+            var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
+                    $scope.trumpTargetedPlayer !== undefined;
+            if (playerCorrectlyTargeted) {
+                playTrump();
+            }
+        };
+
+        $scope.cancelSelectTargetedPlayerForm = function () {
+            $scope.trumpTargetedPlayer = undefined;
+            hiddeTrumpPopup();
+        };
+
+
+        var hiddeTrumpPopup = function () {
+            $scope.showTargetedPlayerForTrumpSelector = false;
+        };
+
+        var updateScopeOnSuccessfulTrump = function (data) {
+            $scope.trumpTargetedPlayer = undefined;
+            hiddeTrumpPopup();
+            $scope.activeTrumps = data.play_trump;
+        };
     }
 ]);

@@ -11,6 +11,5 @@
 var app = angular.module("aot", [
     'aot.game',
     'aot.create-game',
-    'aot.game-over',
-    'aot.play-trump'
+    'aot.game-over'
 ]);
