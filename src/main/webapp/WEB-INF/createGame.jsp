@@ -16,11 +16,8 @@
         <script src="/inc/js/lib/angular-websocket.js" type="text/javascript"></script>
         <script src="/inc/js/app.js" type="text/javascript"></script>
 
-        <script src="/inc/js/app/create-game/create-game-module.js"></script>
-        <script src="/inc/js/app/create-game/create-game-directives.js"></script>
-        <script src="/inc/js/app/create-game/create-game-ctrl.js"></script>
-
         <script src="/inc/js/app/game/game-module.js" type="text/javascript"></script>
+        <script src="/inc/js/app/game/game-directives.js"></script>
         <script src="/inc/js/app/game/game-services.js" type="text/javascript"></script>
         <script src="/inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
 
@@ -28,8 +25,8 @@
         <script src="/inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="aot">
-        <div id="createGame" ng-controller="createGame">
-            <form id="crateGameForm">
+        <div id="createGame" ng-controller="game">
+            <form id="createGameForm">
                 <label>Add players</label>
                 <div ng-repeat="player in players">
                     <slot player="player" state-changed="slotStateChanged(index, state)" />

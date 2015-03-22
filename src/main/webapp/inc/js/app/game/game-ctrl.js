@@ -1,13 +1,17 @@
 gameModule.controller("game", ['$scope',
-    '$http',
     '$websocket',
     '$rootScope',
     'handleError',
     'player',
     'ws',
-    function ($scope, $http, $websocket, $rootScope, handleError, player, ws) {
+    function ($scope, $websocket, $rootScope, handleError, player, ws) {
+        'use strict';
+
+        var maximumNumberOfPlayers = 8;
+        var initialNumberOfOpenedSlot = 2;
+
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.players = player.init(8);
+        $scope.players = player.init(initialNumberOfOpenedSlot);
         $scope.activePawns = [];
         $scope.selectedCard = null;
         $scope.currentPlayer = null;
@@ -22,9 +26,39 @@ gameModule.controller("game", ['$scope',
         var gameApiUrl = '/api/game/' + gameId;
         var gameApi = $websocket(host + gameApiUrl);
         // Requests type
-        var rt = {view: 'VIEW_POSSIBLE_SQUARES',
+        var rt = {
+            create_game: 'CREATE_GAME',
+            view: 'VIEW_POSSIBLE_SQUARES',
             play: 'PLAY',
             play_trump: 'PLAY_TRUMP'
+        };
+
+        $scope.addPlayer = function () {
+            if ($scope.players.length < maximumNumberOfPlayers) {
+                $scope.players.push(player.newPlayer($scope.players.length));
+            } else {
+                alert(maximumNumberOfPlayers.toString() + ' maximum');
+            }
+        };
+
+        $scope.createGame = function () {
+            // JSON.stringify of a player with a pawn can crash on some browsers like Chrome.
+            var players = $scope.players.map(function (player) {
+                return {name: player.name, index: player.index};
+            });
+
+            var data = {
+                rt: rt.create_game,
+                player_id: $scope.currentPlayer.id,
+                create_game_request: players
+            };
+
+            gameApi.send(data);
+        };
+
+        $scope.slotStateChanged = function (index, state) {
+            console.log(index);
+            console.log(state);
         };
 
         function createGame(game) {
@@ -72,8 +106,10 @@ gameModule.controller("game", ['$scope',
 
         gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
-                console.error(data);
                 switch (data.rt) {
+                    case rt.create_game:
+                        createGame(data);
+                        break;
                     case rt.view:
                         $scope.highlightedSquares = data.possible_squares;
                         break;
@@ -88,17 +124,6 @@ gameModule.controller("game", ['$scope',
         });
 
         gameApi.onError(handleError.show);
-
-        var getGameUrl = '/rest/createGame';
-        $rootScope.$watch('$viewContentLoaded', function () {
-            $http.get(getGameUrl)
-                    .success(function (game) {
-                        createGame(game);
-                    })
-                    .error(function (data) {
-                        handleError.show(data);
-                    });
-        });
 
         function isGameOver(gameOver) {
             if (gameOver) {

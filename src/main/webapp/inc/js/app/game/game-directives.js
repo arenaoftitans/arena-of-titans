@@ -1,4 +1,4 @@
-createGameModule.directive('slot', function () {
+gameModule.directive('slot', function () {
     'use strict';
     return {
         scope: {
