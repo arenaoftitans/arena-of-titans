@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 @Path("/createGame")
 public class CreateGameRest extends GameApiOld {
 
+    private static final int MAXIMUM_NUMBER_OF_PLAYERS = 8;
     private List<JsonPlayer> players;
 
     @Context
@@ -40,6 +41,10 @@ public class CreateGameRest extends GameApiOld {
         if (players.size() < 2) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("{\"error_to_display\": \"Not enough players. 2 Players at least are required to start a game\"}")
+                    .build();
+        } else if (players.size() > MAXIMUM_NUMBER_OF_PLAYERS) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("{\"error_to_display\": \"To many players. 8 Players max.\"}")
                     .build();
         }
 
