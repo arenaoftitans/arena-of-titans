@@ -10,6 +10,7 @@ public class Redis {
 
     public static final String GAME_KEY_PART = "game:";
     public static final String MATCH_KEY = "match";
+    public static final String GAME_MASTER_KEY = "game_master";
     public static final String SESSIONS_KEY_PART = "sessions:";
     // time in seconds after which the game is deleted (48h).
     public static final int GAME_EXPIRE = 172_800;
@@ -68,6 +69,12 @@ public class Redis {
      */
     public void destroy() {
         jedisPool.destroy();
+    }
+
+    public boolean doesGameExists(String gameId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.hget(GAME_KEY_PART + gameId, GAME_MASTER_KEY) != null;
+        }
     }
 
 }
