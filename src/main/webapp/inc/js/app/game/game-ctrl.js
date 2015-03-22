@@ -27,36 +27,6 @@ gameModule.controller("game", ['$scope',
             play_trump: 'PLAY_TRUMP'
         };
 
-        gameApi.onMessage(function (event) {
-            ws.parse(event).then(function (data) {
-                if (data.hasOwnProperty('possible_squares')) {
-                    $scope.highlightedSquares = data.possible_squares;
-                } else if (data.hasOwnProperty('play')) {
-                    data = data.play;
-                    if (data.hasOwnProperty('newSquare')) {
-                        var playerPawn = $scope.currentPlayer.pawn;
-                        player.move(playerPawn, data.newSquare.x, data.newSquare.y);
-                    }
-
-                    updateGameParameters(data);
-                } else if (data.hasOwnProperty('play_trump')) {
-                    updateScopeOnSuccessfulTrump(data);
-                }
-            });
-        });
-        gameApi.onError(handleError.show);
-
-        var getGameUrl = '/rest/createGame';
-        $rootScope.$watch('$viewContentLoaded', function () {
-            $http.get(getGameUrl)
-                    .success(function (game) {
-                        createGame(game);
-                    })
-                    .error(function (data) {
-                        handleError.show(data);
-                    });
-        });
-
         function createGame(game) {
             // If currentPlayer exists we must not update it or some tests will fail.
             if ($scope.currentPlayer !== null) {
@@ -80,20 +50,55 @@ gameModule.controller("game", ['$scope',
 
         /**
          * Update the scope based on the data send by the server when a move was successfull.
-         * @param {type} game The data recieved from the server.
+         * @param {type} data The data recieved from the server.
          */
-        function updateGameParameters(game) {
+        function updateGameParameters(data) {
+            if (data.hasOwnProperty('newSquare')) {
+                var playerPawn = $scope.currentPlayer.pawn;
+                player.move(playerPawn, data.newSquare.x, data.newSquare.y);
+            }
+
             // The server cannot know about pawns. We get it from $scope.players
-            $scope.currentPlayer = $scope.players[game.nextPlayer.id];
-            $scope.currentPlayerCards = game.possibleCardsNextPlayer;
-            $scope.currentPlayerTrumps = game.trumpsNextPlayer;
-            $scope.winners = game.winners;
+            $scope.currentPlayer = $scope.players[data.nextPlayer.id];
+            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+            $scope.currentPlayerTrumps = data.trumpsNextPlayer;
+            $scope.winners = data.winners;
             $scope.selectedCard = null;
             $scope.highlightedSquares = [];
-            $scope.activeTrumps = game.trumps;
+            $scope.activeTrumps = data.trumps;
 
-            isGameOver(game.gameOver);
+            isGameOver(data.gameOver);
         }
+
+        gameApi.onMessage(function (event) {
+            ws.parse(event).then(function (data) {
+                console.error(data);
+                switch (data.rt) {
+                    case rt.view:
+                        $scope.highlightedSquares = data.possible_squares;
+                        break;
+                    case rt.play:
+                        updateGameParameters(data);
+                        break;
+                    case rt.play_trump:
+                        updateScopeOnSuccessfulTrump(data);
+                        break;
+                }
+            });
+        });
+
+        gameApi.onError(handleError.show);
+
+        var getGameUrl = '/rest/createGame';
+        $rootScope.$watch('$viewContentLoaded', function () {
+            $http.get(getGameUrl)
+                    .success(function (game) {
+                        createGame(game);
+                    })
+                    .error(function (data) {
+                        handleError.show(data);
+                    });
+        });
 
         function isGameOver(gameOver) {
             if (gameOver) {

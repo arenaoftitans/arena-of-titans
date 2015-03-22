@@ -1,5 +1,6 @@
 package com.aot.engine.api.json;
 
+import static com.aot.engine.api.RequestType.PLAY;
 import com.aot.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,8 @@ public class CardPlayedJsonResponse {
     private List<String> winners;
     private List<JsonTrump> trumpsNextPlayer;
     private List<JsonPlayer> players;
-    private List<TrumpPlayedJsonResponse> trumps;
+    private List<TrumpJson> trumps;
+    private String rt = PLAY.toString();
 
     public JsonPlayer getNextPlayer() {
         return nextPlayer;
@@ -92,7 +94,7 @@ public class CardPlayedJsonResponse {
         this.players = players;
     }
 
-    public void setTrumps(List<TrumpPlayedJsonResponse> trumps) {
+    public void setTrumps(List<TrumpJson> trumps) {
         this.trumps = trumps;
     }
 

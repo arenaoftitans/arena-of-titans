@@ -7,7 +7,7 @@ import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.JsonTrump;
 import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.MatchJson;
-import com.aot.engine.api.json.TrumpPlayedJsonResponse;
+import com.aot.engine.api.json.TrumpJson;
 import com.aot.engine.cards.Deck;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -471,10 +471,10 @@ public class Match {
                 .collect(Collectors.toList());
     }
 
-    public List<TrumpPlayedJsonResponse> getActiveTrumpsForJsonExport() {
+    public List<TrumpJson> getActiveTrumpsForJsonExport() {
         return players.parallelStream()
                 .map(player -> {
-                    TrumpPlayedJsonResponse trumpPlayedJsonResponse = new TrumpPlayedJsonResponse();
+                    TrumpJson trumpPlayedJsonResponse = new TrumpJson();
                     trumpPlayedJsonResponse.setPlayerName(player.getName());
                     trumpPlayedJsonResponse.setPlayerIndex(player.getIndex());
                     trumpPlayedJsonResponse.setTrumpNames(player.getActiveTrumpNames());

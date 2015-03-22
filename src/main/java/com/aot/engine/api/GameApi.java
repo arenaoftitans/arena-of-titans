@@ -1,6 +1,6 @@
 package com.aot.engine.api;
 
-import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.PlayJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
 import com.aot.engine.api.json.PossibleSquaresJson;
 import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
@@ -139,7 +139,7 @@ public class GameApi extends WebsocketApi {
         MovementsCard playedCard = getPlayedCard();
 
         if (playedCard != null) {
-            response = PossibleSquaresJson.get(playedCard, currentSquare, "possible_squares");
+            response = PossibleSquaresJson.get(playedCard, currentSquare);
         } else {
             response = cannotGetCardMessage();
         }
@@ -174,7 +174,7 @@ public class GameApi extends WebsocketApi {
 
     private String passThisTurn() {
         match.passThisTurn();
-        return CardPlayedJsonResponseBuilder.build(match, "play");
+        return PlayJsonResponseBuilder.build(match);
     }
 
     private String playOrDiscardCard() {
@@ -193,7 +193,7 @@ public class GameApi extends WebsocketApi {
         String response;
         if (cardToDiscard != null) {
             match.discard(cardToDiscard);
-            response = CardPlayedJsonResponseBuilder.build(match, "play");
+            response = PlayJsonResponseBuilder.build(match);
         } else {
             String message = String.format("Unknown card: %s, %s", cardName, cardColor);
             response = GameApiJson.buildError(message);
@@ -233,7 +233,7 @@ public class GameApi extends WebsocketApi {
 
         if (possibleSquaresIds.contains(selectedSquareId)) {
             match.playCard(x, y, playedCard);
-            response = CardPlayedJsonResponseBuilder.build(match, x, y, "play");
+            response = PlayJsonResponseBuilder.build(match, x, y);
         } else {
             response = GameApiJson.buildError("Invalid destination.");
         }

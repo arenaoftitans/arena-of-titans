@@ -3,7 +3,7 @@ package com.aot.engine.api.json;
 
 import java.util.List;
 
-public class TrumpPlayedJsonResponse {
+public class TrumpJson {
 
     private int playerIndex;
     private String playerName;

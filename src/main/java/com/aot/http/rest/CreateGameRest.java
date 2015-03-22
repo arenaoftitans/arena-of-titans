@@ -1,7 +1,7 @@
 package com.aot.http.rest;
 
 import com.aot.engine.api.json.JsonPlayer;
-import com.aot.engine.api.json.CardPlayedJsonResponseBuilder;
+import com.aot.engine.api.json.PlayJsonResponseBuilder;
 import com.aot.engine.GameFactory;
 import com.aot.engine.api.GameApiOld;
 import com.aot.engine.api.Redis;
@@ -65,7 +65,7 @@ public class CreateGameRest extends GameApiOld {
         retrieveMatch();
 
         return Response.status(Response.Status.OK)
-                .entity(CardPlayedJsonResponseBuilder.build(match))
+                .entity(PlayJsonResponseBuilder.build(match))
                 .build();
     }
 

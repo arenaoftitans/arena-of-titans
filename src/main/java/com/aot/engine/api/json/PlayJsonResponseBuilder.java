@@ -3,14 +3,9 @@ package com.aot.engine.api.json;
 import com.aot.engine.Match;
 import com.google.gson.Gson;
 
-public class CardPlayedJsonResponseBuilder extends JsonResponse {
+public class PlayJsonResponseBuilder {
 
-    private CardPlayedJsonResponseBuilder() {
-    }
-
-    public static String build(Match match, String requestType) {
-        String json = build(match);
-        return formatJsonWithRequestType(json, requestType);
+    private PlayJsonResponseBuilder() {
     }
 
     /**
@@ -71,13 +66,11 @@ public class CardPlayedJsonResponseBuilder extends JsonResponse {
      *
      * @return The response containing the JSON defined in the wiki.
      */
-    public static String build(Match match, int targetedX, int targetedY, String requestType) {
+    public static String build(Match match, int targetedX, int targetedY) {
         CardPlayedJsonResponse nextPlayer = createCardPlayedJsonRespones(match);
         nextPlayer.setNewSquare(targetedX, targetedY);
 
-        String json = createOutputJson(nextPlayer);
-
-        return formatJsonWithRequestType(json, requestType);
+        return createOutputJson(nextPlayer);
     }
 
 }

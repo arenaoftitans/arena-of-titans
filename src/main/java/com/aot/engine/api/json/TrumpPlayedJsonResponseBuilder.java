@@ -2,25 +2,32 @@
 package com.aot.engine.api.json;
 
 import com.aot.engine.Match;
+import static com.aot.engine.api.RequestType.PLAY_TRUMP;
 import com.google.gson.Gson;
 import java.util.List;
 
-public class TrumpPlayedJsonResponseBuilder extends JsonResponse {
+public class TrumpPlayedJsonResponseBuilder {
 
     private TrumpPlayedJsonResponseBuilder() {
     }
 
-    public static String build(Match match) {
-        List<TrumpPlayedJsonResponse> trumpPlayedJsonResponse = match.getActiveTrumpsForJsonExport();
+    private static class TrumpPlayedJsonResponse {
+        private String rt;
+        private List<TrumpJson> play_trump;
 
-        String output = createOutputJson(trumpPlayedJsonResponse);
-
-        return formatJsonWithRequestType(output, "play_trump");
+        public TrumpPlayedJsonResponse(List<TrumpJson> play_trump, String rt) {
+            this.rt = rt;
+            this.play_trump = play_trump;
+        }
     }
 
-    private static String createOutputJson(List<TrumpPlayedJsonResponse> trumpPlayedJsonResponse) {
+    public static String build(Match match) {
+        List<TrumpJson> trumpPlayedJsonResponse = match.getActiveTrumpsForJsonExport();
+
         Gson gson = new Gson();
-        return gson.toJson(trumpPlayedJsonResponse);
+        TrumpPlayedJsonResponse response = new TrumpPlayedJsonResponse(trumpPlayedJsonResponse, PLAY_TRUMP.toString());
+
+        return gson.toJson(response);
     }
 
 }

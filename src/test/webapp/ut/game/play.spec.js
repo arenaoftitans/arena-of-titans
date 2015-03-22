@@ -88,7 +88,10 @@ describe('game', function () {
         var square;
 
         beforeEach(function () {
-            var event = data2event({possible_squares: ["square-0-0", "square-1-1"]});
+            var event = data2event({
+                rt: 'VIEW_POSSIBLE_SQUARES',
+                possible_squares: ["square-0-0", "square-1-1"]
+            });
             $websocketBackend.expectSend(event);
         });
 
@@ -140,12 +143,11 @@ describe('game', function () {
 
     describe('play', function () {
         beforeEach(function () {
-            var event = data2event({play: {
+            var event = data2event({rt: 'PLAY',
                 newSquare: {x: 0, y: 0},
                 nextPlayer: player1,
                 possibleCardsNextPlayer: player2Cards
-            }
-        });
+            });
             $websocketBackend.expectSend(event);
         });
 
@@ -174,11 +176,11 @@ describe('game', function () {
 
     describe('pass', function () {
         beforeEach(function () {
-            var event = data2event({play: {
-                    newSquare: {x: 0, y: 0},
-                    nextPlayer: player2,
-                    possibleCardsNextPlayer: player2Cards
-                }
+            var event = data2event({
+                rt: 'PLAY',
+                newSquare: {x: 0, y: 0},
+                nextPlayer: player2,
+                possibleCardsNextPlayer: player2Cards
             });
             $websocketBackend.expectSend(event);
         });
@@ -197,13 +199,12 @@ describe('game', function () {
         var popup;
 
         beforeEach(function () {
-            var event = data2event({play: {
-                    possibleCardsNextPlayer: [],
-                    trumps: [],
-                    winners: [],
-                    trumpsNextPlayer: [],
-                    nextPlayer: player1
-                }
+            var event = data2event({rt: 'PLAY',
+                possibleCardsNextPlayer: [],
+                trumps: [],
+                winners: [],
+                trumpsNextPlayer: [],
+                nextPlayer: player1
             });
             $websocketBackend.expectSend(event);
         });

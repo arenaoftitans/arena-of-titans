@@ -87,7 +87,7 @@ describe('play trump', function () {
             $websocketBackend.mock();
             $websocketBackend.expectConnect(playTrumpUrl);
 
-            var event = data2event({play_trump: [trump]});
+            var event = data2event({rt: 'PLAY_TRUMP', play_trump: [trump]});
             $websocketBackend.expectSend(event);
         }));
 

@@ -34,7 +34,7 @@ createGameModule.controller('createGame', ['$window',
                 return {name: player.name, index: player.index};
             });
 
-            $http({
+            /*$http({
                 url: createGameUrl,
                 method: createGameMethod,
                 data: players
@@ -45,7 +45,9 @@ createGameModule.controller('createGame', ['$window',
                     })
                     .error(function (data) {
                         handleError.show(data);
-                    });
+                    });*/
+            console.error(JSON.stringify(players));
+        };
 
         $scope.slotStateChanged = function (index, state) {
             console.log(index);
