@@ -86,21 +86,28 @@ gameModule.factory('player', [
         var init = function (numberMaximumOfPlayers) {
             var players = [];
             for (var i = 0; i < numberMaximumOfPlayers; i++) {
-                var pawnElement = document.getElementById('player' + i);
-                var pawn = angular.element(pawnElement);
-                players.push({
-                    index: i,
-                    name: '',
-                    pawn: pawn
-                });
+                players.push(newPlayer(i));
             }
 
             return players;
         };
 
+        var newPlayer = function (currentNumberOfPlayers) {
+            var pawnElement = document.getElementById('player' + currentNumberOfPlayers);
+            var pawn = angular.element(pawnElement);
+            var player = {
+                index: currentNumberOfPlayers,
+                name: '',
+                pawn: pawn
+            };
+
+            return player;
+        };
+
         return {
             move: move,
-            init: init
+            init: init,
+            newPlayer: newPlayer
         };
     }
 ]);

@@ -1,0 +1,6 @@
+<label>Name of player {{player.index + 1}}</label>
+<label>Slot state</label>
+<select ng-model="state" ng-options="state for state in possibleStates" ng-disabled="isDisabled"
+        ng-click="stateChanged({index: player.index, state: state})">
+</select>
+<input type="text" ng-model="player.name"/>
