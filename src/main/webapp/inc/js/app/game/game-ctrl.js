@@ -44,10 +44,9 @@ gameModule.controller("game", ['$scope',
 
                 var slot = {
                     index: newPlayer.index,
-                    state: newPlayer.slotState,
+                    state: newPlayer.slotState.toUpperCase(),
                     player_name: newPlayer.name
                 };
-                console.log(slot);
                 addSlot(slot);
             } else {
                 alert(maximumNumberOfPlayers.toString() + ' maximum');
@@ -162,7 +161,7 @@ gameModule.controller("game", ['$scope',
             $scope.players.forEach(function (player) {
                 var slot = {
                     index: player.index,
-                    state: player.slotState,
+                    state: player.slotState.toUpperCase(),
                     player_name: player.name
                 };
                 addSlot(slot);
