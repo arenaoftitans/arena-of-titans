@@ -78,8 +78,21 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.slotStateChanged = function (index, state) {
-            console.log(index);
-            console.log(state);
+            var slot = {
+                index: index,
+                state: state.toUpperCase(),
+                player_name: $scope.players[index].name
+            };
+            updateSlot(slot);
+        };
+
+        var updateSlot = function (slot) {
+            var data = {
+                rt: rt.slot_updated,
+                player_id: $scope.me.id,
+                slot_updated: slot
+            };
+            gameApi.send(data);
         };
 
         function createGame(game) {
