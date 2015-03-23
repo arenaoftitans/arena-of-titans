@@ -68,6 +68,7 @@ public class Redis {
 
             jedis.expire(PLAYERS_KEY_PART + gameId, GAME_EXPIRE);
             jedis.expire(GAME_KEY_PART + gameId, GAME_EXPIRE);
+            jedis.expire(SLOTS_KEY_PART + gameId, GAME_EXPIRE);
         }
     }
 
