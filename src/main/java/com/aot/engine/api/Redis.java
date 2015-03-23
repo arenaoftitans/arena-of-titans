@@ -105,13 +105,17 @@ public class Redis {
 
     public void addSlot(String gameId, GameApiJson.UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.rpush(SLOTS_KEY_PART + gameId, updatedSlot.toJson());
+            if (updatedSlot.getIndex() == 0) {
+                jedis.lset(SLOTS_KEY_PART + gameId, 0, updatedSlot.toJson());
+            } else {
+                jedis.rpush(SLOTS_KEY_PART + gameId, updatedSlot.toJson());
+            }
         }
     }
 
     public boolean hasGameStarted(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            String gameStarted  = jedis.hget(GAME_KEY_PART + gameId, STARTED_KEY);
+            String gameStarted = jedis.hget(GAME_KEY_PART + gameId, STARTED_KEY);
             return "true".equals(gameStarted);
         }
     }
