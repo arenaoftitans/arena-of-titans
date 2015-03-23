@@ -1,10 +1,11 @@
 gameModule.controller("game", ['$scope',
     '$websocket',
     '$rootScope',
+    '$window',
     'handleError',
     'player',
     'ws',
-    function ($scope, $websocket, $rootScope, handleError, player, ws) {
+    function ($scope, $websocket, $rootScope, $window, handleError, player, ws) {
         'use strict';
 
         var maximumNumberOfPlayers = 8;
@@ -22,6 +23,7 @@ gameModule.controller("game", ['$scope',
         $scope.showDiscardConfirmationPopup = false;
         $scope.showTargetedPlayerForTrumpSelector = false;
 
+        var gameAnchor = '#game';
         var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
         var gameApiUrl = '/api/game/' + gameId;
@@ -70,11 +72,12 @@ gameModule.controller("game", ['$scope',
 
             var data = {
                 rt: rt.create_game,
-                player_id: $scope.currentPlayer.id,
+                player_id: $scope.me.id,
                 create_game_request: players
             };
 
             gameApi.send(data);
+            $window.location = gameAnchor;
         };
 
         $scope.slotStateChanged = function (index, state) {

@@ -1,0 +1,10 @@
+<div id="createGame">
+    <form id="createGameForm">
+        <label>Add players</label>
+        <div ng-repeat="player in players">
+            <slot player="player" state-changed="slotStateChanged(index, state)" />
+        </div>
+        <button ng-click="addPlayer()">Add a player</button>
+        <button ng-click="createGame()">Create game</button>
+    </form>
+</div>

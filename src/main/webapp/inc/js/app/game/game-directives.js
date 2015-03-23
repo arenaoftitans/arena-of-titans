@@ -17,6 +17,7 @@ gameModule.directive('slot', function () {
 gameModule.directive('aotSvg', function () {
     'use strict';
     return {
+        replace: true,
         templateUrl: '/getBoard/standard'
     };
 });

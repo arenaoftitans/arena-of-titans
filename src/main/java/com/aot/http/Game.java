@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class Game extends HttpServlet {
 
     private static final String GAME_VIEW = "/WEB-INF/game.jsp";
-    private static final String CREATE_GAME_VIEW = "/WEB-INF/createGame.jsp";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,10 +23,8 @@ public class Game extends HttpServlet {
             gameId = new BigInteger(100, new SecureRandom()).toString(32);
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
             response.setHeader("location", "/game/" + gameId);
-        } else if (gameExists(gameId)) {
-            this.getServletContext().getRequestDispatcher(GAME_VIEW).forward(request, response);
         } else {
-            getServletContext().getRequestDispatcher(CREATE_GAME_VIEW).forward(request, response);
+            this.getServletContext().getRequestDispatcher(GAME_VIEW).forward(request, response);
         }
     }
 
@@ -43,11 +40,6 @@ public class Game extends HttpServlet {
         } else {
             return null;
         }
-    }
-
-    private boolean gameExists(String gameId) {
-        Redis redis = (Redis) getServletContext().getAttribute(Redis.REDIS_SERVLET);
-        return redis.doesGameExists(gameId);
     }
 
 }

@@ -6,9 +6,9 @@ gameOverModule.controller('gameOver', ['$scope',
         $scope.winners = {};
         $scope.gameOver = false;
 
-        var unbindOnGameOver = $rootScope.$on('gameOver', function (event, winners) {
+        /*var unbindOnGameOver = $rootScope.$on('gameOver', function (event, winners) {
             $scope.winners = winners;
             $scope.gameOver = true;
         });
-        $rootScope.$on('destroy', unbindOnGameOver);
+        $rootScope.$on('destroy', unbindOnGameOver);*/
     }]);

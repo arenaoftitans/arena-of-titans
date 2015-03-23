@@ -51,7 +51,7 @@ public class GetBoard extends HttpServlet {
     private void writeResponse(HttpServletResponse response, String board) throws IOException {
         response.setContentType("image/svg+xml;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(board);
+            out.println("<div>" + board + "</div>");
         }
     }
 
