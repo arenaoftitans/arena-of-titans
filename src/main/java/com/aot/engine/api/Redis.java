@@ -41,10 +41,9 @@ public class Redis {
         }
     }
 
-    public void saveMatch(Match match) {
+    public void saveMatch(Match match, String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             String matchJson = match.toJson();
-            String gameId = match.getId();
             jedis.hset(GAME_KEY_PART + gameId,
                     MATCH_KEY, matchJson);
         }
@@ -117,7 +116,8 @@ public class Redis {
     public boolean hasGameStarted(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             String gameStarted = jedis.hget(GAME_KEY_PART + gameId, STARTED_KEY);
-            return "true".equals(gameStarted);
+
+            return GAME_STARTED.equals(gameStarted);
         }
     }
 
@@ -136,6 +136,12 @@ public class Redis {
     public void saveBoard(String boardName, String board) {
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(BOARD_KEY_PART + boardName, board);
+        }
+    }
+
+    public void gameHasStarted(String gameId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.hset(GAME_KEY_PART + gameId, STARTED_KEY, GAME_STARTED);
         }
     }
 

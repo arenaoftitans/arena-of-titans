@@ -67,7 +67,6 @@ public class Match {
      * @since 1.0
      */
     private Integer nextRankAvailable = 1;
-    private String id = "1";
 
     /**
      * <b>Constructor initializing a match with the given parameters.</b>
@@ -76,6 +75,7 @@ public class Match {
      * </div>
      *
      * @param players The list of players in this match.
+     * @param id
      * @param board The board this match is played on.
      * @param deckCreator To create an new deck for each player.
      * @param trumps The list of this player trumps.
@@ -160,10 +160,6 @@ public class Match {
 
     public String getActivePlayeId() {
         return activePlayer.getId();
-    }
-
-    public String getId() {
-        return id;
     }
 
     public Deck getActivePlayerDeck() {

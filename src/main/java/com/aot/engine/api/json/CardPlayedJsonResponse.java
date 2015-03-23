@@ -1,5 +1,6 @@
 package com.aot.engine.api.json;
 
+import com.aot.engine.api.RequestType;
 import static com.aot.engine.api.RequestType.PLAY;
 import com.aot.engine.trumps.json.JsonTrump;
 import java.util.ArrayList;
@@ -96,6 +97,10 @@ public class CardPlayedJsonResponse {
 
     public void setTrumps(List<TrumpJson> trumps) {
         this.trumps = trumps;
+    }
+
+    public void setRt(RequestType rt) {
+        this.rt = rt.toString();
     }
 
 }

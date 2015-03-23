@@ -4,6 +4,7 @@ import com.aot.engine.Match;
 import com.aot.engine.api.RequestType;
 import com.aot.engine.lobby.SlotState;
 import com.google.gson.Gson;
+import java.util.List;
 
 public class GameApiJson {
 
@@ -35,6 +36,7 @@ public class GameApiJson {
         private String player_id;
         private UpdatedSlot slot_updated;
         private PlayRequest play_request;
+        private List<JsonPlayer> create_game_request;
         private PlayTrumpRequest trump_request;
 
         public String getPlayerId() {
@@ -59,6 +61,10 @@ public class GameApiJson {
 
         public UpdatedSlot getSlotUpdated() {
             return slot_updated;
+        }
+
+        public List<JsonPlayer> getCreateGame() {
+            return create_game_request;
         }
     }
 

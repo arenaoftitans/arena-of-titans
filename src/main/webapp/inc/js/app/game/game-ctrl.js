@@ -77,7 +77,6 @@ gameModule.controller("game", ['$scope',
             };
 
             gameApi.send(data);
-            $window.location = gameAnchor;
         };
 
         $scope.slotStateChanged = function (index, state) {
@@ -115,6 +114,7 @@ gameModule.controller("game", ['$scope',
             $scope.players.splice(actualNumberOfPlayers);
 
             $scope.gameStarted = true;
+            $window.location = gameAnchor;
 
             updateGameParameters(game);
         }
@@ -236,7 +236,6 @@ gameModule.controller("game", ['$scope',
                         y: squareY
                     }
                 };
-                // TODO: handle error.
                 gameApi.send(data);
             } else if ($scope.selectedCard === null) {
                 alert('Please select a card.');

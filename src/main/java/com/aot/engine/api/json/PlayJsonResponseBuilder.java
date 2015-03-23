@@ -1,11 +1,19 @@
 package com.aot.engine.api.json;
 
 import com.aot.engine.Match;
+import com.aot.engine.api.RequestType;
 import com.google.gson.Gson;
 
 public class PlayJsonResponseBuilder {
 
     private PlayJsonResponseBuilder() {
+    }
+
+    public static String build(Match match, RequestType rt) {
+        CardPlayedJsonResponse cardPlayedJsonResponse = createCardPlayedJsonRespones(match);
+        cardPlayedJsonResponse.setRt(rt);
+
+        return createOutputJson(cardPlayedJsonResponse);
     }
 
     /**

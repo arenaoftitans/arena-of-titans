@@ -1,7 +1,9 @@
 package com.aot.engine.api;
 
+import com.aot.engine.GameFactory;
 import com.aot.engine.api.json.PlayJsonResponseBuilder;
 import com.aot.engine.api.json.GameApiJson;
+import com.aot.engine.api.json.JsonPlayer;
 import com.aot.engine.api.json.PossibleSquaresJson;
 import com.aot.engine.api.json.TrumpPlayedJsonResponseBuilder;
 import com.aot.engine.board.Square;
@@ -12,7 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.websocket.CloseReason;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -23,6 +27,8 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = "/api/game/{id}", configurator = GetRedis.class)
 public class GameApi extends WebsocketApi {
+
+    private static final int MAXIMUM_NUMBER_OF_PLAYERS = 8;
 
     private String playerId;
     private GameApiJson.PlayerRequest playerRequest;
@@ -38,33 +44,22 @@ public class GameApi extends WebsocketApi {
         playerId = session.getId();
         players.put(playerId, session);
 
-        GameApiJson.GameInitialized gameInitialized = initializeGame(playerId);
+        GameApiJson.GameInitialized gameInitialized = initializeGame();
 
         session.getBasicRemote().sendText(gameInitialized.toJson());
     }
 
-    private GameApiJson.GameInitialized initializeGame(String sessionId) {
+    private GameApiJson.GameInitialized initializeGame() {
         GameApiJson.GameInitialized gameInitialized = new GameApiJson.GameInitialized(playerId);
 
         if (redis.getPlayersIds(gameId).isEmpty()) {
-            redis.initializeDatabase(gameId, sessionId);
+            redis.initializeDatabase(gameId, playerId);
             gameInitialized.setIs_game_master(true);
         } else {
-            redis.saveSessionId(gameId, sessionId);
+            redis.saveSessionId(gameId, playerId);
         }
 
         return gameInitialized;
-    }
-
-    private void initializeMatch(String id, Session session, EndpointConfig config)
-            throws IOException {
-        match = redis.getMatch(id);
-
-        if (match == null) {
-            CloseReason.CloseCode cc = () -> 1002;
-            CloseReason cr = new CloseReason(cc, "No match is running");
-            session.close(cr);
-        }
     }
 
     @OnClose
@@ -76,14 +71,18 @@ public class GameApi extends WebsocketApi {
     @OnMessage
     public void gameMessage(String message, Session session)
             throws IOException {
+        players.put(playerId, session);
         String response;
         Gson gson = new Gson();
         playerRequest = gson.fromJson(message, GameApiJson.PlayerRequest.class);
 
-        if (creatingGame() || playerRequest.isPlayerIdCorrect(match)) {
+        if (creatingGame()) {
+            response = creatingMatch();
+            sendResponseToAllPlayers(response);
+        } else if (playerRequest.isPlayerIdCorrect(match)) {
             match = redis.getMatch(gameId);
             response = playGame();
-            redis.saveMatch(match);
+            redis.saveMatch(match, gameId);
             sendResponseToAllPlayers(response);
         } else {
             response = GameApiJson.buildErrorToDisplay("Not your turn");
@@ -95,9 +94,8 @@ public class GameApi extends WebsocketApi {
         return !redis.hasGameStarted(gameId) && redis.isGameMaster(gameId, playerId);
     }
 
-    private String playGame() {
+    private String creatingMatch() {
         String response;
-
         switch (playerRequest.getRequestType()) {
             case ADD_SLOT:
                 updatedSlot = playerRequest.getSlotUpdated();
@@ -109,6 +107,54 @@ public class GameApi extends WebsocketApi {
                 redis.updateSlot(gameId, updatedSlot);
                 response = null;
                 break;
+            case CREATE_GAME:
+                List<JsonPlayer> createGame = playerRequest.getCreateGame();
+                response = initializeMatch(createGame);
+                break;
+            default:
+                response = GameApiJson.buildError("Unknow resquest type.");
+                break;
+        }
+
+        return response;
+    }
+
+    private String initializeMatch(List<JsonPlayer> createGame) {
+        String response;
+
+        createGame = createGame.stream()
+                .filter(jsonPlayer -> !"".equals(jsonPlayer.getName()))
+                .collect(Collectors.toList());
+
+        if (createGame.size() < 2) {
+            response = GameApiJson
+                    .buildErrorToDisplay("Not enough players. 2 Players at least are required to start a game");
+        } else if (createGame.size() > MAXIMUM_NUMBER_OF_PLAYERS) {
+            response = GameApiJson.buildErrorToDisplay("To many players. 8 Players max.");
+        } else {
+            response = createMatch(createGame);
+            redis.gameHasStarted(gameId);
+        }
+
+        return response;
+    }
+
+    private String createMatch(List<JsonPlayer> createGame) {
+        GameFactory gameFactory = new GameFactory();
+        createGame.forEach(jsonPlayer -> jsonPlayer.setId(playerId));
+        gameFactory.createNewMatch(createGame);
+        match = gameFactory.getMatch();
+        String response = PlayJsonResponseBuilder.build(match, RequestType.CREATE_GAME);
+        Logger.getLogger(gameId).log(Level.ALL, match.toString());
+        redis.saveMatch(match, gameId);
+
+        return response;
+    }
+
+    private String playGame() {
+        String response;
+
+        switch (playerRequest.getRequestType()) {
             case VIEW_POSSIBLE_SQUARES:
                 playRequest = playerRequest.getPlayRequest();
                 response = listOfPossibleSquares();
