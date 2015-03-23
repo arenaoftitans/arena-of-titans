@@ -17,19 +17,9 @@ public class Game extends HttpServlet {
     private static final String GAME_VIEW = "/WEB-INF/game.jsp";
     private static final String CREATE_GAME_VIEW = "/WEB-INF/createGame.jsp";
 
-    private GameFactory gameFactory;
-    private String svgBoard;
-
-    @Override
-    public void init() {
-        gameFactory = new GameFactory();
-        svgBoard = gameFactory.getSvg();
-    }
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("svgBoard", svgBoard);
         String gameId = getGameId(request);
         if (gameId == null) {
             gameId = new BigInteger(100, new SecureRandom()).toString(32);

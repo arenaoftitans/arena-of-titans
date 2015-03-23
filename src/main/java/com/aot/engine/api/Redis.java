@@ -9,6 +9,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class Redis {
 
+    public static final String BOARD_KEY_PART = "board:";
     public static final String GAME_KEY_PART = "game:";
     public static final String MATCH_KEY = "match";
     public static final String GAME_MASTER_KEY = "game_master";
@@ -123,6 +124,18 @@ public class Redis {
     boolean isGameMaster(String gameId, String playerId) {
         try (Jedis jedis = jedisPool.getResource()) {
             return playerId.equals(jedis.hget(GAME_KEY_PART + gameId, GAME_MASTER_KEY));
+        }
+    }
+
+    public String getBoard(String boardName) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.get(BOARD_KEY_PART + boardName);
+        }
+    }
+
+    public void saveBoard(String boardName, String board) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(BOARD_KEY_PART + boardName, board);
         }
     }
 
