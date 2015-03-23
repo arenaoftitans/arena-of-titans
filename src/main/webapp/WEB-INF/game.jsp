@@ -39,7 +39,7 @@
                         <div id="bloc_middle_centre">
 
                             <div id="gameBoardContainer">
-                                ${svgBoard}
+                                <aot-svg />
                             </div>
 
                         </div> <!--bloc middle center -->

@@ -1,6 +1,5 @@
 package com.aot.http;
 
-import com.aot.engine.GameFactory;
 import com.aot.engine.api.Redis;
 import java.io.IOException;
 import java.math.BigInteger;

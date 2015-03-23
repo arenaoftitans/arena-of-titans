@@ -13,3 +13,10 @@ gameModule.directive('slot', function () {
         templateUrl: '/inc/html/game/create/slot.html'
     };
 });
+
+gameModule.directive('aotSvg', function () {
+    'use strict';
+    return {
+        templateUrl: '/getBoard/standard'
+    };
+});
