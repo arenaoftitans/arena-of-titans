@@ -12,33 +12,33 @@ import com.aot.engine.Player;
  * @author gaussreload
  */
 public class Slot {
-    private SlotStateEnum state;
+    private SlotState state;
     private Player player;
 
-    public Slot(SlotStateEnum state) {
+    public Slot(SlotState state) {
         this.state = state;
         this.player = null;
     }
 
     public Slot(Player player) {
-        this.state = SlotStateEnum.CLOSED;
+        this.state = SlotState.CLOSED;
         this.player = player;
     }
 
     public boolean isOpened() {
-        return (state.equals(SlotStateEnum.OPEN));
+        return (state.equals(SlotState.OPEN));
     }
 
     public boolean isReserved() {
-        return (state.equals(SlotStateEnum.RESERVED));
+        return (state.equals(SlotState.RESERVED));
     }
 
-    public void setState(SlotStateEnum state) {
+    public void setState(SlotState state) {
         this.state = state;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
-        state = SlotStateEnum.TAKEN;
+        state = SlotState.TAKEN;
     }
 }

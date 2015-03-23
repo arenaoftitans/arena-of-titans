@@ -14,6 +14,7 @@ gameModule.controller("game", ['$scope',
         $scope.players = player.init(initialNumberOfOpenedSlot);
         $scope.activePawns = [];
         $scope.selectedCard = null;
+        $scope.me = null;
         $scope.currentPlayer = null;
         $scope.trumpTargetedPlayer = null;
         $scope.gameStarted = false;
@@ -27,6 +28,9 @@ gameModule.controller("game", ['$scope',
         var gameApi = $websocket(host + gameApiUrl);
         // Requests type
         var rt = {
+            game_initialized: 'GAME_INITIALIZED',
+            add_slot: 'ADD_SLOT',
+            slot_updated: 'SLOT_UPDATED',
             create_game: 'CREATE_GAME',
             view: 'VIEW_POSSIBLE_SQUARES',
             play: 'PLAY',
@@ -35,10 +39,28 @@ gameModule.controller("game", ['$scope',
 
         $scope.addPlayer = function () {
             if ($scope.players.length < maximumNumberOfPlayers) {
-                $scope.players.push(player.newPlayer($scope.players.length));
+                var newPlayer = player.newPlayer($scope.players.length);
+                $scope.players.push(newPlayer);
+
+                var slot = {
+                    index: newPlayer.index,
+                    state: newPlayer.slotState,
+                    player_name: newPlayer.name
+                };
+                console.log(slot);
+                addSlot(slot);
             } else {
                 alert(maximumNumberOfPlayers.toString() + ' maximum');
             }
+        };
+
+        var addSlot = function (slot) {
+            var data = {
+                rt: rt.add_slot,
+                player_id: $scope.me.id,
+                slot_updated: slot
+            };
+            gameApi.send(data);
         };
 
         $scope.createGame = function () {
@@ -107,6 +129,10 @@ gameModule.controller("game", ['$scope',
         gameApi.onMessage(function (event) {
             ws.parse(event).then(function (data) {
                 switch (data.rt) {
+                    case rt.game_initialized:
+                        initializeMe(data);
+                        initializeSlots();
+                        break;
                     case rt.create_game:
                         createGame(data);
                         break;
@@ -124,6 +150,24 @@ gameModule.controller("game", ['$scope',
         });
 
         gameApi.onError(handleError.show);
+
+        var initializeMe = function (data) {
+            $scope.me = {
+                id: data.player_id,
+                is_game_master: data.is_game_master
+            };
+        };
+
+        var initializeSlots = function () {
+            $scope.players.forEach(function (player) {
+                var slot = {
+                    index: player.index,
+                    state: player.slotState,
+                    player_name: player.name
+                };
+                addSlot(slot);
+            });
+        };
 
         function isGameOver(gameOver) {
             if (gameOver) {

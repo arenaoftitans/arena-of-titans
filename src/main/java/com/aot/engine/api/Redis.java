@@ -1,6 +1,7 @@
 package com.aot.engine.api;
 
 import com.aot.engine.Match;
+import com.aot.engine.api.json.GameApiJson;
 import java.util.Set;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -11,7 +12,11 @@ public class Redis {
     public static final String GAME_KEY_PART = "game:";
     public static final String MATCH_KEY = "match";
     public static final String GAME_MASTER_KEY = "game_master";
-    public static final String SESSIONS_KEY_PART = "sessions:";
+    public static final String STARTED_KEY = "started";
+    public static final String GAME_STARTED = "true";
+    public static final String GAME_NOT_STARTED = "false";
+    public static final String PLAYERS_KEY_PART = "players:";
+    public static final String SLOTS_KEY_PART = "slots:";
     // time in seconds after which the game is deleted (48h).
     public static final int GAME_EXPIRE = 172_800;
     public static final String SERVER_HOST = "localhost";
@@ -41,26 +46,40 @@ public class Redis {
             String gameId = match.getId();
             jedis.hset(GAME_KEY_PART + gameId,
                     MATCH_KEY, matchJson);
-            jedis.expire(GAME_KEY_PART + gameId, GAME_EXPIRE);
         }
     }
 
-    public Set<String> getSessionsIds(String gameId) {
+    public Set<String> getPlayersIds(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            return jedis.smembers(SESSIONS_KEY_PART + gameId);
+            return jedis.smembers(PLAYERS_KEY_PART + gameId);
+        }
+    }
+
+    public void initializeDatabase(String gameId, String sessionId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            // Set game creator as game master
+            jedis.hset(GAME_KEY_PART + gameId, GAME_MASTER_KEY, sessionId);
+
+            jedis.sadd(PLAYERS_KEY_PART + gameId, sessionId);
+
+            jedis.hset(GAME_KEY_PART + gameId, STARTED_KEY, GAME_NOT_STARTED);
+
+            jedis.lpush(SLOTS_KEY_PART + gameId, "");
+
+            jedis.expire(PLAYERS_KEY_PART + gameId, GAME_EXPIRE);
+            jedis.expire(GAME_KEY_PART + gameId, GAME_EXPIRE);
         }
     }
 
     public void saveSessionId(String gameId, String sessionId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.sadd(SESSIONS_KEY_PART + gameId, sessionId);
-            jedis.expire(SESSIONS_KEY_PART + gameId, GAME_EXPIRE);
+            jedis.sadd(PLAYERS_KEY_PART + gameId, sessionId);
         }
     }
 
     public void removeSessionId(String gameId, String sessionId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.srem(SESSIONS_KEY_PART + gameId, sessionId);
+            jedis.srem(PLAYERS_KEY_PART + gameId, sessionId);
         }
     }
 
@@ -74,6 +93,31 @@ public class Redis {
     public boolean doesGameExists(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.hget(GAME_KEY_PART + gameId, GAME_MASTER_KEY) != null;
+        }
+    }
+
+    public void updateSlot(String gameId, GameApiJson.UpdatedSlot updatedSlot) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.lset(SLOTS_KEY_PART + gameId, updatedSlot.getIndex(), updatedSlot.toJson());
+        }
+    }
+
+    public void addSlot(String gameId, GameApiJson.UpdatedSlot updatedSlot) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.rpush(SLOTS_KEY_PART + gameId, updatedSlot.toJson());
+        }
+    }
+
+    public boolean hasGameStarted(String gameId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String gameStarted  = jedis.hget(GAME_KEY_PART + gameId, STARTED_KEY);
+            return "true".equals(gameStarted);
+        }
+    }
+
+    boolean isGameMaster(String gameId, String playerId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return playerId.equals(jedis.hget(GAME_KEY_PART + gameId, GAME_MASTER_KEY));
         }
     }
 

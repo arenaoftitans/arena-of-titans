@@ -19,7 +19,7 @@ public abstract class WebsocketApi {
     protected String gameId;
 
     protected void sendResponseToAllPlayers(String response) throws IOException {
-        for (String sessionId : redis.getSessionsIds(gameId)) {
+        for (String sessionId : redis.getPlayersIds(gameId)) {
             try {
                 Session session = players.get(sessionId);
                 session.getBasicRemote().sendText(response);

@@ -26,25 +26,38 @@ public class GameApi extends WebsocketApi {
 
     private String playerId;
     private GameApiJson.PlayerRequest playerRequest;
+    private GameApiJson.UpdatedSlot updatedSlot;
     private GameApiJson.PlayRequest playRequest;
     private GameApiJson.PlayTrumpRequest playTrumpRequest;
 
     @OnOpen
-    public void open(@PathParam("id") String id, Session session, EndpointConfig config) throws IOException {
-        if (match == null) {
-            initializeMatch(id, session, config);
-        }
+    public void open(@PathParam("id") String id, Session session, EndpointConfig config)
+            throws IOException {
+        redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
+        gameId = id;
+        playerId = session.getId();
+        players.put(playerId, session);
 
-        if (session.isOpen()) {
-            String sessionId = session.getId();
-            players.put(sessionId, session);
-            redis.saveSessionId(gameId, sessionId);
-        }
+        GameApiJson.GameInitialized gameInitialized = initializeGame(playerId);
+
+        session.getBasicRemote().sendText(gameInitialized.toJson());
     }
 
-    private void initializeMatch(String id, Session session, EndpointConfig config) throws IOException {
-        gameId = id;
-        redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
+    private GameApiJson.GameInitialized initializeGame(String sessionId) {
+        GameApiJson.GameInitialized gameInitialized = new GameApiJson.GameInitialized(playerId);
+
+        if (redis.getPlayersIds(gameId).isEmpty()) {
+            redis.initializeDatabase(gameId, sessionId);
+            gameInitialized.setIs_game_master(true);
+        } else {
+            redis.saveSessionId(gameId, sessionId);
+        }
+
+        return gameInitialized;
+    }
+
+    private void initializeMatch(String id, Session session, EndpointConfig config)
+            throws IOException {
         match = redis.getMatch(id);
 
         if (match == null) {
@@ -66,9 +79,8 @@ public class GameApi extends WebsocketApi {
         String response;
         Gson gson = new Gson();
         playerRequest = gson.fromJson(message, GameApiJson.PlayerRequest.class);
-        playerId = playerRequest.getPlayerId();
 
-        if (playerRequest.isPlayerIdCorrect(match)) {
+        if (creatingGame() || playerRequest.isPlayerIdCorrect(match)) {
             match = redis.getMatch(gameId);
             response = playGame();
             redis.saveMatch(match);
@@ -79,10 +91,24 @@ public class GameApi extends WebsocketApi {
         }
     }
 
+    private boolean creatingGame() {
+        return !redis.hasGameStarted(gameId) && redis.isGameMaster(gameId, playerId);
+    }
+
     private String playGame() {
         String response;
 
         switch (playerRequest.getRequestType()) {
+            case ADD_SLOT:
+                updatedSlot = playerRequest.getSlotUpdated();
+                redis.addSlot(gameId, updatedSlot);
+                response = null;
+                break;
+            case SLOT_UPDATED:
+                updatedSlot = playerRequest.getSlotUpdated();
+                redis.updateSlot(gameId, updatedSlot);
+                response = null;
+                break;
             case VIEW_POSSIBLE_SQUARES:
                 playRequest = playerRequest.getPlayRequest();
                 response = listOfPossibleSquares();

@@ -2,13 +2,38 @@ package com.aot.engine.api.json;
 
 import com.aot.engine.Match;
 import com.aot.engine.api.RequestType;
+import com.aot.engine.lobby.SlotState;
+import com.google.gson.Gson;
 
 public class GameApiJson {
+
+    public static class GameInitialized {
+
+        private String rt;
+        private String player_id;
+        private boolean is_game_master;
+
+        public GameInitialized(String playerId) {
+            this.player_id = playerId;
+            rt = RequestType.GAME_INITIALIZED.toString();
+            is_game_master = false;
+        }
+
+        public void setIs_game_master(boolean is_game_master) {
+            this.is_game_master = is_game_master;
+        }
+
+        public String toJson() {
+            Gson gson = new Gson();
+            return gson.toJson(this, GameInitialized.class);
+        }
+    }
 
     public class PlayerRequest {
 
         private RequestType rt;
         private String player_id;
+        private UpdatedSlot slot_updated;
         private PlayRequest play_request;
         private PlayTrumpRequest trump_request;
 
@@ -30,6 +55,25 @@ public class GameApiJson {
 
         public PlayTrumpRequest getPlayTrumpRequest() {
             return trump_request;
+        }
+
+        public UpdatedSlot getSlotUpdated() {
+            return slot_updated;
+        }
+    }
+
+    public class UpdatedSlot {
+        String player_name;
+        int index;
+        SlotState state;
+
+        public int getIndex() {
+            return index;
+        }
+
+        public String toJson() {
+            Gson gson = new Gson();
+            return gson.toJson(this, UpdatedSlot.class);
         }
     }
 

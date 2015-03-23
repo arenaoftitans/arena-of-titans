@@ -25,7 +25,7 @@ public class Lobby {
         slots = new Slot[MAX_PLAYER];
         slots[0] = new Slot(host);
         for (int i=1; i < MAX_PLAYER; i++) {
-            slots[i]=new Slot(SlotStateEnum.CLOSED);
+            slots[i]=new Slot(SlotState.CLOSED);
         }
     }
 
@@ -43,16 +43,16 @@ public class Lobby {
     }
 
     public void openSlot(int index) {
-        slots[index].setState(SlotStateEnum.OPEN);
+        slots[index].setState(SlotState.OPEN);
     }
 
     public void closeSlot(int index) {
         slots[index].setPlayer(null);
-        slots[index].setState(SlotStateEnum.CLOSED);
+        slots[index].setState(SlotState.CLOSED);
     }
 
     public void reserveSlot(int index) {
-        slots[index].setState(SlotStateEnum.RESERVED);
+        slots[index].setState(SlotState.RESERVED);
     }
 
     public boolean addPublicPlayer(Player player) {

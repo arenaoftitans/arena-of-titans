@@ -38,7 +38,7 @@ public class Game extends HttpServlet {
         } else if (gameExists(gameId)) {
             this.getServletContext().getRequestDispatcher(GAME_VIEW).forward(request, response);
         } else {
-            createGame(request, response);
+            getServletContext().getRequestDispatcher(CREATE_GAME_VIEW).forward(request, response);
         }
     }
 
@@ -59,11 +59,6 @@ public class Game extends HttpServlet {
     private boolean gameExists(String gameId) {
         Redis redis = (Redis) getServletContext().getAttribute(Redis.REDIS_SERVLET);
         return redis.doesGameExists(gameId);
-    }
-
-    private void createGame(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        getServletContext().getRequestDispatcher(CREATE_GAME_VIEW).forward(request, response);
     }
 
 }

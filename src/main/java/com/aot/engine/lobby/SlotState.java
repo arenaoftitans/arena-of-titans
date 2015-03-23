@@ -9,7 +9,7 @@ package com.aot.engine.lobby;
  *
  * @author gaussreload
  */
-public enum SlotStateEnum {
+public enum SlotState {
     OPEN,
     CLOSED,
     RESERVED,
