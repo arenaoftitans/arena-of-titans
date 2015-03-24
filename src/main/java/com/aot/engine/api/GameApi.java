@@ -79,6 +79,7 @@ public class GameApi extends WebsocketApi {
             response = gameInitialized.toJson();
         } else {
             redis.saveSessionId(gameId, playerId);
+            gameInitialized.setSlots(redis.getSlots(gameId));
             response = gameInitialized.toJson();
         }
 
@@ -117,17 +118,19 @@ public class GameApi extends WebsocketApi {
         return !redis.hasGameStarted(gameId) && redis.isGameMaster(gameId, playerId);
     }
 
-    private String creatingMatch() {
+    private String creatingMatch() throws IOException {
         String response;
         switch (playerRequest.getRequestType()) {
             case ADD_SLOT:
                 updatedSlot = playerRequest.getSlotUpdated();
                 redis.addSlot(gameId, updatedSlot);
+                sendResponseToAllPlayers(updatedSlot.toJson(), playerId);
                 response = null;
                 break;
             case SLOT_UPDATED:
                 updatedSlot = playerRequest.getSlotUpdated();
                 redis.updateSlot(gameId, updatedSlot);
+                sendResponseToAllPlayers(updatedSlot.toJson(), playerId);
                 response = null;
                 break;
             case CREATE_GAME:

@@ -1,7 +1,7 @@
 <label>Name of player {{player.index + 1}}</label>
 <label>Slot state</label>
-<select ng-model="state" ng-options="state for state in possibleStates"
-        ng-disabled="!thisPlayer.gameMaster || state === 'taken'"
-        ng-click="stateChanged({index: player.index, state: state})">
+<select ng-model="player.slotState" ng-options="state for state in possibleStates"
+        ng-disabled="!thisPlayer.gameMaster || player.slotState === 'taken'"
+        ng-click="stateChanged({index: player.index, state: player.slotState})">
 </select>
 <input type="text" ng-model="player.name" readonly="true"/>

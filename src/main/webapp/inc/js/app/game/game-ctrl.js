@@ -41,8 +41,7 @@ gameModule.controller("game", ['$scope',
 
         $scope.addPlayer = function () {
             if ($scope.players.length < maximumNumberOfPlayers) {
-                var newPlayer = player.newPlayer($scope.players.length);
-                $scope.players.push(newPlayer);
+                var newPlayer = addPlayer();
 
                 var slot = {
                     index: newPlayer.index,
@@ -53,6 +52,13 @@ gameModule.controller("game", ['$scope',
             } else {
                 alert(maximumNumberOfPlayers.toString() + ' maximum');
             }
+        };
+
+        var addPlayer = function () {
+            var newPlayer = player.newPlayer($scope.players.length);
+            $scope.players.push(newPlayer);
+
+            return newPlayer;
         };
 
         var addSlot = function (slot) {
@@ -146,7 +152,10 @@ gameModule.controller("game", ['$scope',
                 switch (data.rt) {
                     case rt.game_initialized:
                         initializeMe(data);
-                        initializeSlots();
+                        initializeSlots(data);
+                        break;
+                    case rt.slot_updated:
+                        refreshSlot(data);
                         break;
                     case rt.create_game:
                         createGame(data);
@@ -173,15 +182,27 @@ gameModule.controller("game", ['$scope',
             };
         };
 
-        var initializeSlots = function () {
-            $scope.players.forEach(function (player) {
-                var slot = {
-                    index: player.index,
-                    state: player.slotState.toUpperCase(),
-                    player_name: player.name
-                };
-                addSlot(slot);
-            });
+        var initializeSlots = function (data) {
+            if (data.slots) {
+                data.slots.forEach(refreshSlot);
+            } else {
+                $scope.players.forEach(function (player) {
+                    var slot = {
+                        index: player.index,
+                        state: player.slotState.toUpperCase(),
+                        player_name: player.name
+                    };
+                    addSlot(slot);
+                });
+            }
+        };
+
+        var refreshSlot = function (data) {
+            if (!$scope.players[data.index]) {
+                addPlayer();
+            }
+            $scope.players[data.index].name = data.player_name;
+            $scope.players[data.index].slotState = data.state.toLowerCase();
         };
 
         function isGameOver(gameOver) {

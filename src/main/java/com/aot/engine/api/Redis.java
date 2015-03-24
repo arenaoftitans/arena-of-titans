@@ -168,4 +168,14 @@ public class Redis {
         }
     }
 
+    List<UpdatedSlot> getSlots(String gameId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            Gson gson = new Gson();
+            return jedis.lrange(SLOTS_KEY_PART + gameId, 0, -1)
+                    .stream()
+                    .map(updateSlotJson -> gson.fromJson(updateSlotJson, UpdatedSlot.class))
+                    .collect(Collectors.toList());
+        }
+    }
+
 }

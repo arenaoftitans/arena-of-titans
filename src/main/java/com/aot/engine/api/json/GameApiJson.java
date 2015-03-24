@@ -13,6 +13,7 @@ public class GameApiJson {
         private String rt;
         private String player_id;
         private boolean is_game_master;
+        private List<UpdatedSlot> slots;
 
         public GameInitialized(String playerId) {
             this.player_id = playerId;
@@ -22,6 +23,10 @@ public class GameApiJson {
 
         public void setIs_game_master(boolean is_game_master) {
             this.is_game_master = is_game_master;
+        }
+
+        public void setSlots(List<UpdatedSlot> slots) {
+            this.slots = slots;
         }
 
         public String toJson() {
@@ -69,6 +74,7 @@ public class GameApiJson {
     }
 
     public class UpdatedSlot {
+        RequestType rt;
         String player_name;
         int index;
         SlotState state;
@@ -82,6 +88,7 @@ public class GameApiJson {
         }
 
         public String toJson() {
+            rt = RequestType.SLOT_UPDATED;
             Gson gson = new Gson();
             return gson.toJson(this, UpdatedSlot.class);
         }
