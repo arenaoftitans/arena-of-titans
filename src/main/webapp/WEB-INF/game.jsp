@@ -44,7 +44,17 @@
 
                 <div id="bloc_right">
                     <div id="bloc_right_centre">
-
+                        <div id = "trumps_info">
+                            Trumps currently active:
+                            <ul id="activeTrumps">
+                                <li ng-repeat="player in activeTrumps">
+                                    For {{player.playerName}}:
+                                    <ul ng-repeat="trump in player.trumpNames">
+                                        <li>{{trump}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div id="bloc_right_bottom">
@@ -53,53 +63,39 @@
                 </div> <!--bloc right-->
 
                 <div id="bloc_cards">
-                    <center>
-                        <div>
-                            <div id="player_name">Player: {{currentPlayer.name}}</div>
-                            <div id="movementsCardsInHand">
-                                <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
-                                    <img class="movementsCard"
-                                         ng-class="{selectedCard: isSelected(card.name, card.color)}"
-                                         ng-click="viewPossibleMovements(card.name, card.color)"
-                                         ng-src="/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
-                                         />
-                                </div>
-                                <button ng-click="pass()">Pass</button>
-                                <button ng-click="discard()">Discard selected card.</button>
-                                <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
-                                    <p class="textPopup"> You must select a card to discard.</p><br />
-                                    <button class="ok-button" ng-click="noCardSelectedPopupHidden()">OK</button>
-                                </div>
-                                <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
-                                    <p class="textPopup">Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?</p>
-                                    <button class="ok-button" ng-click="confirmDiscard()">OK</button>
-                                    <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
-                                </div>
-                            </div>
-                            <div id="trumps">
-                                <div ng-repeat="trump in currentPlayerTrumps" class="trumpsContainer">
-                                    <img class="trumpCard"
-                                         ng-click="playTrump(trump)"
-                                         ng-src="/inc/img/cards/trumps/{{trump.name| lowercase}}.png"
-                                         />
-                                </div>
-                            </div>
-                            <div>
-                                Trumps currently active:
-                                <ul id="activeTrumps">
-                                    <li ng-repeat="player in activeTrumps">
-                                        For {{player.playerName}}:
-                                        <ul ng-repeat="trump in player.trumpNames">
-                                            <li>{{trump}}</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div id="player_name">Player: {{currentPlayer.name}}</div>
+                    <div id="movementsCardsInHand">
+                        <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
+                            <img class="movementsCard"
+                                 ng-class="{selectedCard: isSelected(card.name, card.color)}"
+                                 ng-click="viewPossibleMovements(card.name, card.color)"
+                                 ng-src="/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                                 />
                         </div>
-                    </center>
+                        <div id="buttons_card">
+                            <button ng-click="pass()">Pass</button>
+                            <button ng-click="discard()">Discard selected card.</button>
+                        </div>
+                        <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
+                            <p class="textPopup"> You must select a card to discard.</p><br />
+                            <button class="ok-button" ng-click="noCardSelectedPopupHidden()">OK</button>
+                        </div>
+                        <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
+                            <p class="textPopup">Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?</p>
+                            <button class="ok-button" ng-click="confirmDiscard()">OK</button>
+                            <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
+                        </div>
+                    </div>
                 </div> <!--bloc cards-->
                 <div id="bloc_gauge">
-
+                    <div id="trumps">
+                        <div ng-repeat="trump in currentPlayerTrumps" class="trumpsContainer">
+                            <img class="trumpCard"
+                                 ng-click="playTrump(trump)"
+                                 ng-src="/inc/img/cards/trumps/{{trump.name| lowercase}}.png"
+                                 />
+                        </div>
+                    </div>
                 </div> <!--bloc gauge-->
             </div>
         </div> <!--bloc total-->

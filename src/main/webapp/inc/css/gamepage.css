@@ -15,6 +15,12 @@ html, body
 {
     color: black;
     font-weight: bold;
+    text-align: center;
+}
+
+#trumps_infos
+{
+
 }
 
 #logo{
@@ -61,18 +67,15 @@ html, body
 	}
 
 #gameBoardContainer {
-    text-align: center;
     height: 430px;
 }
 
 #gameBoard {
-    margin-top: 20px;
+    margin-top: 14px;
     background: url(/inc/img/backgrounds/texture.png);
     background-size: 100% 100%;
-    left: -285px;
-    position: absolute;
-    top: -705px;
-    transform: scale(0.2);
+    -webkit-transform-origin: 307px 0;
+    transform: scale(0.21);
 }
 
 rect, path {
@@ -183,6 +186,10 @@ rect, path {
 
 @media screen and (min-width: 1440px){
 
+#gameBoard {
+    -webkit-transform-origin: 363px 0;
+}
+
 #bloc_top{
 	width:1440px;
 	}
@@ -221,6 +228,10 @@ rect, path {
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1280px){
+
+#gameBoard {
+    -webkit-transform-origin: 197px 0;
+}
 
 #bloc_top{
 	width:1024px;
@@ -261,6 +272,10 @@ rect, path {
 
 @media screen and (min-width: 900px) and (max-width: 1024px){
 
+#gameBoard {
+-webkit-transform-origin: 138px 0;
+}
+
 #bloc_top{
 	width:900px;
 	}
@@ -299,6 +314,10 @@ rect, path {
 }
 
 @media screen and (min-width: 768px) and (max-width: 900px){
+
+#gameBoard {
+    -webkit-transform-origin: 155px 0;
+}
 
 #bloc_top{
 	width:768px;
@@ -346,6 +365,10 @@ rect, path {
 
 @media screen and (min-width: 600px) and (max-width: 768px){
 
+#gameBoard {
+    -webkit-transform-origin: 59px 0;
+}
+
 #bloc_top{
 	width:600px;
 	}
@@ -391,6 +414,12 @@ rect, path {
 }
 
 @media screen and (max-width: 600px){
+
+#gameBoard {
+    -webkit-transform-origin: 19px 0;
+    transform: scale(0.19);
+    margin-top: 34px;
+}
 
 #bloc_top{
 	width:470px;
