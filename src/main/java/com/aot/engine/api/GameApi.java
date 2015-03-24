@@ -119,11 +119,24 @@ public class GameApi extends WebsocketApi {
     }
 
     private boolean creatingGame() {
-        return !redis.hasGameStarted(gameId) && redis.isGameMaster(gameId, playerId);
+        return !redis.hasGameStarted(gameId);
     }
 
     private String creatingMatch() throws IOException {
         String response;
+        if (!redis.isGameMaster(gameId, playerId)
+                && playerRequest.getRequestType() != RequestType.SLOT_UPDATED) {
+            response = GameApiJson.buildError("Only the game master can do this action.");
+        } else {
+            response = processCreatingGameRequest();
+        }
+
+        return response;
+    }
+
+    private String processCreatingGameRequest() throws IOException {
+        String response;
+
         switch (playerRequest.getRequestType()) {
             case ADD_SLOT:
                 updatedSlot = playerRequest.getSlotUpdated();
