@@ -41,7 +41,6 @@ public class PlayJsonResponseBuilder {
         CardPlayedJsonResponse cardPlayedJsonResponse = new CardPlayedJsonResponse();
         cardPlayedJsonResponse.init();
         cardPlayedJsonResponse.setPlayers(match.getPlayersForJsonExport());
-        cardPlayedJsonResponse.setNexPlayerId(match.getActivePlayerId());
         cardPlayedJsonResponse.setNextPlayerIndex(match.getActivePlayerIndex());
         cardPlayedJsonResponse.setNextPlayerName(match.getActivePlayerName());
         cardPlayedJsonResponse.setPossibleCardsNextPlayer(match.getActivePlayerHandForJsonExport());

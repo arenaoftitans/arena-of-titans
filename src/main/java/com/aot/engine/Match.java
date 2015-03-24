@@ -460,7 +460,6 @@ public class Match {
                 .map(player -> {
                     JsonPlayer jsonPlayer = new JsonPlayer();
                     jsonPlayer.setName(player.getName());
-                    jsonPlayer.setId(player.getId());
                     jsonPlayer.setIndex(player.getIndex());
                     return jsonPlayer;
                 })
