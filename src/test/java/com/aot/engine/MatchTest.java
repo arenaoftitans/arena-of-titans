@@ -51,7 +51,7 @@ public class MatchTest {
         board = gf.getBoard();
         Player[] players = new Player[8];
         for (int i = 0; i < 8; i++) {
-            players[i] = new Player("player " + i, i);
+            players[i] = new Player("player " + i, null, i);
         }
         List<Trump> trumpList = new ArrayList<>();
         Color[] colors = {Color.RED};

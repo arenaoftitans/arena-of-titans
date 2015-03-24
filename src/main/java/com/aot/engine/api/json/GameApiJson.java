@@ -67,7 +67,7 @@ public class GameApiJson {
         }
 
         public boolean isPlayerIdCorrect(Match match) {
-            return getPlayerId() != null && getPlayerId().equals(match.getActivePlayeId());
+            return getPlayerId() != null && getPlayerId().equals(match.getActivePlayerId());
         }
 
         public RequestType getRequestType() {

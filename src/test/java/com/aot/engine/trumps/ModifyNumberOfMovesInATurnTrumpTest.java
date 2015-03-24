@@ -1,7 +1,5 @@
 package com.aot.engine.trumps;
 
-import com.aot.engine.trumps.Trump;
-import com.aot.engine.trumps.ModifyNumberOfMovesInATurnTrump;
 import com.aot.engine.GameFactory;
 import com.aot.engine.Match;
 import com.aot.engine.Player;
@@ -27,9 +25,9 @@ public class ModifyNumberOfMovesInATurnTrumpTest {
         Board board = gf.getBoard();
 
         trump = new ModifyNumberOfMovesInATurnTrump(null, 1, null, 0, false, 2);
-        player1 = new Player("player1", 0);
+        player1 = new Player("player1", null, 0);
         player1.addTrumpToAffecting(trump);
-        player2 = new Player("player2", 1);
+        player2 = new Player("player2", null, 1);
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);

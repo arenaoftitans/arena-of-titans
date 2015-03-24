@@ -95,6 +95,7 @@ public class Player implements JsonExportable {
      * <b>Constructor initiating the name with the given parameter.</b>
      *
      * @param name The name of the player.
+     * @param id
      * @param index The index of the player.
      *
      * @see Player#board
@@ -105,12 +106,12 @@ public class Player implements JsonExportable {
      *
      * @since 1.0
      */
-    public Player(String name, int index) {
+    public Player(String name, String id, int index) {
         this.name = name;
         this.currentSquare = null;
         this.hasWon = false;
         this.index = index;
-        this.id = Integer.toString(index);
+        this.id = id;
         this.canPlay = true;
         numberMovesPlayed = 0;
         affectingTrumps = new ArrayList<>();

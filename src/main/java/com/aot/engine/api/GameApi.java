@@ -184,11 +184,18 @@ public class GameApi extends WebsocketApi {
 
     private String createMatch(List<JsonPlayer> createGame) {
         GameFactory gameFactory = new GameFactory();
-        createGame.forEach(jsonPlayer -> jsonPlayer.setId(playerId));
+        List<String> playersIds = redis.getPlayersId(gameId);
+
+        createGame.forEach(jsonPlayer -> {
+            int index = jsonPlayer.getIndex();
+            String id = playersIds.get(index);
+            jsonPlayer.setId(id);
+        });
+
         gameFactory.createNewMatch(createGame);
         match = gameFactory.getMatch();
         String response = PlayJsonResponseBuilder.build(match, RequestType.CREATE_GAME);
-        Logger.getLogger(gameId).log(Level.ALL, match.toString());
+        Logger.getLogger(GameApi.class.getCanonicalName()).log(Level.SEVERE, match.getActivePlayerId());
         redis.saveMatch(match, gameId);
 
         return response;

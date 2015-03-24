@@ -158,7 +158,7 @@ public class Match {
         return activePlayer.getIndex();
     }
 
-    public String getActivePlayeId() {
+    public String getActivePlayerId() {
         return activePlayer.getId();
     }
 
@@ -460,7 +460,7 @@ public class Match {
                 .map(player -> {
                     JsonPlayer jsonPlayer = new JsonPlayer();
                     jsonPlayer.setName(player.getName());
-                    jsonPlayer.setId(Integer.toString(player.getIndex()));
+                    jsonPlayer.setId(player.getId());
                     jsonPlayer.setIndex(player.getIndex());
                     return jsonPlayer;
                 })

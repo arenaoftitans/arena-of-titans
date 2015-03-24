@@ -115,6 +115,7 @@ public class Redis {
                     UpdatedSlot.class);
             if (playerId.equals(currentSlot.getPlayerId())) {
                 updatedSlot.setState(SlotState.TAKEN);
+                updatedSlot.setPlayerId(playerId);
                 jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
                 jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
             } else if (currentSlot.getState() != SlotState.TAKEN) {
@@ -181,10 +182,15 @@ public class Redis {
 
     List<UpdatedSlot> getSlots(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
-            Gson gson = new Gson();
             return getMapSlots(gameId)
                     .collect(Collectors.toList());
         }
+    }
+
+    List<String> getPlayersId(String gameId) {
+            return getMapSlots(gameId)
+                    .map(slot -> slot.getPlayerId())
+                    .collect(Collectors.toList());
     }
 
     public int affectNextSlot(String gameId, String playerId) {
