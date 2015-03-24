@@ -136,7 +136,7 @@ gameModule.controller("game", ['$scope',
             }
 
             // The server cannot know about pawns. We get it from $scope.players
-            $scope.currentPlayer = $scope.players[data.nextPlayer.id];
+            $scope.currentPlayer = $scope.players[data.nextPlayer.index];
             $scope.currentPlayerCards = data.possibleCardsNextPlayer;
             $scope.currentPlayerTrumps = data.trumpsNextPlayer;
             $scope.winners = data.winners;
@@ -240,7 +240,7 @@ gameModule.controller("game", ['$scope',
         $scope.viewPossibleMovements = function (cardName, cardColor) {
             var data = {
                 rt: rt.view,
-                player_id: $scope.currentPlayer.id,
+                player_id: $scope.me.id,
                 play_request: {
                     card_name: cardName,
                     card_color: cardColor
@@ -268,7 +268,7 @@ gameModule.controller("game", ['$scope',
                     && $scope.selectedCard !== null) {
                 var data = {
                     rt: rt.play,
-                    player_id: $scope.currentPlayer.id,
+                    player_id: $scope.me.id,
                     play_request: {
                         card_name: $scope.selectedCard.name,
                         card_color: $scope.selectedCard.color,
@@ -288,7 +288,7 @@ gameModule.controller("game", ['$scope',
         $scope.pass = function () {
             var data = {
                 rt: rt.play,
-                player_id: $scope.currentPlayer.id,
+                player_id: $scope.me.id,
                 play_request: {
                     pass: true
                 }
@@ -307,7 +307,7 @@ gameModule.controller("game", ['$scope',
         $scope.confirmDiscard = function () {
             var data = {
                 rt: rt.play,
-                player_id: $scope.currentPlayer.id,
+                player_id: $scope.me.id,
                 play_request: {
                     discard: true,
                     card_name: $scope.selectedCard.name,
@@ -358,7 +358,7 @@ gameModule.controller("game", ['$scope',
                     $scope.trumpTargetedPlayer;
             var data = {
                 rt: rt.play_trump,
-                player_id: $scope.currentPlayer.id,
+                player_id: $scope.me.id,
                 trump_request: {
                     target_index: targetIndex,
                     name: $scope.trumpName
