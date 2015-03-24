@@ -10,8 +10,8 @@ gameModule.controller("game", ['$scope',
 
         var maximumNumberOfPlayers = 8;
         var initialNumberOfOpenedSlot = 2;
-        var me = {id: null, game_master: false};
 
+        $scope.me = {id: null, gameMaster: false};
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
         $scope.players = player.init(initialNumberOfOpenedSlot);
         $scope.activePawns = [];
@@ -58,7 +58,7 @@ gameModule.controller("game", ['$scope',
         var addSlot = function (slot) {
             var data = {
                 rt: rt.add_slot,
-                player_id: me.id,
+                player_id: $scope.me.id,
                 slot_updated: slot
             };
             gameApi.send(data);
@@ -72,7 +72,7 @@ gameModule.controller("game", ['$scope',
 
             var data = {
                 rt: rt.create_game,
-                player_id: me.id,
+                player_id: $scope.me.id,
                 create_game_request: players
             };
 
@@ -91,7 +91,7 @@ gameModule.controller("game", ['$scope',
         var updateSlot = function (slot) {
             var data = {
                 rt: rt.slot_updated,
-                player_id: me.id,
+                player_id: $scope.me.id,
                 slot_updated: slot
             };
             gameApi.send(data);
@@ -167,9 +167,9 @@ gameModule.controller("game", ['$scope',
         gameApi.onError(handleError.show);
 
         var initializeMe = function (data) {
-            me = {
+            $scope.me = {
                 id: data.player_id,
-                is_game_master: data.is_game_master
+                gameMaster: data.is_game_master
             };
         };
 

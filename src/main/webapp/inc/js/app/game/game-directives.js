@@ -3,12 +3,12 @@ gameModule.directive('slot', function () {
     return {
         scope: {
             player: '=player',
-            stateChanged: '&stateChanged'
+            stateChanged: '&stateChanged',
+            thisPlayer: '=me'
         },
         link: function (scope, element, attributes) {
             scope.possibleStates = ['closed', 'open', 'reserved', 'taken'];
             scope.state = 'closed';
-            scope.isDisabled = false;
         },
         templateUrl: '/inc/html/game/create/slot.html'
     };

@@ -103,7 +103,14 @@ public class Redis {
 
     public void updateSlot(String gameId, UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.lset(SLOTS_KEY_PART + gameId, updatedSlot.getIndex(), updatedSlot.toJson());
+            int index = updatedSlot.getIndex();
+            // Update the slot unless it is taken.
+            Gson gson = new Gson();
+            UpdatedSlot currentSlot = gson.fromJson(jedis.lindex(SLOTS_KEY_PART + gameId, index),
+                    UpdatedSlot.class);
+            if (currentSlot.getState() != SlotState.TAKEN) {
+                jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
+            }
         }
     }
 
