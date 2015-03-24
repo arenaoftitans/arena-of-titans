@@ -178,8 +178,14 @@ gameModule.controller("game", ['$scope',
         var initializeMe = function (data) {
             $scope.me = {
                 id: data.player_id,
+                name: askMyName(data.slot_index + 1),
+                index: data.index,
                 gameMaster: data.is_game_master
             };
+        };
+
+        var askMyName = function (index) {
+            return prompt('Enter your name', 'Player ' + index);
         };
 
         var initializeSlots = function (data) {
@@ -195,6 +201,8 @@ gameModule.controller("game", ['$scope',
                     addSlot(slot);
                 });
             }
+
+            setMySlot();
         };
 
         var refreshSlot = function (data) {
@@ -203,6 +211,17 @@ gameModule.controller("game", ['$scope',
             }
             $scope.players[data.index].name = data.player_name;
             $scope.players[data.index].slotState = data.state.toLowerCase();
+        };
+
+        var setMySlot = function () {
+            $scope.players[$scope.me.index].slotState = 'taken';
+            $scope.players[$scope.me.index].name = $scope.me.name;
+            var slot = {
+                index: $scope.me.index,
+                player_name: $scope.me.name
+            };
+
+            updateSlot(slot);
         };
 
         function isGameOver(gameOver) {

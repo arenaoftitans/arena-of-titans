@@ -4,6 +4,11 @@ import com.aot.engine.Match;
 import com.aot.engine.api.RequestType;
 import com.aot.engine.lobby.SlotState;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class GameApiJson {
@@ -12,6 +17,7 @@ public class GameApiJson {
 
         private String rt;
         private String player_id;
+        private int index;
         private boolean is_game_master;
         private List<UpdatedSlot> slots;
 
@@ -25,12 +31,24 @@ public class GameApiJson {
             this.is_game_master = is_game_master;
         }
 
+        public void setIndex(int index) {
+            this.index = index;
+        }
+
         public void setSlots(List<UpdatedSlot> slots) {
             this.slots = slots;
         }
 
         public String toJson() {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(UpdatedSlot.class,
+                            (JsonSerializer<UpdatedSlot>) (UpdatedSlot t, Type type,
+                                    JsonSerializationContext jsc) -> {
+                        t.setPlayerId(null);
+                        Gson gson1 = new Gson();
+                return gson1.toJsonTree(t, UpdatedSlot.class);
+            })
+                    .create();
             return gson.toJson(this, GameInitialized.class);
         }
     }
@@ -73,14 +91,31 @@ public class GameApiJson {
         }
     }
 
-    public class UpdatedSlot {
+    public static class UpdatedSlot {
         RequestType rt;
         String player_name;
+        String player_id;
         int index;
         SlotState state;
 
+        public String getPlayerId() {
+            return player_id;
+        }
+
+        public void setPlayerId(String playerId) {
+            player_id = playerId;
+        }
+
         public int getIndex() {
             return index;
+        }
+
+        public void setIndex(int index) {
+            this.index = index;
+        }
+
+        public void setState(SlotState state) {
+            this.state = state;
         }
 
         public SlotState getState() {

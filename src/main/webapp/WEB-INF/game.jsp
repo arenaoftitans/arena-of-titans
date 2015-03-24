@@ -24,7 +24,7 @@
     <body ng-app="aot" ng-controller="game">
 
         <div id="bloc_top">
-
+            {{me.name}}
         </div>
 
         <div ng-view=""></div>

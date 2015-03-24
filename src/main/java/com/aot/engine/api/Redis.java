@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -68,7 +69,11 @@ public class Redis {
 
             jedis.hset(GAME_KEY_PART + gameId, STARTED_KEY, GAME_NOT_STARTED);
 
-            jedis.lpush(SLOTS_KEY_PART + gameId, "");
+            UpdatedSlot slot = new UpdatedSlot();
+            slot.setPlayerId(sessionId);
+            slot.setState(SlotState.OPEN);
+            slot.setIndex(0);
+            jedis.lpush(SLOTS_KEY_PART + gameId, slot.toJson());
 
             jedis.expire(PLAYERS_KEY_PART + gameId, GAME_EXPIRE);
             jedis.expire(GAME_KEY_PART + gameId, GAME_EXPIRE);
@@ -101,14 +106,18 @@ public class Redis {
         }
     }
 
-    public void updateSlot(String gameId, UpdatedSlot updatedSlot) {
+    public void updateSlot(String gameId, String playerId, UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
             int index = updatedSlot.getIndex();
             // Update the slot unless it is taken.
             Gson gson = new Gson();
             UpdatedSlot currentSlot = gson.fromJson(jedis.lindex(SLOTS_KEY_PART + gameId, index),
                     UpdatedSlot.class);
-            if (currentSlot.getState() != SlotState.TAKEN) {
+            if (playerId.equals(currentSlot.getPlayerId())) {
+                updatedSlot.setState(SlotState.TAKEN);
+                jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
+                jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
+            } else if (currentSlot.getState() != SlotState.TAKEN) {
                 jedis.lset(SLOTS_KEY_PART + gameId, index, updatedSlot.toJson());
             }
         }
@@ -116,9 +125,7 @@ public class Redis {
 
     public void addSlot(String gameId, UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
-            if (updatedSlot.getIndex() == 0) {
-                jedis.lset(SLOTS_KEY_PART + gameId, 0, updatedSlot.toJson());
-            } else {
+            if (updatedSlot.getIndex() != 0) {
                 jedis.rpush(SLOTS_KEY_PART + gameId, updatedSlot.toJson());
             }
         }
@@ -157,25 +164,41 @@ public class Redis {
     }
 
     public boolean hasOpenedSlot(String gameId) {
+        return !getMapSlots(gameId)
+                .filter(slot -> slot.getState() == SlotState.OPEN)
+                .collect(Collectors.toList())
+                .isEmpty();
+    }
+
+    private Stream<UpdatedSlot> getMapSlots(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             Gson gson = new Gson();
-            return !jedis.lrange(SLOTS_KEY_PART + gameId, 0, -1)
+            return jedis.lrange(SLOTS_KEY_PART + gameId, 0, -1)
                     .stream()
-                    .map(updatedSlotJson -> gson.fromJson(updatedSlotJson, UpdatedSlot.class))
-                    .filter(slot -> slot.getState() == SlotState.OPEN)
-                    .collect(Collectors.toList())
-                    .isEmpty();
+                    .map(updatedSlotJson -> gson.fromJson(updatedSlotJson, UpdatedSlot.class));
         }
     }
 
     List<UpdatedSlot> getSlots(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             Gson gson = new Gson();
-            return jedis.lrange(SLOTS_KEY_PART + gameId, 0, -1)
-                    .stream()
-                    .map(updateSlotJson -> gson.fromJson(updateSlotJson, UpdatedSlot.class))
+            return getMapSlots(gameId)
                     .collect(Collectors.toList());
         }
+    }
+
+    public int affectNextSlot(String gameId, String playerId) {
+        UpdatedSlot playerSlot = getMapSlots(gameId)
+                .filter(slot -> slot.getState() == SlotState.OPEN)
+                .findFirst()
+                .get();
+
+        playerSlot.setState(SlotState.TAKEN);
+        playerSlot.setPlayerId(playerId);
+        int playerSlotIndex = playerSlot.getIndex();
+        updateSlot(gameId, playerId, playerSlot);
+
+        return playerSlotIndex;
     }
 
 }

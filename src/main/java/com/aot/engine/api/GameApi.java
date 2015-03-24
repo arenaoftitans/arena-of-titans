@@ -70,20 +70,24 @@ public class GameApi extends WebsocketApi {
     }
 
     private String initializeRedis() {
-        String response;
         GameApiJson.GameInitialized gameInitialized = new GameApiJson.GameInitialized(playerId);
 
         if (redis.getPlayersIds(gameId).isEmpty()) {
             redis.initializeDatabase(gameId, playerId);
             gameInitialized.setIs_game_master(true);
-            response = gameInitialized.toJson();
         } else {
             redis.saveSessionId(gameId, playerId);
             gameInitialized.setSlots(redis.getSlots(gameId));
-            response = gameInitialized.toJson();
         }
 
-        return response;
+        int mySlotIndex = affectMySlot();
+        gameInitialized.setIndex(mySlotIndex);
+
+        return gameInitialized.toJson();
+    }
+
+    private int affectMySlot() {
+        return redis.affectNextSlot(gameId, playerId);
     }
 
     @OnClose
@@ -129,7 +133,7 @@ public class GameApi extends WebsocketApi {
                 break;
             case SLOT_UPDATED:
                 updatedSlot = playerRequest.getSlotUpdated();
-                redis.updateSlot(gameId, updatedSlot);
+                redis.updateSlot(gameId, playerId, updatedSlot);
                 sendResponseToAllPlayers(updatedSlot.toJson(), playerId);
                 response = null;
                 break;
