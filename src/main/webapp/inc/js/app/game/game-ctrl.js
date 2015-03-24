@@ -178,7 +178,7 @@ gameModule.controller("game", ['$scope',
         var initializeMe = function (data) {
             $scope.me = {
                 id: data.player_id,
-                name: askMyName(data.slot_index + 1),
+                name: askMyName(data.index + 1),
                 index: data.index,
                 gameMaster: data.is_game_master
             };
