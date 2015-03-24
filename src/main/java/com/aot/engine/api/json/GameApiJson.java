@@ -77,6 +77,10 @@ public class GameApiJson {
             return index;
         }
 
+        public SlotState getState() {
+            return state;
+        }
+
         public String toJson() {
             Gson gson = new Gson();
             return gson.toJson(this, UpdatedSlot.class);

@@ -1,8 +1,12 @@
 package com.aot.engine.api;
 
 import com.aot.engine.Match;
-import com.aot.engine.api.json.GameApiJson;
+import com.aot.engine.api.json.GameApiJson.UpdatedSlot;
+import com.aot.engine.lobby.SlotState;
+import com.google.gson.Gson;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -97,13 +101,13 @@ public class Redis {
         }
     }
 
-    public void updateSlot(String gameId, GameApiJson.UpdatedSlot updatedSlot) {
+    public void updateSlot(String gameId, UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.lset(SLOTS_KEY_PART + gameId, updatedSlot.getIndex(), updatedSlot.toJson());
         }
     }
 
-    public void addSlot(String gameId, GameApiJson.UpdatedSlot updatedSlot) {
+    public void addSlot(String gameId, UpdatedSlot updatedSlot) {
         try (Jedis jedis = jedisPool.getResource()) {
             if (updatedSlot.getIndex() == 0) {
                 jedis.lset(SLOTS_KEY_PART + gameId, 0, updatedSlot.toJson());
@@ -142,6 +146,18 @@ public class Redis {
     public void gameHasStarted(String gameId) {
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.hset(GAME_KEY_PART + gameId, STARTED_KEY, GAME_STARTED);
+        }
+    }
+
+    public boolean hasOpenedSlot(String gameId) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            Gson gson = new Gson();
+            return !jedis.lrange(SLOTS_KEY_PART + gameId, 0, -1)
+                    .stream()
+                    .map(updatedSlotJson -> gson.fromJson(updatedSlotJson, UpdatedSlot.class))
+                    .filter(slot -> slot.getState() == SlotState.OPEN)
+                    .collect(Collectors.toList())
+                    .isEmpty();
         }
     }
 

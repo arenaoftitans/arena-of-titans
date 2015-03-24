@@ -44,22 +44,45 @@ public class GameApi extends WebsocketApi {
         playerId = session.getId();
         players.put(playerId, session);
 
-        GameApiJson.GameInitialized gameInitialized = initializeGame();
-
-        session.getBasicRemote().sendText(gameInitialized.toJson());
+        if (!initializeGame(session)) {
+            session.close();
+        }
     }
 
-    private GameApiJson.GameInitialized initializeGame() {
+    private boolean initializeGame(Session session) throws IOException {
+        String response;
+        boolean mustCloseSession = false;
+
+        if (redis.getPlayersIds(gameId).isEmpty() || canJoin()) {
+            response = initializeRedis();
+        } else {
+            response = GameApiJson.buildErrorToDisplay("You cannot join this game. No slots opened.");
+            mustCloseSession = true;
+        }
+
+        session.getBasicRemote().sendText(response);
+
+        return !mustCloseSession;
+    }
+
+    private boolean canJoin() {
+        return redis.hasOpenedSlot(gameId);
+    }
+
+    private String initializeRedis() {
+        String response;
         GameApiJson.GameInitialized gameInitialized = new GameApiJson.GameInitialized(playerId);
 
         if (redis.getPlayersIds(gameId).isEmpty()) {
             redis.initializeDatabase(gameId, playerId);
             gameInitialized.setIs_game_master(true);
+            response = gameInitialized.toJson();
         } else {
             redis.saveSessionId(gameId, playerId);
+            response = gameInitialized.toJson();
         }
 
-        return gameInitialized;
+        return response;
     }
 
     @OnClose
