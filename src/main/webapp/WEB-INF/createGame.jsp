@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>AOT create Game</title>
         <link rel="stylesheet" type="text/css" href="inc/css/global.css">
+        <link rel="stylesheet" type="text/css" href="inc/css/createGame.css">
         <script src="inc/js/lib/angular.js" type="text/javascript"></script>
         <script src="inc/js/app.js" type="text/javascript"></script>
 
@@ -28,6 +29,11 @@
         <script src="inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="aot">
+        <div id="bloc_top">
+            <div id="logo">
+            </div>
+        </div>
+
         <div id="createGame" ng-controller="createGame">
             <form id="crateGameForm">
                 <label>Add players</label>
@@ -38,5 +44,14 @@
                 <button ng-click="createGame()">Create game</button>
             </form>
         </div>
+
+
+        <div id="pageLink">
+            Pour inviter vos amis, faites le parvenir le lien suivant :<br>
+        </div>
     </body>
+    <script>
+        var div = document.getElementById('pageLink');
+        div.innerHTML = div.innerHTML + window.location.href;
+    </script>
 </html>

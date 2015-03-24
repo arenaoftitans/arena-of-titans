@@ -1,0 +1,37 @@
+html, body
+{ 	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-image : url(/inc/img/backgrounds/background.png);
+        color: white;
+}
+
+#createGame
+{
+    text-align: center;
+}
+
+#pageLink
+{
+    text-align: center;
+    margin-top: 20px;
+}
+
+#logo{
+	margin-left: auto;
+	margin-right: auto;
+	width:300px;
+	height:100px;
+	background: url(/inc/img/arena_of_titans_new_logo.png);
+	background-size: 100% 100%;
+}
+
+#bloc_top{
+	margin-left: auto;
+	margin-right: auto;
+        margin-bottom: 15px;
+	margin-top:6px;
+	height:115px;
+        text-align: center;
+}
