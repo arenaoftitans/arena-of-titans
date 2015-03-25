@@ -13,10 +13,15 @@ gameModule.directive('slot', function () {
     };
 });
 
-gameModule.directive('aotSvg', function () {
+gameModule.directive('aotBoard', function () {
     'use strict';
     return {
         replace: true,
+        link: function (scope, element, attributes) {
+            for (var i in scope.players) {
+                scope.activePawns.push('player' + i);
+            }
+        },
         templateUrl: '/getBoard/standard'
     };
 });

@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -189,7 +187,6 @@ public class GameApi extends WebsocketApi {
         gameFactory.createNewMatch(createGame);
         match = gameFactory.getMatch();
         String response = PlayJsonResponseBuilder.build(match, RequestType.CREATE_GAME);
-        Logger.getLogger(GameApi.class.getCanonicalName()).log(Level.SEVERE, match.getActivePlayerId());
         redis.saveMatch(match, gameId);
 
         return response;

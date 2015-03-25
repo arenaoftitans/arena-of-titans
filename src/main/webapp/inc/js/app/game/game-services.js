@@ -57,8 +57,9 @@ gameModule.factory('handleError', [
  */
 gameModule.factory('player', [
     function () {
-        var move = function (pawn, x, y) {
+        var move = function (pawnId, x, y) {
             try {
+                var pawn = angular.element(document.getElementById(pawnId));
                 var square = document.getElementById('square-' + x + '-' + y);
                 var boundingBox = square.getBBox();
                 var height = Number(boundingBox.height);
@@ -93,13 +94,10 @@ gameModule.factory('player', [
         };
 
         var newPlayer = function (currentNumberOfPlayers) {
-            var pawnElement = document.getElementById('player' + currentNumberOfPlayers);
-            var pawn = angular.element(pawnElement);
             var player = {
                 index: currentNumberOfPlayers,
                 name: '',
                 slotState: 'closed',
-                pawn: pawn
             };
 
             return player;

@@ -111,8 +111,6 @@ gameModule.controller("game", ['$scope',
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];
-                $scope.activePawns.push(player.pawn.attr('id'));
-                player.id = playerUpdated.id;
                 player.name = playerUpdated.name;
             }
             // Remove unused player from $scope.players
@@ -131,8 +129,8 @@ gameModule.controller("game", ['$scope',
          */
         function updateGameParameters(data) {
             if (data.hasOwnProperty('newSquare')) {
-                var playerPawn = $scope.currentPlayer.pawn;
-                player.move(playerPawn, data.newSquare.x, data.newSquare.y);
+                var playerPawnId = $scope.activePawns[$scope.currentPlayer.index];
+                player.move(playerPawnId, data.newSquare.x, data.newSquare.y);
             }
 
             // The server cannot know about pawns. We get it from $scope.players
