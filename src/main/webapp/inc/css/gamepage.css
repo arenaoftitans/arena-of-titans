@@ -13,14 +13,25 @@ html, body
 
 #player_name
 {
-    color: black;
+    color: red;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
+    margin-left: 15px;
+    margin-top: 12px;
 }
 
-#trumps_infos
+#trumps_info
 {
+    text-align: center;
+    padding-top: 236px;
+    margin-left: -4px;
+    font-weight: bold;
+    color: darkorange;
+}
 
+#activeTrumps
+{
+    text-align: left;
 }
 
 #logo{
@@ -54,7 +65,7 @@ html, body
 	width:1280px;
 	margin-top:2px;
 	margin-bottom:5px;
-	height:600px;
+	height:660px;
 	z-index:0;
 	}
 
@@ -71,11 +82,12 @@ html, body
 }
 
 #gameBoard {
-    margin-top: 14px;
-    background: url(/inc/img/backgrounds/texture.png);
-    background-size: 100% 100%;
+    margin-top: -16px;
     -webkit-transform-origin: 307px 0;
     transform: scale(0.21);
+    overflow: visible;
+    width: 762px;
+    height: 650px;
 }
 
 rect, path {
@@ -129,6 +141,15 @@ rect, path {
     position: relative;
 }
 
+#movementsCardsInHand
+{
+    width: 450px;
+    position: relative;
+    left: 50%;
+    margin-left: -225px;
+    padding-top: 25px;
+}
+
 .trumpCard
 {
     cursor: pointer;
@@ -143,7 +164,7 @@ rect, path {
 }
 
 #bloc_gauge{
-    margin-top: -600px;
+    margin-top: -660px;
     float: left;
     width:192px;
     height: 100%;
@@ -418,7 +439,7 @@ rect, path {
 #gameBoard {
     -webkit-transform-origin: 19px 0;
     transform: scale(0.19);
-    margin-top: 34px;
+    margin-top: 2px;
 }
 
 #bloc_top{

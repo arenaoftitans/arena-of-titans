@@ -35,6 +35,7 @@
             <div id="game" ng-class="{hidden: gameOver || !gameStarted}">
 
                 <div id="bloc_board">
+                    <div id="player_name">Player: {{currentPlayer.name}}</div>
 
                     <div id="gameBoardContainer">
                         ${svgBoard}
@@ -63,7 +64,6 @@
                 </div> <!--bloc right-->
 
                 <div id="bloc_cards">
-                    <div id="player_name">Player: {{currentPlayer.name}}</div>
                     <div id="movementsCardsInHand">
                         <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
                             <img class="movementsCard"
@@ -76,15 +76,16 @@
                             <button ng-click="pass()">Pass</button>
                             <button ng-click="discard()">Discard selected card.</button>
                         </div>
-                        <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
-                            <p class="textPopup"> You must select a card to discard.</p><br />
-                            <button class="ok-button" ng-click="noCardSelectedPopupHidden()">OK</button>
-                        </div>
-                        <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
-                            <p class="textPopup">Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?</p>
-                            <button class="ok-button" ng-click="confirmDiscard()">OK</button>
-                            <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
-                        </div>
+
+                    </div>
+                    <div id="noCardSelectedPopup" class="popup" ng-class="{hidden: !showNoCardSelectedPopup}">
+                        <p class="textPopup"> You must select a card to discard.</p><br />
+                        <button class="ok-button" ng-click="noCardSelectedPopupHidden()">OK</button>
+                    </div>
+                    <div id="discardConfirmationPopup" class="popup" ng-class="{hidden: !showDiscardConfirmationPopup}">
+                        <p class="textPopup">Are you sure you want to discard this card: {{selectedCard.name}} {{selectedCard.color}} ?</p>
+                        <button class="ok-button" ng-click="confirmDiscard()">OK</button>
+                        <button class="cancel-button" ng-click="hiddeDiscardPopup()">Cancel</button>
                     </div>
                 </div> <!--bloc cards-->
                 <div id="bloc_gauge">
