@@ -1,6 +1,6 @@
 /* global by, element, expect, $$, browser */
 
-describe('game', function () {
+/* describe('game', function () {
     var createGameForm = element(by.buttonText('Create game'));
     var createGameUrl = '/createGame';
     // Firefox seems to only be able to click on items that are buttons or have a ng-click
@@ -216,4 +216,4 @@ describe('game', function () {
                     });
         });
     });
-});
+});*/
