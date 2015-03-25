@@ -1,6 +1,8 @@
 package com.aot.engine.cards;
 
 import com.aot.engine.Color;
+import com.aot.engine.api.json.JsonExportable;
+import com.aot.engine.board.Board;
 import com.aot.engine.cards.movements.MovementsCard;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,9 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Deck {
+public class Deck implements JsonExportable {
 
     private static final int CARDS_IN_HANDS = 5;
     private static final String CARD_NAME_KEY = "name";
@@ -284,6 +287,54 @@ public class Deck {
                     return jsonCard;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void prepareForJsonExport() {
+        hand.parallelStream().forEach(card -> card.prepareForJsonExport());
+        stock.parallelStream().forEach(card -> card.prepareForJsonExport());
+        graveyard.parallelStream().forEach(card -> card.prepareForJsonExport());
+    }
+
+    @Override
+    public void resetAfterJsonImport(Board board) {
+        hand.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+        stock.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+        graveyard.parallelStream().forEach(card -> card.resetAfterJsonImport(board));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.cardsList);
+        hash = 47 * hash + Objects.hashCode(this.graveyard);
+        hash = 47 * hash + Objects.hashCode(this.hand);
+        hash = 47 * hash + Objects.hashCode(this.stock);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Deck other = (Deck) obj;
+        if (!Objects.equals(this.cardsList, other.cardsList)) {
+            return false;
+        }
+        if (!Objects.equals(this.graveyard, other.graveyard)) {
+            return false;
+        }
+        if (!Objects.equals(this.hand, other.hand)) {
+            return false;
+        }
+        if (!Objects.equals(this.stock, other.stock)) {
+            return false;
+        }
+        return true;
     }
 
 }

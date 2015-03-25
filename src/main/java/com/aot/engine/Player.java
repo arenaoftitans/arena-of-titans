@@ -1,5 +1,6 @@
 package com.aot.engine;
 
+import com.aot.engine.api.json.JsonExportable;
 import com.aot.engine.board.Square;
 import com.aot.engine.board.Board;
 import com.aot.engine.cards.Deck;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  * @author "Arena of Titans" first development team
  * @version 1.0
  */
-public class Player {
+public class Player implements JsonExportable {
 
     private static final int BOARD_ARM_WIDTH_AND_MODULO = 4;
     public static final int BOARD_ARM_LENGTH_AND_MAX_Y = 8;
@@ -74,6 +75,7 @@ public class Player {
      * @since 1.0
      */
     private final int index;
+    private final String id;
     /**
      * The deck of this player.
      */
@@ -93,6 +95,7 @@ public class Player {
      * <b>Constructor initiating the name with the given parameter.</b>
      *
      * @param name The name of the player.
+     * @param id
      * @param index The index of the player.
      *
      * @see Player#board
@@ -103,11 +106,12 @@ public class Player {
      *
      * @since 1.0
      */
-    public Player(String name, int index) {
+    public Player(String name, String id, int index) {
         this.name = name;
         this.currentSquare = null;
         this.hasWon = false;
         this.index = index;
+        this.id = id;
         this.canPlay = true;
         numberMovesPlayed = 0;
         affectingTrumps = new ArrayList<>();
@@ -480,6 +484,10 @@ public class Player {
         return index;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public Deck getDeck() {
         return deck;
     }
@@ -534,6 +542,10 @@ public class Player {
                 .get();
     }
 
+    public List<Trump> getPlayableTrumpsCopy() {
+        return new ArrayList<> (playableTrumps);
+    }
+
     /**
      * <b>Returns if a player is the same as this one.</b>
      * <div>
@@ -564,6 +576,17 @@ public class Player {
         hash = hashMultiplier * hash + (this.hasWon ? 1 : 0);
         hash = hashMultiplier * hash + this.index;
         return hash;
+    }
+
+    @Override
+    public void prepareForJsonExport() {
+        deck.prepareForJsonExport();
+    }
+
+    @Override
+    public void resetAfterJsonImport(Board board) {
+        deck.resetAfterJsonImport(board);
+        currentSquare = board.getSquare(currentSquare.getX(), currentSquare.getY());
     }
 
 }

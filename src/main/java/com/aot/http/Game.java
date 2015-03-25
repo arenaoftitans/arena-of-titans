@@ -1,39 +1,43 @@
 package com.aot.http;
 
-import com.aot.engine.GameFactory;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Game", urlPatterns = {"/game"})
+@WebServlet(name = "Game", urlPatterns = {"/game/*"})
 public class Game extends HttpServlet {
 
-    private static final String GAME_FACTORY = "gameFactory";
-    private static final String VIEW = "/WEB-INF/game.jsp";
-    private static final String CREATE_GAME = "/createGame";
-
-    private GameFactory gameFactory;
-    private String svgBoard;
-
-    @Override
-    public void init() {
-        gameFactory = new GameFactory();
-        svgBoard = gameFactory.getSvg();
-    }
+    private static final String GAME_VIEW = "/WEB-INF/game.jsp";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("svgBoard", svgBoard);
-        Object obj = request.getSession().getAttribute(GAME_FACTORY);
-        if (obj == null) {
+        String gameId = getGameId(request);
+        if (gameId == null) {
+            gameId = new BigInteger(100, new SecureRandom()).toString(32);
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-            response.setHeader("location", CREATE_GAME);
+            response.setHeader("location", "/game/" + gameId);
         } else {
-            this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+            this.getServletContext().getRequestDispatcher(GAME_VIEW).forward(request, response);
+        }
+    }
+
+    private String getGameId(HttpServletRequest request) {
+        String pathInfo = request.getPathInfo();
+        if (pathInfo == null) {
+            pathInfo = "";
+        }
+
+        String[] pathInfoParts = pathInfo.split("/");
+        if (pathInfoParts.length == 2) {
+            return pathInfoParts[1];
+        } else {
+            return null;
         }
     }
 

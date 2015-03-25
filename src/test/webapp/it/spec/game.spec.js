@@ -1,7 +1,12 @@
+/* global by, element, expect, $$, browser */
+
 describe('game', function () {
     var createGameForm = element(by.buttonText('Create game'));
     var createGameUrl = '/createGame';
-    var cards = element.all(by.repeater('card in currentPlayerCards'));
+    // Firefox seems to only be able to click on items that are buttons or have a ng-click
+    // Thus selecting by by.repeater('card in currentPlayerCards') won't work (we get the containers
+    // that don't have the ng-click attribute
+    var cards = $$('.movementsCard');
     var cardOne = cards.get(0);
     var cardTwo = cards.get(1);
     var passButton = element(by.buttonText('Pass'));

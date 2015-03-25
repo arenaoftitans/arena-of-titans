@@ -9,8 +9,21 @@
  * @type @exp;angular@call;module
  */
 var app = angular.module("aot", [
+    'ngRoute',
+    'ngWebSocket',
     'aot.game',
-    'aot.create-game',
-    'aot.game-over',
-    'aot.play-trump'
+    'aot.game-over'
+]);
+
+app.config(['$routeProvider',
+    function ($routeProvider) {
+        $routeProvider
+                .when('/', {
+                    templateUrl: '/inc/html/game/create/create.html'
+                })
+                .when('/game', {
+                    templateUrl: '/inc/html/game/game.html'
+                })
+                .otherwise({redirectTo: '/'});
+    }
 ]);

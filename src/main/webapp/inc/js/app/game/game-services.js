@@ -1,11 +1,23 @@
+/* global gameModule, angular */
+
 /**
  * Service containing functions to log the AJAX error messages.
  *
  * Exported function:
  * - show
  */
-gameModule.factory('showHttpError', [
+gameModule.factory('handleError', [
     function () {
+        var hasError = function (data, type) {
+            if (type) {
+                return data.hasOwnProperty(type);
+            }
+
+            var hasErrorToDisplay = data.hasOwnProperty('error_to_display');
+            var hasError = data.hasOwnProperty('error');
+            return hasError || hasErrorToDisplay;
+        };
+
         /**
          * Log errors to the console and display the errors to display.
          *
@@ -14,15 +26,24 @@ gameModule.factory('showHttpError', [
          * @returns {undefined}
          */
         var show = function (data) {
-            if (data.hasOwnProperty('error_to_display')) {
+            if (data.hasOwnProperty('data')) {
+                data = data.data;
+            }
+
+            if (hasError(data, 'error_to_display')) {
                 alert(data.error_to_display);
             }
-            if (data.hasOwnProperty('error')) {
+            if (hasError(data, 'error')) {
                 console.log(data.error);
             }
+            if (!hasError(data)) {
+                console.error(data);
+            }
         };
+
         return {
-            show: show
+            show: show,
+            hasError: hasError
         };
     }
 ]);
@@ -36,8 +57,9 @@ gameModule.factory('showHttpError', [
  */
 gameModule.factory('player', [
     function () {
-        var move = function (pawn, x, y) {
+        var move = function (pawnId, x, y) {
             try {
+                var pawn = angular.element(document.getElementById(pawnId));
                 var square = document.getElementById('square-' + x + '-' + y);
                 var boundingBox = square.getBBox();
                 var height = Number(boundingBox.height);
@@ -65,21 +87,54 @@ gameModule.factory('player', [
         var init = function (numberMaximumOfPlayers) {
             var players = [];
             for (var i = 0; i < numberMaximumOfPlayers; i++) {
-                var pawnElement = document.getElementById('player' + i);
-                var pawn = angular.element(pawnElement);
-                players.push({
-                    index: i,
-                    name: '',
-                    pawn: pawn
-                });
+                players.push(newPlayer(i));
             }
 
             return players;
         };
 
+        var newPlayer = function (currentNumberOfPlayers) {
+            var player = {
+                index: currentNumberOfPlayers,
+                name: '',
+                slotState: 'closed',
+            };
+
+            return player;
+        };
+
         return {
             move: move,
-            init: init
+            init: init,
+            newPlayer: newPlayer
+        };
+    }
+]);
+
+
+/**
+ * Exported function:
+ * - parse(event, callback): callback is called only if event.data doesn't contain any error.
+ */
+gameModule.factory('ws', ['$q', 'handleError',
+    function ($q, handleError) {
+        var parse = function (event) {
+            var deferred = $q.defer();
+            var data = JSON.parse(event.data);
+            if (data === null) {
+                deferred.reject('Empty response');
+            } else if (handleError.hasError(data)) {
+                handleError.show(data);
+                deferred.reject('data has own property error or error_to_display');
+            } else {
+                deferred.resolve(data);
+            }
+
+            return deferred.promise;
+        };
+
+        return {
+            parse: parse
         };
     }
 ]);

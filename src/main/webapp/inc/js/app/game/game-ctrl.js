@@ -1,11 +1,19 @@
 gameModule.controller("game", ['$scope',
-    '$http',
+    '$websocket',
     '$rootScope',
-    'showHttpError',
+    '$window',
+    'handleError',
     'player',
-    function ($scope, $http, $rootScope, showHttpError, player) {
+    'ws',
+    function ($scope, $websocket, $rootScope, $window, handleError, player, ws) {
+        'use strict';
+
+        var maximumNumberOfPlayers = 8;
+        var initialNumberOfOpenedSlot = 2;
+
+        $scope.me = {id: null, gameMaster: false};
         $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-        $scope.players = player.init(8);
+        $scope.players = player.init(initialNumberOfOpenedSlot);
         $scope.activePawns = [];
         $scope.selectedCard = null;
         $scope.currentPlayer = null;
@@ -13,21 +21,88 @@ gameModule.controller("game", ['$scope',
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
-        var viewPossibleMovementsUrl = '/rest/getPossibleSquares';
-        var viewPossibleMovementsMethod = 'GET';
-        var playUrl = '/rest/play';
-        var playMethod = 'GET';
-        var getGameUrl = '/rest/createGame';
+        $scope.showTargetedPlayerForTrumpSelector = false;
+        $scope.shareUrl = $window.location;
 
-        $rootScope.$watch('$viewContentLoaded', function () {
-            $http.get(getGameUrl)
-                    .success(function (game) {
-                        createGame(game);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
-        });
+        var gameAnchor = '#game';
+        var gameId = location.pathname.split('/').pop();
+        var host = 'ws://localhost:8080';
+        var gameApiUrl = '/api/game/' + gameId;
+        var gameApi = $websocket(host + gameApiUrl);
+        // Requests type
+        var rt = {
+            game_initialized: 'GAME_INITIALIZED',
+            add_slot: 'ADD_SLOT',
+            slot_updated: 'SLOT_UPDATED',
+            create_game: 'CREATE_GAME',
+            view: 'VIEW_POSSIBLE_SQUARES',
+            play: 'PLAY',
+            play_trump: 'PLAY_TRUMP'
+        };
+
+        $scope.addPlayer = function () {
+            if ($scope.players.length < maximumNumberOfPlayers) {
+                var newPlayer = addPlayer();
+
+                var slot = {
+                    index: newPlayer.index,
+                    state: newPlayer.slotState.toUpperCase(),
+                    player_name: newPlayer.name
+                };
+                addSlot(slot);
+            } else {
+                alert(maximumNumberOfPlayers.toString() + ' maximum');
+            }
+        };
+
+        var addPlayer = function () {
+            var newPlayer = player.newPlayer($scope.players.length);
+            $scope.players.push(newPlayer);
+
+            return newPlayer;
+        };
+
+        var addSlot = function (slot) {
+            var data = {
+                rt: rt.add_slot,
+                player_id: $scope.me.id,
+                slot_updated: slot
+            };
+            gameApi.send(data);
+        };
+
+        $scope.createGame = function () {
+            // JSON.stringify of a player with a pawn can crash on some browsers like Chrome.
+            var players = $scope.players.map(function (player) {
+                return {name: player.name, index: player.index};
+            });
+
+            var data = {
+                rt: rt.create_game,
+                player_id: $scope.me.id,
+                create_game_request: players
+            };
+
+            gameApi.send(data);
+        };
+
+        $scope.slotStateChanged = function (index, state) {
+            var slot = {
+                index: index,
+                state: state.toUpperCase(),
+                player_name: $scope.players[index].name
+            };
+            updateSlot(slot);
+        };
+
+        var updateSlot = function (slot) {
+            var data = {
+                rt: rt.slot_updated,
+                player_id: $scope.me.id,
+                slot_updated: slot
+            };
+            gameApi.send(data);
+        };
 
         function createGame(game) {
             // If currentPlayer exists we must not update it or some tests will fail.
@@ -37,8 +112,6 @@ gameModule.controller("game", ['$scope',
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];
-                $scope.activePawns.push(player.pawn.attr('id'));
-                player.id = playerUpdated.id;
                 player.name = playerUpdated.name;
             }
             // Remove unused player from $scope.players
@@ -46,26 +119,109 @@ gameModule.controller("game", ['$scope',
             $scope.players.splice(actualNumberOfPlayers);
 
             $scope.gameStarted = true;
+            $window.location = gameAnchor;
 
             updateGameParameters(game);
         }
 
         /**
          * Update the scope based on the data send by the server when a move was successfull.
-         * @param {type} game The data recieved from the server.
+         * @param {type} data The data recieved from the server.
          */
-        function updateGameParameters(game) {
+        function updateGameParameters(data) {
+            if (data.hasOwnProperty('newSquare')) {
+                var playerPawnId = $scope.activePawns[$scope.currentPlayer.index];
+                player.move(playerPawnId, data.newSquare.x, data.newSquare.y);
+            }
+
             // The server cannot know about pawns. We get it from $scope.players
-            $scope.currentPlayer = $scope.players[game.nextPlayer.id];
-            $scope.currentPlayerCards = game.possibleCardsNextPlayer;
-            $scope.currentPlayerTrumps = game.trumpsNextPlayer;
-            $scope.winners = game.winners;
+            $scope.currentPlayer = $scope.players[data.nextPlayer.index];
+            $scope.currentPlayerCards = data.possibleCardsNextPlayer;
+            $scope.currentPlayerTrumps = data.trumpsNextPlayer;
+            $scope.winners = data.winners;
             $scope.selectedCard = null;
             $scope.highlightedSquares = [];
-            $scope.activeTrumps = game.trumps;
+            $scope.activeTrumps = data.trumps;
 
-            isGameOver(game.gameOver);
+            isGameOver(data.gameOver);
         }
+
+        gameApi.onMessage(function (event) {
+            ws.parse(event).then(function (data) {
+                switch (data.rt) {
+                    case rt.game_initialized:
+                        initializeMe(data);
+                        initializeSlots(data);
+                        break;
+                    case rt.slot_updated:
+                        refreshSlot(data);
+                        break;
+                    case rt.create_game:
+                        createGame(data);
+                        break;
+                    case rt.view:
+                        $scope.highlightedSquares = data.possible_squares;
+                        break;
+                    case rt.play:
+                        updateGameParameters(data);
+                        break;
+                    case rt.play_trump:
+                        updateScopeOnSuccessfulTrump(data);
+                        break;
+                }
+            });
+        });
+
+        gameApi.onError(handleError.show);
+
+        var initializeMe = function (data) {
+            $scope.me = {
+                id: data.player_id,
+                name: askMyName(data.index + 1),
+                index: data.index,
+                gameMaster: data.is_game_master
+            };
+        };
+
+        var askMyName = function (index) {
+            return prompt('Enter your name', 'Player ' + index);
+        };
+
+        var initializeSlots = function (data) {
+            if (data.slots) {
+                data.slots.forEach(refreshSlot);
+            } else {
+                $scope.players.forEach(function (player) {
+                    var slot = {
+                        index: player.index,
+                        state: player.slotState.toUpperCase(),
+                        player_name: player.name
+                    };
+                    addSlot(slot);
+                });
+            }
+
+            setMySlot();
+        };
+
+        var refreshSlot = function (data) {
+            if (!$scope.players[data.index]) {
+                addPlayer();
+            }
+            $scope.players[data.index].name = data.player_name;
+            $scope.players[data.index].slotState = data.state.toLowerCase();
+        };
+
+        var setMySlot = function () {
+            $scope.players[$scope.me.index].slotState = 'taken';
+            $scope.players[$scope.me.index].name = $scope.me.name;
+            var slot = {
+                index: $scope.me.index,
+                player_name: $scope.me.name
+            };
+
+            updateSlot(slot);
+        };
 
         function isGameOver(gameOver) {
             if (gameOver) {
@@ -81,25 +237,17 @@ gameModule.controller("game", ['$scope',
          * @param {string} cardColor The color of the card the player want to play.
          */
         $scope.viewPossibleMovements = function (cardName, cardColor) {
-            $http({
-                url: viewPossibleMovementsUrl,
-                method: viewPossibleMovementsMethod,
-                params: {
+            var data = {
+                rt: rt.view,
+                player_id: $scope.me.id,
+                play_request: {
                     card_name: cardName,
-                    card_color: cardColor,
-                    player_id: $scope.currentPlayer.id
+                    card_color: cardColor
                 }
-            })
-                    .success(function (data) {
-                        $scope.highlightedSquares = data;
-
-                        // Stores the selected card.
-                        $scope.selectedCard = {name: cardName, color: cardColor};
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                        $scope.selectedCard = null;
-                    });
+            };
+            // Stores the selected card.
+            $scope.selectedCard = {name: cardName, color: cardColor};
+            gameApi.send(data);
         };
 
         $scope.isSelected = function (cardName, cardColor) {
@@ -117,25 +265,17 @@ gameModule.controller("game", ['$scope',
         $scope.play = function (squareName, squareX, squareY) {
             if ($scope.highlightedSquares.indexOf(squareName) > -1
                     && $scope.selectedCard !== null) {
-                $http({
-                    url: playUrl,
-                    method: playMethod,
-                    params: {
+                var data = {
+                    rt: rt.play,
+                    player_id: $scope.me.id,
+                    play_request: {
                         card_name: $scope.selectedCard.name,
                         card_color: $scope.selectedCard.color,
-                        player_id: $scope.currentPlayer.id,
                         x: squareX,
                         y: squareY
                     }
-                })
-                        .success(function (data) {
-                            var playerPawn = $scope.currentPlayer.pawn;
-                            player.move(playerPawn, data.newSquare.x, data.newSquare.y);
-                            updateGameParameters(data);
-                        })
-                        .error(function (data) {
-                            showHttpError.show(data);
-                        });
+                };
+                gameApi.send(data);
             } else if ($scope.selectedCard === null) {
                 alert('Please select a card.');
             }
@@ -145,19 +285,14 @@ gameModule.controller("game", ['$scope',
          * Pass this turn.
          */
         $scope.pass = function () {
-            $http({
-                url: playUrl,
-                method: playMethod,
-                params: {
+            var data = {
+                rt: rt.play,
+                player_id: $scope.me.id,
+                play_request: {
                     pass: true
                 }
-            })
-                    .success(function (data) {
-                        updateGameParameters(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            };
+            gameApi.send(data);
         };
 
         $scope.discard = function () {
@@ -169,22 +304,16 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.confirmDiscard = function () {
-            $http({
-                url: playUrl,
-                method: playMethod,
-                params: {
+            var data = {
+                rt: rt.play,
+                player_id: $scope.me.id,
+                play_request: {
                     discard: true,
                     card_name: $scope.selectedCard.name,
-                    card_color: $scope.selectedCard.color,
-                    player_id: $scope.currentPlayer.id
+                    card_color: $scope.selectedCard.color
                 }
-            })
-                    .success(function (data) {
-                        updateGameParameters(data);
-                    })
-                    .error(function (data) {
-                        showHttpError.show(data);
-                    });
+            };
+            gameApi.send(data);
             $scope.hiddeDiscardPopup();
         };
 
@@ -203,12 +332,62 @@ gameModule.controller("game", ['$scope',
          * @returns {undefined}
          */
         $scope.playTrump = function (trump) {
-            $rootScope.$emit('wantToPlayTrump', trump, $scope.players, $scope.currentPlayer.index);
+            $scope.trumpName = trump.name;
+            // We can't apply the trump on the current player.
+            $scope.otherPlayers = $scope.players.filter(function (player) {
+                return player.index !== $scope.currentPlayer.index;
+            });
+            if (trump.mustTargetPlayer) {
+                selectTrumpTargetedPlayer();
+            } else {
+                playTrump();
+            }
         };
 
-        var unbindTrumpPlayed = $rootScope.$on('trumpPlayed', function (event, response) {
-            $scope.activeTrumps = response;
-        });
-        $rootScope.$on('destroy', unbindTrumpPlayed);
+        var selectTrumpTargetedPlayer = function () {
+            $scope.showTargetedPlayerForTrumpSelector = true;
+        };
+
+        /**
+         * Play the trump.
+         * @returns {undefined}
+         */
+        var playTrump = function () {
+            var targetIndex = $scope.trumpTargetedPlayer === undefined ? null :
+                    $scope.trumpTargetedPlayer;
+            var data = {
+                rt: rt.play_trump,
+                player_id: $scope.me.id,
+                trump_request: {
+                    target_index: targetIndex,
+                    name: $scope.trumpName
+                }
+            };
+            gameApi.send(data);
+        };
+
+        $scope.submitSelectTargetedPlayerForm = function () {
+            var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
+                    $scope.trumpTargetedPlayer !== undefined;
+            if (playerCorrectlyTargeted) {
+                playTrump();
+            }
+        };
+
+        $scope.cancelSelectTargetedPlayerForm = function () {
+            $scope.trumpTargetedPlayer = undefined;
+            hiddeTrumpPopup();
+        };
+
+
+        var hiddeTrumpPopup = function () {
+            $scope.showTargetedPlayerForTrumpSelector = false;
+        };
+
+        var updateScopeOnSuccessfulTrump = function (data) {
+            $scope.trumpTargetedPlayer = undefined;
+            hiddeTrumpPopup();
+            $scope.activeTrumps = data.play_trump;
+        };
     }
 ]);

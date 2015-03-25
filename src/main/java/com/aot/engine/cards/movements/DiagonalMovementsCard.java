@@ -10,12 +10,21 @@ public class DiagonalMovementsCard extends MovementsCard {
 
     public DiagonalMovementsCard(Board board, String name, int numberOfMovements, Color color) {
         super(board, name, numberOfMovements, color);
+        setPossibleSquareGetter();
+    }
+
+    private void setPossibleSquareGetter() {
         probableSquaresGetter = diagonalProbableSquaresGetter;
+    }
+
+    @Override
+    protected void resetPossibleSquareGetter() {
+        setPossibleSquareGetter();
     }
 
     public DiagonalMovementsCard(Board board, String name, int numberOfMovements, Color color, List<Color> addtionalMovementsColor) {
         super(board, name, numberOfMovements, color, addtionalMovementsColor);
-        probableSquaresGetter = diagonalProbableSquaresGetter;
+        setPossibleSquareGetter();
     }
 
     @Override

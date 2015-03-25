@@ -24,7 +24,7 @@ public class TrumpBlockingTrumpTest {
     public void setUp() {
         trump = new ModifyNumberOfMovesInATurnTrump("test", 2, null, 0, true, -1);
 
-        player1 = new Player("player1", 0);
+        player1 = new Player("player1", null, 0);
         player1.addTrumpToAffecting(trump);
         player1.addTrumpToAffecting(blockTrump = new TrumpBlockingTrump("block", 2, null, 0, true, "test"));
     }

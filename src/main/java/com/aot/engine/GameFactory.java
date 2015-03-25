@@ -9,7 +9,7 @@ import com.aot.engine.cards.movements.MovementsCard;
 import com.aot.engine.cards.movements.json.MovementsCardsFactory;
 import com.aot.engine.trumps.Trump;
 import com.aot.engine.trumps.json.TrumpFactory;
-import com.aot.http.rest.json.JsonPlayer;
+import com.aot.engine.api.json.JsonPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -223,7 +223,7 @@ public class GameFactory {
      */
     private List<Player> getPlayers(List<JsonPlayer> jsonPlayers) {
         return jsonPlayers.parallelStream()
-                .map(jsplayer -> new Player(jsplayer.getName(), jsplayer.getIndex()))
+                .map(jsplayer -> new Player(jsplayer.getName(), jsplayer.getId(), jsplayer.getIndex()))
                 .collect(Collectors.toList());
     }
 

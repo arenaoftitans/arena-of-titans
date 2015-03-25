@@ -1,3 +1,5 @@
+/* global module */
+
 // Karma configuration
 // Generated on Wed Dec 10 2014 11:44:22 GMT+0100 (CET)
 
@@ -18,6 +20,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       root + '/lib/angular.js',
+      root + '/lib/angular-websocket.js',
+      root + '/lib/angular-websocket-mock.js',
       'angular-mocks.js',
       root + '/app.js',
       root + '/app/game/game-module.js',
@@ -25,8 +29,7 @@ module.exports = function(config) {
       root + '/app/game/game-ctrl.js',
       root + '/app/play-trump/play-trump-module.js',
       root + '/app/play-trump/play-trump-ctrl.js',
-      'util.js',
-      'util.spec.js',
+      'utils.js',
       '**/*.js'
     ],
 

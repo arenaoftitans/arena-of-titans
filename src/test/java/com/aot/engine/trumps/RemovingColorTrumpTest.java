@@ -30,8 +30,8 @@ public class RemovingColorTrumpTest {
         GameFactory gf = new GameFactory();
         board = gf.getBoard();
 
-        Player player1 = new Player("player1", 0);
-        Player player2 = new Player("player2", 1);
+        Player player1 = new Player("player1", null, 0);
+        Player player2 = new Player("player2", null, 1);
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
