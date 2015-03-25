@@ -107,14 +107,8 @@ public class GameApi extends WebsocketApi {
         if (creatingGame()) {
             response = creatingMatch();
             sendResponseToAllPlayers(response);
-        } else if (playerRequest.isPlayerIdCorrect(match)) {
-            match = redis.getMatch(gameId);
-            response = playGame();
-            redis.saveMatch(match, gameId);
-            sendResponseToAllPlayers(response);
         } else {
-            response = GameApiJson.buildErrorToDisplay("Not your turn");
-            session.getBasicRemote().sendText(response);
+            processPlayRequest(session);
         }
     }
 
@@ -199,6 +193,19 @@ public class GameApi extends WebsocketApi {
         redis.saveMatch(match, gameId);
 
         return response;
+    }
+
+    private void processPlayRequest(Session session) throws IOException {
+        String response;
+        match = redis.getMatch(gameId);
+        if (playerRequest.isPlayerIdCorrect(match)) {
+            response = playGame();
+            redis.saveMatch(match, gameId);
+            sendResponseToAllPlayers(response);
+        } else {
+            response = GameApiJson.buildErrorToDisplay("Not your turn");
+            session.getBasicRemote().sendText(response);
+        }
     }
 
     private String playGame() {
