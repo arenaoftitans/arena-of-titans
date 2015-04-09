@@ -1,26 +1,13 @@
 /* global by, element, browser, expect, $$ */
 
+var utils = require('../utils');
+
 describe('create game', function () {
-    var createGameUrl = '/game';
     var notEnoughPlayersMessage = 'Not enough players. 2 Players at least are required to start a game';
     var initialNumberOfPlayers = 2;
-    var createGameForm = element(by.buttonText('Create game'));
-
-    function submitFormNotEngouthPlayers() {
-        var alertBox;
-        createGameForm.click().then(function () {
-            browser.sleep(500);
-            alertBox = browser.driver.switchTo().alert();
-            expect(alertBox.getText()).toEqual(notEnoughPlayersMessage);
-        }).then(function () {
-            alertBox.dismiss();
-        });
-    }
 
     beforeEach(function () {
-        browser.get(createGameUrl);
-        browser.sleep(500);
-        browser.driver.switchTo().alert().accept();
+        utils.createPlayer1();
     });
 
     it('should have exacly 1 create game form', function () {
@@ -33,17 +20,18 @@ describe('create game', function () {
     });
 
     it('should not create game with only 1 player', function () {
-        submitFormNotEngouthPlayers();
+        var alertBox;
+        utils.createGameForm.click().then(function () {
+            browser.sleep(500);
+            alertBox = browser.driver.switchTo().alert();
+            expect(alertBox.getText()).toEqual(notEnoughPlayersMessage);
+        }).then(function () {
+            alertBox.dismiss();
+        });
     });
 
     it('should create game with 2 players', function () {
-        // open second slot
-        $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
-        var browserPlayer2 = browser.forkNewDriverInstance(true, true);
-        browserPlayer2.driver.switchTo().alert().accept();
-
-        createGameForm.click();
-        browser.sleep(500);
+        utils.createGameWith2Players();
         expect(browser.getCurrentUrl()).toMatch(/\/game\/[0-9a-zA-Z]+#\/?game$/);
     });
 
