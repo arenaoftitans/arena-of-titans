@@ -3,7 +3,6 @@
 describe('create game', function () {
     var createGameUrl = '/game';
     var notEnoughPlayersMessage = 'Not enough players. 2 Players at least are required to start a game';
-    var numberPlayers = 8;
     var initialNumberOfPlayers = 2;
     var createGameForm = element(by.buttonText('Create game'));
 
@@ -24,10 +23,6 @@ describe('create game', function () {
         browser.driver.switchTo().alert().accept();
     });
 
-    it('should redirect to game page', function () {
-        expect(browser.getCurrentUrl()).toMatch(/\/game\/[0-9a-zA-Z]+#\/?$/);
-    });
-
     it('should have exacly 1 create game form', function () {
         expect($$('#createGameForm').count()).toBe(1);
     });
@@ -42,12 +37,12 @@ describe('create game', function () {
     });
 
     it('should create game with 2 players', function () {
+        // open second slot
+        $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
         var browserPlayer2 = browser.forkNewDriverInstance(true, true);
         browserPlayer2.driver.switchTo().alert().accept();
-        browser.sleep(500);
 
         createGameForm.click();
-
         browser.sleep(500);
         expect(browser.getCurrentUrl()).toMatch(/\/game\/[0-9a-zA-Z]+#\/?game$/);
     });
