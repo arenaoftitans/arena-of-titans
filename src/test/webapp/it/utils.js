@@ -14,13 +14,19 @@ var openSlot2 = function () {
     $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
     var browserPlayer2 = browser.forkNewDriverInstance(true, true);
     browserPlayer2.driver.switchTo().alert().accept();
+
+    return browserPlayer2;
 };
 
 var createGameWith2Players = function () {
-    openSlot2();
+    createPlayer1();
+
+    var browserPlayer2 = openSlot2();
 
     createGameForm.click();
     browser.sleep(500);
+
+    return browserPlayer2;
 };
 
 module.exports.createGameForm = createGameForm;

@@ -1,18 +1,22 @@
 /* global by, element, expect, $$, browser */
 
-/* describe('game', function () {
-    var createGameForm = element(by.buttonText('Create game'));
-    var createGameUrl = '/createGame';
+var utils = require('../utils');
+
+describe('game', function () {
+    var browserPlayer2;
+    var elementPlayer2;
     // Firefox seems to only be able to click on items that are buttons or have a ng-click
     // Thus selecting by by.repeater('card in currentPlayerCards') won't work (we get the containers
     // that don't have the ng-click attribute
-    var cards = $$('.movementsCard');
-    var cardOne = cards.get(0);
-    var cardTwo = cards.get(1);
-    var passButton = element(by.buttonText('Pass'));
-    var discardButton = element(by.buttonText('Discard selected card.'));
-    var highlightedSquares = $$('.highlightedSquare');
-    var trumps = element.all(by.repeater('trump in currentPlayerTrumps'));
+    var cards;
+    var cardOne;
+    var cardTwo;
+    var passButtonSelector;
+    var passButton;
+    var passButtonPlayer2;
+    var discardButton;
+    var highlightedSquares;
+    var trumps;
 
     var hasClass = function (element, cls) {
         return element.getAttribute('class').then(function (classes) {
@@ -21,31 +25,24 @@
     };
 
     beforeEach(function () {
-        browser.get(createGameUrl);
+        browserPlayer2 = utils.createGameWith2Players();
+        elementPlayer2 = browserPlayer2.element;
+    });
+
+    afterEach(function () {
+        browserPlayer2.close();
     });
 
     beforeEach(function () {
-        var player1Input = $$('input').get(0);
-        var player2Input = $$('input').get(1);
-
-        enterPlayer1()
-                .then(enterPlayer2)
-                .then(submitForm)
-                .then(function () {
-                    browser.sleep(500);
-                });
-
-        function enterPlayer1() {
-            return player1Input.sendKeys('player1');
-        }
-
-        function enterPlayer2() {
-            return player2Input.sendKeys('player2');
-        }
-
-        function submitForm() {
-            return createGameForm.click();
-        }
+        cards = $$('.movementsCard');
+        cardOne = cards.get(0);
+        cardTwo = cards.get(1);
+        passButtonSelector = 'Pass';
+        passButton = element(by.buttonText(passButtonSelector));
+        passButtonPlayer2 = elementPlayer2(by.buttonText(passButtonSelector));
+        discardButton = element(by.buttonText('Discard selected card.'));
+        highlightedSquares = $$('.highlightedSquare');
+        trumps = element.all(by.repeater('trump in currentPlayerTrumps'));
     });
 
     it('should have exacly 5 cards', function () {
@@ -85,11 +82,8 @@
     });
 
     it('new player should have 5 cards', function () {
+        expect(cards.count()).toBe(5);
         passButton.click()
-                .then(function () {
-                    expect(cards.count()).toBe(5);
-                    return passButton.click();
-                })
                 .then(function () {
                     expect(cards.count()).toBe(5);
                 });
@@ -121,7 +115,7 @@
                 .then(discardButton.click)
                 .then(confirmButton.click)
                 .then(passButton.click)
-                .then(passButton.click)
+                .then(passButtonPlayer2.click)
                 .then(function () {
                     expect(cards.count()).toBe(5);
                 });
@@ -162,13 +156,17 @@
     });
 
     describe('trump that must target a player', function () {
-        var trump = trumps.get(1);
+        var trump;
         var selectPlayerPopup = $('#targetedPlayerForTrumpSelector');
         var trumpList = element.all(by.repeater('trump in player.trumpNames'));
         var submitButton = $$('#targetedPlayerForTrumpSelector .ok-button').get(0);
         var cancelButton = $$('#targetedPlayerForTrumpSelector .cancel-button').get(0);
         var trumpList = element.all(by.repeater('trump in player.trumpNames'));
         var playerSelect = $$('#targetedPlayerForTrumpSelector input').get(0);
+
+        beforeEach(function () {
+            trump = trumps.get(1);
+        });
 
         it('should ask for a target player', function () {
             trump.click()
@@ -216,4 +214,4 @@
                     });
         });
     });
-});*/
+});

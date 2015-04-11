@@ -31,8 +31,9 @@ describe('create game', function () {
     });
 
     it('should create game with 2 players', function () {
-        utils.createGameWith2Players();
+        var browserPlayer2 = utils.createGameWith2Players();
         expect(browser.getCurrentUrl()).toMatch(/\/game\/[0-9a-zA-Z]+#\/?game$/);
+        browserPlayer2.close();
     });
 
 });
