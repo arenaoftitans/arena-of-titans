@@ -17,7 +17,7 @@ gameModule.controller("game", ['$scope',
         $scope.activePawns = [];
         $scope.selectedCard = null;
         $scope.currentPlayer = null;
-        $scope.trumpTargetedPlayer = null;
+        $scope.trumpTargetedPlayer = {index: -1};
         $scope.gameStarted = false;
         $scope.showNoCardSelectedPopup = false;
         $scope.showDiscardConfirmationPopup = false;
@@ -353,8 +353,8 @@ gameModule.controller("game", ['$scope',
          * @returns {undefined}
          */
         var playTrump = function () {
-            var targetIndex = $scope.trumpTargetedPlayer === undefined ? null :
-                    $scope.trumpTargetedPlayer;
+            var targetIndex = $scope.trumpTargetedPlayer.index > -1 ?
+                    $scope.trumpTargetedPlayer.index : null;
             var data = {
                 rt: rt.play_trump,
                 player_id: $scope.me.id,
@@ -368,14 +368,14 @@ gameModule.controller("game", ['$scope',
 
         $scope.submitSelectTargetedPlayerForm = function () {
             var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
-                    $scope.trumpTargetedPlayer !== undefined;
+                    $scope.trumpTargetedPlayer.index > -1;
             if (playerCorrectlyTargeted) {
                 playTrump();
             }
         };
 
         $scope.cancelSelectTargetedPlayerForm = function () {
-            $scope.trumpTargetedPlayer = undefined;
+            $scope.trumpTargetedPlayer.index = -1;
             hiddeTrumpPopup();
         };
 
@@ -385,7 +385,7 @@ gameModule.controller("game", ['$scope',
         };
 
         var updateScopeOnSuccessfulTrump = function (data) {
-            $scope.trumpTargetedPlayer = undefined;
+            $scope.trumpTargetedPlayer.index = -1;
             hiddeTrumpPopup();
             $scope.activeTrumps = data.play_trump;
         };

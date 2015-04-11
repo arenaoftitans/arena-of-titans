@@ -73,7 +73,7 @@
     <form id="targetedPlayerForTrumpSelectorForm">
         <p class="textPopup">Select the player on which to apply the trump.</p>
         <div ng-repeat="player in otherPlayers" class="player">
-            <input ng-model="$parent.trumpTargetedPlayer"
+            <input ng-model="trumpTargetedPlayer.index"
                    ng-value="player.index"
                    type="radio"
                    name="targetPlayer" />{{player.name}}
