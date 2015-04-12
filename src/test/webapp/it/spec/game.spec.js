@@ -5,9 +5,6 @@ var utils = require('../utils');
 describe('game', function () {
     var browserPlayer2;
     var elementPlayer2;
-    // Firefox seems to only be able to click on items that are buttons or have a ng-click
-    // Thus selecting by by.repeater('card in currentPlayerCards') won't work (we get the containers
-    // that don't have the ng-click attribute
     var cards;
     var cardOne;
     var cardTwo;
@@ -34,6 +31,9 @@ describe('game', function () {
     });
 
     beforeEach(function () {
+        // Firefox seems to only be able to click on items that are buttons or have a ng-click
+        // Thus selecting by by.repeater('card in currentPlayerCards') won't work (we get the containers
+        // that don't have the ng-click attribute
         cards = $$('.movementsCard');
         cardOne = cards.get(0);
         cardTwo = cards.get(1);
@@ -42,11 +42,10 @@ describe('game', function () {
         passButtonPlayer2 = elementPlayer2(by.buttonText(passButtonSelector));
         discardButton = element(by.buttonText('Discard selected card.'));
         highlightedSquares = $$('.highlightedSquare');
-        trumps = element.all(by.repeater('trump in currentPlayerTrumps'));
+        trumps = $$('.trumpCard');
     });
 
     it('should have exacly 5 cards', function () {
-        var cards = element.all(by.repeater('card in currentPlayerCards'));
         expect(cards.count()).toBe(5);
     });
 
