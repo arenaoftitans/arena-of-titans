@@ -94,7 +94,7 @@ describe('play trump', function () {
         it('success', function () {
             trump.mustTargetPlayer = false;
             $scope.playTrump(trump);
-            expect($scope.trumpTargetedPlayer).not.toBeDefined();
+            expect($scope.trumpTargetedPlayer.index).toBe(-1);
             expect($scope.showTargetedPlayerForTrumpSelector).toBe(false);
             expect($scope.activeTrumps).toEqual([trump]);
         });
