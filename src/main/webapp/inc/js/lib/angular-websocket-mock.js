@@ -23,7 +23,7 @@
 
     this.mockSend = function() {
       if (mock) {
-        return sendQueue[0];
+        return sendQueue.shift();
       }
     };
 
