@@ -64,17 +64,19 @@ gameModule.factory('player', [
                 var boundingBox = square.getBBox();
                 var height = Number(boundingBox.height);
                 var width = Number(boundingBox.width);
-                var x = Number(boundingBox.x) + width / 2;
-                var y = Number(boundingBox.y) + height / 2;
+                var newX = Number(boundingBox.x) + width / 2;
+                var newY = Number(boundingBox.y) + height / 2;
                 var radius = width / 4;
                 var transform = square.getAttribute('transform');
-                pawn.attr('cx', x);
-                pawn.attr('cy', y);
+                pawn.attr('cx', newX);
+                pawn.attr('cy', newY);
                 pawn.attr('r', radius);
                 pawn.attr('transform', transform);
             } catch (err) {
-                pawn.attr('cx', x);
-                pawn.attr('cy', y);
+                // If we fail to get pawn with pawnId, we are likely in a unit test and pawnId is an
+                // angular.element.
+                pawnId.attr('cx', x);
+                pawnId.attr('cy', y);
             }
         };
 
@@ -97,7 +99,7 @@ gameModule.factory('player', [
             var player = {
                 index: currentNumberOfPlayers,
                 name: '',
-                slotState: 'closed',
+                slotState: 'closed'
             };
 
             return player;

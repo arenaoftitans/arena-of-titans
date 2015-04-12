@@ -82,6 +82,16 @@ describe('player', function () {
         var player = players[0];
         expect(player.index).toBe(0);
         expect(player.name).toBe('');
+        expect(player.slotState).toBe('closed');
+    });
+
+    it('newPlayer', function () {
+        var currentNumberOfPlayers = 4;
+        var player = playerService.newPlayer(currentNumberOfPlayers);
+
+        expect(player.index).toBe(currentNumberOfPlayers);
+        expect(player.name).toBe('');
+        expect(player.slotState).toBe('closed');
     });
 
     it('move', function () {
