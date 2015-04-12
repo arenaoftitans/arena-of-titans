@@ -3,7 +3,9 @@
 // Karma configuration
 // Generated on Wed Dec 10 2014 11:44:22 GMT+0100 (CET)
 
-var root = '../../../main/webapp/inc/js';
+var test_root = 'src/test/webapp/ut/';
+var lib_root = 'src/main/webapp/inc/js/lib/';
+var app_root = 'src/main/webapp/inc/js/app/';
 
 module.exports = function(config) {
   config.set({
@@ -19,17 +21,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      root + '/lib/angular.js',
-      root + '/lib/angular-websocket.js',
-      root + '/lib/angular-websocket-mock.js',
-      'angular-mocks.js',
-      root + '/app.js',
-      root + '/app/game/game-module.js',
-      root + '/app/game/game-services.js',
-      root + '/app/game/game-directives.js',
-      root + '/app/game/game-ctrl.js',
-      'utils.js',
-      '**/*.js'
+      lib_root + 'angular.js',
+      lib_root + 'angular-websocket.js',
+      lib_root + 'angular-websocket-mock.js',
+      test_root + 'angular-mocks.js',
+      app_root + 'game/game-module.js',
+      app_root + 'game/game-services.js',
+      app_root + 'game/game-directives.js',
+      app_root + 'game/game-ctrl.js',
+      test_root + 'utils.js',
+      test_root + '**/*.js'
     ],
 
 
