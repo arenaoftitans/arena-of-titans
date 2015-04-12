@@ -1,6 +1,6 @@
 /* global by, element, browser, expect, $$ */
 
-var utils = require('../utils');
+var utils = require(it_root + 'utils')
 
 describe('create game', function () {
     var notEnoughPlayersMessage = 'Not enough players. 2 Players at least are required to start a game';

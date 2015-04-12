@@ -1,6 +1,6 @@
 /* global by, element, expect, $$, browser */
 
-var utils = require('../utils');
+var utils = require(it_root + 'utils');
 
 describe('game', function () {
     var browserPlayer2;
