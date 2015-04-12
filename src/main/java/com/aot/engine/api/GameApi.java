@@ -133,12 +133,14 @@ public class GameApi extends WebsocketApi {
             case ADD_SLOT:
                 updatedSlot = playerRequest.getSlotUpdated();
                 redis.addSlot(gameId, updatedSlot);
+                updatedSlot.setPlayerId(null);
                 sendResponseToAllPlayers(updatedSlot.toJson(), playerId);
                 response = null;
                 break;
             case SLOT_UPDATED:
                 updatedSlot = playerRequest.getSlotUpdated();
                 redis.updateSlot(gameId, playerId, updatedSlot);
+                updatedSlot.setPlayerId(null);
                 sendResponseToAllPlayers(updatedSlot.toJson(), playerId);
                 response = null;
                 break;
