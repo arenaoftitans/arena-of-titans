@@ -13,6 +13,7 @@ var createPlayer1 = function () {
 var openSlot2 = function () {
     $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
     var browserPlayer2 = browser.forkNewDriverInstance(true, true);
+    browser.sleep(500);
     browserPlayer2.driver.switchTo().alert().accept();
 
     return browserPlayer2;
