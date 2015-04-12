@@ -72,7 +72,6 @@ gameModule.controller("game", ['$scope',
         };
 
         $scope.createGame = function () {
-            // JSON.stringify of a player with a pawn can crash on some browsers like Chrome.
             var players = $scope.players.map(function (player) {
                 return {name: player.name, index: player.index};
             });
@@ -105,10 +104,6 @@ gameModule.controller("game", ['$scope',
         };
 
         function createGame(game) {
-            // If currentPlayer exists we must not update it or some tests will fail.
-            if ($scope.currentPlayer !== null) {
-                return;
-            }
             for (var i in game.players) {
                 var player = $scope.players[i];
                 var playerUpdated = game.players[i];

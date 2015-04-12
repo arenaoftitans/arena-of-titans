@@ -3,7 +3,7 @@
 'use strict';
 
 describe('game', function () {
-    var $scope, $httpBackend, $websocketBackend, controller;
+    var $scope, $websocketBackend, controller;
 
     var cardName = 'King';
     var cardColor = 'Red';
@@ -19,7 +19,6 @@ describe('game', function () {
 
     var host = 'ws://localhost:8080';
     var gameApiUrl = host + '/api/game/context.html';
-    var createGameUrl = '/rest/createGame';
 
     function selectCard() {
         $scope.selectedCard = {};
@@ -28,34 +27,6 @@ describe('game', function () {
     }
 
     beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock', 'aot.game'));
-
-    beforeEach(inject(function (_$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-
-        var gameCreatedData = {
-            players: [player1, player2],
-            nextPlayer: {
-                name: "Toto",
-                id: "0"
-            },
-            possibleCardsNextPlayer: [
-                {
-                    name: "King",
-                    color: "Red"
-                }
-            ],
-            trumpsNextPlayer: [
-                {
-                    name: "Reinforcement",
-                    description: "Allow the player to play one more move.",
-                    mustTargetPlayer: false
-                }
-            ]
-        };
-
-        $httpBackend.when('GET', createGameUrl)
-                .respond(gameCreatedData);
-    }));
 
     beforeEach(inject(function (_$websocketBackend_) {
         $websocketBackend = _$websocketBackend_;
@@ -71,6 +42,25 @@ describe('game', function () {
     }));
 
     beforeEach(function () {
+        var createGameData = {
+            rt: 'CREATE_GAME',
+            players: [player1, player2],
+            nextPlayer: player1,
+            possibleCardsNextPlayer: player1Cards,
+            trumpsNextPlayer: [
+                {
+                    name: "Reinforcement",
+                    description: "Allow the player to play one more move.",
+                    mustTargetPlayer: false
+                }
+            ]
+        };
+
+        $websocketBackend.expectSend(data2event(createGameData));
+        $scope.createGame();
+    });
+
+    beforeEach(function () {
         alert = jasmine.createSpy('alert');
     });
 
@@ -80,7 +70,6 @@ describe('game', function () {
     });
 
     it('should be created', function () {
-        $httpBackend.flush();
         expect($scope.currentPlayer).not.toBe(null);
     });
 
@@ -113,13 +102,11 @@ describe('game', function () {
 
         it('correct card selected', function () {
             $scope.viewPossibleMovements(cardName, cardColor);
-            $httpBackend.flush();
             expect($scope.selectedCard).toEqual(player1Cards[0]);
         });
 
         it('correct squares are highlighted', function () {
             $scope.viewPossibleMovements(cardName, cardColor);
-            $httpBackend.flush();
             expect($scope.highlightedSquares).toEqual(["square-0-0", "square-1-1"]);
             $scope.$digest();
             expect(square.attr('class')).toContain('highlightedSquare');
@@ -144,15 +131,19 @@ describe('game', function () {
     describe('play', function () {
         beforeEach(function () {
             var event = data2event({rt: 'PLAY',
-                newSquare: {x: 0, y: 0},
                 nextPlayer: player1,
+                possibleCardsNextPlayer: player1Cards
+            });
+            $websocketBackend.expectSend(event);
+
+            var event = data2event({rt: 'PLAY',
+                nextPlayer: player2,
                 possibleCardsNextPlayer: player2Cards
             });
             $websocketBackend.expectSend(event);
         });
 
         it('cannot, no card selected', function () {
-            $httpBackend.flush();
             $scope.highlightedSquares = ['square-0-0'];
             $scope.play('square-0-0', '0', '0');
             expect(alert).toHaveBeenCalledWith('Please select a card.');
@@ -165,11 +156,23 @@ describe('game', function () {
         });
 
         it('play', function () {
-            $httpBackend.flush();
+            expect($scope.currentPlayer.name).toEqual(player1.name);
+            expect($scope.currentPlayer.index).toEqual(player1.index);
+
             selectCard();
             $scope.highlightedSquares = ['square-0-0'];
             $scope.play('square-0-0', '0', '0');
-            expect($scope.currentPlayer).toEqual(player1);
+
+            expect($scope.currentPlayer.name).toEqual(player1.name);
+            expect($scope.currentPlayer.index).toEqual(player1.index);
+            expect($scope.currentPlayerCards).toEqual(player1Cards);
+
+            selectCard();
+            $scope.highlightedSquares = ['square-0-0'];
+            $scope.play('square-0-0', '0', '0');
+
+            expect($scope.currentPlayer.name).toEqual(player2.name);
+            expect($scope.currentPlayer.index).toEqual(player2.index);
             expect($scope.currentPlayerCards).toEqual(player2Cards);
         });
     });
@@ -178,7 +181,6 @@ describe('game', function () {
         beforeEach(function () {
             var event = data2event({
                 rt: 'PLAY',
-                newSquare: {x: 0, y: 0},
                 nextPlayer: player2,
                 possibleCardsNextPlayer: player2Cards
             });
@@ -186,9 +188,11 @@ describe('game', function () {
         });
 
         it('pass', function () {
-            $httpBackend.flush();
+            expect($scope.currentPlayer.name).toEqual(player1.name);
+            expect($scope.currentPlayer.index).toEqual(player1.index);
             $scope.pass();
-            expect($scope.currentPlayer).toEqual(player2);
+            expect($scope.currentPlayer.name).toEqual(player2.name);
+            expect($scope.currentPlayer.index).toEqual(player2.index);
             expect($scope.currentPlayerCards).toEqual(player2Cards);
             expect($scope.selectedCard).toEqual(null);
             expect($scope.highlightedSquares).toEqual([]);
