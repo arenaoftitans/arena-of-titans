@@ -61,7 +61,8 @@ public final class SvgBoardGenerator {
     /**
      * The node object representing the layer that will contain the board.
      */
-    private Element layer;
+    private Element boardLayer;
+    private Element pawnLayer;
     /**
      * The x coordinates of a square.
      */
@@ -156,6 +157,7 @@ public final class SvgBoardGenerator {
         filledElementTag = fill.get("tag");
         loadTemplate();
         generateSvgBoard();
+        System.out.println(toString());
     }
 
     /**
@@ -203,7 +205,9 @@ public final class SvgBoardGenerator {
             SAXBuilder builder = new SAXBuilder();
             document = builder.build(templatePath);
             Element root = document.getRootElement();
-            layer = root.getChild("g", NS);
+            List<Element> layers = root.getChildren("g", NS);
+            pawnLayer = layers.get(1);
+            boardLayer = layers.get(0);
         } catch (IOException | JDOMException ex) {
             Logger.getLogger(SvgBoardGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,7 +233,7 @@ public final class SvgBoardGenerator {
      * Rotate the whole board of 45°.
      */
     private void rotateBoard() {
-        List<Element> elementList = layer.getChildren();
+        List<Element> elementList = boardLayer.getChildren();
         for (Element element : elementList) {
             int angle;
             if (element.getAttribute(TRANSFORM) != null) {
@@ -262,7 +266,7 @@ public final class SvgBoardGenerator {
                 String squareId = String.format(ID_TEMPLATE, currentXid, yid);
                 svgElement.setAttribute("id", squareId);
                 setNgClickDirective(svgElement, squareId, currentXid, yid);
-                layer.addContent(svgElement);
+                boardLayer.addContent(svgElement);
                 xidPlus++;
             }
             yid++;
@@ -304,7 +308,7 @@ public final class SvgBoardGenerator {
                 element.setAttribute("width", Integer.toString(filledElementWidth));
                 setNgClickDirective(element, squareId, currentXid, yid);
                 yid++;
-                layer.addContent(element);
+                boardLayer.addContent(element);
             }
             xidPlus++;
         }
@@ -325,7 +329,7 @@ public final class SvgBoardGenerator {
             pawn.setAttribute("cy", Integer.toString(y));
             pawn.setAttribute("r", Integer.toString(filledElementWidth / 4));
             pawn.setAttribute("ng-class", String.format("{hidden: activePawns.indexOf('%s') == -1}", playerId));
-            layer.addContent(pawn);
+            pawnLayer.addContent(pawn);
             currentPlayerIndex++;
         }
     }

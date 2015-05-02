@@ -36,7 +36,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     id="boardLayer">
-  </g>
+  <g id="boardLayer"></g>
+  <g id="pawnLayer"></g>
 </svg>

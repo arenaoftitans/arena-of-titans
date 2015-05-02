@@ -30,7 +30,8 @@ public class SvgBoardGeneratorTest {
     private List<List<Color>> disposition;
     private int height;
     private int width;
-    private Element layer;
+    private Element boardLayer;
+    private Element pawnLayer;
 
     @Before
     public void init() {
@@ -49,20 +50,22 @@ public class SvgBoardGeneratorTest {
 
             disposition = svgBoardGenerator.getColorDisposition();
 
-            layer = getLayer();
+            List<Element> layers = getLayer();
+            pawnLayer = layers.get(1);
+            boardLayer = layers.get(0);
         } catch (IOException ex) {
             Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Element getLayer() {
+    public List<Element> getLayer() {
         try {
             String svgString = svgBoardGenerator.toString();
             InputStream svg = new ByteArrayInputStream(svgString.getBytes(StandardCharsets.UTF_8));
             SAXBuilder builder = new SAXBuilder();
             Document document = builder.build(svg);
             Element root = document.getRootElement();
-            return root.getChild("g", SvgBoardGenerator.getNamespace());
+            return root.getChildren("g", SvgBoardGenerator.getNamespace());
         } catch (JDOMException | IOException ex) {
             Logger.getLogger(SvgBoardGeneratorTest.class.getName()).log(Level.SEVERE, null, ex);
             assertTrue(false);
@@ -73,7 +76,7 @@ public class SvgBoardGeneratorTest {
 
     @Test
     public void testToString() {
-        assertEquals(height * width, layer.getChildren().parallelStream()
+        assertEquals(height * width, boardLayer.getChildren().parallelStream()
                 .filter(elt -> !"circle".equals(elt.getName()))
                 .collect(Collectors.toList())
                 .size());
@@ -103,7 +106,7 @@ public class SvgBoardGeneratorTest {
 
     @Test
     public void testPawns() {
-        List<Element> pawns = layer.getChildren("circle", SvgBoardGenerator.getNamespace());
+        List<Element> pawns = pawnLayer.getChildren("circle", SvgBoardGenerator.getNamespace());
         assertEquals(8, pawns.size());
     }
 
