@@ -20,6 +20,38 @@ html, body
     margin-top: 12px;
 }
 
+#player0 {
+    fill: purple;
+}
+
+#player1 {
+    fill: blueviolet;
+}
+
+#player2 {
+    fill: green;
+}
+
+#player3 {
+    fill: greenyellow;
+}
+
+#player4 {
+    fill: chocolate;
+}
+
+#player5 {
+    fill: cyan;
+}
+
+#player6 {
+    fill: orange;
+}
+
+#player7 {
+    fill: pink;
+}
+
 #trumps_info
 {
     text-align: center;
