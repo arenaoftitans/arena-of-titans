@@ -157,7 +157,6 @@ public final class SvgBoardGenerator {
         filledElementTag = fill.get("tag");
         loadTemplate();
         generateSvgBoard();
-        System.out.println(toString());
     }
 
     /**

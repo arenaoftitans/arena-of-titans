@@ -3,3 +3,5 @@
 /target/
 /src/main/webapp/WEB-INF/svg/
 /nb-configuration.xml
+/prd
+/node_modules

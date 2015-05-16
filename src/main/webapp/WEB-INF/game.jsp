@@ -10,18 +10,8 @@
         <link rel="stylesheet" type="text/css" href="/inc/css/gamepage.css">
         <link rel="stylesheet" type="text/css" href="/inc/css/createGame.css">
 
-        <script src="/inc/js/lib/angular.js" type="text/javascript"></script>
-        <script src="/inc/js/lib/angular-route.js"></script>
-        <script src="/inc/js/lib/angular-websocket.js" type="text/javascript"></script>
-        <script src="/inc/js/app.js" type="text/javascript"></script>
+        <script src="/dist/myapp.js" type="text/javascript"></script>
 
-        <script src="/inc/js/app/game/game-module.js" type="text/javascript"></script>
-        <script src="/inc/js/app/game/game-directives.js"></script>
-        <script src="/inc/js/app/game/game-services.js" type="text/javascript"></script>
-        <script src="/inc/js/app/game/game-ctrl.js" type="text/javascript"></script>
-
-        <script src="/inc/js/app/game-over/game-over-module.js" type="text/javascript"></script>
-        <script src="/inc/js/app/game-over/game-over-ctrl.js" type="text/javascript"></script>
     </head>
     <body ng-app="aot" ng-controller="game">
 
