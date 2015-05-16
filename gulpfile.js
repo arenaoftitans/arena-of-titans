@@ -8,6 +8,7 @@ var concat = require('gulp-concat');
 var watch = require('gulp-watch');
 var concatCss = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
+var connect = require('gulp-connect');
 
 var config = {
     dev: true,
@@ -50,11 +51,18 @@ gulp.task('build-css', function () {
         .pipe(gulp.dest(config.destCSS));
 });
 
-gulp.task('watch', ['build-js', 'build-css'], function () {
+gulp.task('watch', ['build-js', 'build-css', 'connect'], function () {
     watch(config.watchJS, function() {
         gulp.start('build-js');
     });
     watch(config.watchCSS, function() {
         gulp.start('build-css');
     });
+});
+
+gulp.task('connect', function() {
+    connect.server({
+	root: 'prd',
+	port: 8282
+  });
 });
