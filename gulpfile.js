@@ -24,14 +24,20 @@ var config = {
     srcCSS: ['src/main/webapp/inc/css/*.css'],
     destCSS: 'prd/css/',
     outCSS: 'game.css',
-    watchCSS: 'src/main/webapp/inc/css/*.css'
+    watchCSS: 'src/main/webapp/inc/css/*.css',
+    srcHtml: ['src/main/webapp/WEB-INF/game.html'],
+    destHtml: 'prd',
+    watchHtml: 'src/main/webapp/WEB-INF/game.html',
+    scrPartials: ['src/main/webapp/inc/html/game/*.html',
+	      'src/main/webapp/inc/html/game/create/*.html'],
+    destPartials: 'prd/partials'
 };
 
 gulp.task('set-production', function () {
     config.dev = false;
 });
 
-gulp.task('prod', ['set-production', 'build-js', 'build-css']);
+gulp.task('prod', ['set-production', 'build-js', 'build-css', 'build-html']);
 
 gulp.task('build-js', function () {
     return gulp.src(config.srcJS)
@@ -51,12 +57,30 @@ gulp.task('build-css', function () {
         .pipe(gulp.dest(config.destCSS));
 });
 
-gulp.task('watch', ['build-js', 'build-css', 'connect'], function () {
+gulp.task('build-html', function () {
+    return gulp.src(config.srcHtml)
+	.pipe(gulp.dest(config.destHtml));
+});
+
+gulp.task('build-partials', function () {
+    return gulp.src(config.scrPartials)
+	.pipe(gulp.dest(config.destPartials));
+});
+
+gulp.task('watch', ['build-js',
+		    'build-css',
+		    'build-html',
+		    'build-partials',
+		    'connect'],
+	  function () {
     watch(config.watchJS, function() {
         gulp.start('build-js');
     });
     watch(config.watchCSS, function() {
         gulp.start('build-css');
+    });
+    watch(config.watchHtml, function () {
+	gulp.start('build-html');
     });
 });
 
