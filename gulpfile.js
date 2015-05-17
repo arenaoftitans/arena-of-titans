@@ -9,6 +9,7 @@ var watch = require('gulp-watch');
 var concatCss = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
 var connect = require('gulp-connect');
+var rename = require('gulp-rename');
 
 var config = {
     dev: true,
@@ -59,6 +60,7 @@ gulp.task('build-css', function () {
 
 gulp.task('build-html', function () {
     return gulp.src(config.srcHtml)
+	.pipe(rename('game/index.html'))
 	.pipe(gulp.dest(config.destHtml));
 });
 
