@@ -51,7 +51,10 @@ public class GameApi extends WebsocketApi {
         String response;
         boolean mustCloseSession = false;
 
-        if (redis.getPlayersIds(gameId).isEmpty() || canJoin()) {
+        if (gameId.isEmpty()) {
+            mustCloseSession = true;
+            response = GameApiJson.buildErrorToDisplay("No game id supplied.");
+        } else if (redis.getPlayersIds(gameId).isEmpty() || canJoin()) {
             response = initializeRedis();
         } else {
             response = GameApiJson.buildErrorToDisplay("You cannot join this game. No slots opened.");
