@@ -11,6 +11,7 @@ var minifyCss = require('gulp-minify-css');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');
 var proxy = require('proxy-middleware');
+var renameRegex = require('gulp-regex-rename');
 
 var config = {
     dev: true,
@@ -30,8 +31,7 @@ var config = {
     srcHtml: ['src/main/webapp/WEB-INF/game.html'],
     destHtml: 'prd',
     watchHtml: 'src/main/webapp/WEB-INF/game.html',
-    scrPartials: ['src/main/webapp/html/game/*.html',
-	      'src/main/webapp/html/game/create/*.html'],
+    scrPartials: 'src/main/webapp/js/app/**/*.html',
     destPartials: 'prd/partials',
     srcImg: 'src/main/webapp/img/**/*',
     destImg: 'prd/img'
@@ -79,6 +79,7 @@ gulp.task('build-images', function () {
 
 gulp.task('build-partials', function () {
     return gulp.src(config.scrPartials)
+	.pipe(renameRegex(/\/partials/, ''))
 	.pipe(gulp.dest(config.destPartials));
 });
 
