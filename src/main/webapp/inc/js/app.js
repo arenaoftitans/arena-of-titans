@@ -18,10 +18,10 @@ var app = angular.module("aot", [
 app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider
-                .when('/', {
+                .when('/:gameId', {
                     templateUrl: '/partials/create.html'
                 })
-                .when('/game', {
+                .when('/:gameId/game', {
                     templateUrl: '/partials/game.html'
                 })
                 .otherwise({redirectTo: '/'});

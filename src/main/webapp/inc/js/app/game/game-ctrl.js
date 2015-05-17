@@ -2,10 +2,12 @@ gameModule.controller("game", ['$scope',
     '$websocket',
     '$rootScope',
     '$window',
+    '$http',
+    '$q',
     'handleError',
     'player',
     'ws',
-    function ($scope, $websocket, $rootScope, $window, handleError, player, ws) {
+    function ($scope, $websocket, $rootScope, $window, $http, $q, handleError, player, ws) {
         'use strict';
 
         var maximumNumberOfPlayers = 8;
@@ -24,11 +26,33 @@ gameModule.controller("game", ['$scope',
         $scope.showTargetedPlayerForTrumpSelector = false;
         $scope.shareUrl = $window.location;
 
-        var gameAnchor = '#game';
-        var gameId = location.pathname.split('/').pop();
         var host = 'ws://localhost:8080';
-        var gameApiUrl = '/api/game/' + gameId;
-        var gameApi = $websocket(host + gameApiUrl);
+        var getGameId = function () {
+            var anchorParts = window.location.hash.substring(2).split('/');
+            var gameId = anchorParts[0];
+            var deferred = $q.defer();
+            if (gameId.match(/[0-9]+/)) {
+                deferred.resolve(gameId);
+            } else {
+                $http.get('//localhost:8080/api/newId')
+                        .success(function (data) {
+                            deferred.resolve(data);
+                        })
+                        .error(function () {
+                            alert("Could not get gameID.");
+                            deferred.reject();
+                        });
+            }
+
+            return deferred.promise;
+        };
+        getGameId().then(function (data) {
+            var gameId = data;
+            $window.location = '#' + gameId;
+            var gameApiUrl = '/api/game/' + gameId;
+            var gameApi = $websocket(host + gameApiUrl);
+            var gameAnchor = '#' + gameId + '/game';
+
         // Requests type
         var rt = {
             game_initialized: 'GAME_INITIALIZED',
@@ -384,5 +408,7 @@ gameModule.controller("game", ['$scope',
             hiddeTrumpPopup();
             $scope.activeTrumps = data.play_trump;
         };
+
+    }); // Closes then block of promise
     }
 ]);
