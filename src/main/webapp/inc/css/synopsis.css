@@ -8,14 +8,14 @@
 
 #titans_left
 {
-    background-image: url("/inc/img/synopsis/titans_left.png");
+    background-image: url("/img/synopsis/titans_left.png");
     float: left;
     margin-left: 15px;
 }
 
 #titans_right
 {
-    background-image: url("/inc/img/synopsis/titans_right.png");
+    background-image: url("/img/synopsis/titans_right.png");
     float: right;
 }
 

@@ -3,7 +3,7 @@ html, body
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	background-image : url(/inc/img/backgrounds/background.png);
+	background-image : url(/img/backgrounds/background.png);
         color: white;
 }
 
@@ -23,7 +23,7 @@ html, body
 	margin-right: auto;
 	width:300px;
 	height:100px;
-	background: url(/inc/img/arena_of_titans_new_logo.png);
+	background: url(/img/arena_of_titans_new_logo.png);
 	background-size: 100% 100%;
 }
 

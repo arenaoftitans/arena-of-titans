@@ -63,21 +63,21 @@
                             <div id="mask">
                                 <ul>
                                     <li id="first" class="firstanimation">
-                                        <img src="/inc/img/index/slider_gameplay.png" alt="gameplay"/>
+                                        <img src="/img/index/slider_gameplay.png" alt="gameplay"/>
                                         <div class="tooltip">
                                             <h1>Un gameplay unique</h1>
                                         </div>
                                     </li>
 
                                     <li id="second" class="secondanimation">
-                                        <img src="/inc/img/index/slider_multijoueur.png" alt="multijoueur"/>
+                                        <img src="/img/index/slider_multijoueur.png" alt="multijoueur"/>
                                         <div class="tooltip">
                                             <h1>Défiez jusqu'à 7 de vos amis</h1>
                                         </div>
                                     </li>
 
                                     <li id="third" class="thirdanimation">
-                                        <img src="/inc/img/index/version_beta.png" alt="beta"/>
+                                        <img src="/img/index/version_beta.png" alt="beta"/>
                                         <div class="tooltip">
                                             <h1>Version Bêta disponible !</h1>
                                         </div>

@@ -35,7 +35,7 @@
                 <img class="movementsCard"
                      ng-class="{selectedCard: isSelected(card.name, card.color)}"
                      ng-click="viewPossibleMovements(card.name, card.color)"
-                     ng-src="/inc/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                     ng-src="/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
                      />
             </div>
             <div id="buttons_card">
@@ -60,7 +60,7 @@
             <div ng-repeat="trump in currentPlayerTrumps" class="trumpsContainer">
                 <img class="trumpCard"
                      ng-click="playTrump(trump)"
-                     ng-src="/inc/img/cards/trumps/{{trump.name| lowercase}}.png"
+                     ng-src="/img/cards/trumps/{{trump.name| lowercase}}.png"
                      />
             </div>
         </div>

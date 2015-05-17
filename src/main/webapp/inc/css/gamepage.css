@@ -3,7 +3,7 @@ html, body
    width: 100%;
    margin: 0;
    padding: 0;
-   background-image : url(/inc/img/backgrounds/background.png);
+   background-image : url(/img/backgrounds/background.png);
 }
 
 .player
@@ -71,7 +71,7 @@ html, body
     margin-right: auto;
     width:200px;
     height:70px;
-    background: url(/inc/img/arena_of_titans_new_logo.png);
+    background: url(/img/arena_of_titans_new_logo.png);
     background-size: 100% 100%;
 }
 
@@ -105,7 +105,7 @@ html, body
     margin-left: 192px;
     width:896px;
     height:74%;
-    background: url(/inc/img/backgrounds/plateau.png);
+    background: url(/img/backgrounds/plateau.png);
     background-size: 100% 100%;
 }
 
@@ -159,7 +159,7 @@ rect, path {
 #bloc_cards{
     width:896px;
     height:26%;
-    background: url(/inc/img/backgrounds/cartes.png);
+    background: url(/img/backgrounds/cartes.png);
     background-size: 100% 100%;
     margin-left: 192px;
 }
@@ -200,7 +200,7 @@ rect, path {
     float: left;
     width:192px;
     height: 100%;
-    background: url(/inc/img/backgrounds/jauge.png);
+    background: url(/img/backgrounds/jauge.png);
     background-size: 100% 100%;
 }
 
@@ -214,7 +214,7 @@ rect, path {
 #bloc_right_centre{
     width:192px;
     height:74%;
-    background: url(/inc/img/backgrounds/infos.png);
+    background: url(/img/backgrounds/infos.png);
     background-size: 100% 100%;
 }
 
@@ -222,7 +222,7 @@ rect, path {
 #bloc_right_bottom{
     width:192px;
     height:26%;
-    background: url(/inc/img/backgrounds/chrono.png);
+    background: url(/img/backgrounds/chrono.png);
     background-size: 100% 100%;
 }
 
@@ -396,7 +396,7 @@ rect, path {
         float: none;
         width:768px;
         height: 13%;
-        background: url(/inc/img/backgrounds/jauge_horizontale.png);
+        background: url(/img/backgrounds/jauge_horizontale.png);
         background-size: 100% 100%;
     }
 
@@ -446,7 +446,7 @@ rect, path {
         float: none;
         width:600px;
         height: 13%;
-        background: url(/inc/img/backgrounds/jauge_horizontale.png);
+        background: url(/img/backgrounds/jauge_horizontale.png);
         background-size: 100% 100%;
     }
 
@@ -498,7 +498,7 @@ rect, path {
         float: none;
         width:470px;
         height: 13%;
-        background: url(/inc/img/backgrounds/jauge_horizontale.png);
+        background: url(/img/backgrounds/jauge_horizontale.png);
         background-size: 100% 100%;
     }
 

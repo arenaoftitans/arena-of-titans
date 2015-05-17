@@ -31,14 +31,21 @@ var config = {
     watchHtml: 'src/main/webapp/WEB-INF/game.html',
     scrPartials: ['src/main/webapp/inc/html/game/*.html',
 	      'src/main/webapp/inc/html/game/create/*.html'],
-    destPartials: 'prd/partials'
+    destPartials: 'prd/partials',
+    srcImg: 'src/main/webapp/inc/img/**/*',
+    destImg: 'prd/img'
 };
 
 gulp.task('set-production', function () {
     config.dev = false;
 });
 
-gulp.task('prod', ['set-production', 'build-js', 'build-css', 'build-html']);
+gulp.task('prod', ['set-production',
+		   'build-js',
+		   'build-css',
+		   'build-html',
+		   'build-images'
+		  ]);
 
 gulp.task('build-js', function () {
     return gulp.src(config.srcJS)
@@ -64,6 +71,11 @@ gulp.task('build-html', function () {
 	.pipe(gulp.dest(config.destHtml));
 });
 
+gulp.task('build-images', function () {
+    return gulp.src(config.srcImg)
+	.pipe(gulp.dest(config.destImg));
+});
+
 gulp.task('build-partials', function () {
     return gulp.src(config.scrPartials)
 	.pipe(gulp.dest(config.destPartials));
@@ -73,6 +85,7 @@ gulp.task('watch', ['build-js',
 		    'build-css',
 		    'build-html',
 		    'build-partials',
+		    'build-images',
 		    'connect'],
 	  function () {
     watch(config.watchJS, function() {

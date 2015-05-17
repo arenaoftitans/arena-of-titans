@@ -173,7 +173,7 @@ div#demon {
     position:absolute;
     width:300px;
     height:350px;
-    background-image: url("/inc/img/demon.png");
+    background-image: url("/img/demon.png");
     background-size: 100% 100%;
 }
 
@@ -182,7 +182,7 @@ div#ange {
     width:300px;
     height:320px;
     margin-left:790px;
-    background-image: url("/inc/img/ange_colo.png");
+    background-image: url("/img/ange_colo.png");
     background-size: 100% 100%;
 }
 
@@ -190,7 +190,7 @@ div#map {
     height:400px;
     margin-top: 90px;
     margin-left: 40px;
-    background-image: url("/inc/img/plateau_info.png");
+    background-image: url("/img/plateau_info.png");
     background-size: 100% 100%;
     border: 3px solid black;
     width: 39%
@@ -201,7 +201,7 @@ div#heros {
     height:500px;
     margin-top:50px;
     margin-left:75px;
-    background-image: url("/inc/img/index/aot_heros_couleur.png");
+    background-image: url("/img/index/aot_heros_couleur.png");
     background-size: 100% 100%;
 }
 
@@ -212,19 +212,19 @@ div#heros {
 }
 
 #blue {
-    background-image: url("/inc/img/index/aot_familles_bleue.png");
+    background-image: url("/img/index/aot_familles_bleue.png");
 }
 
 #black {
-    background-image: url("/inc/img/index/aot_familles_noire.png");
+    background-image: url("/img/index/aot_familles_noire.png");
 }
 
 #red {
-    background-image: url("/inc/img/index/aot_familles_rouge.png");
+    background-image: url("/img/index/aot_familles_rouge.png");
 }
 
 #yellow {
-    background-image: url("/inc/img/index/aot_familles_jaune.png");
+    background-image: url("/img/index/aot_familles_jaune.png");
 }
 
 #map, #fond2_right, #blue, #red, #black, #yellow, #heros, #text_heros {
