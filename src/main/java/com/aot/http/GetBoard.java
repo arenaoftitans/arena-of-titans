@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "getBoard", urlPatterns = {"/getBoard/*"})
+@WebServlet(name = "getBoard", urlPatterns = {"/api/getBoard/*"})
 public class GetBoard extends HttpServlet {
+
+    private static final Redis redis = Redis.getInstance();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Redis redis = (Redis) getServletContext().getAttribute(Redis.REDIS_SERVLET);
         String boardName = getBoardName(request);
         String board = redis.getBoard(boardName);
 

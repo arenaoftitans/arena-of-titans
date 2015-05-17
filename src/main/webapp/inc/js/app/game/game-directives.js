@@ -22,6 +22,6 @@ gameModule.directive('aotBoard', function () {
                 scope.activePawns.push('player' + i);
             }
         },
-        templateUrl: '/getBoard/standard'
+        templateUrl: '/api/getBoard/standard'
     };
 });
