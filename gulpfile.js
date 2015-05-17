@@ -10,6 +10,7 @@ var concatCss = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');
+var proxy = require('proxy-middleware');
 
 var config = {
     dev: true,
@@ -102,6 +103,14 @@ gulp.task('watch', ['build-js',
 gulp.task('connect', function() {
     connect.server({
 	root: 'prd',
-	port: 8282
-  });
+	port: 8282,
+	middleware: function(connect, o) {
+            return [ (function() {
+		var url = require('url');
+		var options = url.parse('http://localhost:8080/api');
+		options.route = '/api';
+		return proxy(options);
+            })() ];
+	}
+    });
 });
