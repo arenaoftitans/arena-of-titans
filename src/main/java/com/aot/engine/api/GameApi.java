@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -23,7 +22,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/api/game/{id}", configurator = GetRedis.class)
+@ServerEndpoint(value = "/api/game/{id}")
 public class GameApi extends WebsocketApi {
 
     private static final int MAXIMUM_NUMBER_OF_PLAYERS = 8;
@@ -35,9 +34,8 @@ public class GameApi extends WebsocketApi {
     private GameApiJson.PlayTrumpRequest playTrumpRequest;
 
     @OnOpen
-    public void open(@PathParam("id") String id, Session session, EndpointConfig config)
+    public void open(@PathParam("id") String id, Session session)
             throws IOException {
-        redis = (Redis) config.getUserProperties().get(Redis.REDIS_SERVLET);
         gameId = id;
         playerId = session.getId();
         players.put(playerId, session);

@@ -15,8 +15,8 @@ public abstract class WebsocketApi {
 
     protected static final Map<String, Session> players
             = Collections.synchronizedMap(new HashMap<String, Session>());
+    protected static Redis redis = Redis.getInstance();
 
-    protected Redis redis;
     protected Match match;
     protected String gameId;
 
