@@ -4,8 +4,8 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="/inc/css/synopsis.css" />
-        <link rel="stylesheet" href="/inc/css/aot.css" />
+        <link rel="stylesheet" href="/css/synopsis.css" />
+        <link rel="stylesheet" href="/css/aot.css" />
         <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
         <title>Arena of Titans</title>
     </head>

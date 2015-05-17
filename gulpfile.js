@@ -13,26 +13,26 @@ var rename = require('gulp-rename');
 
 var config = {
     dev: true,
-    srcJS: ['src/main/webapp/inc/js/lib/angular.js',
-            'src/main/webapp/inc/js/lib/*.js',
-            'src/main/webapp/inc/js/app.js',
-            'src/main/webapp/inc/js/app/**/*module.js',
-            'src/main/webapp/inc/js/app/**/*.js'
+    srcJS: ['src/main/webapp/js/lib/angular.js',
+            'src/main/webapp/js/lib/*.js',
+            'src/main/webapp/js/app.js',
+            'src/main/webapp/js/app/**/*module.js',
+            'src/main/webapp/js/app/**/*.js'
 	   ],
     destJS: 'prd/js/',
     outJS: 'game.js',
-    watchJS: 'src/main/webapp/inc/js/app/**/*.js',
-    srcCSS: ['src/main/webapp/inc/css/*.css'],
+    watchJS: 'src/main/webapp/js/app/**/*.js',
+    srcCSS: ['src/main/webapp/css/*.css'],
     destCSS: 'prd/css/',
     outCSS: 'game.css',
-    watchCSS: 'src/main/webapp/inc/css/*.css',
+    watchCSS: 'src/main/webapp/css/*.css',
     srcHtml: ['src/main/webapp/WEB-INF/game.html'],
     destHtml: 'prd',
     watchHtml: 'src/main/webapp/WEB-INF/game.html',
-    scrPartials: ['src/main/webapp/inc/html/game/*.html',
-	      'src/main/webapp/inc/html/game/create/*.html'],
+    scrPartials: ['src/main/webapp/html/game/*.html',
+	      'src/main/webapp/html/game/create/*.html'],
     destPartials: 'prd/partials',
-    srcImg: 'src/main/webapp/inc/img/**/*',
+    srcImg: 'src/main/webapp/img/**/*',
     destImg: 'prd/img'
 };
 
