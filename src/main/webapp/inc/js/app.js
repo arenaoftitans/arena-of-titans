@@ -19,10 +19,10 @@ app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider
                 .when('/', {
-                    templateUrl: '/inc/html/game/create/create.html'
+                    templateUrl: '/partials/create.html'
                 })
                 .when('/game', {
-                    templateUrl: '/inc/html/game/game.html'
+                    templateUrl: '/partials/game.html'
                 })
                 .otherwise({redirectTo: '/'});
     }

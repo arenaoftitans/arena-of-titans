@@ -9,7 +9,7 @@ gameModule.directive('slot', function () {
         link: function (scope, element, attributes) {
             scope.possibleStates = ['closed', 'open', 'reserved', 'taken'];
         },
-        templateUrl: '/inc/html/game/create/slot.html'
+        templateUrl: '/partials/slot.html'
     };
 });
 
