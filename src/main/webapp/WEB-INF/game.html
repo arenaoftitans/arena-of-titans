@@ -26,5 +26,17 @@
         </div>
 
         <!--- <t:piwik /> -->
+
+        <script>
+            (function () {
+                var module = angular.module('aot');
+
+                module.constant('aotGlobalOptions', {
+                    apiHost: '//localhost:8080',
+                    apiWebsocketScheme: 'ws:',
+                    apiNewGameIdEndPoint: '/api/newId'
+                });
+            })();
+        </script>
     </body>
 </html>

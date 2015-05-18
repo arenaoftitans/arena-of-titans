@@ -4,10 +4,12 @@ gameModule.controller("game", ['$scope',
     '$window',
     '$http',
     '$q',
+    'aotGlobalOptions',
     'handleError',
     'player',
     'ws',
-    function ($scope, $websocket, $rootScope, $window, $http, $q, handleError, player, ws) {
+    function ($scope, $websocket, $rootScope, $window, $http, $q,
+                aotGlobalOptions, handleError, player, ws) {
         'use strict';
 
         var maximumNumberOfPlayers = 8;
@@ -26,7 +28,7 @@ gameModule.controller("game", ['$scope',
         $scope.showTargetedPlayerForTrumpSelector = false;
         $scope.shareUrl = $window.location;
 
-        var host = 'ws://localhost:8080';
+        var host = aotGlobalOptions.apiWebsocketScheme + aotGlobalOptions.apiHost;
         var getGameId = function () {
             var anchorParts = window.location.hash.substring(2).split('/');
             var gameId = anchorParts[0];
@@ -34,7 +36,7 @@ gameModule.controller("game", ['$scope',
             if (gameId.match(/[0-9]+/)) {
                 deferred.resolve(gameId);
             } else {
-                $http.get('//localhost:8080/api/newId')
+                $http.get(aotGlobalOptions.apiHost + aotGlobalOptions.apiNewGameIdEndPoint)
                         .success(function (data) {
                             deferred.resolve(data);
                         })
