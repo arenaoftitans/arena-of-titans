@@ -25,8 +25,7 @@ public class Redis {
     public static final String SLOTS_KEY_PART = "slots:";
     // time in seconds after which the game is deleted (48h).
     public static final int GAME_EXPIRE = 172_800;
-    public static final String SERVER_HOST = "localhost";
-    public static final String REDIS_SERVLET = "redis";
+    public static final String SERVER_HOST = "redis";
 
     private final JedisPool jedisPool;
 
