@@ -12,6 +12,11 @@ var connect = require('gulp-connect');
 var rename = require('gulp-rename');
 var proxy = require('proxy-middleware');
 var renameRegex = require('gulp-regex-rename');
+var data = require('gulp-data');
+var ini = require('ini');
+var fs = require('fs');
+var nunjucksRender = require('gulp-nunjucks-render');
+
 
 var config = {
     dev: true,
@@ -36,6 +41,14 @@ var config = {
     srcImg: 'src/main/webapp/img/**/*',
     destImg: 'prd/img'
 };
+
+nunjucksRender.nunjucks.configure({
+    tags: {
+	variableStart: '${',
+	variableEnd: '}',
+    },
+    watch: false
+});
 
 gulp.task('set-production', function () {
     config.dev = false;
@@ -68,6 +81,16 @@ gulp.task('build-css', function () {
 
 gulp.task('build-html', function () {
     return gulp.src(config.srcHtml)
+	.pipe(data(function() {
+            var nunjucksConfig = {};
+            if (config.dev) {
+	        nunjucksConfig = ini.parse(fs.readFileSync('./config-dev.ini', 'utf-8'));
+            } else {
+                nunjucksConfig = ini.parse(fs.readFileSync('./config-prod.ini', 'utf-8'));
+            }
+	    return nunjucksConfig;
+	}))
+	.pipe(nunjucksRender())
 	.pipe(rename('game/index.html'))
 	.pipe(gulp.dest(config.destHtml));
 });

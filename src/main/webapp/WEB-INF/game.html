@@ -1,42 +1,43 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+{% extends "src/main/webapp/WEB-INF/base.html" %}
+
+{% block head %}
         <title>Arena Of Titans</title>
         <link rel="stylesheet" type="text/css" href="/css/game.css">
 
         <script src="/js/game.js" type="text/javascript"></script>
+{% endblock %}
 
-    </head>
-    <body ng-app="aot" ng-controller="game">
+{% block body %}
+  <body ng-app="aot" ng-controller="game">
 
-        <div id="bloc_top">
-            <div id="logo">
-            </div>
-            {{me.name}}
-        </div>
+    <div id="bloc_top">
+      <div id="logo">
+      </div>
+      {{me.name}}
+    </div>
 
-        <div ng-view=""></div>
+    <div ng-view=""></div>
 
-        <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
-            <p class="textPopup">The game is over. The winner are :</p>
-            <ol>
-                <li class="textPopup" ng-repeat="player in winners">{{player}}</li>
-            </ol>
-        </div>
+    <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
+      <p class="textPopup">The game is over. The winner are :</p>
+      <ol>
+        <li class="textPopup" ng-repeat="player in winners">{{player}}</li>
+      </ol>
+    </div>
 
-        <!--- <t:piwik /> -->
+    <script>
+      (function () {
+          var module = angular.module('aot');
 
-        <script>
-            (function () {
-                var module = angular.module('aot');
+          module.constant('aotGlobalOptions', {
+              apiHost: '${apiHost}',
+              apiWebsocketScheme: '${apiWebsocketScheme}',
+              apiNewGameIdEndPoint: '${apiNewGameIdEndPoint}'
+          });
+      })();
+    </script>
 
-                module.constant('aotGlobalOptions', {
-                    apiHost: '//localhost:8080',
-                    apiWebsocketScheme: 'ws:',
-                    apiNewGameIdEndPoint: '/api/newId'
-                });
-            })();
-        </script>
-    </body>
+    {% include "src/main/webapp/WEB-INF/piwik.html" %}
+  </body>
+{% endblock %}
 </html>
