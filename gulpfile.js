@@ -16,6 +16,7 @@ var data = require('gulp-data');
 var ini = require('ini');
 var fs = require('fs');
 var nunjucksRender = require('gulp-nunjucks-render');
+var del = require('del');
 
 
 var config = {
@@ -138,3 +139,7 @@ gulp.task('connect', function() {
 	}
     });
 });
+
+gulp.task('clean', function (cb) {
+    del('prd', cb);
+})
