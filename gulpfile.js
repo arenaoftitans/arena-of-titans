@@ -181,7 +181,7 @@ gulp.task('prod', function (cb) {
     runSequence(
         'clean',
         'load-prod-conf',
-        ['build-js', 'build-css', 'build-html', 'build-images'],
+        ['build-js', 'build-css', 'build-html', 'build-images', 'build-partials'],
         cb);
 }).help = 'build all files for production.';
 
