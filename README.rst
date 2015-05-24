@@ -83,6 +83,7 @@ Be sure that (this can be configured in your text editor or your IDE):
 - Your files are encoded in UTF-8
 - You use Unix style line ending (also called LF)
 - You remove the trailing whitespaces
+- You pull your code using ``git pull --rebase=preserve``
 
 Code style
 ----------
