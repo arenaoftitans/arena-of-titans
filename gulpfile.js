@@ -12,7 +12,6 @@ var gulpif = require('gulp-if');
 var minifyCss = require('gulp-minify-css');
 var nunjucksRender = require('gulp-nunjucks-render');
 var renameRegex = require('gulp-regex-rename');
-var rename = require('gulp-rename');
 var showHelp = require('gulp-showhelp');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
@@ -32,13 +31,15 @@ var config = {
     destJS: 'prd/js/',
     outJS: 'game.js',
     watchJS: 'src/main/webapp/js/app/**/*.js',
-    srcCSS: ['src/main/webapp/css/*.css'],
+    srcGameCss: ['src/main/webapp/css/*.css'],
+    outGameCSS: 'game.css',
+    srcSiteCSS: ['!src/main/webapp/css/createGame.css', '!src/main/webapp/css/gamePage.css', 'src/main/webapp/css/*.css'],
+    outSiteCSS: 'site.css',
     destCSS: 'prd/css/',
-    outCSS: 'game.css',
     watchCSS: 'src/main/webapp/css/*.css',
-    srcHtml: ['src/main/webapp/WEB-INF/game.html'],
+    srcHtml: ['!src/main/webapp/WEB-INF/_*.html', 'src/main/webapp/WEB-INF/*.html'],
     destHtml: 'prd',
-    watchHtml: 'src/main/webapp/WEB-INF/game.html',
+    watchHtml: 'src/main/webapp/WEB-INF/*.html',
     scrPartials: 'src/main/webapp/js/app/**/*.html',
     destPartials: 'prd/partials',
     srcImg: 'src/main/webapp/img/**/*',
@@ -99,10 +100,23 @@ gulp.task('build-js', function () {
 });
 
 
-gulp.task('build-css', function () {
-    return gulp.src(config.srcCSS)
+gulp.task('build-css', ['build-game-css', 'build-site-css']);
+
+
+gulp.task('build-game-css', function () {
+    return gulp.src(config.srcGameCss)
         .pipe(gulpif(config.dev, sourcemaps.init()))
-        .pipe(concatCss(config.outCSS))
+        .pipe(concatCss(config.outGameCSS))
+        .pipe(minifyCss())
+        .pipe(gulpif(config.dev, sourcemaps.write()))
+        .pipe(gulp.dest(config.destCSS));
+});
+
+
+gulp.task('build-site-css', function () {
+    return gulp.src(config.srcSiteCSS)
+        .pipe(gulpif(config.dev, sourcemaps.init()))
+        .pipe(concatCss(config.outSiteCSS))
         .pipe(minifyCss())
         .pipe(gulpif(config.dev, sourcemaps.write()))
         .pipe(gulp.dest(config.destCSS));
@@ -116,7 +130,8 @@ gulp.task('build-html', function () {
             return nunjucksConfig;
         }))
         .pipe(nunjucksRender())
-        .pipe(rename('game/index.html'))
+        .pipe(renameRegex(/(.*).html/, '$1/index.html'))
+        .pipe(renameRegex(/index\/index.html/, 'index.html'))
         .pipe(gulp.dest(config.destHtml));
 });
 
