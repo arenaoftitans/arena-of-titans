@@ -18,6 +18,7 @@ var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 var ini = require('ini');
 var proxy = require('proxy-middleware');
+var runSequence = require('run-sequence');
 
 
 var config = {
@@ -75,14 +76,12 @@ gulp.task('cleanall', ['clean'], function (cb) {
 }).help = 'launch clean and remove all node_modules.';
 
 
-gulp.task('dev', [
-    'load-dev-conf',
-    'build-js',
-    'build-css',
-    'build-html',
-    'build-partials',
-    'build-images'
-]).help = 'build all files for development.';
+gulp.task('dev', function (cb) {
+    runSequence(
+        'load-dev-conf',
+        ['build-js', 'build-css', 'build-html', 'build-partials', 'build-images'],
+        cb);
+}).help = 'build all files for development.';
 
 
 gulp.task('load-dev-conf', function () {
@@ -178,15 +177,18 @@ gulp.task('serve', function () {
 }).help = 'start a small server to ease devolopment of the frontend';
 
 
-gulp.task('prod', ['load-prod-conf',
-    'build-js',
-    'build-css',
-    'build-html',
-    'build-images'
-]).help = 'build all files for production.';
+gulp.task('prod', function (cb) {
+    runSequence(
+        'clean',
+        'load-prod-conf',
+        ['build-js', 'build-css', 'build-html', 'build-images'],
+        cb);
+}).help = 'build all files for production.';
 
 
-gulp.task('load-prod-conf', function () {
+gulp.task('load-prod-conf', function (cb) {
     config.dev = false;
     config.templates = ini.parse(fs.readFileSync('./config-prod.ini', 'utf-8'));
+
+    cb();
 });
