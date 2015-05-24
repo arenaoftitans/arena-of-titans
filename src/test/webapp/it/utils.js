@@ -3,31 +3,31 @@
 var createGameForm = element(by.buttonText('Create game'));
 
 var createPlayer1 = function () {
-    var createGameUrl = '/game';
+  var createGameUrl = '/game';
 
-    browser.get(createGameUrl);
-    browser.sleep(500);
-    browser.driver.switchTo().alert().accept();
+  browser.get(createGameUrl);
+  browser.sleep(500);
+  browser.driver.switchTo().alert().accept();
 };
 
 var openSlot2 = function () {
-    $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
-    var browserPlayer2 = browser.forkNewDriverInstance(true, true);
-    browser.sleep(500);
-    browserPlayer2.driver.switchTo().alert().accept();
+  $$('select').get(1).element(by.cssContainingText('option', 'open')).click();
+  var browserPlayer2 = browser.forkNewDriverInstance(true, true);
+  browser.sleep(500);
+  browserPlayer2.driver.switchTo().alert().accept();
 
-    return browserPlayer2;
+  return browserPlayer2;
 };
 
 var createGameWith2Players = function () {
-    createPlayer1();
+  createPlayer1();
 
-    var browserPlayer2 = openSlot2();
+  var browserPlayer2 = openSlot2();
 
-    createGameForm.click();
-    browser.sleep(500);
+  createGameForm.click();
+  browser.sleep(500);
 
-    return browserPlayer2;
+  return browserPlayer2;
 };
 
 module.exports.createGameForm = createGameForm;
