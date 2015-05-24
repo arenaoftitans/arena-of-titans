@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [[ $(hostname) == giskard ]]; then
     cd ~/aot/docker
 
