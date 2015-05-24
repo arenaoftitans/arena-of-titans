@@ -10,17 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Game", urlPatterns = {"/api/newId"})
-public class Game extends HttpServlet {
-
-    private static final String GAME_VIEW = "/WEB-INF/game.jsp";
+@WebServlet(name = "NewId", urlPatterns = {"/api/newId"})
+public class NewId extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String gameId = new BigInteger(100, new SecureRandom()).toString(32);
-        response.setContentType("text/plain");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        if (!response.getHeaderNames().contains("Access-Control-Allow-Origin")) {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+        }
         PrintWriter out = response.getWriter();
         out.print(gameId);
     }
