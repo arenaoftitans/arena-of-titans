@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-for file in $(grep -lr localhost:8080 src/* | grep -v spec.js); do
-    sed -i 's#localhost:8080#www.arenaoftitans.com#g' $file
-done
+if [[ $(hostname) == giskard ]]; then
+    cd ~/aot/docker
+    docker build -t aot .
+    docker run --name aot -d -p 8080:8080 aot
+else
+    mvn clean package
 
-sed -i 's#localhost#172.17.0.4#g' src/main/java/com/aot/engine/api/Redis.java
+    scp target/aot.war aot:~/aot/docker/
 
-mvn clean package
+    cd ..
+    gulp prod
+    rsync -a prd/ aot:app/
+fi

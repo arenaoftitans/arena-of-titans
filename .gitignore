@@ -6,3 +6,5 @@
 /prd
 /node_modules
 /config-*.ini
+/docker/*.war
+/docker/*.tar
