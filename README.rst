@@ -23,16 +23,16 @@ project dependencies for the frontend, run in the project root folder:
 
    npm install
 
-This will install the dependencies in the `./node_modules` folder. Too ease the
-development, you may install gulp globally with `npm install -g gulp`. This will
-allow you to type `gulp` instead of `./node_modules/gulp/bin/gulp.js`. If you
+This will install the dependencies in the ``./node_modules`` folder. Too ease the
+development, you may install gulp globally with ``npm install -g gulp``. This will
+allow you to type ``gulp`` instead of ``./node_modules/gulp/bin/gulp.js``. If you
 are on Linux or Unix like operating system and don't want to launch this command
 as root, you can use `these instructions
 <http://r.duckduckgo.com/l/?kh=-1&uddg=http%3A%2F%2Fwww.jujens.eu%2Fposts%2Fen%2F2014%2FOct%2F24%2Finstall-npm-packages-as-user%2F>`_.
 
 Some file are generated from a template and configuration values. These values
-are stored in `config-dev.ini` and `config-prod.ini`. You can see an example in
-`config.dist.ini`.
+are stored in *config-dev.ini* and *config-prod.ini*. You can see an example in
+*config.dist.ini*.
 
 
 Working
@@ -51,18 +51,18 @@ Frontend
 --------
 
 If you don't want to run Glassfish and redis on your compturer, you can use the
-configuration values from `config.dist.ini` in your `config-dev.ini` file to use
+configuration values from *config.dist.ini* in your *config-dev.ini* file to use
 the API from http://www.arenaoftitans.com.
 
-In order to generate all the files with sourcemaps, use `gulp dev`.
+In order to generate all the files with sourcemaps, use ``gulp dev``.
 
 In order for the site to work correctly, you need a local webserver. You can use
-`gulp serve` to launch one. You can then access the site on
+``gulp serve`` to launch one. You can then access the site on
 http://localhost:8282.
 
 Each time you modify a CSS, JS or HTML file, the files used by the site must be
-regenerated. In order to use this process, `gulp` can watch these files and
-regenerate them as soon as you save them. Use `gulp watch` to do that. This
+regenerated. In order to use this process, ``gulp`` can watch these files and
+regenerate them as soon as you save them. Use ``gulp watch`` to do that. This
 will:
 
 - build all the files for development
@@ -70,8 +70,8 @@ will:
   save them
 - start the small webserver
 
-You can list all the tasks you can launch simply by typing `gulp` or `gulp
-help`. More tasks are available, but you shouldn't have to launch them. Read the
+You can list all the tasks you can launch simply by typing ``gulp`` or ``gulp
+help``. More tasks are available, but you shouldn't have to launch them. Read the
 gulpfile for more information.
 
 
@@ -101,7 +101,7 @@ We try to follow the same `rules as the angular project
 towards commits. Each commit is constituted from a summary line, a body and
 eventually a footer. Each part are separated with a blank line.
 
-The summary line is as follow: `<type>(<scope>): <short description>`. It must
+The summary line is as follow: ``<type>(<scope>): <short description>``. It must
 not end with a dot and must be written in present imperative. Don't capitalize
 the fist letter. The whole line shouldn't be longer than 80 characters and if
 possible be between 70 and 75 characters. This is intended to have better
