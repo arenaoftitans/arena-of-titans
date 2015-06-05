@@ -31,17 +31,14 @@ var config = {
   ],
   destJS: 'prd/js/',
   outJS: 'game.js',
-  watchJS: 'src/main/webapp/js/app/**/*.js',
   srcGameCss: ['src/main/webapp/css/*.css'],
   outGameCSS: 'game.css',
   srcSiteCSS: ['!src/main/webapp/css/createGame.css', '!src/main/webapp/css/gamePage.css', 'src/main/webapp/css/*.css'],
   outSiteCSS: 'site.css',
   destCSS: 'prd/css/',
-  watchCSS: 'src/main/webapp/css/*.css',
   srcHtml: ['!src/main/webapp/WEB-INF/_*.html', 'src/main/webapp/WEB-INF/*.html'],
   destHtml: 'prd',
-  watchHtml: 'src/main/webapp/WEB-INF/*.html',
-  scrPartials: 'src/main/webapp/js/app/**/*.html',
+  srcPartials: 'src/main/webapp/js/app/**/*.html',
   destPartials: 'prd/partials',
   srcImg: 'src/main/webapp/img/**/*',
   destImg: 'prd/img',
@@ -136,7 +133,7 @@ gulp.task('build-html', function () {
 
 
 gulp.task('build-partials', function () {
-  return gulp.src(config.scrPartials)
+  return gulp.src(config.srcPartials)
       .pipe(renameRegex(/\/partials/, ''))
       .pipe(gulp.dest(config.destPartials));
 });
@@ -149,14 +146,20 @@ gulp.task('build-images', function () {
 
 
 gulp.task('watch', ['dev', 'serve'], function () {
-  watch(config.watchJS, function () {
+  watch(config.srcJS, function () {
     gulp.start('build-js');
   });
-  watch(config.watchCSS, function () {
+  watch(config.srcGameCss, function () {
     gulp.start('build-css');
   });
-  watch(config.watchHtml, function () {
+  watch(config.srcHtml, function () {
     gulp.start('build-html');
+  });
+  watch(config.srcPartials, function () {
+    gulp.start('build-partials');
+  });
+  watch(config.srcImg, function () {
+    gulp.start('build-images')
   });
 }).help = 'watch files for modification and rebuild them.';
 
