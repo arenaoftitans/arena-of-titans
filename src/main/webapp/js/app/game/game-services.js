@@ -59,19 +59,21 @@ gameModule.factory('player', [
   function () {
     var move = function (pawnId, x, y) {
       try {
-        var pawn = angular.element(document.getElementById(pawnId));
+        var pawn = document.getElementById(pawnId);
         var square = document.getElementById('square-' + x + '-' + y);
         var boundingBox = square.getBBox();
-        var height = Number(boundingBox.height);
-        var width = Number(boundingBox.width);
-        var newX = Number(boundingBox.x) + width / 2;
-        var newY = Number(boundingBox.y) + height / 2;
-        var radius = width / 4;
         var transform = square.getAttribute('transform');
-        pawn.attr('cx', newX);
-        pawn.attr('cy', newY);
-        pawn.attr('r', radius);
-        pawn.attr('transform', transform);
+
+        pawn.setAttribute('transform', transform);
+        pawn.setAttribute('height', boundingBox.height);
+        pawn.setAttribute('width', boundingBox.width);
+        pawn.setAttribute('x', boundingBox.x);
+
+        if (square.tagName === 'rect') {
+          pawn.setAttribute('y', boundingBox.y);
+        } else {
+          pawn.setAttribute('y', boundingBox.y + 0.25 * boundingBox.height);
+        }
       } catch (err) {
         // If we fail to get pawn with pawnId, we are likely in a unit test and pawnId is an
         // angular.element.

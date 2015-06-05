@@ -296,7 +296,6 @@ public final class SvgBoardGenerator {
                 int currentXid = xid + xidPlus;
                 int x = i * filledElementHeigth + originX;
                 int y = j * filledElementWidth + originY;
-                drawPawn(currentXid, yid, x, y);
                 Element element = new Element(filledElementTag, SVG_NS);
                 element.removeAttribute("xmlns");
                 String squareId = String.format(ID_TEMPLATE, currentXid, yid);
@@ -312,25 +311,6 @@ public final class SvgBoardGenerator {
             xidPlus++;
         }
         xid += armsWidth;
-    }
-
-    private void drawPawn(int xid, int yid, int x, int y) {
-        int maxYid = lines.size() + armsLength - 1;
-        if (xid % armsWidth == 0 && yid == maxYid) {
-            Element pawn = new Element("circle", SVG_NS);
-            pawn.removeAttribute("xmlns");
-            String playerId = "player" + currentPlayerIndex;
-            pawn.setAttribute("id", playerId);
-            pawn.setAttribute("class", "pawn");
-            x += filledElementWidth / 2;
-            y += filledElementHeigth / 2;
-            pawn.setAttribute("cx", Integer.toString(x));
-            pawn.setAttribute("cy", Integer.toString(y));
-            pawn.setAttribute("r", Integer.toString(filledElementWidth / 4));
-            pawn.setAttribute("ng-class", String.format("{hidden: activePawns.indexOf('%s') == -1}", playerId));
-            pawnLayer.addContent(pawn);
-            currentPlayerIndex++;
-        }
     }
 
     /**

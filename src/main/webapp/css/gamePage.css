@@ -20,36 +20,42 @@ html, body
     margin-top: 12px;
 }
 
-#player0 {
-    fill: purple;
+.pawnCircle {
+    stroke: #000000;
+    stroke-width: 9;
+    stroke-miterlimit: 10
 }
 
-#player1 {
-    fill: blueviolet;
+#player0 .pawnCircle {
+    fill: #EE731B;
 }
 
-#player2 {
-    fill: green;
+#player1 .pawnCircle {
+    fill: #e52b20;
 }
 
-#player3 {
-    fill: greenyellow;
+#player2 .pawnCircle {
+    fill: #D4D922;
 }
 
-#player4 {
-    fill: chocolate;
+#player3 .pawnCircle {
+    fill: #58C0D0;
 }
 
-#player5 {
-    fill: cyan;
+#player4 .pawnCircle {
+    fill: #6DB52D;
 }
 
-#player6 {
-    fill: orange;
+#player5 .pawnCircle {
+    fill: #533F92;
 }
 
-#player7 {
-    fill: pink;
+#player6 .pawnCircle {
+    fill: #FFFFFF;
+}
+
+#player7 .pawnCircle {
+    fill: #C24793;
 }
 
 #trumps_info
