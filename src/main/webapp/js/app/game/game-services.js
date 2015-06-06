@@ -58,13 +58,14 @@ gameModule.factory('handleError', [
 gameModule.factory('player', [
   function () {
     var move = function (pawnId, x, y) {
-      try {
+      //try {
         var pawn = document.getElementById(pawnId);
+        var pawnContainer = document.getElementById(pawnId + 'Container');
         var square = document.getElementById('square-' + x + '-' + y);
         var boundingBox = square.getBBox();
         var transform = square.getAttribute('transform');
 
-        pawn.setAttribute('transform', transform);
+        pawnContainer.setAttribute('transform', transform);
         pawn.setAttribute('height', boundingBox.height);
         pawn.setAttribute('width', boundingBox.width);
         pawn.setAttribute('x', boundingBox.x);
@@ -74,12 +75,12 @@ gameModule.factory('player', [
         } else {
           pawn.setAttribute('y', boundingBox.y + 0.25 * boundingBox.height);
         }
-      } catch (err) {
+      /*} catch (err) {
         // If we fail to get pawn with pawnId, we are likely in a unit test and pawnId is an
         // angular.element.
         pawnId.attr('cx', x);
         pawnId.attr('cy', y);
-      }
+      }*/
     };
 
     /**
