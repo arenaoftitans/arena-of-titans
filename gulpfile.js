@@ -127,7 +127,7 @@ gulp.task('build-html', function () {
       }))
       .pipe(nunjucksRender())
       .pipe(renameRegex(/(.*).html/, '$1/index.html'))
-      .pipe(renameRegex(/index\/index.html/, 'index.html'))
+      .pipe(renameRegex(/index(\/|\\)index.html/, 'index.html'))
       .pipe(gulp.dest(config.destHtml));
 });
 
