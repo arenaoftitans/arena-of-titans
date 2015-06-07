@@ -105,8 +105,15 @@ gameModule.controller("game", ['$scope',
         var data = {
           rt: rt.create_game,
           player_id: $scope.me.id,
-          create_game_request: players
+          create_game_request: players,
         };
+
+        if (aotGlobalOptions.debug) {
+          data.debug = true;
+          data.create_game_request = players.map(function (player) {
+            return {name: 'Player ' + player.index, index: player.index};
+          });
+        }
 
         gameApi.send(data);
       };
@@ -202,16 +209,24 @@ gameModule.controller("game", ['$scope',
           index: data.index,
           gameMaster: data.is_game_master
         };
+
+        if (aotGlobalOptions.debug) {
+          $scope.createGame();
+        }
       };
 
       var askMyName = function (index) {
-        return prompt('Enter your name', 'Player ' + index);
+        if (aotGlobalOptions.debug) {
+          return 'Player 1';
+        } else {
+          return prompt('Enter your name', 'Player ' + index);
+        }
       };
 
       var initializeSlots = function (data) {
         if (data.slots) {
           data.slots.forEach(refreshSlot);
-        } else {
+        } else if (!aotGlobalOptions.debug) {
           $scope.players.forEach(function (player) {
             var slot = {
               index: player.index,
