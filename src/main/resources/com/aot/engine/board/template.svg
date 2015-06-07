@@ -1,4 +1,5 @@
 <svg
+    id="board"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:cc="http://creativecommons.org/ns#"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -6,7 +7,8 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     version="1.1"
     width="600" height="600"
-    viewBox="0 0 2000 2000">
+    viewBox="0 0 2000 2000"
+    preserveAspectRatio="xMidYMid meet" >
     <g id="boardLayer">
     </g>
     <g id="pawnLayer" >
