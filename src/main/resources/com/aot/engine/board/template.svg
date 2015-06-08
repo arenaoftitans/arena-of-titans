@@ -77,7 +77,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(315 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player1') === -1}"
             >
                 <path
@@ -130,7 +130,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(270 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player2') === -1}"
             >
                 <path
@@ -183,7 +183,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(225 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player3') === -1}"
             >
                 <path
@@ -236,7 +236,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(180 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player4') === -1}"
             >
                 <path
@@ -289,7 +289,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(135 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player5') === -1}"
             >
                 <path
@@ -342,7 +342,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(90 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player6') === -1}"
             >
                 <path
@@ -395,7 +395,7 @@
                 height="90" width="90"
                 viewBox="0 0 135 135"
                 preserveAspectRatio="xMinYMin meet"
-                x="808" y="1872" transform="rotate(45 985 985)"
+                x="808" y="1872"
                 ng-class="{hidden: activePawns.indexOf('player7') === -1}"
             >
                 <path
