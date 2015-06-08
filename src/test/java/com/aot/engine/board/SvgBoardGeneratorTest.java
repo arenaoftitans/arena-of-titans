@@ -106,7 +106,7 @@ public class SvgBoardGeneratorTest {
 
     @Test
     public void testPawns() {
-        List<Element> pawns = pawnLayer.getChildren("svg", SvgBoardGenerator.getNamespace());
+        List<Element> pawns = pawnLayer.getChildren("g", SvgBoardGenerator.getNamespace());
         assertEquals(8, pawns.size());
     }
 
