@@ -1,4 +1,3 @@
-
 package com.aot.http;
 
 import com.aot.engine.GameFactory;
@@ -32,6 +31,9 @@ public class GetBoard extends HttpServlet {
             redis.saveBoard(boardName, board);
         }
 
+        if (!response.getHeaderNames().contains("Access-Control-Allow-Origin")) {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+        }
         writeResponse(response, board);
     }
 

@@ -17,7 +17,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 var ini = require('ini');
-var proxy = require('proxy-middleware');
 var runSequence = require('run-sequence');
 
 
@@ -167,15 +166,7 @@ gulp.task('watch', ['dev', 'serve'], function () {
 gulp.task('serve', function () {
   connect.server({
     root: 'prd',
-    port: 8282,
-    middleware: function () {
-      return [(function () {
-          var url = require('url');
-          var options = url.parse('http://localhost:8080/api');
-          options.route = '/api';
-          return proxy(options);
-        })()];
-    }
+    port: 8282
   });
 }).help = 'start a small server to ease devolopment of the frontend';
 
