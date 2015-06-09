@@ -133,7 +133,7 @@ gulp.task('build-html', function () {
 
 gulp.task('build-partials', function () {
   return gulp.src(config.srcPartials)
-      .pipe(renameRegex(/\/partials/, ''))
+      .pipe(renameRegex(/(\/|\\)partials/, ''))
       .pipe(gulp.dest(config.destPartials));
 });
 
