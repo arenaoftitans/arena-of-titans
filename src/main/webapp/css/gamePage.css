@@ -60,9 +60,8 @@ html, body
 
 #trumps_info
 {
-    text-align: center;
-    padding-top: 236px;
-    margin-left: -4px;
+    padding-top: 270px;
+    margin-left: 2px;
     font-weight: bold;
     color: darkorange;
 }
@@ -237,9 +236,9 @@ rect, path {
 }
 
 #trumps {
-    position: absolute;
-    top: -743px;
-    left: -83px;
+    position: relative;
+    top: -1060px;
+    left: 24px;
     transform: scale(0.15);
 }
 
@@ -284,6 +283,7 @@ rect, path {
     #bloc_right_bottom{
         width:216px;
     }
+	
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1280px){

@@ -196,14 +196,10 @@ div#map {
     width: 39%
 }
 
-div#heros {
-    width:450px;
-    height:500px;
-    margin-top:50px;
-    margin-left:75px;
+/*div#heros_group {
     background-image: url("/img/index/aot_heros_couleur.png");
     background-size: 100% 100%;
-}
+} */
 
 #blue, #red, #black, #yellow {
     background-size: 100% 100%;
@@ -253,7 +249,7 @@ div#heros {
 #text_heros {
     width: 38%;
     text-align: center;
+	margin-top:20%;
     margin-left: 6%;
-    margin-top: 25%;
     font-size: x-large;
 }

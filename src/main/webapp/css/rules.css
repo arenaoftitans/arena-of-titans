@@ -20,8 +20,10 @@ div#fond4,#fond5,#fond0{
 #fond1_right
 {
     background-image: url("/img/rules/regles_cartes.png");
-    top: 85px;
+    top: 145px;
     right: 10px;
+	background-size: 100% 90%;
+	background-repeat: no-repeat;
 }
 
 .right, .left
@@ -107,14 +109,17 @@ p
 {
     background-image: url("/img/rules/aot_heros_infos.png");
     top: 75px;
-    right: 10px;
+	right: -50px;
     height: 450px;
 }
 
-#text_heros
+#text_heros_rules
 {
-    height: 70px;
-    margin-top: 25%;
+    width: 38%;
+    text-align: center;
+    margin-left: 3%;
+	margin-top: 20%;
+    font-size: x-large;
 }
 
 #plateau
@@ -123,6 +128,7 @@ p
     height: 450px;
     right: 25px;
     border: 3px solid black;
+	margin-top:50px;
 }
 
 #but
