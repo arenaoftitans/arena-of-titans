@@ -9,11 +9,9 @@ gameModule.config(['$sceDelegateProvider', function($sceDelegateProvider) {
     'http://*.arenaoftitans.com/**',
     'https://*.arenaoftitans.com/**',
     'http://*.arenaoftitans.fr/**',
-    'https://*.arenaoftitans.fr/**'
+    'https://*.arenaoftitans.fr/**',
+    'http://localhost:8080/**'
   ]);
 
-  // The blacklist overrides the whitelist so the open redirect here is blocked.
-  $sceDelegateProvider.resourceUrlBlacklist([
-    'http://myapp.example.com/clickThru**'
-  ]);
+  $sceDelegateProvider.resourceUrlBlacklist([]);
 }]);
