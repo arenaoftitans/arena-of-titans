@@ -60,11 +60,18 @@ html, body
 
 #trumps_info
 {
-    padding-top: 270px;
-    margin-left: 2px;
+    padding-top: 260px;
+    margin-left: 40px;
     font-weight: bold;
-    color: darkorange;
+    color: white;
 }
+
+#trumps_info ul {
+    margin:0;
+    padding:10px;
+    position:relative;
+}
+
 
 #activeTrumps
 {
@@ -242,6 +249,7 @@ rect, path {
     left: 24px;
     transform: scale(0.15);
 }
+
 
 @media screen and (min-width: 1440px){
 

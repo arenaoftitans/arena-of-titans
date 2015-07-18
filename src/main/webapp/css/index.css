@@ -171,17 +171,18 @@ strong {
 
 div#demon {
     position:absolute;
-    width:300px;
-    height:350px;
+    width:280px;
+    height:320px;
+	margin-left:22px;
     background-image: url("/img/demon.png");
     background-size: 100% 100%;
 }
 
 div#ange {
     position:absolute;
-    width:300px;
+    width:280px;
     height:320px;
-    margin-left:790px;
+    margin-left:800px;
     background-image: url("/img/ange_colo.png");
     background-size: 100% 100%;
 }
