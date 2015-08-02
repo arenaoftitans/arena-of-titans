@@ -197,6 +197,15 @@ div#map {
     width: 39%
 }
 
+#familles {
+    height:280px;
+    margin-top: -480px;
+    margin-left: 500px;
+	background-image: url("/img/familles.png");
+    background-size: 100% 100%;
+    width: 50%
+    }
+	
 /*div#heros_group {
     background-image: url("/img/index/aot_heros_couleur.png");
     background-size: 100% 100%;
@@ -234,7 +243,16 @@ div#map {
     margin-top: 72px;
     margin-left: 15px;
     margin-right: 10px;
-}
+    }
+
+#flammes {
+    height:150px;
+    margin-top: 30px;
+    margin-left: 510px;
+	background-image: url("/img/flammes_familles.png");
+    background-size: 100% 100%;
+    width: 50%
+    }
 
 #text_familles {
     text-align: center;
