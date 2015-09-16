@@ -1,5 +1,4 @@
-/build
-/nbproject/private/
-/target/
-/src/main/webapp/WEB-INF/svg/
 /nb-configuration.xml
+/public
+/node_modules
+/config-*.ini

@@ -1,1 +1,0 @@
-var gameModule = angular.module('aot.game', []);

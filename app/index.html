@@ -1,0 +1,99 @@
+{% extends "app/_base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="/css/site.css" />
+  <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
+  <title>Arena of Titans</title>
+{% endblock %}
+
+{% block content %}
+  <div id="header">
+  </div>
+
+  {% include "app/_top.html" %}
+
+  {% include "app/_connexion.html" %}
+
+  <div id="middle">
+
+    <div id="fond1">
+      <p id="intro"><strong>Oserez-vous entrer dans l'Arène des Titans ?</strong><br/>
+        Créez votre parcours à l’aide de vos cartes Déplacement,<br/>
+        Utilisez celles de vos adversaires pour les devancer,<br/>
+        Bloquez-les à l’aide de vos Atouts,<br/>
+        Arrivez en premier…<br/>
+        Et Survivez !
+      </p>
+
+      <div id="demon">
+      </div>
+
+      <div id="ange">
+      </div>
+
+      <div class="container">
+        <div id="content-slider">
+          <div id="slider">
+            <div id="mask">
+              <ul>
+                <li id="first" class="firstanimation">
+                  <img src="/img/index/slider_gameplay.png" alt="gameplay"/>
+                  <div class="tooltip">
+                    <h1>Un gameplay unique</h1>
+                  </div>
+                </li>
+
+                <li id="second" class="secondanimation">
+                  <img src="/img/index/slider_multijoueur.png" alt="multijoueur"/>
+                  <div class="tooltip">
+                    <h1>Défiez jusqu'à 7 de vos amis</h1>
+                  </div>
+                </li>
+
+                <li id="third" class="thirdanimation">
+                  <img src="/img/index/version_beta.png" alt="beta"/>
+                  <div class="tooltip">
+                    <h1>Version Bêta disponible !</h1>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fond2">
+      <div id="map">
+      </div>
+      <div id="fond2_right">
+        <div id = "fond2_right_top">
+          <div id="blue">
+          </div>
+          <div id="yellow">
+          </div>
+        </div>
+        <p id ="text_familles">Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !</p>
+        <div id = "fond2_right_bottom">
+          <div id="black">
+          </div>
+          <div id="red">
+          </div>
+        </div>
+      </div>
+	  <div id="familles">
+      </div>
+	  <div id="flammes">
+	  </div>
+    </div>
+
+    <div id="fond3">
+      <div id="heros_group">
+      </div>
+      <p id="text_heros">Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !</p>
+    </div>
+  </div>
+
+  <div id="footer">
+  </div>
+{% endblock %}

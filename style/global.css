@@ -1,0 +1,27 @@
+.hidden {
+    display: none;
+}
+
+.popup {
+    width: 35%;
+    height: 20%;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    background-image: url(/img/backgrounds/pop_up.png);
+    background-size: 100% 100%;
+}
+
+.textPopup
+{
+    font-size: large;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+.cancel-button
+{
+    margin-left: 10%;
+}
