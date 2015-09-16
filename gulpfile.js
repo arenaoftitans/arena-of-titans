@@ -22,25 +22,25 @@ var runSequence = require('run-sequence');
 
 var config = {
   dev: true,
-  srcJS: ['src/main/webapp/js/lib/angular.js',
-    'src/main/webapp/js/lib/*.js',
-    'src/main/webapp/js/app.js',
-    'src/main/webapp/js/app/**/*module.js',
-    'src/main/webapp/js/app/**/*.js'
+  srcJS: ['vendor/angular.js',
+    'vendor/*.js',
+    'app/app.js',
+    'app/**/*module.js',
+    'app/**/*.js'
   ],
-  destJS: 'prd/js/',
+  destJS: 'public/js',
   outJS: 'game.js',
-  srcGameCss: ['src/main/webapp/css/*.css'],
+  srcGameCss: ['style/*.css'],
   outGameCSS: 'game.css',
-  srcSiteCSS: ['!src/main/webapp/css/createGame.css', '!src/main/webapp/css/gamePage.css', 'src/main/webapp/css/*.css'],
+  srcSiteCSS: ['!style/createGame.css', '!style/gamePage.css', 'style/*.css'],
   outSiteCSS: 'site.css',
-  destCSS: 'prd/css/',
-  srcHtml: ['!src/main/webapp/WEB-INF/_*.html', 'src/main/webapp/WEB-INF/*.html'],
-  destHtml: 'prd',
-  srcPartials: 'src/main/webapp/js/app/**/*.html',
-  destPartials: 'prd/partials',
-  srcImg: 'src/main/webapp/img/**/*',
-  destImg: 'prd/img',
+  destCSS: 'public/css/',
+  srcHtml: ['!app/_*.html', 'app/*.html'],
+  destHtml: 'public',
+  srcPartials: 'app/**/*.html',
+  destPartials: 'public/partials',
+  srcImg: 'assets/**/*',
+  destImg: 'public/img',
   templates: {}
 };
 

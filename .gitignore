@@ -1,10 +1,4 @@
-/build
-/nbproject/private/
-/target/
-/src/main/webapp/WEB-INF/svg/
 /nb-configuration.xml
-/prd
+/public
 /node_modules
 /config-*.ini
-/docker/*.war
-/docker/*.tar
