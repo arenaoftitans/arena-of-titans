@@ -156,12 +156,12 @@ gameModule.controller("game", ['$scope',
      */
     function updateGameParameters(data) {
       if (data.hasOwnProperty('new_square')) {
-        var playerPawnId = $scope.activePawns[$scope.currentPlayer.index];
+        var playerPawnId = $scope.activePawns[$scope.current_player.index];
         player.move(playerPawnId, data.newSquare.x, data.newSquare.y);
       }
 
       // The server cannot know about pawns. We get it from $scope.players
-      $scope.currentPlayer = $scope.players[data.nextPlayer.index];
+      $scope.currentPlayer = $scope.players[data.next_player.index];
       $scope.currentPlayerCards = data.possibleCardsNextPlayer;
       $scope.currentPlayerTrumps = data.trumpsNextPlayer;
       $scope.winners = data.winners;

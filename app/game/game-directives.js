@@ -35,6 +35,6 @@ gameModule.directive('aotBoard', [
         updateSvgSize();
         $window.addEventListener('resize', updateSvgSize);
       },
-      templateUrl: $window.location.protocol + aotGlobalOptions.apiHost + '/api/getBoard/standard'
+      templateUrl: $window.location.protocol + aotGlobalOptions.apiHost + '/boards/standard'
     };
   }]);
