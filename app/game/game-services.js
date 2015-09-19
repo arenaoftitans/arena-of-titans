@@ -83,21 +83,6 @@ gameModule.factory('player', [
       }*/
     };
 
-    /**
-     * Initialize a new array of players.
-     *
-     * @param {type} numberMaximumOfPlayers
-     * @returns {Array}
-     */
-    var init = function (numberMaximumOfPlayers) {
-      var players = [];
-      for (var i = 0; i < numberMaximumOfPlayers; i++) {
-        players.push(newPlayer(i));
-      }
-
-      return players;
-    };
-
     var newPlayer = function (currentNumberOfPlayers) {
       var player = {
         index: currentNumberOfPlayers,
@@ -110,7 +95,6 @@ gameModule.factory('player', [
 
     return {
       move: move,
-      init: init,
       newPlayer: newPlayer
     };
   }
