@@ -1,4 +1,4 @@
 /nb-configuration.xml
 /public
 /node_modules
-/config-*.ini
+/config-*.toml

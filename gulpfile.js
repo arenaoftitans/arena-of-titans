@@ -16,7 +16,7 @@ var showHelp = require('gulp-showhelp');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
-var ini = require('ini');
+var toml = require('toml');
 var runSequence = require('run-sequence');
 
 
@@ -81,7 +81,7 @@ gulp.task('dev', function (cb) {
 
 
 gulp.task('load-dev-conf', function () {
-  config.templates = ini.parse(fs.readFileSync('./config-dev.ini', 'utf-8'));
+  config.templates = toml.parse(fs.readFileSync('./config-dev.toml', 'utf-8'));
 });
 
 
@@ -182,7 +182,7 @@ gulp.task('prod', function (cb) {
 
 gulp.task('load-prod-conf', function (cb) {
   config.dev = false;
-  config.templates = ini.parse(fs.readFileSync('./config-prod.ini', 'utf-8'));
+  config.templates = toml.parse(fs.readFileSync('./config-prod.toml', 'utf-8'));
 
   cb();
 });
