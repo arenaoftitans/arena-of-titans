@@ -17,8 +17,8 @@
                     Active Trumps:
                     <ul id="activeTrumps">
                         <li ng-repeat="player in activeTrumps">
-                            For {{player.playerName}}:
-                            <ul ng-repeat="trump in player.trumpNames">
+                            For {{player.player_name}}:
+                            <ul ng-repeat="trump in player.trumps_names">
                                 <li>{{trump}}</li>
                             </ul>
                         </li>
@@ -31,7 +31,7 @@
 
         <div id="bloc_cards">
             <div id="movementsCardsInHand">
-                <div ng-repeat="card in currentPlayerCards" class="movementsCardContainer">
+                <div ng-repeat="card in me.hand" class="movementsCardContainer">
                     <img class="movementsCard"
                          ng-class="{selectedCard: isSelected(card.name, card.color)}"
                          ng-click="viewPossibleMovements(card.name, card.color)"
@@ -57,7 +57,7 @@
 
         <div id="bloc_gauge">
             <div id="trumps">
-                <div ng-repeat="trump in currentPlayerTrumps" class="trumpsContainer">
+                <div ng-repeat="trump in me.trumps" class="trumpsContainer">
                     <img class="trumpCard"
                          ng-click="playTrump(trump)"
                          ng-src="/img/cards/trumps/{{trump.name| lowercase}}.png"

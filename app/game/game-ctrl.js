@@ -36,7 +36,6 @@ gameModule.controller("game", ['$scope',
     $scope.players = [];
     $scope.activePawns = [];
     $scope.selectedCard = null;
-    $scope.currentPlayer = null;
     $scope.trumpTargetedPlayer = {index: -1};
     $scope.gameStarted = false;
     $scope.showNoCardSelectedPopup = false;
@@ -53,7 +52,8 @@ gameModule.controller("game", ['$scope',
       create_game: 'CREATE_GAME',
       view: 'VIEW_POSSIBLE_SQUARES',
       play: 'PLAY',
-      play_trump: 'PLAY_TRUMP'
+      play_trump: 'PLAY_TRUMP',
+      player_moved: 'PLAYER_MOVED'
     };
 
     var host = aotGlobalOptions.apiWebsocketScheme + aotGlobalOptions.apiHost;
@@ -155,19 +155,14 @@ gameModule.controller("game", ['$scope',
      * @param {type} data The data recieved from the server.
      */
     function updateGameParameters(data) {
-      if (data.hasOwnProperty('new_square')) {
-        var playerPawnId = $scope.activePawns[$scope.current_player.index];
-        player.move(playerPawnId, data.newSquare.x, data.newSquare.y);
-      }
-
-      // The server cannot know about pawns. We get it from $scope.players
-      $scope.currentPlayer = $scope.players[data.next_player.index];
-      $scope.currentPlayerCards = data.possibleCardsNextPlayer;
-      $scope.currentPlayerTrumps = data.trumpsNextPlayer;
+      $scope.me.hand = data.hand;
+      $scope.me.trumps = data.trumps;
       $scope.winners = data.winners;
       $scope.selectedCard = null;
       $scope.highlightedSquares = [];
-      $scope.activeTrumps = data.trumps;
+      $scope.activeTrumps = data.active_trumps;
+
+      updateScopeOnSuccessfulTrump(data);
 
       isGameOver(data.gameOver);
     }
@@ -187,13 +182,16 @@ gameModule.controller("game", ['$scope',
             createGame(data);
             break;
           case rt.view:
-            $scope.highlightedSquares = data.possible_squares;
+            $scope.highlightedSquares = data.possible_squares.map(function (square) {
+              return 'square-' + square.x + '-' + square.y;
+            });
             break;
           case rt.play:
             updateGameParameters(data);
             break;
-          case rt.play_trump:
-            updateScopeOnSuccessfulTrump(data);
+          case rt.player_moved:
+            var playerPawnId = $scope.activePawns[data.player_index];
+            player.move(playerPawnId, data.new_square.x, data.new_square.y);
             break;
         }
       });
@@ -283,8 +281,8 @@ gameModule.controller("game", ['$scope',
           play_request: {
             card_name: $scope.selectedCard.name,
             card_color: $scope.selectedCard.color,
-            x: squareX,
-            y: squareY
+            x: parseInt(squareX, 10),
+            y: parseInt(squareY, 10)
           }
         };
         gameApi.send(data);
@@ -345,9 +343,9 @@ gameModule.controller("game", ['$scope',
       $scope.trumpName = trump.name;
       // We can't apply the trump on the current player.
       $scope.otherPlayers = $scope.players.filter(function (player) {
-        return player.index !== $scope.currentPlayer.index;
+        return player.index !== $scope.me.index;
       });
-      if (trump.mustTargetPlayer) {
+      if (trump.must_target_player) {
         selectTrumpTargetedPlayer();
       } else {
         playTrump();
@@ -367,7 +365,7 @@ gameModule.controller("game", ['$scope',
           $scope.trumpTargetedPlayer.index : null;
       var data = {
         rt: rt.play_trump,
-        trump_request: {
+        play_request: {
           target_index: targetIndex,
           name: $scope.trumpName
         }
@@ -396,7 +394,7 @@ gameModule.controller("game", ['$scope',
     var updateScopeOnSuccessfulTrump = function (data) {
       $scope.trumpTargetedPlayer.index = -1;
       hiddeTrumpPopup();
-      $scope.activeTrumps = data.play_trump;
+      $scope.activeTrumps = data.active_trumps;
     };
   }
 ]);
