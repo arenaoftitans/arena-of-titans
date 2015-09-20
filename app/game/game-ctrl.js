@@ -60,7 +60,7 @@ gameModule.controller("game", ['$scope',
     var gameApi = $websocket(host);
     var anchorParts = $window.location.hash.substring(2).split('/');
     var gameId = anchorParts[0];
-    if (gameId.match(/[0-9]+/)) {
+    if (!!gameId) {
       updateGameId(gameId);
       gameApi.send({
         rt: rt.init_game,
