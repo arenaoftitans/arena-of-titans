@@ -83,6 +83,10 @@ gameModule.controller("game", ['$scope',
           state: newPlayer.slotState.toUpperCase(),
           player_name: newPlayer.name
         };
+        if (aotGlobalOptions.debug) {
+          slot.player_name = 'Player 2';
+          slot.state = 'TAKEN';
+        }
         addSlot(slot);
       } else {
         alert(maximumNumberOfPlayers.toString() + ' maximum');
@@ -106,13 +110,6 @@ gameModule.controller("game", ['$scope',
         rt: rt.create_game,
         create_game_request: players
       };
-
-      if (aotGlobalOptions.debug) {
-        data.debug = true;
-        data.create_game_request = players.map(function (player) {
-          return {name: 'Player ' + player.index, index: player.index};
-        });
-      }
 
       gameApi.send(data);
     };
@@ -177,6 +174,9 @@ gameModule.controller("game", ['$scope',
             break;
           case rt.slot_updated:
             refreshSlot(data.slot);
+            if (aotGlobalOptions.debug) {
+              $scope.createGame();
+            }
             break;
           case rt.create_game:
             createGame(data);
@@ -206,10 +206,6 @@ gameModule.controller("game", ['$scope',
         index: data.index,
         gameMaster: data.is_game_master
       });
-
-      if (aotGlobalOptions.debug) {
-        $scope.createGame();
-      }
     };
 
     var initializeSlots = function (data) {
@@ -218,6 +214,11 @@ gameModule.controller("game", ['$scope',
       }
 
       setMySlot();
+
+      // Automatically open a second slot if I am the game master to ease game creation.
+      if ($scope.me.gameMaster) {
+        $scope.addPlayer();
+      }
     };
 
     var refreshSlot = function (slot) {
