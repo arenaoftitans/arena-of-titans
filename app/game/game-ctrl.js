@@ -9,11 +9,92 @@ gameModule.controller("game", ['$scope',
   'player',
   'ws',
   function ($scope, $websocket, $rootScope, $window, $http, $q,
-      aotGlobalOptions, handleError, player, ws) {
+          aotGlobalOptions, handleError, player, ws) {
     'use strict';
 
     var maximumNumberOfPlayers = 8;
     var gameAnchor;
+    var host = aotGlobalOptions.apiWebsocketScheme + aotGlobalOptions.apiHost;
+    var gameApi;
+    var gameId;
+
+    var getGameId = function () {
+      var anchorParts = $window.location.hash.substring(2).split('/');
+      return anchorParts[0];
+    };
+
+    var initNewGame = function () {
+      if (!!gameApi) {
+        gameApi.close();
+      }
+      gameApi = $websocket(host);
+
+      gameApi.onMessage(function (event) {
+        ws.parse(event).then(function (data) {
+          switch (data.rt) {
+            case rt.game_initialized:
+              initializeMe(data);
+              initializeSlots(data);
+              break;
+            case rt.slot_updated:
+              refreshSlot(data.slot);
+              if (aotGlobalOptions.debug) {
+                $scope.createGame();
+              }
+              break;
+            case rt.create_game:
+              createGame(data);
+              break;
+            case rt.view:
+              $scope.highlightedSquares = data.possible_squares.map(function (square) {
+                return 'square-' + square.x + '-' + square.y;
+              });
+              break;
+            case rt.play:
+              updateGameParameters(data);
+              break;
+            case rt.player_moved:
+              var playerPawnId = $scope.activePawns[data.player_index];
+              player.move(playerPawnId, data.new_square.x, data.new_square.y);
+              break;
+          }
+        });
+      });
+
+      gameApi.onError(handleError.show);
+
+      $scope.me = {
+        id: null,
+        gameMaster: false,
+        name: askMyName()
+      };
+      $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
+      $scope.players = [];
+      $scope.activePawns = [];
+      $scope.selectedCard = null;
+      $scope.trumpTargetedPlayer = {index: -1};
+      $scope.gameStarted = false;
+      $scope.showNoCardSelectedPopup = false;
+      $scope.showDiscardConfirmationPopup = false;
+      $scope.showTargetedPlayerForTrumpSelector = false;
+      $scope.shareUrl = $window.location;
+
+      gameId = getGameId();
+      if (!!gameId) {
+        updateGameId();
+        gameApi.send({
+          rt: rt.init_game,
+          game_id: gameId,
+          player_name: $scope.me.name
+        });
+      } else {
+        gameApi.send({
+          rt: rt.init_game,
+          player_name: $scope.me.name
+        });
+      }
+    };
+
     var askMyName = function () {
       if (aotGlobalOptions.debug) {
         return 'Player 1';
@@ -22,26 +103,18 @@ gameModule.controller("game", ['$scope',
       }
     };
 
-    var updateGameId = function(gameId) {
+    var updateGameId = function () {
       $window.location = '#' + gameId;
       gameAnchor = '#' + gameId + '/game';
     };
 
-    $scope.me = {
-      id: null,
-      gameMaster: false,
-      name: askMyName()
-    };
-    $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
-    $scope.players = [];
-    $scope.activePawns = [];
-    $scope.selectedCard = null;
-    $scope.trumpTargetedPlayer = {index: -1};
-    $scope.gameStarted = false;
-    $scope.showNoCardSelectedPopup = false;
-    $scope.showDiscardConfirmationPopup = false;
-    $scope.showTargetedPlayerForTrumpSelector = false;
-    $scope.shareUrl = $window.location;
+    $scope.$on("$routeChangeSuccess", function () {
+      var newGameId = getGameId();
+      if (!!newGameId && newGameId !== gameId) {
+        gameId = newGameId;
+        initNewGame();
+      }
+    });
 
     // Requests types
     var rt = {
@@ -56,23 +129,7 @@ gameModule.controller("game", ['$scope',
       player_moved: 'PLAYER_MOVED'
     };
 
-    var host = aotGlobalOptions.apiWebsocketScheme + aotGlobalOptions.apiHost;
-    var gameApi = $websocket(host);
-    var anchorParts = $window.location.hash.substring(2).split('/');
-    var gameId = anchorParts[0];
-    if (!!gameId) {
-      updateGameId(gameId);
-      gameApi.send({
-        rt: rt.init_game,
-        game_id: gameId,
-        player_name: $scope.me.name
-      });
-    } else {
-      gameApi.send({
-        rt: rt.init_game,
-        player_name: $scope.me.name
-      });
-    }
+    initNewGame();
 
     $scope.addPlayer = function () {
       if ($scope.players.length < maximumNumberOfPlayers) {
@@ -131,7 +188,7 @@ gameModule.controller("game", ['$scope',
       gameApi.send(data);
     };
 
-    function createGame(game) {
+    function createGame (game) {
       for (var i in game.players) {
         var player = $scope.players[i];
         var playerUpdated = game.players[i];
@@ -151,7 +208,7 @@ gameModule.controller("game", ['$scope',
      * Update the scope based on the data send by the server when a move was successfull.
      * @param {type} data The data recieved from the server.
      */
-    function updateGameParameters(data) {
+    function updateGameParameters (data) {
       $scope.me.hand = data.hand;
       $scope.me.trumps = data.trumps;
       $scope.winners = data.winners;
@@ -164,44 +221,12 @@ gameModule.controller("game", ['$scope',
       isGameOver(data.gameOver);
     }
 
-    gameApi.onMessage(function (event) {
-      ws.parse(event).then(function (data) {
-        switch (data.rt) {
-          case rt.game_initialized:
-            updateGameId(data.game_id);
-            initializeMe(data);
-            initializeSlots(data);
-            break;
-          case rt.slot_updated:
-            refreshSlot(data.slot);
-            if (aotGlobalOptions.debug) {
-              $scope.createGame();
-            }
-            break;
-          case rt.create_game:
-            createGame(data);
-            break;
-          case rt.view:
-            $scope.highlightedSquares = data.possible_squares.map(function (square) {
-              return 'square-' + square.x + '-' + square.y;
-            });
-            break;
-          case rt.play:
-            updateGameParameters(data);
-            break;
-          case rt.player_moved:
-            var playerPawnId = $scope.activePawns[data.player_index];
-            player.move(playerPawnId, data.new_square.x, data.new_square.y);
-            break;
-        }
-      });
-    });
-
-    gameApi.onError(handleError.show);
-
     var initializeMe = function (data) {
-      gameId = data.game_id;
-      $scope.me = angular.extend($scope.me,{
+      if (!gameId) {
+        gameId = data.game_id;
+        updateGameId();
+      }
+      $scope.me = angular.extend($scope.me, {
         id: data.player_id,
         index: data.index,
         gameMaster: data.is_game_master
@@ -236,7 +261,7 @@ gameModule.controller("game", ['$scope',
       $scope.players[$scope.me.index].name = $scope.me.name;
     };
 
-    function isGameOver(gameOver) {
+    function isGameOver (gameOver) {
       if (gameOver) {
         $rootScope.$emit('gameOver', $scope.winners);
       }
@@ -264,8 +289,8 @@ gameModule.controller("game", ['$scope',
 
     $scope.isSelected = function (cardName, cardColor) {
       return $scope.selectedCard !== null
-          && $scope.selectedCard.name === cardName
-          && $scope.selectedCard.color === cardColor;
+              && $scope.selectedCard.name === cardName
+              && $scope.selectedCard.color === cardColor;
     };
 
     /**
@@ -276,7 +301,7 @@ gameModule.controller("game", ['$scope',
      */
     $scope.play = function (squareName, squareX, squareY) {
       if ($scope.highlightedSquares.indexOf(squareName) > -1
-          && $scope.selectedCard !== null) {
+              && $scope.selectedCard !== null) {
         var data = {
           rt: rt.play,
           play_request: {
@@ -363,7 +388,7 @@ gameModule.controller("game", ['$scope',
      */
     var playTrump = function () {
       var targetIndex = $scope.trumpTargetedPlayer.index > -1 ?
-          $scope.trumpTargetedPlayer.index : null;
+              $scope.trumpTargetedPlayer.index : null;
       var data = {
         rt: rt.play_trump,
         play_request: {
@@ -376,7 +401,7 @@ gameModule.controller("game", ['$scope',
 
     $scope.submitSelectTargetedPlayerForm = function () {
       var playerCorrectlyTargeted = $scope.showTargetedPlayerForTrumpSelector &&
-          $scope.trumpTargetedPlayer.index > -1;
+              $scope.trumpTargetedPlayer.index > -1;
       if (playerCorrectlyTargeted) {
         playTrump();
       }
