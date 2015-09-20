@@ -202,6 +202,7 @@ gameModule.controller("game", ['$scope',
       $window.location = gameAnchor;
 
       updateGameParameters(game);
+      $scope.me.trumps = game.trumps;
     }
 
     /**
@@ -210,7 +211,6 @@ gameModule.controller("game", ['$scope',
      */
     function updateGameParameters (data) {
       $scope.me.hand = data.hand;
-      $scope.me.trumps = data.trumps;
       $scope.winners = data.winners;
       $scope.selectedCard = null;
       $scope.highlightedSquares = [];
