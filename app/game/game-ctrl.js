@@ -53,6 +53,9 @@ gameModule.controller("game", ['$scope',
             case rt.play:
               updateGameParameters(data);
               break;
+            case rt.play_trump:
+              updateScopeOnSuccessfulTrump(data);
+              break;
             case rt.player_moved:
               var playerPawnId = $scope.activePawns[data.player_index];
               player.move(playerPawnId, data.new_square.x, data.new_square.y);
@@ -214,7 +217,6 @@ gameModule.controller("game", ['$scope',
       $scope.winners = data.winners;
       $scope.selectedCard = null;
       $scope.highlightedSquares = [];
-      $scope.activeTrumps = data.active_trumps;
       $scope.currentPlayer = $scope.players[data.next_player];
 
       updateScopeOnSuccessfulTrump(data);
