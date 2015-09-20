@@ -87,7 +87,7 @@ gameModule.factory('player', [
       var player = {
         index: currentNumberOfPlayers,
         name: '',
-        slotState: 'closed'
+        slotState: 'open'
       };
 
       return player;
