@@ -215,6 +215,7 @@ gameModule.controller("game", ['$scope',
       $scope.selectedCard = null;
       $scope.highlightedSquares = [];
       $scope.activeTrumps = data.active_trumps;
+      $scope.currentPlayer = $scope.players[data.next_player];
 
       updateScopeOnSuccessfulTrump(data);
 
