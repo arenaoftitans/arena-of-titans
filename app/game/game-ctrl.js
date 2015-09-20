@@ -221,7 +221,7 @@ gameModule.controller("game", ['$scope',
 
       updateScopeOnSuccessfulTrump(data);
 
-      isGameOver(data.gameOver);
+      isGameOver(data.game_over);
     }
 
     var initializeMe = function (data) {

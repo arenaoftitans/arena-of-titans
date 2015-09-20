@@ -21,7 +21,7 @@
     <div ng-controller="gameOver" id="gameOverScreen" class="popup" ng-class="{hidden: !gameOver}">
       <p class="textPopup">The game is over. The winner are :</p>
       <ol>
-        <li class="textPopup" ng-repeat="player in winners">{{player}}</li>
+        <li class="textPopup" ng-repeat="player in winners track by $index">{{player}}</li>
       </ol>
     </div>
 
