@@ -104,7 +104,7 @@ gameModule.controller("game", ['$scope',
     };
 
     var updateGameId = function () {
-      $window.location = '#' + gameId;
+      $window.location = '#/' + gameId;
       gameAnchor = '#' + gameId + '/game';
     };
 
