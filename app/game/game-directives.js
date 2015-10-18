@@ -7,7 +7,7 @@ gameModule.directive('slot', function () {
       thisPlayer: '=me'
     },
     link: function (scope, element, attributes) {
-      scope.possibleStates = ['closed', 'open', 'reserved', 'taken'];
+      scope.possibleStates = ['closed', 'open', 'reserved'];
     },
     templateUrl: '/partials/game/slot.html'
   };
