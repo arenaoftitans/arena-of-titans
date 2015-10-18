@@ -1,17 +1,11 @@
+Arena of Titans
+===============
+
 .. contents::
 
 
 Requirements
 ============
-
-API
----
-
-You will need at least java 8 to work on this project. The build process relies
-on maven.
-
-Frontend
---------
 
 We use `gulp <http://gulpjs.com>`_ to generate our HTML, CSS and JS files.
 
@@ -28,31 +22,19 @@ development, you may install gulp globally with ``npm install -g gulp``. This wi
 allow you to type ``gulp`` instead of ``./node_modules/gulp/bin/gulp.js``. If you
 are on Linux or Unix like operating system and don't want to launch this command
 as root, you can use `these instructions
-<http://r.duckduckgo.com/l/?kh=-1&uddg=http%3A%2F%2Fwww.jujens.eu%2Fposts%2Fen%2F2014%2FOct%2F24%2Finstall-npm-packages-as-user%2F>`_.
+<http://www.jujens.eu/posts/en/2014/Oct/24/install-npm-packages-as-user/>`_.
 
 Some file are generated from a template and configuration values. These values
-are stored in *config-dev.ini* and *config-prod.ini*. You can see an example in
-*config.dist.ini*.
+are stored in *config-dev.toml* and *config-prod.toml*. You can see an example in
+*config.dist.toml*.
 
 
-Working
-=======
-
-The API and the frontend are independent.
-
-API
----
-
-The API currently requires Glassfish and a redis database to work. We advise
-that you use the netbeans IDE which comes with glassfish and launch the project
-from there.
-
-Frontend
---------
+Usage
+=====
 
 If you don't want to run Glassfish and redis on your compturer, you can use the
-configuration values from *config.dist.ini* in your *config-dev.ini* file to use
-the API from http://www.arenaoftitans.com.
+configuration values from *config.dist.toml* in your *config-dev.toml* file to use
+the API from http://api.arenaoftitans.com.
 
 In order to generate all the files with sourcemaps, use ``gulp dev``.
 
