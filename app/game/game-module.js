@@ -1,4 +1,4 @@
-var gameModule = angular.module('aot.game', ['ngWebSocket']);
+var gameModule = angular.module('aot.game', ['ngCookies', 'ngWebSocket']);
 
 
 gameModule.config(['$sceDelegateProvider', function($sceDelegateProvider) {

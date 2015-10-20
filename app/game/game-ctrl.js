@@ -1,4 +1,7 @@
-gameModule.controller("game", ['$scope',
+gameModule.controller("game", [
+  '$cookies',
+  '$scope',
+  '$timeout',
   '$websocket',
   '$rootScope',
   '$window',
@@ -8,7 +11,7 @@ gameModule.controller("game", ['$scope',
   'handleError',
   'player',
   'ws',
-  function ($scope, $websocket, $rootScope, $window, $http, $q,
+  function ($cookies, $scope, $timeout, $websocket, $rootScope, $window, $http, $q,
           aotGlobalOptions, handleError, player, ws) {
     'use strict';
 
@@ -23,6 +26,21 @@ gameModule.controller("game", ['$scope',
       return anchorParts[0];
     };
 
+    var onGamePage = function() {
+      var anchorParts = $window.location.hash.substring(2).split('/');
+      return anchorParts[1] === 'game';
+    };
+
+    var reconnect = function (data) {
+      data.forEach(function (playerInfo) {
+        var playerPawnId = 'player' + playerInfo.index;
+        $scope.activePawns.push(playerPawnId);
+        $timeout(function() {
+          player.move(playerPawnId, playerInfo.square.x, playerInfo.square.y);
+        });
+      });
+    };
+
     var initNewGame = function () {
       if (!!gameApi) {
         gameApi.close();
@@ -35,6 +53,9 @@ gameModule.controller("game", ['$scope',
             case rt.game_initialized:
               initializeMe(data);
               initializeSlots(data);
+              if (data.hasOwnProperty('player_id')) {
+                $cookies.put(gameId, data.player_id, {expires: new Date(new Date().getTime() + 48 * 60 * 60 * 1000)});
+              }
               break;
             case rt.slot_updated:
               refreshSlot(data.slot);
@@ -51,6 +72,9 @@ gameModule.controller("game", ['$scope',
               });
               break;
             case rt.play:
+              if (data.reconnect) {
+                reconnect(data.reconnect);
+              }
               updateGameParameters(data);
               break;
             case rt.play_trump:
@@ -66,10 +90,11 @@ gameModule.controller("game", ['$scope',
 
       gameApi.onError(handleError.show);
 
+      gameId = getGameId();
       $scope.me = {
         id: null,
         gameMaster: false,
-        name: askMyName()
+        name: null
       };
       $scope.highlightedSquares = []; // Stores the ids of the squares that are highlighted.
       $scope.players = [];
@@ -82,12 +107,16 @@ gameModule.controller("game", ['$scope',
       $scope.showTargetedPlayerForTrumpSelector = false;
       $scope.shareUrl = $window.location;
 
-      gameId = getGameId();
+      if (!gameId || !$cookies.get(gameId)) {
+        $scope.me.name = askMyName();
+      }
+
       if (!!gameId) {
         updateGameId();
         gameApi.send({
           rt: rt.init_game,
           game_id: gameId,
+          player_id: $cookies.get(gameId),
           player_name: $scope.me.name
         });
       } else {
@@ -107,8 +136,13 @@ gameModule.controller("game", ['$scope',
     };
 
     var updateGameId = function () {
-      $window.location = '#/' + gameId;
+      var baseLocation = '#/' + gameId;
       gameAnchor = '#' + gameId + '/game';
+      if (onGamePage()) {
+        $window.location = gameAnchor;
+      } else {
+        $window.location = baseLocation;
+      }
     };
 
     $scope.$on("$routeChangeSuccess", function () {
@@ -234,6 +268,9 @@ gameModule.controller("game", ['$scope',
         index: data.index,
         gameMaster: data.is_game_master
       });
+      if (!$scope.me.name) {
+        $scope.me.name = data.slots[$scope.me.index].player_name;
+      }
     };
 
     var initializeSlots = function (data) {

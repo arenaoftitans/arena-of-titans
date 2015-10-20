@@ -23,6 +23,7 @@ var runSequence = require('run-sequence');
 var config = {
   dev: true,
   srcJS: ['vendor/angular.js',
+    '!vendor/*mock*.js',
     'vendor/*.js',
     'app/app.js',
     'app/**/*module.js',
