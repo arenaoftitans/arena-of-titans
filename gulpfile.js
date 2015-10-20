@@ -166,7 +166,7 @@ gulp.task('watch', ['dev', 'serve'], function () {
 
 gulp.task('serve', function () {
   connect.server({
-    root: 'prd',
+    root: 'public',
     port: 8282
   });
 }).help = 'start a small server to ease devolopment of the frontend';
