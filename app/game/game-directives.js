@@ -4,6 +4,7 @@ gameModule.directive('slot', function () {
     scope: {
       player: '=player',
       stateChanged: '&stateChanged',
+      updateName: '&updateName',
       thisPlayer: '=me'
     },
     link: function (scope, element, attributes) {

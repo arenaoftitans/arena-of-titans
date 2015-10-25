@@ -209,10 +209,16 @@ gameModule.controller("game", [
       gameApi.send(data);
     };
 
+    $scope.updateName = function () {
+      var index = $scope.me.index;
+      $scope.me.name = $scope.players[index].name;
+      $scope.slotStateChanged(index);
+    };
+
     $scope.slotStateChanged = function (index, state) {
       var slot = {
         index: index,
-        state: state.toUpperCase(),
+        state: state ? state.toUpperCase() : $scope.players[index].slotState,
         player_name: $scope.players[index].name
       };
       updateSlot(slot);

@@ -9,4 +9,8 @@
         disabled>
     <option>Taken</option>
 </select>
-<input type="text" ng-model="player.name" readonly="true"/>
+<input type="text"
+       ng-model="player.name"
+       ng-change="updateName()"
+       ng-model-options="{ debounce: 1000 }"
+       ng-readonly="player.index !== thisPlayer.index" />

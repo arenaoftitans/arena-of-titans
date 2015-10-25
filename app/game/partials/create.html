@@ -2,7 +2,7 @@
   <form id="createGameForm">
     <label>Add players</label>
     <div ng-repeat="player in players">
-      <slot player="player" state-changed="slotStateChanged(index, state)" me="me"/>
+      <slot player="player" state-changed="slotStateChanged(index, state)" me="me" update-name="updateName()" />
     </div>
     <button ng-click="addPlayer()" ng-hide="!me.gameMaster">Add a player</button>
     <button ng-click="createGame()" ng-hide="!me.gameMaster">Create game</button>
