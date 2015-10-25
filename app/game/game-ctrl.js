@@ -288,7 +288,7 @@ gameModule.controller("game", [
       setMySlot();
 
       // Automatically open a second slot if I am the game master to ease game creation.
-      if ($scope.me.gameMaster) {
+      if ($scope.me.gameMaster && $scope.players.length < 2) {
         $scope.addPlayer();
       }
     };
