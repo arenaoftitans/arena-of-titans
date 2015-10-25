@@ -1,5 +1,5 @@
 html, body
-{ 	height: 100%;
+{  height: 100%;
    width: 100%;
    margin: 0;
    padding: 0;
@@ -110,15 +110,16 @@ html, body
     margin-top:2px;
     margin-bottom:5px;
     height:660px;
+	border: solid white 2px;
     z-index:0;
 }
 
 #bloc_board{
-    margin-left: 192px;
     width:896px;
     height:74%;
     background: url(/img/backgrounds/plateau.png);
     background-size: 100% 100%;
+	float: left;
 }
 
 #gameBoardContainer {
@@ -173,7 +174,7 @@ rect, path {
     height:26%;
     background: url(/img/backgrounds/cartes.png);
     background-size: 100% 100%;
-    margin-left: 192px;
+    float: left;
 }
 
 .movementsCard {
@@ -208,10 +209,9 @@ rect, path {
 }
 
 #bloc_gauge{
-    margin-top: -660px;
-    float: left;
     width:192px;
-    height: 100%;
+    height: 660px;
+	float:left;
     background: url(/img/backgrounds/jauge.png);
     background-size: 100% 100%;
     overflow-y: hidden;
@@ -219,7 +219,6 @@ rect, path {
 
 
 #bloc_right{
-    float: right;
     width:192px;
     height:100%;
 }
@@ -239,7 +238,7 @@ rect, path {
     background-size: 100% 100%;
 }
 
-#gameController, #game {
+#gameController{
     height: 100%;
 }
 
@@ -261,7 +260,7 @@ rect, path {
         width:1440px;
     }
 
-    #bloc_total{
+    #game{
         width:1440px;
     }
 
@@ -305,7 +304,7 @@ rect, path {
         width:1024px;
     }
 
-    #bloc_total{
+    #game{
         width:1024px;
     }
 
@@ -348,7 +347,7 @@ rect, path {
         width:900px;
     }
 
-    #bloc_total{
+    #game{
         width:900px;
     }
 
@@ -391,7 +390,7 @@ rect, path {
         width:768px;
     }
 
-    #bloc_total{
+    #game{
         width:768px;
     }
 
@@ -441,7 +440,7 @@ rect, path {
         width:600px;
     }
 
-    #bloc_total{
+    #game{
         width:600px;
     }
 
@@ -493,7 +492,7 @@ rect, path {
         width:470px;
     }
 
-    #bloc_total{
+    #game{
         width:470px;
     }
 
