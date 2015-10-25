@@ -32,13 +32,14 @@ gameModule.controller("game", [
     };
 
     var reconnect = function (data) {
-      data.forEach(function (playerInfo) {
+      data.players.forEach(function (playerInfo) {
         var playerPawnId = 'player' + playerInfo.index;
         $scope.activePawns.push(playerPawnId);
         $timeout(function() {
           player.move(playerPawnId, playerInfo.square.x, playerInfo.square.y);
         });
       });
+      $scope.me.trumps = data.trumps;
     };
 
     var initNewGame = function () {
