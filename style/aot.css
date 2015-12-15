@@ -4,7 +4,7 @@ html, body
    margin: 0;
    padding: 0;
    position:absolute;
-   background-image : url("/img/aot_background.png");
+   background-image : url("/assets/aot_background.png");
 }
 
 div#header{
@@ -20,7 +20,7 @@ div#top{
     width:1100px;
     height:300px;
     position:relative;
-    background-image: url("/img/aot_home_page_top2.png");
+    background-image: url("/assets/aot_home_page_top2.png");
     background-size: 100% 100%;
     margin-top: 1%;
     z-index:1;
@@ -45,7 +45,7 @@ div#connexion{
     height:80px;
     margin-bottom:10px;
     position:relative;
-    background-image: url("/img/aot_home_connexion.png");
+    background-image: url("/assets/aot_home_connexion.png");
     background-size: 100% 100%;
     z-index:1;
     margin-left: auto;
@@ -97,13 +97,13 @@ ul li a#item1{
     padding-left:0px;
     width:150px;
     line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/img/bouton1.png) no-repeat;
+    background:url(/assets/bouton1.png) no-repeat;
     background-size: 100% 100%;
     color:#DCDCDC;
     text-decoration:none;
 }
 ul li a#item1:hover {
-    background:url(/img/bouton2.png) no-repeat;
+    background:url(/assets/bouton2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
     padding-left:0px;
@@ -114,13 +114,13 @@ ul li a#item2{
     float:left;
     width:150px;
     line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/img/bouton1.png) no-repeat;
+    background:url(/assets/bouton1.png) no-repeat;
     background-size: 100% 100%;
     color:#DCDCDC;
     text-decoration:none;
 }
 ul li a#item2:hover {
-    background:url(/img/bouton2.png) no-repeat;
+    background:url(/assets/bouton2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
 }
@@ -131,7 +131,7 @@ ul li a#item3{
   
 
 ul li a#item3:hover {
-    background:url(/img/bouton2.png) no-repeat;
+    background:url(/assets/bouton2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
 }
@@ -140,14 +140,14 @@ ul li a#item3, ul li a#item4{
     float:left;
     width:150px;
     line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/img/bouton1.png) no-repeat;
+    background:url(/assets/bouton1.png) no-repeat;
     background-size: 100% 100%;
     color:#DCDCDC;
     text-decoration:none;
 }
 
 ul li a#item4:hover {
-    background:url(/img/bouton2.png) no-repeat;
+    background:url(/assets/bouton2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
 }
@@ -156,7 +156,7 @@ a#item5{
     text-align: center;
     width: 267px;
     line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/img/jouer1.png) no-repeat;
+    background:url(/assets/jouer1.png) no-repeat;
     background-size: 100% 100%;
     color:#DCDCDC;
     text-decoration:none;
@@ -165,13 +165,13 @@ a#item5{
 }
 
 a#item5:hover {
-    background:url(/img/jouer2.png) no-repeat;
+    background:url(/assets/jouer2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
 }
 
 button #OK{
-    background:url(/img/bouton1.png) no-repeat;
+    background:url(/assets/bouton1.png) no-repeat;
     background-size: 100% 100%;
     color:#DCDCDC;
     text-decoration:none;
@@ -193,7 +193,7 @@ div#middle{
 div#fond1,#fond2,#fond3{
     width:1100px;
     height:650px;
-    background-image: url("/img/aot_home_block.png");
+    background-image: url("/assets/aot_home_block.png");
     background-size: 100% 100%;
 }
 

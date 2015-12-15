@@ -4,9 +4,9 @@
 		<div id="bloc_gauge">
             <div id="trumps">
                 <div ng-repeat="trump in me.trumps" class="trumpsContainer">
-                    <img class="trumpCard"
+                    < class="trumpCard"
                          ng-click="playTrump(trump)"
-                         ng-src="/img/cards/trumps/{{trump.name| lowercase}}.png"
+                         ng-src="//cards/trumps/{{trump.name| lowercase}}.png"
                          />
                 </div>
             </div>
@@ -24,10 +24,10 @@
         <div id="bloc_cards">
             <div id="movementsCardsInHand">
                 <div ng-repeat="card in me.hand" class="movementsCardContainer">
-                    <img class="movementsCard"
+                    < class="movementsCard"
                          ng-class="{selectedCard: isSelected(card.name, card.color)}"
                          ng-click="viewPossibleMovements(card.name, card.color)"
-                         ng-src="/img/cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
+                         ng-src="//cards/movement/{{card.name| lowercase}}_{{card.color| lowercase}}.png"
                          />
                 </div>
                 <div id="buttons_card">

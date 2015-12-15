@@ -1,0 +1,22 @@
+{
+  "force": true,
+  "bundles": {
+    "dist/aurelia": {
+      "includes": [
+        "aurelia-framework",
+        "aurelia-bootstrapper",
+        "aurelia-history-browser",
+        "aurelia-loader-default",
+        "aurelia-logging-console",
+        "aurelia-router",
+        "aurelia-templating-binding",
+        "aurelia-templating-resources",
+        "aurelia-templating-router"
+      ],
+      "options": {
+        "inject": true,
+        "minify": true
+      }
+    }
+  }
+}

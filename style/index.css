@@ -174,7 +174,7 @@ div#demon {
     width:280px;
     height:320px;
 	margin-left:22px;
-    background-image: url("/img/demon.png");
+    background-image: url("/assets/demon.png");
     background-size: 100% 100%;
 }
 
@@ -183,7 +183,7 @@ div#ange {
     width:280px;
     height:320px;
     margin-left:800px;
-    background-image: url("/img/ange_colo.png");
+    background-image: url("/assets/ange_colo.png");
     background-size: 100% 100%;
 }
 
@@ -191,7 +191,7 @@ div#map {
     height:400px;
     margin-top: 90px;
     margin-left: 40px;
-    background-image: url("/img/plateau_info.png");
+    background-image: url("/assets/plateau_info.png");
     background-size: 100% 100%;
     border: 3px solid black;
     width: 39%
@@ -201,13 +201,13 @@ div#map {
     height:280px;
     margin-top: -460px;
     margin-left: 500px;
-	background-image: url("/img/familles.png");
+	background-image: url("/assets/familles.png");
     background-size: 100% 100%;
     width: 50%
     }
 	
 /*div#heros_group {
-    background-image: url("/img/index/aot_heros_couleur.png");
+    background-image: url("/assets/index/aot_heros_couleur.png");
     background-size: 100% 100%;
 } */
 
@@ -229,7 +229,7 @@ div#map {
     height:150px;
     margin-top: 40px;
     margin-left: 510px;
-	background-image: url("/img/flammes_familles.png");
+	background-image: url("/assets/flammes_familles.png");
     background-size: 100% 100%;
     width: 50%
     }
