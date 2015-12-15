@@ -1,44 +1,77 @@
-html, body
-{ 	height: 100%;
-   width: 100%;
-   margin: 0;
-   padding: 0;
-   position:absolute;
-   background-image : url("/assets/aot_background.png");
+html, body {
+    background-image : url("/assets/bg.png");
+    font-family: 'Berkshire Swash', cursive;
 }
 
-div#header{
-    position:absolute;
-    width:100%;
-    height:450px;
-    background-image:linear-gradient(black, transparent);
-    background-size: 100% 100%;
-    z-index:0;
-}
 
-div#top{
-    width:1100px;
-    height:300px;
-    position:relative;
-    background-image: url("/assets/aot_home_page_top2.png");
+#header {
+    max-width: 1100px;
+    min-width: 800px;
+    height: 300px;
+    background-image: url("/assets/header-bg.png");
     background-size: 100% 100%;
+    background-repeat: no-repeat;
     margin-top: 1%;
-    z-index:1;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
-#lien_accueil
-{
+
+#nav-bar {
     position: relative;
-    width: 296px;
+    top: 163px;
+}
+
+#nav-bar .button-dark {
+    width: 50%;
+}
+
+
+#nav-bar .column-left {
+    float: left;
+    width: 29.3%;
+}
+
+#nav-bar .column-rigth {
+    float: right;
+    width: 28.4%;
+}
+
+#nav-bar .column-center {
+    display: inline-block;
+    width: 30%;
+    max-width: 296px;
     height: 56px;
+}
+
+
+#to-homepage {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+a.button-dark {
+    background: url("/assets/button-dark.png") no-repeat;
+    background-size: 100% 100%;
     display: block;
     float: left;
-    top: 170px;
-    left: 404px;
+    padding-left: 0px;
+    width: 150px;
+    line-height: 32px; /*hauteur de l'image de fond*/
+    color: #DCDCDC;
+    text-decoration: none;
 }
+
+
+a.button-dark:hover {
+    background: url("/assets/button-dark-hover.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+
 
 div#connexion{
     width:1100px;
@@ -86,21 +119,8 @@ li {
     float:left; /*pour IE*/
 }
 
-#item1, #item2, #item3,#item4,#item5
-{
-    font-family: 'Berkshire Swash', cursive;
-}
-
 ul li a#item1{
-    display:block;
-    float:left;
-    padding-left:0px;
-    width:150px;
-    line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/assets/bouton1.png) no-repeat;
-    background-size: 100% 100%;
-    color:#DCDCDC;
-    text-decoration:none;
+
 }
 ul li a#item1:hover {
     background:url(/assets/bouton2.png) no-repeat;
@@ -109,26 +129,16 @@ ul li a#item1:hover {
     padding-left:0px;
 }
 
-ul li a#item2{
-    display:block;
-    float:left;
-    width:150px;
-    line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/assets/bouton1.png) no-repeat;
-    background-size: 100% 100%;
-    color:#DCDCDC;
-    text-decoration:none;
-}
 ul li a#item2:hover {
-    background:url(/assets/bouton2.png) no-repeat;
+    background: url(/assets/bouton2.png) no-repeat;
     background-size: 100% 100%;
     color:white;
 }
 
 ul li a#item3{
     margin-left:500px;
-	}
-  
+}
+
 
 ul li a#item3:hover {
     background:url(/assets/bouton2.png) no-repeat;
