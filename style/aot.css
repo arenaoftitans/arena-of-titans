@@ -4,9 +4,13 @@ html, body {
 }
 
 
-#header {
+.row-block {
     max-width: 1100px;
     min-width: 800px;
+}
+
+
+#header {
     height: 300px;
     background-image: url("/assets/header-bg.png");
     background-size: 100% 100%;
@@ -14,7 +18,6 @@ html, body {
     margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
 }
 
 
@@ -45,6 +48,10 @@ html, body {
     height: 56px;
 }
 
+#nav-bar a {
+    padding-left: 0px;
+}
+
 
 #to-homepage {
     width: 100%;
@@ -53,59 +60,86 @@ html, body {
 }
 
 
-a.button-dark {
-    background: url("/assets/button-dark.png") no-repeat;
-    background-size: 100% 100%;
-    display: block;
-    float: left;
-    padding-left: 0px;
-    width: 150px;
-    line-height: 32px; /*hauteur de l'image de fond*/
-    color: #DCDCDC;
-    text-decoration: none;
+button, input.button {
+    border: none;
+    font-family: 'Berkshire Swash', cursive;
+    font-size: medium;
+    padding: 0px;
 }
 
 
-a.button-dark:hover {
+button, .button {
+    color: #DCDCDC;
+    display: inline-block;
+    line-height: 32px; /*hauteur de l'image de fond*/
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+
+#nav-bar .button {
+    display: block;
+    float: left;
+}
+
+
+.button-dark {
+    background: url("/assets/button-dark.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+
+.button-dark:hover {
     background: url("/assets/button-dark-hover.png") no-repeat;
     background-size: 100% 100%;
 }
 
 
 
-div#connexion{
-    width:1100px;
-    height:80px;
-    margin-bottom:10px;
-    position:relative;
-    background-image: url("/assets/aot_home_connexion.png");
+.button-light {
+    background: url(/assets/button-light.png) no-repeat;
     background-size: 100% 100%;
-    z-index:1;
+}
+
+
+.button-light:hover {
+    background: url(/assets/button-light-hover.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+
+#connect-bar {
+    height: 80px;
+    background-image: url("/assets/connect-bg.png");
+    background-size: 100% 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
-#conteneur_connexion
-{
-    margin-left: auto;
-    margin-right: auto;
-    width: 905px;
-    line-height: 37px;
+
+#connect {
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-#mot_connexion
-{
-    font-size:20;
-    font-family: calibri;
-    font-weight: bold;
-    color: black;
-}
-
-form,#mot_connexion
-{
+#connect form {
     display: inline-block;
-    margin-right: 52px;
 }
+
+#connect a.button {
+    float: right;
+}
+
+
+a#item5{
+    text-align: center;
+    width: 267px;
+    text-decoration:none;
+    display: inline-block;
+}
+
 
 ul {
     padding-top:164px;
@@ -117,67 +151,6 @@ ul {
 
 li {
     float:left; /*pour IE*/
-}
-
-ul li a#item1{
-
-}
-ul li a#item1:hover {
-    background:url(/assets/bouton2.png) no-repeat;
-    background-size: 100% 100%;
-    color:white;
-    padding-left:0px;
-}
-
-ul li a#item2:hover {
-    background: url(/assets/bouton2.png) no-repeat;
-    background-size: 100% 100%;
-    color:white;
-}
-
-ul li a#item3{
-    margin-left:500px;
-}
-
-
-ul li a#item3:hover {
-    background:url(/assets/bouton2.png) no-repeat;
-    background-size: 100% 100%;
-    color:white;
-}
-
-ul li a#item3, ul li a#item4{
-    float:left;
-    width:150px;
-    line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/assets/bouton1.png) no-repeat;
-    background-size: 100% 100%;
-    color:#DCDCDC;
-    text-decoration:none;
-}
-
-ul li a#item4:hover {
-    background:url(/assets/bouton2.png) no-repeat;
-    background-size: 100% 100%;
-    color:white;
-}
-
-a#item5{
-    text-align: center;
-    width: 267px;
-    line-height:32px; /*hauteur de l'image de fond*/
-    background:url(/assets/jouer1.png) no-repeat;
-    background-size: 100% 100%;
-    color:#DCDCDC;
-    text-decoration:none;
-    display: inline-block;
-    cursor: pointer;
-}
-
-a#item5:hover {
-    background:url(/assets/jouer2.png) no-repeat;
-    background-size: 100% 100%;
-    color:white;
 }
 
 button #OK{

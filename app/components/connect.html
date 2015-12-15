@@ -1,13 +1,13 @@
 <template>
-    <div id="connexion">
-        <div id="conteneur_connexion">
-            <p id="mot_connexion">CONNEXION :</p>
+    <div id="connect-bar" class="row-block">
+        <div id="connect">
             <form>
-                <input id="pseudo" type="text" placeholder="Pseudo" disabled />
-                <input id="mdp" type="password" placeholder="Mot de passe" disabled />
-                <button id="OK" type="submit" disabled>OK</button>
+                <label>Connexion</label>
+                <input type="text" placeholder="Pseudo" disabled />
+                <input type="password" placeholder="Mot de passe" disabled />
+                <input class="button button-light" type="submit" value="Se connecter" disabled />
             </form>
-            <a id="item5" href="/game">Partie Rapide</a>
+            <a class="button button-light" href="/game">Partie Rapide</a>
         </div>
     </div>
 </template>
