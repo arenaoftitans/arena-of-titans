@@ -12,5 +12,5 @@ gulp.task('watch', ['serve'], function() {
   gulp.watch(paths.source, ['build-system', browserSync.reload]).on('change', reportChange);
   gulp.watch(paths.html, ['build-html', browserSync.reload]).on('change', reportChange);
   gulp.watch(paths.css, ['build-css']).on('change', reportChange);
-  gulp.watch(paths.images, ['build-images']).on('change', reportChange);
+  gulp.watch(paths.images).on('change', reportChange);
 }).help = 'watch files for modification and rebuild them.';
