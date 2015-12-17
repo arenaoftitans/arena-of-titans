@@ -31,7 +31,7 @@ gulp.task('build-html', function () {
 gulp.task('build-css', function () {
     return gulp.src(paths.css)
             .pipe(changed(paths.output, {extension: '.css'}))
-            .pipe(concatCss('aot.css'))
+            .pipe(concatCss('style.css'))
             .pipe(gulp.dest(paths.output))
             .pipe(browserSync.stream());
 });
