@@ -1,15 +1,16 @@
 <template>
     <require from="./components/aot-connect"></require>
     <require from="./components/aot-header"></require>
+    <require from="./components/aot-footer"></require>
 
     <aot-header></aot-header>
 
     <aot-connect></aot-connect>
 
-    <div id="middle">
+    <div class="row-block">
 
-        <div id="fond1">
-            <p id="intro"><strong>Oserez-vous entrer dans l'Arène des Titans ?</strong><br/>
+        <div class="bg-content">
+            <p class="centered-important"><strong>Oserez-vous entrer dans l'Arène des Titans ?</strong><br/>
                 Créez votre parcours à l’aide de vos cartes Déplacement,<br/>
                 Utilisez celles de vos adversaires pour les devancer,<br/>
                 Bloquez-les à l’aide de vos Atouts,<br/>
@@ -17,32 +18,30 @@
                 Et Survivez !
             </p>
 
-            <div id="demon">
-            </div>
+            <div>
+                <img class="small-column-left"
+                     src="/assets/daemon.png"
+                     alt="Daemon looking at you" />
 
-            <div id="ange">
-            </div>
-
-            <div class="container">
-                <div id="content-slider">
-                    <div id="slider">
-                        <div id="mask">
+                <div class="big-column-center">
+                    <div id="content-slider">
+                        <div id="slider">
                             <ul>
-                                <li id="first" class="firstanimation">
+                                <li class="firstanimation">
                                     <img src="/assets/index/slider_gameplay.png" alt="gameplay"/>
                                     <div class="tooltip">
                                         <h1>Un gameplay unique</h1>
                                     </div>
                                 </li>
 
-                                <li id="second" class="secondanimation">
+                                <li class="secondanimation">
                                     <img src="/assets/index/slider_multijoueur.png" alt="multijoueur"/>
                                     <div class="tooltip">
                                         <h1>Défiez jusqu'à 7 de vos amis</h1>
                                     </div>
                                 </li>
 
-                                <li id="third" class="thirdanimation">
+                                <li class="thirdanimation">
                                     <img src="/assets/index/version_beta.png" alt="beta"/>
                                     <div class="tooltip">
                                         <h1>Version Bêta disponible !</h1>
@@ -52,32 +51,32 @@
                         </div>
                     </div>
                 </div>
+
+                <img class="small-column-right"
+                     src="/assets/angel.png"
+                     alt="Angel with a blindfold on the eyes" />
             </div>
         </div>
 
-        <div id="fond2">
-            <div id="map">
-            </div>
-            <div id="fond2_right">
-                <div id = "fond2_right_top">
-                </div>
-                <p id ="text_familles">Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !</p>
-                <div id = "fond2_right_bottom">
-                </div>
-            </div>
-            <div id="familles">
-            </div>
-            <div id="flammes">
+        <div class="bg-content bg-content-padding">
+            <img class="half-column-left border-black"
+                 src="/assets/board.png"
+                 alt="The board of the game" />
+            <div class="half-column-right">
+                <img src="/assets/families.png"
+                     alt="Available card families" />
+                <p>Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !</p>
+                <img src="/assets/families-flames.png"
+                     alt="The flames of each family" />
             </div>
         </div>
 
-        <div id="fond3">
-            <div id="heros_group">
+        <div class="bg-content bg-content-padding">
+            <div class="half-column-left">
+                <p class="centered-important">Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !</p>
             </div>
-            <p id="text_heros">Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !</p>
         </div>
     </div>
 
-    <div id="footer">
-    </div>
+    <aot-footer></aot-footer>
 </template>
