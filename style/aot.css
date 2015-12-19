@@ -16,6 +16,12 @@ p {
     color: maroon;
 }
 
+
+.centered-block {
+    display: block;
+    margin: auto;
+}
+
 .row-block {
     margin-left: auto;
     margin-right: auto;
@@ -93,14 +99,19 @@ p {
 
 
 .half-column-left {
-    width: 43%;
+    width: 49%;
     float: left;
     display: inline-block;
 }
 
 
+.half-column-left img {
+    width: 100%;
+}
+
+
 .half-column-right {
-    width: 43%;
+    width: 49%;
     float: right;
     display: inline-block;
 }
@@ -204,4 +215,19 @@ button, .button {
 
 .bg-content-padding {
     padding: 2.3%;
+}
+
+
+.translate-y-35 {
+    transform: translateY(35%);
+}
+
+
+.translate-y-25 {
+    transform: translateY(25%);
+}
+
+
+.translate-y-150 {
+    transform: translateY(150%);
 }
