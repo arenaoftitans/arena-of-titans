@@ -14,15 +14,21 @@ export class App {
             }, {
                 route: 'rules',
                 name: 'rules',
-                moduleId: 'rules',
+                moduleId: 'rules/rules',
                 nav: true,
                 title: 'Rules'
             }, {
                 route: 'synopsis',
                 name: 'synopsis',
-                moduleId: 'synopsis',
+                moduleId: 'synopsis/synopsis',
                 nav: true,
                 title: 'Synopsis'
+            }, {
+                route: 'game',
+                name: 'game',
+                moduleId: 'game/game',
+                nav: true,
+                title: 'Game'
             }
         ]);
 
