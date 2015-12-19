@@ -1,3 +1,9 @@
+html, body {
+    background-image : url("/assets/backgrounds/bg.png");
+    font-family: 'Berkshire Swash', cursive;
+}
+
+
 h1 {
     color: maroon;
 }
@@ -8,30 +14,80 @@ h1, h2 {
 }
 
 
+p {
+    color: black;
+}
+
+
+button, input.button {
+    border: none;
+    font-family: 'Berkshire Swash', cursive;
+    font-size: medium;
+    padding: 0px;
+}
+
+
+button, .button {
+    color: #DCDCDC;
+    display: inline-block;
+    line-height: 32px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+
+.button-dark {
+    background: url("/assets/components/button-dark.png") no-repeat;
+    background-size: 100% 200%;
+    background-position: 0px 0px;
+}
+
+
+.button-dark:hover {
+    background: url("/assets/components/button-dark.png") no-repeat;
+    background-size: 100% 200%;
+    background-position: 0px -32px;
+}
+
+
+
+.button-light {
+    background: url(/assets/components/button-light.png) no-repeat;
+    background-size: 100% 200%;
+    background-position: 0px 0px;
+}
+
+
+.button-light:hover {
+    background: url(/assets/components/button-light.png) no-repeat;
+    background-size: 100% 200%;
+    background-position: 0px -32px;
+}
+
+
 .hidden {
     display: none;
 }
 
-.popup {
-    width: 35%;
-    height: 20%;
-    position: absolute;
-    top: 40%;
-    left: 40%;
-    background-image: url(/assets/backgrounds/pop_up.png);
-    background-size: 100% 100%;
+
+.centered-important {
+    font-size: x-large;
+    text-align: center;
 }
 
-.textPopup
-{
-    font-size: large;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 0px;
-    font-weight: bold;
+
+.centered-important strong {
+    color: maroon;
 }
 
-.cancel-button
-{
-    margin-left: 10%;
+
+.centered-block {
+    display: block;
+    margin: auto;
+}
+
+
+.centered-text {
+    text-align: center;
 }
