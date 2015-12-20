@@ -7,6 +7,10 @@
         color: white;
 }*/
 
+.select-hero img {
+	max-width: 150px;
+}
+
 #createGame
 {
     text-align: center;

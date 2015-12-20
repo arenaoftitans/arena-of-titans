@@ -1,0 +1,10 @@
+<template>
+    <require from="./player-infos"></require>
+
+    <div class="popup"
+         if.bind="type === 'create-game'">
+        <div class="popup-content">
+            <aot-player-infos data.bind="data" done.bind="done"></aot-player-infos>
+        </div>
+    </div>
+</template>

@@ -1,3 +1,6 @@
 <template>
+    <require from="./widgets/popups/popup"></require>
+
+    <aot-popup data.bind="data" type.bind="type" done.bind="popupDefered"></aot-popup>
     <router-view></router-view>
 </template>

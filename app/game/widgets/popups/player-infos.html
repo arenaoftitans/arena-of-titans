@@ -1,0 +1,14 @@
+<template>
+    <form name="player-info" submit.delegate="save()">
+        <div class="select-hero">
+            <p>Select your avatar</p>
+            <img src="/assets/game/heroes/daemon.png" alt="Daemon" click.delegate="selectHero()" />
+        </div>
+
+        <label>
+            Enter your name:
+            <input name="name" type="text" value.bind="data.name" placeholder="Your name" required />
+        </label>
+        <button class="button-light" type="submit">Save</button>
+    </form>
+</template>

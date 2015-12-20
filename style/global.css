@@ -91,3 +91,39 @@ button, .button {
 .centered-text {
     text-align: center;
 }
+
+
+.popup {
+    position: absolute;
+    z-index: 900;
+    background-color: #111;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    top: 0px;
+    left: 0px;
+}
+
+.popup-content {
+    z-index: 901;
+    background: url(/assets/backgrounds/content.png) no-repeat;
+    background-size: 100% 100%;
+    padding-top: 1px;
+    padding-bottom: 15px;
+    max-width: 20%;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+}
+
+.popup-content form {
+    text-align: center;
+}
+
+.popup-content .select-hero {
+    margin-bottom: 0.5em;
+}
+
+.popup-content button {
+    margin-top: 1em;
+}
