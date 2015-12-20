@@ -9,7 +9,7 @@ module.exports = {
     images: assetsRoot + '**/*.png',
     css: stylesRoot + '**/*.css',
     html: appRoot + '**/*.html',
-    source: appRoot + '**/*.ts',
+    source: appRoot + '**/*.js',
     output: outputRoot,
     outputImg: outputRoot + 'img/'
 };

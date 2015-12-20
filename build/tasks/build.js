@@ -40,7 +40,7 @@ gulp.task('build-css', function () {
 gulp.task('build-system', function () {
     return gulp.src(paths.source)
             .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-            .pipe(changed(paths.output, {extension: '.ts'}))
+            .pipe(changed(paths.output, {extension: '.js'}))
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(to5(compilerOptions))
             .pipe(rename({extensions: 'js'}))

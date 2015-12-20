@@ -2,6 +2,7 @@ export class App {
     router;
 
     configureRouter(config, router) {
+        this.router = router;
         config.title = 'Arena of Titans';
         config.options.pushState = true;
         config.map([
@@ -31,7 +32,5 @@ export class App {
                 title: 'Game'
             }
         ]);
-
-        this.router = router;
     }
 }
