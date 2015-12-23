@@ -26,6 +26,7 @@ gulp.task('tdd', function(done) {
 gulp.task('cover', function(done) {
   new Karma({
     configFile: __dirname + '/../../karma.conf.js',
+    port: 9877,
     singleRun: true,
     reporters: ['coverage'],
     preprocessors: {

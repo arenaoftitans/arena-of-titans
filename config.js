@@ -301,8 +301,12 @@ System.config({
 
   map: {
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1",
+    "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.0.3",
+    "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1",
     "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.0.5",
+    "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.1.0.1",
     "aurelia-router": "npm:aurelia-router@1.0.0-beta.1",
+    "aurelia-templating": "npm:aurelia-templating@1.0.0-beta.1.0.2",
     "babel": "npm:babel-core@5.8.34",
     "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@1.2.6",

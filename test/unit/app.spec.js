@@ -1,16 +1,5 @@
 import { App } from '../../app/app';
-
-class RouterStub {
-    options = {};
-
-    configure(handler) {
-        handler(this);
-    }
-
-    map(routes) {
-        this.routes = routes;
-    }
-}
+import { RouterSut } from './utils';
 
 
 describe('the App module', () => {

@@ -9,6 +9,7 @@ export class Game {
 
     configureRouter(config, router) {
         config.options.pushState = true;
+        router.baseUrl = 'game';
         config.map([
             {
                 route: '',
