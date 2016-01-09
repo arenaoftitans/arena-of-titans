@@ -7,22 +7,32 @@ Arena of Titans
 Requirements
 ============
 
-We use `gulp <http://gulpjs.com>`_ to generate our HTML, CSS and JS files.
+Dependencies
+------------
 
-You must install `nodejs <https://nodejs.org/download/>`__ in order to install
-and use it. With nodejs, comes npm the package manager for node. To install all the
-project dependencies for the frontend, run in the project root folder:
+- NodeJS (latest version, https://nodejs.org/en/)
+- Windows Users: you need to install `additional dependencies to install browser
+  sync <https://www.browsersync.io/docs/#windows-users>`_:
 
-::
+  - python 2: https://www.python.org/downloads/release/python-2710/ (penser à
+    ajouter 'Add python.exe to Path' à l'installation).
+  - Microsoft Visual Studio C++ 2013:
+    https://www.microsoft.com/en-gb/download/details.aspx?id=44914 See `here in
+    case of installation problems
+    <https://github.com/nodejs/node-gyp/blob/master/README.md#installation>`_.
 
-   npm install
+You can now install the JS dependencies for AoT (launch these commands in the
+AoT folder):
 
-This will install the dependencies in the ``./node_modules`` folder. Too ease the
-development, you may install gulp globally with ``npm install -g gulp``. This will
-allow you to type ``gulp`` instead of ``./node_modules/gulp/bin/gulp.js``. If you
-are on Linux or Unix like operating system and don't want to launch this command
-as root, you can use `these instructions
-<http://www.jujens.eu/posts/en/2014/Oct/24/install-npm-packages-as-user/>`_.
+- Install node modules: ``npm install``. If you are on Linux or Unix like
+  operating system and don't want to launch this command as root, you can use
+  `these instructions
+  <http://www.jujens.eu/posts/en/2014/Oct/24/install-npm-packages-as-user/>`_.
+- Global problems: ``npm install -g jspm gulp``
+- Install jspm dependencies: ``jspm install -y``
+
+This will install the dependencies in ``./node_modules`` and ``jspm_packages``
+folders.
 
 Some file are generated from a template and configuration values. These values
 are stored in *config-dev.toml* and *config-prod.toml*. You can see an example in
@@ -32,29 +42,15 @@ are stored in *config-dev.toml* and *config-prod.toml*. You can see an example i
 Usage
 =====
 
-If you don't want to run Glassfish and redis on your compturer, you can use the
-configuration values from *config.dist.toml* in your *config-dev.toml* file to use
-the API from http://api.arenaoftitans.com.
-
-In order to generate all the files with sourcemaps, use ``gulp dev``.
-
-In order for the site to work correctly, you need a local webserver. You can use
-``gulp serve`` to launch one. You can then access the site on
-http://localhost:8282.
-
-Each time you modify a CSS, JS or HTML file, the files used by the site must be
-regenerated. In order to use this process, ``gulp`` can watch these files and
-regenerate them as soon as you save them. Use ``gulp watch`` to do that. This
-will:
-
-- build all the files for development
-- start the watcher that will rebuilt the files that need to be rebuilt once you
-  save them
-- start the small webserver
-
-You can list all the tasks you can launch simply by typing ``gulp`` or ``gulp
-help``. More tasks are available, but you shouldn't have to launch them. Read the
-gulpfile for more information.
+- If you don't want to run the api and redis on your compturer, you can use the
+  configuration values from *config.dist.toml* in your *config-dev.toml* file to
+  use the API from http://api.arenaoftitans.com.
+- To launch the development server, use ``gulp serve``. This will compile the
+  app for development in the *dist* folder, launch a webserver, watch for any
+  changes and reload your page once the changes are taken into account.
+- To launch tests, use ``gulp test``.
+- To launch coverage, use ``gulp cover``.
+- To relauch the tests on file modication, use ``gulp tdd``.
 
 
 Contributing
@@ -70,11 +66,10 @@ Be sure that (this can be configured in your text editor or your IDE):
 Code style
 ----------
 
-- Wrap your code in 100 characters to ease reading
-- Use spaces, not tabs
-- For javascript, JSON and HTML, use 2 spaces to indent and 4 for continuation
+- Wrap your code in 100 characters to ease reading.
+- Use spaces, not tabs.
+- For javascript, JSON and HTML, use 4 spaces to indent and 8 for continuation
   indentation. It is intended to avoid lines starting far at in the right.
-- For java, use 4 spaces.
 
 Commit
 ------
