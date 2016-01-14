@@ -1,19 +1,5 @@
-/*html, body
-{ 	height: 100%;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	background-image : url(/assets/backgrounds/background.png);
-        color: white;
-}*/
-
 .select-hero img {
 	max-width: 150px;
-}
-
-#createGame
-{
-    text-align: center;
 }
 
 #pageLink
@@ -22,16 +8,7 @@
     margin-top: 20px;
 }
 
-#logo{
-	margin-left: auto;
-	margin-right: auto;
-	width:300px;
-	height:100px;
-	background: url(/assets/arena_of_titans_new_logo.png);
-	background-size: 100% 100%;
-}
-
-#bloc_top{
+#bloc_top {
 	margin-left: auto;
 	margin-right: auto;
         margin-bottom: 15px;

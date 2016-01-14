@@ -1,3 +1,26 @@
 <template>
-    <h1>Create Game</h1>
+    <img src="/assets/game/aot-logo.png" class="centered-block" />
+
+    <div if.bind="me.name" class="centered-block">
+        <h2>Me</h2>
+        <p class="centered-text">
+            name: ${me.name}
+            <button class="button-light margin-left-150"
+                    click.trigger="editMe()">Edit</button>
+        </p>
+        <button class="button-light centered-block"
+                disabled.bind="!canCreateGame"
+                click.trigger="createGame()">Create Game</button>
+
+        <h2>Other players</h2>
+        <p class="centered-text" repeat.for="slot of slots">Slot n°${slot.index + 1}: ${slot.state}, ${slot.player_name}</p>
+        <button class="button-light centered-block"
+                click.trigger="addSlot()"
+                disabled.bind="!canAddSlot">Add Slot</button>
+
+        <h2>Invite</h2>
+        <label class="centered-block centered-text">To join this game, share this link:
+            <input type="Text" value.bind="gameUrl" readonly />
+        </label>
+    </div>
 </template>

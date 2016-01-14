@@ -40,4 +40,8 @@ export class Game {
 
         return this.popupDefered.promise;
     }
+
+    get maxNumberPlayers() {
+        return 8;
+    }
 }

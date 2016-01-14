@@ -37,6 +37,12 @@ button, .button {
 }
 
 
+button[disabled] {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+
 .button-dark {
     background: url("/assets/components/button-dark.png") no-repeat;
     background-size: 100% 200%;
@@ -126,4 +132,9 @@ button, .button {
 
 .popup-content button {
     margin-top: 1em;
+}
+
+
+.margin-left-150 {
+    margin-left: 150px;
 }

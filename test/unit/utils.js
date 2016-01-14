@@ -1,4 +1,7 @@
-class RouterStub {
+import { Api } from '../../app/game/services/api';
+
+
+export class RouterStub {
     options = {};
     baseUrl = '';
 
@@ -11,5 +14,72 @@ class RouterStub {
     }
 
     navigateToRoute(route, params) {
+    }
+}
+
+
+export class ApiStub {
+    _api;
+    _cbs = {};
+    _game = {
+        slots: []
+    };
+
+    constructor() {
+        this._api = new Api(new WsStub);
+    }
+
+    initializeGame(data) {
+        let cbs = this._cbs[this.requestTypes.game_initialized];
+        this._game.slots.push({
+            index: 0,
+            player_name: 'Player 1',
+            state: 'TAKEN'
+        });
+        if (cbs) {
+            cbs.forEach(cb => {
+                cb(data);
+            });
+        }
+    }
+
+    addSlot() {
+    }
+
+    updateName() {
+    }
+
+    on(rt, fn) {
+        if (!(rt in this._cbs)) {
+            this._cbs[rt] = [];
+        }
+        this._cbs[rt].push(fn);
+    }
+
+    off() {
+    }
+
+    get requestTypes() {
+        return this._api.requestTypes;
+    }
+
+    get me() {
+        return {
+            name: 'Player 1',
+            is_game_master: true
+        };
+    }
+
+    get game() {
+        return this._game;
+    }
+}
+
+
+export class WsStub {
+    send(data) {
+    }
+
+    onmessage(cb) {
     }
 }
