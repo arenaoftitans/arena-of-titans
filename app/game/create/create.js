@@ -10,7 +10,6 @@ export class Create {
     _game;
     _api;
     _initGameCb;
-    _createGameCb;
     _gameUrl = "";
 
     constructor(router, game, api) {
@@ -20,23 +19,29 @@ export class Create {
     }
 
     activate(params = {}) {
-        this._registerApiCallbacks();
+        this._registerApiCallbacks(params);
 
         if (!params.id) {
             this._game.popup('create-game', {name: ''}).then(data => {
-                this._api.initializeGame(data);
+                this._api.initializeGame(data.name);
             });
-        } else {
+        } else if (this.me.name) {
             this._gameUrl = window.location.href;
             if (this.me.is_game_master && this.slots.length < 2) {
                 this.addSlot();
             }
+        } else {
+            this._game.popup('create-game', {name: ''}).then(data => {
+                this._api.joinGame(params.id, data.name);
+            });
         }
     }
 
-    _registerApiCallbacks() {
-        this._api.on(this._api.requestTypes.game_initialized, (data) => {
-            this._router.navigateToRoute('create', {id: data.game_id});
+    _registerApiCallbacks(params) {
+        this._initGameCb = this._api.on(this._api.requestTypes.game_initialized, (data) => {
+            if (!params.id) {
+                this._router.navigateToRoute('create', {id: data.game_id});
+            }
         });
     }
 
@@ -55,7 +60,6 @@ export class Create {
 
     deactivate() {
         this._api.off(this._api.requestTypes.init_game, this._initGameCb);
-        this._api.off(this._api.requestTypes.create_game, this._createGameCb);
     }
 
     get me() {
@@ -63,7 +67,14 @@ export class Create {
     }
 
     get slots() {
-        return this._api.game.slots;
+        // If we pass directly the slots array, Aurelia won't update the view when a slot is updated.
+        if (this._api.game.slots) {
+            return this._api.game.slots.map(slot => {
+                return slot;
+            });
+        } else {
+            return [];
+        }
     }
 
     get gameUrl() {
@@ -77,7 +88,7 @@ export class Create {
     get canCreateGame() {
         if (this.slots) {
             let numberTakenSlots = 0;
-            this.solts.forEach(slot => {
+            this.slots.forEach(slot => {
                 if (slot.state == 'TAKEN') {
                     numberTakenSlots++;
                 }

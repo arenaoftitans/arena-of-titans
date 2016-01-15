@@ -44,12 +44,28 @@ describe('game/create', () => {
         expect(mockedApi.off).toHaveBeenCalled();
     });
 
-    it('should not create a popup if it has an id param', () => {
+    it('should not create a popup if it knows the player name', () => {
         spyOn(mockedGame, 'popup').and.callThrough();
 
+        mockedApi._me = {
+            name: 'Player 1'
+        };
         sut.activate({id: 'toto'});
 
         expect(mockedGame.popup).not.toHaveBeenCalled();
+    });
+
+    it('should ask the player name when joining a game', done => {
+        spyOn(mockedGame, 'popup').and.callThrough();
+        spyOn(mockedApi, 'joinGame');
+
+        sut.activate({id: 'game_id'});
+
+        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: ''});
+        mockedGame.popupPromise.then(() => {
+            expect(mockedApi.joinGame).toHaveBeenCalledWith('game_id', 'Tester');
+            done();
+        });
     });
 
     it('should navigate to initialize the game if no id param', done => {
@@ -59,12 +75,12 @@ describe('game/create', () => {
 
         expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: ''});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.initializeGame).toHaveBeenCalledWith({name: 'Tester'});
+            expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester');
             done();
         });
     });
 
-    it('should edit name', () => {
+    it('should edit name', done => {
         spyOn(mockedGame, 'popup').and.callThrough();
         spyOn(mockedApi, 'updateName');
         sut._api._me = {
@@ -74,7 +90,8 @@ describe('game/create', () => {
         sut.editMe();
         expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: 'Player 1'});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.updateName).toHaveBeenCalledWith({name: 'Tester'});
+            expect(mockedApi.updateName).toHaveBeenCalledWith('Tester');
+            done();
         });
     });
 
@@ -93,6 +110,10 @@ describe('game/create', () => {
     it('should add slot after game initilization', () => {
         spyOn(mockedApi, 'addSlot');
 
+        mockedApi._me = {
+            name: 'Player 1',
+            is_game_master: true
+        };
         sut.activate({id: 'the_game'});
 
         expect(mockedApi.addSlot).toHaveBeenCalled();

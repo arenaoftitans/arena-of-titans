@@ -85,18 +85,18 @@ export class Api {
         });
     }
 
-    initializeGame(data) {
-        this._me.name = data.name;
+    initializeGame(name) {
+        this._me.name = name;
         this._ws.send({
             rt: this.requestTypes.init_game,
-            player_name: data.name,
+            player_name: name,
         });
     }
 
     addSlot() {
         let slot = {
             index: this.game.slots.length,
-            name: '',
+            player_name: '',
             state: 'OPEN'
         };
 
@@ -117,6 +117,15 @@ export class Api {
         this._ws.send({
             rt: this.requestTypes.slot_updated,
             slot: slot
+        })
+    }
+
+    joinGame(id, name) {
+        this._me.name = name;
+        this._ws.send({
+            rt: this.requestTypes.init_game,
+            player_name: name,
+            game_id: id
         })
     }
 

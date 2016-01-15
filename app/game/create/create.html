@@ -1,26 +1,34 @@
 <template>
-    <img src="/assets/game/aot-logo.png" class="centered-block" />
+    <img src="/assets/game/aot-logo.png" class="centered-block"/>
 
     <div if.bind="me.name" class="centered-block">
         <h2>Me</h2>
         <p class="centered-text">
             name: ${me.name}
             <button class="button-light margin-left-150"
-                    click.trigger="editMe()">Edit</button>
+                    click.trigger="editMe()">Edit
+            </button>
         </p>
         <button class="button-light centered-block"
+                if.bind="me.is_game_master"
                 disabled.bind="!canCreateGame"
-                click.trigger="createGame()">Create Game</button>
+                click.trigger="createGame()">Create Game
+        </button>
 
         <h2>Other players</h2>
-        <p class="centered-text" repeat.for="slot of slots">Slot n°${slot.index + 1}: ${slot.state}, ${slot.player_name}</p>
+        <p class="centered-text" repeat.for="slot of slots">Slot n°${slot.index + 1}: ${slot.state},
+            ${slot.player_name}</p>
         <button class="button-light centered-block"
+                if.bind="me.is_game_master"
                 click.trigger="addSlot()"
-                disabled.bind="!canAddSlot">Add Slot</button>
+                disabled.bind="!canAddSlot">Add Slot
+        </button>
 
-        <h2>Invite</h2>
-        <label class="centered-block centered-text">To join this game, share this link:
-            <input type="Text" value.bind="gameUrl" readonly />
-        </label>
+        <div if.bind="me.is_game_master">
+            <h2>Invite</h2>
+            <label class="centered-block centered-text">To join this game, share this link:
+                <input type="Text" value.bind="gameUrl" readonly/>
+            </label>
+        </div>
     </div>
 </template>

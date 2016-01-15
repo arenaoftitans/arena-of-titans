@@ -24,6 +24,7 @@ export class ApiStub {
     _game = {
         slots: []
     };
+    _me = {};
 
     constructor() {
         this._api = new Api(new WsStub);
@@ -49,6 +50,9 @@ export class ApiStub {
     updateName() {
     }
 
+    joinGame() {
+    }
+
     on(rt, fn) {
         if (!(rt in this._cbs)) {
             this._cbs[rt] = [];
@@ -64,11 +68,9 @@ export class ApiStub {
     }
 
     get me() {
-        return {
-            name: 'Player 1',
-            is_game_master: true
-        };
+        return this._me;
     }
+
 
     get game() {
         return this._game;

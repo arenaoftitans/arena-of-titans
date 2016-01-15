@@ -20,7 +20,7 @@ describe('services/api', () => {
         };
         spyOn(mockedWs, 'send');
 
-        sut.initializeGame({name: 'Tester'});
+        sut.initializeGame('Tester');
 
         expect(mockedWs.send).toHaveBeenCalledWith(gameData);
     });
@@ -28,7 +28,7 @@ describe('services/api', () => {
     it('should send slot data to ws', () => {
         let slot = {
             index: 0,
-            name: '',
+            player_name: '',
             state: 'OPEN'
         };
         spyOn(mockedWs, 'send');
@@ -144,5 +144,17 @@ describe('services/api', () => {
                 state: 'TAKEN'
             }
         })
+    });
+
+    it('should send game data when joining game', () => {
+        spyOn(mockedWs, 'send');
+
+        sut.joinGame('the_game_id', 'Player 2');
+
+        expect(mockedWs.send).toHaveBeenCalledWith({
+            rt: sut.requestTypes.init_game,
+            player_name: 'Player 2',
+            game_id: 'the_game_id'
+        });
     });
 });
