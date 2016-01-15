@@ -78,6 +78,15 @@ export class ApiStub {
 }
 
 
+export class StorageStub {
+    savePlayerId() {
+    }
+
+    retrievePlayerId() {
+    }
+}
+
+
 export class WsStub {
     send(data) {
     }

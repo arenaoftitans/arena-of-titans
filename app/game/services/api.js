@@ -1,8 +1,9 @@
 import { inject } from 'aurelia-framework';
+import { Storage } from './storage';
 import { Ws } from './ws';
 
 
-@inject(Ws)
+@inject(Ws, Storage)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -17,15 +18,17 @@ export class Api {
     };
     requestTypesValues = [];
     callbacks = {};
+    _storage;
     _ws;
     _me = {};
     _game = {};
 
-    constructor(ws) {
+    constructor(ws, storage) {
         for (let rt of Object.values(this.requestTypes)) {
             this.requestTypesValues.push(rt);
             this.callbacks[rt] = [];
         }
+        this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
@@ -62,9 +65,15 @@ export class Api {
     }
 
     _handleGameInitialized(message) {
+        this._storage.savePlayerId(message.game_id, message.player_id);
+
         this._me.index = message.index;
         this._me.is_game_master = message.is_game_master;
         this._me.id = message.player_id;
+        // On reconnect this._me.name is not set yet, so we do it now.
+        if (!this._me.name) {
+            this._me.name = message.slots[this._me.index].player_name;
+        }
 
         this._game.id = message.game_id;
         this._game.slots = message.slots;
@@ -121,12 +130,13 @@ export class Api {
         });
     }
 
-    joinGame(id, name) {
+    joinGame({gameId: gameId, name: name, playerId: playerId}) {
         this._me.name = name;
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name,
-            game_id: id
+            game_id: gameId,
+            player_id: playerId
         });
     }
 

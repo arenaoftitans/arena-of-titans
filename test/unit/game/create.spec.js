@@ -1,5 +1,5 @@
 import { Create } from '../../../app/game/create/create';
-import { ApiStub, RouterStub } from '../utils';
+import { ApiStub, RouterStub, StorageStub } from '../utils';
 
 
 class Game {
@@ -20,12 +20,14 @@ describe('game/create', () => {
     let mockedRouter;
     let mockedGame;
     let mockedApi;
+    let mockedStorage;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
         mockedGame = new Game();
         mockedApi = new ApiStub();
-        sut = new Create(mockedRouter, mockedGame, mockedApi);
+        mockedStorage = new StorageStub();
+        sut = new Create(mockedRouter, mockedGame, mockedApi, mockedStorage);
     });
 
     it('should register api callbacks on activation', () => {
@@ -63,9 +65,19 @@ describe('game/create', () => {
 
         expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: ''});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.joinGame).toHaveBeenCalledWith('game_id', 'Tester');
+            expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester'});
             done();
         });
+    });
+
+    it('should join the game from a cookie', () => {
+        spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
+        spyOn(mockedGame, 'popup');
+
+        sut.activate({id: 'game_id'});
+
+        expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
+        expect(mockedGame.popup).not.toHaveBeenCalled();
     });
 
     it('should navigate to initialize the game if no id param', done => {

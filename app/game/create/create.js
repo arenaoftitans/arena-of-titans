@@ -2,9 +2,10 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
+import { Storage } from '../services/storage';
 
 
-@inject(Router, Game, Api)
+@inject(Router, Game, Api, Storage)
 export class Create {
     _router;
     _game;
@@ -12,28 +13,27 @@ export class Create {
     _initGameCb;
     _gameUrl = '';
 
-    constructor(router, game, api) {
+    constructor(router, game, api, storage) {
         this._router = router;
         this._game = game;
         this._api = api;
+        this._storage = storage;
     }
 
     activate(params = {}) {
         this._registerApiCallbacks(params);
+        this._gameUrl = window.location.href;
 
         if (!params.id) {
             this._game.popup('create-game', {name: ''}).then(data => {
                 this._api.initializeGame(data.name);
             });
         } else if (this.me.name) {
-            this._gameUrl = window.location.href;
             if (this.me.is_game_master && this.slots.length < 2) {
                 this.addSlot();
             }
         } else {
-            this._game.popup('create-game', {name: ''}).then(data => {
-                this._api.joinGame(params.id, data.name);
-            });
+            this._joinGame(params.id);
         }
     }
 
@@ -43,6 +43,17 @@ export class Create {
                 this._router.navigateToRoute('create', {id: data.game_id});
             }
         });
+    }
+
+    _joinGame(gameId) {
+        let playerId = this._storage.retrievePlayerId(gameId);
+        if (playerId) {
+            this._api.joinGame({gameId: gameId, playerId: playerId});
+        } else {
+            this._game.popup('create-game', {name: ''}).then(data => {
+                this._api.joinGame({gameId: gameId, name: data.name});
+            });
+        }
     }
 
     addSlot() {

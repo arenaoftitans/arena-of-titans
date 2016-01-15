@@ -1,15 +1,17 @@
 import { Api } from '../../../../app/game/services/api';
-import { WsStub } from '../../utils';
+import { StorageStub, WsStub } from '../../utils';
 
 
 describe('services/api', () => {
+    let mockedStorage;
     let mockedWs;
     let sut;
     let rt;
 
     beforeEach(() => {
+        mockedStorage = new StorageStub();
         mockedWs = new WsStub();
-        sut = new Api(mockedWs);
+        sut = new Api(mockedWs, mockedStorage);
         rt = sut.requestTypes;
     });
 
@@ -59,25 +61,27 @@ describe('services/api', () => {
         expect(sut.callbacks[rt.init_game][0]).toBe(undefined);
     });
 
-    it('should handle game created', () => {
+    it('should handle game initialized', () => {
         let gameInitializedMessage = {
             rt: sut.requestTypes.game_initialized,
             index: 0,
             is_game_master: true,
             player_id: 'player_id',
             game_id: 'game_id',
-            slots: {
+            slots: [{
                 index: 0,
                 name: 'Player 1',
                 state: 'TAKEN'
-            }
+            }]
         };
         let gameInitializedCallback = jasmine.createSpy('gameInitializedCallback');
         sut.on(rt.game_initialized, gameInitializedCallback);
         spyOn(sut, '_handleGameInitialized').and.callThrough();
+        spyOn(mockedStorage, 'savePlayerId');
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
+        expect(mockedStorage.savePlayerId).toHaveBeenCalledWith(gameInitializedMessage.game_id, gameInitializedMessage.player_id);
         expect(sut.me.index).toBe(gameInitializedMessage.index);
         expect(sut.me.is_game_master).toBe(gameInitializedMessage.is_game_master);
         expect(sut.me.id).toBe(gameInitializedMessage.player_id);
@@ -149,12 +153,26 @@ describe('services/api', () => {
     it('should send game data when joining game', () => {
         spyOn(mockedWs, 'send');
 
-        sut.joinGame('the_game_id', 'Player 2');
+        sut.joinGame({gameId: 'the_game_id', name: 'Player 2'});
 
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.init_game,
             player_name: 'Player 2',
-            game_id: 'the_game_id'
+            game_id: 'the_game_id',
+            player_id: undefined
+        });
+    });
+
+    it('should send game data when joining game with a cookie', () => {
+        spyOn(mockedWs, 'send');
+
+        sut.joinGame({gameId: 'the_game_id', playerId: 'player_id'});
+
+        expect(mockedWs.send).toHaveBeenCalledWith({
+            rt: sut.requestTypes.init_game,
+            player_name: undefined,
+            game_id: 'the_game_id',
+            player_id: 'player_id'
         });
     });
 });
