@@ -10,7 +10,7 @@ export class Create {
     _game;
     _api;
     _initGameCb;
-    _gameUrl = "";
+    _gameUrl = '';
 
     constructor(router, game, api) {
         this._router = router;
@@ -72,9 +72,9 @@ export class Create {
             return this._api.game.slots.map(slot => {
                 return slot;
             });
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     get gameUrl() {
@@ -89,7 +89,7 @@ export class Create {
         if (this.slots) {
             let numberTakenSlots = 0;
             this.slots.forEach(slot => {
-                if (slot.state == 'TAKEN') {
+                if (slot.state === 'TAKEN') {
                     numberTakenSlots++;
                 }
             });

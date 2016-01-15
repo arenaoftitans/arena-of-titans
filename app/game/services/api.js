@@ -13,7 +13,7 @@ export class Api {
         view: 'VIEW_POSSIBLE_SQUARES',
         play: 'PLAY',
         play_trump: 'PLAY_TRUMP',
-        player_moved: 'PLAYER_MOVED',
+        player_moved: 'PLAYER_MOVED'
     };
     requestTypesValues = [];
     callbacks = {};
@@ -29,7 +29,7 @@ export class Api {
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
-        })
+        });
     }
 
     on(requestType, cb) {
@@ -56,6 +56,7 @@ export class Api {
             case this.requestTypes.slot_updated:
                 this._handleSlotUpdated(message);
                 break;
+            default:
         }
         this._callCallbacks(message);
     }
@@ -89,7 +90,7 @@ export class Api {
         this._me.name = name;
         this._ws.send({
             rt: this.requestTypes.init_game,
-            player_name: name,
+            player_name: name
         });
     }
 
@@ -117,7 +118,7 @@ export class Api {
         this._ws.send({
             rt: this.requestTypes.slot_updated,
             slot: slot
-        })
+        });
     }
 
     joinGame(id, name) {
@@ -126,7 +127,7 @@ export class Api {
             rt: this.requestTypes.init_game,
             player_name: name,
             game_id: id
-        })
+        });
     }
 
     get me() {
