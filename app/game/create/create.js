@@ -78,7 +78,8 @@ export class Create {
     }
 
     get slots() {
-        // If we pass directly the slots array, Aurelia won't update the view when a slot is updated.
+        // If we pass directly the slots array, Aurelia won't update the view when a slot is
+        // updated.
         if (this._api.game.slots) {
             return this._api.game.slots.map(slot => {
                 return slot;
