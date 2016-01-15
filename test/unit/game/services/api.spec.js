@@ -175,4 +175,34 @@ describe('services/api', () => {
             player_id: 'player_id'
         });
     });
+
+    it('should handle errors to display', () => {
+        let message = {error_to_display: 'error'};
+        let errorCb = jasmine.createSpy('errorCb');
+        spyOn(sut, '_handleErrors').and.callThrough();
+        spyOn(sut, '_callCallbacks');
+
+        sut.onerror(errorCb);
+        sut._handleMessage(message);
+
+        expect(sut._handleErrors).toHaveBeenCalledWith(message);
+        expect(sut._callCallbacks).not.toHaveBeenCalled();
+        expect(errorCb).toHaveBeenCalledWith({message: message.error_to_display});
+    });
+
+    it('should handle errors to log', () => {
+        let message = {error: 'error'};
+        let errorCb = jasmine.createSpy('errorCb');
+        spyOn(sut, '_handleErrors').and.callThrough();
+        spyOn(sut, '_callCallbacks');
+        spyOn(console, 'error');
+
+        sut.onerror(errorCb);
+        sut._handleMessage(message);
+
+        expect(sut._handleErrors).toHaveBeenCalledWith(message);
+        expect(sut._callCallbacks).not.toHaveBeenCalled();
+        expect(errorCb).not.toHaveBeenCalled();
+        expect(console.error).toHaveBeenCalledWith(message);
+    });
 });

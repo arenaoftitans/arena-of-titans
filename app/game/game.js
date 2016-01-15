@@ -1,3 +1,8 @@
+import { Api } from './services/api';
+import { inject } from 'aurelia-framework';
+
+
+@inject(Api)
 export class Game {
     data = null;
     type = null;
@@ -7,9 +12,13 @@ export class Game {
         reject: null
     };
 
+    constructor(api) {
+        this._api = api;
+    }
+
     configureRouter(config, router) {
-        config.options.pushState = true;
         router.baseUrl = 'game';
+        config.options.pushState = true;
         config.map([
             {
                 route: '',
@@ -23,6 +32,12 @@ export class Game {
                 title: 'Create game'
             }
         ]);
+    }
+
+    activate() {
+        this._api.onerror(data => {
+            this.popup('error', data);
+        });
     }
 
     popup(type, data) {

@@ -21,6 +21,7 @@ export class RouterStub {
 export class ApiStub {
     _api;
     _cbs = {};
+    _errorCbs = [];
     _game = {
         slots: []
     };
@@ -61,6 +62,10 @@ export class ApiStub {
     }
 
     off() {
+    }
+
+    onerror(cb) {
+        this._errorCbs.push(cb);
     }
 
     get requestTypes() {

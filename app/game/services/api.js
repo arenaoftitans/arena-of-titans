@@ -18,6 +18,7 @@ export class Api {
     };
     requestTypesValues = [];
     callbacks = {};
+    _errorCallbacks = [];
     _storage;
     _ws;
     _me = {};
@@ -51,6 +52,19 @@ export class Api {
         }
     }
 
+    onerror(cb) {
+        let index = this._errorCallbacks.length;
+        this._errorCallbacks.push(cb);
+
+        return index;
+    }
+
+    offerror(index) {
+        if (index !== undefined) {
+            this._errorCallbacks[index] = undefined;
+        }
+    }
+
     _handleMessage(message) {
         switch (message.rt) {
             case this.requestTypes.game_initialized:
@@ -60,6 +74,8 @@ export class Api {
                 this._handleSlotUpdated(message);
                 break;
             default:
+                this._handleErrors(message);
+                return;
         }
         this._callCallbacks(message);
     }
@@ -70,10 +86,7 @@ export class Api {
         this._me.index = message.index;
         this._me.is_game_master = message.is_game_master;
         this._me.id = message.player_id;
-        // On reconnect this._me.name is not set yet, so we do it now.
-        if (!this._me.name) {
-            this._me.name = message.slots[this._me.index].player_name;
-        }
+        this._me.name = message.slots[this._me.index].player_name;
 
         this._game.id = message.game_id;
         this._game.slots = message.slots;
@@ -88,6 +101,16 @@ export class Api {
         }
     }
 
+    _handleErrors(message) {
+        if (message.error_to_display) {
+            this._errorCallbacks.forEach(cb => {
+                cb({message: message.error_to_display});
+            });
+        } else {
+            console.error(message);  //eslint-disable-line no-console
+        }
+    }
+
     _callCallbacks(message) {
         let rt = message.rt;
         this.callbacks[rt].forEach((fn) => {
@@ -96,7 +119,6 @@ export class Api {
     }
 
     initializeGame(name) {
-        this._me.name = name;
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name
@@ -131,7 +153,6 @@ export class Api {
     }
 
     joinGame({gameId: gameId, name: name, playerId: playerId}) {
-        this._me.name = name;
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name,

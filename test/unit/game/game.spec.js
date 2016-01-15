@@ -1,5 +1,5 @@
 import { Game } from '../../../app/game/game';
-import { RouterStub } from '../utils';
+import { ApiStub, RouterStub } from '../utils';
 
 
 class Popup {
@@ -7,10 +7,12 @@ class Popup {
 
 
 describe('the Game module', () => {
-    var sut;
+    let mockedApi;
+    let sut;
 
     beforeEach(() => {
-        sut = new Game();
+        mockedApi = new ApiStub();
+        sut = new Game(mockedApi);
     });
 
     describe('popups', () => {
@@ -46,6 +48,28 @@ describe('the Game module', () => {
 
         it('should be configured as pushState', () => {
             expect(mockedRouter.options.pushState).toBe(true);
+        });
+    });
+
+    describe('errors', () => {
+        it('should register error callback', () => {
+            spyOn(mockedApi, 'onerror');
+
+            sut.activate();
+
+            expect(mockedApi.onerror).toHaveBeenCalled();
+        });
+
+        it('should display error popup on error', () => {
+            let message = {message: 'error'};
+            spyOn(sut, 'popup');
+
+            sut.activate();
+            mockedApi._errorCbs.forEach(cb => {
+                cb(message);
+            });
+
+            expect(sut.popup).toHaveBeenCalledWith('error', message);
         });
     });
 });
