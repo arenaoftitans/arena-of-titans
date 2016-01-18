@@ -99,6 +99,11 @@ button[disabled] {
 }
 
 
+.red-text {
+    color: red;
+}
+
+
 .popup {
     position: absolute;
     z-index: 900;
@@ -112,7 +117,7 @@ button[disabled] {
 
 .popup-content {
     z-index: 901;
-    background: url(/assets/backgrounds/content.png) no-repeat;
+    background: url(/assets/game/backgrounds/popup.png) no-repeat;
     background-size: 100% 100%;
     padding-top: 1px;
     padding-bottom: 15px;
@@ -142,4 +147,8 @@ button[disabled] {
 
 .margin-left-150 {
     margin-left: 150px;
+}
+
+.margin-top-70 {
+    margin-top: 70px;
 }

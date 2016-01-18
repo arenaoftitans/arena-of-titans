@@ -1,0 +1,72 @@
+.pawnCircle {
+    stroke: #000000;
+    stroke-width: 9;
+    stroke-miterlimit: 10
+}
+
+
+#player0 .pawnCircle {
+    fill: #EE731B;
+}
+
+#player1 .pawnCircle {
+    fill: #e52b20;
+}
+
+#player2 .pawnCircle {
+    fill: #D4D922;
+}
+
+#player3 .pawnCircle {
+    fill: #58C0D0;
+}
+
+#player4 .pawnCircle {
+    fill: #6DB52D;
+}
+
+#player5 .pawnCircle {
+    fill: #533F92;
+}
+
+#player6 .pawnCircle {
+    fill: #FFFFFF;
+}
+
+#player7 .pawnCircle {
+    fill: #C24793;
+}
+
+rect, path {
+    opacity: 0.8;
+    stroke: #000000;
+    stroke-width: 2.24024391;
+    stroke-miterlimit: 4;
+    stroke-opacity: 1;
+    stroke-dasharray: none;
+}
+
+.red-square {
+    fill: red;
+}
+
+.yellow-square {
+    fill: yellow;
+}
+
+.black-square {
+    fill: black;
+}
+
+.blue-square {
+    fill: blue;
+}
+
+.highlightedSquare {
+    fill: green !important;
+    cursor: pointer;
+}
+
+.pawn {
+    fill: black;
+}

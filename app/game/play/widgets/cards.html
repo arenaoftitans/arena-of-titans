@@ -1,0 +1,23 @@
+<template>
+    <div>
+        <img class="card"
+             click.delegate="viewPossibleMovements(card.name, card.color)"
+             src="/assets/game/cards/movement/assassin_black.png"/>
+        <img class="card"
+             click.delegate="viewPossibleMovements(card.name, card.color)"
+             src="/assets/game/cards/movement/assassin_black.png"/>
+        <img class="card selected-card"
+             click.delegate="viewPossibleMovements(card.name, card.color)"
+             src="/assets/game/cards/movement/assassin_black.png"/>
+        <img class="card"
+             click.delegate="viewPossibleMovements(card.name, card.color)"
+             src="/assets/game/cards/movement/assassin_black.png"/>
+        <img class="card"
+             click.delegate="viewPossibleMovements(card.name, card.color)"
+             src="/assets/game/cards/movement/assassin_black.png"/>
+    </div>
+    <div id="cards-actions">
+        <button class="button-dark" click.delegate="pass()">Pass</button>
+        <button class="button-light" click.delegate="discard()">Discard selected card</button>
+    </div>
+</template>

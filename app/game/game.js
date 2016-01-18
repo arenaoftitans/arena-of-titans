@@ -21,7 +21,7 @@ export class Game {
         config.options.pushState = true;
         config.map([
             {
-                route: '',
+                route: ['', 'play'],
                 redirect: 'create'
             },
             {
@@ -30,6 +30,13 @@ export class Game {
                 moduleId: './create/create',
                 nav: false,
                 title: 'Create game'
+            },
+            {
+                route: 'play/:id',
+                name: 'play',
+                moduleId: './play/play',
+                nav: false,
+                title: 'Play'
             }
         ]);
     }

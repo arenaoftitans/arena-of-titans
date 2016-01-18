@@ -1,0 +1,39 @@
+<template>
+    <require from="./widgets/board"></require>
+    <require from="./widgets/cards"></require>
+    <require from="./widgets/notifications"></require>
+    <require from="./widgets/trumps"></require>
+
+    <header>
+        <img class="logo" src="/assets/game/aot-logo.png" />
+    </header>
+
+    <main id="play">
+        <div class="play-left">
+            <p class="centered-important player-name">Julien</p>
+            <div id="trumps-container">
+                <aot-trumps></aot-trumps>
+            </div>
+        </div>   <!-- block left -->
+
+        <div class="play-middle">
+            <div id="board-container">
+                <aot-board></aot-board>
+            </div>
+
+            <div id="cards-container">
+                <aot-cards></aot-cards>
+            </div>
+
+        </div>  <!--block middle -->
+
+        <div class="play-right">
+            <div id="notifications">
+                <aot-notifications></aot-notifications>
+            </div>
+
+            <div id="counter">
+            </div>
+        </div>  <!--block right-->
+    </main>
+</template>
