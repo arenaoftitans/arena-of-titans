@@ -1,6 +1,6 @@
 html, body {
-    background-image : url("/assets/backgrounds/bg.png");
     font-family: 'Berkshire Swash', cursive;
+    background-image : url("/assets/backgrounds/bg.png");
 }
 
 
@@ -19,21 +19,21 @@ p {
 }
 
 
-button, input.button {
-    border: none;
+button, input[type=submit] {
+    padding: 0;
     font-family: 'Berkshire Swash', cursive;
     font-size: medium;
-    padding: 0px;
+    border: none;
 }
 
 
 button, .button {
-    color: #DCDCDC;
     display: inline-block;
+    width: 150px;
     line-height: 32px;
+    color: #DCDCDC;
     text-align: center;
     text-decoration: none;
-    width: 150px;
 }
 
 
@@ -44,31 +44,31 @@ button[disabled] {
 
 
 .button-dark {
-    background: url("/assets/components/button-dark.png") no-repeat;
+    background: url(/assets/components/button-dark.png) no-repeat;
+    background-position: 0 0;
     background-size: 100% 200%;
-    background-position: 0px 0px;
 }
 
 
 .button-dark:hover {
-    background: url("/assets/components/button-dark.png") no-repeat;
+    background: url(/assets/components/button-dark.png) no-repeat;
+    background-position: 0 -32px;
     background-size: 100% 200%;
-    background-position: 0px -32px;
 }
 
 
 
 .button-light {
     background: url(/assets/components/button-light.png) no-repeat;
+    background-position: 0 0;
     background-size: 100% 200%;
-    background-position: 0px 0px;
 }
 
 
 .button-light:hover {
     background: url(/assets/components/button-light.png) no-repeat;
+    background-position: 0 -32px;
     background-size: 100% 200%;
-    background-position: 0px -32px;
 }
 
 
@@ -106,30 +106,30 @@ button[disabled] {
 
 .popup {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 900;
-    background-color: #111;
     width: 100%;
     height: 100%;
+    background-color: #111;
     opacity: 0.6;
-    top: 0px;
-    left: 0px;
 }
 
 .popup-content {
+    position: absolute;
+    top: 30%;
+    left: 40%;
     z-index: 901;
-    background: url(/assets/game/backgrounds/popup.png) no-repeat;
-    background-size: 100% 100%;
+    max-width: 20%;
     padding-top: 1px;
     padding-bottom: 15px;
-    max-width: 20%;
-    position: absolute;
-    left: 40%;
-    top: 30%;
+    background: url(/assets/game/backgrounds/popup.png) no-repeat;
+    background-size: 100% 100%;
 }
 
 .popup-content .x-margin {
-    margin-left: 10%;
     margin-right: 10%;
+    margin-left: 10%;
 }
 
 .popup-content form {

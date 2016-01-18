@@ -4,8 +4,9 @@ var eslint = require('gulp-eslint');
 var recess = require('gulp-recess');
 
 
-// runs eslint on all .js files
-gulp.task('lint', function() {
+gulp.task('lint', ['jslint', 'csslint']);
+
+gulp.task('jslint', function() {
   return gulp.src(paths.source)
     .pipe(eslint())
     .pipe(eslint.format())
@@ -13,9 +14,10 @@ gulp.task('lint', function() {
 });
 
 gulp.task('csslint', function () {
-  return gulp.src(['!style/board.css', 'style/**/*.css'])
+  return gulp.src(['!style/board.css', paths.css])
       .pipe(recess({
-        noIDs: false
+        noIDs: false,
+        noOverqualifying: false
       }))
       .pipe(recess.reporter());
 });
