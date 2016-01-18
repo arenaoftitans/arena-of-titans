@@ -5,20 +5,22 @@
     <require from="./widgets/trumps"></require>
 
     <header>
-        <img class="logo" src="/assets/game/aot-logo.png" />
+        <img class="logo" src="/assets/game/aot-logo.png"/>
     </header>
 
     <main id="play">
         <div class="play-left">
-            <p class="centered-important player-name">Julien</p>
+            <p class="over-bg centered-important player-name">Julien</p>
             <div id="trumps-container">
                 <aot-trumps></aot-trumps>
             </div>
         </div>   <!-- block left -->
 
         <div class="play-middle">
-            <div id="board-container">
-                <aot-board></aot-board>
+            <div id="board-bg">
+                <div id="board-container">
+                    <aot-board></aot-board>
+                </div>
             </div>
 
             <div id="cards-container">
