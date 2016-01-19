@@ -332,7 +332,11 @@ describe('services/api', () => {
         sut._handleMessage(message);
 
         expect(sut._updateGame).toHaveBeenCalledWith(message);
-        expect(sut._game.players).toBe(message.players);
+        expect(sut._game.players).toEqual({
+            indexes: [0, 1],
+            names: ['Player 1', 'Player 2'],
+            squares: [{}, {}]
+        });
         expect(sut._me.trumps).toBe(message.trumps);
     });
 
@@ -383,19 +387,25 @@ describe('services/api', () => {
         it('should reconnect', () => {
             let message = {
                 rt: sut.requestTypes.play,
-                reconnect: [
-                    {
-                        index: 0,
-                        square: {x: 0, y: 0}
-                    }
-                ]
+                reconnect: {
+                    players: [
+                        {
+                            index: 0,
+                            square: {x: 0, y: 0}
+                        }
+                    ]
+                }
             };
             spyOn(sut, '_updateGame');
 
             sut._handleMessage(message);
 
             expect(sut._updateGame).toHaveBeenCalled();
-            expect(sut._game.players).toBe(message.reconnect);
+            expect(sut._game.players).toEqual({
+                indexes: [0],
+                names: [undefined],
+                squares: [{x: 0, y: 0}]
+            });
         });
 
         it('should pass', () => {

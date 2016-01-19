@@ -111,9 +111,28 @@ export class Api {
     }
 
     _handleCreateGame(message) {
+        this._createPlayers(message.players);
         this._updateGame(message);
-        this._game.players = message.players;
         this._me.trumps = message.trumps;
+    }
+
+    _createPlayers(players) {
+        this._game.players = {
+            indexes: [],
+            names: [],
+            squares: []
+        };
+
+        for (let player of players) {
+            this._game.players.indexes.push(player.index);
+            this._game.players.names.push(player.name);
+
+            if (player.square) {
+                this._game.players.squares.push(player.square);
+            } else {
+                this._game.players.squares.push({});
+            }
+        }
     }
 
     _updateGame(message) {
@@ -134,7 +153,7 @@ export class Api {
         this._updateGame(message);
 
         if (message.reconnect) {
-            this._game.players = message.reconnect;
+            this._createPlayers(message.reconnect.players);
         }
     }
 

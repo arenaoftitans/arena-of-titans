@@ -31,4 +31,8 @@ export class AotBoardCustomElement {
             this.selectedCard = null;
         }
     }
+
+    get playerIndexes() {
+        return this._api.game.players.indexes;
+    }
 }
