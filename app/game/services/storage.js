@@ -6,15 +6,18 @@ export class Storage {
         playerId = encodeURIComponent(playerId);
         let currentCookies = this.currentCookies;
         let newCookies = [];
+        let joiningGame = false;
         currentCookies.forEach(cookie => {
             let key = cookie.split('=')[0];
-            if (key && key.trim() !== gameId) {
-                newCookies.push(cookie);
+            if (key && key.trim() === gameId) {
+                joiningGame = true;
             }
         });
 
-        newCookies.push(`${gameId}=${playerId}`);
-        newCookies.push(`${this._expiresKey}: 2`);
+        if (!joiningGame) {
+            newCookies.push(`${gameId}=${playerId}`);
+            newCookies.push(`${this._expiresKey}: 2`);
+        }
 
         document.cookie = newCookies.join(';');
     }
