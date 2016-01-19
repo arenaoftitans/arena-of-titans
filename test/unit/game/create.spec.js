@@ -1,18 +1,5 @@
 import { Create } from '../../../app/game/create/create';
-import { ApiStub, RouterStub, StorageStub } from '../utils';
-
-
-class Game {
-    popupPromise;
-
-    popup(type, data) {
-        this.popupPromise = new Promise((resolve, reject) => {
-            resolve({name: 'Tester'});
-        });
-
-        return this.popupPromise;
-    }
-}
+import { ApiStub, GameStub, RouterStub, StorageStub } from '../utils';
 
 
 describe('game/create', () => {
@@ -24,7 +11,7 @@ describe('game/create', () => {
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
-        mockedGame = new Game();
+        mockedGame = new GameStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
         sut = new Create(mockedRouter, mockedGame, mockedApi, mockedStorage);
@@ -129,5 +116,25 @@ describe('game/create', () => {
         sut.activate({id: 'the_game'});
 
         expect(mockedApi.addSlot).toHaveBeenCalled();
+    });
+
+    it('should create game', () => {
+       spyOn(mockedApi, 'createGame');
+
+        sut.createGame();
+
+        expect(mockedApi.createGame).toHaveBeenCalled();
+    });
+
+    it('should navigate to play/{id} after the game creation', () => {
+        spyOn(mockedRouter, 'navigateToRoute');
+
+        sut.activate({id: 'the_game_id'});
+        mockedApi.createGame();
+
+        expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
+            'play',
+            {id: 'the_game_id'}
+        )
     });
 });

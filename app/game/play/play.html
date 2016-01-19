@@ -19,12 +19,14 @@
         <div class="play-middle">
             <div id="board-bg">
                 <div id="board-container">
-                    <aot-board></aot-board>
+                    <aot-board selected-card.two-way="selectedCard"></aot-board>
                 </div>
             </div>
 
             <div id="cards-container">
-                <aot-cards></aot-cards>
+                <aot-cards hand.bind="me.hand"
+                           your-turn.bind="game.your_turn"
+                           selected-card.two-way="selectedCard"></aot-cards>
             </div>
 
         </div>  <!--block middle -->

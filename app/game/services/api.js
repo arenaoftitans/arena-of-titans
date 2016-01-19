@@ -73,6 +73,15 @@ export class Api {
             case this.requestTypes.slot_updated:
                 this._handleSlotUpdated(message);
                 break;
+            case this.requestTypes.create_game:
+                this._handleCreateGame(message);
+                break;
+            case this.requestTypes.view:
+                // Nothing to do beside calling callbacks
+                break;
+            case this.requestTypes.play:
+                this._handlePlay(message);
+                break;
             default:
                 this._handleErrors(message);
                 return;
@@ -101,6 +110,34 @@ export class Api {
         }
     }
 
+    _handleCreateGame(message) {
+        this._updateGame(message);
+        this._game.players = message.players;
+        this._me.trumps = message.trumps;
+    }
+
+    _updateGame(message) {
+        this._game.your_turn = message.your_turn;
+        this._game.next_player = message.next_player;
+        this._game.game_over = message.game_over;
+        this._game.winners = message.winners;
+        this._game.active_trumps = message.active_trumps;
+        this._me.hand = message.hand.map(card => {
+            let name = card.name.toLowerCase();
+            let color = card.color.toLocaleLowerCase();
+            card.img = `/assets/game/cards/movement/${name}_${color}.png`;
+            return card;
+        });
+    }
+
+    _handlePlay(message) {
+        this._updateGame(message);
+
+        if (message.reconnect) {
+            this._game.players = message.reconnect;
+        }
+    }
+
     _handleErrors(message) {
         if (message.error_to_display) {
             this._errorCallbacks.forEach(cb => {
@@ -114,7 +151,9 @@ export class Api {
     _callCallbacks(message) {
         let rt = message.rt;
         this.callbacks[rt].forEach((fn) => {
-            fn(message);
+            if (fn) {
+                fn(message);
+            }
         });
     }
 
@@ -153,11 +192,71 @@ export class Api {
     }
 
     joinGame({gameId: gameId, name: name, playerId: playerId}) {
+        if (name === undefined && playerId === undefined) {
+            playerId = this._storage.retrievePlayerId(gameId);
+        }
+
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name,
             game_id: gameId,
             player_id: playerId
+        });
+    }
+
+    createGame() {
+        let players = this._game.slots.map(slot => {
+            return {
+                name: slot.player_name,
+                index: slot.index
+            };
+        });
+
+        this._ws.send({
+            rt: this.requestTypes.create_game,
+            create_game_request: players
+        });
+    }
+
+    viewPossibleMovements({name: name, color: color}) {
+        this._ws.send({
+            rt: this.requestTypes.view,
+            play_request: {
+                card_name: name,
+                card_color: color
+            }
+        });
+    }
+
+    play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
+        this._ws.send({
+            rt: this.requestTypes.play,
+            play_request: {
+                card_name: cardName,
+                card_color: cardColor,
+                x: parseInt(x, 10),
+                y: parseInt(y, 10)
+            }
+        });
+    }
+
+    pass() {
+        this._ws.send({
+            rt: this.requestTypes.play,
+            play_request: {
+                pass: true
+            }
+        });
+    }
+
+    discard({cardName: cardName, cardColor: cardColor}) {
+        this._ws.send({
+            rt: this.requestTypes.play,
+            play_request: {
+                discard: true,
+                card_name: cardName,
+                card_color: cardColor
+            }
         });
     }
 

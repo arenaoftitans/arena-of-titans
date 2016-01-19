@@ -1,24 +1,12 @@
 <template>
     <div id="cards-img-container">
-        <img class="card"
-             click.delegate="viewPossibleMovements(card.name, card.color)"
-             src="/assets/game/cards/movement/assassin_black.png"/>
-        <img class="card"
-             click.delegate="viewPossibleMovements(card.name, card.color)"
-             src="/assets/game/cards/movement/assassin_black.png"/>
-        <img class="card selected-card"
-             click.delegate="viewPossibleMovements(card.name, card.color)"
-             src="/assets/game/cards/movement/assassin_black.png"/>
-        <img class="card"
-             click.delegate="viewPossibleMovements(card.name, card.color)"
-             src="/assets/game/cards/movement/assassin_black.png"/>
-        <img class="card"
-             click.delegate="viewPossibleMovements(card.name, card.color)"
-             src="/assets/game/cards/movement/assassin_black.png"/>
+        <img class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''}"
+             repeat.for="card of hand"
+             click.delegate="viewPossibleMovements(card)"
+             src.bind="card.img" />
     </div>
     <div id="cards-actions">
-        <button class="button-dark" click.delegate="pass()">Pass</button>
-        <button class="button-light" click.delegate="discard()">Discard</button>
-        <button class="button-light" click.delegate="play()">Play</button>
+        <button class="button-dark" click.delegate="pass()" disabled.bind="!yourTurn">Pass</button>
+        <button class="button-light" click.delegate="discard()" disabled.bind="!yourTurn">Discard</button>
     </div>
 </template>

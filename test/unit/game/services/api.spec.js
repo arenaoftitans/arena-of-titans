@@ -176,8 +176,41 @@ describe('services/api', () => {
         });
     });
 
+    describe('joinGame', () => {
+        it('should fetch the cookie if neither name nor playerId is defined', () => {
+            spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
+            spyOn(mockedWs, 'send');
+
+            sut.joinGame({gameId: 'game_id'});
+
+            expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.init_game,
+                player_name: undefined,
+                game_id: 'game_id',
+                player_id: 'player_id'
+            });
+        });
+
+        it('should not fetch the if playerId is defined', () => {
+            spyOn(mockedStorage, 'retrievePlayerId');
+
+            sut.joinGame({gameId: 'game_id', playerId: 'player_id'});
+
+            expect(mockedStorage.retrievePlayerId).not.toHaveBeenCalled();
+        });
+
+        it('should not fetch the if name is defined', () => {
+            spyOn(mockedStorage, 'retrievePlayerId');
+
+            sut.joinGame({gameId: 'game_id', name: 'Player 1'});
+
+            expect(mockedStorage.retrievePlayerId).not.toHaveBeenCalled();
+        });
+    });
+
     it('should handle errors to display', () => {
-        let message = {error_to_display: 'error'};
+        let message = {error_to_display: 'error'};
         let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut, '_callCallbacks');
@@ -191,7 +224,7 @@ describe('services/api', () => {
     });
 
     it('should handle errors to log', () => {
-        let message = {error: 'error'};
+        let message = {error: 'error'};
         let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut, '_callCallbacks');
@@ -204,5 +237,193 @@ describe('services/api', () => {
         expect(sut._callCallbacks).not.toHaveBeenCalled();
         expect(errorCb).not.toHaveBeenCalled();
         expect(console.error).toHaveBeenCalledWith(message);
+    });
+
+    it('should create the game', () => {
+        spyOn(mockedWs, 'send');
+
+        sut._game = {
+            slots: [
+                {
+                    index: 0,
+                    player_name: 'Player 1'
+                },
+                {
+                    index: 1,
+                    player_name: 'Player 2'
+                }
+            ]
+        };
+        sut.createGame();
+
+        expect(mockedWs.send).toHaveBeenCalledWith({
+            rt: sut.requestTypes.create_game,
+            create_game_request: [
+                {
+                    index: 0,
+                    name: 'Player 1'
+                },
+                {
+                    index: 1,
+                    name: 'Player 2'
+                }
+            ]
+        })
+    });
+
+    it('should update the game', () => {
+        let message = {
+            your_turn: true,
+            next_player: 0,
+            game_over: false,
+            winners: [],
+            active_trumps: [{
+                player_index: 0,
+                player_name: "Player 1",
+                trumps_names: []
+            }, {
+                player_index: 1,
+                player_name: "Player 2",
+                trumps_names: []
+            }],
+            hand: [{
+                name: "King",
+                color: "RED"
+            }]
+        };
+
+        sut._updateGame(message);
+
+        expect(sut._game.your_turn).toBe(true);
+        expect(sut._game.next_player).toBe(0);
+        expect(sut._game.game_over).toBe(false);
+        expect(sut._game.winners.length).toBe(0);
+        expect(sut._game.active_trumps.length).toBe(2);
+        expect(sut._game.active_trumps[0]).toBe(message.active_trumps[0]);
+        expect(sut._game.active_trumps[1]).toBe(message.active_trumps[1]);
+        expect(sut._me.hand).toEqual([
+            {
+                name: 'King',
+                color: 'RED',
+                img: '/assets/game/cards/movement/king_red.png'
+            }
+        ]);
+    });
+
+    it('should handle game created data', () => {
+        let message = {
+            rt: sut.requestTypes.create_game,
+            players: [{
+                index: 0,
+                name: "Player 1"
+            }, {
+                index: 1,
+                name: "Player 2"
+            }],
+            trumps: [{
+                name: "Red Tower",
+                description: "Prevents a player to move on red squares.",
+                cost: 0,
+                duration: 1,
+                must_target_player: true
+            }]
+        };
+        spyOn(sut, '_updateGame');
+        sut._handleMessage(message);
+
+        expect(sut._updateGame).toHaveBeenCalledWith(message);
+        expect(sut._game.players).toBe(message.players);
+        expect(sut._me.trumps).toBe(message.trumps);
+    });
+
+    describe('game', () => {
+        it('should view possible movements', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.viewPossibleMovements({name: 'King', color: 'red'});
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.view,
+                play_request: {
+                    card_name: 'King',
+                    card_color: 'red'
+                }
+            });
+        });
+
+        it('should play', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.play({cardName: 'King', cardColor: 'red', x: '0', y: '0'});
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.play,
+                play_request: {
+                    card_name: 'King',
+                    card_color: 'red',
+                    x: 0,
+                    y: 0
+                }
+            });
+        });
+
+        it('should handle play', () => {
+            let message = {
+                rt: sut.requestTypes.play,
+                your_turn: true
+            };
+            spyOn(sut, '_updateGame');
+
+            sut._handleMessage(message);
+
+            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(sut._game.players).toBe(undefined);
+        });
+
+        it('should reconnect', () => {
+            let message = {
+                rt: sut.requestTypes.play,
+                reconnect: [
+                    {
+                        index: 0,
+                        square: {x: 0, y: 0}
+                    }
+                ]
+            };
+            spyOn(sut, '_updateGame');
+
+            sut._handleMessage(message);
+
+            expect(sut._updateGame).toHaveBeenCalled();
+            expect(sut._game.players).toBe(message.reconnect);
+        });
+
+        it('should pass', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.pass();
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.play,
+                play_request: {
+                    pass: true
+                }
+            })
+        });
+
+        it('should discard', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.discard({cardName: 'King', cardColor: 'red'});
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.play,
+                play_request: {
+                    discard: true,
+                    card_name: 'King',
+                    card_color: 'red'
+                }
+            })
+        });
     });
 });

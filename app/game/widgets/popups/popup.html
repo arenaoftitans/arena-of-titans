@@ -1,6 +1,8 @@
 <template>
     <require from="./player-infos"></require>
     <require from="./error"></require>
+    <require from="./infos"></require>
+    <require from="./confirm"></require>
 
     <div class="popup">
         <div class="popup-content">
@@ -10,6 +12,12 @@
             <aot-error if.bind="type === 'error'"
                        data.bind="data"
                        done.bind="done"></aot-error>
+            <aot-infos if.bind="type === 'infos'"
+                       data.bind="data"
+                       done.bind="done"></aot-infos>
+            <aot-confirm if.bind="type === 'confirm'"
+                         data.bind="data"
+                         done.bind="done"></aot-confirm>
         </div>
     </div>
 </template>

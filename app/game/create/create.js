@@ -43,6 +43,9 @@ export class Create {
                 this._router.navigateToRoute('create', {id: data.game_id});
             }
         });
+        this._createGameCb = this._api.on(this._api.requestTypes.create_game, () => {
+            this._router.navigateToRoute('play', {id: params.id});
+        });
     }
 
     _joinGame(gameId) {
@@ -67,10 +70,12 @@ export class Create {
     }
 
     createGame() {
+        this._api.createGame();
     }
 
     deactivate() {
         this._api.off(this._api.requestTypes.init_game, this._initGameCb);
+        this._api.off(this._api.requestTypes.create_game, this._createGameCb);
     }
 
     get me() {

@@ -54,6 +54,27 @@ export class ApiStub {
     joinGame() {
     }
 
+    createGame() {
+        let cbs = this._cbs[this.requestTypes.create_game];
+        if (cbs) {
+            cbs.forEach(cb => {
+                cb();
+            });
+        }
+    }
+
+    viewPossibleMovements() {
+    }
+
+    play() {
+    }
+
+    pass() {
+    }
+
+    discard() {
+    }
+
     on(rt, fn) {
         if (!(rt in this._cbs)) {
             this._cbs[rt] = [];
@@ -79,6 +100,19 @@ export class ApiStub {
 
     get game() {
         return this._game;
+    }
+}
+
+
+export class GameStub {
+    popupPromise;
+
+    popup(type, data) {
+        this.popupPromise = new Promise((resolve, reject) => {
+            resolve({name: 'Tester'});
+        });
+
+        return this.popupPromise;
     }
 }
 

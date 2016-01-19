@@ -109,11 +109,21 @@
     position: relative;
     margin-top: 1%;
     margin-right: 2%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.active-card {
     cursor: pointer;
 }
 
-.card:hover {
+.active-card:hover {
     top: -10px;
+}
+
+.inactive-card {
+    opacity: 0.6;
 }
 
 .selected-card, .selected-card:hover {

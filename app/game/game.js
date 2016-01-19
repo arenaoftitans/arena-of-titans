@@ -58,6 +58,9 @@ export class Game {
         this.popupDefered.promise.then(() => {
             this.data = null;
             this.type = null;
+        }, () => {
+            this.data = null;
+            this.type = null;
         });
 
         return this.popupDefered.promise;
