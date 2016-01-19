@@ -82,6 +82,12 @@ export class Api {
             case this.requestTypes.play:
                 this._handlePlay(message);
                 break;
+            case this.requestTypes.player_moved:
+                this._movePlayer({
+                    playerIndex: message.player_index,
+                    newSquare: message.new_square
+                });
+                break;
             default:
                 this._handleErrors(message);
                 return;
@@ -153,7 +159,53 @@ export class Api {
         this._updateGame(message);
 
         if (message.reconnect) {
-            this._createPlayers(message.reconnect.players);
+            this._handleReconnect(message.reconnect);
+        }
+    }
+
+    _handleReconnect(reconnectMessage) {
+        this._createPlayers(reconnectMessage.players);
+
+        // When reconnecting, we must wait for the board to be loaded before trying to move
+        // the pawns.
+        let defered = {};
+        defered.promise = new Promise((resolve) => {
+            defered.resolve = resolve;
+        });
+
+        (function waitForBoard() {
+            let pawn0 = document.getElementById('player0');
+            if (pawn0 !== null) {
+                defered.resolve();
+            } else {
+                setTimeout(waitForBoard, 500);
+            }
+        })();
+
+        defered.promise.then(() => {
+            reconnectMessage.players.forEach(player => {
+                this._movePlayer({playerIndex: player.index, newSquare: player.square});
+            });
+        });
+    }
+
+    _movePlayer({playerIndex: playerIndex, newSquare: newSquare}) {
+        let pawnId = `player${playerIndex}`;
+        let pawn = document.getElementById(pawnId);
+        let pawnContainer = document.getElementById(`${pawnId}Container`);
+        let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
+        let boundingBox = square.getBBox();
+        let transform = square.getAttribute('transform');
+
+        pawnContainer.setAttribute('transform', transform);
+        pawn.setAttribute('height', boundingBox.height);
+        pawn.setAttribute('width', boundingBox.width);
+        pawn.setAttribute('x', boundingBox.x);
+
+        if (square.tagName === 'rect') {
+            pawn.setAttribute('y', boundingBox.y);
+        } else {
+            pawn.setAttribute('y', boundingBox.y + 0.25 * boundingBox.height);
         }
     }
 
