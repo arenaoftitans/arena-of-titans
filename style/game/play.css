@@ -145,7 +145,7 @@
 
 #notifications img {
     width: 90%;
-    max-with: 170px;
+    max-width: 100px;
 }
 
 #description {

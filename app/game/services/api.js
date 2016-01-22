@@ -14,7 +14,7 @@ export class Api {
         view: 'VIEW_POSSIBLE_SQUARES',
         play: 'PLAY',
         play_trump: 'PLAY_TRUMP',
-        player_moved: 'PLAYER_MOVED'
+        player_played: 'PLAYER_PLAYED'
     };
     requestTypesValues = [];
     callbacks = {};
@@ -82,7 +82,7 @@ export class Api {
             case this.requestTypes.play:
                 this._handlePlay(message);
                 break;
-            case this.requestTypes.player_moved:
+            case this.requestTypes.player_played:
                 this._movePlayer({
                     playerIndex: message.player_index,
                     newSquare: message.new_square

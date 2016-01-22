@@ -1,18 +1,24 @@
 <template>
     <p class="centered-important">
         C'est le tour de <br>
-        <strong>Player 1</strong>
+        <strong>${playerName}</strong>
     </p>
 
-    <img class="centered-block" src="/assets/game/cards/trumps/blizzard.png"/>
-
-    <div id="description">
-        <p class="centered-important"><strong>Blizzard</strong></p>
-        <p>
-            <strong>Effet :</strong> Limite le premier déplacement de la cible à 1 case <br>
-            Durée : 1 tour <br>
-            Coût : 5 PE <br>
-            Cible : Player 2
+    <div>
+        <p>Last action played by
+            <span if.bind="lastAction"><strong>${lastAction.playerName}</strong>:
+            ${lastAction.description}</span>
+            <span if.bind="!lastAction"><br><em>No action yet</em></span>
         </p>
+        <img class="centered-block"
+             src.bind="lastAction.img"
+             if.bind="lastAction" />
+
+        <div id="description" if.bind="lastAction">
+            <p class="centered-important"><strong>${lastAction.title}</strong></p>
+            <p>
+                ${lastAction.card.description}
+            </p>
+        </div>
     </div>
 </template>

@@ -33,7 +33,9 @@
 
         <div class="play-right">
             <div id="notifications">
-                <aot-notifications></aot-notifications>
+                <aot-notifications
+                        players.bind="game.players"
+                        current-player-index.bind="game.next_player"></aot-notifications>
             </div>
 
             <div id="counter">
