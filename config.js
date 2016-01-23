@@ -296,7 +296,9 @@ System.config({
       "npm:core-js@1.2.6/modules/web.timers",
       "npm:core-js@1.2.6/shim",
       "npm:process@0.11.2",
-      "npm:process@0.11.2/browser"
+      "npm:process@0.11.2/browser",
+      "npm:systemjs-plugin-json@0.1.0",
+      "npm:systemjs-plugin-json@0.1.0/json"
     ]
   },
 
@@ -311,6 +313,8 @@ System.config({
     "babel": "npm:babel-core@5.8.34",
     "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@1.2.6",
+    "json": "npm:systemjs-plugin-json@0.1.0",
+    "systemjs-plugin-json": "npm:systemjs-plugin-json@0.1.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },

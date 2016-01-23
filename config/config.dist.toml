@@ -1,0 +1,14 @@
+# This file contains the configuration variable used to generate files from
+# templates. Copy this file into config/config.dev.toml and config/config.prod.toml. Then
+# replace the relevant values.
+
+[api]
+port = 80
+host = 'www.arenaoftitans.com'
+scheme = 'ws'
+
+
+[test]
+# If debug is set to true, you will directly be taken to the game. Only the first player is
+# functional. You cannot play as player 2.
+debug = false

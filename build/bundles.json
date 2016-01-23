@@ -11,7 +11,9 @@
         "aurelia-router",
         "aurelia-templating-binding",
         "aurelia-templating-resources",
-        "aurelia-templating-router"
+        "aurelia-templating-router",
+        "systemjs-plugin-json",
+        "json"
       ],
       "options": {
         "inject": true,

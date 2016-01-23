@@ -1,6 +1,7 @@
 /nb-configuration.xml
-/config-*.toml
+/config/*.toml
 /jspm_packages
 /node_modules
 /dist
 /coverage
+config/application.json

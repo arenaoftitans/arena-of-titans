@@ -1,6 +1,8 @@
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
+var loadConfig = require('../utils');
 
+var fs = require('fs');
 var browserSync = require('browser-sync');
 var gulp = require('gulp');
 var to5 = require('gulp-babel');
@@ -16,7 +18,7 @@ var runSequence = require('run-sequence');
 gulp.task('build', function (done) {
     return runSequence(
             'clean',
-            ['bundle', 'build-html', 'build-css', 'build-system'],
+            ['bundle', 'build-html', 'build-css', 'build-config', 'build-system'],
             done);
 });
 
@@ -34,6 +36,13 @@ gulp.task('build-css', function () {
             .pipe(concatCss('style.css'))
             .pipe(gulp.dest(paths.output))
             .pipe(browserSync.stream());
+});
+
+
+gulp.task('build-config', function () {
+    var config = loadConfig('dev');
+
+    fs.writeFileSync('config/application.json', JSON.stringify(config));
 });
 
 

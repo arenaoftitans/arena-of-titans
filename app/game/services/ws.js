@@ -1,9 +1,16 @@
+import { inject } from 'aurelia-framework';
+import Config from '../../../config/application.json!json';
+
+
+@inject(Config)
 export class Ws {
     _ws;
     _waitingOpen = [];
 
-    constructor() {
-        this._ws = new WebSocket('ws://localhost:9000');
+    constructor(config) {
+        let api = config.api;
+
+        this._ws = new WebSocket(`${api.scheme}://${api.host}:${api.port}`);
         this._ws.onopen = () => {
             this._waitingOpen.forEach(data => {
                 this.send(data);
