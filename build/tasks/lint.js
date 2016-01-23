@@ -4,14 +4,17 @@ var eslint = require('gulp-eslint');
 var recess = require('gulp-recess');
 
 
-gulp.task('lint', ['jslint', 'csslint']);
+gulp.task(
+    'lint',
+    ['jslint', 'csslint']
+).help = 'lint all JS and CSS files. Please do this before commiting.';
 
 gulp.task('jslint', function() {
   return gulp.src(paths.source)
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError());
-});
+}).help = 'lint all JS files.';
 
 gulp.task('csslint', function () {
   return gulp.src(['!style/board.css', paths.css])
@@ -20,4 +23,4 @@ gulp.task('csslint', function () {
         noOverqualifying: false
       }))
       .pipe(recess.reporter());
-});
+}).help = 'lint all CSS files.';

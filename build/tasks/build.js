@@ -20,7 +20,7 @@ gulp.task('build', function (done) {
             'clean',
             ['bundle', 'build-html', 'build-css', 'build-config', 'build-system'],
             done);
-});
+}).help = 'generate all files for the application and save them in ./dist';
 
 
 gulp.task('build-html', function () {

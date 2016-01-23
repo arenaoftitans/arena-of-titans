@@ -1,28 +1,22 @@
 var gulp = require('gulp');
 var Karma = require('karma').Server;
 
-/**
- * Run test once and exit
- */
+
 gulp.task('test', function(done) {
   new Karma({
     configFile: __dirname + '/../../karma.conf.js',
     singleRun: true
   }, done).start();
-});
+}).help = 'run test once and exit.';
 
-/**
- * Watch for file changes and re-run tests on each change
- */
+
 gulp.task('tdd', function(done) {
   new Karma({
     configFile: __dirname + '/../../karma.conf.js'
   }, done).start();
-});
+}).help = 'watch for file changes and re-run tests on each change.';
 
-/**
- * Run test once with code coverage and exit
- */
+
 gulp.task('cover', function(done) {
   new Karma({
     configFile: __dirname + '/../../karma.conf.js',
@@ -47,4 +41,4 @@ gulp.task('cover', function(done) {
       ]
     }
   }, done).start();
-});
+}).help = 'run test once with code coverage and exit.';

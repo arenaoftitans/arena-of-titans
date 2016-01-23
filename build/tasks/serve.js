@@ -17,4 +17,4 @@ gulp.task('serve', ['build'], function (done) {
             }, historyApiFallback()]
         }
     }, done);
-}).help = 'start a small server to ease devolopment of the frontend';
+}).help = 'start a small server to server the application and the generated files in dist.';
