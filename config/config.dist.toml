@@ -4,7 +4,7 @@
 
 [api]
 port = 80
-host = 'www.arenaoftitans.com'
+host = 'api.arenaoftitans.com'
 scheme = 'ws'
 
 
