@@ -8,13 +8,19 @@ describe('game/create', () => {
     let mockedGame;
     let mockedApi;
     let mockedStorage;
+    let mockedConfig;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
         mockedGame = new GameStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
-        sut = new Create(mockedRouter, mockedGame, mockedApi, mockedStorage);
+        mockedConfig = {
+            test: {
+                debug: false
+            }
+        };
+        sut = new Create(mockedRouter, mockedGame, mockedApi, mockedStorage, mockedConfig);
     });
 
     it('should register api callbacks on activation', () => {
@@ -136,5 +142,16 @@ describe('game/create', () => {
             'play',
             {id: 'the_game_id'}
         )
+    });
+
+    it('should create debug game when config.test.debug is true', () => {
+        spyOn(mockedApi, 'createGameDebug');
+        spyOn(mockedGame, 'popup');
+        mockedConfig.test.debug = true;
+
+        sut.activate();
+
+        expect(mockedApi.createGameDebug).toHaveBeenCalled();
+        expect(mockedGame.popup).not.toHaveBeenCalled();
     });
 });

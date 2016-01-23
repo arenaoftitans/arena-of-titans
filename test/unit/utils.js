@@ -101,6 +101,9 @@ export class ApiStub {
     get game() {
         return this._game;
     }
+
+    createGameDebug() {
+    }
 }
 
 

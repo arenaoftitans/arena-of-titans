@@ -1,9 +1,10 @@
 import { inject } from 'aurelia-framework';
 import { Storage } from './storage';
 import { Ws } from './ws';
+import Config from '../../../config/application.json!json';
 
 
-@inject(Ws, Storage)
+@inject(Ws, Storage, Config)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -23,8 +24,9 @@ export class Api {
     _ws;
     _me = {};
     _game = {};
+    _config;
 
-    constructor(ws, storage) {
+    constructor(ws, storage, config) {
         for (let rt of Object.values(this.requestTypes)) {
             this.requestTypesValues.push(rt);
             this.callbacks[rt] = [];
@@ -34,6 +36,7 @@ export class Api {
         this._ws.onmessage((message) => {
             this._handleMessage(message);
         });
+        this._config = config;
     }
 
     on(requestType, cb) {
@@ -105,6 +108,10 @@ export class Api {
 
         this._game.id = message.game_id;
         this._game.slots = message.slots;
+
+        if (this.debug) {
+            this.addSlot();
+        }
     }
 
     _handleSlotUpdated(message) {
@@ -113,6 +120,10 @@ export class Api {
             this._game.slots[slot.index] = slot;
         } else {
             this._game.slots.push(slot);
+        }
+
+        if (this.debug) {
+            this.createGame();
         }
     }
 
@@ -237,9 +248,9 @@ export class Api {
 
     addSlot() {
         let slot = {
-            index: this.game.slots.length,
-            player_name: '',
-            state: 'OPEN'
+            index: this.debug ? 1 : this.game.slots.length,
+            player_name: this.debug ? 'Player 2' : '',
+            state: this.debug ? 'TAKEN' : 'OPEN'
         };
 
         this._ws.send({
@@ -287,6 +298,10 @@ export class Api {
             rt: this.requestTypes.create_game,
             create_game_request: players
         });
+    }
+
+    createGameDebug() {
+        this.initializeGame('Player 1');
     }
 
     viewPossibleMovements({name: name, color: color}) {
@@ -337,5 +352,9 @@ export class Api {
 
     get game() {
         return this._game;
+    }
+
+    get debug() {
+        return this._config.test.debug;
     }
 }

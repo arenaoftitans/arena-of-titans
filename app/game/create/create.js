@@ -3,33 +3,42 @@ import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
 import { Storage } from '../services/storage';
+import Config from '../../../config/application.json!json';
 
 
-@inject(Router, Game, Api, Storage)
+@inject(Router, Game, Api, Storage, Config)
 export class Create {
     _router;
     _game;
     _api;
     _initGameCb;
     _gameUrl = '';
+    _config;
 
-    constructor(router, game, api, storage) {
+    constructor(router, game, api, storage, config) {
         this._router = router;
         this._game = game;
         this._api = api;
         this._storage = storage;
+        this._config = config;
     }
 
     activate(params = {}) {
         this._registerApiCallbacks(params);
         this._gameUrl = window.location.href;
 
-        if (!params.id) {
+        if (this._config.test.debug) {
+            if (!params.id) {
+                this._api.createGameDebug();
+            } else {
+                this._router.navigateToRoute('play', {id: params.id});
+            }
+        } else if (!params.id) {
             this._game.popup('create-game', {name: ''}).then(data => {
                 this._api.initializeGame(data.name);
             });
         } else if (this.me.name) {
-            if (this.me.is_game_master && this.slots.length < 2) {
+            if (!this._config.test.debug && this.me.is_game_master && this.slots.length < 2) {
                 this.addSlot();
             }
         } else {
@@ -44,7 +53,9 @@ export class Create {
             }
         });
         this._createGameCb = this._api.on(this._api.requestTypes.create_game, () => {
-            this._router.navigateToRoute('play', {id: params.id});
+            if (params.id) {
+                this._router.navigateToRoute('play', {id: params.id});
+            }
         });
     }
 

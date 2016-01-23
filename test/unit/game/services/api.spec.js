@@ -5,13 +5,19 @@ import { StorageStub, WsStub } from '../../utils';
 describe('services/api', () => {
     let mockedStorage;
     let mockedWs;
+    let mockedConfig;
     let sut;
     let rt;
 
     beforeEach(() => {
         mockedStorage = new StorageStub();
         mockedWs = new WsStub();
-        sut = new Api(mockedWs, mockedStorage);
+        mockedConfig = {
+            test: {
+                debug: false
+            }
+        };
+        sut = new Api(mockedWs, mockedStorage, mockedConfig);
         rt = sut.requestTypes;
     });
 
@@ -338,6 +344,45 @@ describe('services/api', () => {
             squares: [{}, {}]
         });
         expect(sut._me.trumps).toBe(message.trumps);
+    });
+
+    it('should create game for debug', () => {
+        spyOn(sut, 'initializeGame');
+        spyOn(sut, 'addSlot').and.callThrough();
+        spyOn(mockedWs, 'send');
+        spyOn(sut, 'createGame');
+        mockedConfig.test.debug = true;
+
+        sut.createGameDebug();
+        expect(sut.initializeGame).toHaveBeenCalledWith('Player 1');
+
+        sut._handleMessage({
+            rt: rt.game_initialized,
+            game_id: 'game_id',
+            player_id: 'player_id',
+            index: 0,
+            is_game_master: true,
+            slots: [{
+                player_name: 'Player 1'
+            }]
+        });
+        expect(sut.addSlot).toHaveBeenCalled();
+
+        sut._handleMessage({
+            rt: rt.slot_updated,
+            slot: {
+                index: 1
+            }
+        });
+        expect(sut.createGame).toHaveBeenCalled();
+        expect(mockedWs.send).toHaveBeenCalledWith({
+            rt: rt.add_slot,
+            slot: {
+                index: 1,
+                player_name: 'Player 2',
+                state: 'TAKEN'
+            }
+        });
     });
 
     describe('game', () => {
