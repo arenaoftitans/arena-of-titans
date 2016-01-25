@@ -6,10 +6,9 @@
     <div id="trumps-affecting-player">
         <img class="trump-icon centered-block" src="/assets/game/misc/affecting-trumps.png"/>
         <div class="margin-top-70">
-            <img class="trumps-affecting-player" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="trumps-affecting-player" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="trumps-affecting-player" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="trumps-affecting-player" src="/assets/game/cards/trumps/blizzard.png"/>
+            <img class="trumps-affecting-player"
+                 repeat.for="trump of affectingTrumps"
+                 src.bind="trump.img"/>
         </div>
     </div>
 

@@ -286,17 +286,20 @@ describe('services/api', () => {
             active_trumps: [{
                 player_index: 0,
                 player_name: "Player 1",
-                trumps_names: []
+                trumps: [{
+                    name: 'Reinforcements'
+                }]
             }, {
                 player_index: 1,
                 player_name: "Player 2",
-                trumps_names: []
+                trumps: []
             }],
             hand: [{
                 name: "King",
                 color: "RED"
             }]
         };
+        sut._me.index = 0;
 
         sut._updateGame(message);
 
@@ -314,6 +317,10 @@ describe('services/api', () => {
                 img: '/assets/game/cards/movement/king_red.png'
             }
         ]);
+        expect(sut._me.affecting_trumps).toEqual([{
+            name: 'Reinforcements',
+            img: '/assets/game/cards/trumps/reinforcements.png'
+        }])
     });
 
     it('should handle game created data', () => {

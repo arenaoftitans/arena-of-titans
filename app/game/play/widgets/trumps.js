@@ -35,6 +35,10 @@ export class AotTrumpsCustomElement {
         return this._api.me.trumps;
     }
 
+    get affectingTrumps() {
+        return this._api.me.affecting_trumps;
+    }
+
     get playerNames() {
         return this._api.game.players.names;
     }

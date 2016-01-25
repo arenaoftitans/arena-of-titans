@@ -91,6 +91,9 @@ export class Api {
                     newSquare: message.new_square
                 });
                 break;
+            case this.requestTypes.play_trump:
+                this._handlePlayTrump(message);
+                break;
             default:
                 this._handleErrors(message);
                 return;
@@ -129,7 +132,7 @@ export class Api {
 
     _handleCreateGame(message) {
         this._createPlayers(message.players);
-        this._createTrumps(message.trumps);
+        this._me.trumps = this._createTrumps(message.trumps);
         this._updateGame(message);
     }
 
@@ -153,7 +156,7 @@ export class Api {
     }
 
     _createTrumps(trumps) {
-        this._me.trumps = trumps.map(trump => {
+        return trumps.map(trump => {
             let trumpName = trump.name.replace(' ', '_').toLowerCase();
             trump.img = `/assets/game/cards/trumps/${trumpName}.png`;
             return trump;
@@ -172,19 +175,28 @@ export class Api {
             card.img = `/assets/game/cards/movement/${name}_${color}.png`;
             return card;
         });
+        this._updateAffectingTrumps(message.active_trumps);
+    }
+
+    _updateAffectingTrumps(activeTrumps) {
+        this._me.affecting_trumps = this._createTrumps(activeTrumps[this._me.index].trumps);
     }
 
     _handlePlay(message) {
-        this._updateGame(message);
-
         if (message.reconnect) {
             this._handleReconnect(message.reconnect);
         }
+
+        this._updateGame(message);
+    }
+
+    _handlePlayTrump(message) {
+        this._updateAffectingTrumps(message.active_trumps);
     }
 
     _handleReconnect(reconnectMessage) {
         this._createPlayers(reconnectMessage.players);
-        this._createTrumps(reconnectMessage.trumps);
+        this._me.trumps = this._createTrumps(reconnectMessage.trumps);
         this._me.index = reconnectMessage.index;
 
         // When reconnecting, we must wait for the board to be loaded before trying to move
