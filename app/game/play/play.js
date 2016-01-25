@@ -27,4 +27,8 @@ export class Play {
     get game() {
         return this._api.game;
     }
+
+    get myName() {
+        return this._api.me.name;
+    }
 }

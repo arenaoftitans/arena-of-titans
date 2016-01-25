@@ -198,6 +198,7 @@ export class Api {
         this._createPlayers(reconnectMessage.players);
         this._me.trumps = this._createTrumps(reconnectMessage.trumps);
         this._me.index = reconnectMessage.index;
+        this._me.name = this._game.players.names[this._me.index];
 
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
