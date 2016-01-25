@@ -69,6 +69,9 @@ export class ApiStub {
     play() {
     }
 
+    playTrump() {
+    }
+
     pass() {
     }
 

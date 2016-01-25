@@ -17,10 +17,10 @@
         <img class="trump-icon centered-block" src="/assets/game/misc/player-trumps.png"/>
 
         <div>
-            <img class="player-trumps" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="player-trumps" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="player-trumps" src="/assets/game/cards/trumps/blizzard.png"/>
-            <img class="player-trumps" src="/assets/game/cards/trumps/blizzard.png"/>
+            <img class="player-trumps"
+                 repeat.for="trump of trumps"
+                 src.bind="trump.img"
+                 click.delegate="play(trump)"/>
         </div>
     </div>
 </template>

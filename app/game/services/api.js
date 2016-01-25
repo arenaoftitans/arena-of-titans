@@ -129,8 +129,8 @@ export class Api {
 
     _handleCreateGame(message) {
         this._createPlayers(message.players);
+        this._createTrumps(message.trumps);
         this._updateGame(message);
-        this._me.trumps = message.trumps;
     }
 
     _createPlayers(players) {
@@ -150,6 +150,14 @@ export class Api {
                 this._game.players.squares.push({});
             }
         }
+    }
+
+    _createTrumps(trumps) {
+        this._me.trumps = trumps.map(trump => {
+            let trumpName = trump.name.replace(' ', '_').toLowerCase();
+            trump.img = `/assets/game/cards/trumps/${trumpName}.png`;
+            return trump;
+        });
     }
 
     _updateGame(message) {
@@ -176,6 +184,8 @@ export class Api {
 
     _handleReconnect(reconnectMessage) {
         this._createPlayers(reconnectMessage.players);
+        this._createTrumps(reconnectMessage.trumps);
+        this._me.index = reconnectMessage.index;
 
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
@@ -322,6 +332,16 @@ export class Api {
                 card_color: cardColor,
                 x: parseInt(x, 10),
                 y: parseInt(y, 10)
+            }
+        });
+    }
+
+    playTrump({trumpName, targetIndex}) {
+        this._ws.send({
+            rt: this.requestTypes.play_trump,
+            play_request: {
+                name: trumpName,
+                target_index: targetIndex === undefined ? null : targetIndex
             }
         });
     }

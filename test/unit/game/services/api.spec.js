@@ -343,7 +343,14 @@ describe('services/api', () => {
             names: ['Player 1', 'Player 2'],
             squares: [{}, {}]
         });
-        expect(sut._me.trumps).toBe(message.trumps);
+        expect(sut._me.trumps).toEqual([{
+            name: "Red Tower",
+            img: '/assets/game/cards/trumps/red_tower.png',
+            description: "Prevents a player to move on red squares.",
+            cost: 0,
+            duration: 1,
+            must_target_player: true
+        }]);
     });
 
     it('should create game for debug', () => {
@@ -438,6 +445,11 @@ describe('services/api', () => {
                             index: 0,
                             square: {x: 0, y: 0}
                         }
+                    ],
+                    trumps: [
+                        {
+                            name: 'Tower red'
+                        }
                     ]
                 }
             };
@@ -450,6 +462,40 @@ describe('services/api', () => {
                 indexes: [0],
                 names: [undefined],
                 squares: [{x: 0, y: 0}]
+            });
+            expect(sut._me.trumps).toEqual([
+                {
+                    name: 'Tower red',
+                    img: '/assets/game/cards/trumps/tower_red.png'
+                }
+            ])
+        });
+
+        it('should play trump without target', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.playTrump({trumpName: 'Trump'});
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.play_trump,
+                play_request: {
+                    name: 'Trump',
+                    target_index: null
+                }
+            });
+        });
+
+        it('should play trump with a target', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.playTrump({trumpName: 'Trump', targetIndex: 0});
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.play_trump,
+                play_request: {
+                    name: 'Trump',
+                    target_index: 0
+                }
             });
         });
 
