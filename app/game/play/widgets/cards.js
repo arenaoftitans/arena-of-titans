@@ -5,9 +5,7 @@ import { Game } from '../../game';
 
 @inject(Api, Game)
 export class AotCardsCustomElement {
-    @bindable hand = [];
     @bindable selectedCard;
-    @bindable yourTurn;
     _api;
     _game;
 
@@ -46,5 +44,13 @@ export class AotCardsCustomElement {
         } else {
             this._game.popup('infos', {message: 'You must select a card'});
         }
+    }
+
+    get yourTurn() {
+        return this._api.game.your_turn;
+    }
+
+    get hand() {
+        return this._api.me.hand;
     }
 }

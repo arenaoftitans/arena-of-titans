@@ -16,7 +16,7 @@ describe('cards', () => {
     it('should view possible movements', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
-        sut.yourTurn = true;
+        mockedApi._game.your_turn = true;
 
         sut.viewPossibleMovements(card);
 
@@ -27,7 +27,7 @@ describe('cards', () => {
     it('should not view possible movement if not your turn', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
-        sut.yourTurn = false;
+        mockedApi._game.your_turn = false;
         sut.selectedCard = null;
 
         sut.viewPossibleMovements(card);
