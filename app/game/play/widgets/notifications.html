@@ -12,12 +12,19 @@
         </p>
         <img class="centered-block"
              src.bind="lastAction.img"
-             if.bind="lastAction" />
+             if.bind="lastAction && lastAction.img" />
 
-        <div id="description" if.bind="lastAction">
+        <div if.bind="lastAction && lastAction.card">
             <p class="centered-important"><strong>${lastAction.title}</strong></p>
             <p>
                 ${lastAction.card.description}
+            </p>
+        </div>
+
+        <div if.bind="lastAction && lastAction.trump">
+            <p class="centered-important"><strong>${lastAction.title}</strong></p>
+            <p>
+                ${lastAction.trump.description}
             </p>
         </div>
     </div>

@@ -11,6 +11,7 @@ export class AotNotificationsCustomElement {
 
     constructor(api) {
         this._api = api;
+
         this._api.on(this._api.requestTypes.player_played, message => {
             let lastAction = message.last_action;
             this._lastAction = lastAction;
@@ -22,6 +23,14 @@ export class AotNotificationsCustomElement {
 
             let card = `${cardName.toLowerCase()}_${cardColor}`;
             this._lastAction.img = `/assets/game/cards/movement/${card}.png`;
+        });
+
+        this._api.on(this._api.requestTypes.play_trump, message => {
+            let lastAction = message.last_action;
+            lastAction.playerName = '';
+            let trumpName = lastAction.trump.name.replace(' ', '_').toLowerCase();
+            lastAction.img = `/assets/game/cards/trumps/${trumpName}.png`;
+            this._lastAction = lastAction;
         });
     }
 

@@ -35,4 +35,24 @@ describe('notifications', () => {
         expect(sut.lastAction.card).toEqual(message.last_action.card);
         expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king_red.png');
     });
+
+    it('should update last action when a trump is played', () => {
+        let cb = mockedApi._cbs[mockedApi.requestTypes.play_trump][0];
+        let message = {
+            last_action: {
+                description: 'Someone played a trump',
+                trump: {
+                    name: 'Tower Blue',
+                    description: 'Block player.'
+                }
+            }
+        };
+
+        cb(message);
+
+        expect(sut.lastAction.playerName).toBe('');
+        expect(sut.lastAction.description).toBe(message.last_action.description);
+        expect(sut.lastAction.trump).toEqual(message.last_action.trump);
+        expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower_blue.png');
+    });
 });
