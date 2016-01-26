@@ -134,6 +134,7 @@ export class Api {
         this._createPlayers(message.players);
         this._me.trumps = this._createTrumps(message.trumps);
         this._updateGame(message);
+        this._initBoard();
     }
 
     _createPlayers(players) {
@@ -200,6 +201,10 @@ export class Api {
         this._me.index = reconnectMessage.index;
         this._me.name = this._game.players.names[this._me.index];
 
+        this._initBoard();
+    }
+
+    _initBoard() {
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
         let defered = {};
@@ -217,9 +222,12 @@ export class Api {
         })();
 
         defered.promise.then(() => {
-            reconnectMessage.players.forEach(player => {
-                this._movePlayer({playerIndex: player.index, newSquare: player.square});
+            this._game.players.squares.forEach((square, index) => {
+                if (square && Object.keys(square).length > 0) {
+                    this._movePlayer({playerIndex: index, newSquare: square});
+                }
             });
+            this._rotateBoard();
         });
     }
 
@@ -241,6 +249,14 @@ export class Api {
         } else {
             pawn.setAttribute('y', boundingBox.y + 0.25 * boundingBox.height);
         }
+    }
+
+    _rotateBoard() {
+        let boardLayer = document.getElementById('boardLayer');
+        let pawnLayer = document.getElementById('pawnLayer');
+        let angle = 45 * this._me.index;
+        boardLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
+        pawnLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
     }
 
     _handleErrors(message) {
