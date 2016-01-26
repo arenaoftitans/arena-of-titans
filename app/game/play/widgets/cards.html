@@ -1,12 +1,14 @@
 <template>
-    <div id="cards-img-container">
+    <div id="cards-img-container" if.bind="!hasWon">
         <img class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''}"
              repeat.for="card of hand"
              click.delegate="viewPossibleMovements(card)"
              src.bind="card.img" />
     </div>
-    <div id="cards-actions">
+    <div id="cards-actions" if.bind="!hasWon">
         <button class="button-dark" click.delegate="pass()" disabled.bind="!yourTurn">Pass</button>
         <button class="button-light" click.delegate="discard()" disabled.bind="!yourTurn">Discard</button>
     </div>
+
+    <div if.bind="hasWon">You just completed the game! Your rank: ${rank}</div>
 </template>

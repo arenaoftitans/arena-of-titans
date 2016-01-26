@@ -20,6 +20,7 @@ export class Api {
     requestTypesValues = [];
     callbacks = {};
     _reconnectDefered = {};
+    _gameOverDefered = {};
     _errorCallbacks = [];
     _storage;
     _ws;
@@ -40,6 +41,9 @@ export class Api {
         this._config = config;
         this._reconnectDefered.promise = new Promise(resolve => {
             this._reconnectDefered.resolve = resolve;
+        });
+        this._gameOverDefered.promise = new Promise(resolve => {
+            this._gameOverDefered.resolve = resolve;
         });
     }
 
@@ -180,6 +184,8 @@ export class Api {
             card.img = `/assets/game/cards/movement/${name}_${color}.png`;
             return card;
         });
+        this._me.has_won = message.has_won;
+        this._me.rank = message.rank;
         this._updateAffectingTrumps(message.active_trumps);
     }
 
@@ -193,6 +199,10 @@ export class Api {
         }
 
         this._updateGame(message);
+
+        if (message.game_over) {
+            this._gameOverDefered.resolve(message.winners);
+        }
     }
 
     _handlePlayTrump(message) {
@@ -402,6 +412,10 @@ export class Api {
 
     get onReconnectDefered() {
         return this._reconnectDefered.promise;
+    }
+
+    get onGameOverDefered() {
+        return this._gameOverDefered.promise;
     }
 
     get me() {

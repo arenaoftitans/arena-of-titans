@@ -280,6 +280,8 @@ describe('services/api', () => {
     it('should update the game', () => {
         let message = {
             your_turn: true,
+            has_won: false,
+            rank: -1,
             next_player: 0,
             game_over: false,
             winners: [],
@@ -317,6 +319,8 @@ describe('services/api', () => {
                 img: '/assets/game/cards/movement/king_red.png'
             }
         ]);
+        expect(sut._me.has_won).toBe(false);
+        expect(sut._me.rank).toBe(-1);
         expect(sut._me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
             img: '/assets/game/cards/trumps/reinforcements.png'

@@ -3,6 +3,7 @@
     <require from="./error"></require>
     <require from="./infos"></require>
     <require from="./confirm"></require>
+    <require from="./game-over"></require>
 
     <div class="popup">
     </div>
@@ -19,5 +20,7 @@
         <aot-confirm if.bind="type === 'confirm'"
                      data.bind="data"
                      done.bind="done"></aot-confirm>
+        <aot-game-over if.bind="type === 'game-over'"
+                       data.bind="data"></aot-game-over>
     </div>
 </template>

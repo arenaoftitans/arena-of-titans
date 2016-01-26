@@ -53,4 +53,12 @@ export class AotCardsCustomElement {
     get hand() {
         return this._api.me.hand;
     }
+
+    get hasWon() {
+        return this._api.me.has_won;
+    }
+
+    get rank() {
+        return this._api.me.rank;
+    }
 }

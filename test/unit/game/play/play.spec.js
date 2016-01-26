@@ -1,14 +1,16 @@
 import { Play } from '../../../../app/game/play/play';
-import { ApiStub } from '../../utils';
+import { ApiStub, GameStub } from '../../utils';
 
 
 describe('play', () => {
     let sut;
     let mockedApi;
+    let mockedGame;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new Play(mockedApi);
+        mockedGame = new GameStub();
+        sut = new Play(mockedApi, mockedGame);
     });
 
     it('should ask to join game in no name', () => {
@@ -27,5 +29,19 @@ describe('play', () => {
         sut.activate({id: 'game_id'});
 
         expect(mockedApi.joinGame).not.toHaveBeenCalled();
+    });
+
+    it('should display the game over popup on game over', done => {
+        spyOn(mockedGame, 'popup');
+        mockedApi._gameOverDefered.resolve(['Player 1', 'Player 2']);
+
+        sut.activate();
+
+        mockedApi.onGameOverDefered.then(() => {
+            expect(mockedGame.popup).toHaveBeenCalledWith(
+                'game-over',
+                {message: ['Player 1', 'Player 2']});
+            done();
+        });
     });
 });

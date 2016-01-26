@@ -26,10 +26,14 @@ export class ApiStub {
         slots: []
     };
     _me = {};
+    _gameOverDefered = {};
 
     constructor() {
         this._api = new Api(new WsStub);
         this.onReconnectDefered = new Promise(() => {});
+        this._gameOverDefered.promise = new Promise(resolve => {
+            this._gameOverDefered.resolve = resolve;
+        });
     }
 
     initializeGame(data) {
@@ -104,6 +108,10 @@ export class ApiStub {
 
     get game() {
         return this._game;
+    }
+
+    get onGameOverDefered() {
+        return this._gameOverDefered.promise;
     }
 
     createGameDebug() {
