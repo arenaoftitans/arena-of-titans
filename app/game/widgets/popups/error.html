@@ -2,8 +2,8 @@
     <div class="x-margin">
         <p class="centered-text">You cannot perform this action:</p>
         <p class="centered-text">${data.message}</p>
-        <a class="button button-dark" href="/">Back to Home page</a>
-        <a class="button button-light" href="/game/create">Create a new game</a>
+        <a class="button button-dark" href="/" onclick="location.reload()">Back to Home page</a>
+        <a class="button button-light" href="/game/create" onclick="location.reload()">Create a new game</a>
         <button class="button-light" click.delegate="ok()">OK</button>
     </div>
 </template>
