@@ -8,3 +8,9 @@ gulp.task('clean', function() {
   return gulp.src([paths.output])
     .pipe(vinylPaths(del));
 }).help = 'remove all generated files.';
+
+
+gulp.task('clean-prod', function() {
+  return gulp.src([paths.prodOutput])
+    .pipe(vinylPaths(del));
+}).help = 'remove all generated files for prod.';

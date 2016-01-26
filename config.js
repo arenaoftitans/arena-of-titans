@@ -314,7 +314,11 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@1.2.6",
     "json": "npm:systemjs-plugin-json@0.1.0",
+    "img": "github:systemjs/plugin-image@0.1.0",
     "systemjs-plugin-json": "npm:systemjs-plugin-json@0.1.0",
+    "systemjs/plugin-image": "github:systemjs/plugin-image@0.1.0",
+    "systemjs/plugin-text": "github:systemjs/plugin-text@0.0.4",
+    "text": "github:systemjs/plugin-text@0.0.4",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },

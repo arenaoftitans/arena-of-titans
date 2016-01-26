@@ -1,6 +1,7 @@
 var appRoot = 'app/';
 var assetsRoot = 'assets/';
 var outputRoot = 'dist/';
+var prodOutputRoot = 'public/';
 var stylesRoot = 'style/';
 
 
@@ -11,5 +12,7 @@ module.exports = {
     html: appRoot + '**/*.html',
     source: appRoot + '**/*.js',
     output: outputRoot,
-    outputImg: outputRoot + 'img/'
+    outputImg: outputRoot + 'img/',
+    prodOutput: prodOutputRoot,
+    prodOutputDist: prodOutputRoot + 'dist/'
 };

@@ -4,4 +4,5 @@
 /node_modules
 /dist
 /coverage
+/public
 config/application.json
