@@ -316,7 +316,7 @@ describe('services/api', () => {
             {
                 name: 'King',
                 color: 'RED',
-                img: '/assets/game/cards/movement/king_red.png'
+                img: 'sprite-movement-king_red'
             }
         ]);
         expect(sut._me.has_won).toBe(false);

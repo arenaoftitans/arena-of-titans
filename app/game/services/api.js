@@ -181,7 +181,7 @@ export class Api {
         this._me.hand = message.hand.map(card => {
             let name = card.name.toLowerCase();
             let color = card.color.toLocaleLowerCase();
-            card.img = `/assets/game/cards/movement/${name}_${color}.png`;
+            card.img = `sprite-movement-${name}_${color}`;
             return card;
         });
         this._me.has_won = message.has_won;

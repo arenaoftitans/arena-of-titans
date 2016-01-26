@@ -1,9 +1,8 @@
 <template>
     <div id="cards-img-container" if.bind="!hasWon">
-        <img class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''}"
+        <div class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
              repeat.for="card of hand"
-             click.delegate="viewPossibleMovements(card)"
-             src.bind="card.img" />
+             click.delegate="viewPossibleMovements(card)"></div>
     </div>
     <div id="cards-actions" if.bind="!hasWon">
         <button class="button-dark" click.delegate="pass()" disabled.bind="!yourTurn">Pass</button>

@@ -107,6 +107,8 @@
 
 .card {
     position: relative;
+    width: 69px;
+    height: 110px;
     margin-top: 1%;
     margin-right: 2%;
     -webkit-user-select: none;

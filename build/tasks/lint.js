@@ -17,7 +17,7 @@ gulp.task('jslint', function() {
 }).help = 'lint all JS files.';
 
 gulp.task('csslint', function () {
-  return gulp.src(['!style/board.css', paths.css])
+  return gulp.src(['!style/board.css', '!style/sprites/*.css', paths.css])
       .pipe(recess({
         noIDs: false,
         noOverqualifying: false
