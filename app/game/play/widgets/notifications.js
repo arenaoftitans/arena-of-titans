@@ -17,12 +17,14 @@ export class AotNotificationsCustomElement {
             this._lastAction = lastAction;
             this._lastAction.playerName = this.players.names[message.player_index];
 
-            let cardName = lastAction.card.name;
-            let cardColor = lastAction.card.color.toLowerCase();
-            this._lastAction.title = `${cardName} ${cardColor}`;
+            if (lastAction.card && Object.keys(lastAction.card).length > 0) {
+                let cardName = lastAction.card.name;
+                let cardColor = lastAction.card.color.toLowerCase();
+                this._lastAction.title = `${cardName} ${cardColor}`;
 
-            let card = `${cardName.toLowerCase()}_${cardColor}`;
-            this._lastAction.img = `/assets/game/cards/movement/${card}.png`;
+                let card = `${cardName.toLowerCase()}_${cardColor}`;
+                this._lastAction.img = `/assets/game/cards/movement/${card}.png`;
+            }
         });
 
         this._api.on(this._api.requestTypes.play_trump, message => {
