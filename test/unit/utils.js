@@ -29,6 +29,7 @@ export class ApiStub {
 
     constructor() {
         this._api = new Api(new WsStub);
+        this.onReconnectDefered = new Promise(() => {});
     }
 
     initializeGame(data) {

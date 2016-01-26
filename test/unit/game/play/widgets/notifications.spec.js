@@ -21,16 +21,14 @@ describe('notifications', () => {
                     name: 'King',
                     color: 'RED',
                     description: 'A card'
-                }
+                },
+                player_name: 'Player 1'
             }
-        };
-        sut.players = {
-            names: ['Player 1']
         };
 
         cb(message);
 
-        expect(sut.lastAction.playerName).toBe('Player 1');
+        expect(sut.playerName).toBe('Player 1');
         expect(sut.lastAction.description).toBe('played');
         expect(sut.lastAction.card).toEqual(message.last_action.card);
         expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king_red.png');
@@ -44,13 +42,14 @@ describe('notifications', () => {
                 trump: {
                     name: 'Tower Blue',
                     description: 'Block player.'
-                }
+                },
+                player_name: 'Player 1'
             }
         };
 
         cb(message);
 
-        expect(sut.lastAction.playerName).toBe('');
+        expect(sut.playerName).toBe('Player 1');
         expect(sut.lastAction.description).toBe(message.last_action.description);
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
         expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower_blue.png');

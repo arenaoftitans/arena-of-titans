@@ -19,6 +19,7 @@ export class Api {
     };
     requestTypesValues = [];
     callbacks = {};
+    _reconnectDefered = {};
     _errorCallbacks = [];
     _storage;
     _ws;
@@ -37,6 +38,9 @@ export class Api {
             this._handleMessage(message);
         });
         this._config = config;
+        this._reconnectDefered.promise = new Promise(resolve => {
+            this._reconnectDefered.resolve = resolve;
+        });
     }
 
     on(requestType, cb) {
@@ -202,6 +206,7 @@ export class Api {
         this._me.name = this._game.players.names[this._me.index];
 
         this._initBoard();
+        this._reconnectDefered.resolve(reconnectMessage);
     }
 
     _initBoard() {
@@ -393,6 +398,10 @@ export class Api {
                 card_color: cardColor
             }
         });
+    }
+
+    get onReconnectDefered() {
+        return this._reconnectDefered.promise;
     }
 
     get me() {
