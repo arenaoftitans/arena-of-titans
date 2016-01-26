@@ -15,15 +15,27 @@ export class AotTrumpsCustomElement {
 
     play(trump) {
         if (trump.must_target_player) {
-            let otherPlayerNames = this.playerNames.filter(
+            let otherPlayerNames = [];
+            for (let playerIndex of this.playerIndexes) {
+                if (playerIndex !== this.myIndex) {
+                    let player = {
+                        index: playerIndex,
+                        name: this.playerNames[playerIndex]
+                    };
+                    otherPlayerNames.push(player);
+                }
+            }
+            this.playerNames.filter(
                 (name, index) => this.myIndex !== index);
             this._game.popup(
                 'confirm',
                 {
                     message: `Who should be the target of ${trump.name}?`,
                     choices: otherPlayerNames
-                }).then(targetName => {
-                    let targetIndex = this.playerNames.indexOf(targetName);
+                }).then(targetIndex => {
+                    // targetIndex is binded in a template, hence it became a string and must be
+                    // converted before usage in the API
+                    targetIndex = parseInt(targetIndex, 10);
                     this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
                 });
         } else {
@@ -41,6 +53,10 @@ export class AotTrumpsCustomElement {
 
     get playerNames() {
         return this._api.game.players.names;
+    }
+
+    get playerIndexes() {
+        return this._api.game.players.indexes;
     }
 
     get myIndex() {

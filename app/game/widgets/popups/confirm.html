@@ -6,10 +6,10 @@
             <label repeat.for="choice of data.choices">
                 <input type="radio"
                        name="choices"
-                       value.bind="choice"
+                       value.bind="choice.index"
                        checked.bind="$parent.selectedChoice"
                        required />
-                ${choice}
+                ${choice.name}
             </label>
         </form>
 
