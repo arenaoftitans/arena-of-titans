@@ -444,7 +444,6 @@ describe('services/api', () => {
             sut._handleMessage(message);
 
             expect(sut._updateGame).toHaveBeenCalledWith(message);
-            expect(sut._game.players).toBe(undefined);
         });
 
         it('should reconnect', () => {

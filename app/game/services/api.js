@@ -24,8 +24,16 @@ export class Api {
     _errorCallbacks = [];
     _storage;
     _ws;
-    _me = {};
-    _game = {};
+    _me = {
+        trumps: []
+    };
+    _game = {
+        players: {
+            names: [],
+            squares: [],
+            indexes: []
+        }
+    };
     _config;
 
     constructor(ws, storage, config) {
