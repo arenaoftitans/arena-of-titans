@@ -15,6 +15,11 @@ module.exports = function loadConfig(type) {
         if (fs.existsSync(devConfigFile)) {
             extend(config, load(devConfigFile))
         }
+    } else if (type === 'prod') {
+        var prodConfigFile = __dirname +  '/../config/config.prod.toml';
+        if (fs.existsSync(prodConfigFile)) {
+            extend(config, load(prodConfigFile))
+        }
     }
 
     return config;

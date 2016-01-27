@@ -9,6 +9,7 @@ var concatCss = require('gulp-concat-css');
 var rename = require('gulp-rename');
 var mkdirp = require('mkdirp');
 var runSequence = require('run-sequence');
+var argv = require('yargs').argv;
 
 
 gulp.task('prod', function (done) {
@@ -35,7 +36,12 @@ gulp.task('mkdirs', function (done) {
 
 
 gulp.task('build-config-prod', function (done) {
-    var config = loadConfig('prod');
+    var config;
+    if (argv.mock) {
+        config = loadConfig('prod');
+    } else {
+        config = loadConfig('dist');
+    }
 
     fs.writeFileSync('public/dist/config/application.json', JSON.stringify(config));
 
