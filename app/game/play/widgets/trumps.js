@@ -15,7 +15,9 @@ export class AotTrumpsCustomElement {
     }
 
     play(trump) {
-        if (trump.must_target_player) {
+        if (!this.yourTurn) {
+            return;
+        } else if (trump.must_target_player) {
             let otherPlayerNames = [];
             for (let playerIndex of this.playerIndexes) {
                 if (playerIndex !== this.myIndex) {
@@ -89,5 +91,9 @@ export class AotTrumpsCustomElement {
 
     get myIndex() {
         return this._api.me.index;
+    }
+
+    get yourTurn() {
+        return this._api.game.your_turn;
     }
 }

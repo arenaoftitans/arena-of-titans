@@ -70,7 +70,14 @@
     margin-top: 20px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.active-trump {
     cursor: pointer;
+}
+
+.inactive-trump {
+    opacity: 0.6;
 }
 
 

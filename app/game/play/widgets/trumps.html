@@ -22,7 +22,7 @@
                 <p>${infos.description}</p>
             </div>
 
-            <img class="player-trumps"
+            <img class="player-trumps ${yourTurn ? 'active-trump' : 'inactive-trump'}"
                  repeat.for="trump of trumps"
                  src.bind="trump.img"
                  click.delegate="play(trump)"
