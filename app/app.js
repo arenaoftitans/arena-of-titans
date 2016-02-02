@@ -32,5 +32,10 @@ export class App {
                 title: 'Game'
             }
         ]);
+        config.mapUnknownRoutes(instruction => {
+            instruction.moduleId = 'not-found';
+
+            return instruction;
+        });
     }
 }

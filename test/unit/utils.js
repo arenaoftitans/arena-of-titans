@@ -15,6 +15,9 @@ export class RouterStub {
 
     navigateToRoute(route, params) {
     }
+
+    mapUnknownRoutes() {
+    }
 }
 
 
