@@ -8,6 +8,7 @@ export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
     _game;
+    infos;
 
     constructor(api, game) {
         this._api = api;
@@ -19,6 +20,34 @@ export class AotCardsCustomElement {
             this.selectedCard = card;
             this._api.viewPossibleMovements({name: card.name, color: card.color});
         }
+    }
+
+    displayInfos(card, event) {
+        this.infos = {
+            title: `${card.name} ${card.color.toLowerCase()}`,
+            description: card.description,
+            visible: true
+        };
+
+        let cardsContainer = document.getElementById('cards-container');
+        let infosElement = document.getElementById('cards-element-infos');
+        let target = event.target;
+
+        let halfCardWidth = 69 / 2;
+        let halfInfosWidth = 150 / 2;
+
+        infosElement.style.bottom = cardsContainer.getBoundingClientRect().bottom -
+            cardsContainer.getBoundingClientRect().top +
+            40 +
+            'px';
+        infosElement.style.left = target.getBoundingClientRect().left -
+            halfInfosWidth +
+            halfCardWidth +
+            'px';
+    }
+
+    hideInfos() {
+        this.infos = {};
     }
 
     pass() {

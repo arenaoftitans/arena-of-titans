@@ -1,8 +1,16 @@
 <template>
     <div id="cards-img-container" if.bind="!hasWon">
+        <div id="cards-element-infos"
+             class="element-infos ${infos.visible ? '' : 'hidden'}">
+            <p><strong>${infos.title}</strong></p>
+            <p>${infos.description}</p>
+        </div>
         <div class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
              repeat.for="card of hand"
-             click.delegate="viewPossibleMovements(card)"></div>
+             click.delegate="viewPossibleMovements(card)"
+             mouseover.delegate="displayInfos(card, $event)"
+             mouseout.delegate="hideInfos()">
+        </div>
     </div>
     <div id="cards-actions" if.bind="!hasWon">
         <button class="button-dark" click.delegate="pass()" disabled.bind="!yourTurn">Pass</button>

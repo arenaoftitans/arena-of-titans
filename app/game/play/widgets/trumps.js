@@ -7,6 +7,7 @@ import { Game } from '../../game';
 export class AotTrumpsCustomElement {
     _api;
     _game;
+    infos = {};
 
     constructor(api, game) {
         this._api = api;
@@ -41,6 +42,33 @@ export class AotTrumpsCustomElement {
         } else {
             this._api.playTrump({trumpName: trump.name});
         }
+    }
+
+    displayInfos(trump, event) {
+        this.infos = {
+            title: trump.name,
+            description: trump.description,
+            visible: true
+        };
+
+        let trumpsContainer = document.getElementById('player-trumps');
+        let infosElement = document.getElementById('trumps-element-infos');
+        let target = event.target;
+
+        let infosHeight = 150;
+        let top = 0;
+        let element = target;
+        do {
+            top += element.offsetTop  || 0;
+            element = element.offsetParent;
+        } while (element);
+
+        infosElement.style.top = top - infosHeight + 'px';
+        infosElement.style.left = trumpsContainer.getBoundingClientRect().right + 'px';
+    }
+
+    hideInfos() {
+        this.infos = {};
     }
 
     get trumps() {

@@ -16,10 +16,18 @@
         <img class="trump-icon centered-block" src="/assets/game/misc/player-trumps.png"/>
 
         <div>
+            <div id="trumps-element-infos"
+                 class="element-infos ${infos.visible ? '' : 'hidden'}">
+                <p><strong>${infos.title}</strong></p>
+                <p>${infos.description}</p>
+            </div>
+
             <img class="player-trumps"
                  repeat.for="trump of trumps"
                  src.bind="trump.img"
-                 click.delegate="play(trump)"/>
+                 click.delegate="play(trump)"
+                 mouseover.delegate="displayInfos(trump, $event)"
+                 mouseout.delegate="hideInfos()" />
         </div>
     </div>
 </template>

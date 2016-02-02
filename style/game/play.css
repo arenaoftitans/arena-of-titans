@@ -27,7 +27,6 @@
 }
 
 #trumps-container {
-    position: relative;
     overflow-y: hidden;
 }
 
@@ -131,6 +130,32 @@
 
 .selected-card, .selected-card:hover {
     top: -20px;
+}
+
+
+.element-infos {
+    position: absolute;
+    z-index: 500;
+    width: 150px;
+    height: 160px;
+    background-image: url("/assets/game/backgrounds/popup-ingame.png");
+    background-repeat: no-repeat;
+    background-size: 150px 160px;
+}
+
+.element-infos:hover {
+    display: block;
+}
+
+.element-infos p {
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+}
+
+.element-infos strong {
+    color: maroon;
+    text-align: center;
 }
 
 
