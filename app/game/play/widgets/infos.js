@@ -5,14 +5,26 @@ import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 export class AotInfosCustomElement {
     @bindable type = null;
     @bindable infos = null;
+    display = false;
+    _timeout;
 
     constructor(observerLocator) {
         observerLocator
             .getObserver(this, 'infos')
             .subscribe(() => {
+                this.display = false;
+                if (this._timeout !== undefined) {
+                    clearTimeout(this._timeout);
+                }
+
                 if (!this.infos.event) {
                     return;
-                } else if (this.type === 'trumps') {
+                } else if (this.infos.visible) {
+                    this._timeout = setTimeout(() => this.display = true, 2500);
+                }
+
+
+                if (this.type === 'trumps') {
                     let trumpsContainer = document.getElementById('player-trumps');
                     let infosElement = document.getElementById('trumps-element-infos');
                     let target = this.infos.event.target;

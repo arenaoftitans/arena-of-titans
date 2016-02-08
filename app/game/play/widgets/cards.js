@@ -32,7 +32,9 @@ export class AotCardsCustomElement {
     }
 
     hideInfos() {
-        this.infos.visible = false;
+        this.infos = {
+            visible: false
+        };
     }
 
     pass() {

@@ -56,7 +56,9 @@ export class AotTrumpsCustomElement {
     }
 
     hideInfos() {
-        this.infos.visible = false;
+        this.infos = {
+            visible: false
+        };
     }
 
     get trumps() {
