@@ -50,27 +50,13 @@ export class AotTrumpsCustomElement {
         this.infos = {
             title: trump.name,
             description: trump.description,
-            visible: true
+            visible: true,
+            event: event
         };
-
-        let trumpsContainer = document.getElementById('player-trumps');
-        let infosElement = document.getElementById('trumps-element-infos');
-        let target = event.target;
-
-        let infosHeight = 150;
-        let top = 0;
-        let element = target;
-        do {
-            top += element.offsetTop  || 0;
-            element = element.offsetParent;
-        } while (element);
-
-        infosElement.style.top = top - infosHeight + 'px';
-        infosElement.style.left = trumpsContainer.getBoundingClientRect().right + 'px';
     }
 
     hideInfos() {
-        this.infos = {};
+        this.infos.visible = false;
     }
 
     get trumps() {

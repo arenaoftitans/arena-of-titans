@@ -1,4 +1,6 @@
 <template>
+    <require from="./infos"></require>
+
     <div id="hero" class="centered-block">
         <img class="centered-block" src="/assets/game/heroes/daemon.png"/>
     </div>
@@ -16,11 +18,8 @@
         <img class="trump-icon centered-block" src="/assets/game/misc/player-trumps.png"/>
 
         <div>
-            <div id="trumps-element-infos"
-                 class="element-infos ${infos.visible ? '' : 'hidden'}">
-                <p><strong>${infos.title}</strong></p>
-                <p>${infos.description}</p>
-            </div>
+            <aot-infos type="trumps"
+                       infos.bind="infos"></aot-infos>
 
             <img class="player-trumps ${yourTurn ? 'active-trump' : 'inactive-trump'}"
                  repeat.for="trump of trumps"
