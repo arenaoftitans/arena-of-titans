@@ -30,6 +30,7 @@ gulp.task('prod', function (done) {
 
 
 gulp.task('mkdirs', function (done) {
+    mkdirp.sync('public/config');
     mkdirp.sync('public/dist/config');
     done();
 });
@@ -43,6 +44,7 @@ gulp.task('build-config-prod', function (done) {
         config = loadConfig('dist');
     }
 
+    fs.writeFileSync('public/config/application.json', JSON.stringify(config));
     fs.writeFileSync('public/dist/config/application.json', JSON.stringify(config));
 
     done();
@@ -55,7 +57,8 @@ gulp.task('copy-files-prod', function () {
             'config.js',
             'jspm_packages/**/*',
             'package.json',
-            'assets/**/*'
+            'assets/**/*',
+            'locale/**/*'
         ], {base: '.'})
         .pipe(gulp.dest(paths.prodOutput));
 });

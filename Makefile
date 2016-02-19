@@ -4,13 +4,23 @@ help:
 	@echo
 	@echo "Possible targets:"
 	@echo "- deploy: deploy a new version of AoT to the server"
+	@echo "- devdeploy: deploy a new version of AoT to the dev server"
 	@echo "- sprites: build all sprites"
 	@echo "- translate: fetch translations and update the JSON files used to translate the site"
 
 
 .PHONY: deploy
 deploy:
-	gulp clean && gulp prod && rsync -a --delete "public/" "aot:app/"
+	gulp clean-prod && \
+	    gulp prod && \
+	    rsync -a --delete "public/" "aot:app/"
+
+
+.PHONY: devdeploy
+devdeploy:
+	gulp clean-prod && \
+	    gulp prod --mock && \
+	    rsync -a --delete "public/" "aot:devapp/"
 
 
 .PHONY: sprites
