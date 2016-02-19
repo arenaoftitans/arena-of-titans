@@ -1,6 +1,8 @@
 <template>
-    <p class="centered-important">
-        C'est le tour de <br>
+    <p class="centered-important"
+       t="[html]game.play.whose_turn_message"
+       t-params.bind="{playerName: currentPlayerName}">
+        C'est le tour de<br>
         <strong>${playerName}</strong>
     </p>
 
@@ -8,7 +10,7 @@
         <p>Last action played by
             <span if.bind="lastAction"><strong>${playerName}</strong>:
             ${lastAction.description}</span>
-            <span if.bind="!lastAction"><br><em>No action yet</em></span>
+            <span if.bind="!lastAction"><br><em t="game.play.no_action">No action yet</em></span>
         </p>
         <img class="centered-block"
              src.bind="lastAction.img"

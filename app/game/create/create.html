@@ -2,31 +2,34 @@
     <img src="/assets/game/aot-logo.png" class="centered-block"/>
 
     <div if.bind="me.name" class="centered-block">
-        <h2>Me</h2>
+        <h2 t="global.me">Me</h2>
         <p class="centered-text">
-            name: ${me.name}
+            ${ 'global.name' | t }: ${me.name}
             <button class="button-light margin-left-150"
-                    click.trigger="editMe()">Edit
+                    click.trigger="editMe()"
+                    t="global.edit">Edit
             </button>
         </p>
         <button class="button-light centered-block"
                 if.bind="me.is_game_master"
                 disabled.bind="!canCreateGame"
-                click.trigger="createGame()">Create Game
+                click.trigger="createGame()"
+                t="game.create.create">Create Game
         </button>
 
-        <h2>Other players</h2>
-        <p class="centered-text" repeat.for="slot of slots">Slot n°${slot.index + 1}: ${slot.state},
+        <h2 t="game.create.others">Other players</h2>
+        <p class="centered-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t},
             ${slot.player_name}</p>
         <button class="button-light centered-block"
                 if.bind="me.is_game_master"
                 click.trigger="addSlot()"
-                disabled.bind="!canAddSlot">Add Slot
+                disabled.bind="!canAddSlot"
+                t="game.create.add">Add Slot
         </button>
 
         <div if.bind="me.is_game_master">
-            <h2>Invite</h2>
-            <label class="centered-block centered-text">To join this game, share this link:
+            <h2 t="game.create.invite">Invite</h2>
+            <label class="centered-block centered-text">${ 'game.create.invite_text' | t }
                 <input type="Text" value.bind="gameUrl" readonly/>
             </label>
         </div>

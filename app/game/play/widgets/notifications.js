@@ -1,16 +1,19 @@
 import { bindable, inject } from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
 import { Api } from '../../services/api';
 
 
-@inject(Api)
+@inject(Api, I18N)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
     _api;
     _lastAction = {};
+    _i18n;
 
-    constructor(api) {
+    constructor(api, i18n) {
         this._api = api;
+        this._i18n = i18n;
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
@@ -32,7 +35,8 @@ export class AotNotificationsCustomElement {
         if (lastAction.card && Object.keys(lastAction.card).length > 0) {
             let cardName = lastAction.card.name;
             let cardColor = lastAction.card.color.toLowerCase();
-            this._lastAction.title = `${cardName} ${cardColor}`;
+            this._lastAction.title = this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
+            this._lastAction.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
 
             let card = `${cardName.toLowerCase()}_${cardColor}`;
             this._lastAction.img = `/assets/game/cards/movement/${card}.png`;
@@ -40,13 +44,18 @@ export class AotNotificationsCustomElement {
 
         if (lastAction.trump && Object.keys(lastAction.trump).length > 0) {
             let trumpName = lastAction.trump.name.replace(' ', '_').toLowerCase();
-            lastAction.img = `/assets/game/cards/trumps/${trumpName}.png`;
-            this._lastAction = lastAction;
+            this._lastAction.img = `/assets/game/cards/trumps/${trumpName}.png`;
+            this._lastAction.title = this._i18n.tr(trumpName);
+            this._lastAction.description = this._i18n.tr(`${trumpName}_description`);
         }
     }
 
     get playerName() {
         return this._lastAction.player_name;
+    }
+
+    get currentPlayerName() {
+        return this.players.names[this.currentPlayerIndex];
     }
 
     get lastAction() {

@@ -1,17 +1,20 @@
 import { inject } from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { Game } from '../../game';
 
 
-@inject(Api, Game)
+@inject(Api, Game, I18N)
 export class AotTrumpsCustomElement {
     _api;
     _game;
+    _i18n;
     infos = {};
 
-    constructor(api, game) {
+    constructor(api, game, i18n) {
         this._api = api;
         this._game = game;
+        this._i18n = i18n;
     }
 
     play(trump) {
@@ -33,7 +36,9 @@ export class AotTrumpsCustomElement {
             this._game.popup(
                 'confirm',
                 {
-                    message: `Who should be the target of ${trump.name}?`,
+                    message: this._i18n.tr(
+                        'game.play.select_trump_target',
+                        {trumpname: trump.name}),
                     choices: otherPlayerNames
                 }).then(targetIndex => {
                     // targetIndex is binded in a template, hence it became a string and must be
@@ -47,9 +52,10 @@ export class AotTrumpsCustomElement {
     }
 
     displayInfos(trump, event) {
+        let trumpName = trump.name.toLowerCase().replace(' ', '_');
         this.infos = {
-            title: trump.name,
-            description: trump.description,
+            title: this._i18n.tr(`trumps.${trumpName}`),
+            description: this._i18n.tr(`trumps.${trumpName}_description`),
             visible: true,
             event: event
         };

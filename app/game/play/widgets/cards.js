@@ -1,18 +1,21 @@
 import { bindable, inject } from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { Game } from '../../game';
 
 
-@inject(Api, Game)
+@inject(Api, Game, I18N)
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
     _game;
+    _i18n;
     infos = {};
 
-    constructor(api, game) {
+    constructor(api, game, i18n) {
         this._api = api;
         this._game = game;
+        this._i18n = i18n;
     }
 
     viewPossibleMovements(card) {
@@ -24,8 +27,8 @@ export class AotCardsCustomElement {
 
     displayInfos(card, event) {
         this.infos = {
-            title: `${card.name} ${card.color.toLowerCase()}`,
-            description: card.description,
+            title: this._i18n.tr(`cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`),
+            description: this._i18n.tr(`cards.${card.name.toLowerCase()}`),
             visible: true,
             event: event
         };
@@ -38,7 +41,7 @@ export class AotCardsCustomElement {
     }
 
     pass() {
-        let message =  'Are you sure you want to pass your turn?';
+        let message =  this._i18n.tr('game.play.pass_confirm_message');
         this._game.popup('confirm', {message: message}).then(() => {
             this._api.pass();
             this.selectedCard = null;
@@ -58,7 +61,9 @@ export class AotCardsCustomElement {
                 this.selectedCard = null;
             });
         } else {
-            this._game.popup('infos', {message: 'You must select a card'});
+            this._game.popup(
+                'infos',
+                {message: this._i18n.tr('game.play.discard_no_selected_card')});
         }
     }
 

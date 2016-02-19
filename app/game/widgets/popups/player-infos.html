@@ -1,7 +1,7 @@
 <template>
     <form name="player-info" submit.delegate="save()">
         <div class="select-hero">
-            <p>Select your avatar</p>
+            <p t="game.create.popup_select_avatar">Select your avatar</p>
             <img src="/assets/game/heroes/daemon.png" alt="Daemon" click.delegate="selectHero()" />
         </div>
 
@@ -9,6 +9,6 @@
             Enter your name:
             <input name="name" type="text" value.bind="data.name" placeholder="Your name" required />
         </label>
-        <button class="button-light" type="submit">Save</button>
+        <button class="button-light" type="submit" t="global.save">Save</button>
     </form>
 </template>

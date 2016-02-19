@@ -12,9 +12,15 @@
         </div>
     </div>
     <div id="cards-actions" if.bind="!hasWon">
-        <button class="button-dark" click.delegate="pass()" disabled.bind="!yourTurn">Pass</button>
-        <button class="button-light" click.delegate="discard()" disabled.bind="!yourTurn">Discard</button>
+        <button class="button-dark"
+                click.delegate="pass()"
+                disabled.bind="!yourTurn"
+                t="game.play.pass">Pass</button>
+        <button class="button-light"
+                click.delegate="discard()"
+                disabled.bind="!yourTurn"
+                t="game.play.discard">Discard</button>
     </div>
 
-    <div if.bind="hasWon">You just completed the game! Your rank: ${rank}</div>
+    <div if.bind="hasWon">${ 'game.play.game_over' | t } ${rank}</div>
 </template>

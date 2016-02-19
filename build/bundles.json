@@ -6,6 +6,7 @@
         "aurelia-framework",
         "aurelia-bootstrapper",
         "aurelia-history-browser",
+        "aurelia-i18n",
         "aurelia-loader-default",
         "aurelia-logging-console",
         "aurelia-router",

@@ -130,3 +130,54 @@ can be done automatically by using the pre-commit hook. To enable it, put in
    #!/usr/bin/env bash
 
    gulp lint || exit 1
+
+
+Translations
+============
+
+The translations are generated from `this google doc
+<https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/edit#gid=1072267331>`__. Each
+sheet correspond to a part of the application: site (for all the pages of the
+site), game (for gobal game traductions), game/create, game/play, global (for
+global translations), cards (for the translations of names and descriptions of
+the cards), trumps (for the translations of the names and descriptions of the
+trumps). To update the JSON in the frontend, use either:
+
+- `make translate`
+- `python3 scripts/translate.py`
+
+The translations are performed in the browser by the `aurelia-i18n
+<https://github.com/aurelia/i18n>`__ plugin.
+
+To translate something:
+
+#. Add the relevant key in the spreadsheet.
+#. Update the JSON files containing the translations.
+#. In the HTML, use if possible (ie text/html that don't rely on aurelia
+   binding):
+
+   - the ``t`` tag with the key as value. For instance: ``<span
+     t="site.connection_button"></span>``. If the translated text contains HMTL,
+     add ``[html]`` before the key: ``<span
+     t="[html]site.homepage.pitch"></span>``. If you need some value provided by
+     aurelia in the code, delimit it with __ and use the ``t-params.bind`` to
+     supply the value. Eg, use the value ``C'est le tour de <br
+     /><strong>__playerName__</strong>`` and this code to supply ``playerName``:
+
+     .. code:: html
+
+        <p class="centered-important"
+           t="[html]game.play.whose_turn_message"
+           t-params.bind="{playerName: currentPlayerName}">
+        </p>
+
+   - the TValueConverter (if you cannot use the option above): ``${ 'TAKEN' | t}``.
+
+#. If you need to translate trough the code:
+
+   #. Inject the I18N service.
+   #. Translate with ``this._i18n.tr('cards.queen_red')`` or
+      ``this._i18n.tr('cards.queen_red', {toto: 'toto'})`` if the value
+      requires some string to be replaced.
+
+See the plugin page on github for the full documentation.
