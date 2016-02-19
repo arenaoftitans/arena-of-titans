@@ -9,7 +9,7 @@ export function configure(aurelia) {
                 resGetPath: '/locale/__lng__/__ns__.json',
                 lng: language,
                 attributes: ['t', 'i18n'],
-                getAsync: true,
+                getAsync: false,
                 sendMissing: false,
                 fallbackLng: 'en',
                 debug: false
