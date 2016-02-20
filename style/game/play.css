@@ -33,7 +33,7 @@
 #hero img {
     width: 35%;
     margin-top: 2%;
-    min-with: 50px;
+    min-width: 50px;
 }
 
 #trumps-affecting-player {
@@ -207,13 +207,27 @@
 
 
 @media screen and (max-height: 649px) {
+	.logo {
+		display: block;
+		height: 74px;
+		margin: auto;
+	}
     #board {
-        max-width: 300px;
+        max-width: 355px;
     }
 
+	#board-container {
+		display: block;
+		padding-top: 3%;
+		padding-bottom: 2%;
+		margin: auto;
+		text-align: center;
+		max-height: 360px;
+        min-height: 360px;
+	}
     #cards-container {
-        max-height: 60px;
-        min-height: 60px;
+        max-height: 120px;
+        min-height: 120px;
     }
 
     #cards-img-container {
@@ -221,6 +235,8 @@
         float: left;
         width: 70%;
         overflow: hidden;
+		max-height: 110px;
+        min-height: 110px;
     }
 
     .card {
@@ -240,11 +256,12 @@
     #cards-actions button {
         width: 48%;
     }
-
+	
     .play-left {
-        max-height: 428px;
-        min-height: 428px;
+        max-height: 548px;
+        min-height: 548px;
     }
+	
 
     .player-trumps {
         padding-top: 8px;
@@ -265,8 +282,8 @@
     }
 
     #notifications {
-        max-height: 304px;
-        min-height: 304px;
+        max-height: 363px;
+        min-height: 363px;
     }
 
     #notifications img {
@@ -274,8 +291,8 @@
     }
 
     #counter {
-        max-height: 84px;
-        min-height: 84px;
+        max-height: 145px;
+        min-height: 145px;
     }
 }
 
