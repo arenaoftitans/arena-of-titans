@@ -1,16 +1,18 @@
 import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps';
-import { ApiStub, GameStub } from '../../../utils';
+import { ApiStub, GameStub, I18nStub } from '../../../utils';
 
 
 describe('trumps', () => {
     let sut;
+    let mockedI18n;
     let mockedApi;
     let mockedGame;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
-        sut = new AotTrumpsCustomElement(mockedApi, mockedGame);
+        mockedI18n = new I18nStub();
+        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n);
     });
 
     it('should play trump with a target after a popup', done => {

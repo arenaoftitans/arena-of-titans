@@ -135,6 +135,23 @@ export class GameStub {
 }
 
 
+export class I18nStub {
+    tr(key) {
+        let translations = {
+            'game.play.select_trump_target': 'Who should be the target of Trump?',
+            'game.play.pass_confirm_message': 'Are you sure you want to pass your turn?',
+            'game.play.discard_no_selected_card': 'You must select a card',
+            'tower_blue_description': 'played',
+            'tower_blue': 'played',
+            'cards.king_red': 'played',
+            'cards.king': 'played'
+        };
+
+        return translations[key];
+    }
+}
+
+
 export class StorageStub {
     savePlayerId() {
     }

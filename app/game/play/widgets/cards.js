@@ -1,5 +1,5 @@
 import { bindable, inject } from 'aurelia-framework';
-import {I18N} from 'aurelia-i18n';
+import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { Game } from '../../game';
 

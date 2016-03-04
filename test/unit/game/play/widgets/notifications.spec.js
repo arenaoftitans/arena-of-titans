@@ -1,14 +1,16 @@
 import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications';
-import { ApiStub } from '../../../utils';
+import { ApiStub, I18nStub } from '../../../utils';
 
 
 describe('notifications', () => {
     let mockedApi;
+    let mockedI18n;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new AotNotificationsCustomElement(mockedApi);
+        mockedI18n = new I18nStub();
+        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n);
     });
 
     it('should update last action on player played', () => {

@@ -1,16 +1,18 @@
 import { AotCardsCustomElement } from '../../../../../app/game/play/widgets/cards';
-import { ApiStub, GameStub } from '../../../utils';
+import { ApiStub, GameStub, I18nStub } from '../../../utils';
 
 
 describe('cards', () => {
     let sut;
     let mockedApi;
     let mockedGame;
+    let mockedI18n;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
-        sut = new AotCardsCustomElement(mockedApi, mockedGame);
+        mockedI18n = new I18nStub();
+        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n);
     });
 
     it('should view possible movements', () => {
