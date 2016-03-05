@@ -12,7 +12,7 @@ module.exports = function (config) {
 
         jspm: {
             // Edit this to your needs
-            loadFiles: ['app/**/*.js', 'test/unit/**/*.js'],
+            loadFiles: ['test/unit/setup.js', 'app/**/*.js', 'test/unit/**/*.js'],
             serveFiles: ['config/application.json'],
             paths: {
                 '*': '*.js',

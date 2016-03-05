@@ -16,6 +16,21 @@
     </head>
     <body>
         <div aurelia-app="main">
+            <script>
+                function values(obj) {
+                    var vals = [];
+                    for (var key in obj) {
+                        if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
+                            vals.push(obj[key]);
+                        }
+                    }
+                    return vals;
+                };
+
+                if (typeof Object.values !== 'function') {
+                    Object.values = values;
+                }
+            </script>
             <script src="/jspm_packages/system.js"></script>
             <script>
                 System.config({

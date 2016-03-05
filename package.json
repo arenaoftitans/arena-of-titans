@@ -56,6 +56,7 @@
       "aurelia-framework": "npm:aurelia-framework@^1.0.0-beta.1.0.3",
       "aurelia-i18n": "npm:aurelia-i18n@^0.4.10",
       "aurelia-pal-browser": "npm:aurelia-pal-browser@^1.0.0-beta.1.0.3",
+      "aurelia-polyfills": "npm:aurelia-polyfills@^1.0.0-beta.1.0.1",
       "aurelia-router": "npm:aurelia-router@^1.0.0-beta.1",
       "aurelia-templating": "npm:aurelia-templating@^1.0.0-beta.1.0.3",
       "systemjs-plugin-json": "npm:systemjs-plugin-json@^0.1.0",

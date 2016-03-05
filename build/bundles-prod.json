@@ -38,6 +38,7 @@
         "aurelia-i18n",
         "aurelia-loader-default",
         "aurelia-logging-console",
+        "aurelia-polyfills",
         "aurelia-router",
         "aurelia-templating-binding",
         "aurelia-templating-resources",
