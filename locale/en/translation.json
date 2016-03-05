@@ -79,12 +79,12 @@
         "header_rules": "Rules",
         "header_synopsis": "Synopsis",
         "homepage": {
-            "families": "Quatre familles dominent l\u2019Ar\u00e8ne, utilisez l\u2019influence de leurs membres pour pouvoir traverser les diff\u00e9rentes zones !",
-            "heroes": "Choisissez votre h\u00e9ros parmi les 8 peuples et d\u00e9chainez son pouvoir contre vos adversaires !",
+            "families": "Four families control the Arena, use the influence of their members in order to cross the different areas !",
+            "heroes": "Choose your Hero among the 8 people and unleash his power against your opponents !",
             "pitch": "<strong>Will you dare enter in the Arena of Titans?</strong><br>                 Create your path with the movements cards,<br>                 Use those of your oponents to move faster,<br>                 Block them with your trumps,<br>                 Arrive fist\u2026<br>                 And survive!",
-            "slider1": "Un gameplay unique",
-            "slider2": "D\u00e9fiez jusqu'\u00e0 7 de vos amis",
-            "slider3": "Version B\u00eata disponible !"
+            "slider1": "A unique gameplay",
+            "slider2": "Challenge up to 7 of your friends",
+            "slider3": "Beta Version is available !"
         },
         "rules": {
             "heroes": "Choisissez votre H\u00e9ros parmi les 8 peuples.<br/>\n                Chaque H\u00e9ros poss\u00e8de une comp\u00e9tence sp\u00e9cifique qui vient compl\u00e9ter votre Build.",
