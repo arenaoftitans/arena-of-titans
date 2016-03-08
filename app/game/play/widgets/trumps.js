@@ -26,7 +26,7 @@ export class AotTrumpsCustomElement {
                 if (playerIndex !== this.myIndex) {
                     let player = {
                         index: playerIndex,
-                        name: this.playerNames[playerIndex]
+                        name: this.playerNames[playerIndex],
                     };
                     otherPlayerNames.push(player);
                 }
@@ -39,7 +39,7 @@ export class AotTrumpsCustomElement {
                     message: this._i18n.tr(
                         'game.play.select_trump_target',
                         {trumpname: trump.name}),
-                    choices: otherPlayerNames
+                    choices: otherPlayerNames,
                 }).then(targetIndex => {
                     // targetIndex is binded in a template, hence it became a string and must be
                     // converted before usage in the API
@@ -57,13 +57,13 @@ export class AotTrumpsCustomElement {
             title: this._i18n.tr(`trumps.${trumpName}`),
             description: this._i18n.tr(`trumps.${trumpName}_description`),
             visible: true,
-            event: event
+            event: event,
         };
     }
 
     hideInfos() {
         this.infos = {
-            visible: false
+            visible: false,
         };
     }
 

@@ -20,7 +20,7 @@ export class AotInfosCustomElement {
                 if (!this.infos.event) {
                     return;
                 } else if (this.infos.visible) {
-                    this._timeout = setTimeout(() => this.display = true, 2500);
+                    this._timeout = setTimeout(() => (this.display = true, 2500));
                 }
 
 

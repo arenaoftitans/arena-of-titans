@@ -15,7 +15,7 @@ export class Api {
         view: 'VIEW_POSSIBLE_SQUARES',
         play: 'PLAY',
         play_trump: 'PLAY_TRUMP',
-        player_played: 'PLAYER_PLAYED'
+        player_played: 'PLAYER_PLAYED',
     };
     requestTypesValues = [];
     callbacks = {};
@@ -25,14 +25,14 @@ export class Api {
     _storage;
     _ws;
     _me = {
-        trumps: []
+        trumps: [],
     };
     _game = {
         players: {
             names: [],
             squares: [],
-            indexes: []
-        }
+            indexes: [],
+        },
     };
     _config;
 
@@ -61,6 +61,8 @@ export class Api {
             this.callbacks[requestType].push(cb);
             return index;
         }
+
+        return -1;
     }
 
     off(requestType, cbIndex) {
@@ -104,7 +106,7 @@ export class Api {
             case this.requestTypes.player_played:
                 this._movePlayer({
                     playerIndex: message.player_index,
-                    newSquare: message.new_square
+                    newSquare: message.new_square,
                 });
                 break;
             case this.requestTypes.play_trump:
@@ -157,7 +159,7 @@ export class Api {
         this._game.players = {
             indexes: [],
             names: [],
-            squares: []
+            squares: [],
         };
 
         for (let player of players) {
@@ -304,7 +306,7 @@ export class Api {
     initializeGame(name) {
         this._ws.send({
             rt: this.requestTypes.init_game,
-            player_name: name
+            player_name: name,
         });
     }
 
@@ -312,12 +314,12 @@ export class Api {
         let slot = {
             index: this.debug ? 1 : this.game.slots.length,
             player_name: this.debug ? 'Player 2' : '',
-            state: this.debug ? 'TAKEN' : 'OPEN'
+            state: this.debug ? 'TAKEN' : 'OPEN',
         };
 
         this._ws.send({
             rt: this.requestTypes.add_slot,
-            slot: slot
+            slot: slot,
         });
     }
 
@@ -331,7 +333,7 @@ export class Api {
     updateSlot(slot) {
         this._ws.send({
             rt: this.requestTypes.slot_updated,
-            slot: slot
+            slot: slot,
         });
     }
 
@@ -344,7 +346,7 @@ export class Api {
             rt: this.requestTypes.init_game,
             player_name: name,
             game_id: gameId,
-            player_id: playerId
+            player_id: playerId,
         });
     }
 
@@ -352,13 +354,13 @@ export class Api {
         let players = this._game.slots.map(slot => {
             return {
                 name: slot.player_name,
-                index: slot.index
+                index: slot.index,
             };
         });
 
         this._ws.send({
             rt: this.requestTypes.create_game,
-            create_game_request: players
+            create_game_request: players,
         });
     }
 
@@ -371,8 +373,8 @@ export class Api {
             rt: this.requestTypes.view,
             play_request: {
                 card_name: name,
-                card_color: color
-            }
+                card_color: color,
+            },
         });
     }
 
@@ -383,8 +385,8 @@ export class Api {
                 card_name: cardName,
                 card_color: cardColor,
                 x: parseInt(x, 10),
-                y: parseInt(y, 10)
-            }
+                y: parseInt(y, 10),
+            },
         });
     }
 
@@ -393,8 +395,8 @@ export class Api {
             rt: this.requestTypes.play_trump,
             play_request: {
                 name: trumpName,
-                target_index: targetIndex === undefined ? null : targetIndex
-            }
+                target_index: targetIndex === undefined ? null : targetIndex,
+            },
         });
     }
 
@@ -402,8 +404,8 @@ export class Api {
         this._ws.send({
             rt: this.requestTypes.play,
             play_request: {
-                pass: true
-            }
+                pass: true,
+            },
         });
     }
 
@@ -413,8 +415,8 @@ export class Api {
             play_request: {
                 discard: true,
                 card_name: cardName,
-                card_color: cardColor
-            }
+                card_color: cardColor,
+            },
         });
     }
 

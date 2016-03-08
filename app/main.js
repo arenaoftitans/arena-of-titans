@@ -12,7 +12,7 @@ export function configure(aurelia) {
                 getAsync: false,
                 sendMissing: false,
                 fallbackLng: 'en',
-                debug: false
+                debug: false,
             });
         });
 

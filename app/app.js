@@ -11,26 +11,26 @@ export class App {
                 name: 'home',
                 moduleId: 'home',
                 nav: true,
-                title: 'Homepage'
+                title: 'Homepage',
             }, {
                 route: 'rules',
                 name: 'rules',
                 moduleId: 'rules/rules',
                 nav: true,
-                title: 'Rules'
+                title: 'Rules',
             }, {
                 route: 'synopsis',
                 name: 'synopsis',
                 moduleId: 'synopsis/synopsis',
                 nav: true,
-                title: 'Synopsis'
+                title: 'Synopsis',
             }, {
                 route: 'game',
                 name: 'game',
                 moduleId: 'game/game',
                 nav: true,
-                title: 'Game'
-            }
+                title: 'Game',
+            },
         ]);
         config.mapUnknownRoutes(instruction => {
             instruction.moduleId = 'not-found';

@@ -25,7 +25,7 @@ export class AotBoardCustomElement {
                 cardName: this.selectedCard.name,
                 cardColor: this.selectedCard.color,
                 x: x,
-                y: y
+                y: y,
             });
             this._possibleSquares = [];
             this.selectedCard = null;

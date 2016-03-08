@@ -9,7 +9,7 @@ export class Game {
     popupDefered = {
         promise: null,
         resolve: null,
-        reject: null
+        reject: null,
     };
 
     constructor(api) {
@@ -22,22 +22,22 @@ export class Game {
         config.map([
             {
                 route: ['', 'play'],
-                redirect: 'create'
+                redirect: 'create',
             },
             {
                 route: ['create', 'create/:id'],
                 name: 'create',
                 moduleId: './create/create',
                 nav: false,
-                title: 'Create game'
+                title: 'Create game',
             },
             {
                 route: 'play/:id',
                 name: 'play',
                 moduleId: './play/play',
                 nav: false,
-                title: 'Play'
-            }
+                title: 'Play',
+            },
         ]);
         config.mapUnknownRoutes(instruction => {
             instruction.moduleId = 'not-found';

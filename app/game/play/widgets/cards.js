@@ -30,13 +30,13 @@ export class AotCardsCustomElement {
             title: this._i18n.tr(`cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`),
             description: this._i18n.tr(`cards.${card.name.toLowerCase()}`),
             visible: true,
-            event: event
+            event: event,
         };
     }
 
     hideInfos() {
         this.infos = {
-            visible: false
+            visible: false,
         };
     }
 
@@ -56,7 +56,7 @@ export class AotCardsCustomElement {
             this._game.popup('confirm', {message: message}).then(() => {
                 this._api.discard({
                     cardName: this.selectedCard.name,
-                    cardColor: this.selectedCard.color
+                    cardColor: this.selectedCard.color,
                 });
                 this.selectedCard = null;
             });
