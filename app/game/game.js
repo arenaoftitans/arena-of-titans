@@ -4,6 +4,13 @@ import { inject } from 'aurelia-framework';
 
 @inject(Api)
 export class Game {
+    static heroes = [
+        'daemon',
+        'orc',
+        'reaper',
+        'thief',
+    ];
+
     data = null;
     type = null;
     popupDefered = {

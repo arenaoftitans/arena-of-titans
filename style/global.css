@@ -74,7 +74,7 @@ button[disabled] {
 
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 
@@ -119,11 +119,11 @@ button[disabled] {
 .popup-content {
     position: absolute;
     top: 30%;
-    left: 40%;
+    left: 32%;
     z-index: 901;
-    max-width: 20%;
-    padding-top: 1px;
-    padding-bottom: 15px;
+    width: 700px;
+    padding-top: 50px;
+    padding-bottom: 72px;
     background: url(/assets/game/backgrounds/popup.png) no-repeat;
     background-size: 100% 100%;
 }

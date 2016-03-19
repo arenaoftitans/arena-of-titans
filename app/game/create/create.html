@@ -3,6 +3,7 @@
 
     <div if.bind="me.name" class="centered-block">
         <h2 t="global.me">Me</h2>
+        <img class="selected-hero" src="/assets/game/heroes/${me.hero}.png" />
         <p class="centered-text">
             ${ 'global.name' | t }: ${me.name}
             <button class="button-light margin-left-150"

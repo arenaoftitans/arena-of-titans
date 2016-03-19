@@ -83,6 +83,10 @@ export class AotTrumpsCustomElement {
         return this._api.game.players.indexes;
     }
 
+    get me() {
+        return this._api.me;
+    }
+
     get myIndex() {
         return this._api.me.index;
     }

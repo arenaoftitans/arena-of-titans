@@ -125,6 +125,7 @@ export class Api {
         this._me.index = message.index;
         this._me.is_game_master = message.is_game_master;
         this._me.id = message.player_id;
+        this._me.hero = message.slots[this._me.index].hero;
         this._me.name = message.slots[this._me.index].player_name;
 
         this._game.id = message.game_id;
@@ -157,12 +158,14 @@ export class Api {
 
     _createPlayers(players) {
         this._game.players = {
+            heroes: [],
             indexes: [],
             names: [],
             squares: [],
         };
 
         for (let player of players) {
+            this._game.players.heroes.push(player.hero);
             this._game.players.indexes.push(player.index);
             this._game.players.names.push(player.name);
 
@@ -223,6 +226,7 @@ export class Api {
         this._createPlayers(reconnectMessage.players);
         this._me.trumps = this._createTrumps(reconnectMessage.trumps);
         this._me.index = reconnectMessage.index;
+        this._me.hero = this._game.players.heroes[this._me.index];
         this._me.name = this._game.players.names[this._me.index];
 
         this._initBoard();
@@ -303,10 +307,11 @@ export class Api {
         });
     }
 
-    initializeGame(name) {
+    initializeGame(name, hero) {
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name,
+            hero: hero,
         });
     }
 
@@ -323,10 +328,12 @@ export class Api {
         });
     }
 
-    updateName(name) {
+    updateMe(name, hero) {
         this.me.name = name;
+        this.me.hero = hero;
         let slot = this._game.slots[this.me.index];
         slot.player_name = name;
+        slot.hero = hero;
         this.updateSlot(slot);
     }
 
@@ -337,7 +344,7 @@ export class Api {
         });
     }
 
-    joinGame({gameId: gameId, name: name, playerId: playerId}) {
+    joinGame({gameId: gameId, name: name, playerId: playerId, hero: hero}) {
         if (name === undefined && playerId === undefined) {
             playerId = this._storage.retrievePlayerId(gameId);
         }
@@ -347,6 +354,7 @@ export class Api {
             player_name: name,
             game_id: gameId,
             player_id: playerId,
+            hero: hero,
         });
     }
 
@@ -355,6 +363,7 @@ export class Api {
             return {
                 name: slot.player_name,
                 index: slot.index,
+                hero: slot.hero,
             };
         });
 

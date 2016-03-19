@@ -34,8 +34,8 @@ export class Create {
                 this._router.navigateToRoute('play', {id: params.id});
             }
         } else if (!params.id) {
-            this._game.popup('create-game', {name: ''}).then(data => {
-                this._api.initializeGame(data.name);
+            this._game.popup('create-game', {name: '', hero: ''}).then(data => {
+                this._api.initializeGame(data.name, data.hero);
             });
         } else if (this.me.name) {
             if (!this._config.test.debug && this.me.is_game_master && this.slots.length < 2) {
@@ -64,8 +64,11 @@ export class Create {
         if (playerId) {
             this._api.joinGame({gameId: gameId, playerId: playerId});
         } else {
-            this._game.popup('create-game', {name: ''}).then(data => {
-                this._api.joinGame({gameId: gameId, name: data.name});
+            this._game.popup('create-game', {name: '', hero: ''}).then(data => {
+                this._api.joinGame({
+                    gameId: gameId,
+                    name: data.name,
+                    hero: data.hero});
             });
         }
     }
@@ -75,8 +78,8 @@ export class Create {
     }
 
     editMe() {
-        this._game.popup('create-game', {name: this.me.name}).then(data => {
-            this._api.updateName(data.name);
+        this._game.popup('create-game', {name: this.me.name, hero: this.me.hero}).then(data => {
+            this._api.updateMe(data.name, data.hero);
         });
     }
 

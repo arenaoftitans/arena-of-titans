@@ -2,7 +2,19 @@
     <form name="player-info" submit.delegate="save()">
         <div class="select-hero">
             <p t="game.create.popup_select_avatar">Select your avatar</p>
-            <img src="/assets/game/heroes/daemon.png" alt="Daemon" click.delegate="selectHero()" />
+
+            <img class="arrow ${hasPreviousHero ? '' : 'arrow-disabled'}"
+                 src="/assets/game/misc/arrow-left.png"
+                 click.delegate="previousHero()" />
+
+            <img class="hero-img ${hero.class}"
+                 repeat.for="hero of heroes"
+                 src="/assets/game/heroes/${hero.name}.png"
+                 alt="${hero.name}" />
+
+            <img class="arrow ${hasNextHero ? '' : 'arrow-disabled'}"
+                 src="/assets/game/misc/arrow-right.png"
+                 click.delegate="nextHero()" />
         </div>
 
         <label>

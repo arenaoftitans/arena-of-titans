@@ -24,11 +24,12 @@ describe('services/api', () => {
     it('should send game data to ws on initialize game', () => {
         let gameData = {
             player_name: 'Tester',
+            hero: 'daemon',
             rt: rt.init_game
         };
         spyOn(mockedWs, 'send');
 
-        sut.initializeGame('Tester');
+        sut.initializeGame('Tester', 'daemon');
 
         expect(mockedWs.send).toHaveBeenCalledWith(gameData);
     });
@@ -133,22 +134,26 @@ describe('services/api', () => {
 
         sut._me = {
             name: 'Player 1',
-            index: 0
+            index: 0,
+            hero: 'daemon',
         };
         sut._game = {
             slots: [{
                 index: 0,
                 player_name: 'Player 1',
-                state: 'TAKEN'
+                state: 'TAKEN',
             }]
         };
-        sut.updateName('New Name');
+        sut.updateMe('New Name', 'reaper');
 
+        expect(sut.me.hero).toBe('reaper');
         expect(sut.me.name).toBe('New Name');
+        expect(sut.game.slots[0].hero).toBe('reaper');
         expect(sut.game.slots[0].player_name).toBe('New Name');
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.slot_updated,
             slot: {
+                hero: 'reaper',
                 index: 0,
                 player_name: 'New Name',
                 state: 'TAKEN'
@@ -159,31 +164,33 @@ describe('services/api', () => {
     it('should send game data when joining game', () => {
         spyOn(mockedWs, 'send');
 
-        sut.joinGame({gameId: 'the_game_id', name: 'Player 2'});
+        sut.joinGame({gameId: 'the_game_id', name: 'Player 2', hero: 'daemon'});
 
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.init_game,
             player_name: 'Player 2',
             game_id: 'the_game_id',
-            player_id: undefined
+            player_id: undefined,
+            hero: 'daemon',
         });
     });
 
-    it('should send game data when joining game with a cookie', () => {
+    it('should send game data when joining game with a game id', () => {
         spyOn(mockedWs, 'send');
 
-        sut.joinGame({gameId: 'the_game_id', playerId: 'player_id'});
+        sut.joinGame({gameId: 'the_game_id', playerId: 'player_id', hero: 'daemon'});
 
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.init_game,
             player_name: undefined,
             game_id: 'the_game_id',
-            player_id: 'player_id'
+            player_id: 'player_id',
+            hero: 'daemon',
         });
     });
 
     describe('joinGame', () => {
-        it('should fetch the cookie if neither name nor playerId is defined', () => {
+        it('should fetch the game id if neither name nor playerId is defined', () => {
             spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
             spyOn(mockedWs, 'send');
 
@@ -194,7 +201,8 @@ describe('services/api', () => {
                 rt: sut.requestTypes.init_game,
                 player_name: undefined,
                 game_id: 'game_id',
-                player_id: 'player_id'
+                player_id: 'player_id',
+                hero: undefined,
             });
         });
 
@@ -252,11 +260,13 @@ describe('services/api', () => {
             slots: [
                 {
                     index: 0,
-                    player_name: 'Player 1'
+                    player_name: 'Player 1',
+                    hero: 'daemon',
                 },
                 {
                     index: 1,
-                    player_name: 'Player 2'
+                    player_name: 'Player 2',
+                    hero: 'daemon',
                 }
             ]
         };
@@ -267,11 +277,13 @@ describe('services/api', () => {
             create_game_request: [
                 {
                     index: 0,
-                    name: 'Player 1'
+                    name: 'Player 1',
+                    hero: 'daemon',
                 },
                 {
                     index: 1,
-                    name: 'Player 2'
+                    name: 'Player 2',
+                    hero: 'daemon',
                 }
             ]
         })
@@ -331,9 +343,11 @@ describe('services/api', () => {
         let message = {
             rt: sut.requestTypes.create_game,
             players: [{
+                hero: 'daemon',
                 index: 0,
                 name: "Player 1"
             }, {
+                hero: 'reaper',
                 index: 1,
                 name: "Player 2"
             }],
@@ -350,6 +364,7 @@ describe('services/api', () => {
 
         expect(sut._updateGame).toHaveBeenCalledWith(message);
         expect(sut._game.players).toEqual({
+            heroes: ['daemon', 'reaper'],
             indexes: [0, 1],
             names: ['Player 1', 'Player 2'],
             squares: [{}, {}]
@@ -453,7 +468,8 @@ describe('services/api', () => {
                     players: [
                         {
                             index: 0,
-                            square: {x: 0, y: 0}
+                            square: {x: 0, y: 0},
+                            hero: 'daemon',
                         }
                     ],
                     trumps: [
@@ -471,7 +487,8 @@ describe('services/api', () => {
             expect(sut._game.players).toEqual({
                 indexes: [0],
                 names: [undefined],
-                squares: [{x: 0, y: 0}]
+                squares: [{x: 0, y: 0}],
+                heroes: ['daemon'],
             });
             expect(sut._me.trumps).toEqual([
                 {

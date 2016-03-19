@@ -56,7 +56,7 @@ export class ApiStub {
     addSlot() {
     }
 
-    updateName() {
+    updateMe() {
     }
 
     joinGame() {
@@ -127,7 +127,7 @@ export class GameStub {
 
     popup(type, data) {
         this.popupPromise = new Promise((resolve, reject) => {
-            resolve({name: 'Tester'});
+            resolve({name: 'Tester', hero: 'daemon'});
         });
 
         return this.popupPromise;

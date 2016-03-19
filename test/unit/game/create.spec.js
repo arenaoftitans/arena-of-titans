@@ -56,9 +56,9 @@ describe('game/create', () => {
 
         sut.activate({id: 'game_id'});
 
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: ''});
+        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: '', hero: ''});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester'});
+            expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester', hero: 'daemon'});
             done();
         });
     });
@@ -78,24 +78,25 @@ describe('game/create', () => {
         spyOn(mockedApi, 'initializeGame');
         sut.activate();
 
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: ''});
+        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: '', hero: ''});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester');
+            expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester', 'daemon');
             done();
         });
     });
 
     it('should edit name', done => {
         spyOn(mockedGame, 'popup').and.callThrough();
-        spyOn(mockedApi, 'updateName');
+        spyOn(mockedApi, 'updateMe');
         sut._api._me = {
-            name: 'Player 1'
+            name: 'Player 1',
+            hero: 'daemon',
         };
 
         sut.editMe();
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: 'Player 1'});
+        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: 'Player 1', hero: 'daemon'});
         mockedGame.popupPromise.then(() => {
-            expect(mockedApi.updateName).toHaveBeenCalledWith('Tester');
+            expect(mockedApi.updateMe).toHaveBeenCalledWith('Tester', 'daemon');
             done();
         });
     });

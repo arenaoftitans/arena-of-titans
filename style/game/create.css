@@ -1,3 +1,57 @@
 .select-hero img {
 	max-width: 150px;
+    max-height: 150px;
+}
+
+
+.selected-hero {
+    display: block;
+    max-width: 150px;
+    margin: auto;
+}
+
+
+img.hero-img {
+    display: inline-block;
+    width: 500px;
+    height: 281px;
+    overflow: hidden;
+    background: #333;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+
+.main-pos {
+    cursor: pointer;
+    border: medium solid rgba(245, 245, 220, 0.7);
+    border-radius: 5px;
+}
+
+
+.left-pos {
+    opacity: .3;
+    -webkit-transform: scale(.75);
+    -moz-transform: scale(.75);
+    transform: scale(.75);
+}
+
+
+.right-pos {
+    opacity: .3;
+    -webkit-transform: scale(.75);
+    -moz-transform: scale(.75);
+    transform: scale(.75);
+}
+
+.arrow {
+    height: 145px;
+    max-width: 20px !important;
+    cursor: pointer;
+}
+
+.arrow-disabled {
+    cursor: inherit !important;
+    opacity: 0.5;
 }
