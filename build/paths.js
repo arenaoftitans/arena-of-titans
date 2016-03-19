@@ -9,6 +9,7 @@ module.exports = {
     root: appRoot,
     images: assetsRoot + '**/*.png',
     css: stylesRoot + '**/*.css',
+    fonts: stylesRoot + 'fonts/**/*',
     html: appRoot + '**/*.html',
     source: appRoot + '**/*.js',
     output: outputRoot,

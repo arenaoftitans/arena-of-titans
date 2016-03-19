@@ -18,7 +18,7 @@ var runSequence = require('run-sequence');
 gulp.task('build', function (done) {
     return runSequence(
             'clean',
-            ['bundle', 'build-html', 'build-css', 'build-config', 'build-system'],
+            ['bundle', 'build-html', 'build-css', 'build-fonts', 'build-config', 'build-system'],
             done);
 }).help = 'generate all files for the application and save them in ./dist';
 
@@ -36,6 +36,12 @@ gulp.task('build-css', function () {
             .pipe(concatCss('style.css'))
             .pipe(gulp.dest(paths.output))
             .pipe(browserSync.stream());
+});
+
+
+gulp.task('build-fonts', function () {
+    return gulp.src(paths.fonts, {base: 'style'})
+            .pipe(gulp.dest(paths.output));
 });
 
 
