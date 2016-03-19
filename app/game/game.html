@@ -1,5 +1,8 @@
 <template>
+    <require from="../widgets/aot-options"></require>
     <require from="./widgets/popups/popup"></require>
+
+    <aot-options></aot-options>
 
     <aot-popup if.bind="type !== null"
                data.bind="data"
