@@ -1,3 +1,6 @@
+// Promise polyfill for IE11
+let Promise = require('bluebird'); // eslint-disable-line no-unused-vars
+
 import { bootstrap } from 'aurelia-bootstrapper-webpack';
 import XHR from 'i18next-xhr-backend';
 import enTranslations from '../locale/en/translation.json';

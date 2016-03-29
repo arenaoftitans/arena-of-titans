@@ -2,6 +2,7 @@
 
 var path = require('path');
 var AureliaWebpackPlugin = require('aurelia-webpack-plugin');
+var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 module.exports = {
     devServer: {
@@ -30,14 +31,20 @@ module.exports = {
     plugins: [
         new AureliaWebpackPlugin({
             src: path.resolve('./app/'),
+            includeSubModules: [
+                { moduleId: "aurelia-i18n" }
+            ]
+        }),
+        new ProvidePlugin({
+            Promise: 'bluebird'
         })
     ],
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel', exclude: /node_modules/, query: { stage: 0 } },
+            { test: /\.js$/, loader: 'babel', exclude: /node_modules/, query: { presets: ['es2015-loose', 'stage-1'], plugins: ['transform-decorators-legacy'] } },
             { test: /\.css?$/, loader: 'style!css' },
             { test: /\.json$/, loader: 'json' },
-            { test: /\.html$/, loader: 'raw' },
+            { test: /\.html$/, loader: 'html' },
             { test: /\.(png|gif|jpg)$/, loader: 'url-loader?limit=8192' },
             { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&minetype=application/font-woff2' },
             { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
