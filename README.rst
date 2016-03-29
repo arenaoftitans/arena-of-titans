@@ -168,3 +168,11 @@ To translate something:
       requires some string to be replaced.
 
 See the plugin page on github for the full documentation.
+
+
+Add a hero
+==========
+
+#. Add the main image in ``asserts/game/heroes/<hero-name>.png`` (used in hero selection)
+#. Add the circled image in ``asserts/game/heroes/<hero-name>-circle.png`` (used in the game)
+#. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
