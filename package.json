@@ -14,7 +14,10 @@
     "translate": "python3 scripts/translate.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
   },
-  "repository": "git@bitbucket.org:arenaoftitans/arena-of-titans.git",
+  "repository": {
+      "type": "git",
+      "url": "https://bitbucket.org/arenaoftitans/arena-of-titans"
+  },
   "main": "gulpfile.js",
   "dependencies": {
     "aurelia-binding": "^1.0.0-beta.1.2.2",
