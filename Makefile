@@ -18,9 +18,8 @@ deploy:
 
 .PHONY: devdeploy
 devdeploy:
-	gulp clean-prod && \
-	    gulp prod --mock && \
-	    rsync -a --delete "public/" "aot:devapp/"
+	npm run mock && \
+	    rsync -a --delete -P "dist/" "aot:devapp/"
 
 
 .PHONY: sprites

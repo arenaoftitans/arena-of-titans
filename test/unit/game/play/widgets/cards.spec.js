@@ -1,3 +1,4 @@
+import '../../../setup';
 import { AotCardsCustomElement } from '../../../../../app/game/play/widgets/cards';
 import { ApiStub, GameStub, I18nStub } from '../../../utils';
 

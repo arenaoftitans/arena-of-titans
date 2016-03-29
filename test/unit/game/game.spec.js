@@ -1,3 +1,4 @@
+import '../setup';
 import { Game } from '../../../app/game/game';
 import { ApiStub, RouterStub } from '../utils';
 

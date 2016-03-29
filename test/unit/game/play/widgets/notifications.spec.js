@@ -1,3 +1,4 @@
+import '../../../setup';
 import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications';
 import { ApiStub, I18nStub } from '../../../utils';
 

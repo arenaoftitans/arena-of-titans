@@ -1,3 +1,4 @@
+import '../../setup';
 import { Api } from '../../../../app/game/services/api';
 import { StorageStub, WsStub } from '../../utils';
 

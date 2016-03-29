@@ -1,3 +1,4 @@
+import './setup';
 import { App } from '../../app/app';
 import { RouterStub } from './utils';
 

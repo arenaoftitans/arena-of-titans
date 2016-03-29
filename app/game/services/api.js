@@ -1,7 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Storage } from './storage';
 import { Ws } from './ws';
-import Config from '../../../config/application.json!json';
+import Config from '../../../config/application.json';
 
 
 @inject(Ws, Storage, Config)

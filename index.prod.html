@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="/assets/favicon.png">
         <title>Arena of Titans</title>
@@ -12,13 +13,14 @@
 
         <meta name="description" content="Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones ! Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !">
         <meta name="keywords" content="AoT arena titans game board cards">
-    </head>
-    <body>
-        <div>
-        </div>
+</head>
 
-        <script>
-            function values(obj) {
+<body>
+    <div>
+    </div>
+
+    <script>
+        function values(obj) {
                 var vals = [];
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
@@ -31,12 +33,9 @@
             if (typeof Object.values !== 'function') {
                 Object.values = values;
             }
-         </script>
-
-        <script src="/bundle.js"></script>
-
-        <script type="text/javascript">
-            if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
+    </script>
+    <script type="text/javascript">
+        if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
             var _paq = _paq || [];
             _paq.push(["setDomains", ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"]]);
             _paq.push(['trackPageView']);
@@ -53,7 +52,10 @@
             s.parentNode.insertBefore(g, s);
             })();
             }
-        </script>
-        <noscript><p><img src="//piwik.jujens.eu/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
-    </body>
+    </script>
+    <noscript>
+        <p><img src="//piwik.jujens.eu/piwik.php?idsite=3" style="border:0;" alt="" /></p>
+    </noscript>
+</body>
+
 </html>

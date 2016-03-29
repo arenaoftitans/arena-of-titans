@@ -3,7 +3,7 @@ import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
 import { Storage } from '../services/storage';
-import Config from '../../../config/application.json!json';
+import Config from '../../../config/application.json';
 
 
 @inject(Router, Game, Api, Storage, Config)

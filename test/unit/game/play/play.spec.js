@@ -1,3 +1,4 @@
+import '../../setup';
 import { Play } from '../../../../app/game/play/play';
 import { ApiStub, GameStub } from '../../utils';
 

@@ -1,5 +1,5 @@
 import { inject } from 'aurelia-framework';
-import Config from '../../../config/application.json!json';
+import Config from '../../../config/application.json';
 
 
 @inject(Config)

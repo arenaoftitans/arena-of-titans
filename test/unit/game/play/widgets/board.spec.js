@@ -1,3 +1,4 @@
+import '../../../setup';
 import { AotBoardCustomElement } from '../../../../../app/game/play/widgets/board';
 import { ApiStub } from '../../../utils';
 

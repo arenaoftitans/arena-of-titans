@@ -1,3 +1,4 @@
+import '../../setup';
 import { AotPopupCustomElement } from '../../../../app/game/widgets/popups/popup';
 import { AotPlayerInfosCustomElement } from '../../../../app/game/widgets/popups/player-infos';
 
