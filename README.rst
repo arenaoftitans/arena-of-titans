@@ -42,6 +42,10 @@ Usage
 - To build the files for prod, use ``npm run prod``.
 - To build the files to test the prod, use ``npm run mock``. The configuration
   will be loaded from ``config/config.test.toml``.
+- To deploy the app, use ``npm run deploy``.
+- To depoly the test version of the app, use ``npm run devdepoly``.
+- To update the translations, use ``npm run translate``.
+- To update the sprites of the cards, use ``npm run sprites``.
 
 
 Contributing
@@ -126,7 +130,7 @@ global translations), cards (for the translations of names and descriptions of
 the cards), trumps (for the translations of the names and descriptions of the
 trumps). To update the JSON in the frontend, use either:
 
-- `make translate`
+- `npm run translate`
 - `python3 scripts/translate.py`
 
 The translations are performed in the browser by the `aurelia-i18n

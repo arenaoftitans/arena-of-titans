@@ -8,7 +8,11 @@
     "prod": "rm -rf dist && node config/build-config.js --type prod && ./node_modules/.bin/webpack -p --config webpack.prod.config.js --progress --devtool source-map && cp -au assets dist/",
     "mock": "rm -rf dist && node config/build-config.js --type test && ./node_modules/.bin/webpack -p --config webpack.prod.config.js --progress --devtool source-map && cp -au assets dist/",
     "test": "./node_modules/.bin/karma start",
-    "lint": "./node_modules/.bin/eslint app"
+    "lint": "./node_modules/.bin/eslint app",
+    "deploy": "npm run prod && rsync -a --delete -P \"dist/\" \"aot:app/\"",
+    "devdeploy": "npm run mock && rsync -a --delete -P \"dist/\" \"aot:devapp/\"",
+    "translate": "python3 scripts/translate.py",
+    "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
   },
   "repository": "git@bitbucket.org:arenaoftitans/arena-of-titans.git",
   "main": "gulpfile.js",
