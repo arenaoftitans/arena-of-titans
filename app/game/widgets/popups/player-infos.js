@@ -32,7 +32,7 @@ export class AotPlayerInfosCustomElement {
     bind() {
         if (this.data !== null && this.data.hero) {
             this.currentHeroIndex = Game.heroes.indexOf(this.data.hero);
-        } else {
+        } else if (this.data !== null) {
             this.data.hero = this.currentHero.name;
         }
 
