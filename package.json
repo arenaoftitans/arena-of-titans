@@ -1,7 +1,7 @@
 {
   "name": "ArenaOfTitans",
   "version": "0.5.0",
-  "description": "Figth to death in the arena",
+  "description": "Fight to death in the arena",
   "scripts": {
     "dev": "node config/build-config.js && webpack-dev-server --config webpack.config.js --hot --inline --progress --devtool eval",
     "build": "webpack --config webpack.config.js --progress --profile",
