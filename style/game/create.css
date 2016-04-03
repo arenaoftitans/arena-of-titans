@@ -50,8 +50,3 @@ img.hero-img {
     max-width: 20px !important;
     cursor: pointer;
 }
-
-.arrow-disabled {
-    cursor: inherit !important;
-    opacity: 0.5;
-}

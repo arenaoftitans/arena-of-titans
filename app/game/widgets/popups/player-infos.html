@@ -3,18 +3,21 @@
         <div class="select-hero">
             <p t="game.create.popup_select_avatar">Select your avatar</p>
 
-            <img class="arrow ${hasPreviousHero ? '' : 'arrow-disabled'}"
+            <img class="arrow"
                  src="/assets/game/misc/arrow-left.png"
-                 click.delegate="previousHero()" />
+                 click.delegate="viewPreviousHero()" />
 
-            <img class="hero-img ${hero.class}"
-                 repeat.for="hero of heroes"
-                 src="/assets/game/heroes/${hero.name}.png"
-                 alt="${hero.name}" />
+            <span id="heroes-carousel">
+                <img class="hero-img hidden" />
+                <img class="hero-img left-pos" />
+                <img class="hero-img main-pos" />
+                <img class="hero-img right-pos "/>
+                <img class="hero-img hidden" />
+            </span>
 
-            <img class="arrow ${hasNextHero ? '' : 'arrow-disabled'}"
+            <img class="arrow"
                  src="/assets/game/misc/arrow-right.png"
-                 click.delegate="nextHero()" />
+                 click.delegate="viewNextHero()" />
         </div>
 
         <label>
