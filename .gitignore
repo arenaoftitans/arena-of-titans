@@ -3,6 +3,7 @@
 /jspm_packages
 /node_modules
 /dist
+/build
 /coverage
 /public
 config/application.json
