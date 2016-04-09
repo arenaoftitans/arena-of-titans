@@ -1,10 +1,10 @@
 <template>
-    <img src="/assets/game/aot-logo.png" class="centered-block"/>
+    <img src="/assets/game/aot-logo.png" class="centered-block-medium"/>
 
-    <div if.bind="me.name" class="centered-block">
+    <div if.bind="me.name" class="centered-block red-text margin-top-160">
         <h2 t="global.me">Me</h2>
         <img class="selected-hero" src="/assets/game/heroes/${me.hero}.png" />
-        <p class="centered-text">
+        <p class="centered-text white-text">
             ${ 'global.name' | t }: ${me.name}
             <button class="button-light margin-left-150"
                     click.trigger="editMe()"
@@ -19,7 +19,7 @@
         </button>
 
         <h2 t="game.create.others">Other players</h2>
-        <p class="centered-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t},
+        <p class="centered-text white-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t},
             ${slot.player_name}</p>
         <button class="button-light centered-block"
                 if.bind="me.is_game_master"
@@ -30,7 +30,7 @@
 
         <div if.bind="me.is_game_master">
             <h2 t="game.create.invite">Invite</h2>
-            <label class="centered-block centered-text">${ 'game.create.invite_text' | t }
+            <label class="centered-block centered-text white-text">${ 'game.create.invite_text' | t }
                 <input type="Text" value.bind="gameUrl" readonly/>
             </label>
         </div>

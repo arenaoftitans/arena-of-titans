@@ -1,8 +1,14 @@
+html, body {
+    font-family: 'Berkshire Swash', cursive;
+    background-image : url("/assets/game/backgrounds/game_creation.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
 .select-hero img {
 	max-width: 150px;
     max-height: 150px;
 }
-
 
 .selected-hero {
     display: block;

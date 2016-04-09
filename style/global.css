@@ -94,14 +94,22 @@ button[disabled] {
     margin: auto;
 }
 
+.centered-block-medium {
+    display: block;
+	width: 300px;
+    margin: auto;
+}
 
 .centered-text {
     text-align: center;
 }
 
+.white-text{
+	color: white;
+}
 
 .red-text {
-    color: red;
+    color: #B40404;
 }
 
 
@@ -154,6 +162,9 @@ button[disabled] {
     margin-top: 70px;
 }
 
+.margin-top-160 {
+    margin-top: 160px;
+}
 
 .option-container {
     padding-bottom: 1%;
