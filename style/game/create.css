@@ -1,6 +1,13 @@
 html, body {
     font-family: 'Berkshire Swash', cursive;
-    background-image : url("/assets/game/backgrounds/game_creation.png");
+    background-image : url("/assets/game/backgrounds/background.png");
+	margin:auto;
+}
+
+#background_create{
+	width:100%;
+	margin:auto;
+	background-image : url("/assets/game/backgrounds/game_creation.png");
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
