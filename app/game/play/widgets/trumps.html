@@ -1,12 +1,9 @@
 <template>
     <require from="./infos"></require>
-
-    <div id="hero" class="centered-block">
-        <img class="centered-block" if.bind="me.hero" src="/assets/game/heroes/${me.hero}-circle.png"/>
-    </div>
+    <require from="./gauge"></require>
 
 	<div id="gauge" class="centered-block">
-
+        <aot-trumps-gauge></aot-trumps-gauge>
 	</div>
 
     <div id="trumps-affecting-player">

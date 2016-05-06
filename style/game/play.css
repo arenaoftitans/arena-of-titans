@@ -26,14 +26,16 @@
     margin-bottom: 0;
 }
 
-#trumps-container {
-    overflow-y: hidden;
+#gauge svg {
+    display: block;
+    margin: auto;
+    position: absolute;
+    left: 25%;
 }
 
-#hero img {
-    width: 35%;
-    margin-top: 2%;
-    min-width: 50px;
+#trumps-container {
+    overflow-y: hidden;
+    position: relative;
 }
 
 #trumps-affecting-player {
@@ -306,6 +308,15 @@
         min-height: 528px;
     }
 
+    #trumps-container {
+        height: 528px;
+    }
+
+    #gauge svg {
+        max-height: 450px;
+        margin-top: 10px;
+    }
+
     #trumps-affecting-player, #player-trumps {
         width: 30%;
     }
@@ -352,6 +363,16 @@
     .play-left {
         max-height: 742px;
         min-height: 742px;
+    }
+
+    #trumps-container {
+        height: 742px;
+    }
+
+    #gauge svg {
+        height: 680px;
+        margin-top: 10px;
+        left: 14%;
     }
 
     .play-middle {
@@ -433,6 +454,15 @@
     .play-left {
         max-height: 826px;
         min-height: 826px;
+    }
+
+    #trumps-container {
+        height: 826px;
+    }
+
+    #gauge svg {
+        height: 750px;
+        margin-top: 10px;
     }
 
     .play-middle {
