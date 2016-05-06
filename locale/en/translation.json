@@ -56,8 +56,8 @@
             "no_action": "No action yet",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",
-            "select_trump_target": "Who should be the target of __trumpname__?",
-            "whose_turn_message": "It is the turn of <br /><strong>__playerName__</strong>"
+            "select_trump_target": "Who should be the target of {{trumpname}}?",
+            "whose_turn_message": "It is the turn of <br /><strong>{{playerName}}</strong>"
         }
     },
     "global": {

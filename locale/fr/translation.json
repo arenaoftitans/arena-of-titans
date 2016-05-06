@@ -43,7 +43,7 @@
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
             "invite": "Invitation",
-            "invite_text": "Pour inviter tes amis, donne leur ce lient\u00a0:",
+            "invite_text": "Pour inviter tes amis, donne leur ce lien\u00a0:",
             "others": "Autres joueurs",
             "popup_select_avatar": "Choisis ton avatar",
             "slot": "Joueur"
@@ -56,8 +56,8 @@
             "no_action": "Il ne s'est rien pass\u00e9 pour l'instant",
             "pass": "Passer",
             "pass_confirm_message": "",
-            "select_trump_target": "Who should be the target of __trumpname__?",
-            "whose_turn_message": "C'est le tour de <br /><strong>__playerName__</strong>"
+            "select_trump_target": "Who should be the target of {{trumpname}}?",
+            "whose_turn_message": "C'est le tour de <br /><strong>{{playerName}}</strong>"
         }
     },
     "global": {
