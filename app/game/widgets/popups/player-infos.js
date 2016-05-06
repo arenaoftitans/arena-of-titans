@@ -1,14 +1,17 @@
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import { Game } from '../../game';
+import { Wait } from '../../services/utils';
 
 
+@inject(Wait)
 export class AotPlayerInfosCustomElement {
     @bindable data = null;
     @bindable done = null;
 
-    constructor() {
+    constructor(wait) {
         this.currentHeroIndex = 0;
         this.direction = null;
+        this._wait = wait;
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -36,21 +39,9 @@ export class AotPlayerInfosCustomElement {
             this.data.hero = this.currentHero.name;
         }
 
-        let defered = {};
-        defered.promise = new Promise((resolve) => {
-            defered.resolve = resolve;
-        });
+        let waitForCarousel = this._wait.forId('heroes-carousel');
 
-        (function waitForCarousel() {
-            let heroesCarousel = document.getElementById('heroes-carousel');
-            if (heroesCarousel !== null) {
-                defered.resolve(heroesCarousel);
-            } else {
-                setTimeout(waitForCarousel, 500);
-            }
-        })();
-
-        defered.promise.then(heroesCarousel => {
+        waitForCarousel.then(heroesCarousel => {
             this.heroesCarousel = heroesCarousel;
             this.setHeroImage(
                 this.heroesCarousel.children[0],

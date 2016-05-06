@@ -1,10 +1,11 @@
 import { inject } from 'aurelia-framework';
 import { Storage } from './storage';
+import { Wait } from './utils';
 import { Ws } from './ws';
 import Config from '../../../config/application.json';
 
 
-@inject(Ws, Storage, Config)
+@inject(Ws, Storage, Config, Wait)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -36,12 +37,13 @@ export class Api {
     };
     _config;
 
-    constructor(ws, storage, config) {
+    constructor(ws, storage, config, wait) {
         for (let rt of Object.values(this.requestTypes)) {
             this.requestTypesValues.push(rt);
             this.callbacks[rt] = [];
         }
         this._storage = storage;
+        this._wait = wait;
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
@@ -236,21 +238,9 @@ export class Api {
     _initBoard() {
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
-        let defered = {};
-        defered.promise = new Promise((resolve) => {
-            defered.resolve = resolve;
-        });
+        let waitForBoard = this._wait.forId('player0');
 
-        (function waitForBoard() {
-            let pawn0 = document.getElementById('player0');
-            if (pawn0 !== null) {
-                defered.resolve();
-            } else {
-                setTimeout(waitForBoard, 500);
-            }
-        })();
-
-        defered.promise.then(() => {
+        waitForBoard.then(() => {
             this._game.players.squares.forEach((square, index) => {
                 if (square && Object.keys(square).length > 0) {
                     this._movePlayer({playerIndex: index, newSquare: square});

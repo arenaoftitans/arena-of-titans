@@ -1,35 +1,24 @@
 import { inject } from 'aurelia-framework';
 import { Api } from '../../services/api';
+import { Wait } from '../../services/utils';
 
 
-@inject(Api)
+@inject(Api, Wait)
 export class AotCounterCustomElement {
     _api;
 
-    constructor(api) {
+    constructor(api, wait) {
         this._api = api;
         this.maxTime = 60000;
         this.startTime = null;
         this.timeLeft = this.maxTime;
         this.angle = 0;
 
-        let defered = {};
-        defered.promise = new Promise((resolve) => {
-            defered.resolve = resolve;
-        });
-
-        (function waitForCounter() {
-            let counter = document.getElementById('counter');
-            if (counter !== null) {
-                defered.resolve();
-            } else {
-                setTimeout(waitForCounter, 500);
-            }
-        })();
+        let waitForCounter = wait.forId('counter');
 
         this._api.on(this._api.requestTypes.play, () => {
             if (this._api.game.your_turn) {
-                defered.promise.then(() => this.start());
+                waitForCounter.then(() => this.start());
             }
         });
     }

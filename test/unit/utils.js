@@ -161,6 +161,15 @@ export class StorageStub {
 }
 
 
+export class WaitStub {
+    forId(id) {
+        let promise = new Promise(() => {});
+
+        return promise;
+    }
+}
+
+
 export class WsStub {
     send(data) {
     }
