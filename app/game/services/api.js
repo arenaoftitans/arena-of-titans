@@ -1,6 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { Storage } from './storage';
-import { Wait } from './utils';
+import { ImageClass, ImageSource, Wait } from './utils';
 import { Ws } from './ws';
 import Config from '../../../config/application.json';
 
@@ -181,8 +181,7 @@ export class Api {
 
     _createTrumps(trumps) {
         return trumps.map(trump => {
-            let trumpName = trump.name.replace(' ', '-').toLowerCase();
-            trump.img = `/assets/game/cards/trumps/${trumpName}.png`;
+            trump.img = ImageSource.forTrump(trump);
             return trump;
         });
     }
@@ -194,9 +193,7 @@ export class Api {
         this._game.winners = message.winners;
         this._game.active_trumps = message.active_trumps;
         this._me.hand = message.hand.map(card => {
-            let name = card.name.toLowerCase();
-            let color = card.color.toLocaleLowerCase();
-            card.img = `sprite-movement-${name}-${color}`;
+            card.img = ImageClass.forCard(card);
             return card;
         });
         this._me.has_won = message.has_won;

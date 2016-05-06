@@ -34,7 +34,7 @@ describe('notifications', () => {
         expect(sut.playerName).toBe('Player 1');
         expect(sut.lastAction.description).toBe('played');
         expect(sut.lastAction.card).toEqual(message.last_action.card);
-        expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king_red.png');
+        expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king-red.png');
     });
 
     it('should update last action when a trump is played', () => {
@@ -55,6 +55,6 @@ describe('notifications', () => {
         expect(sut.playerName).toBe('Player 1');
         expect(sut.lastAction.description).toBe(message.last_action.description);
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
-        expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower_blue.png');
+        expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
     });
 });

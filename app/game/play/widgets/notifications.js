@@ -1,6 +1,7 @@
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
+import { ImageName, ImageSource } from '../../services/utils';
 
 
 @inject(Api, I18N)
@@ -38,13 +39,13 @@ export class AotNotificationsCustomElement {
             this._lastAction.title = this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
             this._lastAction.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
 
-            let card = `${cardName.toLowerCase()}_${cardColor}`;
-            this._lastAction.img = `/assets/game/cards/movement/${card}.png`;
+            this._lastAction.img = ImageSource.forCard(lastAction.card);
         }
 
         if (lastAction.trump && Object.keys(lastAction.trump).length > 0) {
-            let trumpName = lastAction.trump.name.replace(' ', '_').toLowerCase();
-            this._lastAction.img = `/assets/game/cards/trumps/${trumpName}.png`;
+            let trump = lastAction.trump;
+            this._lastAction.img = ImageSource.forTrump(trump);
+            let trumpName = ImageName.forTrump(trump);
             this._lastAction.title = this._i18n.tr(trumpName);
             this._lastAction.description = this._i18n.tr(`${trumpName}_description`);
         }
