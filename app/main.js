@@ -45,7 +45,7 @@ bootstrap(aurelia => {
                 },
                 lng: language,
                 attributes: ['t', 'i18n'],
-                fallbackLng: ['en', 'fr'],
+                fallbackLng: 'en',
                 debug: false,
             });
         });
