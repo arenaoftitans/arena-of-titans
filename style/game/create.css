@@ -8,9 +8,16 @@ html, body {
 	width: 100%;
     min-height: 99vh;
 	margin: auto;
-	background-image : url("/assets/game/backgrounds/game-creation.png");
 	background-repeat: no-repeat;
 	background-size: 100%;
+}
+
+.create-gate-opened {
+    background-image : url("/assets/game/backgrounds/game-creation.png");
+}
+
+.create-gate-closed {
+    background-image : url("/assets/game/backgrounds/heroes-selection.png");
 }
 
 .select-hero img {

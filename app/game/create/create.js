@@ -68,7 +68,8 @@ export class Create {
                 this._api.joinGame({
                     gameId: gameId,
                     name: data.name,
-                    hero: data.hero});
+                    hero: data.hero,
+                });
             });
         }
     }
@@ -129,5 +130,9 @@ export class Create {
         }
 
         return false;
+    }
+
+    get hasHero() {
+        return this.me.hero !== undefined;
     }
 }
