@@ -17,7 +17,7 @@ export class AotCounterCustomElement {
         let waitForCounter = wait.forId('counter');
 
         this._api.on(this._api.requestTypes.play, () => {
-            if (this._api.game.your_turn) {
+            if (this._api.game.your_turn && this.startTime === null) {
                 waitForCounter.then(() => this.start());
             }
         });
@@ -30,6 +30,7 @@ export class AotCounterCustomElement {
             this.countDownClock();
             if (this.timeLeft <= 0) {
                 clearInterval(interval);
+                this.startTime = null;
                 this._api.pass();
             }
         }, 50);
