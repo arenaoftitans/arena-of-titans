@@ -188,11 +188,6 @@
     margin-left: 4%;
 }
 
-#counter {
-    background: url(/assets/game/backgrounds/stopwatch.png);
-    background-size: 100% 100%;
-}
-
 
 /* Very small screens */
 @media screen and (max-width: 799px) {
@@ -256,12 +251,12 @@
     #cards-actions button {
         width: 48%;
     }
-	
+
     .play-left {
         max-height: 548px;
         min-height: 548px;
     }
-	
+
 
     .player-trumps {
         padding-top: 8px;
@@ -290,9 +285,8 @@
         display: none;
     }
 
-    #counter {
-        max-height: 145px;
-        min-height: 145px;
+    #counter, #counter-countainer {
+        height: 145px;
     }
 }
 
@@ -347,9 +341,8 @@
         display: none;
     }
 
-    #counter {
-        max-height: 124px;
-        min-height: 124px;
+    #counter, #counter-countainer {
+        height: 124px;
     }
 }
 
@@ -387,9 +380,8 @@
         min-height: 537px;
     }
 
-    #counter {
-        max-height: 165px;
-        min-height: 165px;
+    #counter, #counter-countainer {
+        height: 165px;
     }
 }
 
@@ -426,9 +418,8 @@
         min-height: 555px;
     }
 
-    #counter {
-        max-height: 174px;
-        min-height: 174px;
+    #counter, #counter-countainer {
+        height: 174px;
     }
 
     #play {
@@ -469,9 +460,8 @@
         min-height: 605px;
     }
 
-    #counter {
-        max-height: 181px;
-        min-height: 181px;
+    #counter, #counter-countainer {
+        height: 181px;
     }
 
     #play {

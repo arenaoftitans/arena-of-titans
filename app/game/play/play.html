@@ -1,6 +1,7 @@
 <template>
     <require from="./widgets/board"></require>
     <require from="./widgets/cards"></require>
+    <require from="./widgets/counter"></require>
     <require from="./widgets/notifications"></require>
     <require from="./widgets/trumps"></require>
 
@@ -36,8 +37,7 @@
                         current-player-index.bind="game.next_player"></aot-notifications>
             </div>
 
-            <div id="counter">
-            </div>
+            <aot-counter></aot-counter>
         </div>  <!--block right-->
     </main>
 </template>

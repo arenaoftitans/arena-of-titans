@@ -1,0 +1,24 @@
+#counter-countainer {
+    position: relative;
+    background-image: url(/assets/game/backgrounds/stopwatch.png);
+    background-size: 100% 100%;
+}
+
+#counter {
+    position: relative;
+    z-index: 1;
+}
+
+#timer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 520%;
+    text-align: center;
+    width: 300px;
+    z-index: 2;
+    margin: 0;
+    color: #000;
+    transition: opacity 350ms linear 0s;
+    -webkit-transition: opacity 350ms linear 0s;
+}

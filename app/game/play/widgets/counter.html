@@ -1,0 +1,11 @@
+<template>
+    <div id="counter-countainer">
+        <canvas id="counter"
+            class="centered-block ${displayCounter ? '' : 'hidden'}"
+            width="300"
+            height="300"></canvas>
+        <p id="timer" class="centered-block ${displayCounter ? '' : 'hidden'}">
+            ${formatedTimeLeft}
+        </p>
+    </div>
+</template>

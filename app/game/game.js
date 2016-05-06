@@ -2,6 +2,7 @@ import { Api } from './services/api';
 import { inject } from 'aurelia-framework';
 
 import '../../style/game/create.css';
+import '../../style/game/counter.css';
 import '../../style/game/play.css';
 import '../../style/board.css';
 import '../../style/sprites/movement.css';
