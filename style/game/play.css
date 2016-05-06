@@ -259,6 +259,15 @@
         min-height: 548px;
     }
 
+    #trumps-container {
+        height: 548px;
+    }
+
+    #gauge svg {
+        max-height: 470px;
+        margin-top: 10px;
+    }
+
 
     .player-trumps {
         padding-top: 8px;
