@@ -179,7 +179,7 @@ export class Api {
 
     _createTrumps(trumps) {
         return trumps.map(trump => {
-            let trumpName = trump.name.replace(' ', '_').toLowerCase();
+            let trumpName = trump.name.replace(' ', '-').toLowerCase();
             trump.img = `/assets/game/cards/trumps/${trumpName}.png`;
             return trump;
         });
@@ -194,7 +194,7 @@ export class Api {
         this._me.hand = message.hand.map(card => {
             let name = card.name.toLowerCase();
             let color = card.color.toLocaleLowerCase();
-            card.img = `sprite-movement-${name}_${color}`;
+            card.img = `sprite-movement-${name}-${color}`;
             return card;
         });
         this._me.has_won = message.has_won;

@@ -329,7 +329,7 @@ describe('services/api', () => {
             {
                 name: 'King',
                 color: 'RED',
-                img: 'sprite-movement-king_red'
+                img: 'sprite-movement-king-red'
             }
         ]);
         expect(sut._me.has_won).toBe(false);
@@ -372,7 +372,7 @@ describe('services/api', () => {
         });
         expect(sut._me.trumps).toEqual([{
             name: "Red Tower",
-            img: '/assets/game/cards/trumps/red_tower.png',
+            img: '/assets/game/cards/trumps/red-tower.png',
             description: "Prevents a player to move on red squares.",
             cost: 0,
             duration: 1,
@@ -494,7 +494,7 @@ describe('services/api', () => {
             expect(sut._me.trumps).toEqual([
                 {
                     name: 'Tower red',
-                    img: '/assets/game/cards/trumps/tower_red.png'
+                    img: '/assets/game/cards/trumps/tower-red.png'
                 }
             ])
         });
