@@ -11,6 +11,7 @@ export class AotCounterCustomElement {
         this._api = api;
         this.maxTime = 60000;
         this.startTime = null;
+        this.timerInterval = null;
         this.timeLeft = this.maxTime;
         this.angle = 0;
 
@@ -19,6 +20,9 @@ export class AotCounterCustomElement {
         this._api.on(this._api.requestTypes.play, () => {
             if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
                 waitForCounter.then(() => this.start());
+            } else if (!this._api.game.your_turn) {
+                clearInterval(this.timerInterval);
+                this.startTime = null;
             }
         });
     }
@@ -26,10 +30,10 @@ export class AotCounterCustomElement {
     start() {
         this.startTime = (new Date()).getTime();
 
-        let interval = setInterval(() => {
+        this.timerInterval = setInterval(() => {
             this.countDownClock();
             if (this.timeLeft <= 0) {
-                clearInterval(interval);
+                clearInterval(this.timerInterval);
                 this.startTime = null;
                 this._api.pass();
             }
