@@ -4,9 +4,10 @@ html, body {
 	margin:auto;
 }
 
-#background-create{
-	width:100%;
-	margin:auto;
+#background-create {
+	width: 100%;
+    min-height: 99vh;
+	margin: auto;
 	background-image : url("/assets/game/backgrounds/game-creation.png");
 	background-repeat: no-repeat;
 	background-size: 100%;
