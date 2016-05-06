@@ -12,6 +12,7 @@ export class AotCounterCustomElement {
         this.maxTime = 60000;
         this.startTime = null;
         this.timerInterval = null;
+        this.canvas = null;
         this.timeLeft = this.maxTime;
         this.angle = 0;
 
@@ -19,7 +20,10 @@ export class AotCounterCustomElement {
 
         this._api.on(this._api.requestTypes.play, () => {
             if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
-                waitForCounter.then(() => this.start());
+                waitForCounter.then(canvas => {
+                    this.canvas = canvas;
+                    this.start();
+                });
             } else if (!this._api.game.your_turn) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
@@ -50,11 +54,8 @@ export class AotCounterCustomElement {
         // Angle to use, defined by 1 millisecond
         this.angle = 0.1048335 * 0.001 * this.timeLeft;
 
-        // Set up our canvas
-        let canvas = document.getElementById('counter');
-
-        if (canvas.getContext) {
-            let ctx = canvas.getContext('2d');
+        if (this.canvas && this.canvas.getContext) {
+            let ctx = this.canvas.getContext('2d');
 
             // Clear canvas before re-drawing
             ctx.clearRect(0, 0, 300, 300);

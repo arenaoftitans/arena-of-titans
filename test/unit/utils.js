@@ -75,6 +75,12 @@ export class ApiStub {
     }
 
     play() {
+        let cbs = this._cbs[this.requestTypes.play];
+        if (cbs) {
+            cbs.forEach(cb => {
+                cb();
+            });
+        }
     }
 
     playTrump() {
