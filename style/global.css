@@ -132,6 +132,9 @@ button[disabled] {
     width: 700px;
     padding-top: 50px;
     padding-bottom: 72px;
+}
+
+.popup-content.default {
     background: url(/assets/game/backgrounds/popup.png) no-repeat;
     background-size: 100% 100%;
 }
@@ -139,6 +142,19 @@ button[disabled] {
 .popup-content .x-margin {
     margin-right: 10%;
     margin-left: 10%;
+}
+
+.popup-content.game-over {
+    background: url(/assets/game/backgrounds/popup-game-over.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+.popup-content.game-over .x-margin {
+    margin-left: 46%;
+}
+
+.popup-content.game-over .x-margin ol {
+    padding-top: 10%;
 }
 
 .popup-content form {
