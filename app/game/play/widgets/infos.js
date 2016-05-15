@@ -38,7 +38,7 @@ export class AotInfosCustomElement {
                     } while (element);
 
                     infosElement.style.top = top - infosHeight + 'px';
-                    infosElement.style.left = trumpsContainer.getBoundingClientRect().right + 'px';
+                    infosElement.style.left = trumpsContainer.getBoundingClientRect().width + 'px';
                 } else if (this.type === 'cards') {
                     let cardsContainer = document.getElementById('cards-container');
                     let infosElement = document.getElementById('cards-element-infos');
