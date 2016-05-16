@@ -298,8 +298,6 @@ describe('services/api', () => {
             has_won: false,
             rank: -1,
             next_player: 0,
-            game_over: false,
-            winners: [],
             active_trumps: [{
                 player_index: 0,
                 player_name: "Player 1",
@@ -322,8 +320,6 @@ describe('services/api', () => {
 
         expect(sut._game.your_turn).toBe(true);
         expect(sut._game.next_player).toBe(0);
-        expect(sut._game.game_over).toBe(false);
-        expect(sut._game.winners.length).toBe(0);
         expect(sut._game.active_trumps.length).toBe(2);
         expect(sut._game.active_trumps[0]).toBe(message.active_trumps[0]);
         expect(sut._game.active_trumps[1]).toBe(message.active_trumps[1]);
@@ -340,6 +336,32 @@ describe('services/api', () => {
             name: 'Reinforcements',
             img: '/assets/game/cards/trumps/reinforcements.png'
         }])
+    });
+
+    it('should handle player played', () => {
+        let message = {
+            game_over: false,
+            winners: [],
+        };
+
+        sut._handleGameOverMessage(message);
+
+        expect(sut._game.game_over).toBe(false);
+        expect(sut._game.winners.length).toBe(0);
+    });
+
+    it('should handle player played game over', () => {
+        let message = {
+            game_over: true,
+            winners: ['Player 1', 'Player 2'],
+        };
+        spyOn(sut._gameOverDefered, 'resolve');
+
+        sut._handleGameOverMessage(message);
+
+        expect(sut._game.game_over).toBe(true);
+        expect(sut._game.winners.length).toBe(2);
+        expect(sut._gameOverDefered.resolve).toHaveBeenCalledWith(message.winners);
     });
 
     it('should handle game created data', () => {
