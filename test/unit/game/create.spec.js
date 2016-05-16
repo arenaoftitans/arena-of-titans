@@ -69,9 +69,12 @@ describe('game/create', () => {
         spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
 
         sut.activate({id: 'game_id'});
-        mockedApi._reconnectDefered.reject();
+        mockedApi._reconnectDefered.reject(new Error());
 
-        mockedApi._reconnectDefered.promise.then(() => {}, () => {
+        mockedApi._reconnectDefered.promise.then(() => {
+            expect(false).toBe(true);
+            done();
+        }, () => {
             expect(sut._askName).toHaveBeenCalledWith('game_id');
             done();
         });

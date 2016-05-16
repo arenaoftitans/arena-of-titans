@@ -57,9 +57,7 @@ describe('cards', () => {
     });
 
     it('should not pass on cancel', done => {
-        let promise = new Promise((resolve, reject) => {
-            reject();
-        });
+        let promise = Promise.reject(new Error());
         spyOn(mockedGame, 'popup').and.returnValue(promise);
         spyOn(mockedApi, 'pass');
 
@@ -68,11 +66,13 @@ describe('cards', () => {
         expect(mockedGame.popup).toHaveBeenCalledWith(
             'confirm',
             {message: 'Are you sure you want to pass your turn?'});
+
         promise.then(() => {
             expect(false).toBe(true);
             done();
-        }, () => {
+        }, error => {
             expect(mockedApi.pass).not.toHaveBeenCalled();
+            console.log(error.stack)
             done();
         });
     });
