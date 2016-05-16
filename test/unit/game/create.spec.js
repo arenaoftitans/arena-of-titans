@@ -64,6 +64,19 @@ describe('game/create', () => {
         });
     });
 
+    it('should ask the player name when reconnecting to a freed slot', done => {
+        spyOn(sut, '_askName');
+        spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
+
+        sut.activate({id: 'game_id'});
+        mockedApi._reconnectDefered.reject();
+
+        mockedApi._reconnectDefered.promise.then(() => {}, () => {
+            expect(sut._askName).toHaveBeenCalledWith('game_id');
+            done();
+        });
+    });
+
     it('should join the game from a cookie', () => {
         spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
         spyOn(mockedGame, 'popup');

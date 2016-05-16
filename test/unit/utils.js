@@ -30,12 +30,17 @@ export class ApiStub {
     };
     _me = {};
     _gameOverDefered = {};
+    _reconnectDefered = {};
 
     constructor() {
         this._api = new Api(new WsStub);
         this.onReconnectDefered = new Promise(() => {});
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
+        });
+        this._reconnectDefered.promise = new Promise((resolve, reject) => {
+            this._reconnectDefered.resolve = resolve;
+            this._reconnectDefered.reject = reject;
         });
     }
 
@@ -60,6 +65,7 @@ export class ApiStub {
     }
 
     joinGame() {
+        return this._reconnectDefered.promise;
     }
 
     createGame() {

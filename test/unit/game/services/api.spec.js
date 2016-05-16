@@ -501,6 +501,19 @@ describe('services/api', () => {
             ])
         });
 
+        it('should ask name when reconnecting to a freed slot', () => {
+            spyOn(sut._reconnectDefered, 'reject');
+
+            let message = {
+                rt: sut.requestTypes.game_initialized,
+                index: -1,
+            };
+
+            sut._handleMessage(message);
+
+            expect(sut._reconnectDefered.reject).toHaveBeenCalled();
+        });
+
         it('should play trump without target', () => {
             spyOn(mockedWs, 'send');
 

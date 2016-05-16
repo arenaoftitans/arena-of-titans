@@ -62,16 +62,21 @@ export class Create {
     _joinGame(gameId) {
         let playerId = this._storage.retrievePlayerId(gameId);
         if (playerId) {
-            this._api.joinGame({gameId: gameId, playerId: playerId});
+            this._api.joinGame({gameId: gameId, playerId: playerId})
+                .then(() => {}, () => this._askName(gameId));
         } else {
-            this._game.popup('create-game', {name: '', hero: ''}).then(data => {
-                this._api.joinGame({
-                    gameId: gameId,
-                    name: data.name,
-                    hero: data.hero,
-                });
-            });
+            this._askName(gameId);
         }
+    }
+
+    _askName(gameId) {
+        this._game.popup('create-game', { name: '', hero: '' }).then(data => {
+            this._api.joinGame({
+                gameId: gameId,
+                name: data.name,
+                hero: data.hero,
+            });
+        });
     }
 
     addSlot() {

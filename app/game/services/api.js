@@ -49,8 +49,9 @@ export class Api {
             this._handleMessage(message);
         });
         this._config = config;
-        this._reconnectDefered.promise = new Promise(resolve => {
+        this._reconnectDefered.promise = new Promise((resolve, reject) => {
             this._reconnectDefered.resolve = resolve;
+            this._reconnectDefered.reject = reject;
         });
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
@@ -122,6 +123,10 @@ export class Api {
         this._storage.savePlayerId(message.game_id, message.player_id);
 
         this._me.index = message.index;
+        if (this._me.index === -1) {
+            this._reconnectDefered.reject();
+            return;
+        }
         this._me.is_game_master = message.is_game_master;
         this._me.id = message.player_id;
         this._me.hero = message.slots[this._me.index].hero;
@@ -353,6 +358,8 @@ export class Api {
             player_id: playerId,
             hero: hero,
         });
+
+        return this.onReconnectDefered;
     }
 
     createGame() {
