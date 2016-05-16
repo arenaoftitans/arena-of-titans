@@ -106,10 +106,7 @@ export class Api {
                 this._handlePlay(message);
                 break;
             case this.requestTypes.player_played:
-                this._movePlayer({
-                    playerIndex: message.player_index,
-                    newSquare: message.new_square,
-                });
+                this._handlePlayerPlayed(message);
                 break;
             case this.requestTypes.play_trump:
                 this._handlePlayTrump(message);
@@ -189,8 +186,6 @@ export class Api {
     _updateGame(message) {
         this._game.your_turn = message.your_turn;
         this._game.next_player = message.next_player;
-        this._game.game_over = message.game_over;
-        this._game.winners = message.winners;
         this._game.active_trumps = message.active_trumps;
         this._me.hand = message.hand.map(card => {
             card.img = ImageClass.forCard(card);
@@ -211,6 +206,20 @@ export class Api {
         }
 
         this._updateGame(message);
+    }
+
+    _handlePlayerPlayed(message) {
+        this._movePlayer({
+            playerIndex: message.player_index,
+            newSquare: message.new_square,
+        });
+
+        this._handleGameOverMessage(message);
+    }
+
+    _handleGameOverMessage(message) {
+        this._game.game_over = message.game_over;
+        this._game.winners = message.winners;
 
         if (message.game_over) {
             this._gameOverDefered.resolve(message.winners);
@@ -230,6 +239,7 @@ export class Api {
 
         this._initBoard();
         this._reconnectDefered.resolve(reconnectMessage);
+        this._handleGameOverMessage(reconnectMessage);
     }
 
     _initBoard() {
