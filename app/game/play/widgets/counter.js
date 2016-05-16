@@ -15,20 +15,24 @@ export class AotCounterCustomElement {
         this.canvas = null;
         this.timeLeft = this.maxTime;
         this.angle = 0;
+        this.waitForCounter = wait.forId('counter');
 
-        let waitForCounter = wait.forId('counter');
-
+        this.init();
         this._api.on(this._api.requestTypes.play, () => {
-            if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
-                waitForCounter.then(canvas => {
-                    this.canvas = canvas;
-                    this.start();
-                });
-            } else if (!this._api.game.your_turn) {
-                clearInterval(this.timerInterval);
-                this.startTime = null;
-            }
+            this.init();
         });
+    }
+
+    init() {
+        if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
+            this.waitForCounter.then(canvas => {
+                this.canvas = canvas;
+                this.start();
+            });
+        } else if (!this._api.game.your_turn) {
+            clearInterval(this.timerInterval);
+            this.startTime = null;
+        }
     }
 
     start() {
