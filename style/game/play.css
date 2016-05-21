@@ -117,12 +117,16 @@
     background-size: 100% 100%;
 }
 
+#cards-img-container {
+    margin-top: -10px;
+}
+
 .card {
     position: relative;
     display: inline-block;
     width: 69px;
     height: 110px;
-    margin-top: 1%;
+    margin-top: 10px;
     margin-right: 2%;
     -webkit-user-select: none;
     -moz-user-select: none;
