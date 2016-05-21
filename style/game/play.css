@@ -214,24 +214,24 @@
 
 
 @media screen and (max-height: 649px) {
-	.logo {
-		display: block;
-		height: 74px;
-		margin: auto;
-	}
+    .logo {
+        display: block;
+        height: 74px;
+        margin: auto;
+    }
     #board {
         max-width: 355px;
     }
 
-	#board-container {
-		display: block;
-		padding-top: 3%;
-		padding-bottom: 2%;
-		margin: auto;
-		text-align: center;
-		max-height: 380px;
+    #board-container {
+        display: block;
+        padding-top: 3%;
+        padding-bottom: 2%;
+        margin: auto;
+        text-align: center;
+        max-height: 380px;
         min-height: 380px;
-	}
+    }
     #cards-container {
         max-height: 140px;
         min-height: 140px;
@@ -242,7 +242,7 @@
         float: left;
         width: 70%;
         overflow: hidden;
-		max-height: 130px;
+        max-height: 130px;
         min-height: 130px;
     }
 
@@ -261,7 +261,7 @@
     }
 
     #cards-actions button {
-        width: 45%;	
+        width: 45%;
     }
 
     .play-left {

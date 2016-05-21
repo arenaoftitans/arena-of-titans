@@ -94,7 +94,7 @@ button[disabled] {
 
 .centered-block-medium {
     display: block;
-	width: 300px;
+    width: 300px;
     margin: auto;
 }
 
@@ -103,13 +103,13 @@ button[disabled] {
 }
 
 .centered-text-timer {
-	text-align: center;
-	top: -150px;
-	font-family: 'Old English Text MT';
+    text-align: center;
+    top: -150px;
+    font-family: 'Old English Text MT';
 }
 
 .white-text{
-	color: white;
+    color: white;
 }
 
 .red-text {
@@ -171,7 +171,7 @@ button[disabled] {
 
 .popup-content button {
     margin-top: 1em;
-	margin-left: 16%;
+    margin-left: 16%;
 }
 
 
@@ -188,7 +188,7 @@ button[disabled] {
 }
 
 .option-container {
-	padding-top:8px;
+    padding-top:8px;
 }
 
 .option-wrapper {
@@ -198,9 +198,9 @@ button[disabled] {
 .option {
     position: fixed;
     -webkit-transform: translate3d(-40px, -113px, 0);
-	-moz-transform: translate3d(-40px, -113px, 0);
-	-ms-transform: translate3d(-40px, -113px, 0);
-	-o-transform: translate3d(-40px, -113px, 0);
+    -moz-transform: translate3d(-40px, -113px, 0);
+    -ms-transform: translate3d(-40px, -113px, 0);
+    -o-transform: translate3d(-40px, -113px, 0);
     transform:  translate3d(-40px, -113px, 0);
 }
 
@@ -221,9 +221,9 @@ button[disabled] {
 
 .option:hover {
     -webkit-transform: translate3d(-40px, -47px, 0);
-	-moz-transform: translate3d(-40px, -47px, 0);
-	-ms-transform: translate3d(-40px, -47px, 0);
-	-o-transform: translate3d(-40px, -47px, 0);
+    -moz-transform: translate3d(-40px, -47px, 0);
+    -ms-transform: translate3d(-40px, -47px, 0);
+    -o-transform: translate3d(-40px, -47px, 0);
     transform:  translate3d(-40px, -47px, 0);
 }
 

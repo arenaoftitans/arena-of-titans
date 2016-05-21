@@ -6,9 +6,9 @@
 
 #counter {
     position: relative;
-	opacity: 0.8;
-	padding-top: 10px;
-	padding-left: 25px;
+    opacity: 0.8;
+    padding-top: 10px;
+    padding-left: 25px;
     z-index: 1;
 }
 
@@ -17,7 +17,7 @@
     font-size: 500%;
     z-index: 2;
     padding-top: auto;
-	margin: auto;
+    margin: auto;
     color: #000;
     transition: opacity 350ms linear 0s;
     -webkit-transition: opacity 350ms linear 0s;
