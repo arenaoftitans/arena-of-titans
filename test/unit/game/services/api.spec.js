@@ -293,6 +293,7 @@ describe('services/api', () => {
     });
 
     it('should update the game', () => {
+        let now = Date.now();
         let message = {
             your_turn: true,
             has_won: false,
@@ -312,7 +313,8 @@ describe('services/api', () => {
             hand: [{
                 name: "King",
                 color: "RED"
-            }]
+            }],
+            turn_start_time: now,
         };
         sut._me.index = 0;
 
@@ -335,7 +337,8 @@ describe('services/api', () => {
         expect(sut._me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
             img: '/assets/game/cards/trumps/reinforcements.png'
-        }])
+        }]);
+        expect(sut._me.turn_start_time).toBe(now);
     });
 
     it('should handle player played', () => {

@@ -7,9 +7,11 @@ import { Wait } from '../../services/utils';
 export class AotCounterCustomElement {
     _api;
 
+    // In milliseconds to ease calculations.
+    static TIME_FOR_TURN = 60000;
+
     constructor(api, wait) {
         this._api = api;
-        this.maxTime = 60000;
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
@@ -36,6 +38,10 @@ export class AotCounterCustomElement {
     }
 
     start() {
+        let elapsedTime = Math.round(Date.now()) - this._api.me.turn_start_time || 0;
+        this.maxTime = AotCounterCustomElement.TIME_FOR_TURN - elapsedTime;
+        // Round max time to upper second
+        this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
         this.startTime = (new Date()).getTime();
 
         this.timerInterval = setInterval(() => {
