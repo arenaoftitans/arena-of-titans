@@ -61,9 +61,9 @@
         }
     },
     "global": {
-        "back_home": "Back to Home page",
+        "back_home": "Home page",
         "cancel": "Cancel",
-        "create_new_game": "Create a new game",
+        "create_new_game": "New Game",
         "edit": "Edit",
         "me": "Me",
         "name": "Name",
@@ -100,13 +100,13 @@
     "trumps": {
         "reinforcements": "Reinforcements",
         "reinforcements_description": "Allow the player to play one more move.",
-        "tower_black": "Tower",
-        "tower_black_description": "Prevent the player to move on some colors.",
-        "tower_blue": "Tower",
-        "tower_blue_description": "Prevent the player to move on some colors.",
-        "tower_red": "Tower",
-        "tower_red_description": "Prevent the player to move on some colors.",
-        "tower_yellow": "Tower",
-        "tower_yellow_description": "Prevent the player to move on some colors."
+        "tower_black": "Black Tower",
+        "tower_black_description": "Prevent the player to move on black squares.",
+        "tower_blue": "Blue Tower",
+        "tower_blue_description": "Prevent the player to move on blue squares.",
+        "tower_red": "Red Tower",
+        "tower_red_description": "Prevent the player to move on red squares.",
+        "tower_yellow": "Yellow Tower",
+        "tower_yellow_description": "Prevent the player to move on yellow squares."
     }
 }
