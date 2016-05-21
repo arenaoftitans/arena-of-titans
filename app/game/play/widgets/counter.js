@@ -1,17 +1,19 @@
 import { inject } from 'aurelia-framework';
 import { Api } from '../../services/api';
 import { Wait } from '../../services/utils';
+import Config from '../../../../config/application.json';
 
 
-@inject(Api)
+@inject(Api, Config)
 export class AotCounterCustomElement {
     _api;
 
     // In milliseconds to ease calculations.
     static TIME_FOR_TURN = 60000;
 
-    constructor(api) {
+    constructor(api, config) {
         this._api = api;
+        this._config = config;
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
@@ -46,7 +48,7 @@ export class AotCounterCustomElement {
 
         this.timerInterval = setInterval(() => {
             this.countDownClock();
-            if (this.timeLeft <= 0) {
+            if (this.timeLeft <= 0 && !this._config.test.debug) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
                 this._api.pass();
