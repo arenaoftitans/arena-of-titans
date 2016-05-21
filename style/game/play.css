@@ -223,12 +223,12 @@
 		padding-bottom: 2%;
 		margin: auto;
 		text-align: center;
-		max-height: 360px;
-        min-height: 360px;
+		max-height: 380px;
+        min-height: 380px;
 	}
     #cards-container {
-        max-height: 120px;
-        min-height: 120px;
+        max-height: 140px;
+        min-height: 140px;
     }
 
     #cards-img-container {
@@ -236,8 +236,8 @@
         float: left;
         width: 70%;
         overflow: hidden;
-		max-height: 110px;
-        min-height: 110px;
+		max-height: 130px;
+        min-height: 130px;
     }
 
     .card {
@@ -255,20 +255,20 @@
     }
 
     #cards-actions button {
-        width: 48%;
+        width: 45%;	
     }
 
     .play-left {
-        max-height: 548px;
-        min-height: 548px;
+        max-height: 588px;
+        min-height: 588px;
     }
 
     #trumps-container {
-        height: 548px;
+        height: 588px;
     }
 
     #gauge svg {
-        max-height: 470px;
+        max-height: 490px;
         margin-top: 10px;
     }
 
@@ -292,8 +292,8 @@
     }
 
     #notifications {
-        max-height: 363px;
-        min-height: 363px;
+        max-height: 383px;
+        min-height: 383px;
     }
 
     #notifications img {
@@ -301,7 +301,7 @@
     }
 
     #counter, #counter-countainer {
-        height: 145px;
+        height: 165px;
     }
 }
 

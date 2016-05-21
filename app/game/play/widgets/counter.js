@@ -64,12 +64,12 @@ export class AotCounterCustomElement {
             // Clear canvas before re-drawing
             ctx.clearRect(0, 0, 300, 300);
 
-            // Grey background ring
+            // Black background ring
             ctx.beginPath();
             ctx.globalAlpha = 1;
             ctx.arc(150, 150, 140, 0, 6.283, false);
             ctx.arc(150, 150, 105, 6.283, Math.PI * 2, true);
-            ctx.fillStyle = '#bbb';
+            ctx.fillStyle = '#000000';
             ctx.fill();
             ctx.closePath();
 
