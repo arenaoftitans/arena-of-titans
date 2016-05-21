@@ -45,6 +45,8 @@ export class AotCardsCustomElement {
         this._game.popup('confirm', {message: message}).then(() => {
             this._api.pass();
             this.selectedCard = null;
+        }, () => {
+            console.info('Player canceled passe turn.');  // eslint-disable-line no-console
         });
     }
 

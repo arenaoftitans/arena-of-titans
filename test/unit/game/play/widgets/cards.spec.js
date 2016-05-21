@@ -70,9 +70,8 @@ describe('cards', () => {
         promise.then(() => {
             expect(false).toBe(true);
             done();
-        }, error => {
+        }, () => {
             expect(mockedApi.pass).not.toHaveBeenCalled();
-            console.log(error.stack)
             done();
         });
     });

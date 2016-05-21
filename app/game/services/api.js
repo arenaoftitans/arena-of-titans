@@ -259,6 +259,10 @@ export class Api {
                 }
             });
             this._rotateBoard();
+        }).catch(error => {
+            if (!window.jasmine || !(error instanceof TypeError)) {
+                console.error(error);  // eslint-disable-line no-console
+            }
         });
     }
 
