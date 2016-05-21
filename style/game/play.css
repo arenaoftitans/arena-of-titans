@@ -151,6 +151,8 @@
     z-index: 500;
     width: 150px;
     height: 160px;
+    /* Hide outside screen by default */
+    top: -500px;
     background-image: url("/assets/game/backgrounds/popup-ingame.png");
     background-repeat: no-repeat;
     background-size: 150px 160px;
