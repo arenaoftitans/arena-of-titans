@@ -1,17 +1,15 @@
-import { bindable, inject } from 'aurelia-framework';
+import { bindable } from 'aurelia-framework';
 import { Game } from '../../game';
 import { Wait } from '../../services/utils';
 
 
-@inject(Wait)
 export class AotPlayerInfosCustomElement {
     @bindable data = null;
     @bindable done = null;
 
-    constructor(wait) {
+    constructor() {
         this.currentHeroIndex = 0;
         this.direction = null;
-        this._wait = wait;
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -39,7 +37,7 @@ export class AotPlayerInfosCustomElement {
             this.data.hero = this.currentHero.name;
         }
 
-        let waitForCarousel = this._wait.forId('heroes-carousel');
+        let waitForCarousel = Wait.forId('heroes-carousel');
 
         waitForCarousel.then(heroesCarousel => {
             this.heroesCarousel = heroesCarousel;

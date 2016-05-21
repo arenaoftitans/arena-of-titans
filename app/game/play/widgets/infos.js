@@ -35,7 +35,7 @@ export class AotInfosCustomElement {
 
     init() {
         let infosId = this.getInfosId();
-        (new Wait()).forId(infosId).then(element => {
+        Wait.forId(infosId).then(element => {
             this.element = element;
             let boundingBox = element.getBoundingClientRect();
             this.width = boundingBox.width;

@@ -5,7 +5,7 @@ import { Ws } from './ws';
 import Config from '../../../config/application.json';
 
 
-@inject(Ws, Storage, Config, Wait)
+@inject(Ws, Storage, Config)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -37,13 +37,12 @@ export class Api {
     };
     _config;
 
-    constructor(ws, storage, config, wait) {
+    constructor(ws, storage, config) {
         for (let rt of Object.values(this.requestTypes)) {
             this.requestTypesValues.push(rt);
             this.callbacks[rt] = [];
         }
         this._storage = storage;
-        this._wait = wait;
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
@@ -251,7 +250,7 @@ export class Api {
     _initBoard() {
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
-        let waitForBoard = this._wait.forId('player0');
+        let waitForBoard = Wait.forId('player0');
 
         waitForBoard.then(() => {
             this._game.players.squares.forEach((square, index) => {

@@ -32,7 +32,13 @@ export class ImageName {
 
 
 export class Wait {
-    forId(id) {
+    static idPromises = {};
+
+    static forId(id) {
+        if (id in Wait.idPromises) {
+            return Wait.idPromises[id];
+        }
+
         let defered = {};
         defered.promise = new Promise((resolve) => {
             defered.resolve = resolve;
@@ -40,12 +46,16 @@ export class Wait {
 
         (function wait() {
             let element = document.getElementById(id);
-            if (element !== null) {
+            // If jasmine is defined, we are running this in a unit test and must resolve the
+            // promise.
+            if (element !== null || window.jasmine) {
                 defered.resolve(element);
             } else {
                 setTimeout(wait, 500);
             }
         })();
+
+        Wait.idPromises[id] = defered.promise;
 
         return defered.promise;
     }

@@ -1,20 +1,16 @@
 import '../../../setup';
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter';
-import { ApiStub, WaitStub } from '../../../utils';
+import { Wait } from '../../../../../app/game/services/utils';
+import { ApiStub } from '../../../utils';
 
 
 describe('counter', () => {
     let mockedApi;
-    let mockedWait;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        mockedWait = new WaitStub();
-        mockedWait.forId = () => {
-            return new Promise(resolve => resolve());
-        };
-        sut = new AotCounterCustomElement(mockedApi, mockedWait);
+        sut = new AotCounterCustomElement(mockedApi);
     });
 
     it('should start on your turn', done => {
@@ -24,7 +20,7 @@ describe('counter', () => {
         mockedApi.game.game_over = false;
         mockedApi.play();
 
-        mockedWait.forId().then(() => {
+        Wait.forId('counter').then(() => {
             expect(sut.start).toHaveBeenCalled();
             done();
         });
@@ -39,7 +35,7 @@ describe('counter', () => {
         mockedApi.game.game_over = false;
         mockedApi.play();
 
-        mockedWait.forId().then(() => {
+        Wait.forId('counter').then(() => {
             expect(sut.start).not.toHaveBeenCalled();
             expect(window.clearInterval).toHaveBeenCalled();
             expect(sut.startTime).toBe(null);
@@ -55,7 +51,7 @@ describe('counter', () => {
         mockedApi.game.game_over = true;
         mockedApi.play();
 
-        mockedWait.forId().then(() => {
+        Wait.forId('counter').then(() => {
             expect(sut.start).not.toHaveBeenCalled();
             done();
         });

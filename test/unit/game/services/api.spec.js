@@ -1,11 +1,10 @@
 import '../../setup';
 import { Api } from '../../../../app/game/services/api';
-import { StorageStub, WaitStub, WsStub } from '../../utils';
+import { StorageStub, WsStub } from '../../utils';
 
 
 describe('services/api', () => {
     let mockedStorage;
-    let mockedWait;
     let mockedWs;
     let mockedConfig;
     let sut;
@@ -13,14 +12,13 @@ describe('services/api', () => {
 
     beforeEach(() => {
         mockedStorage = new StorageStub();
-        mockedWait = new WaitStub();
         mockedWs = new WsStub();
         mockedConfig = {
             test: {
                 debug: false
             }
         };
-        sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedWait);
+        sut = new Api(mockedWs, mockedStorage, mockedConfig);
         rt = sut.requestTypes;
     });
 

@@ -3,21 +3,21 @@ import { Api } from '../../services/api';
 import { Wait } from '../../services/utils';
 
 
-@inject(Api, Wait)
+@inject(Api)
 export class AotCounterCustomElement {
     _api;
 
     // In milliseconds to ease calculations.
     static TIME_FOR_TURN = 60000;
 
-    constructor(api, wait) {
+    constructor(api) {
         this._api = api;
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
         this.timeLeft = this.maxTime;
         this.angle = 0;
-        this.waitForCounter = wait.forId('counter');
+        this.waitForCounter = Wait.forId('counter');
 
         this.init();
         this._api.on(this._api.requestTypes.play, () => {
