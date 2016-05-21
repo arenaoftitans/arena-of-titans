@@ -31,7 +31,7 @@ export class AotNotificationsCustomElement {
 
     _updateLastAction(message) {
         let lastAction = message.last_action === null ? {} : message.last_action;
-        this._lastAction = lastAction;
+        this._lastAction = {};
 
         if (lastAction.card && Object.keys(lastAction.card).length > 0) {
             let cardName = lastAction.card.name;

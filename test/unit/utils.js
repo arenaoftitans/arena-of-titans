@@ -159,7 +159,7 @@ export class I18nStub {
             'cards.king': 'played'
         };
 
-        return translations[key];
+        return key in translations ? translations[key] : key;
     }
 }
 
