@@ -14,6 +14,7 @@ describe('board', () => {
 
     it('should register callbacks', () => {
         expect(mockedApi._cbs[mockedApi.requestTypes.view].length).toBe(1);
+        expect(mockedApi._cbs[mockedApi.requestTypes.player_played].length).toBe(1);
     });
 
     it('should move to on possible square', () => {
@@ -60,5 +61,12 @@ describe('board', () => {
         sut.moveTo('square-0-0', 0, 0);
 
         expect(mockedApi.play).not.toHaveBeenCalled();
+    });
+
+    it('should reset possible squares', () => {
+        sut._possibleSquares = ['square-0-0'];
+        sut._resetPossibleSquares();
+
+        expect(sut._possibleSquares.length).toBe(0);
     });
 });

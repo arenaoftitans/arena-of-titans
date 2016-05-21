@@ -15,6 +15,11 @@ export class AotBoardCustomElement {
                 return `square-${square.x}-${square.y}`;
             });
         });
+        this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
+    }
+
+    _resetPossibleSquares() {
+        this._possibleSquares = [];
     }
 
     moveTo(squareId, x, y) {
