@@ -53,7 +53,8 @@ describe('notifications', () => {
         cb(message);
 
         expect(sut.playerName).toBe('Player 1');
-        expect(sut.lastAction.description).toBe('tower-blue_description');
+        expect(sut.lastAction.description).toBe('Someone played a trump');
+        expect(sut.lastAction.trump.description).toBe('tower-blue_description');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
         expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
     });

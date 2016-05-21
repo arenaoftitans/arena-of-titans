@@ -31,23 +31,29 @@ export class AotNotificationsCustomElement {
 
     _updateLastAction(message) {
         let lastAction = message.last_action === null ? {} : message.last_action;
-        this._lastAction = {};
+        this._lastAction = {
+            player_name: lastAction.player_name,
+            description: lastAction.description,
+        };
 
         if (lastAction.card && Object.keys(lastAction.card).length > 0) {
+            this._lastAction.card = lastAction.card;
             let cardName = lastAction.card.name;
             let cardColor = lastAction.card.color.toLowerCase();
-            this._lastAction.title = this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
-            this._lastAction.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
+            this._lastAction.card.title =
+                this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
+            this._lastAction.card.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
 
             this._lastAction.img = ImageSource.forCard(lastAction.card);
         }
 
         if (lastAction.trump && Object.keys(lastAction.trump).length > 0) {
             let trump = lastAction.trump;
+            this._lastAction.trump = trump;
             this._lastAction.img = ImageSource.forTrump(trump);
             let trumpName = ImageName.forTrump(trump);
-            this._lastAction.title = this._i18n.tr(trumpName);
-            this._lastAction.description = this._i18n.tr(`${trumpName}_description`);
+            this._lastAction.trump.title = this._i18n.tr(trumpName);
+            this._lastAction.trump.description = this._i18n.tr(`${trumpName}_description`);
         }
     }
 
