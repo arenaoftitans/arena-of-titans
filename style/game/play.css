@@ -118,7 +118,7 @@
 }
 
 #cards-img-container {
-    margin-top: -10px;
+    margin-top: -20px;
 }
 
 .card {
@@ -126,7 +126,7 @@
     display: inline-block;
     width: 69px;
     height: 110px;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-right: 2%;
     -webkit-user-select: none;
     -moz-user-select: none;
