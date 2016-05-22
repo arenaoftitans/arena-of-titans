@@ -2,6 +2,10 @@ import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { Wait } from '../../services/utils';
 
 
+// In milliseconds.
+const POPUP_INFOS_APPEAR_TIMEOUT = 1500;
+
+
 @inject(ObserverLocator)
 export class AotInfosCustomElement {
     @bindable type = null;
@@ -28,7 +32,7 @@ export class AotInfosCustomElement {
                 return;
             } else if (this.infos.visible) {
                 let target = this.infos.event.target;
-                this.timeout = setTimeout(() => this.show(target), 2500);
+                this.timeout = setTimeout(() => this.show(target), POPUP_INFOS_APPEAR_TIMEOUT);
             }
         });
     }
