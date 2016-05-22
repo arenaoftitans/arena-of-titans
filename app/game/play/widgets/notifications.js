@@ -30,7 +30,7 @@ export class AotNotificationsCustomElement {
     }
 
     _updateLastAction(message) {
-        let lastAction = message.last_action === null ? {} : message.last_action;
+        let lastAction = message.last_action == null ? {} : message.last_action;  // eslint-disable-line no-eq-null,eqeqeq,max-len
         this._lastAction = {
             player_name: lastAction.player_name,
             description: lastAction.description,
