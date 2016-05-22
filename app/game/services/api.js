@@ -25,23 +25,11 @@ export class Api {
     _errorCallbacks = [];
     _storage;
     _ws;
-    _me = {
-        trumps: [],
-    };
-    _game = {
-        players: {
-            names: [],
-            squares: [],
-            indexes: [],
-        },
-    };
+    _me;
+    _game;
     _config;
 
     constructor(ws, storage, config) {
-        for (let rt of Object.values(this.requestTypes)) {
-            this.requestTypesValues.push(rt);
-            this.callbacks[rt] = [];
-        }
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
@@ -52,6 +40,26 @@ export class Api {
             this._reconnectDefered.resolve = resolve;
             this._reconnectDefered.reject = reject;
         });
+
+        this.init();
+    }
+
+    init() {
+        this._me = {
+            trumps: [],
+        };
+        this._game = {
+            players: {
+                names: [],
+                squares: [],
+                indexes: [],
+            },
+        };
+        for (let rt of Object.values(this.requestTypes)) {
+            this.requestTypesValues.push(rt);
+            this.callbacks[rt] = [];
+        }
+
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
         });

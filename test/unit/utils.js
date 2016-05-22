@@ -58,6 +58,9 @@ export class ApiStub {
         }
     }
 
+    init() {
+    }
+
     addSlot() {
     }
 

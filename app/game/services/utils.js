@@ -34,6 +34,10 @@ export class ImageName {
 export class Wait {
     static idPromises = {};
 
+    static flushCache() {
+        Wait.idPromises = {};
+    }
+
     static forId(id) {
         if (id in Wait.idPromises) {
             return Wait.idPromises[id];

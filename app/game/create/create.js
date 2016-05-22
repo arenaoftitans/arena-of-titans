@@ -2,6 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
+import { Wait } from '../services/utils';
 import { Storage } from '../services/storage';
 import Config from '../../../config/application.json';
 
@@ -19,21 +20,15 @@ export class Create {
         this._api = api;
         this._storage = storage;
         this._config = config;
-        this.playerInfo = {name: '', hero: ''};
-        this.initPlayerInfoDefered();
-        this.editing = false;
-    }
-
-    initPlayerInfoDefered() {
-        this.playerInfoDefered = {};
-        this.playerInfoDefered.promise = new Promise((resolve, reject) => {
-            this.playerInfoDefered.resolve = resolve;
-        });
     }
 
     activate(params = {}) {
         this._registerApiCallbacks(params);
         this._gameUrl = window.location.href;
+
+        if (!params.id || (params.id && params.id !== this._api.game.id)) {
+            this.init(params);
+        }
 
         if (this._config.test.debug) {
             if (!params.id) {
@@ -52,6 +47,22 @@ export class Create {
         } else {
             this._joinGame(params.id);
         }
+    }
+
+    init(params) {
+        Wait.flushCache();
+        this._api.init();
+        this.initPlayerInfoDefered();
+        this.playerInfo = {name: '', hero: ''};
+        this.editing = false;
+        this._registerApiCallbacks(params);
+    }
+
+    initPlayerInfoDefered() {
+        this.playerInfoDefered = {};
+        this.playerInfoDefered.promise = new Promise((resolve, reject) => {
+            this.playerInfoDefered.resolve = resolve;
+        });
     }
 
     _registerApiCallbacks(params) {

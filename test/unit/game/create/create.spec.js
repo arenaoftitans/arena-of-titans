@@ -1,5 +1,6 @@
 import '../../setup';
 import { Create } from '../../../../app/game/create/create';
+import { Wait } from '../../../../app/game/services/utils';
 import { ApiStub, RouterStub, StorageStub } from '../../utils';
 
 
@@ -37,6 +38,20 @@ describe('game/create', () => {
         sut.deactivate();
 
         expect(mockedApi.off).toHaveBeenCalled();
+    });
+
+    it('should reset with init method', () => {
+        spyOn(sut, 'initPlayerInfoDefered');
+        spyOn(sut, '_registerApiCallbacks');
+        spyOn(mockedApi, 'init');
+        spyOn(Wait, 'flushCache');
+
+        sut.init();
+
+        expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
+        expect(sut._registerApiCallbacks).toHaveBeenCalled();
+        expect(mockedApi.init).toHaveBeenCalled();
+        expect(Wait.flushCache).toHaveBeenCalled();
     });
 
     it('should not ask for the name if it knows the player name', done => {
@@ -118,7 +133,7 @@ describe('game/create', () => {
 
     it('should edit name', done => {
         spyOn(mockedApi, 'updateMe');
-        spyOn(sut, 'initPlayerInfoDefered');
+        spyOn(sut, 'initPlayerInfoDefered').and.callThrough();
         let data = {
             name: 'Tester',
             hero: 'daemon',
