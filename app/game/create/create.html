@@ -1,5 +1,14 @@
 <template>
-<div id="background-create" class="centered-block ${hasHero ? 'create-gate-opened' : 'create-gate-closed'}">
+    <require from="./widgets/select-heroes"></require>
+
+    <aot-select-heroes if.bind="!hasHero || editing"
+                       data.bind="playerInfo"
+                       done.bind="playerInfoDefered.resolve"></aot-select-heroes>
+
+<div id="background-create"
+     class="centered-block create-gate-opened"
+     if.bind="hasHero && !editing">
+
     <img src="/assets/game/aot-logo.png" class="centered-block-medium"/>
 
     <div if.bind="me.name" class="centered-block red-text margin-top-160">

@@ -10,6 +10,7 @@ import '../../style/sprites/movement.css';
 
 @inject(Api)
 export class Game {
+    static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
         'daemon',
         'orc',
@@ -82,9 +83,5 @@ export class Game {
         });
 
         return this.popupDefered.promise;
-    }
-
-    get maxNumberPlayers() {
-        return 8;
     }
 }

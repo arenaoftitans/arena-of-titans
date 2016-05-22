@@ -3,9 +3,9 @@ import { Game } from '../../game';
 import { Wait } from '../../services/utils';
 
 
-export class AotPlayerInfosCustomElement {
-    @bindable data = null;
+export class AotSelectHeroesCustomElement {
     @bindable done = null;
+    @bindable data = null;
 
     constructor() {
         this.currentHeroIndex = 0;
@@ -49,6 +49,24 @@ export class AotPlayerInfosCustomElement {
             this.setHeroImage(this.heroesCarousel.children[3], this.currentHero.next.name);
             this.setHeroImage(this.heroesCarousel.children[4], this.currentHero.next.next.name);
         });
+
+        let waitForSelectForm = Wait.forId('select-heroes-form');
+        let waitForPlate = Wait.forId('select-heroes-plate');
+        let waitAll = Promise.all([waitForSelectForm, waitForPlate]);
+        waitAll.then(elts => this.resize(elts));
+        addEventListener('resize', () => {
+            waitAll.then(elts => this.resize(elts));
+        });
+    }
+
+    resize(elts) {
+        let selectForm = elts[0];
+        let plate = elts[1];
+
+        selectForm.style.top = plate.getBoundingClientRect().top + 'px';
+        selectForm.style.left = plate.getBoundingClientRect().left + 'px';
+        selectForm.style.height = plate.getBoundingClientRect().height + 'px';
+        selectForm.style.width = plate.getBoundingClientRect().width + 'px';
     }
 
     setHeroImage(element, name) {
@@ -119,6 +137,6 @@ export class AotPlayerInfosCustomElement {
     }
 
     save() {
-        this.done.resolve(this.data);
+        this.done(this.data);
     }
 }

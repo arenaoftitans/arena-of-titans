@@ -125,6 +125,8 @@ export class Api {
         if (this._me.index === -1) {
             this._reconnectDefered.reject();
             return;
+        } else {  // eslint-disable-line no-else-return
+            this._reconnectDefered.resolve(message);
         }
         this._me.is_game_master = message.is_game_master;
         this._me.id = message.player_id;

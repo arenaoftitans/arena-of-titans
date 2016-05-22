@@ -1,6 +1,6 @@
-import '../setup';
-import { Create } from '../../../app/game/create/create';
-import { ApiStub, GameStub, RouterStub, StorageStub } from '../utils';
+import '../../setup';
+import { Create } from '../../../../app/game/create/create';
+import { ApiStub, RouterStub, StorageStub } from '../../utils';
 
 
 describe('game/create', () => {
@@ -13,7 +13,6 @@ describe('game/create', () => {
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
-        mockedGame = new GameStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
         mockedConfig = {
@@ -21,7 +20,7 @@ describe('game/create', () => {
                 debug: false
             }
         };
-        sut = new Create(mockedRouter, mockedGame, mockedApi, mockedStorage, mockedConfig);
+        sut = new Create(mockedRouter, mockedApi, mockedStorage, mockedConfig);
     });
 
     it('should register api callbacks on activation', () => {
@@ -40,25 +39,31 @@ describe('game/create', () => {
         expect(mockedApi.off).toHaveBeenCalled();
     });
 
-    it('should not create a popup if it knows the player name', () => {
-        spyOn(mockedGame, 'popup').and.callThrough();
+    it('should not ask for the name if it knows the player name', done => {
+        spyOn(mockedApi, 'initializeGame');
 
         mockedApi._me = {
             name: 'Player 1'
         };
         sut.activate({id: 'toto'});
+        sut.playerInfoDefered.resolve()
 
-        expect(mockedGame.popup).not.toHaveBeenCalled();
+        sut.playerInfoDefered.promise.then(() => {
+            expect(mockedApi.initializeGame).not.toHaveBeenCalled();
+            done();
+        });
     });
 
     it('should ask the player name when joining a game', done => {
-        spyOn(mockedGame, 'popup').and.callThrough();
         spyOn(mockedApi, 'joinGame');
 
         sut.activate({id: 'game_id'});
+        sut.playerInfoDefered.resolve({
+            name: 'Tester',
+            hero: 'daemon',
+        });
 
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: '', hero: ''});
-        mockedGame.popupPromise.then(() => {
+        sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester', hero: 'daemon'});
             done();
         });
@@ -82,37 +87,48 @@ describe('game/create', () => {
 
     it('should join the game from a cookie', () => {
         spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
-        spyOn(mockedGame, 'popup');
+        spyOn(sut, '_askName');
+        spyOn(mockedApi, 'joinGame').and.returnValue(new Promise(resolve => {}));
 
         sut.activate({id: 'game_id'});
 
         expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
-        expect(mockedGame.popup).not.toHaveBeenCalled();
+        expect(sut._askName).not.toHaveBeenCalled();
+        expect(mockedApi.joinGame).toHaveBeenCalledWith({
+            gameId: 'game_id',
+            playerId: 'player_id',
+        });
     });
 
     it('should navigate to initialize the game if no id param', done => {
-        spyOn(mockedGame, 'popup').and.callThrough();
         spyOn(mockedApi, 'initializeGame');
-        sut.activate();
+        let data = {
+            name: 'Tester',
+            hero: 'daemon',
+        };
 
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: '', hero: ''});
-        mockedGame.popupPromise.then(() => {
+        sut.activate();
+        sut.playerInfoDefered.resolve(data);
+
+        sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester', 'daemon');
             done();
         });
     });
 
     it('should edit name', done => {
-        spyOn(mockedGame, 'popup').and.callThrough();
         spyOn(mockedApi, 'updateMe');
-        sut._api._me = {
-            name: 'Player 1',
+        spyOn(sut, 'initPlayerInfoDefered');
+        let data = {
+            name: 'Tester',
             hero: 'daemon',
         };
 
         sut.editMe();
-        expect(mockedGame.popup).toHaveBeenCalledWith('create-game', {name: 'Player 1', hero: 'daemon'});
-        mockedGame.popupPromise.then(() => {
+        sut.playerInfoDefered.resolve(data);
+
+        expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
+        sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.updateMe).toHaveBeenCalledWith('Tester', 'daemon');
             done();
         });
@@ -164,12 +180,10 @@ describe('game/create', () => {
 
     it('should create debug game when config.test.debug is true', () => {
         spyOn(mockedApi, 'createGameDebug');
-        spyOn(mockedGame, 'popup');
         mockedConfig.test.debug = true;
 
         sut.activate();
 
         expect(mockedApi.createGameDebug).toHaveBeenCalled();
-        expect(mockedGame.popup).not.toHaveBeenCalled();
     });
 });

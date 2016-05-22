@@ -6,21 +6,29 @@ import { Storage } from '../services/storage';
 import Config from '../../../config/application.json';
 
 
-@inject(Router, Game, Api, Storage, Config)
+@inject(Router, Api, Storage, Config)
 export class Create {
     _router;
-    _game;
     _api;
     _initGameCb;
     _gameUrl = '';
     _config;
 
-    constructor(router, game, api, storage, config) {
+    constructor(router, api, storage, config) {
         this._router = router;
-        this._game = game;
         this._api = api;
         this._storage = storage;
         this._config = config;
+        this.playerInfo = {name: '', hero: ''};
+        this.initPlayerInfoDefered();
+        this.editing = false;
+    }
+
+    initPlayerInfoDefered() {
+        this.playerInfoDefered = {};
+        this.playerInfoDefered.promise = new Promise((resolve, reject) => {
+            this.playerInfoDefered.resolve = resolve;
+        });
     }
 
     activate(params = {}) {
@@ -34,7 +42,7 @@ export class Create {
                 this._router.navigateToRoute('play', {id: params.id});
             }
         } else if (!params.id) {
-            this._game.popup('create-game', {name: '', hero: ''}).then(data => {
+            this.playerInfoDefered.promise.then(data => {
                 this._api.initializeGame(data.name, data.hero);
             });
         } else if (this.me.name) {
@@ -62,15 +70,17 @@ export class Create {
     _joinGame(gameId) {
         let playerId = this._storage.retrievePlayerId(gameId);
         if (playerId) {
-            this._api.joinGame({gameId: gameId, playerId: playerId})
-                .then(() => {}, () => this._askName(gameId));
+            this._api.joinGame({gameId: gameId, playerId: playerId}).then(() => {
+                this.playerInfo.name = this.me.name;
+                this.playerInfo.hero = this.me.hero;
+            }, () => this._askName(gameId));
         } else {
             this._askName(gameId);
         }
     }
 
     _askName(gameId) {
-        this._game.popup('create-game', { name: '', hero: '' }).then(data => {
+        this.playerInfoDefered.promise.then(data => {
             this._api.joinGame({
                 gameId: gameId,
                 name: data.name,
@@ -84,7 +94,10 @@ export class Create {
     }
 
     editMe() {
-        this._game.popup('create-game', {name: this.me.name, hero: this.me.hero}).then(data => {
+        this.initPlayerInfoDefered();
+        this.editing = true;
+        this.playerInfoDefered.promise.then(data => {
+            this.editing = false;
             this._api.updateMe(data.name, data.hero);
         });
     }
@@ -119,7 +132,7 @@ export class Create {
     }
 
     get canAddSlot() {
-        return this.slots && this.slots.length < this._game.maxNumberPlayers;
+        return this.slots && this.slots.length < Game.MAX_NUMBER_PLAYERS;
     }
 
     get canCreateGame() {

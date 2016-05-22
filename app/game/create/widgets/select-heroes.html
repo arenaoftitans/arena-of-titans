@@ -1,0 +1,57 @@
+<template>
+    <form id="select-heroes-form" name="player-info" submit.delegate="save()">
+        <div class="select-hero centered-text">
+            <p class="margin-0"
+               t="game.create.popup_select_avatar">Select your avatar</p>
+
+            <img class="arrow"
+                 src="/assets/game/misc/arrow-left.png"
+                 click.delegate="viewPreviousHero()" />
+
+            <span id="heroes-carousel">
+                <img class="hero-img hidden" />
+                <img class="hero-img left-pos" />
+                <img class="hero-img main-pos" />
+                <img class="hero-img right-pos "/>
+                <img class="hero-img hidden" />
+            </span>
+
+            <img class="arrow"
+                 src="/assets/game/misc/arrow-right.png"
+                 click.delegate="viewNextHero()" />
+        </div>
+
+        <div class="centered-text">
+            <label>
+                Enter your name:
+                <input name="aotname" type="text" value.bind="data.name" placeholder="Your name" required />
+            </label>
+            <br>
+            <button class="button-light margin-top-10" type="submit" t="global.save">Save</button>
+        </div>
+    </form>
+
+    <!-- svg background -->
+    <svg id="select-heroes-bg"
+         version="1.1"
+         xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         x="0px"
+         y="0px"
+	     width="100%"
+         height="100%"
+         viewBox="0 0 1300 750"
+         preserveAspectRatio="none">
+    <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/heroes-selection.png">
+    </image>
+    <rect fill="none" width="1300" height="750"/>
+    <polygon id="select-heroes-gate" fill="none" points="367.667,748.999 367.667,670.667 373.667,583.333 378.333,494.663 385.667,434.662 394.333,395.328
+	    407,343.329 421,303.33 436.333,266.664 453.667,229.998 469.667,193.331 831,193.331 841.668,219.998 857.002,261.331
+	    869.668,296.665 879.668,332.665 890.335,371.997 896.335,408.664 900.335,443.33 905.002,484.663 905.002,522.663 905.002,585.996
+	    905.002,642.662 905.002,675.995 904,706.625 899.125,748.999 " />
+    <polygon id="select-heroes-plate" fill="none" points="505.002,344 497.668,367.333 489.002,406.666 485.002,438.666 481.668,467.333 481.668,496
+	    481.668,529 481.668,546.25 482.75,561.5 531.667,568.667 589,572.667 639.667,572.667 679.667,574.001 720.667,574.001
+	    744,574.001 776.334,572.667 802.667,570.667 807.667,549.667 809.667,511.667 806.667,475.001 804,434.666 798,393.998
+	    790.334,364.333 784.334,347.333 769.667,347 721,345.333 682.334,344 632.333,344 579,341.333 548,341.333 525.667,343 "/>
+    </svg>
+</template>

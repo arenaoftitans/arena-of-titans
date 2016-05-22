@@ -1,5 +1,4 @@
 <template>
-    <require from="./player-infos"></require>
     <require from="./error"></require>
     <require from="./infos"></require>
     <require from="./confirm"></require>
@@ -8,9 +7,6 @@
     <div class="popup">
     </div>
     <div class="popup-content ${background}">
-        <aot-player-infos if.bind="type === 'create-game'"
-                          data.bind="data"
-                          done.bind="done"></aot-player-infos>
         <aot-error if.bind="type === 'error'"
                    data.bind="data"
                    done.bind="done"></aot-error>

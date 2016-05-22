@@ -20,8 +20,18 @@ html, body {
     background-image : url("/assets/game/backgrounds/heroes-selection.png");
 }
 
+#select-heroes-form {
+    position: absolute;
+    /* Hide on page load */
+    top: -500px;
+}
+
+#select-heroes-bg {
+    height: 100vh;
+}
+
 .select-hero img {
-	max-width: 150px;
+	max-width: 25%;
     max-height: 150px;
 }
 
