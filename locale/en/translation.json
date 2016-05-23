@@ -42,6 +42,7 @@
         "create": {
             "add": "Add Slot",
             "create": "Create the game",
+            "enter_name": "Enter your name:",
             "invite": "Invite",
             "invite_text": "To join this game, share this link:",
             "others": "Other Players",
@@ -53,6 +54,7 @@
             "discard": "Discard",
             "discard_no_selected_card": "You must select a card",
             "game_over": "You just completed the game! Your rank:",
+            "last_action_title": "Last action played by <strong>{{playerName}}</strong>",
             "no_action": "No action yet",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",

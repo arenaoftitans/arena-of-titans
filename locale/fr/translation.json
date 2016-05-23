@@ -42,6 +42,7 @@
         "create": {
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
+            "enter_name": "Entre ton nom\u00a0:",
             "invite": "Invitation",
             "invite_text": "Pour inviter tes amis, donne leur ce lien\u00a0:",
             "others": "Autres joueurs",
@@ -53,6 +54,7 @@
             "discard": "D\u00e9fausser",
             "discard_no_selected_card": "Tu dois s\u00e9lectionner une carte",
             "game_over": "Tu viens de terminer le jeu ! Ton rang :",
+            "last_action_title": "Derni\u00e8re action jou\u00e9e par <strong>{{playerName}}</strong>",
             "no_action": "Il ne s'est rien pass\u00e9 pour l'instant",
             "pass": "Passer",
             "pass_confirm_message": "Es-tu s\u00fbr de vouloir passer ton tour ?",

@@ -70,9 +70,9 @@ export class AotNotificationsCustomElement {
             let trump = lastAction.trump;
             this._lastAction.trump = trump;
             this._lastAction.img = ImageSource.forTrump(trump);
-            let trumpName = ImageName.forTrump(trump);
-            this._lastAction.trump.title = this._i18n.tr(trumpName);
-            this._lastAction.trump.description = this._i18n.tr(`${trumpName}_description`);
+            let trumpName = ImageName.forTrump(trump).replace('-', '_');
+            this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
+            this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
         }
     }
 

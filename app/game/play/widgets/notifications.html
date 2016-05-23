@@ -7,10 +7,17 @@
     </p>
 
     <div>
-        <p>Last action played by
-            <span if.bind="lastAction"><strong>${playerName}</strong>:
-            ${lastAction.description}</span>
-            <span if.bind="!lastAction"><br><em t="game.play.no_action">No action yet</em></span>
+        <p if.bind="lastAction.description">
+            <span t="[html]game.play.last_action_title"
+               t-params.bind="{playerName: currentPlayerName}">
+                Last action played by
+                <strong>${playerName}</strong>
+            </span>
+            ${lastAction.description}
+            <span><br></span>
+        </p>
+        <p if.bind="!lastAction.description">
+            <em t="game.play.no_action">No action yet</em>
         </p>
         <img class="centered-block"
              src.bind="lastAction.img"
