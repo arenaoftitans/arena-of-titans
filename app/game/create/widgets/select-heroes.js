@@ -81,8 +81,13 @@ export class AotSelectHeroesCustomElement {
     resize(elts) {
         let selectForm = elts[0];
         let plate = elts[1];
+        let plateBoundingClientRect = plate.getBoundingClientRect();
 
-        selectForm.style.top = plate.getBoundingClientRect().top + 'px';
+        selectForm.style.top = plateBoundingClientRect.top +
+            plateBoundingClientRect.height / 2 -
+            selectForm.getBoundingClientRect().height / 2 -
+            20 +
+            'px';
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
         selectForm.style.height = plate.getBoundingClientRect().height + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';

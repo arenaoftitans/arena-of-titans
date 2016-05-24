@@ -22,8 +22,13 @@ html, body {
 
 #select-heroes-form {
     position: absolute;
+    color: white;
     /* Hide on page load */
     top: -500px;
+}
+
+#select-heroes-form p {
+    color: white;
 }
 
 #select-heroes-bg {
@@ -31,8 +36,8 @@ html, body {
 }
 
 .select-hero img {
-	max-width: 25%;
-    max-height: 150px;
+    max-width: 23%;
+    margin-top: 1%;
 }
 
 .selected-hero {
@@ -44,8 +49,6 @@ html, body {
 
 img.hero-img {
     display: inline-block;
-    width: 500px;
-    height: 281px;
     overflow: hidden;
     background: #333;
     -webkit-transition: all .3s ease-in-out;
