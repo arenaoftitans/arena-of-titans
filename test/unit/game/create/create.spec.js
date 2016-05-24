@@ -20,7 +20,7 @@
 import '../../setup';
 import { Create } from '../../../../app/game/create/create';
 import { Wait } from '../../../../app/game/services/utils';
-import { ApiStub, RouterStub, StorageStub } from '../../utils';
+import { ApiStub, ObserverLocatorStub, ObserverLocatorStubResults, RouterStub, StorageStub } from '../../utils';
 
 
 describe('game/create', () => {
@@ -28,6 +28,7 @@ describe('game/create', () => {
     let mockedRouter;
     let mockedGame;
     let mockedApi;
+    let mockedobserverLocator;
     let mockedStorage;
     let mockedConfig;
 
@@ -35,12 +36,19 @@ describe('game/create', () => {
         mockedRouter = new RouterStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
+        mockedobserverLocator = new ObserverLocatorStub();
         mockedConfig = {
             test: {
                 debug: false
             }
         };
-        sut = new Create(mockedRouter, mockedApi, mockedStorage, mockedConfig);
+        sut = new Create(
+            mockedRouter,
+            mockedApi,
+            mockedStorage,
+            mockedConfig,
+            mockedobserverLocator
+        );
     });
 
     it('should register api callbacks on activation', () => {
@@ -60,10 +68,13 @@ describe('game/create', () => {
     });
 
     it('should reset with init method', () => {
+        let observerLocatorStubResults = new ObserverLocatorStubResults();
         spyOn(sut, 'initPlayerInfoDefered');
         spyOn(sut, '_registerApiCallbacks');
         spyOn(mockedApi, 'init');
         spyOn(Wait, 'flushCache');
+        spyOn(mockedobserverLocator, 'getObserver').and.returnValue(observerLocatorStubResults);
+        spyOn(observerLocatorStubResults, 'subscribe');
 
         sut.init();
 
@@ -71,6 +82,8 @@ describe('game/create', () => {
         expect(sut._registerApiCallbacks).toHaveBeenCalled();
         expect(mockedApi.init).toHaveBeenCalled();
         expect(Wait.flushCache).toHaveBeenCalled();
+        expect(mockedobserverLocator.getObserver).toHaveBeenCalledWith({}, 'name');
+        expect(observerLocatorStubResults.subscribe).toHaveBeenCalled();
     });
 
     it('should not ask for the name if it knows the player name', done => {

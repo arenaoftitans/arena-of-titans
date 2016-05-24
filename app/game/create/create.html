@@ -5,13 +5,12 @@
                        data.bind="playerInfo"
                        done.bind="playerInfoDefered.resolve"></aot-select-heroes>
 
-<div id="background-create"
-     class="centered-block create-gate-opened"
+<div class="centered-block"
      if.bind="hasHero && !editing">
 
-    <img src="/assets/game/aot-logo.png" class="centered-block-medium"/>
-
-    <div if.bind="me.name" class="centered-block red-text margin-top-160">
+    <div id="create-game-me"
+         if.bind="me.name"
+         class="centered-block red-text">
         <h2 t="global.me">Me</h2>
         <img class="selected-hero" src="/assets/game/heroes/${me.hero}.png" />
         <p class="centered-text white-text">
@@ -28,6 +27,17 @@
                 t="game.create.create">Create Game
         </button>
 
+        <div if.bind="me.is_game_master">
+            <h2 t="game.create.invite">Invite</h2>
+            <label class="centered-block centered-text white-text">${ 'game.create.invite_text' | t }
+                <input type="Text" value.bind="gameUrl" readonly/>
+            </label>
+        </div>
+    </div>
+
+    <div id="create-game-slots"
+         if.bind="me.name"
+         class="centered-block red-text">
         <h2 t="game.create.others">Other players</h2>
         <p class="centered-text white-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t},
             ${slot.player_name}</p>
@@ -37,13 +47,24 @@
                 disabled.bind="!canAddSlot"
                 t="game.create.add">Add Slot
         </button>
-
-        <div if.bind="me.is_game_master">
-            <h2 t="game.create.invite">Invite</h2>
-            <label class="centered-block centered-text white-text">${ 'game.create.invite_text' | t }
-                <input type="Text" value.bind="gameUrl" readonly/>
-            </label>
-        </div>
     </div>
+
+    <!-- svg background -->
+    <svg id="create-game-bg"
+         version="1.1"
+         xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         x="0px"
+         y="0px"
+	     width="100%"
+         height="100%"
+         viewBox="0 0 1300 750"
+         preserveAspectRatio="none">
+        <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/heroes-selection.png"  transform="matrix(0.9999 0 0 0.9999 0 0)">
+        </image>
+        <rect id="create-game-gate-left" x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
+        <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
+        <rect id="create-game-plate" x="363.667" y="228.667" fill="none" width="522.667" height="496"/>
+    </svg>
 </div>
 </template>

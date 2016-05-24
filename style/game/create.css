@@ -4,34 +4,25 @@ html, body {
 	margin:auto;
 }
 
-#background-create {
-	width: 100%;
-    min-height: 99vh;
-	margin: auto;
-	background-repeat: no-repeat;
-	background-size: 100%;
-}
-
-.create-gate-opened {
-    background-image : url("/assets/game/backgrounds/game-creation.png");
-}
-
-.create-gate-closed {
-    background-image : url("/assets/game/backgrounds/heroes-selection.png");
-}
-
-#select-heroes-form {
+#select-heroes-form,
+#create-game-me,
+#create-game-slots {
     position: absolute;
     color: white;
     /* Hide on page load */
     top: -500px;
 }
 
+#create-game-bg rect,
+#select-heroes-bg rect {
+    stroke: none;
+}
+
 #select-heroes-form p {
     color: white;
 }
 
-#select-heroes-bg {
+#select-heroes-bg, #create-game-bg {
     height: 100vh;
 }
 

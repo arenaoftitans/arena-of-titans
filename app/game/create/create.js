@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
-import { inject } from 'aurelia-framework';
+import { inject, ObserverLocator } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
@@ -26,19 +26,21 @@ import { Storage } from '../services/storage';
 import Config from '../../../config/application.json';
 
 
-@inject(Router, Api, Storage, Config)
+@inject(Router, Api, Storage, Config, ObserverLocator)
 export class Create {
     _router;
     _api;
     _initGameCb;
     _gameUrl = '';
     _config;
+    _observerLocator;
 
-    constructor(router, api, storage, config) {
+    constructor(router, api, storage, config, observerLocator) {
         this._router = router;
         this._api = api;
         this._storage = storage;
         this._config = config;
+        this._observerLocator = observerLocator;
     }
 
     activate(params = {}) {
@@ -75,6 +77,23 @@ export class Create {
         this.playerInfo = {name: '', hero: ''};
         this.editing = false;
         this._registerApiCallbacks(params);
+
+        this._observerLocator.getObserver(this._api.me, 'name').subscribe(() => {
+            if (!!!this.me.name) {
+                return;
+            }
+
+            let waitForPlate = Wait.forId('create-game-plate');
+            let waitForMe = Wait.forId('create-game-me');
+            let waitForGateLeft = Wait.forId('create-game-gate-left');
+            let waitForSlots = Wait.forId('create-game-slots');
+            let waitAll = Promise.all([waitForPlate, waitForMe, waitForGateLeft, waitForSlots]);
+
+            waitAll.then(elts => this.resize(elts));
+            addEventListener('resize', () => {
+                waitAll.then(elts => this.resize(elts));
+            });
+        });
     }
 
     initPlayerInfoDefered() {
@@ -95,6 +114,27 @@ export class Create {
                 this._router.navigateToRoute('play', {id: params.id});
             }
         });
+    }
+
+    resize(elts) {
+        let plate = elts[0];
+        let plateBoundingClientRect = plate.getBoundingClientRect();
+        let me = elts[1];
+        let gateLeft = elts[2];
+        let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
+        let slots = elts[3];
+
+        me.style.top = plateBoundingClientRect.top + 25 + 'px';
+        me.style.left = plateBoundingClientRect.left +
+            plateBoundingClientRect.width / 2 -
+            me.getBoundingClientRect().width / 2 +
+            'px';
+
+        slots.style.top = gateLeftBoundingClientRect.top + 'px';
+        slots.style.left = gateLeftBoundingClientRect.left +
+            gateLeftBoundingClientRect.width / 2 -
+            slots.getBoundingClientRect().width / 2 +
+            'px';
     }
 
     _joinGame(gameId) {

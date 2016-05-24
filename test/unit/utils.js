@@ -202,3 +202,16 @@ export class WsStub {
     onmessage(cb) {
     }
 }
+
+
+export class ObserverLocatorStub {
+    getObserver() {
+        return new ObserverLocatorStubResults();
+    }
+}
+
+
+export class ObserverLocatorStubResults {
+    subscribe() {
+    }
+}
