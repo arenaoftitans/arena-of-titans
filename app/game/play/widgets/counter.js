@@ -28,7 +28,7 @@ export class AotCounterCustomElement {
     _api;
 
     // In milliseconds to ease calculations.
-    static TIME_FOR_TURN = 60000;
+    static TIME_FOR_TURN = 90000;
 
     constructor(api, config) {
         this._api = api;
@@ -36,7 +36,7 @@ export class AotCounterCustomElement {
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
-        this.timeLeft = this.maxTime;
+        this.timeLeft = AotCounterCustomElement.TIME_FOR_TURN;
         this.angle = 0;
         this.waitForCounter = Wait.forId('counter');
 
@@ -78,12 +78,13 @@ export class AotCounterCustomElement {
     countDownClock() {
         // Inspired by http://codepen.io/onge/pen/JoYEZo
 
-        // Time started, minus time now, subtracked from 60 seconds
+        // Time started, minus time now, subtracked from maxTime seconds
         let currentTime = (new Date()).getTime();
         this.timeLeft = this.maxTime - (currentTime - this.startTime);
 
         // Angle to use, defined by 1 millisecond
-        this.angle = 0.1048335 * 0.001 * this.timeLeft;
+        this.angle = 2 * Math.PI / (AotCounterCustomElement.TIME_FOR_TURN * 0.001) *
+            (this.timeLeft * 0.001);
 
         if (this.canvas && this.canvas.getContext) {
             let ctx = this.canvas.getContext('2d');
@@ -103,8 +104,8 @@ export class AotCounterCustomElement {
             // Clock face ring
             ctx.beginPath();
             ctx.globalAlpha = 1;
-            ctx.arc(150, 150, 140.1, -1.57, -1.57 + this.angle, false);
-            ctx.arc(150, 150, 105, -1.57 + this.angle, Math.PI * 2 - 1.57, true);
+            ctx.arc(150, 150, 140.1, - 1.57, - 1.57 + this.angle, false);
+            ctx.arc(150, 150, 105, - 1.57 + this.angle, Math.PI * 2 - 1.57, true);
             ctx.fillStyle = this.colourChanger();
             ctx.fill();
             ctx.closePath();
