@@ -226,7 +226,7 @@ export class Api {
         });
         this._me.has_won = message.has_won;
         this._me.rank = message.rank;
-        this._me.turn_start_time = message.turn_start_time;
+        this._me.elapsed_time = message.elapsed_time;
         this._updateAffectingTrumps(message.active_trumps);
     }
 

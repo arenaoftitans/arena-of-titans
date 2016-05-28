@@ -59,7 +59,7 @@ export class AotCounterCustomElement {
     }
 
     start() {
-        let elapsedTime = Math.round(Date.now()) - this._api.me.turn_start_time || 0;
+        let elapsedTime = this._api.me.elapsed_time || 0;
         this.maxTime = AotCounterCustomElement.TIME_FOR_TURN - elapsedTime;
         // Round max time to upper second
         this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
