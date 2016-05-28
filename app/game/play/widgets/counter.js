@@ -85,6 +85,9 @@ export class AotCounterCustomElement {
         // Angle to use, defined by 1 millisecond
         this.angle = 2 * Math.PI / (AotCounterCustomElement.TIME_FOR_TURN * 0.001) *
             (this.timeLeft * 0.001);
+        if (this.timeLeft === AotCounterCustomElement.TIME_FOR_TURN) {
+            this.angle -= 0.0001;
+        }
 
         if (this.canvas && this.canvas.getContext) {
             let ctx = this.canvas.getContext('2d');
