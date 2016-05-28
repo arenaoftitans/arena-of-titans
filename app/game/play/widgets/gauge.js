@@ -18,8 +18,20 @@
 */
 
 import { bindable } from 'aurelia-framework';
+import { Wait } from '../../services/utils';
 
 
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
+
+    bind() {
+        Wait.forId('gauge-svg').then(gaugeSvg => {
+            for (let i = 0; i < gaugeSvg.children.length; i++) {
+                let element = gaugeSvg.children[i];
+                let fillStyle = element.style.fill;
+                element.style.fill = '';
+                element.style.fill = fillStyle;
+            }
+        });
+    }
 }
