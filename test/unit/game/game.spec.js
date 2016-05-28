@@ -82,7 +82,7 @@ describe('the Game module', () => {
 
         it('should display error popup on error', () => {
             let message = {message: 'error'};
-            spyOn(sut, 'popup');
+            spyOn(sut, 'popup').and.returnValue(new Promise(resolve => {}));
 
             sut.activate();
             mockedApi._errorCbs.forEach(cb => {
