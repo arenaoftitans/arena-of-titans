@@ -78,6 +78,15 @@ button[disabled] {
 }
 
 
+.display-table {
+    display: table;
+}
+
+.display-table-cell {
+    display: table-cell;
+}
+
+
 .centered-important {
     font-size: x-large;
     text-align: center;

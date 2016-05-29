@@ -26,6 +26,15 @@ html, body {
     height: 100vh;
 }
 
+
+#copy-invite-link {
+    width: 27px;
+}
+
+#copy-invite-link:hover {
+    background-color: grey;
+}
+
 .select-hero img {
     max-width: 23%;
     margin-top: 1%;

@@ -29,9 +29,15 @@
 
         <div if.bind="me.is_game_master">
             <h2 t="game.create.invite">Invite</h2>
-            <label class="centered-block centered-text white-text">${ 'game.create.invite_text' | t }
-                <input type="Text" value.bind="gameUrl" readonly/>
-            </label>
+            <div class="display-table">
+                <label class="centered-text white-text display-table-cell">
+                    ${ 'game.create.invite_text' | t }
+                    <input id="invite-link" type="text" value.bind="gameUrl" readonly/>
+                </label>
+                <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
+                    <img src="/assets/game/misc/clippy.svg" width="13" alt="Copy to clipboard">
+                </button>
+            </div>
         </div>
     </div>
 

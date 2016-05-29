@@ -24,6 +24,7 @@ import { Api } from '../services/api';
 import { Wait } from '../services/utils';
 import { Storage } from '../services/storage';
 import Config from '../../../config/application.json';
+import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
 
 
 @inject(Router, Api, Storage, Config, ObserverLocator)
@@ -77,6 +78,10 @@ export class Create {
         this.playerInfo = {name: '', hero: ''};
         this.editing = false;
         this._registerApiCallbacks(params);
+
+        Wait.forId('copy-invite-link').then(() => {
+            new Clipboard('#copy-invite-link'); // eslint-disable-line
+        });
 
         this._observerLocator.getObserver(this._api.me, 'name').subscribe(() => {
             if (!!!this.me.name) {
