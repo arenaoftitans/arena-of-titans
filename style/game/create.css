@@ -29,6 +29,7 @@ html, body {
 
 #copy-invite-link {
     width: 27px;
+    margin-left: 5px;
 }
 
 #copy-invite-link:hover {
