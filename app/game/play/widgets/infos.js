@@ -22,7 +22,7 @@ import { Wait } from '../../services/utils';
 
 
 // In milliseconds.
-const POPUP_INFOS_APPEAR_TIMEOUT = 1500;
+const POPUP_INFOS_APPEAR_TIMEOUT = 500;
 
 
 @inject(ObserverLocator)
