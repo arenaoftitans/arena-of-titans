@@ -9,7 +9,7 @@
     <div>
         <p if.bind="lastAction.description">
             <span t="[html]game.play.last_action_title"
-               t-params.bind="{playerName: currentPlayerName}">
+               t-params.bind="{playerName: lastAction.player_name}">
                 Last action played by
                 <strong>${playerName}</strong>
             </span>
