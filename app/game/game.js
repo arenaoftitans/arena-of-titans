@@ -82,7 +82,9 @@ export class Game {
     activate() {
         this._api.onerror(data => {
             this.popup('error', data).then(() => {
-                location.reload();
+                if (/\/game\/create\/.+/.test(location.pathname)) {
+                    location.reload();
+                }
             });
         });
     }
