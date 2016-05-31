@@ -83,10 +83,11 @@ export class AotSelectHeroesCustomElement {
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
 
-        selectForm.style.top = plateBoundingClientRect.top +
+        // On some screen, if we atempt to center the caroussel, we go outside the plate.
+        let centerInPlateValue = plateBoundingClientRect.top +
             plateBoundingClientRect.height / 2 -
-            selectForm.getBoundingClientRect().height / 2 -
-            20 +
+            selectForm.getBoundingClientRect().height / 2;
+        selectForm.style.top = Math.max(centerInPlateValue, plateBoundingClientRect.top + 10) +
             'px';
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
         selectForm.style.height = plate.getBoundingClientRect().height + 'px';
