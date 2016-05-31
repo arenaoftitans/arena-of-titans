@@ -24,6 +24,7 @@ import { Api } from '../../services/api';
 @inject(Api)
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
+    @bindable playerIndex = null;
     _api;
     _possibleSquares = [];
 

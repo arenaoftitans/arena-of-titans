@@ -62,6 +62,10 @@ rect, path {
     fill: blue;
 }
 
+.last-line-square {
+    opacity: 0.5;
+}
+
 .highlightedSquare {
     fill: green !important;
     cursor: pointer;
