@@ -213,7 +213,7 @@
 }
 
 
-@media screen and (max-height: 649px) {
+@media screen and (max-height: 899px) {
     .logo {
         display: block;
         height: 74px;
