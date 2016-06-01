@@ -221,6 +221,7 @@
     }
     #board {
         max-width: 355px;
+        height: 380px;
     }
 
     #board-container {
@@ -229,8 +230,7 @@
         padding-bottom: 2%;
         margin: auto;
         text-align: center;
-        max-height: 380px;
-        min-height: 380px;
+        height: 380px;
     }
     #cards-container {
         max-height: 140px;
@@ -400,14 +400,14 @@
     }
 
     #board-container {
-        max-height: 548px;
-        min-height: 548px;
+        height: 548px;
         padding-top: 25px;
         padding-bottom: 0;
     }
 
     #board {
         max-width: 500px;
+        height: 548px;
     }
 
     #cards-container {
@@ -440,12 +440,12 @@
 
     #board-container {
         max-width: 600px;
-        max-height: 570px;
-        min-height: 570px;
+        height: 570px;
     }
 
     #board {
         max-width: 550px;
+        height: 570px;
     }
 
     #cards-container {
@@ -491,12 +491,12 @@
 
     #board-container {
         max-width: 600px;
-        max-height: 620px;
-        min-height: 620px;
+        height: 620px;
     }
 
     #board {
         max-width: 600px;
+        height: 620px;
     }
 
     #cards-container {
