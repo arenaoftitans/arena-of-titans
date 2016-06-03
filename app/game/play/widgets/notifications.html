@@ -1,9 +1,8 @@
 <template>
     <p class="centered-important"
        t="[html]game.play.whose_turn_message"
-       t-params.bind="{playerName: currentPlayerName}">
-        C'est le tour de<br>
-        <strong>${playerName}</strong>
+       t-params.bind="{playerName: lastAction.player_name}">
+        It's the turn of
     </p>
 
     <div>
@@ -11,7 +10,6 @@
             <span t="[html]game.play.last_action_title"
                t-params.bind="{playerName: lastAction.player_name}">
                 Last action played by
-                <strong>${playerName}</strong>
             </span>
             ${lastAction.description}
             <span><br></span>
