@@ -26,6 +26,11 @@ export class AotTrumpsGaugeCustomElement {
 
     bind() {
         Wait.forId('gauge-svg').then(gaugeSvg => {
+            // Prevent promise rejection on IE11
+            if (gaugeSvg.children === undefined) {
+                return;
+            }
+
             for (let i = 0; i < gaugeSvg.children.length; i++) {
                 let element = gaugeSvg.children[i];
                 let fillStyle = element.style.fill;
