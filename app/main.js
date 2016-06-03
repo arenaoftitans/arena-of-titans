@@ -33,6 +33,22 @@ import '../style/site.css';
 
 
 bootstrap(aurelia => {
+    if (!global.Intl) {
+        require.ensure([
+            'intl',
+            'intl/locale-data/jsonp/en.js',
+        ], require => {
+            require('intl');
+            require('intl/locale-data/jsonp/en.js');
+            boot(aurelia);
+        });
+    } else {
+        boot(aurelia);
+    }
+});
+
+
+function boot(aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
@@ -70,4 +86,4 @@ bootstrap(aurelia => {
         });
 
     aurelia.start().then(() => aurelia.setRoot('app', document.body));
-});
+}
