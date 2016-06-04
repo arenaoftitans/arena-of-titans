@@ -18,12 +18,14 @@
 */
 
 import '../../setup';
+import { Wait } from '../../../../app/game/services/utils';
 import { Notify } from '../../../../app/game/services/notify';
 import { I18nStub } from '../../utils';
 
 
 describe('services/notify', () => {
     let mockedI18n;
+    let mockedOptions;
     let sut;
     let link = document.createElement('link');
 
@@ -31,7 +33,8 @@ describe('services/notify', () => {
         spyOn(document, 'getElementById').and.returnValue(link);
 
         mockedI18n = new I18nStub();
-        sut = new Notify(mockedI18n);
+        mockedOptions = {};
+        sut = new Notify(mockedI18n, mockedOptions);
     });
 
     it('should clearNotifications', () => {
@@ -53,5 +56,50 @@ describe('services/notify', () => {
 
         expect(document.getElementById).toHaveBeenCalledWith('favicon');
         expect(sut._createFavicon).toHaveBeenCalledWith('/assets/favicon-notify.png', link);
+    });
+
+    it('should not play sound if sounds are disabled', () => {
+        mockedOptions.sound = false;
+        spyOn(Wait, 'forId');
+
+        sut._playYourTurnSound();
+        sut._playVoice();
+
+        expect(Wait.forId).not.toHaveBeenCalled();
+    });
+
+    describe('should play sound if sounds are enabled', () => {
+        let element;
+        let promise;
+
+        beforeEach(() => {
+            mockedOptions.sound = true;
+            element = {
+                play: () => {},
+            };
+            spyOn(element, 'play');
+            promise = new Promise(resolve => resolve(element));
+            spyOn(Wait, 'forId').and.returnValue(promise);
+        });
+
+        it('voice', done => {
+            sut._playVoice();
+
+            expect(Wait.forId).toHaveBeenCalledWith('notify-voice-player');
+            Wait.forId('notify-voice-player').then(() => {
+                expect(element.play).toHaveBeenCalled();
+                done();
+            });
+        });
+
+        it('sound', done => {
+            sut._playYourTurnSound();
+
+            expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
+            Wait.forId('notify-sound-player').then(() => {
+                expect(element.play).toHaveBeenCalled();
+                done();
+            });
+        });
     });
 });
