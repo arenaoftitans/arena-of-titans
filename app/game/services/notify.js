@@ -23,6 +23,7 @@ import { Wait } from './utils';
 
 
 const SWAP_TITLE_INTERVAL = 1000;
+const PLAY_VOICE_TIMEOUT = 45000;
 
 
 @inject(I18N)
@@ -34,6 +35,7 @@ export class Notify {
         this._originalFaviconHref = document.getElementById('favicon').href;
         this._notifyFavicon = '/assets/favicon-notify.png';
         this._notifyTimer = null;
+        this._body = document.body || document.getElementByTagName('body')[0];
 
         document.addEventListener('visibilitychange', () => this._handleVisibilityChange());
     }
@@ -50,6 +52,13 @@ export class Notify {
             this._swapFavicon();
             this._autoSwapTitle();
         }
+
+        let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
+        let cancelPlayVoice = () => {
+            clearTimeout(playVoiceTimer);
+            this._body.removeEventListener('mousemove', cancelPlayVoice);
+        };
+        this._body.addEventListener('mousemove', cancelPlayVoice);
     }
 
     _swapFavicon() {
@@ -89,6 +98,10 @@ export class Notify {
 
     _playYourTurnSound() {
         Wait.forId('notify-sound-player').then(element => element.play());
+    }
+
+    _playVoice() {
+        Wait.forId('notify-voice-player').then(element => element.play());
     }
 
     clearNotifications() {
