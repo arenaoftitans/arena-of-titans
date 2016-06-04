@@ -125,6 +125,9 @@ button[disabled] {
     color: #B40404;
 }
 
+.bright-red-text {
+    color: #FF0000;
+}
 
 .popup {
     position: absolute;
