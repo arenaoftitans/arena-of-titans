@@ -37,13 +37,22 @@
     <script type="text/javascript">
         if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
             var _paq = _paq || [];
-            _paq.push(["setDomains", ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"]]);
+            var siteId;
+            var domains;
+            if (/^www/.test(window.location.host)) {
+                siteId = 3;
+                domains = ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"];
+            } else {
+                siteId = 4;
+                domains = ["*.dev.arenaoftitans.com"]
+            }
+            _paq.push(["setDomains", domains]);
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
             (function () {
             var u = "//piwik.jujens.eu/";
             _paq.push(['setTrackerUrl', u + 'piwik.php']);
-            _paq.push(['setSiteId', 3]);
+            _paq.push(['setSiteId', siteId]);
             var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
             g.type = 'text/javascript';
             g.async = true;

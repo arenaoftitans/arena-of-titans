@@ -52,6 +52,7 @@ function boot(aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
+        .plugin('aurelia-piwik')
         .plugin('aurelia-i18n', (instance) => {
             let language = navigator.language.split('-')[0];
 
