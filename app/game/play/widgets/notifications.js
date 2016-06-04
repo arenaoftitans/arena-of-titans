@@ -80,6 +80,10 @@ export class AotNotificationsCustomElement {
         return this._lastAction.player_name;
     }
 
+    get currentPlayerName() {
+        return this.players.names[this.currentPlayerIndex];
+    }
+
     get lastAction() {
         return this._lastAction;
     }
