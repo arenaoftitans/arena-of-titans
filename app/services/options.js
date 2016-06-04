@@ -17,8 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
+import { inject, ObserverLocator } from 'aurelia-framework';
+import { Storage } from './storage';
+
+
+@inject(Storage, ObserverLocator)
 export class Options {
-    constructor() {
-        this.sound = true;
+    constructor(storage, observerLocator) {
+        let savedOptions = storage.loadOptions();
+        if (savedOptions) {
+            for (let key of Object.keys(savedOptions)) {
+                this[key] = savedOptions[key];
+            }
+        } else {
+            this.sound = true;
+        }
+
+        for (let key of Object.keys(this)) {
+            observerLocator.getObserver(this, key).subscribe(() => storage.saveOptions(this));
+        }
     }
 }

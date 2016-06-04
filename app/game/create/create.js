@@ -22,7 +22,7 @@ import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
 import { Wait } from '../services/utils';
-import { Storage } from '../services/storage';
+import { Storage } from '../../services/storage';
 import Config from '../../../config/application.json';
 import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
 

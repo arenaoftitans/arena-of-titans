@@ -17,6 +17,9 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
+const OPTIONS_KEY = 'options';
+
+
 export class Storage {
     _expiresKey = 'expires';
 
@@ -26,5 +29,13 @@ export class Storage {
 
     retrievePlayerId(gameId) {
         return localStorage.getItem(gameId);
+    }
+
+    saveOptions(options) {
+        localStorage.setItem(OPTIONS_KEY, JSON.stringify(options));
+    }
+
+    loadOptions() {
+        return JSON.parse(localStorage.getItem(OPTIONS_KEY));
     }
 }

@@ -19,7 +19,7 @@
 
 import { inject } from 'aurelia-framework';
 import { Notify } from './notify';
-import { Storage } from './storage';
+import { Storage } from '../../services/storage';
 import { ImageClass, ImageSource, Wait } from './utils';
 import { Ws } from './ws';
 import Config from '../../../config/application.json';

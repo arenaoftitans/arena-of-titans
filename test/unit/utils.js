@@ -192,6 +192,12 @@ export class StorageStub {
 
     retrievePlayerId() {
     }
+
+    saveOptions() {
+    }
+
+    loadOptions() {
+    }
 }
 
 
