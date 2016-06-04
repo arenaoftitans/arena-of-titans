@@ -19,6 +19,7 @@
 
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { Wait } from './utils';
 
 
 const SWAP_TITLE_INTERVAL = 1000;
@@ -44,6 +45,7 @@ export class Notify {
     }
 
     notifyYourTurn() {
+        this._playYourTurnSound();
         if (document.hidden) {
             this._swapFavicon();
             this._autoSwapTitle();
@@ -83,6 +85,10 @@ export class Notify {
         } else {
             document.title = this._originalTitle;
         }
+    }
+
+    _playYourTurnSound() {
+        Wait.forId('notify-sound-player').then(element => element.play());
     }
 
     clearNotifications() {

@@ -530,6 +530,24 @@ describe('services/api', () => {
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
 
+        it('should handle play and your turn and was not your turn', () => {
+            let message = {
+                rt: sut.requestTypes.play,
+                your_turn: true
+            };
+            spyOn(sut, '_updateGame');
+            spyOn(mockedNotify, 'clearNotifications');
+            spyOn(mockedNotify, 'notifyYourTurn');
+            sut._game.your_turn = true;
+            sut._game.was_your_turn = true;
+
+            sut._handleMessage(message);
+
+            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedNotify.clearNotifications).toHaveBeenCalled();
+            expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
+        });
+
         it('should reconnect', () => {
             let message = {
                 rt: sut.requestTypes.play,

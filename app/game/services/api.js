@@ -219,6 +219,7 @@ export class Api {
     }
 
     _updateGame(message) {
+        this._game.was_your_turn = this._game.your_turn;
         this._game.your_turn = message.your_turn;
         this._game.next_player = message.next_player;
         this._game.active_trumps = message.active_trumps;
@@ -243,7 +244,7 @@ export class Api {
 
         this._updateGame(message);
 
-        if (this._game.your_turn) {
+        if (this._game.your_turn && !this._game.was_your_turn) {
             this._notify.notifyYourTurn();
         } else {
             this._notify.clearNotifications();
