@@ -61,7 +61,8 @@ describe('trumps', () => {
                     name: 'Player 2',
                     index: 1
                 }
-            ]
+            ],
+            description: 'trumps.trump_description',
             }
         );
         defered.resolve(1);

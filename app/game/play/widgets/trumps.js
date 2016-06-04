@@ -58,6 +58,7 @@ export class AotTrumpsCustomElement {
                     message: this._i18n.tr(
                         'game.play.select_trump_target',
                         {trumpname: trump.name}),
+                    description: this.getTranslatedTrumpDescription(trump),
                     choices: otherPlayerNames,
                 }).then(targetIndex => {
                     // targetIndex is binded in a template, hence it became a string and must be
@@ -70,11 +71,22 @@ export class AotTrumpsCustomElement {
         }
     }
 
+    getTranslatedTrumpTitle(trump) {
+        return this._i18n.tr(`trumps.${this.normalizeTrumpName(trump)}`);
+    }
+
+    normalizeTrumpName(trump) {
+        return trump.name.toLowerCase().replace(' ', '_');
+    }
+
+    getTranslatedTrumpDescription(trump) {
+        return this._i18n.tr(`trumps.${this.normalizeTrumpName(trump)}_description`);
+    }
+
     displayInfos(trump, event) {
-        let trumpName = trump.name.toLowerCase().replace(' ', '_');
         this.infos = {
-            title: this._i18n.tr(`trumps.${trumpName}`),
-            description: this._i18n.tr(`trumps.${trumpName}_description`),
+            title: this.getTranslatedTrumpTitle(trump),
+            description: this.getTranslatedTrumpDescription(trump),
             visible: true,
             event: event,
         };

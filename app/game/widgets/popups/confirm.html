@@ -2,6 +2,8 @@
     <div class="x-margin">
         <p class="centered-text">${data.message}</p>
 
+        <p class="centered-text" if.bind="data.description">${data.description}</p>
+
         <form if.bind="data.choices">
             <label repeat.for="choice of data.choices">
                 <input type="radio"
