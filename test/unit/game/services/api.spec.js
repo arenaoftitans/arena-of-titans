@@ -19,13 +19,14 @@
 
 import '../../setup';
 import { Api } from '../../../../app/game/services/api';
-import { StorageStub, WsStub } from '../../utils';
+import { NotifyStub, StorageStub, WsStub } from '../../utils';
 
 
 describe('services/api', () => {
     let mockedStorage;
     let mockedWs;
     let mockedConfig;
+    let mockedNotify;
     let sut;
     let rt;
 
@@ -37,7 +38,8 @@ describe('services/api', () => {
                 debug: false
             }
         };
-        sut = new Api(mockedWs, mockedStorage, mockedConfig);
+        mockedNotify = new NotifyStub();
+        sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify);
         rt = sut.requestTypes;
     });
 
@@ -494,16 +496,38 @@ describe('services/api', () => {
             });
         });
 
-        it('should handle play', () => {
+        it('should handle play and your turn', () => {
             let message = {
                 rt: sut.requestTypes.play,
                 your_turn: true
             };
             spyOn(sut, '_updateGame');
+            spyOn(mockedNotify, 'clearNotifications');
+            spyOn(mockedNotify, 'notifyYourTurn');
+            sut._game.your_turn = true;
 
             sut._handleMessage(message);
 
             expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedNotify.clearNotifications).not.toHaveBeenCalled();
+            expect(mockedNotify.notifyYourTurn).toHaveBeenCalled();
+        });
+
+        it('should handle play and not your turn', () => {
+            let message = {
+                rt: sut.requestTypes.play,
+                your_turn: false
+            };
+            spyOn(sut, '_updateGame');
+            spyOn(mockedNotify, 'clearNotifications');
+            spyOn(mockedNotify, 'notifyYourTurn');
+            sut._game.your_turn = false;
+
+            sut._handleMessage(message);
+
+            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedNotify.clearNotifications).toHaveBeenCalled();
+            expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
 
         it('should reconnect', () => {

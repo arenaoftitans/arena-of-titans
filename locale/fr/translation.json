@@ -59,7 +59,8 @@
             "pass": "Passer",
             "pass_confirm_message": "Es-tu s\u00fbr de vouloir passer ton tour ?",
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
-            "whose_turn_message": "C'est le tour de <br /><strong>{{playerName}}</strong>"
+            "whose_turn_message": "C'est le tour de <br /><strong>{{playerName}}</strong>",
+            "your_turn": "C'est ton tour !"
         }
     },
     "global": {

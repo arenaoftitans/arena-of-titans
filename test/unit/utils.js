@@ -215,3 +215,12 @@ export class ObserverLocatorStubResults {
     subscribe() {
     }
 }
+
+
+export class NotifyStub {
+    clearNotifications() {
+    }
+
+    notifyYourTurn() {
+    }
+}

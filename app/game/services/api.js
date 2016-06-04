@@ -18,13 +18,14 @@
 */
 
 import { inject } from 'aurelia-framework';
+import { Notify } from './notify';
 import { Storage } from './storage';
 import { ImageClass, ImageSource, Wait } from './utils';
 import { Ws } from './ws';
 import Config from '../../../config/application.json';
 
 
-@inject(Ws, Storage, Config)
+@inject(Ws, Storage, Config, Notify)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -48,13 +49,14 @@ export class Api {
     _game;
     _config;
 
-    constructor(ws, storage, config) {
+    constructor(ws, storage, config, notify) {
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
         });
         this._config = config;
+        this._notify = notify;
         this._reconnectDefered.promise = new Promise((resolve, reject) => {
             this._reconnectDefered.resolve = resolve;
             this._reconnectDefered.reject = reject;
@@ -240,6 +242,12 @@ export class Api {
         }
 
         this._updateGame(message);
+
+        if (this._game.your_turn) {
+            this._notify.notifyYourTurn();
+        } else {
+            this._notify.clearNotifications();
+        }
     }
 
     _handlePlayerPlayed(message) {
