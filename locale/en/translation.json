@@ -71,7 +71,8 @@
         "me": "Me",
         "name": "Name",
         "ok": "OK",
-        "save": "Save"
+        "save": "Save",
+        "sound_option": "Enable/Disable sound"
     },
     "site": {
         "connection_button": "Connect",

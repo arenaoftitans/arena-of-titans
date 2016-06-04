@@ -71,7 +71,8 @@
         "me": "Moi",
         "name": "Nom",
         "ok": "OK",
-        "save": "Sauvegarder"
+        "save": "Sauvegarder",
+        "sound_option": "Activer/D\u00e9sactiver les sonds"
     },
     "site": {
         "connection_button": "Se connecter",

@@ -20,16 +20,18 @@
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Wait } from './utils';
+import { Options } from '../../services/options';
 
 
 const SWAP_TITLE_INTERVAL = 1000;
 const PLAY_VOICE_TIMEOUT = 45000;
 
 
-@inject(I18N)
+@inject(I18N, Options)
 export class Notify {
-    constructor(i18n) {
+    constructor(i18n, options) {
         this._i18n = i18n;
+        this._options = options;
         this._originalTitle = document.title;
         this._head = document.head || (document.head = document.getElementsByTagName('head')[0]);
         this._originalFaviconHref = document.getElementById('favicon').href;
@@ -97,11 +99,15 @@ export class Notify {
     }
 
     _playYourTurnSound() {
-        Wait.forId('notify-sound-player').then(element => element.play());
+        if (this._options.sound) {
+            Wait.forId('notify-sound-player').then(element => element.play());
+        }
     }
 
     _playVoice() {
-        Wait.forId('notify-voice-player').then(element => element.play());
+        if (this._options.sound) {
+            Wait.forId('notify-voice-player').then(element => element.play());
+        }
     }
 
     clearNotifications() {

@@ -223,13 +223,14 @@ button[disabled] {
 
 .option img {
     width: 20px;
-    padding-top: 40px;
+    padding-top: 29px;
     padding-right: 5px;
     padding-left: 5px;
     cursor: pointer;
 }
 
-.option .hover-hide, .option .lang-chooser {
+.option-wrapper .hover-hide,
+.option .choices {
     background: black;
     border: solid;
     border-color: white;
@@ -237,11 +238,11 @@ button[disabled] {
 }
 
 .option:hover {
-    -webkit-transform: translate3d(-40px, -47px, 0);
-    -moz-transform: translate3d(-40px, -47px, 0);
-    -ms-transform: translate3d(-40px, -47px, 0);
-    -o-transform: translate3d(-40px, -47px, 0);
-    transform:  translate3d(-40px, -47px, 0);
+    -webkit-transform: translate3d(-40px, -30px, 0);
+    -moz-transform: translate3d(-40px, -30px, 0);
+    -ms-transform: translate3d(-40px, -30px, 0);
+    -o-transform: translate3d(-40px, -30px, 0);
+    transform:  translate3d(-40px, -30px, 0);
 }
 
 .option:hover .hover-hide {

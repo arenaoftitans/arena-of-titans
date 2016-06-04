@@ -2,13 +2,19 @@
     <div class="option-container row-block">
         <div class="option-wrapper">
             <div class="option">
-                <div class="lang-chooser">
-                    <img src="/assets/components/french.png" click.delegate="changeLang('fr')" />
-                    <img src="/assets/components/english.png" click.delegate="changeLang('en')" />
+                <div class="choices">
+                    <div class="lang-chooser">
+                        <img src="/assets/components/french.png" click.delegate="changeLang('fr')" />
+                        <img src="/assets/components/english.png" click.delegate="changeLang('en')" />
+                    </div>
+                    <label class="white-text">
+                        <span t="global.sound_option">Enable/Disable sound</span>
+                        <input type="checkbox" value.bind="options.sound" checked.bind="options.sound" />
+                    </label>
                 </div>
 
                 <img class="hover-hide" src="/assets/components/gear.png" />
             </div>
-        </div >
+        </div>
 	</div>
 </template>

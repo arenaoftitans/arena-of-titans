@@ -17,19 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
-import { I18N } from 'aurelia-i18n';
-import { inject } from 'aurelia-framework';
-import { Options } from '../services/options';
-
-
-@inject(I18N, Options)
-export class AotOptionsCustomElement {
-    constructor(i18n, options) {
-        this.i18n = i18n;
-        this.options = options;
-    }
-
-    changeLang(lang) {
-        this.i18n.setLocale(lang);
+export class Options {
+    constructor() {
+        this.sound = true;
     }
 }
