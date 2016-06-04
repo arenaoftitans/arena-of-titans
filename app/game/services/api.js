@@ -266,6 +266,7 @@ export class Api {
 
         if (message.game_over) {
             this._gameOverDefered.resolve(message.winners);
+            this._notify.notifyGameOver();
         }
     }
 

@@ -365,11 +365,13 @@ describe('services/api', () => {
             game_over: false,
             winners: [],
         };
+        spyOn(mockedNotify, 'notifyGameOver');
 
         sut._handleGameOverMessage(message);
 
         expect(sut._game.game_over).toBe(false);
         expect(sut._game.winners.length).toBe(0);
+        expect(mockedNotify.notifyGameOver).not.toHaveBeenCalled();
     });
 
     it('should handle player played game over', () => {
@@ -378,12 +380,14 @@ describe('services/api', () => {
             winners: ['Player 1', 'Player 2'],
         };
         spyOn(sut._gameOverDefered, 'resolve');
+        spyOn(mockedNotify, 'notifyGameOver');
 
         sut._handleGameOverMessage(message);
 
         expect(sut._game.game_over).toBe(true);
         expect(sut._game.winners.length).toBe(2);
         expect(sut._gameOverDefered.resolve).toHaveBeenCalledWith(message.winners);
+        expect(mockedNotify.notifyGameOver).toHaveBeenCalled();
     });
 
     it('should handle game created data', () => {

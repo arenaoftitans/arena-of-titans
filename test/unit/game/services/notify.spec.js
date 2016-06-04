@@ -64,6 +64,7 @@ describe('services/notify', () => {
 
         sut._playYourTurnSound();
         sut._playVoice();
+        sut.notifyGameOver();
 
         expect(Wait.forId).not.toHaveBeenCalled();
     });
@@ -97,6 +98,16 @@ describe('services/notify', () => {
 
             expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
             Wait.forId('notify-sound-player').then(() => {
+                expect(element.play).toHaveBeenCalled();
+                done();
+            });
+        });
+
+        it('game over', done => {
+            sut.notifyGameOver();
+
+            expect(Wait.forId).toHaveBeenCalledWith('notify-game-over-player');
+            Wait.forId('notify-game-over-player').then(() => {
                 expect(element.play).toHaveBeenCalled();
                 done();
             });

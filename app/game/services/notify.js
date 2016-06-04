@@ -110,6 +110,12 @@ export class Notify {
         }
     }
 
+    notifyGameOver() {
+        if (this._options.sound) {
+            Wait.forId('notify-game-over-player').then(element => element.play());
+        }
+    }
+
     clearNotifications() {
         document.title = this._originalTitle;
         this._createFavicon(this._originalFaviconHref);

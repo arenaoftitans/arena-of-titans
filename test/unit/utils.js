@@ -229,4 +229,7 @@ export class NotifyStub {
 
     notifyYourTurn() {
     }
+
+    notifyGameOver() {
+    }
 }
