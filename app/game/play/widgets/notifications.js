@@ -30,7 +30,26 @@ const GUISED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
+let ua = navigator.userAgent;
+let msie = +((/msie (\d+)/.exec(ua.toLowerCase()) || [])[1]);
+if (isNaN(msie)) {
+    msie = +((/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1]);
+}
+if (isNaN(msie)) {
+    msie = +((/edge\/(\d+)\./.exec(ua.toLowerCase()) || [])[1]);
+}
+if (isNaN(msie)) {
+    msie = false;
+}
+
+
+let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
+
 let blinkImg = (elements, forceClear) => {
+    if (msie) {
+        elements = htmlCollection2Array(elements);
+    }
+
     for (let elt of elements) {
         if (elt.classList.contains('blink-img') || forceClear) {
             elt.classList.remove('blink-img');
@@ -177,6 +196,11 @@ export class AotNotificationsCustomElement {
 
     _highlightLastLine(forceClear) {
         let lastLineSquares = document.getElementsByClassName('last-line-square');
+
+        if (msie) {
+            lastLineSquares = htmlCollection2Array(lastLineSquares);
+        }
+
         for (let square of lastLineSquares) {
             if (square.classList.contains('highlightedSquare') || forceClear) {
                 square.classList.remove('highlightedSquare');
