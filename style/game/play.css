@@ -382,6 +382,14 @@
     #counter, #counter-countainer {
         height: 124px;
     }
+
+    #timer {
+        font-size: 350%;
+    }
+
+    .centered-text-timer {
+        top: -105px;
+    }
 }
 
 
@@ -431,6 +439,15 @@
     #counter, #counter-countainer {
         height: 165px;
     }
+
+    #timer {
+        font-size: 460%;
+    }
+
+    .centered-text-timer {
+        top: -142px;
+        left: 16px;
+    }
 }
 
 
@@ -472,6 +489,10 @@
 
     #play {
         max-width: 1315px;
+    }
+
+    .centered-text-timer {
+        left: 0px;
     }
 }
 
@@ -523,5 +544,14 @@
 
     #play {
         max-width: 1450px;
+    }
+
+    #timer {
+        font-size: 500%;
+    }
+
+    .centered-text-timer {
+        top: -150px;
+        left: 0px;
     }
 }
