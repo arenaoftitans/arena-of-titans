@@ -23,7 +23,6 @@ import { Wait } from './utils';
 import { Options } from '../../services/options';
 
 
-const SWAP_TITLE_INTERVAL = 1000;
 const PLAY_VOICE_TIMEOUT = 45000;
 
 
@@ -36,7 +35,6 @@ export class Notify {
         this._head = document.head || (document.head = document.getElementsByTagName('head')[0]);
         this._originalFaviconHref = document.getElementById('favicon').href;
         this._notifyFavicon = '/assets/favicon-notify.png';
-        this._notifyTimer = null;
         this._body = document.body || document.getElementByTagName('body')[0];
 
         document.addEventListener('visibilitychange', () => this._handleVisibilityChange());
@@ -52,7 +50,7 @@ export class Notify {
         this._playYourTurnSound();
         if (document.hidden) {
             this._swapFavicon();
-            this._autoSwapTitle();
+            this._swapTitle();
         }
 
         let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
@@ -84,12 +82,6 @@ export class Notify {
         this._head.appendChild(link);
     }
 
-    _autoSwapTitle() {
-        this._swapTitle();
-
-        this._notifyTimer = setTimeout(() => this._autoSwapTitle(), SWAP_TITLE_INTERVAL);
-    }
-
     _swapTitle() {
         if (document.title === this._originalTitle) {
             document.title = this._i18n.tr('game.play.your_turn');
@@ -119,9 +111,5 @@ export class Notify {
     clearNotifications() {
         document.title = this._originalTitle;
         this._createFavicon(this._originalFaviconHref);
-
-        if (this._notifyTimer !== null) {
-            clearTimeout(this._notifyTimer);
-        }
     }
 }
