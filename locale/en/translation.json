@@ -61,6 +61,14 @@
             "select_trump_target": "Who should be the target of {{trumpname}}?",
             "whose_turn_message": "It is the turn of <br /><strong>{{playerName}}</strong>",
             "your_turn": "It's your turn!"
+        },
+        "visit": {
+            "cards": "To do this, you need to use the cards. Click on one and the squares on which you can move will be hightlighted.",
+            "goal": "The goal of the game is to go to the last line as fast as you can and stay there for a turn.",
+            "intro": "You look like a newcomer. Let me help you.",
+            "notifications": "The last played actions are visible here.",
+            "propose": "Do you need help?",
+            "trumps": "You can also use trumps to get bonuses or hinder your oponents."
         }
     },
     "global": {

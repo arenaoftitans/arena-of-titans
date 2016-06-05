@@ -17,6 +17,15 @@
         <p if.bind="!lastAction.description">
             <em t="game.play.no_action">No action yet</em>
         </p>
+
+        <div>
+            <button class="button-light"
+                    if.bind="proposeGuidedVisit"
+                    click.delegate="startGuidedVisit()"
+                    t="game.visit.propose">Propose guide visit</button>
+            <p>${guidedVisitText}</p>
+        </div>
+
         <img class="centered-block"
              src.bind="lastAction.img"
              if.bind="lastAction && lastAction.img" />

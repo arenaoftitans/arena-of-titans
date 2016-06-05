@@ -18,22 +18,45 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { ImageName, ImageSource } from '../../services/utils';
 
 
-@inject(Api, I18N)
+const GUIDED_VISIT_TIMEOUT = 3500;
+const GUISED_VISIT_DISPLAY_TIME = 5000;
+
+
+@inject(Api, I18N, EventAggregator)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
+    proposeGuidedVisit = false;
+    guidedVisitText;
+    guidedVisitTextIndex = 0;
+    guidedVisitTexts = [
+        'game.visit.intro',
+        'game.visit.goal',
+        'game.visit.cards',
+        'game.visit.trumps',
+        'game.visit.notifications',
+    ];
     _api;
     _lastAction = {};
     _i18n;
+    _ea;
+    _guidedVisitTimeout;
 
-    constructor(api, i18n) {
+    constructor(api, i18n, ea) {
         this._api = api;
         this._i18n = i18n;
+        this._ea = ea;
+
+        this._guidedVisitTimeout = setTimeout(() => {
+            this.proposeGuidedVisit = true;
+        }, GUIDED_VISIT_TIMEOUT);
+        this._ea.subscribe('aot:api:cancel_guided_visit', () => this._cancelGuidedVisit());
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
@@ -46,6 +69,11 @@ export class AotNotificationsCustomElement {
         this._api.on(this._api.requestTypes.play_trump, message => {
             this._updateLastAction(message);
         });
+    }
+
+    _cancelGuidedVisit() {
+        clearTimeout(this._guidedVisitTimeout);
+        this.proposeGuidedVisit = false;
     }
 
     _updateLastAction(message) {
@@ -73,6 +101,25 @@ export class AotNotificationsCustomElement {
             let trumpName = ImageName.forTrump(trump).replace('-', '_');
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
+        }
+    }
+
+    startGuidedVisit() {
+        this.proposeGuidedVisit = false;
+        this._displayNextVisitText();
+    }
+
+    _displayNextVisitText() {
+        let textId = this.guidedVisitTexts[this.guidedVisitTextIndex];
+        this.guidedVisitText = this._i18n.tr(textId);
+        this.guidedVisitTextIndex++;
+
+        if (this.guidedVisitTextIndex < this.guidedVisitTexts.length) {
+            setTimeout(() => this._displayNextVisitText(), GUISED_VISIT_DISPLAY_TIME);
+        } else {
+            setTimeout(() => {
+                this.guidedVisitText = '';
+            }, GUISED_VISIT_DISPLAY_TIME);
         }
     }
 

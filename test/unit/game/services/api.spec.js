@@ -19,7 +19,7 @@
 
 import '../../setup';
 import { Api } from '../../../../app/game/services/api';
-import { NotifyStub, StorageStub, WsStub } from '../../utils';
+import { EventAgregatorStub, NotifyStub, StorageStub, WsStub } from '../../utils';
 
 
 describe('services/api', () => {
@@ -27,6 +27,7 @@ describe('services/api', () => {
     let mockedWs;
     let mockedConfig;
     let mockedNotify;
+    let mockedEa;
     let sut;
     let rt;
 
@@ -39,7 +40,8 @@ describe('services/api', () => {
             }
         };
         mockedNotify = new NotifyStub();
-        sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify);
+        mockedEa = new EventAgregatorStub();
+        sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify, mockedEa);
         rt = sut.requestTypes;
     });
 
@@ -79,6 +81,14 @@ describe('services/api', () => {
 
         expect(sut.callbacks[rt.init_game].length).toBe(1);
         expect(sut.callbacks[rt.init_game][0]).toBe(cb);
+    });
+
+    it('should published ea message when canceling guided visiti', () => {
+        spyOn(mockedEa, 'publish');
+
+        sut._cancelGuidedVisit();
+
+        expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:cancel_guided_visit');
     });
 
     it('should deregister callbacks', () => {
@@ -486,9 +496,12 @@ describe('services/api', () => {
 
         it('should play', () => {
             spyOn(mockedWs, 'send');
+            spyOn(sut, '_cancelGuidedVisit');
 
             sut.play({cardName: 'King', cardColor: 'red', x: '0', y: '0'});
 
+            expect(sut._cancelGuidedVisit).toHaveBeenCalled();
+            expect(sut.hasPlayedOnce).toBe(true);
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play,
                 play_request: {
@@ -571,10 +584,12 @@ describe('services/api', () => {
                 }
             };
             spyOn(sut, '_updateGame');
+            spyOn(sut, '_cancelGuidedVisit');
 
             sut._handleMessage(message);
 
             expect(sut._updateGame).toHaveBeenCalled();
+            expect(sut._cancelGuidedVisit).toHaveBeenCalled();
             expect(sut._game.players).toEqual({
                 indexes: [0],
                 names: [undefined],
@@ -586,7 +601,7 @@ describe('services/api', () => {
                     name: 'Tower red',
                     img: '/assets/game/cards/trumps/tower-red.png'
                 }
-            ])
+            ]);
         });
 
         it('should ask name when reconnecting to a freed slot', () => {
