@@ -153,8 +153,6 @@
 .element-infos {
     position: absolute;
     z-index: 500;
-    width: 150px;
-    height: 160px;
     /* Hide outside screen by default */
     top: -500px;
     background-image: url("/assets/game/backgrounds/popup-ingame.png");
@@ -175,6 +173,16 @@
 .element-infos strong {
     color: maroon;
     text-align: center;
+}
+
+.element-infos-standard {
+    width: 150px;
+    height: 160px;
+}
+
+.element-infos-small {
+    width: 100px;
+    height: 2em;
 }
 
 

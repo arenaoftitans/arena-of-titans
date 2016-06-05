@@ -73,6 +73,8 @@ export class AotInfosCustomElement {
                 return 'cards-element-infos';
             case 'trumps':
                 return 'trumps-element-infos';
+            case 'player-name':
+                return 'player-name-element-infos';
             default:
                 throw new Error('Unsuported typein aot-info: ' + this.type);
         }
@@ -108,6 +110,21 @@ export class AotInfosCustomElement {
                 halfInfosWidth +
                 halfCardWidth +
                 'px';
+        } else if (this.type === 'player-name') {
+            let event = this.infos.event;
+
+            this.element.style.width = this.infos.title.length + 'em';
+            this.element.style.height = '2.5em';
+
+            let elementBoundingClientRect = this.element.getBoundingClientRect();
+            this.element.style.top = event.y -
+                1.5 * elementBoundingClientRect.height +
+                'px';
+            this.element.style.left = event.x -
+                elementBoundingClientRect.width / 2 +
+                'px';
+            this.element.style['background-size'] =
+                `${this.element.style.width} ${this.element.style.height}`;
         }
     }
 

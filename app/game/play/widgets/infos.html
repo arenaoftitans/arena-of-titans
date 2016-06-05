@@ -1,6 +1,6 @@
 <template>
     <div id="${type}-element-infos"
-         class="element-infos">
+         class="element-infos ${type === 'player-name' ? 'element-infos-small' : 'element-infos-standard'}">
         <p><strong>${infos.title}</strong></p>
         <p>${infos.description}</p>
     </div>

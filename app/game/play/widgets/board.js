@@ -26,6 +26,7 @@ export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
     _api;
+    infos = {};
     _possibleSquares = [];
 
     constructor(api) {
@@ -55,6 +56,20 @@ export class AotBoardCustomElement {
             this._possibleSquares = [];
             this.selectedCard = null;
         }
+    }
+
+    showPlayerName(index, event) {
+        this.infos = {
+            title: this._api.game.players.names[index],
+            event: event,
+            visible: true,
+        };
+    }
+
+    hidePlayerName() {
+        this.infos = {
+            visible: false,
+        };
     }
 
     get playerIndexes() {
