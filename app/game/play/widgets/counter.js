@@ -18,21 +18,26 @@
 */
 
 import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { Api } from '../../services/api';
 import { Wait } from '../../services/utils';
 import Config from '../../../../config/application.json';
 
 
-@inject(Api, Config)
+@inject(Api, Config, EventAggregator)
 export class AotCounterCustomElement {
     _api;
 
     // In milliseconds to ease calculations.
     static TIME_FOR_TURN = 90000;
+    static COUNTER_REFRESH_TIME = 50;
 
-    constructor(api, config) {
+    constructor(api, config, ea) {
         this._api = api;
         this._config = config;
+        this._ea = ea;
+        this._paused = false;
+        this._pausedDuration = 0;
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
@@ -43,6 +48,13 @@ export class AotCounterCustomElement {
         this.init();
         this._api.on(this._api.requestTypes.play, () => {
             this.init();
+        });
+
+        this._ea.subscribe('aot:notifications:start_guided_visit', () => {
+            this._paused = true;
+        });
+        this._ea.subscribe('aot:notifications:end_guided_visit', () => {
+            this._paused = false;
         });
     }
 
@@ -64,15 +76,21 @@ export class AotCounterCustomElement {
         // Round max time to upper second
         this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
         this.startTime = (new Date()).getTime();
+        this._pausedDuration = 0;
 
         this.timerInterval = setInterval(() => {
-            this.countDownClock();
+            if (this._paused) {
+                this._pausedDuration += AotCounterCustomElement.COUNTER_REFRESH_TIME;
+            } else {
+                this.countDownClock();
+            }
+
             if (this.timeLeft <= 0 && !this._config.test.debug) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
                 this._api.pass();
             }
-        }, 50);
+        }, AotCounterCustomElement.COUNTER_REFRESH_TIME);
     }
 
     countDownClock() {
@@ -80,7 +98,7 @@ export class AotCounterCustomElement {
 
         // Time started, minus time now, subtracked from maxTime seconds
         let currentTime = (new Date()).getTime();
-        this.timeLeft = this.maxTime - (currentTime - this.startTime);
+        this.timeLeft = this.maxTime - (currentTime - this.startTime) + this._pausedDuration;
 
         // Angle to use, defined by 1 millisecond
         this.angle = 2 * Math.PI / (AotCounterCustomElement.TIME_FOR_TURN * 0.001) *

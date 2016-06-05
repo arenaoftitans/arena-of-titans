@@ -126,6 +126,7 @@ export class AotNotificationsCustomElement {
 
     startGuidedVisit() {
         this.proposeGuidedVisit = false;
+        this._ea.publish('aot:notifications:start_guided_visit');
         this._displayNextVisitText();
     }
 
@@ -140,6 +141,7 @@ export class AotNotificationsCustomElement {
         } else {
             setTimeout(() => {
                 this.guidedVisitText = '';
+                this._ea.publish('aot:notifications:end_guided_visit');
             }, GUISED_VISIT_DISPLAY_TIME);
         }
     }

@@ -20,16 +20,18 @@
 import '../../../setup';
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter';
 import { Wait } from '../../../../../app/game/services/utils';
-import { ApiStub } from '../../../utils';
+import { ApiStub, EventAgregatorStub } from '../../../utils';
 
 
 describe('counter', () => {
     let mockedApi;
+    let mockedEa;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new AotCounterCustomElement(mockedApi);
+        mockedEa = new EventAgregatorStub();
+        sut = new AotCounterCustomElement(mockedApi, {}, mockedEa);
     });
 
     it('should start on your turn', done => {

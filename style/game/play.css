@@ -317,6 +317,10 @@
     #counter, #counter-countainer {
         height: 165px;
     }
+
+    .centered-text-timer {
+        top: -135px;
+    }
 }
 
 
