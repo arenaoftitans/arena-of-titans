@@ -18,22 +18,67 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { ImageName, ImageSource } from '../../services/utils';
+import { Options } from '../../../services/options';
 
 
-@inject(Api, I18N)
+const GUIDED_VISIT_TIMEOUT = 3500;
+const GUISED_VISIT_DISPLAY_TIME = 5000;
+const GUIDED_VISIT_BLINK_TIME = 500;
+
+
+let blinkImg = (elements, forceClear) => {
+    for (let elt of elements) {
+        if (elt.classList.contains('blink-img') || forceClear) {
+            elt.classList.remove('blink-img');
+        } else {
+            elt.classList.add('blink-img');
+        }
+    }
+};
+
+let blinkContainer = (container, forceClear) => {
+    if (container.classList.contains('blink-container') || forceClear) {
+        container.classList.remove('blink-container');
+    } else {
+        container.classList.add('blink-container');
+    }
+};
+
+
+@inject(Api, I18N, EventAggregator, Options)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
+    proposeGuidedVisit = false;
+    guidedVisitText;
+    guidedVisitTextIndex = 0;
+    guidedVisitTexts = [
+        'game.visit.intro',
+        'game.visit.goal',
+        'game.visit.cards',
+        'game.visit.trumps',
+        'game.visit.notifications',
+    ];
     _api;
     _lastAction = {};
     _i18n;
+    _ea;
+    _guidedVisitTimeout;
 
-    constructor(api, i18n) {
+    constructor(api, i18n, ea, options) {
         this._api = api;
         this._i18n = i18n;
+        this._ea = ea;
+        this.options = options;
+
+        this._guidedVisitTimeout = setTimeout(() => {
+            this.proposeGuidedVisit = true;
+        }, GUIDED_VISIT_TIMEOUT);
+        this._ea.subscribe('aot:api:cancel_guided_visit', () => this._cancelGuidedVisit());
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
@@ -46,6 +91,11 @@ export class AotNotificationsCustomElement {
         this._api.on(this._api.requestTypes.play_trump, message => {
             this._updateLastAction(message);
         });
+    }
+
+    _cancelGuidedVisit() {
+        clearTimeout(this._guidedVisitTimeout);
+        this.proposeGuidedVisit = false;
     }
 
     _updateLastAction(message) {
@@ -74,6 +124,96 @@ export class AotNotificationsCustomElement {
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
         }
+    }
+
+    startGuidedVisit() {
+        this.proposeGuidedVisit = false;
+        this._ea.publish('aot:notifications:start_guided_visit');
+        this._displayNextVisitText();
+    }
+
+    _displayNextVisitText() {
+        let textId = this.guidedVisitTexts[this.guidedVisitTextIndex];
+        this.guidedVisitText = this._i18n.tr(textId);
+        this._highlightVisitElements(this.guidedVisitTextIndex);
+        this.guidedVisitTextIndex++;
+
+        if (this.guidedVisitTextIndex < this.guidedVisitTexts.length) {
+            setTimeout(() => this._displayNextVisitText(), GUISED_VISIT_DISPLAY_TIME);
+        } else {
+            setTimeout(() => {
+                this.guidedVisitText = '';
+                this._ea.publish('aot:notifications:end_guided_visit');
+                this.options.proposeGuidedVisit = false;
+            }, GUISED_VISIT_DISPLAY_TIME);
+        }
+    }
+
+    _highlightVisitElements(index) {
+        let highlightFunction;
+
+        switch (index) {
+            case 1:
+                highlightFunction = this._highlightLastLine;
+                break;
+            case 2:
+                highlightFunction = this._highlightSquares;
+                break;
+            case 3:
+                highlightFunction = this._highlightTrumps;
+                break;
+            case 4:
+                highlightFunction = this._highlightNotifications;
+                break;
+            default:
+                highlightFunction = null;
+        }
+
+        let blinkCount = 0;
+        if (highlightFunction) {
+            this._makeBlink(highlightFunction, blinkCount);
+        }
+    }
+
+    _highlightLastLine(forceClear) {
+        let lastLineSquares = document.getElementsByClassName('last-line-square');
+        for (let square of lastLineSquares) {
+            if (square.classList.contains('highlightedSquare') || forceClear) {
+                square.classList.remove('highlightedSquare');
+            } else {
+                square.classList.add('highlightedSquare');
+            }
+        }
+    }
+
+    _highlightSquares(forceClear) {
+        let cardsContainer = document.getElementById('cards-img-container');
+        let cards = cardsContainer.getElementsByClassName('card');
+        blinkImg(cards, forceClear);
+    }
+
+    _highlightTrumps(forceClear) {
+        let trumpsContainer = document.getElementById('player-trumps');
+        let trumps = trumpsContainer.getElementsByTagName('img');
+        trumps = Array.prototype.slice.call(trumps, 1);
+        blinkImg(trumps, forceClear);
+    }
+
+    _highlightNotifications(forceClear) {
+        let notifications = document.getElementById('notifications');
+        blinkContainer(notifications);
+    }
+
+    _makeBlink(blinkFn, blinkCount) {
+        setTimeout(() => {
+            blinkFn();
+            blinkCount++;
+            if (blinkCount * GUIDED_VISIT_BLINK_TIME <= GUISED_VISIT_DISPLAY_TIME) {
+                this._makeBlink(blinkFn, blinkCount);
+            } else {
+                blinkFn(true);
+            }
+        }, GUIDED_VISIT_BLINK_TIME);
     }
 
     get playerName() {

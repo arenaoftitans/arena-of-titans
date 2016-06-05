@@ -227,7 +227,7 @@ strong.white-text{
 
 .option img {
     width: 20px;
-    padding-top: 29px;
+    padding-top: 17px;
     padding-right: 5px;
     padding-left: 5px;
     cursor: pointer;
@@ -251,6 +251,18 @@ strong.white-text{
 
 .option:hover .hover-hide {
     display: none;
+}
+
+
+.blink-img {
+    opacity: 0.2 !important;
+}
+
+.blink-container {
+    border-style: solid;
+    border-width: 3px;
+    border-color: maroon;
+    margin: -3px;
 }
 
 

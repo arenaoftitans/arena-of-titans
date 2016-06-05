@@ -29,9 +29,11 @@ export class Options {
             for (let key of Object.keys(savedOptions)) {
                 this[key] = savedOptions[key];
             }
-        } else {
-            this.sound = true;
         }
+
+        this.sound = this.sound === undefined ? true : this.sound;
+        this.proposeGuidedVisit =
+            this.proposeGuidedVisit === undefined ? true : this.proposeGuidedVisit;
 
         for (let key of Object.keys(this)) {
             observerLocator.getObserver(this, key).subscribe(() => storage.saveOptions(this));

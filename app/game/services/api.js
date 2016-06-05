@@ -18,6 +18,7 @@
 */
 
 import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { Notify } from './notify';
 import { Storage } from '../../services/storage';
 import { ImageClass, ImageSource, Wait } from './utils';
@@ -25,7 +26,7 @@ import { Ws } from './ws';
 import Config from '../../../config/application.json';
 
 
-@inject(Ws, Storage, Config, Notify)
+@inject(Ws, Storage, Config, Notify, EventAggregator)
 export class Api {
     requestTypes = {
         init_game: 'INIT_GAME',
@@ -40,6 +41,7 @@ export class Api {
     };
     requestTypesValues = [];
     callbacks = {};
+    _ea;
     _reconnectDefered = {};
     _gameOverDefered = {};
     _errorCallbacks = [];
@@ -48,8 +50,9 @@ export class Api {
     _me;
     _game;
     _config;
+    _hasPlayedOnced = false;
 
-    constructor(ws, storage, config, notify) {
+    constructor(ws, storage, config, notify, ea) {
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
@@ -57,6 +60,7 @@ export class Api {
         });
         this._config = config;
         this._notify = notify;
+        this._ea = ea;
         this._reconnectDefered.promise = new Promise((resolve, reject) => {
             this._reconnectDefered.resolve = resolve;
             this._reconnectDefered.reject = reject;
@@ -239,6 +243,7 @@ export class Api {
 
     _handlePlay(message) {
         if (message.reconnect) {
+            this._cancelGuidedVisit();
             this._handleReconnect(message.reconnect);
         }
 
@@ -435,6 +440,10 @@ export class Api {
     }
 
     play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
+        if (!this._hasPlayedOnced) {
+            this._cancelGuidedVisit();
+            this._hasPlayedOnced = true;
+        }
         this._ws.send({
             rt: this.requestTypes.play,
             play_request: {
@@ -444,6 +453,10 @@ export class Api {
                 y: parseInt(y, 10),
             },
         });
+    }
+
+    _cancelGuidedVisit() {
+        this._ea.publish('aot:api:cancel_guided_visit');
     }
 
     playTrump({trumpName, targetIndex}) {
@@ -494,5 +507,9 @@ export class Api {
 
     get debug() {
         return this._config.test.debug;
+    }
+
+    get hasPlayedOnce() {
+        return this._hasPlayedOnced;
     }
 }

@@ -233,3 +233,12 @@ export class NotifyStub {
     notifyGameOver() {
     }
 }
+
+
+export class EventAgregatorStub {
+    subscribe() {
+    }
+
+    publish() {
+    }
+}

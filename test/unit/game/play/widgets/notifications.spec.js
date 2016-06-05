@@ -19,18 +19,20 @@
 
 import '../../../setup';
 import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications';
-import { ApiStub, I18nStub } from '../../../utils';
+import { ApiStub, I18nStub, EventAgregatorStub } from '../../../utils';
 
 
 describe('notifications', () => {
     let mockedApi;
     let mockedI18n;
+    let mockedEa;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedI18n = new I18nStub();
-        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n);
+        mockedEa = new EventAgregatorStub();
+        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa);
     });
 
     it('should update last action on player played', () => {
@@ -76,5 +78,48 @@ describe('notifications', () => {
         expect(sut.lastAction.trump.description).toBe('trumps.tower_blue_description');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
         expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
+    });
+
+    describe('guided visit', () => {
+        it('should init guided visit timer', () => {
+            spyOn(window, 'setTimeout');
+            spyOn(mockedEa, 'subscribe');
+
+            sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa);
+
+            expect(window.setTimeout).toHaveBeenCalled();
+            expect(mockedEa.subscribe).toHaveBeenCalled();
+            expect(mockedEa.subscribe.calls.mostRecent().args[0]).toBe('aot:api:cancel_guided_visit');
+        });
+
+        it('cancel', () => {
+            spyOn(window, 'clearTimeout');
+            sut.proposeGuidedVisit = true;
+
+            sut._cancelGuidedVisit();
+
+            expect(sut.proposeGuidedVisit).toBe(false);
+            expect(window.clearTimeout).toHaveBeenCalledWith(sut._guidedVisitTimeout);
+        });
+
+        it('start', () => {
+            sut.proposeGuidedVisit = true;
+            spyOn(sut, '_displayNextVisitText');
+
+            sut.startGuidedVisit();
+
+            expect(sut.proposeGuidedVisit).toBe(false);
+            expect(sut._displayNextVisitText).toHaveBeenCalled();
+        });
+
+        it('display', () => {
+            let initialGuidedVisitIndex = sut.guidedVisitTextIndex;
+            spyOn(sut, '_highlightVisitElements');
+
+            sut._displayNextVisitText();
+
+            expect(sut.guidedVisitTextIndex).toBe(initialGuidedVisitIndex + 1);
+            expect(sut._highlightVisitElements).toHaveBeenCalledWith(initialGuidedVisitIndex);
+        });
     });
 });

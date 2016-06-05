@@ -61,6 +61,14 @@
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
             "whose_turn_message": "C'est le tour de <br /><strong class=\"white-text\">{{playerName}}</strong>",
             "your_turn": "C'est ton tour !"
+        },
+        "visit": {
+            "cards": "Pour cela, tu peux utiliser les cartes de d\u00e9placement. Lorsque tu cliques sur une carte, les cases possibles sont mise en \u00e9vidence sur le plateau.",
+            "goal": "Le but du jeu est d'atteindre le plus vite possible la derni\u00e8re ligne et d'y rester un tour complet.",
+            "intro": "Tu as l'air nouveau. Laisse moi t'aider un peu.",
+            "notifications": "Les derni\u00e8res actions jou\u00e9es sont visibles ici",
+            "propose": "Besoin d'aide ?",
+            "trumps": "Tu peux \u00e9galement utiliser des atouts pour te renforcer ou mettre des p\u00e9nalit\u00e9s \u00e0 d'autres joueurs."
         }
     },
     "global": {
