@@ -20,7 +20,7 @@
 
         <div>
             <button class="button-light"
-                    if.bind="proposeGuidedVisit"
+                    if.bind="proposeGuidedVisit && options.proposeGuidedVisit"
                     click.delegate="startGuidedVisit()"
                     t="game.visit.propose">Propose guide visit</button>
             <p>${guidedVisitText}</p>

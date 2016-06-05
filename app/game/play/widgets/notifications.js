@@ -22,6 +22,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { ImageName, ImageSource } from '../../services/utils';
+import { Options } from '../../../services/options';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;
@@ -48,7 +49,7 @@ let blinkContainer = (container, forceClear) => {
 };
 
 
-@inject(Api, I18N, EventAggregator)
+@inject(Api, I18N, EventAggregator, Options)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
@@ -68,10 +69,11 @@ export class AotNotificationsCustomElement {
     _ea;
     _guidedVisitTimeout;
 
-    constructor(api, i18n, ea) {
+    constructor(api, i18n, ea, options) {
         this._api = api;
         this._i18n = i18n;
         this._ea = ea;
+        this.options = options;
 
         this._guidedVisitTimeout = setTimeout(() => {
             this.proposeGuidedVisit = true;
@@ -142,6 +144,7 @@ export class AotNotificationsCustomElement {
             setTimeout(() => {
                 this.guidedVisitText = '';
                 this._ea.publish('aot:notifications:end_guided_visit');
+                this.options.proposeGuidedVisit = false;
             }, GUISED_VISIT_DISPLAY_TIME);
         }
     }
