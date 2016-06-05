@@ -92,10 +92,6 @@ button[disabled] {
     text-align: center;
 }
 
-.centered-important strong {
-    color: maroon;
-}
-
 .centered-block {
     display: block;
     margin: auto;
@@ -117,7 +113,12 @@ button[disabled] {
     font-family: 'Old English Text MT';
 }
 
-.white-text{
+.centered-important strong {
+    color: maroon;
+}
+
+.white-text,
+strong.white-text{
     color: white;
 }
 

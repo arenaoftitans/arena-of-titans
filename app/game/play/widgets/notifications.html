@@ -22,14 +22,14 @@
              if.bind="lastAction && lastAction.img" />
 
         <div if.bind="lastAction && lastAction.card">
-            <p class="centered-important"><strong>${lastAction.card.title}</strong></p>
+            <p class="centered-important"><strong class="white-text">${lastAction.card.title}</strong></p>
             <p>
                 ${lastAction.card.description}
             </p>
         </div>
 
         <div if.bind="lastAction && lastAction.trump">
-            <p class="centered-important"><strong>${lastAction.trump.title}</strong></p>
+            <p class="centered-important"><strong class="white-text">${lastAction.trump.title}</strong></p>
             <p>
                 ${lastAction.trump.description}
             </p>
