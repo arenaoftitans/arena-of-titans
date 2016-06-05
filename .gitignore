@@ -7,3 +7,4 @@
 /coverage
 /public
 config/application.json
+npm-debug.log
