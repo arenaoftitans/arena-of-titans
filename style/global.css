@@ -253,6 +253,18 @@ button[disabled] {
 }
 
 
+.blink-img {
+    opacity: 0.2 !important;
+}
+
+.blink-container {
+    border-style: solid;
+    border-width: 3px;
+    border-color: maroon;
+    margin: -3px;
+}
+
+
 /* latin-ext */
 @font-face {
     font-family: 'Berkshire Swash';

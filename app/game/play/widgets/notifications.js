@@ -26,6 +26,26 @@ import { ImageName, ImageSource } from '../../services/utils';
 
 const GUIDED_VISIT_TIMEOUT = 3500;
 const GUISED_VISIT_DISPLAY_TIME = 5000;
+const GUIDED_VISIT_BLINK_TIME = 500;
+
+
+let blinkImg = (elements, forceClear) => {
+    for (let elt of elements) {
+        if (elt.classList.contains('blink-img') || forceClear) {
+            elt.classList.remove('blink-img');
+        } else {
+            elt.classList.add('blink-img');
+        }
+    }
+};
+
+let blinkContainer = (container, forceClear) => {
+    if (container.classList.contains('blink-container') || forceClear) {
+        container.classList.remove('blink-container');
+    } else {
+        container.classList.add('blink-container');
+    }
+};
 
 
 @inject(Api, I18N, EventAggregator)
@@ -112,6 +132,7 @@ export class AotNotificationsCustomElement {
     _displayNextVisitText() {
         let textId = this.guidedVisitTexts[this.guidedVisitTextIndex];
         this.guidedVisitText = this._i18n.tr(textId);
+        this._highlightVisitElements(this.guidedVisitTextIndex);
         this.guidedVisitTextIndex++;
 
         if (this.guidedVisitTextIndex < this.guidedVisitTexts.length) {
@@ -121,6 +142,73 @@ export class AotNotificationsCustomElement {
                 this.guidedVisitText = '';
             }, GUISED_VISIT_DISPLAY_TIME);
         }
+    }
+
+    _highlightVisitElements(index) {
+        let highlightFunction;
+
+        switch (index) {
+            case 1:
+                highlightFunction = this._highlightLastLine;
+                break;
+            case 2:
+                highlightFunction = this._highlightSquares;
+                break;
+            case 3:
+                highlightFunction = this._highlightTrumps;
+                break;
+            case 4:
+                highlightFunction = this._highlightNotifications;
+                break;
+            default:
+                highlightFunction = null;
+        }
+
+        let blinkCount = 0;
+        if (highlightFunction) {
+            this._makeBlink(highlightFunction, blinkCount);
+        }
+    }
+
+    _highlightLastLine(forceClear) {
+        let lastLineSquares = document.getElementsByClassName('last-line-square');
+        for (let square of lastLineSquares) {
+            if (square.classList.contains('highlightedSquare') || forceClear) {
+                square.classList.remove('highlightedSquare');
+            } else {
+                square.classList.add('highlightedSquare');
+            }
+        }
+    }
+
+    _highlightSquares(forceClear) {
+        let cardsContainer = document.getElementById('cards-img-container');
+        let cards = cardsContainer.getElementsByClassName('card');
+        blinkImg(cards, forceClear);
+    }
+
+    _highlightTrumps(forceClear) {
+        let trumpsContainer = document.getElementById('player-trumps');
+        let trumps = trumpsContainer.getElementsByTagName('img');
+        trumps = Array.prototype.slice.call(trumps, 1);
+        blinkImg(trumps, forceClear);
+    }
+
+    _highlightNotifications(forceClear) {
+        let notifications = document.getElementById('notifications');
+        blinkContainer(notifications);
+    }
+
+    _makeBlink(blinkFn, blinkCount) {
+        setTimeout(() => {
+            blinkFn();
+            blinkCount++;
+            if (blinkCount * GUIDED_VISIT_BLINK_TIME <= GUISED_VISIT_DISPLAY_TIME) {
+                this._makeBlink(blinkFn, blinkCount);
+            } else {
+                blinkFn(true);
+            }
+        }, GUIDED_VISIT_BLINK_TIME);
     }
 
     get playerName() {

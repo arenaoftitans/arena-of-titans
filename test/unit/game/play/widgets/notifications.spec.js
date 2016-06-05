@@ -114,10 +114,12 @@ describe('notifications', () => {
 
         it('display', () => {
             let initialGuidedVisitIndex = sut.guidedVisitTextIndex;
+            spyOn(sut, '_highlightVisitElements');
 
             sut._displayNextVisitText();
 
             expect(sut.guidedVisitTextIndex).toBe(initialGuidedVisitIndex + 1);
+            expect(sut._highlightVisitElements).toHaveBeenCalledWith(initialGuidedVisitIndex);
         });
     });
 });
