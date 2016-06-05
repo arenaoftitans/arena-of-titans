@@ -59,7 +59,7 @@
             "pass": "Passer",
             "pass_confirm_message": "Es-tu s\u00fbr de vouloir passer ton tour ?",
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
-            "whose_turn_message": "C'est le tour de <br /><strong>{{playerName}}</strong>",
+            "whose_turn_message": "C'est le tour de <br /><strong class=\"white-text\">{{playerName}}</strong>",
             "your_turn": "C'est ton tour !"
         }
     },
@@ -71,8 +71,9 @@
         "me": "Moi",
         "name": "Nom",
         "ok": "OK",
+        "propose_guided_visit_option": "Proposer la visite guid\u00e9e",
         "save": "Sauvegarder",
-        "sound_option": "Activer/D\u00e9sactiver les sonds"
+        "sound_option": "Activer/D\u00e9sactiver les sons"
     },
     "site": {
         "connection_button": "Se connecter",
@@ -88,7 +89,8 @@
             "pitch": "<strong>Oserez-vous entrer dans l'Ar\u00e8ne des Titans ?</strong><br>                 Cr\u00e9ez votre parcours \u00e0 l\u2019aide de vos cartes D\u00e9placement,<br>                 Utilisez celles de vos adversaires pour les devancer,<br>                 Bloquez-les \u00e0 l\u2019aide de vos Atouts,<br>                 Arrivez en premier\u2026<br>                 Et Survivez !             ",
             "slider1": "Un gameplay unique",
             "slider2": "D\u00e9fiez jusqu'\u00e0 7 de vos amis",
-            "slider3": "Version B\u00eata disponible !"
+            "slider3": "Version B\u00eata disponible !",
+            "tutorial": "<strong>Tutoriel</strong>"
         },
         "rules": {
             "heroes": "Choisissez votre H\u00e9ros parmi les 8 peuples.<br/>\n                Chaque H\u00e9ros poss\u00e8de une comp\u00e9tence sp\u00e9cifique qui vient compl\u00e9ter votre Build.",

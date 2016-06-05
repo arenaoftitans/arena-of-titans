@@ -59,7 +59,7 @@
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",
             "select_trump_target": "Who should be the target of {{trumpname}}?",
-            "whose_turn_message": "It is the turn of <br /><strong>{{playerName}}</strong>",
+            "whose_turn_message": "It is the turn of <br /><strong class=\"white-text\">{{playerName}}</strong>",
             "your_turn": "It's your turn!"
         }
     },
@@ -71,6 +71,7 @@
         "me": "Me",
         "name": "Name",
         "ok": "OK",
+        "propose_guided_visit_option": "Propose guided visit",
         "save": "Save",
         "sound_option": "Enable/Disable sound"
     },
@@ -88,7 +89,8 @@
             "pitch": "<strong>Will you dare enter in the Arena of Titans?</strong><br>                 Create your path with the movements cards,<br>                 Use those of your oponents to move faster,<br>                 Block them with your trumps,<br>                 Arrive fist\u2026<br>                 And survive!",
             "slider1": "A unique gameplay",
             "slider2": "Challenge up to 7 of your friends",
-            "slider3": "Beta Version is available !"
+            "slider3": "Beta Version is available !",
+            "tutorial": "<strong>Tutorial</strong>"
         },
         "rules": {
             "heroes": "Choisissez votre H\u00e9ros parmi les 8 peuples.<br/>\n                Chaque H\u00e9ros poss\u00e8de une comp\u00e9tence sp\u00e9cifique qui vient compl\u00e9ter votre Build.",
