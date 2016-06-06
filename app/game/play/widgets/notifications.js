@@ -23,6 +23,7 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../services/api';
 import { ImageName, ImageSource } from '../../services/utils';
 import { Options } from '../../../services/options';
+import { browsers } from '../../../services/browser-sniffer';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;
@@ -30,25 +31,10 @@ const GUISED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-let ua = navigator.userAgent;
-let msie = +((/msie (\d+)/.exec(ua.toLowerCase()) || [])[1]);
-if (isNaN(msie)) {
-    msie = +((/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1]);
-}
-if (isNaN(msie)) {
-    msie = +((/edge\/(\d+)\./.exec(ua.toLowerCase()) || [])[1]);
-}
-if (isNaN(msie)) {
-    msie = false;
-}
-
-let mac = !msie && /\(Mac/.test(ua);
-
-
 let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
 
 let blinkImg = (elements, forceClear) => {
-    if (msie || mac) {
+    if (browsers.msie || browsers.mac) {
         elements = htmlCollection2Array(elements);
     }
 
@@ -199,7 +185,7 @@ export class AotNotificationsCustomElement {
     _highlightLastLine(forceClear) {
         let lastLineSquares = document.getElementsByClassName('last-line-square');
 
-        if (msie || mac) {
+        if (browsers.msie || browsers.mac) {
             lastLineSquares = htmlCollection2Array(lastLineSquares);
         }
 
