@@ -42,11 +42,13 @@ if (isNaN(msie)) {
     msie = false;
 }
 
+let mac = !msie && /\(Mac/.test(ua);
+
 
 let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
 
 let blinkImg = (elements, forceClear) => {
-    if (msie) {
+    if (msie || mac) {
         elements = htmlCollection2Array(elements);
     }
 
@@ -197,7 +199,7 @@ export class AotNotificationsCustomElement {
     _highlightLastLine(forceClear) {
         let lastLineSquares = document.getElementsByClassName('last-line-square');
 
-        if (msie) {
+        if (msie || mac) {
             lastLineSquares = htmlCollection2Array(lastLineSquares);
         }
 
