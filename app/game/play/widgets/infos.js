@@ -117,10 +117,12 @@ export class AotInfosCustomElement {
             this.element.style.height = '2.5em';
 
             let elementBoundingClientRect = this.element.getBoundingClientRect();
-            this.element.style.top = event.y -
+            let y = event.y || event.clientY || 0;
+            let x = event.x || event.clientX || 0;
+            this.element.style.top = y -
                 1.5 * elementBoundingClientRect.height +
                 'px';
-            this.element.style.left = event.x -
+            this.element.style.left = x -
                 elementBoundingClientRect.width / 2 +
                 'px';
             this.element.style['background-size'] =
