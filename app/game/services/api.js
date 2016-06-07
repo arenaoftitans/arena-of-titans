@@ -232,6 +232,7 @@ export class Api {
             return card;
         });
         this._me.has_won = message.has_won;
+        this._me.on_last_line = message.on_last_line;
         this._me.rank = message.rank;
         this._me.elapsed_time = message.elapsed_time;
         this._updateAffectingTrumps(message.active_trumps);

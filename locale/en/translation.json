@@ -52,6 +52,8 @@
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "What do you want to do?",
+            "complete_turn": "Complete the turn",
+            "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
             "discard": "Discard",
             "discard_no_selected_card": "You must select a card",
             "game_over": "You just completed the game! Your rank:",

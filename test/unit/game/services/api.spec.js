@@ -325,6 +325,7 @@ describe('services/api', () => {
         let elapsedTime = 12;
         let message = {
             your_turn: true,
+            on_last_line: false,
             has_won: false,
             rank: -1,
             next_player: 0,
@@ -368,6 +369,7 @@ describe('services/api', () => {
             img: '/assets/game/cards/trumps/reinforcements.png'
         }]);
         expect(sut._me.elapsed_time).toBe(elapsedTime);
+        expect(sut._me.on_last_line).toBe(false);
     });
 
     it('should handle player played', () => {

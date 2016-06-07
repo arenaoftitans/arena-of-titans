@@ -60,7 +60,12 @@ export class AotCardsCustomElement {
     }
 
     pass() {
-        let message =  this._i18n.tr('game.play.pass_confirm_message');
+        let message;
+        if (this.onLastLine) {
+            message = this._i18n.tr('game.play.complete_turn_confirm_message');
+        } else {
+            message = this._i18n.tr('game.play.pass_confirm_message');
+        }
         this._game.popup('confirm', {message: message}).then(() => {
             this._api.pass();
             this.selectedCard = null;
@@ -90,6 +95,10 @@ export class AotCardsCustomElement {
 
     get yourTurn() {
         return this._api.game.your_turn;
+    }
+
+    get onLastLine() {
+        return this._api.me.on_last_line;
     }
 
     get hand() {

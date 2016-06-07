@@ -14,8 +14,10 @@
     <div id="cards-actions" if.bind="!hasWon">
         <button class="button-dark"
                 click.delegate="pass()"
-                disabled.bind="!yourTurn"
-                t="game.play.pass">Pass</button>
+                disabled.bind="!yourTurn">
+                <span if.bind="!onLastLine" t="game.play.pass">Pass</span>
+                <span if.bind="onLastLine" t="game.play.complete_turn">Complete turn</span>
+        </button>
         <button class="button-light"
                 click.delegate="discard()"
                 disabled.bind="!yourTurn"

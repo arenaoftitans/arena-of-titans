@@ -52,6 +52,8 @@
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
+            "complete_turn": "Terminer le tour",
+            "complete_turn_confirm_message": "\u00cates-vous s\u00fbr de vouloir terminer le tour ?",
             "discard": "D\u00e9fausser",
             "discard_no_selected_card": "Tu dois s\u00e9lectionner une carte",
             "game_over": "Tu viens de terminer le jeu ! Ton rang :",
