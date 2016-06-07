@@ -51,6 +51,7 @@
         },
         "game_over": "Game Over",
         "play": {
+            "back_home_popup_title": "Que voulez-vous faire ?",
             "discard": "D\u00e9fausser",
             "discard_no_selected_card": "Tu dois s\u00e9lectionner une carte",
             "game_over": "Tu viens de terminer le jeu ! Ton rang :",

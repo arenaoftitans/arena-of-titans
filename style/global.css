@@ -78,6 +78,11 @@ button[disabled] {
 }
 
 
+.pointer {
+    cursor: pointer;
+}
+
+
 .display-table {
     display: table;
 }

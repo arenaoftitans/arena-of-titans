@@ -51,6 +51,7 @@
         },
         "game_over": "Game Over",
         "play": {
+            "back_home_popup_title": "What do you want to do?",
             "discard": "Discard",
             "discard_no_selected_card": "You must select a card",
             "game_over": "You just completed the game! Your rank:",

@@ -3,6 +3,7 @@
     <require from="./infos"></require>
     <require from="./confirm"></require>
     <require from="./game-over"></require>
+    <require from="./back-home"></require>
 
     <div class="popup">
     </div>
@@ -19,5 +20,8 @@
         <aot-game-over if.bind="type === 'game-over'"
                        data.bind="data"
                        done.bind="done"></aot-game-over>
+        <aot-back-home if.bind="type === 'back-home'"
+                       data.bind="data"
+                       done.bind="done"></aot-back-home>
     </div>
 </template>

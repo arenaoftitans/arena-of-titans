@@ -45,6 +45,10 @@ export class Play {
         });
     }
 
+    backHome() {
+        this._game.popup('back-home', {});
+    }
+
     get me() {
         return this._api.me;
     }
