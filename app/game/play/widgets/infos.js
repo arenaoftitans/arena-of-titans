@@ -113,7 +113,7 @@ export class AotInfosCustomElement {
         } else if (this.type === 'player-name') {
             let event = this.infos.event;
 
-            this.element.style.width = this.infos.title.length + 'em';
+            this.element.style.width = this.infos.title.length + 2 + 'em';
             this.element.style.height = '2.5em';
 
             let elementBoundingClientRect = this.element.getBoundingClientRect();
