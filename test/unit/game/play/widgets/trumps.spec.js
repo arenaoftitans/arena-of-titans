@@ -62,6 +62,7 @@ describe('trumps', () => {
                     index: 1
                 }
             ],
+            'title': 'trumps.trump',
             description: 'trumps.trump_description',
             }
         );

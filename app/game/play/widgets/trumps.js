@@ -58,6 +58,7 @@ export class AotTrumpsCustomElement {
                     message: this._i18n.tr(
                         'game.play.select_trump_target',
                         {trumpname: this.getTranslatedTrumpTitle(trump)}),
+                    title: this.getTranslatedTrumpTitle(trump),
                     description: this.getTranslatedTrumpDescription(trump),
                     choices: otherPlayerNames,
                 }).then(targetIndex => {

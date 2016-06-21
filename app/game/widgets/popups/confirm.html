@@ -1,8 +1,12 @@
 <template>
     <div class="x-margin">
-        <p class="centered-text">${data.message}</p>
+        <p class="centered-important" if.bind="data.title">
+            <strong class="white-text">${data.title}</strong>
+        </p>
 
         <p class="centered-text" if.bind="data.description">${data.description}</p>
+
+        <p class="centered-text">${data.message}</p>
 
         <form if.bind="data.choices">
             <label repeat.for="choice of data.choices">
