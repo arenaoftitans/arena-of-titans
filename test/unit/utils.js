@@ -198,6 +198,13 @@ export class StorageStub {
 
     loadOptions() {
     }
+
+    loadPlayerInfos() {
+        return {name: '', hero: ''};
+    }
+
+    savePlayerInfos() {
+    }
 }
 
 

@@ -18,6 +18,7 @@
 */
 
 const OPTIONS_KEY = 'options';
+const PLAYER_INFOS_KEY = 'player';
 
 
 export class Storage {
@@ -37,5 +38,13 @@ export class Storage {
 
     loadOptions() {
         return JSON.parse(localStorage.getItem(OPTIONS_KEY));
+    }
+
+    savePlayerInfos(infos) {
+        localStorage.setItem(PLAYER_INFOS_KEY, JSON.stringify(infos));
+    }
+
+    loadPlayerInfos() {
+        return JSON.parse(localStorage.getItem(PLAYER_INFOS_KEY)) || {name: '', hero: ''};
     }
 }

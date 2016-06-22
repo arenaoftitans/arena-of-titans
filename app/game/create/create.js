@@ -75,7 +75,7 @@ export class Create {
         Wait.flushCache();
         this._api.init();
         this.initPlayerInfoDefered();
-        this.playerInfo = {name: '', hero: ''};
+        this.playerInfo = this._storage.loadPlayerInfos();
         this.editing = false;
         this._registerApiCallbacks(params);
 
@@ -106,6 +106,7 @@ export class Create {
         this.playerInfoDefered.promise = new Promise((resolve, reject) => {
             this.playerInfoDefered.resolve = resolve;
         });
+        this.playerInfoDefered.promise.then(data => this._storage.savePlayerInfos(data));
     }
 
     _registerApiCallbacks(params) {

@@ -103,6 +103,8 @@ describe('game/create', () => {
 
     it('should ask the player name when joining a game', done => {
         spyOn(mockedApi, 'joinGame');
+        spyOn(mockedStorage, 'loadPlayerInfos');
+        spyOn(mockedStorage, 'savePlayerInfos');
 
         sut.activate({id: 'game_id'});
         sut.playerInfoDefered.resolve({
@@ -110,8 +112,10 @@ describe('game/create', () => {
             hero: 'daemon',
         });
 
+        expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
         sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester', hero: 'daemon'});
+            expect(mockedStorage.savePlayerInfos).toHaveBeenCalledWith({name: 'Tester', hero: 'daemon'});
             done();
         });
     });
