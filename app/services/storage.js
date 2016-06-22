@@ -37,7 +37,7 @@ export class Storage {
     }
 
     loadOptions() {
-        return JSON.parse(localStorage.getItem(OPTIONS_KEY));
+        return JSON.parse(localStorage.getItem(OPTIONS_KEY)) || {};
     }
 
     savePlayerInfos(infos) {

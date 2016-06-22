@@ -36,7 +36,7 @@ describe('app/services/options', () => {
     });
 
     it('construct from empty storage', () => {
-        spyOn(mockedStorage, 'loadOptions');
+        spyOn(mockedStorage, 'loadOptions').and.returnValue({});
         spyOn(mockedObserver, 'getObserver').and.callThrough();
 
         sut = new Options(mockedStorage, mockedObserver);

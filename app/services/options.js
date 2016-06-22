@@ -25,10 +25,8 @@ import { Storage } from './storage';
 export class Options {
     constructor(storage, observerLocator) {
         let savedOptions = storage.loadOptions();
-        if (savedOptions) {
-            for (let key of Object.keys(savedOptions)) {
-                this[key] = savedOptions[key];
-            }
+        for (let key of Object.keys(savedOptions)) {
+            this[key] = savedOptions[key];
         }
 
         this.sound = this.sound === undefined ? true : this.sound;
