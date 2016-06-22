@@ -4,6 +4,7 @@
     <require from="./confirm"></require>
     <require from="./game-over"></require>
     <require from="./back-home"></require>
+    <require from="./player-box-infos"></require>
 
     <div class="popup">
     </div>
@@ -23,5 +24,8 @@
         <aot-back-home if.bind="type === 'back-home'"
                        data.bind="data"
                        done.bind="done"></aot-back-home>
+        <aot-player-box-infos if.bind="type === 'player-box'"
+                              data.bind="data"
+                              done.bind="done"></aot-player-box-infos>
     </div>
 </template>

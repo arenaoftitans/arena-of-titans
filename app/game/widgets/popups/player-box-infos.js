@@ -18,26 +18,26 @@
 */
 
 import { bindable } from 'aurelia-framework';
+import { ImageSource } from '../../services/utils';
 
 
-export class AotPopupCustomElement {
+export class AotPlayerBoxInfosCustomElement {
     @bindable data = null;
-    @bindable type = null;
     @bindable done = null;
 
-    background = '';
-
     bind() {
-        switch (this.type) {
-            case 'game-over':
-                this.background = 'game-over';
-                break;
-            case 'player-box':
-                this.background = 'player-box';
-                break;
-            default:
-                this.background = 'default';
-                break;
-        }
+        let numberClicks = 0;
+        let onClick = () => {
+            numberClicks++;
+            if (numberClicks >= 2) {
+                this.done.resolve();
+                removeEventListener('click', onClick);
+            }
+        };
+        addEventListener('click', onClick);
+    }
+
+    get heroSource() {
+        return ImageSource.forCircledHero(this.data.hero);
     }
 }

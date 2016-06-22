@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
+* Copyright (C) 2016 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -17,16 +17,32 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
+import { Game } from '../../game';
 
 
+@inject(Game)
 export class AotPlayerBoxCustomElement {
     @bindable index;
     @bindable players;
 
+    constructor(game) {
+        this._game = game;
+    }
+
     bind() {
         this.playerBoxIndex = `player-box-${this.index}`;
         this.playerBoxCircleIndex = `player-box-circle-${this.index}`;
+    }
+
+    viewPlayerInfos() {
+        this._game.popup(
+            'player-box',
+            {
+                playerName: this.playerName,
+                hero: this.players.heroes[this.index],
+            }
+        );
     }
 
     get playerName() {
