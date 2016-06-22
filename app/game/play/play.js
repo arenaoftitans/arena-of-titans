@@ -60,4 +60,8 @@ export class Play {
     get myName() {
         return this._api.me.name;
     }
+
+    get players() {
+        return this._api.game.players;
+    }
 }
