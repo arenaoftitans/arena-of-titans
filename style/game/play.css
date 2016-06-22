@@ -95,12 +95,12 @@
 
 .player-box {
     height: 25px;
-    width: 100px;
+    min-width: 90px;
     position: absolute;
     background-color: black;
     border: medium solid white;
     border-radius: 10px;
-    padding: 0;
+    padding-right: 0.5em;
 }
 
 .player-box-circle {
