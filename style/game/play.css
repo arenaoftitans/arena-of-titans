@@ -101,6 +101,9 @@
     border: medium solid white;
     border-radius: 10px;
     padding-right: 0.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 .player-box-circle {
