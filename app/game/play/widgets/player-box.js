@@ -40,6 +40,7 @@ export class AotPlayerBoxCustomElement {
             'player-box',
             {
                 playerName: this.playerName,
+                playerIndex: this.index,
                 hero: this.players.heroes[this.index],
             }
         );

@@ -23,11 +23,12 @@ import { Game } from '../game';
 import { Api } from '../services/api';
 import { Wait } from '../services/utils';
 import { Storage } from '../../services/storage';
+import { History } from '../services/history';
 import Config from '../../../config/application.json';
 import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
 
 
-@inject(Router, Api, Storage, Config, ObserverLocator)
+@inject(Router, Api, Storage, Config, ObserverLocator, History)
 export class Create {
     _router;
     _api;
@@ -35,13 +36,15 @@ export class Create {
     _gameUrl = '';
     _config;
     _observerLocator;
+    _history;
 
-    constructor(router, api, storage, config, observerLocator) {
+    constructor(router, api, storage, config, observerLocator, history) {
         this._router = router;
         this._api = api;
         this._storage = storage;
         this._config = config;
         this._observerLocator = observerLocator;
+        this._history = history;
     }
 
     activate(params = {}) {
@@ -74,6 +77,7 @@ export class Create {
     init(params) {
         Wait.flushCache();
         this._api.init();
+        this._history.init();
         this.initPlayerInfoDefered();
         this.playerInfo = this._storage.loadPlayerInfos();
         this.editing = false;

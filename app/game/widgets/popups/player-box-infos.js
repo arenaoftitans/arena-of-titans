@@ -17,13 +17,20 @@
 * along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import { ImageSource } from '../../services/utils';
+import { History } from '../../services/history';
 
 
+@inject(History)
 export class AotPlayerBoxInfosCustomElement {
     @bindable data = null;
     @bindable done = null;
+    _history;
+
+    constructor(history) {
+        this._history = history;
+    }
 
     bind() {
         let numberClicks = 0;
@@ -39,5 +46,14 @@ export class AotPlayerBoxInfosCustomElement {
 
     get heroSource() {
         return ImageSource.forCircledHero(this.data.hero);
+    }
+
+    get lastPlayedCards() {
+        let images = [];
+        for (let card of this._history.getLastPlayedCards(this.data.playerIndex)) {
+            images.push(ImageSource.forCard(card));
+        }
+
+        return images;
     }
 }

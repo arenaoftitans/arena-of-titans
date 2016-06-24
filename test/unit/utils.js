@@ -250,3 +250,9 @@ export class EventAgregatorStub {
     publish() {
     }
 }
+
+
+export class HistoryStub {
+    init() {
+    }
+}

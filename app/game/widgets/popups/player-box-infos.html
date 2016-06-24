@@ -4,5 +4,9 @@
             <img src="${heroSource}" width="100px" />
             <strong class="white-text">${data.playerName}</strong>
         </h1>
+
+        <div>
+            <img repeat.for="card of lastPlayedCards" src.bind="card" />
+        </div>
     </div>
 </template>
