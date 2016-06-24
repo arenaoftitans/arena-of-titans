@@ -32,15 +32,24 @@ export class History {
 
     init() {
         this._api.on(this._api.requestTypes.player_played, message => {
-            this._addEntry(message);
+            this._addEntry(message.last_action);
+        });
+
+        this._api.onReconnectDefered.then(message => {
+            let history = message.history;
+            for (let playerHistory of history) {
+                for (let action of playerHistory) {
+                    this._addEntry(action);
+                }
+            }
         });
 
         // Map each players to his/her two last played cards.
         this._history = {};
     }
 
-    _addEntry(message) {
-        let lastAction = message.last_action || {};
+    _addEntry(action) {
+        let lastAction = action || {};
         let playerIndex = lastAction.player_index;
         let hist = this._getHistoryForPlayer(playerIndex);
 

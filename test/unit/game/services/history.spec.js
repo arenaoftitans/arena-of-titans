@@ -47,10 +47,8 @@ describe('services/history', () => {
 
         it('should return one card if one entry', () => {
             sut._addEntry({
-                last_action: {
-                    card: 'card',
-                    player_index: 0,
-                },
+                card: 'card',
+                player_index: 0,
             });
 
             expect(sut.getLastPlayedCards(0)).toEqual(['card']);
@@ -58,16 +56,12 @@ describe('services/history', () => {
 
         it('should return two cards if two entries', () => {
             sut._addEntry({
-                last_action: {
-                    card: 'card1',
-                    player_index: 0,
-                },
+                card: 'card1',
+                player_index: 0,
             });
             sut._addEntry({
-                last_action: {
-                    card: 'card2',
-                    player_index: 0,
-                },
+                card: 'card2',
+                player_index: 0,
             });
 
             expect(sut.getLastPlayedCards(0)).toEqual(['card1', 'card2']);
@@ -75,22 +69,16 @@ describe('services/history', () => {
 
         it('should return the two last cards if more than two entries', () => {
             sut._addEntry({
-                last_action: {
-                    card: 'card1',
-                    player_index: 0,
-                },
+                card: 'card1',
+                player_index: 0,
             });
             sut._addEntry({
-                last_action: {
-                    card: 'card2',
-                    player_index: 0,
-                },
+                card: 'card2',
+                player_index: 0,
             });
             sut._addEntry({
-                last_action: {
-                    card: 'card3',
-                    player_index: 0,
-                },
+                card: 'card3',
+                player_index: 0,
             });
 
             expect(sut.getLastPlayedCards(0)).toEqual(['card2', 'card3']);
