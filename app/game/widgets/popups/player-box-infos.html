@@ -8,5 +8,9 @@
         <div>
             <img repeat.for="card of lastPlayedCards" src.bind="card" />
         </div>
+
+        <div>
+            <img repeat.for="trump of activeTrumps" src.bind="trump" />
+        </div>
     </div>
 </template>

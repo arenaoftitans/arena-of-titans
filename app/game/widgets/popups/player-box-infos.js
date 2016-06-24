@@ -20,16 +20,19 @@
 import { bindable, inject } from 'aurelia-framework';
 import { ImageSource } from '../../services/utils';
 import { History } from '../../services/history';
+import { Api } from '../../services/api';
 
 
-@inject(History)
+@inject(History, Api)
 export class AotPlayerBoxInfosCustomElement {
     @bindable data = null;
     @bindable done = null;
     _history;
+    _api;
 
-    constructor(history) {
+    constructor(history, api) {
         this._history = history;
+        this._api = api;
     }
 
     bind() {
@@ -52,6 +55,16 @@ export class AotPlayerBoxInfosCustomElement {
         let images = [];
         for (let card of this._history.getLastPlayedCards(this.data.playerIndex)) {
             images.push(ImageSource.forCard(card));
+        }
+
+        return images;
+    }
+
+    get activeTrumps() {
+        let trumps = this._api.game.active_trumps[this.data.playerIndex].trumps;
+        let images = [];
+        for (let trump of trumps) {
+            images.push(ImageSource.forTrump(trump));
         }
 
         return images;
