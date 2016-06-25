@@ -3,6 +3,7 @@
     <require from="./widgets/cards"></require>
     <require from="./widgets/counter"></require>
     <require from="./widgets/notifications"></require>
+    <require from="./widgets/player-box"></require>
     <require from="./widgets/trumps"></require>
 
     <header>
@@ -19,6 +20,9 @@
 
         <div class="play-middle">
             <div id="board-bg">
+                <aot-player-box repeat.for="index of players.indexes"
+                                index.bind="index"
+                                players.bind="players"></aot-player-box>
                 <div id="board-container">
                     <aot-board selected-card.two-way="selectedCard" player-index.bind="me.index"></aot-board>
                 </div>

@@ -176,6 +176,11 @@ strong.white-text{
     background-size: 100% 100%;
 }
 
+.popup-player-box {
+    background: url(/assets/game/backgrounds/popup-ingame.png) no-repeat;
+    background-size: 100% 100%;
+}
+
 .popup-content.game-over .x-margin {
     margin-left: 46%;
 }
@@ -197,6 +202,25 @@ strong.white-text{
     margin-left: 16%;
 }
 
+aot-player-box-infos div {
+    margin-top: -28px;
+}
+
+aot-player-box-infos h1 {
+    display: table;
+    margin: auto;
+}
+
+aot-player-box-infos h1 img,
+aot-player-box-infos h1 strong {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+aot-player-box-infos h1 img {
+    margin-right: 20px;
+}
+
 
 .margin-0 {
     margin: 0;
@@ -204,6 +228,10 @@ strong.white-text{
 
 .margin-left-150 {
     margin-left: 150px;
+}
+
+.margin-top-0 {
+    margin-top: 0;
 }
 
 .margin-top-10 {

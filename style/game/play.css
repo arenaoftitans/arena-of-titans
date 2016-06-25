@@ -92,6 +92,68 @@
     width: 64%;
 }
 
+
+.player-box {
+    height: 25px;
+    min-width: 90px;
+    position: absolute;
+    background-color: black;
+    border: medium solid white;
+    border-radius: 10px;
+    padding-right: 0.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.player-box-circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin: 2px;
+    display: inline-block;
+}
+
+.player-box-text {
+    display: inline;
+    vertical-align: top;
+    color: white;
+}
+
+.player-box-circle-0 {
+    background-color: #EE731B;
+}
+
+.player-box-circle-1 {
+    background-color: #e52b20;
+}
+
+.player-box-circle-2 {
+    background-color: #D4D922;
+}
+
+.player-box-circle-3 {
+    background-color: #58C0D0;
+}
+
+.player-box-circle-4 {
+    background-color: #6DB52D;
+}
+
+.player-box-circle-5 {
+    background-color: #533F92;
+}
+
+.player-box-circle-6 {
+    background-color: #FFFFFF;
+}
+
+.player-box-circle-7 {
+    background-color: #C24793;
+}
+
+
 #board-bg {
     background: url(/assets/game/backgrounds/board.png);
     background-size: 100% 100%;
@@ -218,6 +280,10 @@
     .play-left, .play-right {
         display: none;
     }
+
+    .player-box {
+        display: none;
+    }
 }
 
 
@@ -320,6 +386,46 @@
 
     .centered-text-timer {
         top: -135px;
+    }
+
+    .player-box-0 {
+        right: 20%;
+        top: 460px;
+    }
+
+    .player-box-1 {
+        right: 20%;
+        top: 420px;
+    }
+
+    .player-box-2 {
+        right: 20%;
+        top: 150px;
+    }
+
+    .player-box-3 {
+        right: 20%;
+        top: 110px;
+    }
+
+    .player-box-4 {
+        left: 20%;
+        top: 110px;
+    }
+
+    .player-box-5 {
+        left: 20%;
+        top: 150px;
+    }
+
+    .player-box-6 {
+        left: 20%;
+        top: 420px;
+    }
+
+    .player-box-7 {
+        left: 20%;
+        top: 460px;
     }
 }
 
@@ -451,6 +557,46 @@
     .centered-text-timer {
         top: -142px;
         left: 16px;
+    }
+
+    .player-box-0 {
+        right: 20%;
+        top: 638px;
+    }
+
+    .player-box-1 {
+        right: 20%;
+        top: 603px;
+    }
+
+    .player-box-2 {
+        right: 20%;
+        top: 155px;
+    }
+
+    .player-box-3 {
+        right: 20%;
+        top: 120px;
+    }
+
+    .player-box-4 {
+        left: 20%;
+        top: 120px;
+    }
+
+    .player-box-5 {
+        left: 20%;
+        top: 155px;
+    }
+
+    .player-box-6 {
+        left: 20%;
+        top: 603px;
+    }
+
+    .player-box-7 {
+        left: 20%;
+        top: 638px;
     }
 }
 

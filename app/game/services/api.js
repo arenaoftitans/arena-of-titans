@@ -226,7 +226,6 @@ export class Api {
         this._game.was_your_turn = this._game.your_turn;
         this._game.your_turn = message.your_turn;
         this._game.next_player = message.next_player;
-        this._game.active_trumps = message.active_trumps;
         this._me.hand = message.hand.map(card => {
             card.img = ImageClass.forCard(card);
             return card;
@@ -239,6 +238,7 @@ export class Api {
     }
 
     _updateAffectingTrumps(activeTrumps) {
+        this._game.active_trumps = activeTrumps;
         this._me.affecting_trumps = this._createTrumps(activeTrumps[this._me.index].trumps);
     }
 

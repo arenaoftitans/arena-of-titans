@@ -18,6 +18,7 @@
 */
 
 import { Api } from './services/api';
+import { History } from './services/history';
 import { inject } from 'aurelia-framework';
 
 import '../../style/game/create.css';
@@ -27,7 +28,7 @@ import '../../style/board.css';
 import '../../style/sprites/movement.css';
 
 
-@inject(Api)
+@inject(Api, History)
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -45,8 +46,13 @@ export class Game {
         reject: null,
     };
 
-    constructor(api) {
+    constructor(api, history) {
         this._api = api;
+        // Init history here: if the page is reloaded on the game page, the history may not be
+        // setup until the player click on the player box. This may result in some actions not
+        // being displayed. For instance, create a game, refresh, play a card. Without the line
+        // below, it will not appear in the player box.
+        history.init();
     }
 
     configureRouter(config, router) {

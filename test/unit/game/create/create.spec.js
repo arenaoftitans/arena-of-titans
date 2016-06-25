@@ -20,7 +20,14 @@
 import '../../setup';
 import { Create } from '../../../../app/game/create/create';
 import { Wait } from '../../../../app/game/services/utils';
-import { ApiStub, ObserverLocatorStub, ObserverLocatorStubResults, RouterStub, StorageStub } from '../../utils';
+import {
+    ApiStub,
+    ObserverLocatorStub,
+    ObserverLocatorStubResults,
+    RouterStub,
+    StorageStub,
+    HistoryStub,
+} from '../../utils';
 
 
 describe('game/create', () => {
@@ -31,12 +38,14 @@ describe('game/create', () => {
     let mockedobserverLocator;
     let mockedStorage;
     let mockedConfig;
+    let mockedHistory;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
         mockedobserverLocator = new ObserverLocatorStub();
+        mockedHistory = new HistoryStub();
         mockedConfig = {
             test: {
                 debug: false
@@ -47,7 +56,8 @@ describe('game/create', () => {
             mockedApi,
             mockedStorage,
             mockedConfig,
-            mockedobserverLocator
+            mockedobserverLocator,
+            mockedHistory
         );
     });
 
@@ -75,6 +85,7 @@ describe('game/create', () => {
         spyOn(Wait, 'flushCache');
         spyOn(mockedobserverLocator, 'getObserver').and.returnValue(observerLocatorStubResults);
         spyOn(observerLocatorStubResults, 'subscribe');
+        spyOn(mockedHistory, 'init');
 
         sut.init();
 
@@ -84,6 +95,7 @@ describe('game/create', () => {
         expect(Wait.flushCache).toHaveBeenCalled();
         expect(mockedobserverLocator.getObserver).toHaveBeenCalledWith({}, 'name');
         expect(observerLocatorStubResults.subscribe).toHaveBeenCalled();
+        expect(mockedHistory.init).toHaveBeenCalled();
     });
 
     it('should not ask for the name if it knows the player name', done => {

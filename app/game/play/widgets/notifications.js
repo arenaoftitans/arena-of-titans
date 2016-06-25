@@ -106,13 +106,13 @@ export class AotNotificationsCustomElement {
     }
 
     _updateLastAction(message) {
-        let lastAction = message.last_action == null ? {} : message.last_action;  // eslint-disable-line no-eq-null,eqeqeq,max-len
+        let lastAction = message.last_action || {};
         this._lastAction = {
             player_name: lastAction.player_name,
             description: lastAction.description,
         };
 
-        if (lastAction.card && Object.keys(lastAction.card).length > 0) {
+        if (lastAction.card) {
             this._lastAction.card = lastAction.card;
             let cardName = lastAction.card.name;
             let cardColor = lastAction.card.color.toLowerCase();
@@ -123,7 +123,7 @@ export class AotNotificationsCustomElement {
             this._lastAction.img = ImageSource.forCard(lastAction.card);
         }
 
-        if (lastAction.trump && Object.keys(lastAction.trump).length > 0) {
+        if (lastAction.trump) {
             let trump = lastAction.trump;
             this._lastAction.trump = trump;
             this._lastAction.img = ImageSource.forTrump(trump);

@@ -32,6 +32,9 @@ export class AotPopupCustomElement {
             case 'game-over':
                 this.background = 'game-over';
                 break;
+            case 'player-box':
+                this.background = 'popup-player-box';
+                break;
             default:
                 this.background = 'default';
                 break;

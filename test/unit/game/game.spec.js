@@ -19,7 +19,7 @@
 
 import '../setup';
 import { Game } from '../../../app/game/game';
-import { ApiStub, RouterStub } from '../utils';
+import { ApiStub, RouterStub, HistoryStub } from '../utils';
 
 
 class Popup {
@@ -28,11 +28,21 @@ class Popup {
 
 describe('the Game module', () => {
     let mockedApi;
+    let mockedHistory;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new Game(mockedApi);
+        mockedHistory = new HistoryStub();
+        sut = new Game(mockedApi, mockedHistory);
+    });
+
+    it('should init the history', () => {
+        spyOn(mockedHistory, 'init');
+
+        sut = new Game(mockedApi, mockedHistory);
+
+        expect(mockedHistory.init).toHaveBeenCalled();
     });
 
     describe('popups', () => {

@@ -25,6 +25,10 @@ export class ImageSource {
     static forCard(card) {
         return `/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
     }
+
+    static forCircledHero(hero) {
+        return `/assets/game/heroes/${hero}-circle.png`;
+    }
 }
 
 
