@@ -176,7 +176,7 @@ strong.white-text{
     background-size: 100% 100%;
 }
 
-.popup-content.player-box {
+.popup-player-box {
     background: url(/assets/game/backgrounds/popup-ingame.png) no-repeat;
     background-size: 100% 100%;
 }
@@ -228,6 +228,10 @@ aot-player-box-infos h1 img {
 
 .margin-left-150 {
     margin-left: 150px;
+}
+
+.margin-top-0 {
+    margin-top: 0;
 }
 
 .margin-top-10 {

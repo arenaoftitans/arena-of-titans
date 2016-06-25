@@ -5,12 +5,20 @@
             <strong class="white-text">${data.playerName}</strong>
         </h1>
 
-        <div>
-            <img repeat.for="card of lastPlayedCards" src.bind="card" />
+        <div class="margin-top-0">
+            <h2 t="game.play.player_box_cards"
+                class="white-text"></h2>
+            <img repeat.for="card of lastPlayedCards"
+                 src.bind="card"
+                 width="69px" />
         </div>
 
-        <div>
-            <img repeat.for="trump of activeTrumps" src.bind="trump" />
+        <div class="margin-top-0">
+            <h2 t="game.play.player_box_trumps"
+                class="white-text"></h2>
+            <img repeat.for="trump of activeTrumps"
+                 src.bind="trump"
+                 width="45px" />
         </div>
     </div>
 </template>

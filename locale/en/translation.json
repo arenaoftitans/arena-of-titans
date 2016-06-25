@@ -61,6 +61,8 @@
             "no_action": "No action yet",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",
+            "player_box_cards": "Last played cards",
+            "player_box_trumps": "Trumps active on player",
             "select_trump_target": "Who should be the target of {{trumpname}}?",
             "whose_turn_message": "It is the turn of <br /><strong class=\"white-text\">{{playerName}}</strong>",
             "your_turn": "It's your turn!"
