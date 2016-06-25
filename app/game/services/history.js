@@ -37,9 +37,11 @@ export class History {
 
         this._api.onReconnectDefered.then(message => {
             let history = message.history;
-            for (let playerHistory of history) {
-                for (let action of playerHistory) {
-                    this._addEntry(action);
+            if (history) {
+                for (let playerHistory of history) {
+                    for (let action of playerHistory) {
+                        this._addEntry(action);
+                    }
                 }
             }
         });
