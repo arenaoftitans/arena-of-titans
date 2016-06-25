@@ -154,47 +154,6 @@
 }
 
 
-.player-box-0 {
-    right: 20%;
-    top: 460px;
-}
-
-.player-box-1 {
-    right: 20%;
-    top: 420px;
-}
-
-.player-box-2 {
-    right: 20%;
-    top: 150px;
-}
-
-.player-box-3 {
-    right: 20%;
-    top: 110px;
-}
-
-.player-box-4 {
-    left: 20%;
-    top: 110px;
-}
-
-.player-box-5 {
-    left: 20%;
-    top: 150px;
-}
-
-.player-box-6 {
-    left: 20%;
-    top: 420px;
-}
-
-.player-box-7 {
-    left: 20%;
-    top: 460px;
-}
-
-
 #board-bg {
     background: url(/assets/game/backgrounds/board.png);
     background-size: 100% 100%;
@@ -428,6 +387,46 @@
     .centered-text-timer {
         top: -135px;
     }
+
+    .player-box-0 {
+        right: 20%;
+        top: 460px;
+    }
+
+    .player-box-1 {
+        right: 20%;
+        top: 420px;
+    }
+
+    .player-box-2 {
+        right: 20%;
+        top: 150px;
+    }
+
+    .player-box-3 {
+        right: 20%;
+        top: 110px;
+    }
+
+    .player-box-4 {
+        left: 20%;
+        top: 110px;
+    }
+
+    .player-box-5 {
+        left: 20%;
+        top: 150px;
+    }
+
+    .player-box-6 {
+        left: 20%;
+        top: 420px;
+    }
+
+    .player-box-7 {
+        left: 20%;
+        top: 460px;
+    }
 }
 
 
@@ -558,6 +557,46 @@
     .centered-text-timer {
         top: -142px;
         left: 16px;
+    }
+
+    .player-box-0 {
+        right: 20%;
+        top: 638px;
+    }
+
+    .player-box-1 {
+        right: 20%;
+        top: 603px;
+    }
+
+    .player-box-2 {
+        right: 20%;
+        top: 155px;
+    }
+
+    .player-box-3 {
+        right: 20%;
+        top: 120px;
+    }
+
+    .player-box-4 {
+        left: 20%;
+        top: 120px;
+    }
+
+    .player-box-5 {
+        left: 20%;
+        top: 155px;
+    }
+
+    .player-box-6 {
+        left: 20%;
+        top: 603px;
+    }
+
+    .player-box-7 {
+        left: 20%;
+        top: 638px;
     }
 }
 
