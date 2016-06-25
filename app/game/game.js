@@ -21,11 +21,11 @@ import { Api } from './services/api';
 import { History } from './services/history';
 import { inject } from 'aurelia-framework';
 
-import '../../style/game/create.css';
-import '../../style/game/counter.css';
-import '../../style/game/play.css';
-import '../../style/board.css';
-import '../../style/sprites/movement.css';
+import '../../style/game/create.scss';
+import '../../style/game/counter.scss';
+import '../../style/game/play.scss';
+import '../../style/board.scss';
+import '../../style/sprites/movement.scss';
 
 
 @inject(Api, History)

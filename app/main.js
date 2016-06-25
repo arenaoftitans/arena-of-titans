@@ -28,8 +28,8 @@ import XHR from 'i18next-xhr-backend';
 import enTranslations from '../locale/en/translation.json';
 import frTranslations from '../locale/fr/translation.json';
 
-import '../style/global.css';
-import '../style/site.css';
+import '../style/global.scss';
+import '../style/site.scss';
 
 
 bootstrap(aurelia => {

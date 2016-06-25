@@ -62,7 +62,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.js$/, loader: 'babel', exclude: /node_modules/, query: { presets: ['es2015-loose', 'stage-1'], plugins: ['transform-decorators-legacy'] } },
-            { test: /\.css?$/, loader: 'style!css' },
+            { test: /\.scss$/, loader: 'style!css!sass' },
             { test: /\.json$/, loader: 'json' },
             { test: /\.html$/, loader: 'html' },
             { test: /\.(png|gif|jpg)$/, loader: 'url-loader?limit=8192' },
