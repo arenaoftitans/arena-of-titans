@@ -32,9 +32,11 @@ describe('services/history', () => {
 
     it('init', () => {
         spyOn(mockedApi, 'on');
+        spyOn(mockedApi, 'off');
 
         sut.init();
 
+        expect(mockedApi.off).toHaveBeenCalledWith(mockedApi.requestTypes.player_played, 0);
         expect(mockedApi.on).toHaveBeenCalled();
         expect(mockedApi.on.calls.mostRecent().args[0]).toBe(mockedApi.requestTypes.player_played);
     });

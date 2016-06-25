@@ -24,6 +24,7 @@ import { Api } from './api';
 @inject(Api)
 export class History {
     _api;
+    _playerPlayedCb;
 
     constructor(api) {
         this._api = api;
@@ -31,7 +32,9 @@ export class History {
     }
 
     init() {
-        this._api.on(this._api.requestTypes.player_played, message => {
+        let rt = this._api.requestTypes.player_played;
+        this._api.off(rt, this._playerPlayedCb);
+        this._playerPlayedCb = this._api.on(rt, message => {
             this._addEntry(message.last_action);
         });
 

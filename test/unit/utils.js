@@ -124,7 +124,10 @@ export class ApiStub {
         if (!(rt in this._cbs)) {
             this._cbs[rt] = [];
         }
+        let index =  this._cbs[rt].length;
         this._cbs[rt].push(fn);
+
+        return index;
     }
 
     off() {
