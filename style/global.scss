@@ -211,52 +211,6 @@ aot-player-box-infos h1 img {
     margin-top: 160px;
 }
 
-.option-container {
-    padding-top: 8px;
-}
-
-.option-wrapper {
-    float: right;
-}
-
-.option {
-    min-width: 180px;
-    position: fixed;
-    -moz-transform: translate3d(-40px, -108px, 0);
-    -ms-transform: translate3d(-40px, -108px, 0);
-    -o-transform: translate3d(-40px, -108px, 0);
-    -webkit-transform: translate3d(-40px, -108px, 0);
-    transform: translate3d(-40px, -108px, 0);
-}
-
-.option img {
-    cursor: pointer;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 17px;
-    width: 20px;
-}
-
-.option-wrapper .hover-hide,
-.option .choices {
-    background: black;
-    border: solid;
-    border-color: white;
-    border-radius: 5px;
-}
-
-.option:hover {
-    -moz-transform: translate3d(-181px, -20px, 0);
-    -ms-transform: translate3d(-181px, -20px, 0);
-    -o-transform: translate3d(-181px, -20px, 0);
-    -webkit-transform: translate3d(-181px, -20px, 0);
-    transform: translate3d(-181px, -20px, 0);
-}
-
-.option:hover .hover-hide {
-    display: none;
-}
-
 
 .blink-img {
     opacity: 0.2 !important;
@@ -286,23 +240,4 @@ aot-player-box-infos h1 img {
     font-weight: 400;
     src: local('Berkshire Swash'), local('BerkshireSwash-Regular'), url('fonts/BerkshireSwash.woff2') format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-
-
-@media screen and (min-width: 1200px) {
-    .option {
-        -moz-transform: translate3d(-40px, -108px, 0);
-        -ms-transform: translate3d(-40px, -108px, 0);
-        -o-transform: translate3d(-40px, -108px, 0);
-        -webkit-transform: translate3d(-40px, -108px, 0);
-        transform: translate3d(-40px, -108px, 0);
-    }
-
-    .option:hover {
-        -moz-transform: translate3d(-130px, -20px, 0);
-        -ms-transform: translate3d(-130px, -20px, 0);
-        -o-transform: translate3d(-130px, -20px, 0);
-        -webkit-transform: translate3d(-130px, -20px, 0);
-        transform: translate3d(-130px, -20px, 0);
-    }
 }
