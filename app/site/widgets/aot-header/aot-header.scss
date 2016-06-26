@@ -6,46 +6,45 @@ aot-header {
         background-size: 100% 100%;
     }
 
-    #nav-bar {
+    .navbar {
         position: relative;
         top: 163px;
     }
 
-    #nav-bar .button-dark {
+    .button-dark {
         width: 50%;
     }
 
 
-    #nav-bar .column-left {
+    .column-left {
         float: left;
         width: 29.3%;
     }
 
-    #nav-bar .column-right {
+    .column-right {
         float: right;
         width: 28.4%;
     }
 
-    #nav-bar .column-center {
+    .column-center {
         display: inline-block;
         width: 30%;
         height: 56px;
         max-width: 296px;
+
+        a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
     }
 
-    #nav-bar a {
+    a {
         padding-left: 0;
     }
 
-    #nav-bar .button {
+    .button {
         display: block;
         float: left;
-    }
-
-
-    #to-homepage {
-        display: block;
-        width: 100%;
-        height: 100%;
     }
 }
