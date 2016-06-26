@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../style/slider.scss';
+import './home.scss';
 
 
 export class Home {

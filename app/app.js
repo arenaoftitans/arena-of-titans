@@ -28,19 +28,19 @@ export class App {
             {
                 route: '',
                 name: 'home',
-                moduleId: 'home',
+                moduleId: 'site/home',
                 nav: true,
                 title: 'Homepage',
             }, {
                 route: 'rules',
                 name: 'rules',
-                moduleId: 'rules/rules',
+                moduleId: 'site/routes/rules/rules',
                 nav: true,
                 title: 'Rules',
             }, {
                 route: 'synopsis',
                 name: 'synopsis',
-                moduleId: 'synopsis/synopsis',
+                moduleId: 'site/routes/synopsis/synopsis',
                 nav: true,
                 title: 'Synopsis',
             }, {
@@ -52,7 +52,7 @@ export class App {
             },
         ]);
         config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'not-found';
+            instruction.moduleId = 'site/routes/not-found/not-found';
 
             return instruction;
         });

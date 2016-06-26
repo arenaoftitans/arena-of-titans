@@ -29,7 +29,6 @@ import enTranslations from '../locale/en/translation.json';
 import frTranslations from '../locale/fr/translation.json';
 
 import '../style/global.scss';
-import '../style/site.scss';
 
 
 bootstrap(aurelia => {

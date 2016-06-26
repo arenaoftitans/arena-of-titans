@@ -19,7 +19,7 @@
 
 import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
-import { Options } from '../services/options';
+import { Options } from '../../services/options';
 
 
 @inject(I18N, Options)
