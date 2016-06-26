@@ -1,0 +1,22 @@
+aot-connect {
+    #connect-bar {
+        height: 80px;
+        background-image: url("/assets/backgrounds/connect.png");
+        background-size: 100% 100%;
+    }
+
+
+    #connect {
+        padding: 20px;
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    #connect form {
+        display: inline-block;
+    }
+
+    #connect a.button {
+        float: right;
+    }
+}

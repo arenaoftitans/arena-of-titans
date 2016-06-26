@@ -1,0 +1,51 @@
+aot-header {
+    header {
+        height: 300px;
+        background-image: url("/assets/backgrounds/header.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    #nav-bar {
+        position: relative;
+        top: 163px;
+    }
+
+    #nav-bar .button-dark {
+        width: 50%;
+    }
+
+
+    #nav-bar .column-left {
+        float: left;
+        width: 29.3%;
+    }
+
+    #nav-bar .column-right {
+        float: right;
+        width: 28.4%;
+    }
+
+    #nav-bar .column-center {
+        display: inline-block;
+        width: 30%;
+        height: 56px;
+        max-width: 296px;
+    }
+
+    #nav-bar a {
+        padding-left: 0;
+    }
+
+    #nav-bar .button {
+        display: block;
+        float: left;
+    }
+
+
+    #to-homepage {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}

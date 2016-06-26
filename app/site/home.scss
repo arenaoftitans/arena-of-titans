@@ -1,86 +1,5 @@
 @import 'slider';
 
-header.site {
-    height: 300px;
-    background-image: url("/assets/backgrounds/header.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-
-footer.site {
-    width: 100%;
-    height: 200px;
-    background-image: linear-gradient(transparent, black);
-    background-size: 100% 100%;
-}
-
-
-#nav-bar {
-    position: relative;
-    top: 163px;
-}
-
-#nav-bar .button-dark {
-    width: 50%;
-}
-
-
-#nav-bar .column-left {
-    float: left;
-    width: 29.3%;
-}
-
-#nav-bar .column-right {
-    float: right;
-    width: 28.4%;
-}
-
-#nav-bar .column-center {
-    display: inline-block;
-    width: 30%;
-    height: 56px;
-    max-width: 296px;
-}
-
-#nav-bar a {
-    padding-left: 0;
-}
-
-#nav-bar .button {
-    display: block;
-    float: left;
-}
-
-
-#to-homepage {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-
-#connect-bar {
-    height: 80px;
-    background-image: url("/assets/backgrounds/connect.png");
-    background-size: 100% 100%;
-}
-
-
-#connect {
-    padding: 20px;
-    padding-right: 30px;
-    padding-left: 30px;
-}
-
-#connect form {
-    display: inline-block;
-}
-
-#connect a.button {
-    float: right;
-}
-
 
 .row-block {
     max-width: 1100px;
@@ -163,19 +82,4 @@ footer.site {
 
 .bg-content-padding {
     padding: 2.3%;
-}
-
-
-.translate-y-35 {
-    transform: translateY(35%);
-}
-
-
-.translate-y-25 {
-    transform: translateY(25%);
-}
-
-
-.translate-y-150 {
-    transform: translateY(150%);
 }
