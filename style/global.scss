@@ -1,6 +1,7 @@
-html, body {
+html,
+body {
+    background-image: url("/assets/backgrounds/bg.png");
     font-family: 'Berkshire Swash', cursive;
-    background-image : url("/assets/backgrounds/bg.png");
 }
 
 
@@ -14,7 +15,8 @@ h1 {
 }
 
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
 }
 
@@ -39,28 +41,30 @@ p {
 }
 
 
-button, input[type=submit] {
-    padding: 0;
+button,
+input[type=submit] {
+    border: none;
     font-family: 'Berkshire Swash', cursive;
     font-size: medium;
-    border: none;
+    padding: 0;
 }
 
 
-button, .button {
+button,
+.button {
+    color: #dcdcdc;
+    cursor: pointer;
     display: inline-block;
-    width: 150px;
     line-height: 32px;
-    color: #DCDCDC;
     text-align: center;
     text-decoration: none;
-    cursor: pointer;
+    width: 150px;
 }
 
 
 button[disabled] {
     cursor: not-allowed;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 
@@ -76,7 +80,6 @@ button[disabled] {
     background-position: 0 -32px;
     background-size: 100% 200%;
 }
-
 
 
 .button-light {
@@ -124,8 +127,8 @@ button[disabled] {
 
 .centered-block-medium {
     display: block;
-    width: 300px;
     margin: auto;
+    width: 300px;
 }
 
 .centered-text {
@@ -133,9 +136,9 @@ button[disabled] {
 }
 
 .centered-text-timer {
+    font-family: 'Old English Text MT';
     text-align: center;
     top: -150px;
-    font-family: 'Old English Text MT';
 }
 
 .centered-important strong {
@@ -143,37 +146,37 @@ button[disabled] {
 }
 
 .white-text,
-strong.white-text{
+strong.white-text {
     color: white;
 }
 
 .red-text {
-    color: #B40404;
+    color: #b40404;
 }
 
 .bright-red-text {
-    color: #FF0000;
+    color: #f00;
 }
 
 .popup {
+    background-color: #111;
+    height: 100%;
+    left: 0;
+    opacity: 0.6;
     position: absolute;
     top: 0;
-    left: 0;
-    z-index: 900;
     width: 100%;
-    height: 100%;
-    background-color: #111;
-    opacity: 0.6;
+    z-index: 900;
 }
 
 .popup-content {
+    left: 32%;
+    padding-bottom: 72px;
+    padding-top: 50px;
     position: absolute;
     top: 30%;
-    left: 32%;
-    z-index: 901;
     width: 700px;
-    padding-top: 50px;
-    padding-bottom: 72px;
+    z-index: 901;
 }
 
 .popup-content.default {
@@ -182,8 +185,8 @@ strong.white-text{
 }
 
 .popup-content .x-margin {
-    margin-right: 10%;
     margin-left: 10%;
+    margin-right: 10%;
 }
 
 .popup-content.game-over {
@@ -213,8 +216,8 @@ strong.white-text{
 }
 
 .popup-content button {
-    margin-top: 1em;
     margin-left: 16%;
+    margin-top: 1em;
 }
 
 aot-player-box-infos div {
@@ -262,7 +265,7 @@ aot-player-box-infos h1 img {
 }
 
 .option-container {
-    padding-top:8px;
+    padding-top: 8px;
 }
 
 .option-wrapper {
@@ -272,19 +275,19 @@ aot-player-box-infos h1 img {
 .option {
     min-width: 180px;
     position: fixed;
-    -webkit-transform: translate3d(-40px, -108px, 0);
     -moz-transform: translate3d(-40px, -108px, 0);
     -ms-transform: translate3d(-40px, -108px, 0);
     -o-transform: translate3d(-40px, -108px, 0);
-    transform:  translate3d(-40px, -108px, 0);
+    -webkit-transform: translate3d(-40px, -108px, 0);
+    transform: translate3d(-40px, -108px, 0);
 }
 
 .option img {
-    width: 20px;
-    padding-top: 17px;
-    padding-right: 5px;
-    padding-left: 5px;
     cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 17px;
+    width: 20px;
 }
 
 .option-wrapper .hover-hide,
@@ -296,11 +299,11 @@ aot-player-box-infos h1 img {
 }
 
 .option:hover {
-    -webkit-transform: translate3d(-181px, -20px, 0);
     -moz-transform: translate3d(-181px, -20px, 0);
     -ms-transform: translate3d(-181px, -20px, 0);
     -o-transform: translate3d(-181px, -20px, 0);
-    transform:  translate3d(-181px, -20px, 0);
+    -webkit-transform: translate3d(-181px, -20px, 0);
+    transform: translate3d(-181px, -20px, 0);
 }
 
 .option:hover .hover-hide {
@@ -313,9 +316,9 @@ aot-player-box-infos h1 img {
 }
 
 .blink-container {
+    border-color: maroon;
     border-style: solid;
     border-width: 3px;
-    border-color: maroon;
     margin: -3px;
 }
 
@@ -341,18 +344,18 @@ aot-player-box-infos h1 img {
 
 @media screen and (min-width: 1200px) {
     .option {
-        -webkit-transform: translate3d(-40px, -108px, 0);
         -moz-transform: translate3d(-40px, -108px, 0);
         -ms-transform: translate3d(-40px, -108px, 0);
         -o-transform: translate3d(-40px, -108px, 0);
-        transform:  translate3d(-40px, -108px, 0);
+        -webkit-transform: translate3d(-40px, -108px, 0);
+        transform: translate3d(-40px, -108px, 0);
     }
 
     .option:hover {
-        -webkit-transform: translate3d(-130px, -20px, 0);
         -moz-transform: translate3d(-130px, -20px, 0);
         -ms-transform: translate3d(-130px, -20px, 0);
         -o-transform: translate3d(-130px, -20px, 0);
-        transform:  translate3d(-130px, -20px, 0);
+        -webkit-transform: translate3d(-130px, -20px, 0);
+        transform: translate3d(-130px, -20px, 0);
     }
 }
