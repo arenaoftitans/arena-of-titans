@@ -70,6 +70,8 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^3.2.1",
     "style-loader": "https://github.com/webpack/style-loader#4f9f4494184f3b8a427a381249eb0e09f3787768",
+    "stylelint": "^6.7.1",
+    "stylelint-config-standard": "^9.0.0",
     "toml": "^2.3.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",

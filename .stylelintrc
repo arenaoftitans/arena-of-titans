@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "indentation": 4,
+    "max-empty-lines": 2,
+    "selector-type-no-unknown": [ true, {
+      "ignoreTypes": ["aot-header", "aot-footer", "aot-connect", "aot-player-box-infos"]
+    }],
+    "declaration-block-properties-order": "alphabetical"
+  }
+}
