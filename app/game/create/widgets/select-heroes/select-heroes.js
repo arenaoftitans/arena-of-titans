@@ -18,8 +18,8 @@
 */
 
 import { bindable } from 'aurelia-framework';
-import { Game } from '../../game';
-import { Wait } from '../../services/utils';
+import { Game } from '../../../game';
+import { Wait } from '../../../services/utils';
 
 
 export class AotSelectHeroesCustomElement {
