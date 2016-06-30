@@ -1,0 +1,84 @@
+aot-popup {
+    .popup {
+        background-color: #111;
+        height: 100%;
+        left: 0;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 900;
+    }
+
+    .popup-content {
+        left: 32%;
+        padding-bottom: 72px;
+        padding-top: 50px;
+        position: absolute;
+        top: 30%;
+        width: 700px;
+        z-index: 901;
+
+        &.default {
+            background: url(/assets/game/backgrounds/popup.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        &.game-over {
+            background: url(/assets/game/backgrounds/popup-game-over.png) no-repeat;
+            background-size: 100% 100%;
+
+            .x-margin {
+                margin-left: 46%;
+            }
+
+            .x-margin ol {
+                padding-top: 10%;
+            }
+        }
+
+        button {
+            margin-left: 16%;
+            margin-top: 1em;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        .select-hero {
+            margin-bottom: 0.5em;
+        }
+
+        .x-margin {
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+    }
+
+    .popup-player-box {
+        background: url(/assets/game/backgrounds/popup-ingame.png) no-repeat;
+        background-size: 100% 100%;
+    }
+
+    aot-player-box-infos {
+        div {
+            margin-top: -28px;
+        }
+
+        h1 {
+            display: table;
+            margin: auto;
+
+            img {
+                margin-right: 20px;
+            }
+
+            img,
+            strong {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+    }
+}
