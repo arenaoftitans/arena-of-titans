@@ -1,236 +1,90 @@
-/* glue: 0.11.1 hash: 7eb82fe5fc */
-.sprite-movement-wizard-yellow,
-.sprite-movement-wizard-red,
-.sprite-movement-wizard-blue,
-.sprite-movement-wizard-black,
-.sprite-movement-warrior-yellow,
-.sprite-movement-warrior-red,
-.sprite-movement-warrior-blue,
-.sprite-movement-warrior-black,
-.sprite-movement-queen-yellow,
-.sprite-movement-queen-red,
-.sprite-movement-queen-blue,
-.sprite-movement-queen-black,
-.sprite-movement-knight-yellow,
-.sprite-movement-knight-red,
-.sprite-movement-knight-blue,
-.sprite-movement-knight-black,
-.sprite-movement-king-yellow,
-.sprite-movement-king-red,
-.sprite-movement-king-blue,
-.sprite-movement-king-black,
-.sprite-movement-bishop-yellow,
-.sprite-movement-bishop-red,
-.sprite-movement-bishop-blue,
-.sprite-movement-bishop-black,
-.sprite-movement-assassin-yellow,
-.sprite-movement-assassin-red,
-.sprite-movement-assassin-blue,
-.sprite-movement-assassin-black {
-    background-image: url('/assets/sprites/movement.png');
-    background-repeat: no-repeat;
-}
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
 
-.sprite-movement-wizard-yellow {
-    background-position: 0 0;
-    width: 69px;
-    height: 100px;
-}
+This file is part of Arena of Titans.
 
-.sprite-movement-wizard-red {
-    background-position: -69px 0;
-    width: 69px;
-    height: 100px;
-}
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-.sprite-movement-wizard-blue {
-    background-position: -138px 0;
-    width: 69px;
-    height: 100px;
-}
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-.sprite-movement-wizard-black {
-    background-position: 0 -100px;
-    width: 69px;
-    height: 100px;
-}
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
 
-.sprite-movement-warrior-yellow {
-    background-position: -69px -100px;
-    width: 69px;
-    height: 100px;
-}
+@import 'cards-sprite';
 
-.sprite-movement-warrior-red {
-    background-position: -138px -100px;
-    width: 69px;
-    height: 100px;
-}
+aot-cards {
+    .card {
+        position: relative;
+        display: inline-block;
+        width: 69px;
+        height: 100px;
+        margin-top: 20px;
+        margin-right: 2%;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
 
-.sprite-movement-warrior-blue {
-    background-position: -207px 0;
-    width: 69px;
-    height: 100px;
-}
+    .active-card {
+        cursor: pointer;
+    }
 
-.sprite-movement-warrior-black {
-    background-position: -207px -100px;
-    width: 69px;
-    height: 100px;
-}
+    .active-card:hover {
+        top: -10px;
+    }
 
-.sprite-movement-queen-yellow {
-    background-position: -276px 0;
-    width: 69px;
-    height: 100px;
-}
+    .inactive-card {
+        opacity: 0.6;
+    }
 
-.sprite-movement-queen-red {
-    background-position: -276px -100px;
-    width: 69px;
-    height: 100px;
-}
+    .selected-card,
+    .selected-card:hover {
+        top: -20px;
+    }
 
-.sprite-movement-queen-blue {
-    background-position: 0 -200px;
-    width: 69px;
-    height: 100px;
-}
+    @media screen and (max-height: 899px) {
+        .card {
+            margin-bottom: -43px;
+        }
 
-.sprite-movement-queen-black {
-    background-position: -69px -200px;
-    width: 69px;
-    height: 100px;
-}
+        .selected-card {
+            top: -5px;
+        }
 
-.sprite-movement-knight-yellow {
-    background-position: -138px -200px;
-    width: 69px;
-    height: 100px;
-}
+        #cards-actions {
+            display: block;
+            float: right;
+            width: 30%;
+        }
 
-.sprite-movement-knight-red {
-    background-position: -207px -200px;
-    width: 69px;
-    height: 100px;
-}
+        #cards-actions button {
+            width: 45%;
+        }
+    }
 
-.sprite-movement-knight-blue {
-    background-position: -276px -200px;
-    width: 69px;
-    height: 100px;
-}
+    @media screen and (min-height: 650px) and (max-height: 749px) {
+        #cards-img-container {
+            display: block;
+            float: left;
+            width: 70%;
+            overflow: hidden;
+        }
 
-.sprite-movement-knight-black {
-    background-position: -345px 0;
-    width: 69px;
-    height: 100px;
-}
+        #cards-actions {
+            display: block;
+            float: right;
+            width: 30%;
+        }
 
-.sprite-movement-king-yellow {
-    background-position: -345px -100px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-king-red {
-    background-position: -345px -200px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-king-blue {
-    background-position: 0 -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-king-black {
-    background-position: -69px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-bishop-yellow {
-    background-position: -138px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-bishop-red {
-    background-position: -207px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-bishop-blue {
-    background-position: -276px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-bishop-black {
-    background-position: -345px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-assassin-yellow {
-    background-position: -414px 0;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-assassin-red {
-    background-position: -414px -100px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-assassin-blue {
-    background-position: -414px -200px;
-    width: 69px;
-    height: 100px;
-}
-
-.sprite-movement-assassin-black {
-    background-position: -414px -300px;
-    width: 69px;
-    height: 100px;
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 1.0), screen and (min--moz-device-pixel-ratio: 1.0), screen and (-o-min-device-pixel-ratio: 100/100), screen and (min-device-pixel-ratio: 1.0), screen and (min-resolution: 1.0dppx) {
-    .sprite-movement-wizard-yellow,
-    .sprite-movement-wizard-red,
-    .sprite-movement-wizard-blue,
-    .sprite-movement-wizard-black,
-    .sprite-movement-warrior-yellow,
-    .sprite-movement-warrior-red,
-    .sprite-movement-warrior-blue,
-    .sprite-movement-warrior-black,
-    .sprite-movement-queen-yellow,
-    .sprite-movement-queen-red,
-    .sprite-movement-queen-blue,
-    .sprite-movement-queen-black,
-    .sprite-movement-knight-yellow,
-    .sprite-movement-knight-red,
-    .sprite-movement-knight-blue,
-    .sprite-movement-knight-black,
-    .sprite-movement-king-yellow,
-    .sprite-movement-king-red,
-    .sprite-movement-king-blue,
-    .sprite-movement-king-black,
-    .sprite-movement-bishop-yellow,
-    .sprite-movement-bishop-red,
-    .sprite-movement-bishop-blue,
-    .sprite-movement-bishop-black,
-    .sprite-movement-assassin-yellow,
-    .sprite-movement-assassin-red,
-    .sprite-movement-assassin-blue,
-    .sprite-movement-assassin-black {
-        background-image: url('/assets/sprites/movement.png');
-        -webkit-background-size: 483px 400px;
-        -moz-background-size: 483px 400px;
-        background-size: 483px 400px;
+        #cards-actions button {
+            width: 48%;
+        }
     }
 }

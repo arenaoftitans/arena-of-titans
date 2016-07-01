@@ -1,0 +1,236 @@
+/* glue: 0.11.1 hash: 7eb82fe5fc */
+.sprite-movement-wizard-yellow,
+.sprite-movement-wizard-red,
+.sprite-movement-wizard-blue,
+.sprite-movement-wizard-black,
+.sprite-movement-warrior-yellow,
+.sprite-movement-warrior-red,
+.sprite-movement-warrior-blue,
+.sprite-movement-warrior-black,
+.sprite-movement-queen-yellow,
+.sprite-movement-queen-red,
+.sprite-movement-queen-blue,
+.sprite-movement-queen-black,
+.sprite-movement-knight-yellow,
+.sprite-movement-knight-red,
+.sprite-movement-knight-blue,
+.sprite-movement-knight-black,
+.sprite-movement-king-yellow,
+.sprite-movement-king-red,
+.sprite-movement-king-blue,
+.sprite-movement-king-black,
+.sprite-movement-bishop-yellow,
+.sprite-movement-bishop-red,
+.sprite-movement-bishop-blue,
+.sprite-movement-bishop-black,
+.sprite-movement-assassin-yellow,
+.sprite-movement-assassin-red,
+.sprite-movement-assassin-blue,
+.sprite-movement-assassin-black {
+    background-image: url('/assets/sprites/movement.png');
+    background-repeat: no-repeat;
+}
+
+.sprite-movement-wizard-yellow {
+    background-position: 0 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-wizard-red {
+    background-position: -69px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-wizard-blue {
+    background-position: -138px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-wizard-black {
+    background-position: 0 -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-warrior-yellow {
+    background-position: -69px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-warrior-red {
+    background-position: -138px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-warrior-blue {
+    background-position: -207px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-warrior-black {
+    background-position: -207px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-queen-yellow {
+    background-position: -276px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-queen-red {
+    background-position: -276px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-queen-blue {
+    background-position: 0 -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-queen-black {
+    background-position: -69px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-knight-yellow {
+    background-position: -138px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-knight-red {
+    background-position: -207px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-knight-blue {
+    background-position: -276px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-knight-black {
+    background-position: -345px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-king-yellow {
+    background-position: -345px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-king-red {
+    background-position: -345px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-king-blue {
+    background-position: 0 -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-king-black {
+    background-position: -69px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-bishop-yellow {
+    background-position: -138px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-bishop-red {
+    background-position: -207px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-bishop-blue {
+    background-position: -276px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-bishop-black {
+    background-position: -345px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-assassin-yellow {
+    background-position: -414px 0;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-assassin-red {
+    background-position: -414px -100px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-assassin-blue {
+    background-position: -414px -200px;
+    width: 69px;
+    height: 100px;
+}
+
+.sprite-movement-assassin-black {
+    background-position: -414px -300px;
+    width: 69px;
+    height: 100px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.0), screen and (min--moz-device-pixel-ratio: 1.0), screen and (-o-min-device-pixel-ratio: 100/100), screen and (min-device-pixel-ratio: 1.0), screen and (min-resolution: 1.0dppx) {
+    .sprite-movement-wizard-yellow,
+    .sprite-movement-wizard-red,
+    .sprite-movement-wizard-blue,
+    .sprite-movement-wizard-black,
+    .sprite-movement-warrior-yellow,
+    .sprite-movement-warrior-red,
+    .sprite-movement-warrior-blue,
+    .sprite-movement-warrior-black,
+    .sprite-movement-queen-yellow,
+    .sprite-movement-queen-red,
+    .sprite-movement-queen-blue,
+    .sprite-movement-queen-black,
+    .sprite-movement-knight-yellow,
+    .sprite-movement-knight-red,
+    .sprite-movement-knight-blue,
+    .sprite-movement-knight-black,
+    .sprite-movement-king-yellow,
+    .sprite-movement-king-red,
+    .sprite-movement-king-blue,
+    .sprite-movement-king-black,
+    .sprite-movement-bishop-yellow,
+    .sprite-movement-bishop-red,
+    .sprite-movement-bishop-blue,
+    .sprite-movement-bishop-black,
+    .sprite-movement-assassin-yellow,
+    .sprite-movement-assassin-red,
+    .sprite-movement-assassin-blue,
+    .sprite-movement-assassin-black {
+        background-image: url('/assets/sprites/movement.png');
+        -webkit-background-size: 483px 400px;
+        -moz-background-size: 483px 400px;
+        background-size: 483px 400px;
+    }
+}

@@ -19,6 +19,7 @@
 
 import { bindable } from 'aurelia-framework';
 import { Wait } from '../../../services/utils';
+import './gauge.scss';
 
 
 export class AotTrumpsGaugeCustomElement {

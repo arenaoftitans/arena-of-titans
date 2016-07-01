@@ -1,0 +1,55 @@
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+aot-infos {
+    .element-infos {
+        position: absolute;
+        z-index: 500;
+        /* Hide outside screen by default */
+        top: -500px;
+        background-image: url("/assets/game/backgrounds/popup-ingame.png");
+        background-repeat: no-repeat;
+        background-size: 150px 160px;
+    }
+
+    .element-infos:hover {
+        display: block;
+    }
+
+    .element-infos p {
+        padding: 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .element-infos strong {
+        color: maroon;
+        text-align: center;
+    }
+
+    .element-infos-standard {
+        width: 150px;
+        height: 160px;
+    }
+
+    .element-infos-small {
+        width: 100px;
+        height: 2em;
+    }
+}

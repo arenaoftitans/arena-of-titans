@@ -21,8 +21,6 @@ import { Api } from './services/api';
 import { History } from './services/history';
 import { inject } from 'aurelia-framework';
 
-import '../../style/game/play.scss';
-
 
 @inject(Api, History)
 export class Game {
