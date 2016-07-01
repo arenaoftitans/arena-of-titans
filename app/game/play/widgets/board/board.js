@@ -18,7 +18,7 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
-import { Api } from '../../services/api';
+import { Api } from '../../../services/api';
 
 
 @inject(Api)

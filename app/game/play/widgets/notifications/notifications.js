@@ -20,10 +20,10 @@
 import { bindable, inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
-import { Api } from '../../services/api';
-import { ImageName, ImageSource } from '../../services/utils';
-import { Options } from '../../../services/options';
-import { browsers } from '../../../services/browser-sniffer';
+import { Api } from '../../../services/api';
+import { ImageName, ImageSource } from '../../../services/utils';
+import { Options } from '../../../../services/options';
+import { browsers } from '../../../../services/browser-sniffer';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;

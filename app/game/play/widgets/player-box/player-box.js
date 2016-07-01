@@ -18,7 +18,7 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
-import { Game } from '../../game';
+import { Game } from '../../../game';
 
 
 @inject(Game)

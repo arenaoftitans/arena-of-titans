@@ -18,7 +18,7 @@
 */
 
 import { bindable } from 'aurelia-framework';
-import { Wait } from '../../services/utils';
+import { Wait } from '../../../services/utils';
 
 
 export class AotTrumpsGaugeCustomElement {
