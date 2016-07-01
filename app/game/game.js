@@ -23,7 +23,6 @@ import { inject } from 'aurelia-framework';
 
 import '../../style/game/create.scss';
 import '../../style/game/play.scss';
-import '../../style/sprites/movement.scss';
 
 
 @inject(Api, History)
