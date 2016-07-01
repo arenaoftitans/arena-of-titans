@@ -1,10 +1,25 @@
 {
   "extends": "stylelint-config-standard",
+  "ignoreFiles": ["app/site/slider.scss"],
   "rules": {
     "indentation": 4,
     "max-empty-lines": 2,
     "selector-type-no-unknown": [ true, {
-      "ignoreTypes": ["aot-header", "aot-footer", "aot-connect", "aot-player-box-infos", "aot-popup"]
+      "ignoreTypes": [
+        "aot-header",
+        "aot-footer",
+        "aot-connect",
+        "aot-player-box-infos",
+        "aot-popup",
+        "aot-counter",
+        "aot-player-box",
+        "aot-trumps",
+        "aot-infos",
+        "aot-board",
+        "aot-trumps-gauge",
+        "aot-cards",
+        "aot-select-heroes"
+      ]
     }],
     "declaration-block-properties-order": "alphabetical"
   }
