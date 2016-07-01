@@ -1,40 +1,40 @@
 aot-board {
-    .pawnCircle {
+    .pawn-circle {
         stroke: #000;
         stroke-miterlimit: 10;
         stroke-width: 9;
     }
 
 
-    #player0 .pawnCircle {
+    #player0 .pawn-circle {
         fill: #ee731b;
     }
 
-    #player1 .pawnCircle {
+    #player1 .pawn-circle {
         fill: #e52b20;
     }
 
-    #player2 .pawnCircle {
+    #player2 .pawn-circle {
         fill: #d4d922;
     }
 
-    #player3 .pawnCircle {
+    #player3 .pawn-circle {
         fill: #58c0d0;
     }
 
-    #player4 .pawnCircle {
+    #player4 .pawn-circle {
         fill: #6db52d;
     }
 
-    #player5 .pawnCircle {
+    #player5 .pawn-circle {
         fill: #533f92;
     }
 
-    #player6 .pawnCircle {
+    #player6 .pawn-circle {
         fill: #fff;
     }
 
-    #player7 .pawnCircle {
+    #player7 .pawn-circle {
         fill: #c24793;
     }
 
@@ -68,7 +68,7 @@ aot-board {
         opacity: 0.5;
     }
 
-    .highlightedSquare {
+    .highlighted-square {
         cursor: pointer;
         fill: green !important;
     }

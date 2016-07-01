@@ -190,10 +190,10 @@ export class AotNotificationsCustomElement {
         }
 
         for (let square of lastLineSquares) {
-            if (square.classList.contains('highlightedSquare') || forceClear) {
-                square.classList.remove('highlightedSquare');
+            if (square.classList.contains('highlighted-square') || forceClear) {
+                square.classList.remove('highlighted-square');
             } else {
-                square.classList.add('highlightedSquare');
+                square.classList.add('highlighted-square');
             }
         }
     }
