@@ -1,0 +1,20 @@
+html, body {
+    font-family: 'Berkshire Swash', cursive;
+    background-image: url("/assets/game/backgrounds/background.png");
+    margin: auto;
+}
+
+#copy-invite-link {
+    width: 27px;
+    margin-left: 5px;
+}
+
+#copy-invite-link:hover {
+    background-color: grey;
+}
+
+.selected-hero {
+    display: block;
+    max-width: 150px;
+    margin: auto;
+}

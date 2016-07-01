@@ -20,6 +20,7 @@
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
 import { Wait } from '../../../services/utils';
+import './select-heroes.scss';
 
 
 export class AotSelectHeroesCustomElement {

@@ -29,7 +29,7 @@
 
     <div id="create-game-me"
          if.bind="me.name"
-         class="centered-block red-text">
+         class="centered-block white-text hidden-on-page-load">
         <h2 t="global.me">Me</h2>
         <img class="selected-hero" src="/assets/game/heroes/${me.hero}.png" />
         <p class="centered-text white-text">
@@ -62,7 +62,7 @@
 
     <div id="create-game-slots"
          if.bind="me.name"
-         class="centered-block red-text">
+         class="centered-block white-text hidden-on-page-load">
         <h2 t="game.create.others">Other players</h2>
         <p class="centered-text white-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t}<span if.bind="slot.player_name">,</span>
             ${slot.player_name}</p>
@@ -76,6 +76,7 @@
 
     <!-- svg background -->
     <svg id="create-game-bg"
+         class="height-100vh"
          version="1.1"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"

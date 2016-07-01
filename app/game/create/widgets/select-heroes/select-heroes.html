@@ -18,7 +18,10 @@
 -->
 
 <template>
-    <form id="select-heroes-form" name="player-info" submit.delegate="save()">
+    <form id="select-heroes-form"
+          class="hidden-on-page-load white-text"
+          name="player-info"
+          submit.delegate="save()">
         <div class="select-hero centered-text">
             <p class="margin-0"
                t="game.create.popup_select_avatar">Select your avatar</p>
@@ -52,6 +55,7 @@
 
     <!-- svg background -->
     <svg id="select-heroes-bg"
+         class="height-100vh"
          version="1.1"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"

@@ -26,6 +26,7 @@ import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application.json';
 import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
+import './create.scss';
 
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)

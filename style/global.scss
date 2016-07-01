@@ -130,6 +130,17 @@ strong.white-text {
 }
 
 
+.height-100vh {
+    height: 100vh;
+}
+
+
+.hidden-on-page-load {
+    position: absolute;
+    top: -500px;
+}
+
+
 .blink-img {
     opacity: 0.2 !important;
 }
