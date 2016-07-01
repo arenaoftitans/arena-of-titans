@@ -19,6 +19,7 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
+import './board.scss';
 
 
 @inject(Api)
