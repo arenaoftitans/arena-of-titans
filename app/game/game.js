@@ -22,7 +22,6 @@ import { History } from './services/history';
 import { inject } from 'aurelia-framework';
 
 import '../../style/game/create.scss';
-import '../../style/game/counter.scss';
 import '../../style/game/play.scss';
 import '../../style/sprites/movement.scss';
 
