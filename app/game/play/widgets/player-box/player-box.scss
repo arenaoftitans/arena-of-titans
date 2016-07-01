@@ -17,6 +17,9 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+@import '../../../../style/players-colors';
+
+
 aot-player-box {
     .player-box {
         background-color: black;
@@ -46,36 +49,10 @@ aot-player-box {
         vertical-align: top;
     }
 
-    .player-box-circle-0 {
-        background-color: #ee731b;
-    }
-
-    .player-box-circle-1 {
-        background-color: #e52b20;
-    }
-
-    .player-box-circle-2 {
-        background-color: #d4d922;
-    }
-
-    .player-box-circle-3 {
-        background-color: #58c0d0;
-    }
-
-    .player-box-circle-4 {
-        background-color: #6db52d;
-    }
-
-    .player-box-circle-5 {
-        background-color: #533f92;
-    }
-
-    .player-box-circle-6 {
-        background-color: #fff;
-    }
-
-    .player-box-circle-7 {
-        background-color: #c24793;
+    @for $i from 0 to length($players-colors) {
+        .player-box-circle-#{$i} {
+            background-color: nth($players-colors, $i + 1);
+        }
     }
 
     /* Very small screens */

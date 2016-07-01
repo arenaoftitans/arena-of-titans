@@ -17,36 +17,13 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-aot-infos {
-    .element-infos {
-        background-image: url("/assets/game/backgrounds/popup-ingame.png");
-        background-repeat: no-repeat;
-        background-size: 150px 160px;
-        z-index: 500;
-    }
-
-    .element-infos:hover {
-        display: block;
-    }
-
-    .element-infos p {
-        margin: 0;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .element-infos strong {
-        color: maroon;
-        text-align: center;
-    }
-
-    .element-infos-standard {
-        height: 160px;
-        width: 150px;
-    }
-
-    .element-infos-small {
-        height: 2em;
-        width: 100px;
-    }
-}
+$players-colors: (
+    #ee731b,
+    #e52b20,
+    #d4d922,
+    #58c0d0,
+    #6db52d,
+    #533f92,
+    #fff,
+    #c24793
+);

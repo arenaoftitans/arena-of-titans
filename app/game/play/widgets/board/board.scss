@@ -1,3 +1,6 @@
+@import '../../../../style/players-colors';
+
+
 aot-board {
     .pawn-circle {
         stroke: #000;
@@ -6,36 +9,10 @@ aot-board {
     }
 
 
-    #player0 .pawn-circle {
-        fill: #ee731b;
-    }
-
-    #player1 .pawn-circle {
-        fill: #e52b20;
-    }
-
-    #player2 .pawn-circle {
-        fill: #d4d922;
-    }
-
-    #player3 .pawn-circle {
-        fill: #58c0d0;
-    }
-
-    #player4 .pawn-circle {
-        fill: #6db52d;
-    }
-
-    #player5 .pawn-circle {
-        fill: #533f92;
-    }
-
-    #player6 .pawn-circle {
-        fill: #fff;
-    }
-
-    #player7 .pawn-circle {
-        fill: #c24793;
+    @for $i from 0 to length($players-colors) {
+        #player#{$i} .pawn-circle {
+            fill: nth($players-colors, $i + 1);
+        }
     }
 
     rect,
