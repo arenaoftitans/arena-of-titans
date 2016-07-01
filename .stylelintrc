@@ -1,6 +1,6 @@
 {
   "extends": "stylelint-config-standard",
-  "ignoreFiles": ["app/site/slider.scss"],
+  "defaultSeverity": "error",
   "rules": {
     "indentation": 4,
     "max-empty-lines": 2,

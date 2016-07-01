@@ -6,20 +6,20 @@
 
 
 #play {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.3%;
     max-width: 1600px;
     min-width: 780px;
-    margin-top: 0.3%;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 
 .play-left {
+    background: url(/assets/game/backgrounds/gauge.png);
+    background-size: 100% 100%;
     display: block;
     float: left;
     width: 18%;
-    background: url(/assets/game/backgrounds/gauge.png);
-    background-size: 100% 100%;
 }
 
 .player-name {
@@ -43,9 +43,9 @@
 
 #board-container {
     display: block;
-    padding-top: 3%;
-    padding-bottom: 2%;
     margin: auto;
+    padding-bottom: 2%;
+    padding-top: 3%;
     text-align: center;
 }
 
@@ -54,11 +54,11 @@
 }
 
 #cards-container {
-    padding-top: 1.5%;
-    padding-bottom: 1.5%;
-    padding-left: 3%;
     background: url(/assets/game/backgrounds/cards.png);
     background-size: 100% 100%;
+    padding-bottom: 1.5%;
+    padding-left: 3%;
+    padding-top: 1.5%;
 }
 
 #cards-img-container {
@@ -72,25 +72,26 @@
 }
 
 #notifications {
-    padding: 20px;
     background: url(/assets/game/backgrounds/infos.png);
     background-size: 100% 100%;
+    padding: 20px;
 }
 
 #notifications img {
-    width: 90%;
     max-width: 100px;
+    width: 90%;
 }
 
 #description {
-    margin-right: 3%;
     margin-left: 4%;
+    margin-right: 3%;
 }
 
 
 /* Very small screens */
 @media screen and (max-width: 799px) {
-    .play-left, .play-right {
+    .play-left,
+    .play-right {
         display: none;
     }
 }
@@ -102,36 +103,35 @@
         height: 74px;
         margin: auto;
     }
+
     #board {
-        max-width: 355px;
         height: 380px;
+        max-width: 355px;
     }
 
     #board-container {
         display: block;
-        padding-top: 3%;
-        padding-bottom: 2%;
-        margin: auto;
-        text-align: center;
         height: 380px;
+        margin: auto;
+        padding-bottom: 2%;
+        padding-top: 3%;
+        text-align: center;
     }
+
     #cards-container {
-        max-height: 140px;
-        min-height: 140px;
+        height: 140px;
     }
 
     #cards-img-container {
         display: block;
         float: left;
-        width: 70%;
+        height: 130px;
         overflow: hidden;
-        max-height: 130px;
-        min-height: 130px;
+        width: 70%;
     }
 
     .play-left {
-        max-height: 588px;
-        min-height: 588px;
+        height: 588px;
     }
 
     #trumps-container {
@@ -143,8 +143,7 @@
     }
 
     #notifications {
-        max-height: 383px;
-        min-height: 383px;
+        height: 383px;
     }
 
     #notifications img {
@@ -159,13 +158,12 @@
     }
 
     #board-container {
-        padding-top: 14px;
         padding-bottom: 6px;
+        padding-top: 14px;
     }
 
     .play-left {
-        max-height: 528px;
-        min-height: 528px;
+        height: 528px;
     }
 
     #trumps-container {
@@ -177,8 +175,7 @@
     }
 
     #notifications {
-        max-height: 364px;
-        min-height: 364px;
+        height: 364px;
     }
 
 
@@ -191,8 +188,7 @@
 /* 800--1200px large >=900px high */
 @media screen and (min-width: 800px) and (min-height: 900px) {
     .play-left {
-        max-height: 742px;
-        min-height: 742px;
+        height: 742px;
     }
 
     #trumps-container {
@@ -200,29 +196,26 @@
     }
 
     .play-middle {
-        max-height: 742px;
-        min-height: 742px;
+        height: 742px;
     }
 
     #board-container {
         height: 548px;
-        padding-top: 25px;
         padding-bottom: 0;
+        padding-top: 25px;
     }
 
     #board {
-        max-width: 500px;
         height: 548px;
+        max-width: 500px;
     }
 
     #cards-container {
-        max-height: 150px;
-        min-height: 150px;
+        height: 150px;
     }
 
     #notifications {
-        max-height: 537px;
-        min-height: 537px;
+        height: 537px;
     }
 }
 
@@ -230,33 +223,29 @@
 /* 1200--1500px large and >= 900px high */
 @media screen and (min-width: 1200px) and (min-height: 900px) {
     .play-left {
-        max-height: 769px;
-        min-height: 769px;
+        height: 769px;
     }
 
     .play-middle {
-        max-height: 769px;
-        min-height: 769px;
+        height: 769px;
     }
 
     #board-container {
-        max-width: 600px;
         height: 570px;
+        max-width: 600px;
     }
 
     #board {
-        max-width: 550px;
         height: 570px;
+        max-width: 550px;
     }
 
     #cards-container {
-        max-height: 150px;
-        min-height: 150px;
+        height: 150px;
     }
 
     #notifications {
-        max-height: 555px;
-        min-height: 555px;
+        height: 555px;
     }
 
     #play {
@@ -265,11 +254,10 @@
 }
 
 
-/* >1500px large and >=925px high*/
+/* >1500px large and >=925px high */
 @media screen and (min-width: 1500px) and (min-height: 925px) {
     .play-left {
-        max-height: 826px;
-        min-height: 826px;
+        height: 826px;
     }
 
     #trumps-container {
@@ -277,28 +265,25 @@
     }
 
     .play-middle {
-        max-height: 826px;
-        min-height: 826px;
+        height: 826px;
     }
 
     #board-container {
-        max-width: 600px;
         height: 620px;
+        max-width: 600px;
     }
 
     #board {
-        max-width: 600px;
         height: 620px;
+        max-width: 600px;
     }
 
     #cards-container {
-        max-height: 150px;
-        min-height: 150px;
+        height: 150px;
     }
 
     #notifications {
-        max-height: 605px;
-        min-height: 605px;
+        height: 605px;
     }
 
     #play {

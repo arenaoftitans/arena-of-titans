@@ -1,31 +1,32 @@
 aot-counter {
     #counter-countainer {
-        position: relative;
         background-image: url(/assets/game/backgrounds/stopwatch.png);
         background-size: 100% 100%;
+        position: relative;
     }
 
     #counter {
-        position: relative;
         opacity: 0.8;
-        padding-top: 10px;
         padding-left: 25px;
+        padding-top: 10px;
+        position: relative;
         z-index: 1;
     }
 
     #timer {
-        position: relative;
-        font-size: 500%;
-        z-index: 2;
-        padding-top: auto;
-        margin: auto;
         color: #000;
-        transition: opacity 350ms linear 0s;
+        font-size: 500%;
+        margin: auto;
+        padding-top: auto;
+        position: relative;
         -webkit-transition: opacity 350ms linear 0s;
+        transition: opacity 350ms linear 0s;
+        z-index: 2;
     }
 
     @media screen and (max-height: 899px) {
-        #counter, #counter-countainer {
+        #counter,
+        #counter-countainer {
             height: 165px;
         }
 
@@ -35,7 +36,8 @@ aot-counter {
     }
 
     @media screen and (min-height: 650px) and (max-height: 749px) {
-        #counter, #counter-countainer {
+        #counter,
+        #counter-countainer {
             height: 124px;
         }
 
@@ -49,7 +51,8 @@ aot-counter {
     }
 
     @media screen and (min-width: 800px) and (min-height: 900px) {
-        #counter, #counter-countainer {
+        #counter,
+        #counter-countainer {
             height: 165px;
         }
 
@@ -58,18 +61,19 @@ aot-counter {
         }
 
         .centered-text-timer {
-            top: -142px;
             left: 16px;
+            top: -142px;
         }
     }
 
     @media screen and (min-width: 1200px) and (min-height: 900px) {
-        #counter, #counter-countainer {
+        #counter,
+        #counter-countainer {
             height: 174px;
         }
 
         .centered-text-timer {
-            left: 0px;
+            left: 0;
         }
     }
 
@@ -84,8 +88,8 @@ aot-counter {
         }
 
         .centered-text-timer {
+            left: 0;
             top: -150px;
-            left: 0px;
         }
     }
 }

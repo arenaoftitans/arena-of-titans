@@ -1,13 +1,13 @@
 aot-board {
     .pawnCircle {
-        stroke: #000000;
+        stroke: #000;
+        stroke-miterlimit: 10;
         stroke-width: 9;
-        stroke-miterlimit: 10
     }
 
 
     #player0 .pawnCircle {
-        fill: #EE731B;
+        fill: #ee731b;
     }
 
     #player1 .pawnCircle {
@@ -15,36 +15,37 @@ aot-board {
     }
 
     #player2 .pawnCircle {
-        fill: #D4D922;
+        fill: #d4d922;
     }
 
     #player3 .pawnCircle {
-        fill: #58C0D0;
+        fill: #58c0d0;
     }
 
     #player4 .pawnCircle {
-        fill: #6DB52D;
+        fill: #6db52d;
     }
 
     #player5 .pawnCircle {
-        fill: #533F92;
+        fill: #533f92;
     }
 
     #player6 .pawnCircle {
-        fill: #FFFFFF;
+        fill: #fff;
     }
 
     #player7 .pawnCircle {
-        fill: #C24793;
+        fill: #c24793;
     }
 
-    rect, path {
+    rect,
+    path {
         opacity: 0.8;
-        stroke: #000000;
-        stroke-width: 2.24024391;
+        stroke: #000;
+        stroke-dasharray: none;
         stroke-miterlimit: 4;
         stroke-opacity: 1;
-        stroke-dasharray: none;
+        stroke-width: 2.24024391;
     }
 
     .red-square {
@@ -68,8 +69,8 @@ aot-board {
     }
 
     .highlightedSquare {
-        fill: green !important;
         cursor: pointer;
+        fill: green !important;
     }
 
     .pawn {

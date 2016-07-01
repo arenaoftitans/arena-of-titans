@@ -19,13 +19,12 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-infos {
     .element-infos {
-        position: absolute;
-        z-index: 500;
-        /* Hide outside screen by default */
-        top: -500px;
         background-image: url("/assets/game/backgrounds/popup-ingame.png");
         background-repeat: no-repeat;
         background-size: 150px 160px;
+        position: absolute;
+        top: -500px;  /* Hide outside screen by default */
+        z-index: 500;
     }
 
     .element-infos:hover {
@@ -33,8 +32,8 @@ aot-infos {
     }
 
     .element-infos p {
-        padding: 10px;
         margin: 0;
+        padding: 10px;
         text-align: center;
     }
 
@@ -44,12 +43,12 @@ aot-infos {
     }
 
     .element-infos-standard {
-        width: 150px;
         height: 160px;
+        width: 150px;
     }
 
     .element-infos-small {
-        width: 100px;
         height: 2em;
+        width: 100px;
     }
 }

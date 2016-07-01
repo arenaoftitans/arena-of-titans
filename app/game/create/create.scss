@@ -1,12 +1,13 @@
-html, body {
-    font-family: 'Berkshire Swash', cursive;
+html,
+body {
     background-image: url("/assets/game/backgrounds/background.png");
+    font-family: 'Berkshire Swash', cursive;
     margin: auto;
 }
 
 #copy-invite-link {
-    width: 27px;
     margin-left: 5px;
+    width: 27px;
 }
 
 #copy-invite-link:hover {
@@ -15,6 +16,6 @@ html, body {
 
 .selected-hero {
     display: block;
-    max-width: 150px;
     margin: auto;
+    max-width: 150px;
 }

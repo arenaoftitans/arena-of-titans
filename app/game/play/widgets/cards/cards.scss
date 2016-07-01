@@ -21,15 +21,15 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-cards {
     .card {
-        position: relative;
         display: inline-block;
-        width: 69px;
         height: 100px;
-        margin-top: 20px;
         margin-right: 2%;
-        -webkit-user-select: none;
+        margin-top: 20px;
+        position: relative;
         -moz-user-select: none;
+        -webkit-user-select: none;
         user-select: none;
+        width: 69px;
     }
 
     .active-card {
@@ -73,8 +73,8 @@ aot-cards {
         #cards-img-container {
             display: block;
             float: left;
-            width: 70%;
             overflow: hidden;
+            width: 70%;
         }
 
         #cards-actions {

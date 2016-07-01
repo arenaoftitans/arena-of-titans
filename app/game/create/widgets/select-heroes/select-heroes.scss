@@ -23,45 +23,36 @@ aot-select-heroes {
     }
 
     .select-hero img {
-        max-width: 23%;
         margin-top: 1%;
+        max-width: 23%;
     }
 
     img.hero-img {
+        background: #333;
         display: inline-block;
         overflow: hidden;
-        background: #333;
-        -webkit-transition: all .3s ease-in-out;
-        -moz-transition: all .3s ease-in-out;
-        transition: all .3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
     }
-
 
     .main-pos {
-        cursor: pointer;
         border: medium solid rgba(245, 245, 220, 0.7);
         border-radius: 5px;
+        cursor: pointer;
     }
 
-
+    .right-pos,
     .left-pos {
-        opacity: .3;
-        -webkit-transform: scale(.75);
-        -moz-transform: scale(.75);
-        transform: scale(.75);
-    }
-
-
-    .right-pos {
-        opacity: .3;
-        -webkit-transform: scale(.75);
-        -moz-transform: scale(.75);
-        transform: scale(.75);
+        opacity: 0.3;
+        -moz-transform: scale(0.75);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
     }
 
     .arrow {
+        cursor: pointer;
         height: 145px;
         max-width: 20px !important;
-        cursor: pointer;
     }
 }

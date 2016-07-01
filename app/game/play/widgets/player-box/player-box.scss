@@ -19,35 +19,35 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-player-box {
     .player-box {
-        height: 25px;
-        min-width: 90px;
-        position: absolute;
         background-color: black;
         border: medium solid white;
         border-radius: 10px;
-        padding-right: 0.5em;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
         cursor: pointer;
+        height: 25px;
+        min-width: 90px;
+        padding-right: 0.5em;
+        position: absolute;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     .player-box-circle {
-        height: 20px;
-        width: 20px;
         border-radius: 50%;
-        margin: 2px;
         display: inline-block;
+        height: 20px;
+        margin: 2px;
+        width: 20px;
     }
 
     .player-box-text {
+        color: white;
         display: inline;
         vertical-align: top;
-        color: white;
     }
 
     .player-box-circle-0 {
-        background-color: #EE731B;
+        background-color: #ee731b;
     }
 
     .player-box-circle-1 {
@@ -55,27 +55,27 @@ aot-player-box {
     }
 
     .player-box-circle-2 {
-        background-color: #D4D922;
+        background-color: #d4d922;
     }
 
     .player-box-circle-3 {
-        background-color: #58C0D0;
+        background-color: #58c0d0;
     }
 
     .player-box-circle-4 {
-        background-color: #6DB52D;
+        background-color: #6db52d;
     }
 
     .player-box-circle-5 {
-        background-color: #533F92;
+        background-color: #533f92;
     }
 
     .player-box-circle-6 {
-        background-color: #FFFFFF;
+        background-color: #fff;
     }
 
     .player-box-circle-7 {
-        background-color: #C24793;
+        background-color: #c24793;
     }
 
     /* Very small screens */
