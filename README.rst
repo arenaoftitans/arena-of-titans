@@ -116,7 +116,9 @@ can be done automatically by using the pre-commit hook. To enable it, put in
 
    #!/usr/bin/env bash
 
-   gulp lint || exit 1
+   set -e
+
+   npm run lint
 
 
 Translations
