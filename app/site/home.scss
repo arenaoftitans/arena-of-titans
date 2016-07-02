@@ -1,11 +1,20 @@
 @import 'slider';
 
 
+.video-container {
+    margin: auto;
+    max-width: 640px;
+
+    video {
+        width: 100%;
+    }
+}
+
+
 .row-block {
     margin-left: auto;
     margin-right: auto;
     max-width: 1300px;
-    min-width: 600px;
 }
 
 

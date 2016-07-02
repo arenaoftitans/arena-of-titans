@@ -45,28 +45,24 @@
                 <div class="big-column-center">
                     <div id="content-slider">
                         <div id="slider">
-                            <ul>
-                                <li class="firstanimation">
-                                    <img src="/assets/homepage/slider/gameplay.png" alt="gameplay"/>
-                                    <div class="tooltip">
-                                        <h1 t="site.homepage.slider1">Un gameplay unique</h1>
-                                    </div>
-                                </li>
-
-                                <li class="secondanimation">
-                                    <img src="/assets/homepage/slider/multiplayer.png" alt="multijoueur"/>
-                                    <div class="tooltip">
-                                        <h1 t="site.homepage.slider2">Défiez jusqu'à 7 de vos amis</h1>
-                                    </div>
-                                </li>
-
-                                <li class="thirdanimation">
-                                    <img src="/assets/homepage/slider/beta-available.png" alt="beta"/>
-                                    <div class="tooltip">
-                                        <h1 t="site.homepage.slider3">Version Bêta disponible !</h1>
-                                    </div>
-                                </li>
-                            </ul>
+                            <div>
+                                <div class="img-container">
+                                    <img src="/assets/homepage/slider/gameplay.png" alt="gameplay" />
+                                    <h1 class="tooltip" t="site.homepage.slider1">Un gameplay unique</h1>
+                                </div>
+                                <div class="img-container">
+                                    <img src="/assets/homepage/slider/multiplayer.png" alt="multijoueur" />
+                                    <h1 class="tooltip" t="site.homepage.slider2">Défiez jusqu'à 7 de vos amis</h1>
+                                </div>
+                                <div class="img-container">
+                                    <img src="/assets/homepage/slider/beta-available.png" alt="beta" />
+                                    <h1 class="tooltip" t="site.homepage.slider3">Version Bêta disponible !</h1>
+                                </div>
+                                <div class="img-container">
+                                    <img src="/assets/homepage/slider/gameplay.png" alt="gameplay" />
+                                    <h1 class="tooltip" t="site.homepage.slider1">Un gameplay unique</h1>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,24 +89,26 @@
         <div class="bg-content bg-content-padding">
             <div class="centered-block">
                 <p class="centered-important" t="[html]site.homepage.tutorial"></p>
-                <video class="centered-block" id=0 controls width=640 height=360>
-                    <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.ogv" type='video/ogg; codecs="theora, vorbis"'/>
-                    <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.webm" type='video/webm' >
-                    <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.mp4" type='video/mp4'>
-                    <p>Video is not visible, most likely your browser does not support HTML5 video</p>
-                </video>
+                <div class="video-container">
+                    <video class="centered-block" controls>
+                        <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.ogv" type='video/ogg; codecs="theora, vorbis"'/>
+                        <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.webm" type='video/webm' >
+                        <source src="http://static.arenaoftitans.com/tuto/tutoriel_aot.mp4" type='video/mp4'>
+                        <p>Video is not visible, most likely your browser does not support HTML5 video</p>
+                    </video>
+                </div>
             </div>
         </div>
 
         <div class="bg-content bg-content-padding">
-			<div>
+            <div>
                 <p class="centered-important" t="site.homepage.heroes">Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !</p>
             </div>
-			<div class="centered-important">
-				<img class="big-column-center"
-					 src="/assets/homepage/home_page_heroes_with_light.png"
-					 alt="Heroes of the Arena" />
-			</div>
+            <div class="centered-important">
+                <img class="big-column-center"
+                     src="/assets/homepage/home_page_heroes_with_light.png"
+                     alt="Heroes of the Arena" />
+            </div>
         </div>
     </div>
 
