@@ -18,7 +18,7 @@
 */
 
 import '../../../setup';
-import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications';
+import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';
 import { ApiStub, I18nStub, EventAgregatorStub } from '../../../utils';
 
 
