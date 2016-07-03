@@ -17,7 +17,7 @@ aot-board {
 
     rect,
     path {
-        opacity: 0.8;
+        opacity: 0.6;
         stroke: #000;
         stroke-dasharray: none;
         stroke-miterlimit: 4;
@@ -42,7 +42,7 @@ aot-board {
     }
 
     .last-line-square {
-        opacity: 0.5;
+        opacity: 1;
     }
 
     .highlighted-square {
