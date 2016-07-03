@@ -1,21 +1,19 @@
 aot-popup {
     .popup {
         background-color: #111;
-        height: 100%;
-        left: 0;
+        height: 112%;
         opacity: 0.6;
         position: absolute;
-        top: 0;
         width: 100%;
         z-index: 900;
     }
 
     .popup-content {
-        left: 32%;
         padding-bottom: 72px;
         padding-top: 50px;
         position: absolute;
-        top: 30%;
+        margin-left: 25%;
+        margin-top: 8%;
         width: 700px;
         z-index: 901;
 
