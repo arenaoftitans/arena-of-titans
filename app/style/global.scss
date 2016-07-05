@@ -108,10 +108,6 @@ strong.white-text {
     margin: 0;
 }
 
-.margin-left-150 {
-    margin-left: 150px;
-}
-
 .margin-top-0 {
     margin-top: 0;
 }
@@ -130,7 +126,7 @@ strong.white-text {
 
 
 .svg-full-screen-bg {
-    height: 100vh;
+    min-height: 100vh;
     position: absolute;
     top: 0;
     z-index: -10;

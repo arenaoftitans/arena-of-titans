@@ -34,7 +34,7 @@
         <img class="selected-hero" src.bind="heroSrc" />
         <p class="centered-text white-text">
             ${ 'global.name' | t }: ${me.name}
-            <button class="button-light margin-left-150"
+            <button class="button-light"
                     click.trigger="editMe()"
                     t="global.edit">Edit
             </button>
@@ -52,10 +52,10 @@
                 <label class="centered-text bright-red-text display-table-cell">
                     ${ 'game.create.invite_text' | t }
                     <input id="invite-link" type="text" value.bind="gameUrl" readonly/>
+                    <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
+                        <img src="/assets/game/misc/clippy.svg" width="13" alt="Copy to clipboard">
+                    </button>
                 </label>
-                <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
-                    <img src="/assets/game/misc/clippy.svg" width="13" alt="Copy to clipboard">
-                </button>
             </div>
         </div>
     </div>
