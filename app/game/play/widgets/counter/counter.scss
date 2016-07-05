@@ -25,8 +25,7 @@ aot-counter {
     }
 
     @media screen and (max-height: 899px) {
-        #counter,
-        #counter-countainer {
+        #counter {
             height: 165px;
         }
 
@@ -36,8 +35,7 @@ aot-counter {
     }
 
     @media screen and (min-height: 650px) and (max-height: 749px) {
-        #counter,
-        #counter-countainer {
+        #counter {
             height: 124px;
         }
 
@@ -51,8 +49,7 @@ aot-counter {
     }
 
     @media screen and (min-width: 800px) and (min-height: 900px) {
-        #counter,
-        #counter-countainer {
+        #counter {
             height: 165px;
         }
 
@@ -67,8 +64,7 @@ aot-counter {
     }
 
     @media screen and (min-width: 1200px) and (min-height: 900px) {
-        #counter,
-        #counter-countainer {
+        #counter {
             height: 174px;
         }
 
@@ -78,8 +74,7 @@ aot-counter {
     }
 
     @media screen and (min-width: 1500px) and (min-height: 925px) {
-        #counter,
-        #counter-countainer {
+        #counter {
             height: 181px;
         }
 
