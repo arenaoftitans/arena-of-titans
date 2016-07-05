@@ -21,7 +21,7 @@ import { inject, ObserverLocator } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait } from '../services/utils';
+import { Wait, ImageSource } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application.json';
@@ -233,5 +233,9 @@ export class Create {
 
     get hasHero() {
         return this.me.hero !== undefined;
+    }
+
+    get heroSrc() {
+        return ImageSource.forHero(this.me.hero);
     }
 }

@@ -31,7 +31,7 @@
          if.bind="me.name"
          class="centered-block white-text hidden-on-page-load">
         <h2 t="global.me">Me</h2>
-        <img class="selected-hero" src="/assets/game/heroes/${me.hero}.png" />
+        <img class="selected-hero" src.bind="heroSrc" />
         <p class="centered-text white-text">
             ${ 'global.name' | t }: ${me.name}
             <button class="button-light margin-left-150"
