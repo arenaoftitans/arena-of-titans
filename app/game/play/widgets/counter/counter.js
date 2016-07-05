@@ -131,6 +131,13 @@ export class AotCounterCustomElement {
             ctx.fillStyle = this.colourChanger();
             ctx.fill();
             ctx.closePath();
+
+            // Draw time.
+            let fontSize = 120;
+            ctx.font = `${fontSize}pt Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'black';
+            ctx.fillText(this.formatedTimeLeft, 150, 150 + fontSize / 2);
         } else {
             console.error('Browser doesn\'t support canvas');  //eslint-disable-line no-console
         }
