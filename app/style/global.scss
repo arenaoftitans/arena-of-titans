@@ -129,8 +129,11 @@ strong.white-text {
 }
 
 
-.height-100vh {
+.svg-full-screen-bg {
     height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: -10;
 }
 
 
