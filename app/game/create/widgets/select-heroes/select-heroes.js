@@ -72,7 +72,8 @@ export class AotSelectHeroesCustomElement {
 
         let waitForSelectForm = Wait.forId('select-heroes-form');
         let waitForPlate = Wait.forId('select-heroes-plate');
-        let waitAll = Promise.all([waitForSelectForm, waitForPlate]);
+        let waitForBg = Wait.forId('select-heroes-bg');
+        let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
         waitAll.then(elts => this.resize(elts));
         addEventListener('resize', () => {
             waitAll.then(elts => this.resize(elts));
@@ -81,8 +82,10 @@ export class AotSelectHeroesCustomElement {
 
     resize(elts) {
         let selectForm = elts[0];
+        let saveDiv = selectForm.getElementsByTagName('div')[1];
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
+        let bg = elts[2];
 
         // On some screen, if we atempt to center the caroussel, we go outside the plate.
         let centerInPlateValue = plateBoundingClientRect.top +
@@ -93,6 +96,14 @@ export class AotSelectHeroesCustomElement {
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
         selectForm.style.height = plate.getBoundingClientRect().height + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';
+
+        let heightDiff = saveDiv.getBoundingClientRect().bottom -
+                bg.getBoundingClientRect().bottom;
+        if (heightDiff > 0) {
+            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
+        } else {
+            bg.style.height = undefined;
+        }
     }
 
     setHeroImage(element, name) {
