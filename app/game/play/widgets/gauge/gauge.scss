@@ -19,38 +19,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-trumps-gauge {
     svg {
-        display: block;
-        left: 25%;
-        margin: auto;
+        height: 75vh;
         position: absolute;
-    }
-
-    @media screen and (max-height: 899px) {
-        svg {
-            margin-top: 10px;
-            max-height: 490px;
-        }
-    }
-
-    @media screen and (min-height: 650px) and (max-height: 749px) {
-        svg {
-            margin-top: 10px;
-            max-height: 450px;
-        }
-    }
-
-    @media screen and (min-width: 800px) and (min-height: 900px) {
-        svg {
-            height: 680px;
-            left: 14%;
-            margin-top: 10px;
-        }
-    }
-
-    @media screen and (min-width: 1500px) and (min-height: 925px) {
-        svg {
-            height: 750px;
-            margin-top: 10px;
-        }
     }
 }

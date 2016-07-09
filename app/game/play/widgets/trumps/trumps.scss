@@ -33,16 +33,22 @@ aot-trumps {
 
     #player-trumps div {
         position: absolute;
+        width: 50%;
         z-index: 100;
+    }
+
+    .affecting-trumps-icon {
+        margin-bottom: 2.5vh;
     }
 
     .player-trumps {
         display: block;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 20px;
+        margin-top: 2.5vh;
+        max-height: 10vh;
+        max-width: 60%;
         min-width: 42px;
-        width: 60%;
     }
 
     .trump-icon {
@@ -55,9 +61,9 @@ aot-trumps {
         display: block;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 15px;
+        margin-top: 1vh;
         min-width: 32px;
-        width: 50%;
+        width: 40%;
     }
 
     .active-trump {
@@ -66,28 +72,5 @@ aot-trumps {
 
     .inactive-trump {
         opacity: 0.6;
-    }
-
-    @media screen and (max-height: 899px) {
-        .player-trumps {
-            margin-top: 0;
-            padding-top: 8px;
-            width: 30%;
-        }
-
-        .trump-icon {
-            width: 30%;
-        }
-
-        .trumps-affecting-player {
-            width: 20%;
-        }
-    }
-
-    @media screen and (min-height: 650px) and (max-height: 749px) {
-        #trumps-affecting-player,
-        #player-trumps {
-            width: 30%;
-        }
     }
 }
