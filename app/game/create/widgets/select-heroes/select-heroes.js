@@ -30,6 +30,7 @@ export class AotSelectHeroesCustomElement {
     constructor() {
         this.currentHeroIndex = 0;
         this.direction = null;
+        this.setBgBottomTimeout = null;
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -97,13 +98,17 @@ export class AotSelectHeroesCustomElement {
         selectForm.style.height = plate.getBoundingClientRect().height + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';
 
-        let heightDiff = saveDiv.getBoundingClientRect().bottom -
+        // To avoid wrong values on page load for the background and saveDive bottom, we wait.
+        clearTimeout(this.setBgBottomTimeout);
+        this.setBgBottomTimeout = setTimeout(() => {
+            let heightDiff = saveDiv.getBoundingClientRect().bottom -
                 bg.getBoundingClientRect().bottom;
-        if (heightDiff > 0) {
-            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
-        } else {
-            bg.style.height = undefined;
-        }
+            if (heightDiff > 0) {
+                bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
+            } else {
+                bg.style.height = '';
+            }
+        }, 500);
     }
 
     setHeroImage(element, name) {
