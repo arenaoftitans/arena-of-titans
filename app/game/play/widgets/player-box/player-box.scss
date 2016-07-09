@@ -18,6 +18,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 @import '../../../../style/players-colors';
+@import '../../../../style/media-queries';
 
 
 aot-player-box {
@@ -50,99 +51,44 @@ aot-player-box {
     }
 
     @for $i from 0 to length($players-colors) {
+        .player-box-#{$i} {
+            @if $i < 4 {
+                right: 2%;
+            } @else {
+                left: 2%;
+            }
+
+            @if $i == 0 or $i == 7 {
+                bottom: 3%;
+            } @else if $i == 1 or $i == 6 {
+                bottom: 9%;
+                @include medium-height {
+                    bottom: 10.5%;
+                }
+                @include small-height {
+                    bottom: 14%;
+                }
+                @include tiny-height {
+                    bottom: 17%;
+                }
+            } @else if $i == 2 or $i == 5 {
+                top: 3%;
+            } @else {
+                top: 9%;
+                @include medium-height {
+                    top: 10.5%;
+                }
+                @include small-height {
+                    top: 14%;
+                }
+                @include tiny-height {
+                    top: 17%;
+                }
+            }
+        }
+
         .player-box-circle-#{$i} {
             background-color: nth($players-colors, $i + 1);
-        }
-    }
-
-    /* Very small screens */
-    @media screen and (max-width: 799px) {
-        .player-box {
-            display: none;
-        }
-    }
-
-    @media screen and (max-height: 899px) {
-        .player-box-0 {
-            right: 20%;
-            top: 460px;
-        }
-
-        .player-box-1 {
-            right: 20%;
-            top: 420px;
-        }
-
-        .player-box-2 {
-            right: 20%;
-            top: 150px;
-        }
-
-        .player-box-3 {
-            right: 20%;
-            top: 110px;
-        }
-
-        .player-box-4 {
-            left: 20%;
-            top: 110px;
-        }
-
-        .player-box-5 {
-            left: 20%;
-            top: 150px;
-        }
-
-        .player-box-6 {
-            left: 20%;
-            top: 420px;
-        }
-
-        .player-box-7 {
-            left: 20%;
-            top: 460px;
-        }
-    }
-
-    @media screen and (min-width: 800px) and (min-height: 900px) {
-        .player-box-0 {
-            right: 20%;
-            top: 638px;
-        }
-
-        .player-box-1 {
-            right: 20%;
-            top: 603px;
-        }
-
-        .player-box-2 {
-            right: 20%;
-            top: 155px;
-        }
-
-        .player-box-3 {
-            right: 20%;
-            top: 120px;
-        }
-
-        .player-box-4 {
-            left: 20%;
-            top: 120px;
-        }
-
-        .player-box-5 {
-            left: 20%;
-            top: 155px;
-        }
-
-        .player-box-6 {
-            left: 20%;
-            top: 603px;
-        }
-
-        .player-box-7 {
-            left: 20%;
-            top: 638px;
         }
     }
 }
