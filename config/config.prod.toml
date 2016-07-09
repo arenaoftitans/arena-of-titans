@@ -4,8 +4,8 @@
 
 [api]
 port = 80
+wss_port = 443
 host = 'api.arenaoftitans.com'
-scheme = 'ws'
 
 
 [test]

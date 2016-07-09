@@ -29,8 +29,11 @@ export class Ws {
 
     constructor(config) {
         let api = config.api;
+        let isHttps = location.protocol === 'https:';
+        let wsScheme = isHttps ? 'wss' : 'ws';
+        let port = isHttps ? api.wss_port : api.port;
 
-        this._ws = new ReconnectingWebSocket(`${api.scheme}://${api.host}:${api.port}`);
+        this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}`);
         this._ws.onopen = () => {
             this._waitingOpen.forEach(data => {
                 this.send(data);
