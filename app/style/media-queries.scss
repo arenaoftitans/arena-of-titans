@@ -18,9 +18,46 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 $phone-width: 599px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 545px;
+$medium-height: 800px;
 
 @mixin fluid {
-    @media (max-width: #{$phone-width}) {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
+@mixin medium-width {
+    @media screen and (max-width: #{$medium-width}) {
+        @content;
+    }
+}
+
+@mixin small-width {
+    @media screen and (max-width: #{$small-width}) {
+        @content;
+    }
+}
+
+
+@mixin tiny-height {
+    @media screen and (max-height: #{$tiny-height}) {
+        @content;
+    }
+}
+
+@mixin small-height {
+    @media screen and (max-height: #{$small-height}) {
+        @content;
+    }
+}
+
+@mixin medium-height {
+    @media screen and (max-height: #{$medium-height}) {
         @content;
     }
 }

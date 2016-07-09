@@ -18,15 +18,16 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 @import 'cards-sprite';
+@import '../../../../style/media-queries';
 
 aot-cards {
     #cards-actions {
-        @media screen and (max-height: 390px) {
+        @include tiny-height {
             margin-top: 1%;
             transform: scale(0.8);
         }
 
-        @media screen and (max-height: 800px) {
+        @include medium-height {
             display: block;
             float: right;
             width: 30%;
@@ -34,13 +35,13 @@ aot-cards {
     }
 
     #cards-img-container {
-        @media screen and (max-height: 800px) {
+        @include medium-height {
             float: left;
             margin-left: 3%;
             width: 60%;
         }
 
-        @media screen and (max-width: 1000px) {
+        @include medium-width {
             margin-left: 0;
             width: 70%;
         }
@@ -57,15 +58,12 @@ aot-cards {
         user-select: none;
         width: 69px;
 
-        @media screen and (max-width: 1000px) {
+        @include medium-width {
             margin-right: -2%;
-        }
-
-        @media screen and (max-height: 390px) {
             transform: scale(0.8);
         }
 
-        @media screen and (max-height: 800px) {
+        @include medium-height {
             margin-top: 0;
         }
     }

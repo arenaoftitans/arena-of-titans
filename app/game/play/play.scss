@@ -1,4 +1,5 @@
 @import '../../style/variables';
+@import '../../style/media-queries';
 
 
 .logo {
@@ -6,7 +7,7 @@
     height: $play-logo-height;
     margin: auto;
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         display: none;
     }
 }
@@ -31,11 +32,11 @@
     min-height: $play-full-min-height;
     width: $play-secondary-width;
 
-    @media screen and (max-width: 800px) {
+    @include small-width {
         display: none;
     }
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         height: $play-full-height + $play-logo-height;
     }
 }
@@ -54,11 +55,11 @@
     min-height: $play-full-min-height;
     width: $play-main-width;
 
-    @media screen and (max-width: 800px) {
+    @include small-width {
         width: $play-main-width + $play-secondary-width;
     }
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         height: $play-full-height + $play-logo-height;
     }
 }
@@ -90,11 +91,11 @@
     min-height: $play-secondary-min-height;
     text-align: center;
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         height: $play-secondary-height + $play-logo-height;
     }
 
-    @media screen and (max-height: 800px) {
+    @include medium-height {
         display: flex;
         align-items: center;
     }
@@ -107,7 +108,7 @@
     min-height: $play-full-min-height;
     width: $play-secondary-width;
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         height: $play-full-height + $play-logo-height;
     }
 }
@@ -138,7 +139,7 @@
     min-height: $play-secondary-min-height;
     position: relative;
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         height: $play-secondary-height + $play-logo-height;
     }
 }

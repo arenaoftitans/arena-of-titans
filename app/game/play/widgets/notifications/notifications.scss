@@ -17,6 +17,9 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+@import '../../../../style/media-queries';
+
+
 aot-notifications {
     > p {
         padding: 20px;
@@ -27,13 +30,13 @@ aot-notifications {
         padding-right: 30px;
     }
 
-    @media screen and (max-height: 799px) {
+    @include medium-height {
         div {
             display: none;
         }
     }
 
-    @media screen and (max-height: 545px) {
+    @include small-height {
         img {
             display: none !important;
         }
