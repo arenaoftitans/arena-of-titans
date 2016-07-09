@@ -75,27 +75,28 @@ export class AotSelectHeroesCustomElement {
         let waitForPlate = Wait.forId('select-heroes-plate');
         let waitForBg = Wait.forId('select-heroes-bg');
         let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
-        waitAll.then(elts => this.resize(elts));
+        waitAll.then(elts => this.resize(elts, true));
         addEventListener('resize', () => {
             waitAll.then(elts => this.resize(elts));
         });
     }
 
-    resize(elts) {
+    resize(elts, inter) {
         let selectForm = elts[0];
         let saveDiv = selectForm.getElementsByTagName('div')[1];
+        let selectedHero = selectForm.getElementsByClassName('main-pos')[0];
+        let arrows = selectForm.getElementsByClassName('arrow');
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
         let bg = elts[2];
 
-        // On some screen, if we atempt to center the caroussel, we go outside the plate.
+        // On some screen, if we attempt to center the caroussel, we go outside the plate.
         let centerInPlateValue = plateBoundingClientRect.top +
             plateBoundingClientRect.height / 2 -
             selectForm.getBoundingClientRect().height / 2;
         selectForm.style.top = Math.max(centerInPlateValue, plateBoundingClientRect.top + 10) +
             'px';
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
-        selectForm.style.height = plate.getBoundingClientRect().height + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';
 
         // To avoid wrong values on page load for the background and saveDive bottom, we wait.
@@ -108,7 +109,17 @@ export class AotSelectHeroesCustomElement {
             } else {
                 bg.style.height = '';
             }
-        }, 500);
+
+            for (let arrow of arrows) {
+                arrow.style.height = selectedHero.getBoundingClientRect().height + 'px';
+            }
+        }, 50);
+
+        if (inter) {
+            setTimeout(() => {
+                this.resize(elts);
+            }, 50);
+        }
     }
 
     setHeroImage(element, name) {
