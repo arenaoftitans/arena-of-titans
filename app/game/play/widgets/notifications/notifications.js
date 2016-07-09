@@ -24,6 +24,7 @@ import { Api } from '../../../services/api';
 import { ImageName, ImageSource } from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { browsers } from '../../../../services/browser-sniffer';
+import './notifications.scss';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;
