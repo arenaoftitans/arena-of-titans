@@ -26,10 +26,6 @@
 
     <div>
         <p if.bind="lastAction.description">
-            <span t="[html]game.play.last_action_title"
-               t-params.bind="{playerName: playerName}">
-                Last action played by
-            </span>
             ${lastAction.description}
             <span><br></span>
         </p>

@@ -7,6 +7,7 @@ from urllib.request import urlopen
 CALC_CSV_EXPORT_ADDRESS = 'https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid={sheet_number}'
 SAVE_TRANSLATIONS_FILE = 'locale/{lang}/translation.json'
 PAGE_TO_SHEET_NB = {
+    'actions': 985921915,
     'cards': 2131671933,
     'game': 1241014372,
     'game.create': 158417819,

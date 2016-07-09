@@ -1,6 +1,13 @@
 {
     "OPEN": "Ouvert",
     "TAKEN": "Pris",
+    "actions": {
+        "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
+        "passed_turn": "{{playerName}} vient de passer son tour",
+        "played_card": "{{playerName}} vient de jouer une carte",
+        "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
+        "problem": "Il vient d'y avoir un probl\u00e8me"
+    },
     "cards": {
         "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal",
         "assassin_black": "Assassin noir",
@@ -57,7 +64,6 @@
             "discard": "D\u00e9fausser",
             "discard_no_selected_card": "Tu dois s\u00e9lectionner une carte",
             "game_over": "Tu viens de terminer le jeu ! Ton rang :",
-            "last_action_title": "Derni\u00e8re action jou\u00e9e par <strong>{{playerName}}</strong>",
             "no_action": "Il ne s'est rien pass\u00e9 pour l'instant",
             "pass": "Passer",
             "pass_confirm_message": "Es-tu s\u00fbr de vouloir passer ton tour ?",

@@ -107,9 +107,17 @@ export class AotNotificationsCustomElement {
 
     _updateLastAction(message) {
         let lastAction = message.last_action || {};
+        let description;
+        if (lastAction.description) {
+            description = this._i18n.tr(
+                `actions.${lastAction.description}`,
+                {
+                    playerName: lastAction.player_name,
+                    targetName: lastAction.target_name,
+                });
+        }
         this._lastAction = {
-            player_name: lastAction.player_name,
-            description: lastAction.description,
+            description: description,
         };
 
         if (lastAction.card) {
@@ -226,10 +234,6 @@ export class AotNotificationsCustomElement {
                 blinkFn(true);
             }
         }, GUIDED_VISIT_BLINK_TIME);
-    }
-
-    get playerName() {
-        return this._lastAction.player_name;
     }
 
     get currentPlayerName() {
