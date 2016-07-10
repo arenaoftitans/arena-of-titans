@@ -31,7 +31,10 @@ export class AotSelectHeroesCustomElement {
     constructor() {
         this.currentHeroIndex = 0;
         this.direction = null;
-        this.setBgBottomTimeout = null;
+        this.loadDefered = {};
+        this.loadDefered.promise = new Promise(resolve => {
+            this.loadDefered.resolve = resolve;
+        });
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -76,13 +79,18 @@ export class AotSelectHeroesCustomElement {
         let waitForPlate = Wait.forId('select-heroes-plate');
         let waitForBg = Wait.forId('select-heroes-bg');
         let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
-        waitAll.then(elts => this.resize(elts, true));
-        addEventListener('resize', () => {
+        waitAll.then(elts => this.resize(elts, 2));
+        let resize = () => {
             waitAll.then(elts => this.resize(elts));
+        };
+        addEventListener('load', () => {
+            resize();
+            this.loadDefered.resolve();
         });
+        addEventListener('resize', resize);
     }
 
-    resize(elts, inter) {
+    resize(elts, iter) {
         let selectForm = elts[0];
         let saveDiv = selectForm.getElementsByTagName('div')[1];
         let selectedHero = selectForm.getElementsByClassName('main-pos')[0];
@@ -93,33 +101,32 @@ export class AotSelectHeroesCustomElement {
 
         // On some screen, if we attempt to center the caroussel, we go outside the plate.
         let centerInPlateValue = plateBoundingClientRect.top +
-            plateBoundingClientRect.height / 2 -
-            selectForm.getBoundingClientRect().height / 2;
+                plateBoundingClientRect.height / 2 -
+                selectForm.getBoundingClientRect().height / 2;
         selectForm.style.top = Math.max(centerInPlateValue, plateBoundingClientRect.top + 10) +
-            'px';
+                'px';
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';
 
-        // To avoid wrong values on page load for the background and saveDive bottom, we wait.
-        clearTimeout(this.setBgBottomTimeout);
-        this.setBgBottomTimeout = setTimeout(() => {
-            let heightDiff = saveDiv.getBoundingClientRect().bottom -
+        let heightDiff = saveDiv.getBoundingClientRect().bottom -
                 bg.getBoundingClientRect().bottom;
-            if (heightDiff > 0) {
-                bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
-            } else {
-                bg.style.height = '';
-            }
+        if (heightDiff > 0) {
+            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
+        } else {
+            bg.style.height = '';
+        }
 
-            for (let arrow of arrows) {
-                arrow.style.height = selectedHero.getBoundingClientRect().height + 'px';
-            }
-        }, 50);
+        for (let arrow of arrows) {
+            arrow.style.height = selectedHero.getBoundingClientRect().height + 'px';
+        }
 
-        if (inter) {
-            setTimeout(() => {
-                this.resize(elts);
-            }, 50);
+        if (iter > 0) {
+            this.loadDefered.promise.then(() => {
+                setTimeout(() => {
+                    iter--;
+                    this.resize(elts, iter);
+                }, 50);
+            });
         }
     }
 
