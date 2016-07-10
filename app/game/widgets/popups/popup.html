@@ -27,24 +27,26 @@
 
     <div class="popup">
     </div>
-    <div class="popup-content ${background}">
-        <aot-error if.bind="type === 'error'"
-                   data.bind="data"
-                   done.bind="done"></aot-error>
-        <aot-infos if.bind="type === 'infos'"
-                   data.bind="data"
-                   done.bind="done"></aot-infos>
-        <aot-confirm if.bind="type === 'confirm'"
-                     data.bind="data"
-                     done.bind="done"></aot-confirm>
-        <aot-game-over if.bind="type === 'game-over'"
+    <div class="popup-container">
+        <div class="popup-content ${background}">
+            <aot-error if.bind="type === 'error'"
                        data.bind="data"
-                       done.bind="done"></aot-game-over>
-        <aot-back-home if.bind="type === 'back-home'"
+                       done.bind="done"></aot-error>
+            <aot-infos if.bind="type === 'infos'"
                        data.bind="data"
-                       done.bind="done"></aot-back-home>
-        <aot-player-box-infos if.bind="type === 'player-box'"
-                              data.bind="data"
-                              done.bind="done"></aot-player-box-infos>
+                       done.bind="done"></aot-infos>
+            <aot-confirm if.bind="type === 'confirm'"
+                         data.bind="data"
+                         done.bind="done"></aot-confirm>
+            <aot-game-over if.bind="type === 'game-over'"
+                           data.bind="data"
+                           done.bind="done"></aot-game-over>
+            <aot-back-home if.bind="type === 'back-home'"
+                           data.bind="data"
+                           done.bind="done"></aot-back-home>
+            <aot-player-box-infos if.bind="type === 'player-box'"
+                                  data.bind="data"
+                                  done.bind="done"></aot-player-box-infos>
+        </div>
     </div>
 </template>

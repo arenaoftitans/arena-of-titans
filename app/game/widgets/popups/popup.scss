@@ -1,15 +1,25 @@
 @import '../../../style/media-queries';
 
+$popup-full-screen-margin-top: -8px;
+
 
 aot-popup {
     .popup {
         background-color: #111;
         height: 100vh;
-        margin-top: -8px;
+        margin-top: $popup-full-screen-margin-top;
         opacity: 0.6;
         position: absolute;
         width: 100%;
         z-index: 900;
+    }
+
+    .popup-container {
+        height: 100vh;
+        margin-top: $popup-full-screen-margin-top;
+        overflow-y: hidden;
+        position: absolute;
+        width: 100%;
     }
 
     .popup-content {
