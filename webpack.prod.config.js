@@ -41,9 +41,6 @@ module.exports = {
     plugins: [
         new AureliaWebpackPlugin({
             src: path.resolve('./app/'),
-            includeSubModules: [
-                { moduleId: "aurelia-i18n" }
-            ],
         }),
         new HtmlWebpackPlugin({
             title: 'Aurelia webpack skeleton - ' + pkg.version,

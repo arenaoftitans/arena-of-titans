@@ -50,9 +50,6 @@ module.exports = {
     plugins: [
         new AureliaWebpackPlugin({
             src: path.resolve('./app/'),
-            includeSubModules: [
-                { moduleId: "aurelia-i18n" }
-            ]
         }),
         new ProvidePlugin({
             Promise: 'bluebird'
