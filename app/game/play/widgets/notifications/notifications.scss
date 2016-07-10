@@ -30,13 +30,13 @@ aot-notifications {
         padding-right: 30px;
     }
 
-    @include medium-height {
+    @include small-height {
         div {
             display: none;
         }
     }
 
-    @include small-height {
+    @include medium-height {
         img {
             display: none !important;
         }
