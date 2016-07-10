@@ -32,11 +32,9 @@ const GUISED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
-
 let blinkImg = (elements, forceClear) => {
     if (browsers.msie || browsers.mac) {
-        elements = htmlCollection2Array(elements);
+        elements = browsers.htmlCollection2Array(elements);
     }
 
     for (let elt of elements) {
@@ -195,7 +193,7 @@ export class AotNotificationsCustomElement {
         let lastLineSquares = document.getElementsByClassName('last-line-square');
 
         if (browsers.msie || browsers.mac) {
-            lastLineSquares = htmlCollection2Array(lastLineSquares);
+            lastLineSquares = browsers.htmlCollection2Array(lastLineSquares);
         }
 
         for (let square of lastLineSquares) {

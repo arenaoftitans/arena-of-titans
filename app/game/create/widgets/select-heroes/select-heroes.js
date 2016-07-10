@@ -20,6 +20,7 @@
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
 import { Wait } from '../../../services/utils';
+import { browsers } from '../../../../services/browser-sniffer';
 import './select-heroes.scss';
 
 
@@ -85,7 +86,7 @@ export class AotSelectHeroesCustomElement {
         let selectForm = elts[0];
         let saveDiv = selectForm.getElementsByTagName('div')[1];
         let selectedHero = selectForm.getElementsByClassName('main-pos')[0];
-        let arrows = selectForm.getElementsByClassName('arrow');
+        let arrows = browsers.htmlCollection2Array(selectForm.getElementsByClassName('arrow'));
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
         let bg = elts[2];
