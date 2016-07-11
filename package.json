@@ -28,7 +28,7 @@
     "aurelia-event-aggregator": "^1.0.0-rc.1.0.0",
     "aurelia-framework": "^1.0.0-rc.1.0.1",
     "aurelia-history-browser": "^1.0.0-rc.1.0.0",
-    "aurelia-i18n": "git+https://github.com/aurelia/i18n.git#8cc4f9fb3f67a425e1536fb13eb93b4f223a4bff",
+    "aurelia-i18n": "git+https://github.com/Jenselme/i18n.git#jen-rel",
     "aurelia-logging-console": "^1.0.0-rc.1.0.0",
     "aurelia-pal-browser": "^1.0.0-rc.1.0.0",
     "aurelia-piwik": "^0.1.2",
