@@ -48,12 +48,20 @@ export class AotCardsCustomElement {
             let params;
             if (this._popupMessageId === 'game.play.discard_confirm_message') {
                 params = {
-                    cardName: this._i18n.tr(`cards.${this.selectedCard.name.toLowerCase()}_${this.selectedCard.color.toLowerCase()}`),  // eslint-disable-line
+                    cardName: this.getTranslatedCardName(this.selectedCard),
                 };
             }
 
             this._popupMessage.message = this._i18n.tr(this._popupMessageId, params);
         }
+    }
+
+    getTranslatedCardName(card) {
+        return this._i18n.tr(`cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`);
+    }
+
+    getTranslatedCardDescription(card) {
+        return this._i18n.tr(`cards.${card.name.toLowerCase()}`);
     }
 
     viewPossibleMovements(card) {
@@ -65,8 +73,8 @@ export class AotCardsCustomElement {
 
     displayInfos(card, event) {
         this.infos = {
-            title: this._i18n.tr(`cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`),
-            description: this._i18n.tr(`cards.${card.name.toLowerCase()}`),
+            title: this.getTranslatedCardName(card),
+            description: this.getTranslatedCardDescription(card),
             visible: true,
             event: event,
         };
