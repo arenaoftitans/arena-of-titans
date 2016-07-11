@@ -74,12 +74,19 @@ export class AotNotificationsCustomElement {
     _i18n;
     _ea;
     _guidedVisitTimeout;
+    _lastActionMessageFromApi;
 
     constructor(api, i18n, ea, options) {
         this._api = api;
         this._i18n = i18n;
         this._ea = ea;
         this.options = options;
+
+        this._ea.subscribe('i18n:locale:changed', () => {
+            if (this._lastActionMessageFromApi) {
+                this._updateLastAction(this._lastActionMessageFromApi);
+            }
+        });
 
         this._guidedVisitTimeout = setTimeout(() => {
             this.proposeGuidedVisit = true;
@@ -105,6 +112,7 @@ export class AotNotificationsCustomElement {
     }
 
     _updateLastAction(message) {
+        this._lastActionMessageFromApi = message;
         let lastAction = message.last_action || {};
         let description;
         if (lastAction.description) {
