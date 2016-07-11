@@ -62,6 +62,7 @@
             "complete_turn": "Complete the turn",
             "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
             "discard": "Discard",
+            "discard_confirm_message": "Are you sure you want to discard {{cardName}}?",
             "discard_no_selected_card": "You must select a card",
             "game_over": "You just completed the game! Your rank:",
             "no_action": "No action yet",

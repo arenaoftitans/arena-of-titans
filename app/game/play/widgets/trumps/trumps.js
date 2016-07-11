@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
@@ -24,17 +25,34 @@ import { Game } from '../../../game';
 import './trumps.scss';
 
 
-@inject(Api, Game, I18N)
+@inject(Api, Game, I18N, EventAggregator)
 export class AotTrumpsCustomElement {
     _api;
     _game;
     _i18n;
     infos = {};
 
-    constructor(api, game, i18n) {
+    constructor(api, game, i18n, ea) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._popupMessage = {};
+        this._lastSelected = null;
+
+        ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+    }
+
+    _translatePopupMessage() {
+        if (this._lastSelected) {
+            this._popupMessage.message = this._i18n.tr(
+                'game.play.select_trump_target', {
+                    trumpname: this.getTranslatedTrumpTitle(this._lastSelected.trump),
+                });
+            this._popupMessage.title = this.getTranslatedTrumpTitle(this._lastSelected.trump);
+            this._popupMessage.description =
+                    this.getTranslatedTrumpDescription(this._lastSelected.trump);
+            this._popupMessage.choices = this._lastSelected.otherPlayerNames;
+        }
     }
 
     play(trump) {
@@ -51,23 +69,18 @@ export class AotTrumpsCustomElement {
                     otherPlayerNames.push(player);
                 }
             }
-            this.playerNames.filter(
-                (name, index) => this.myIndex !== index);
-            this._game.popup(
-                'confirm',
-                {
-                    message: this._i18n.tr(
-                        'game.play.select_trump_target',
-                        {trumpname: this.getTranslatedTrumpTitle(trump)}),
-                    title: this.getTranslatedTrumpTitle(trump),
-                    description: this.getTranslatedTrumpDescription(trump),
-                    choices: otherPlayerNames,
-                }).then(targetIndex => {
-                    // targetIndex is binded in a template, hence it became a string and must be
-                    // converted before usage in the API
-                    targetIndex = parseInt(targetIndex, 10);
-                    this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
-                });
+            this.playerNames.filter((name, index) => this.myIndex !== index);
+            this._lastSelected = {
+                trump: trump,
+                otherPlayerNames: otherPlayerNames,
+            };
+            this._translatePopupMessage();
+            this._game.popup('confirm', this._popupMessage).then(targetIndex => {
+                // targetIndex is binded in a template, hence it became a string and must be
+                // converted before usage in the API
+                targetIndex = parseInt(targetIndex, 10);
+                this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
+            });
         } else {
             this._api.playTrump({trumpName: trump.name});
         }

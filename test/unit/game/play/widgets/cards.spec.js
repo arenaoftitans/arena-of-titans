@@ -19,7 +19,7 @@
 
 import '../../../setup';
 import { AotCardsCustomElement } from '../../../../../app/game/play/widgets/cards/cards';
-import { ApiStub, GameStub, I18nStub } from '../../../utils';
+import { ApiStub, GameStub, I18nStub, EventAgregatorStub } from '../../../utils';
 
 
 describe('cards', () => {
@@ -27,12 +27,14 @@ describe('cards', () => {
     let mockedApi;
     let mockedGame;
     let mockedI18n;
+    let mockedEa;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
-        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n);
+        mockedEa = new EventAgregatorStub();
+        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa);
     });
 
     it('should view possible movements', () => {
@@ -107,7 +109,7 @@ describe('cards', () => {
 
         expect(mockedGame.popup).toHaveBeenCalledWith(
             'confirm',
-            {message: 'Are you sure you want to discard King red?'});
+            {message: 'game.play.discard_confirm_message'});
 
         mockedGame.popupPromise.then(() => {
             expect(mockedApi.discard).toHaveBeenCalledWith({

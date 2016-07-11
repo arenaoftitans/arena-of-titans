@@ -62,6 +62,7 @@
             "complete_turn": "Terminer le tour",
             "complete_turn_confirm_message": "\u00cates-vous s\u00fbr de vouloir terminer le tour ?",
             "discard": "D\u00e9fausser",
+            "discard_confirm_message": "Es-tu s\u00fbr de vouloir te d\u00e9fausser de {{cardName}} ?",
             "discard_no_selected_card": "Tu dois s\u00e9lectionner une carte",
             "game_over": "Tu viens de terminer le jeu ! Ton rang :",
             "no_action": "Il ne s'est rien pass\u00e9 pour l'instant",

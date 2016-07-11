@@ -19,7 +19,7 @@
 
 import '../../../setup';
 import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps/trumps';
-import { ApiStub, GameStub, I18nStub } from '../../../utils';
+import { ApiStub, GameStub, I18nStub, EventAgregatorStub } from '../../../utils';
 
 
 describe('trumps', () => {
@@ -27,12 +27,14 @@ describe('trumps', () => {
     let mockedI18n;
     let mockedApi;
     let mockedGame;
+    let mockedEa;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
-        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n);
+        mockedEa = new EventAgregatorStub();
+        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa);
     });
 
     it('should play trump with a target after a popup', done => {

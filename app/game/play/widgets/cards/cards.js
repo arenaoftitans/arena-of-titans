@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
@@ -24,7 +25,7 @@ import { Game } from '../../../game';
 import './cards.scss';
 
 
-@inject(Api, Game, I18N)
+@inject(Api, Game, I18N, EventAggregator)
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
@@ -32,10 +33,27 @@ export class AotCardsCustomElement {
     _i18n;
     infos = {};
 
-    constructor(api, game, i18n) {
+    constructor(api, game, i18n, ea) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._popupMessage = {};
+        this._popupMesasgeId;
+
+        ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+    }
+
+    _translatePopupMessage() {
+        if (this._popupMessageId) {
+            let params;
+            if (this._popupMessageId === 'game.play.discard_confirm_message') {
+                params = {
+                    cardName: this._i18n.tr(`cards.${this.selectedCard.name.toLowerCase()}_${this.selectedCard.color.toLowerCase()}`),  // eslint-disable-line
+                };
+            }
+
+            this._popupMessage.message = this._i18n.tr(this._popupMessageId, params);
+        }
     }
 
     viewPossibleMovements(card) {
@@ -61,13 +79,13 @@ export class AotCardsCustomElement {
     }
 
     pass() {
-        let message;
         if (this.onLastLine) {
-            message = this._i18n.tr('game.play.complete_turn_confirm_message');
+            this._popupMessageId = 'game.play.complete_turn_confirm_message';
         } else {
-            message = this._i18n.tr('game.play.pass_confirm_message');
+            this._popupMessageId = 'game.play.pass_confirm_message';
         }
-        this._game.popup('confirm', {message: message}).then(() => {
+        this._translatePopupMessage();
+        this._game.popup('confirm', this._popupMessage).then(() => {
             this._api.pass();
             this.selectedCard = null;
         }, () => {
@@ -77,10 +95,9 @@ export class AotCardsCustomElement {
 
     discard() {
         if (this.selectedCard) {
-            let name = this.selectedCard.name;
-            let color = this.selectedCard.color.toLowerCase();
-            let message = `Are you sure you want to discard ${name} ${color}?`;
-            this._game.popup('confirm', {message: message}).then(() => {
+            this._popupMessageId = 'game.play.discard_confirm_message';
+            this._translatePopupMessage();
+            this._game.popup('confirm', this._popupMessage).then(() => {
                 this._api.discard({
                     cardName: this.selectedCard.name,
                     cardColor: this.selectedCard.color,
@@ -88,9 +105,9 @@ export class AotCardsCustomElement {
                 this.selectedCard = null;
             });
         } else {
-            this._game.popup(
-                'infos',
-                {message: this._i18n.tr('game.play.discard_no_selected_card')});
+            this._popupMessageId = 'game.play.discard_no_selected_card';
+            this._translatePopupMessage();
+            this._game.popup('infos', this._popupMessage);
         }
     }
 
