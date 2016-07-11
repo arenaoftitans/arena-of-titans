@@ -1,6 +1,6 @@
 {
     "OPEN": "Open",
-    "TAKEN": "Taken",
+    "TAKEN": "Taken,",
     "actions": {
         "dicarded_card": "{{playerName}} just discarded a card",
         "passed_turn": "{{playerName}} just passed his/her turn",
@@ -88,7 +88,7 @@
         "create_new_game": "New Game",
         "edit": "Edit",
         "me": "Me",
-        "name": "Name",
+        "name": "Name:\u00a0{{playerName}}",
         "ok": "OK",
         "propose_guided_visit_option": "Propose guided visit",
         "save": "Save",

@@ -1,6 +1,6 @@
 {
     "OPEN": "Ouvert",
-    "TAKEN": "Pris",
+    "TAKEN": "Pris,",
     "actions": {
         "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
         "passed_turn": "{{playerName}} vient de passer son tour",
@@ -88,7 +88,7 @@
         "create_new_game": "Nouvelle Partie",
         "edit": "\u00c9diter",
         "me": "Moi",
-        "name": "Nom",
+        "name": "Nom : {{playerName}}",
         "ok": "OK",
         "propose_guided_visit_option": "Proposer la visite guid\u00e9e",
         "save": "Sauvegarder",

@@ -19,11 +19,11 @@ PAGE_TO_SHEET_NB = {
 }
 GLOBAL_NAMESPACE_VALUES = {
     'en': {
-        'TAKEN': 'Taken',
+        'TAKEN': 'Taken,',
         'OPEN': 'Open',
     },
     'fr': {
-        'TAKEN': 'Pris',
+        'TAKEN': 'Pris,',
         'OPEN': 'Ouvert',
     }
 }

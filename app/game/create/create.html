@@ -33,7 +33,7 @@
         <h2 t="global.me">Me</h2>
         <img class="selected-hero" src.bind="heroSrc" />
         <p class="centered-text white-text">
-            ${ 'global.name' | t }: ${me.name}
+            <span t="global.name" t-params.bind="{playerName: me.name}">Name</span>
             <button class="button-light"
                     click.trigger="editMe()"
                     t="global.edit">Edit
@@ -50,7 +50,7 @@
             <h2 t="game.create.invite">Invite</h2>
             <div class="display-table">
                 <label class="centered-text bright-red-text display-table-cell">
-                    ${ 'game.create.invite_text' | t }
+                    <span t="game.create.invite_text">Invite</span>
                     <input id="invite-link" type="text" value.bind="gameUrl" readonly/>
                     <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
                         <img src="/assets/game/misc/clippy.svg" width="13" alt="Copy to clipboard">
@@ -64,8 +64,12 @@
          if.bind="me.name"
          class="centered-block white-text hidden-on-page-load">
         <h2 t="game.create.others">Other players</h2>
-        <p class="centered-text white-text" repeat.for="slot of slots">${ 'game.create.slot' | t } n°${slot.index + 1}: ${slot.state | t}<span if.bind="slot.player_name">,</span>
-            ${slot.player_name}</p>
+        <p class="centered-text white-text" repeat.for="slot of slots">
+            <span t="game.create.slot">Slot</span> n°${slot.index + 1}
+            <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
+            <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
+            ${slot.player_name}
+        </p>
         <button class="button-light centered-block"
                 if.bind="me.is_game_master"
                 click.trigger="addSlot()"
