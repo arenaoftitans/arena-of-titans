@@ -1,0 +1,94 @@
+@import 'slider';
+
+
+.video-container {
+    margin: auto;
+    max-width: 640px;
+
+    video {
+        width: 100%;
+    }
+}
+
+
+.row-block {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1300px;
+}
+
+
+.column-left {
+    float: left;
+    width: 35%;
+}
+
+.column-right {
+    float: right;
+    width: 35%;
+}
+
+.column-center {
+    display: inline-block;
+    width: 30%;
+}
+
+
+.border-black {
+    border: 3px solid black;
+}
+
+
+.small-column-left {
+    float: left;
+    margin-left: 2%;
+    width: 23%;
+}
+
+.big-column-center {
+    display: inline-block;
+    width: 50%;
+}
+
+.small-column-right {
+    float: right;
+    margin-right: 2%;
+    width: 23%;
+}
+
+
+.half-column-left {
+    display: block;
+    float: left;
+    width: 49%;
+}
+
+
+.half-column-left img {
+    width: 100%;
+}
+
+
+.half-column-right {
+    display: block;
+    float: right;
+    width: 49%;
+}
+
+.half-column-right img {
+    width: 100%;
+}
+
+
+.bg-content {
+    background-image: url("/assets/backgrounds/content.png");
+    background-size: 100% 100%;
+    margin-top: 2%;
+    overflow: auto;
+    padding-bottom: 2%;
+}
+
+
+.bg-content-padding {
+    padding: 2.3%;
+}

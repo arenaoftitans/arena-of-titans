@@ -1,0 +1,47 @@
+<!--
+# Copyright (C) 2015-2016 by Arena of Titans Contributors.
+#
+# This file is part of Arena of Titans.
+#
+# Arena of Titans is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Arena of Titans is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
+-->
+
+<template>
+    <require from="../infos/infos"></require>
+
+    <div id="cards-img-container" if.bind="!hasWon">
+        <aot-infos type="cards"
+                   infos.bind="infos"></aot-infos>
+        <div class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
+             repeat.for="card of hand"
+             click.delegate="viewPossibleMovements(card)"
+             mouseover.delegate="displayInfos(card, $event)"
+             mouseout.delegate="hideInfos()">
+        </div>
+    </div>
+    <div id="cards-actions" if.bind="!hasWon">
+        <button class="button-dark"
+                click.delegate="pass()"
+                disabled.bind="!yourTurn">
+                <span if.bind="!onLastLine" t="game.play.pass">Pass</span>
+                <span if.bind="onLastLine" t="game.play.complete_turn">Complete turn</span>
+        </button>
+        <button class="button-light"
+                click.delegate="discard()"
+                disabled.bind="!yourTurn"
+                t="game.play.discard">Discard</button>
+    </div>
+
+    <div if.bind="hasWon">${ 'game.play.game_over' | t } ${rank}</div>
+</template>

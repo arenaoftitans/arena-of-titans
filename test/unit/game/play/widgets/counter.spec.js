@@ -18,7 +18,7 @@
 */
 
 import '../../../setup';
-import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter';
+import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter/counter';
 import { Wait } from '../../../../../app/game/services/utils';
 import { ApiStub, EventAgregatorStub } from '../../../utils';
 

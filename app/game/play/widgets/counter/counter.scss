@@ -1,0 +1,12 @@
+@import '../../../../style/variables';
+
+
+aot-counter {
+    #counter {
+        max-height: $play-secondary-height - 3vh;
+        max-width: 100%;
+        opacity: 0.8;
+        position: relative;
+        z-index: 1;
+    }
+}

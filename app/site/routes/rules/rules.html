@@ -1,0 +1,93 @@
+<!--
+# Copyright (C) 2015-2016 by Arena of Titans Contributors.
+#
+# This file is part of Arena of Titans.
+#
+# Arena of Titans is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Arena of Titans is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
+-->
+
+<template>
+    <require from="../../widgets/aot-connect/aot-connect"></require>
+    <require from="../../widgets/aot-header/aot-header"></require>
+    <require from="../../widgets/aot-footer/aot-footer"></require>
+
+    <aot-header></aot-header>
+
+    <aot-connect></aot-connect>
+
+    <div class="row-block">
+        <div class="bg-content bg-content-padding" t="[html]site.rules.rules">
+            <h1>Règles Générales</h1>
+            <div class="half-column-left">
+                <h2>But du jeu</h2>
+                <p>En partant d'un bout d'une branche du plateau, soyez le premier à le traverser jusqu'à atteindre la dernière ligne opposée et à y rester pendant un tour.</p>
+            </div>
+            <img class="half-column-right border-black"
+                 src="/assets/homepage/board.png"
+                 alt="The board of the game" />
+        </div>
+
+        <div class="bg-content bg-content-padding">
+            <div class="half-column-left" t="[html]site.rules.moves">
+                <h2>Déplacements</h2>
+                <p>Les cartes Déplacement sont les cartes à bords jaunes, noirs, rouges et bleus.<br/>
+                    Lorsque vous utilisez une carte Déplacement, vous pouvez avancer votre pion sur le plateau.<br/>
+                    Le nombre de cases, la couleur des cases et le type de mouvement que vous pouvez faire sont imposés par la carte que vous avez jouée.
+                </p>
+                <img src="/assets/rules/aot-move.png"
+                     alt="The moves of the game" />
+            </div>
+            <img class="half-column-right translate-y-35"
+                 src="/assets/rules/rules-card.png"
+                 alt="A card of the game" />
+        </div>
+
+        <div class="bg-content bg-content-padding">
+            <img class="centered-block"
+                 src="/assets/rules/aot-move-cards.png"
+                 alt="Move cards" />
+        </div>
+
+        <div class="bg-content bg-content-padding">
+            <img class="centered-block"
+                 src="/assets/rules/aot-move-cards2.png"
+                 alt="Move cards, second image" />
+        </div>
+
+        <div class="bg-content bg-content-padding">
+            <div class="half-column-left" t="[html]site.rules.trumps">
+                <h2>Atouts</h2>
+                <p>Avant une partie, vous avez la possibilité de créer un Build contenant 4 Atouts.<br/>
+                    Les Atouts servent à bloquer les autres joueurs, bloquer les atouts des autres joueurs, améliorer vos déplacements,…</p>
+                <img src="/assets/rules/trumps.png"
+                     alt="The trumps" />
+            </div>
+            <img class="half-column-right translate-y-25"
+                 src="/assets/rules/trump.png"
+                 alt="A trump (red tower)" />
+        </div>
+
+        <div class="bg-content bg-content-padding">
+            <p class="half-column-left translate-y-150 centered-important" t="[html]site.rules.heroes">
+                Choisissez votre Héros parmi les 8 peuples.<br/>
+                Chaque Héros possède une compétence spécifique qui vient compléter votre Build.
+            </p>
+            <img class="half-column-right"
+                 src="/assets/rules/aot-heroes.png"
+                 alt="A hero" />
+        </div>
+    </div>
+
+    <aot-footer></aot-footer>
+</template>

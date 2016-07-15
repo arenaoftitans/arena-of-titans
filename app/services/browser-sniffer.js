@@ -32,7 +32,11 @@ if (isNaN(msie)) {
 let mac = !msie && /\(Mac/.test(ua);
 
 
+let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
+
+
 export const browsers = {
     mac: mac,
     msie: msie,
+    htmlCollection2Array: htmlCollection2Array,
 };

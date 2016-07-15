@@ -1,0 +1,94 @@
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@import '../../../../style/players-colors';
+@import '../../../../style/media-queries';
+
+
+aot-player-box {
+    .player-box {
+        background-color: black;
+        border: medium solid white;
+        border-radius: 10px;
+        cursor: pointer;
+        height: 25px;
+        min-width: 90px;
+        padding-right: 0.5em;
+        position: absolute;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    .player-box-circle {
+        border-radius: 50%;
+        display: inline-block;
+        height: 20px;
+        margin: 2px;
+        width: 20px;
+    }
+
+    .player-box-text {
+        color: white;
+        display: inline;
+        vertical-align: top;
+    }
+
+    @for $i from 0 to length($players-colors) {
+        .player-box-#{$i} {
+            @if $i < 4 {
+                right: 2%;
+            } @else {
+                left: 2%;
+            }
+
+            @if $i == 0 or $i == 7 {
+                bottom: 3%;
+            } @else if $i == 1 or $i == 6 {
+                bottom: 9%;
+                @include medium-height {
+                    bottom: 10.5%;
+                }
+                @include small-height {
+                    bottom: 14%;
+                }
+                @include tiny-height {
+                    bottom: 17%;
+                }
+            } @else if $i == 2 or $i == 5 {
+                top: 3%;
+            } @else {
+                top: 9%;
+                @include medium-height {
+                    top: 10.5%;
+                }
+                @include small-height {
+                    top: 14%;
+                }
+                @include tiny-height {
+                    top: 17%;
+                }
+            }
+        }
+
+        .player-box-circle-#{$i} {
+            background-color: nth($players-colors, $i + 1);
+        }
+    }
+}

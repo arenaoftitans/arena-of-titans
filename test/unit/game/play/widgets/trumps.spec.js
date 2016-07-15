@@ -18,7 +18,7 @@
 */
 
 import '../../../setup';
-import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps';
+import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps/trumps';
 import { ApiStub, GameStub, I18nStub } from '../../../utils';
 
 

@@ -1,0 +1,170 @@
+@import 'button';
+
+body {
+    background-image: url("/assets/backgrounds/background.png");
+    font-family: 'Berkshire Swash', cursive;
+}
+
+
+body {
+    margin: 0;
+}
+
+
+h1 {
+    color: maroon;
+}
+
+
+h1,
+h2 {
+    text-align: center;
+}
+
+
+p {
+    color: black;
+}
+
+
+.translate-y-35 {
+    transform: translateY(35%);
+}
+
+
+.translate-y-25 {
+    transform: translateY(25%);
+}
+
+
+.translate-y-150 {
+    transform: translateY(150%);
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+.pointer {
+    cursor: pointer;
+}
+
+
+.display-table {
+    display: table;
+}
+
+.display-table-cell {
+    display: table-cell;
+}
+
+
+.centered-important {
+    font-size: x-large;
+    text-align: center;
+}
+
+.centered-block {
+    display: block;
+    margin: auto;
+}
+
+.centered-block-medium {
+    display: block;
+    margin: auto;
+    width: 300px;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+.centered-text-timer {
+    font-family: 'Old English Text MT';
+    text-align: center;
+    top: -150px;
+}
+
+.centered-important strong {
+    color: maroon;
+}
+
+.white-text,
+strong.white-text {
+    color: white;
+}
+
+.red-text {
+    color: #b40404;
+}
+
+.bright-red-text {
+    color: #f00;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.margin-top-0 {
+    margin-top: 0;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-top-70 {
+    margin-top: 70px;
+}
+
+.margin-top-160 {
+    margin-top: 160px;
+}
+
+
+.svg-full-screen-bg {
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: -10;
+}
+
+
+.hidden-on-page-load {
+    position: absolute;
+    top: -500px;
+}
+
+
+.blink-img {
+    opacity: 0.2 !important;
+}
+
+.blink-container {
+    border-color: maroon;
+    border-style: solid;
+    border-width: 3px;
+    margin: -3px;
+}
+
+
+/* latin-ext */
+@font-face {
+    font-family: 'Berkshire Swash';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Berkshire Swash'), local('BerkshireSwash-Regular'), url('fonts/BerkshireSwash.woff2') format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin */
+@font-face {
+    font-family: 'Berkshire Swash';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Berkshire Swash'), local('BerkshireSwash-Regular'), url('fonts/BerkshireSwash.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}

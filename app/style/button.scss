@@ -1,0 +1,54 @@
+button,
+input[type=submit] {
+    border: none;
+    font-family: 'Berkshire Swash', cursive;
+    font-size: medium;
+    outline: none;
+    padding: 0;
+}
+
+
+button,
+.button {
+    color: #dcdcdc;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+
+button[disabled],
+.button-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+
+.button-dark {
+    background: url(/assets/components/button-dark.png) no-repeat;
+    background-position: 0 0;
+    background-size: 100% 200%;
+}
+
+.button-dark:hover {
+    background: url(/assets/components/button-dark.png) no-repeat;
+    background-position: 0 -32px;
+    background-size: 100% 200%;
+}
+
+
+.button-light {
+    background: url(/assets/components/button-light.png) no-repeat;
+    background-position: 0 0;
+    background-size: 100% 200%;
+}
+
+.button-light:hover {
+    background: url(/assets/components/button-light.png) no-repeat;
+    background-position: 0 -32px;
+    background-size: 100% 200%;
+}

@@ -1,0 +1,58 @@
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+aot-select-heroes {
+    #select-heroes-form p {
+        color: white;
+    }
+
+    .select-hero img {
+        margin-top: 1%;
+        max-width: 23%;
+    }
+
+    img.hero-img {
+        background: #333;
+        display: inline-block;
+        overflow: hidden;
+        -moz-transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .main-pos {
+        border: medium solid rgba(245, 245, 220, 0.7);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .right-pos,
+    .left-pos {
+        opacity: 0.3;
+        -moz-transform: scale(0.75);
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75);
+    }
+
+    .arrow {
+        cursor: pointer;
+        height: 145px;
+        max-width: 20px !important;
+    }
+}

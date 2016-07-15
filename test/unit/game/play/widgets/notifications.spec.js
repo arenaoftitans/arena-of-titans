@@ -18,7 +18,7 @@
 */
 
 import '../../../setup';
-import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications';
+import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';
 import { ApiStub, I18nStub, EventAgregatorStub } from '../../../utils';
 
 
@@ -36,6 +36,7 @@ describe('notifications', () => {
     });
 
     it('should update last action on player played', () => {
+        spyOn(mockedI18n, 'tr').and.returnValue('translated');
         let cb = mockedApi._cbs[mockedApi.requestTypes.player_played][0];
         let message = {
             player_index: 0,
@@ -52,30 +53,43 @@ describe('notifications', () => {
 
         cb(message);
 
-        expect(sut.playerName).toBe('Player 1');
-        expect(sut.lastAction.description).toBe('played');
+        expect(mockedI18n.tr).toHaveBeenCalledWith(
+            'actions.played',
+            {
+                playerName: 'Player 1',
+                targetName: undefined,
+            });
+        expect(sut.lastAction.description).toBe('translated');
         expect(sut.lastAction.card).toEqual(message.last_action.card);
         expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king-red.png');
     });
 
     it('should update last action when a trump is played', () => {
+        spyOn(mockedI18n, 'tr').and.returnValue('translated');
         let cb = mockedApi._cbs[mockedApi.requestTypes.play_trump][0];
         let message = {
             last_action: {
-                description: 'Someone played a trump',
+                description: 'played_trump',
                 trump: {
                     name: 'Tower Blue',
                     description: 'Block player.'
                 },
-                player_name: 'Player 1'
+                player_name: 'Player 1',
+                target_name: 'Player 2',
             }
         };
 
         cb(message);
 
-        expect(sut.playerName).toBe('Player 1');
-        expect(sut.lastAction.description).toBe('Someone played a trump');
-        expect(sut.lastAction.trump.description).toBe('trumps.tower_blue_description');
+       expect(mockedI18n.tr).toHaveBeenCalledWith(
+            'actions.played_trump',
+            {
+                playerName: 'Player 1',
+                targetName: 'Player 2',
+            });
+        expect(sut.lastAction.description).toBe('translated');
+        expect(mockedI18n.tr).toHaveBeenCalledWith('trumps.tower_blue_description');
+        expect(sut.lastAction.trump.description).toBe('translated');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
         expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
     });

@@ -1,0 +1,56 @@
+@import '../../../../style/players-colors';
+
+
+aot-board {
+    .pawn-circle {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 9;
+    }
+
+
+    @for $i from 0 to length($players-colors) {
+        #player#{$i} .pawn-circle {
+            fill: nth($players-colors, $i + 1);
+        }
+    }
+
+    rect,
+    path {
+        opacity: 0.6;
+        stroke: #000;
+        stroke-dasharray: none;
+        stroke-miterlimit: 4;
+        stroke-opacity: 1;
+        stroke-width: 2.24024391;
+    }
+
+    .red-square {
+        fill: red;
+    }
+
+    .yellow-square {
+        fill: yellow;
+    }
+
+    .black-square {
+        fill: black;
+    }
+
+    .blue-square {
+        fill: blue;
+    }
+
+    .last-line-square {
+        opacity: 1;
+    }
+
+    .highlighted-square {
+        cursor: pointer;
+        fill: green !important;
+    }
+
+    .pawn {
+        fill: black;
+    }
+}

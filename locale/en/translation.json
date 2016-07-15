@@ -1,6 +1,13 @@
 {
     "OPEN": "Open",
     "TAKEN": "Taken",
+    "actions": {
+        "dicarded_card": "{{playerName}} just discarded a card",
+        "passed_turn": "{{playerName}} just passed his/her turn",
+        "played_card": "{{playerName}} just played a card",
+        "played_trump": "{{playerName}} just played a trump on {{targetName}}",
+        "problem": "A problem occured"
+    },
     "cards": {
         "assassin": "Move two squares in line or diagonal.",
         "assassin_black": "Black Assassin",
@@ -57,7 +64,6 @@
             "discard": "Discard",
             "discard_no_selected_card": "You must select a card",
             "game_over": "You just completed the game! Your rank:",
-            "last_action_title": "Last action played by <strong>{{playerName}}</strong>",
             "no_action": "No action yet",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",

@@ -1,0 +1,87 @@
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@import 'cards-sprite';
+@import '../../../../style/media-queries';
+
+aot-cards {
+    #cards-actions {
+        @include tiny-height {
+            margin-top: 1%;
+            transform: scale(0.8);
+        }
+
+        @include medium-height {
+            display: block;
+            float: right;
+            width: 30%;
+        }
+    }
+
+    #cards-img-container {
+        @include medium-height {
+            float: left;
+            margin-left: 3%;
+            width: 60%;
+        }
+
+        @include medium-width {
+            margin-left: 0;
+            width: 70%;
+        }
+    }
+
+    .card {
+        display: inline-block;
+        height: 100px;
+        margin-right: 2%;
+        margin-top: 2%;
+        position: relative;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 69px;
+
+        @include medium-width {
+            margin-right: -2%;
+            transform: scale(0.8);
+        }
+
+        @include medium-height {
+            margin-top: 0;
+        }
+    }
+
+    .active-card {
+        cursor: pointer;
+    }
+
+    .active-card:hover {
+        top: -10px;
+    }
+
+    .inactive-card {
+        opacity: 0.6;
+    }
+
+    .selected-card,
+    .selected-card:hover {
+        top: -20px;
+    }
+}

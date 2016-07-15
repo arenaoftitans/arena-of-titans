@@ -21,11 +21,12 @@ import { inject, ObserverLocator } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait } from '../services/utils';
+import { Wait, ImageSource } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application.json';
 import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
+import './create.scss';
 
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)
@@ -96,7 +97,9 @@ export class Create {
             let waitForMe = Wait.forId('create-game-me');
             let waitForGateLeft = Wait.forId('create-game-gate-left');
             let waitForSlots = Wait.forId('create-game-slots');
-            let waitAll = Promise.all([waitForPlate, waitForMe, waitForGateLeft, waitForSlots]);
+            let waitForBg = Wait.forId('create-game-bg');
+            let waitAll = Promise.all(
+                    [waitForPlate, waitForMe, waitForGateLeft, waitForSlots, waitForBg]);
 
             waitAll.then(elts => this.resize(elts));
             addEventListener('resize', () => {
@@ -130,9 +133,20 @@ export class Create {
         let plate = elts[0];
         let plateBoundingClientRect = plate.getBoundingClientRect();
         let me = elts[1];
+        let name = me.getElementsByTagName('p')[0];
+        let shareLink = me.getElementsByTagName('div')[0];
         let gateLeft = elts[2];
         let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
         let slots = elts[3];
+        let addSlotsBtn = slots.getElementsByTagName('button')[0];
+        let bg = elts[4];
+
+        let plateWidth = plateBoundingClientRect.width + 'px';
+        name.style.maxWidth = plateWidth;
+        // Share link is only present for the game master.
+        if (shareLink) {
+            shareLink.style.maxWidth = plateWidth;
+        }
 
         me.style.top = plateBoundingClientRect.top + 25 + 'px';
         me.style.left = plateBoundingClientRect.left +
@@ -140,11 +154,24 @@ export class Create {
             me.getBoundingClientRect().width / 2 +
             'px';
 
+        let gateLeftWidth = gateLeftBoundingClientRect.width + 'px';
         slots.style.top = gateLeftBoundingClientRect.top + 'px';
+        slots.style.maxWidth = gateLeftWidth;
+        // Share link is only present for the game master.
+        if (addSlotsBtn) {
+            addSlotsBtn.style.maxWidth = gateLeftWidth;
+        }
         slots.style.left = gateLeftBoundingClientRect.left +
             gateLeftBoundingClientRect.width / 2 -
             slots.getBoundingClientRect().width / 2 +
             'px';
+
+        let heightDiff = me.getBoundingClientRect().bottom - bg.getBoundingClientRect().bottom;
+        if (heightDiff > 0) {
+            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
+        } else {
+            bg.style.height = undefined;
+        }
     }
 
     _joinGame(gameId) {
@@ -232,5 +259,9 @@ export class Create {
 
     get hasHero() {
         return this.me.hero !== undefined;
+    }
+
+    get heroSrc() {
+        return ImageSource.forHero(this.me.hero);
     }
 }
