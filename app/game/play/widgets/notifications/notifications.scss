@@ -17,47 +17,29 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-$phone-width: 599px;
-$medium-width: 1000px;
-$small-width: 800px;
+@import '../../../../style/media-queries';
 
-$tiny-height: 390px;
-$small-height: 545px;
-$medium-height: 800px;
 
-@mixin fluid {
-    @media screen and (max-width: #{$phone-width}) {
-        @content;
+aot-notifications {
+    > p {
+        padding: 20px;
+    }
+
+    > div {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    @include small-height {
+        div {
+            display: none;
+        }
+    }
+
+    @include medium-height {
+        img {
+            display: none !important;
+        }
     }
 }
 
-@mixin medium-width {
-    @media screen and (max-width: #{$medium-width}) {
-        @content;
-    }
-}
-
-@mixin small-width {
-    @media screen and (max-width: #{$small-width}) {
-        @content;
-    }
-}
-
-
-@mixin tiny-height {
-    @media screen and (max-height: #{$tiny-height}) {
-        @content;
-    }
-}
-
-@mixin small-height {
-    @media screen and (max-height: #{$small-height}) {
-        @content;
-    }
-}
-
-@mixin medium-height {
-    @media screen and (max-height: #{$medium-height}) {
-        @content;
-    }
-}

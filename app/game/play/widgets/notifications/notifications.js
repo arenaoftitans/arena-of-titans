@@ -24,6 +24,7 @@ import { Api } from '../../../services/api';
 import { ImageName, ImageSource } from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { browsers } from '../../../../services/browser-sniffer';
+import './notifications.scss';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;
@@ -31,11 +32,9 @@ const GUISED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-let htmlCollection2Array = collection => Array.prototype.slice.call(collection);
-
 let blinkImg = (elements, forceClear) => {
     if (browsers.msie || browsers.mac) {
-        elements = htmlCollection2Array(elements);
+        elements = browsers.htmlCollection2Array(elements);
     }
 
     for (let elt of elements) {
@@ -107,9 +106,17 @@ export class AotNotificationsCustomElement {
 
     _updateLastAction(message) {
         let lastAction = message.last_action || {};
+        let description;
+        if (lastAction.description) {
+            description = this._i18n.tr(
+                `actions.${lastAction.description}`,
+                {
+                    playerName: lastAction.player_name,
+                    targetName: lastAction.target_name,
+                });
+        }
         this._lastAction = {
-            player_name: lastAction.player_name,
-            description: lastAction.description,
+            description: description,
         };
 
         if (lastAction.card) {
@@ -186,7 +193,7 @@ export class AotNotificationsCustomElement {
         let lastLineSquares = document.getElementsByClassName('last-line-square');
 
         if (browsers.msie || browsers.mac) {
-            lastLineSquares = htmlCollection2Array(lastLineSquares);
+            lastLineSquares = browsers.htmlCollection2Array(lastLineSquares);
         }
 
         for (let square of lastLineSquares) {
@@ -226,10 +233,6 @@ export class AotNotificationsCustomElement {
                 blinkFn(true);
             }
         }, GUIDED_VISIT_BLINK_TIME);
-    }
-
-    get playerName() {
-        return this._lastAction.player_name;
     }
 
     get currentPlayerName() {

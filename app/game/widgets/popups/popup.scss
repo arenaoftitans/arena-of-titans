@@ -1,20 +1,38 @@
+@import '../../../style/media-queries';
+
+$popup-full-screen-margin-top: -8px;
+
+
 aot-popup {
     .popup {
         background-color: #111;
-        height: 112%;
+        height: 100vh;
+        margin-top: $popup-full-screen-margin-top;
         opacity: 0.6;
         position: absolute;
         width: 100%;
         z-index: 900;
     }
 
+    .popup-container {
+        height: 100vh;
+        margin-top: $popup-full-screen-margin-top;
+        overflow-y: hidden;
+        position: absolute;
+        width: 100%;
+    }
+
     .popup-content {
+        left: 50%;
+        max-width: 700px;
+        min-height: 100px;
+        min-width: 454px;
         padding-bottom: 72px;
         padding-top: 50px;
         position: absolute;
-        margin-left: 25%;
-        margin-top: 8%;
-        width: 700px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
         z-index: 901;
 
         &.default {
@@ -36,7 +54,7 @@ aot-popup {
         }
 
         button {
-            margin-left: 16%;
+            margin-right: 1%;
             margin-top: 1em;
         }
 
@@ -57,25 +75,59 @@ aot-popup {
     .popup-player-box {
         background: url(/assets/game/backgrounds/popup-ingame.png) no-repeat;
         background-size: 100% 100%;
+        padding-bottom: 40px;
+
+        @include small-height {
+            padding-bottom: 10px;
+        }
+
+        @include tiny-height {
+            padding-top: 10px;
+        }
     }
 
     aot-player-box-infos {
-        div {
-            margin-top: -28px;
-        }
-
         h1 {
             display: table;
             margin: auto;
 
             img {
                 margin-right: 20px;
+                max-width: 100px;
+
+                @include small-height {
+                    display: none !important;
+                }
             }
 
             img,
             strong {
                 display: table-cell;
                 vertical-align: middle;
+            }
+        }
+
+        h2 {
+            @include tiny-height {
+                margin: 6px;
+            }
+        }
+
+        .card {
+            margin-right: 1%;
+            max-width: 69px;
+
+            @include small-height {
+                max-height: 80px;
+            }
+        }
+
+        .trump {
+            margin-right: 1%;
+            max-width: 80px;
+
+            @include small-height {
+                max-width: 45px;
             }
         }
     }

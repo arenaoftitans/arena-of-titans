@@ -20,7 +20,7 @@
 <template>
     <div class="x-margin centered-text">
         <h1>
-            <img src="${heroSource}" width="100px" />
+            <img src="${heroSource}" />
             <strong class="white-text">${data.playerName}</strong>
         </h1>
 
@@ -29,7 +29,7 @@
                 class="white-text"></h2>
             <img repeat.for="card of lastPlayedCards"
                  src.bind="card"
-                 width="69px" />
+                 class="card" />
         </div>
 
         <div class="margin-top-0">
@@ -37,7 +37,7 @@
                 class="white-text"></h2>
             <img repeat.for="trump of activeTrumps"
                  src.bind="trump"
-                 width="45px" />
+                 class="trump" />
         </div>
     </div>
 </template>

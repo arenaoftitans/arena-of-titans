@@ -113,6 +113,7 @@ export class AotInfosCustomElement {
                 'px';
         } else if (this.type === 'player-name') {
             let event = this.infos.event;
+            let boardBg = document.getElementById('board-bg');
 
             this.element.style.width = this.infos.title.length + 2 + 'em';
             this.element.style.height = '2.5em';
@@ -121,10 +122,12 @@ export class AotInfosCustomElement {
             let y = event.y || event.clientY || 0;
             let x = event.x || event.clientX || 0;
             this.element.style.top = y -
-                1.5 * elementBoundingClientRect.height +
+                1.5 * elementBoundingClientRect.height -
+                boardBg.getBoundingClientRect().top +
                 'px';
             this.element.style.left = x -
-                elementBoundingClientRect.width / 2 +
+                elementBoundingClientRect.width / 2 -
+                boardBg.getBoundingClientRect().left +
                 'px';
             this.element.style['background-size'] =
                 `${this.element.style.width} ${this.element.style.height}`;

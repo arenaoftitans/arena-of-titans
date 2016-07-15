@@ -1,95 +1,12 @@
-aot-counter {
-    #counter-countainer {
-        background-image: url(/assets/game/backgrounds/stopwatch.png);
-        background-size: 100% 100%;
-        position: relative;
-    }
+@import '../../../../style/variables';
 
+
+aot-counter {
     #counter {
+        max-height: $play-secondary-height - 3vh;
+        max-width: 100%;
         opacity: 0.8;
-        padding-left: 25px;
-        padding-top: 10px;
         position: relative;
         z-index: 1;
-    }
-
-    #timer {
-        color: #000;
-        font-size: 500%;
-        margin: auto;
-        padding-top: auto;
-        position: relative;
-        -webkit-transition: opacity 350ms linear 0s;
-        transition: opacity 350ms linear 0s;
-        z-index: 2;
-    }
-
-    @media screen and (max-height: 899px) {
-        #counter,
-        #counter-countainer {
-            height: 165px;
-        }
-
-        .centered-text-timer {
-            top: -135px;
-        }
-    }
-
-    @media screen and (min-height: 650px) and (max-height: 749px) {
-        #counter,
-        #counter-countainer {
-            height: 124px;
-        }
-
-        #timer {
-            font-size: 350%;
-        }
-
-        .centered-text-timer {
-            top: -105px;
-        }
-    }
-
-    @media screen and (min-width: 800px) and (min-height: 900px) {
-        #counter,
-        #counter-countainer {
-            height: 165px;
-        }
-
-        #timer {
-            font-size: 460%;
-        }
-
-        .centered-text-timer {
-            left: 16px;
-            top: -142px;
-        }
-    }
-
-    @media screen and (min-width: 1200px) and (min-height: 900px) {
-        #counter,
-        #counter-countainer {
-            height: 174px;
-        }
-
-        .centered-text-timer {
-            left: 0;
-        }
-    }
-
-    @media screen and (min-width: 1500px) and (min-height: 925px) {
-        #counter,
-        #counter-countainer {
-            height: 181px;
-        }
-
-        #timer {
-            font-size: 500%;
-        }
-
-        .centered-text-timer {
-            left: 0;
-            top: -150px;
-        }
     }
 }

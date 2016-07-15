@@ -20,6 +20,7 @@
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
 import { Wait } from '../../../services/utils';
+import { browsers } from '../../../../services/browser-sniffer';
 import './select-heroes.scss';
 
 
@@ -30,6 +31,10 @@ export class AotSelectHeroesCustomElement {
     constructor() {
         this.currentHeroIndex = 0;
         this.direction = null;
+        this.loadDefered = {};
+        this.loadDefered.promise = new Promise(resolve => {
+            this.loadDefered.resolve = resolve;
+        });
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -74,27 +79,33 @@ export class AotSelectHeroesCustomElement {
         let waitForPlate = Wait.forId('select-heroes-plate');
         let waitForBg = Wait.forId('select-heroes-bg');
         let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
-        waitAll.then(elts => this.resize(elts));
-        addEventListener('resize', () => {
+        waitAll.then(elts => this.resize(elts, 2));
+        let resize = () => {
             waitAll.then(elts => this.resize(elts));
+        };
+        addEventListener('load', () => {
+            resize();
+            this.loadDefered.resolve();
         });
+        addEventListener('resize', resize);
     }
 
-    resize(elts) {
+    resize(elts, iter) {
         let selectForm = elts[0];
         let saveDiv = selectForm.getElementsByTagName('div')[1];
+        let selectedHero = selectForm.getElementsByClassName('main-pos')[0];
+        let arrows = browsers.htmlCollection2Array(selectForm.getElementsByClassName('arrow'));
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
         let bg = elts[2];
 
-        // On some screen, if we atempt to center the caroussel, we go outside the plate.
+        // On some screen, if we attempt to center the caroussel, we go outside the plate.
         let centerInPlateValue = plateBoundingClientRect.top +
-            plateBoundingClientRect.height / 2 -
-            selectForm.getBoundingClientRect().height / 2;
+                plateBoundingClientRect.height / 2 -
+                selectForm.getBoundingClientRect().height / 2;
         selectForm.style.top = Math.max(centerInPlateValue, plateBoundingClientRect.top + 10) +
-            'px';
+                'px';
         selectForm.style.left = plate.getBoundingClientRect().left + 'px';
-        selectForm.style.height = plate.getBoundingClientRect().height + 'px';
         selectForm.style.width = plate.getBoundingClientRect().width + 'px';
 
         let heightDiff = saveDiv.getBoundingClientRect().bottom -
@@ -102,7 +113,20 @@ export class AotSelectHeroesCustomElement {
         if (heightDiff > 0) {
             bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
         } else {
-            bg.style.height = undefined;
+            bg.style.height = '';
+        }
+
+        for (let arrow of arrows) {
+            arrow.style.height = selectedHero.getBoundingClientRect().height + 'px';
+        }
+
+        if (iter > 0) {
+            this.loadDefered.promise.then(() => {
+                setTimeout(() => {
+                    iter--;
+                    this.resize(elts, iter);
+                }, 50);
+            });
         }
     }
 

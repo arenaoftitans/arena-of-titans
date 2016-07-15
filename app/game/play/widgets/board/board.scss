@@ -53,11 +53,4 @@ aot-board {
     .pawn {
         fill: black;
     }
-
-    /* Very small screens */
-    @media screen and (max-width: 799px) {
-        #board {
-            max-width: 233px;
-        }
-    }
 }

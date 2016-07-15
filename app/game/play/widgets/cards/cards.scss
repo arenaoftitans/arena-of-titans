@@ -18,18 +18,54 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 @import 'cards-sprite';
+@import '../../../../style/media-queries';
 
 aot-cards {
+    #cards-actions {
+        @include tiny-height {
+            margin-top: 1%;
+            transform: scale(0.8);
+        }
+
+        @include medium-height {
+            display: block;
+            float: right;
+            width: 30%;
+        }
+    }
+
+    #cards-img-container {
+        @include medium-height {
+            float: left;
+            margin-left: 3%;
+            width: 60%;
+        }
+
+        @include medium-width {
+            margin-left: 0;
+            width: 70%;
+        }
+    }
+
     .card {
         display: inline-block;
         height: 100px;
         margin-right: 2%;
-        margin-top: 20px;
+        margin-top: 2%;
         position: relative;
         -moz-user-select: none;
         -webkit-user-select: none;
         user-select: none;
         width: 69px;
+
+        @include medium-width {
+            margin-right: -2%;
+            transform: scale(0.8);
+        }
+
+        @include medium-height {
+            margin-top: 0;
+        }
     }
 
     .active-card {
@@ -47,44 +83,5 @@ aot-cards {
     .selected-card,
     .selected-card:hover {
         top: -20px;
-    }
-
-    @media screen and (max-height: 899px) {
-        .card {
-            margin-bottom: -43px;
-        }
-
-        .selected-card {
-            top: -5px;
-        }
-
-        #cards-actions {
-            display: block;
-            float: right;
-            width: 30%;
-        }
-
-        #cards-actions button {
-            width: 45%;
-        }
-    }
-
-    @media screen and (min-height: 650px) and (max-height: 749px) {
-        #cards-img-container {
-            display: block;
-            float: left;
-            overflow: hidden;
-            width: 70%;
-        }
-
-        #cards-actions {
-            display: block;
-            float: right;
-            width: 30%;
-        }
-
-        #cards-actions button {
-            width: 48%;
-        }
     }
 }
