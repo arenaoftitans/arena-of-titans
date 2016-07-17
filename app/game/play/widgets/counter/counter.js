@@ -134,7 +134,7 @@ export class AotCounterCustomElement {
 
             // Draw time.
             let fontSize = 120;
-            ctx.font = `${fontSize}pt Arial`;
+            ctx.font = `${fontSize}pt Old English Text MT`;
             ctx.textAlign = 'center';
             ctx.fillStyle = 'black';
             ctx.fillText(this.formatedTimeLeft, 150, 150 + fontSize / 2);
