@@ -64,18 +64,18 @@
          if.bind="me.name"
          class="centered-block white-text hidden-on-page-load">
         <h2 t="game.create.others">Other players</h2>
-        <p class="centered-text white-text" repeat.for="slot of slots">
-            <span t="game.create.slot">Slot</span> n°${slot.index + 1}
-            <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
-            <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
-            ${slot.player_name}
-        </p>
         <button class="button-light centered-block"
                 if.bind="me.is_game_master"
                 click.trigger="addSlot()"
                 disabled.bind="!canAddSlot"
                 t="game.create.add">Add Slot
         </button>
+        <p class="centered-text white-text" repeat.for="slot of slots">
+            <span t="game.create.slot">Slot</span> n°${slot.index + 1}
+            <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
+            <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
+            ${slot.player_name}
+        </p>
     </div>
 
     <!-- svg background -->
