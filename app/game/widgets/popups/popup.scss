@@ -122,6 +122,27 @@ aot-popup {
             }
         }
 
+        .cross-container {
+            background-color: #98999F;
+            border: solid #98999F;
+            border-radius: 50%;
+            cursor: pointer;
+            height: 30px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30px;
+        }
+
+        .cross {
+            background: linear-gradient(to bottom, transparent 35%, #65666D 35%, #65666D 65%,  transparent 65%),
+                linear-gradient(to right, transparent 35%, #65666D 35%, #65666D 65%, transparent 65%);
+            cursor: pointer;
+            height: 30px;
+            transform: rotate(45deg);
+            width: 30px;
+        }
+
         .trump {
             margin-right: 1%;
             max-width: 80px;

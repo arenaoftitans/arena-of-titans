@@ -35,16 +35,8 @@ export class AotPlayerBoxInfosCustomElement {
         this._api = api;
     }
 
-    bind() {
-        let numberClicks = 0;
-        let onClick = () => {
-            numberClicks++;
-            if (numberClicks >= 2) {
-                this.done.resolve();
-                removeEventListener('click', onClick);
-            }
-        };
-        addEventListener('click', onClick);
+    close() {
+        this.done.resolve();
     }
 
     get heroSource() {
