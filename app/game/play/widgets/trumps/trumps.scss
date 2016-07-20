@@ -62,8 +62,9 @@ aot-trumps {
         margin-left: auto;
         margin-right: auto;
         margin-top: 1vh;
+        max-height: 9vh;
+        max-width: 40%;
         min-width: 32px;
-        width: 40%;
     }
 
     .active-trump {
