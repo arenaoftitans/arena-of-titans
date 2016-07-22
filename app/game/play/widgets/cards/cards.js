@@ -18,14 +18,20 @@
 */
 
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { bindable, inject } from 'aurelia-framework';
+import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
+import { Blink, Elements } from '../../../services/utils';
 import { Game } from '../../../game';
 import './cards.scss';
 
 
-@inject(Api, Game, I18N, EventAggregator)
+const BUTTON_BLINK_TIME = 1000;
+const MAX_BUTTON_BLINK_TIME = 90000;
+const BUTTON_BLINK_CLASS = 'blink-container';
+
+
+@inject(Api, Game, I18N, EventAggregator, ObserverLocator)
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
@@ -33,7 +39,7 @@ export class AotCardsCustomElement {
     _i18n;
     infos = {};
 
-    constructor(api, game, i18n, ea) {
+    constructor(api, game, i18n, ea, ol) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
@@ -41,6 +47,17 @@ export class AotCardsCustomElement {
         this._popupMesasgeId;
 
         ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+        let blinker;
+        ol.getObserver(this, 'highlightPassButton').subscribe(() => {
+            if (this.highlightPassButton) {
+                let elements = Elements.forClass('button-dark', 'cards-actions');
+                blinker = new Blink(
+                    elements, MAX_BUTTON_BLINK_TIME, BUTTON_BLINK_TIME, BUTTON_BLINK_CLASS);
+                blinker.blink();
+            } else if (blinker) {
+                blinker.clearElements();
+            }
+        });
     }
 
     _translatePopupMessage() {
@@ -137,5 +154,9 @@ export class AotCardsCustomElement {
 
     get rank() {
         return this._api.me.rank;
+    }
+
+    get highlightPassButton() {
+        return this.yourTurn && this.onLastLine;
     }
 }
