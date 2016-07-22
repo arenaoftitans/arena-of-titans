@@ -72,6 +72,8 @@ export class AotInfosCustomElement {
         switch (this.type) {
             case 'cards':
                 return 'cards-element-infos';
+            case 'affecting-trumps':
+                return 'affecting-trumps-element-infos';
             case 'trumps':
                 return 'trumps-element-infos';
             case 'player-name':
@@ -82,8 +84,9 @@ export class AotInfosCustomElement {
     }
 
     show(target) {
-        if (this.type === 'trumps') {
-            let trumpsContainer = document.getElementById('player-trumps');
+        if (this.type === 'trumps' || this.type === 'affecting-trumps') {
+            let trumpsContainer = this.type === 'trumps' ? document.getElementById('player-trumps')
+                : document.getElementById('trumps-affecting-player');
 
             let top = 0;
             let element = target;

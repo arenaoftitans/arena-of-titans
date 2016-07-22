@@ -6,7 +6,8 @@
         "passed_turn": "{{playerName}} vient de passer son tour",
         "played_card": "{{playerName}} vient de jouer une carte",
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
-        "problem": "Il vient d'y avoir un probl\u00e8me"
+        "problem": "Il vient d'y avoir un probl\u00e8me",
+        "trump_played_by": "Jou\u00e9 par {{initiator}}"
     },
     "cards": {
         "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal",

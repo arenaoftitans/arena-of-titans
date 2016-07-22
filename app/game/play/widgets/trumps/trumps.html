@@ -25,12 +25,18 @@
         <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero"></aot-trumps-gauge>
 	</div>
 
+    <!-- Infos for affecting trump must be here not be hidden by the player's trumps -->
+    <aot-infos type="affecting-trumps"
+               infos.bind="affectingInfos"></aot-infos>
+
     <div id="trumps-affecting-player">
         <img class="trump-icon affecting-trumps-icon centered-block" src="/assets/game/misc/affecting-trumps.png"/>
         <div>
             <img class="trumps-affecting-player"
                  repeat.for="trump of affectingTrumps"
-                 src.bind="trump.img"/>
+                 src.bind="trump.img"
+                 mouseover.delegate="displayAffectingInfos(trump, $event)"
+                 mouseout.delegate="hideAffectingInfos()" />
         </div>
     </div>
 

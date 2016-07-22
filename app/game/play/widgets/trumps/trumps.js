@@ -31,6 +31,7 @@ export class AotTrumpsCustomElement {
     _game;
     _i18n;
     infos = {};
+    affectingInfos = {};
 
     constructor(api, game, i18n, ea) {
         this._api = api;
@@ -109,6 +110,22 @@ export class AotTrumpsCustomElement {
 
     hideInfos() {
         this.infos = {
+            visible: false,
+        };
+    }
+
+    displayAffectingInfos(trump, event) {
+        this.affectingInfos = {
+            title: this.getTranslatedTrumpTitle(trump),
+            description: this.getTranslatedTrumpDescription(trump),
+            initiator: trump.initiator,
+            visible: true,
+            event: event,
+        };
+    }
+
+    hideAffectingInfos() {
+        this.affectingInfos = {
             visible: false,
         };
     }

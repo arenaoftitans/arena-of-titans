@@ -6,7 +6,8 @@
         "passed_turn": "{{playerName}} just passed his/her turn",
         "played_card": "{{playerName}} just played a card",
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
-        "problem": "A problem occured"
+        "problem": "A problem occured",
+        "trump_played_by": "Played by {{initiator}}"
     },
     "cards": {
         "assassin": "Move two squares in line or diagonal.",
