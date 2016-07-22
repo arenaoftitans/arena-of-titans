@@ -21,38 +21,14 @@ import { bindable, inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
-import { ImageName, ImageSource } from '../../../services/utils';
+import { ImageName, ImageSource, Elements, Blink } from '../../../services/utils';
 import { Options } from '../../../../services/options';
-import { browsers } from '../../../../services/browser-sniffer';
 import './notifications.scss';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;
-const GUISED_VISIT_DISPLAY_TIME = 5000;
+const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
-
-
-let blinkImg = (elements, forceClear) => {
-    if (browsers.msie || browsers.mac) {
-        elements = browsers.htmlCollection2Array(elements);
-    }
-
-    for (let elt of elements) {
-        if (elt.classList.contains('blink-img') || forceClear) {
-            elt.classList.remove('blink-img');
-        } else {
-            elt.classList.add('blink-img');
-        }
-    }
-};
-
-let blinkContainer = (container, forceClear) => {
-    if (container.classList.contains('blink-container') || forceClear) {
-        container.classList.remove('blink-container');
-    } else {
-        container.classList.add('blink-container');
-    }
-};
 
 
 @inject(Api, I18N, EventAggregator, Options)
@@ -161,86 +137,47 @@ export class AotNotificationsCustomElement {
         this.guidedVisitTextIndex++;
 
         if (this.guidedVisitTextIndex < this.guidedVisitTexts.length) {
-            setTimeout(() => this._displayNextVisitText(), GUISED_VISIT_DISPLAY_TIME);
+            setTimeout(() => this._displayNextVisitText(), GUIDED_VISIT_DISPLAY_TIME);
         } else {
             setTimeout(() => {
                 this.guidedVisitText = '';
                 this._ea.publish('aot:notifications:end_guided_visit');
                 this.options.proposeGuidedVisit = false;
-            }, GUISED_VISIT_DISPLAY_TIME);
+            }, GUIDED_VISIT_DISPLAY_TIME);
         }
     }
 
     _highlightVisitElements(index) {
-        let highlightFunction;
+        let elements;
+        let blinkClass;
 
         switch (index) {
-            case 1:
-                highlightFunction = this._highlightLastLine;
+            case 1:  // last line
+                elements = Elements.forClass('last-line-square');
+                blinkClass = 'highlighted-square';
                 break;
-            case 2:
-                highlightFunction = this._highlightSquares;
+            case 2:  // Cards
+                elements = Elements.forClass('card', 'cards-img-container');
+                blinkClass = 'blink-img';
                 break;
-            case 3:
-                highlightFunction = this._highlightTrumps;
+            case 3:  // Trumps
+                elements = Elements.forClass('player-trumps', 'player-trumps');
+                blinkClass = 'blink-img';
                 break;
-            case 4:
-                highlightFunction = this._highlightNotifications;
+            case 4:  // Notfications
+                elements = [document.getElementById('notifications')];
+                blinkClass = 'blink-container';
                 break;
             default:
-                highlightFunction = null;
+                elements = null;
+                break;
         }
 
-        let blinkCount = 0;
-        if (highlightFunction) {
-            this._makeBlink(highlightFunction, blinkCount);
+        if (elements) {
+            let blinker = new Blink(
+                elements, GUIDED_VISIT_DISPLAY_TIME, GUIDED_VISIT_BLINK_TIME, blinkClass);
+            blinker.blink();
         }
-    }
-
-    _highlightLastLine(forceClear) {
-        let lastLineSquares = document.getElementsByClassName('last-line-square');
-
-        if (browsers.msie || browsers.mac) {
-            lastLineSquares = browsers.htmlCollection2Array(lastLineSquares);
-        }
-
-        for (let square of lastLineSquares) {
-            if (square.classList.contains('highlighted-square') || forceClear) {
-                square.classList.remove('highlighted-square');
-            } else {
-                square.classList.add('highlighted-square');
-            }
-        }
-    }
-
-    _highlightSquares(forceClear) {
-        let cardsContainer = document.getElementById('cards-img-container');
-        let cards = cardsContainer.getElementsByClassName('card');
-        blinkImg(cards, forceClear);
-    }
-
-    _highlightTrumps(forceClear) {
-        let trumpsContainer = document.getElementById('player-trumps');
-        let trumps = trumpsContainer.getElementsByTagName('img');
-        trumps = Array.prototype.slice.call(trumps, 1);
-        blinkImg(trumps, forceClear);
-    }
-
-    _highlightNotifications(forceClear) {
-        let notifications = document.getElementById('notifications');
-        blinkContainer(notifications);
-    }
-
-    _makeBlink(blinkFn, blinkCount) {
-        setTimeout(() => {
-            blinkFn();
-            blinkCount++;
-            if (blinkCount * GUIDED_VISIT_BLINK_TIME <= GUISED_VISIT_DISPLAY_TIME) {
-                this._makeBlink(blinkFn, blinkCount);
-            } else {
-                blinkFn(true);
-            }
-        }, GUIDED_VISIT_BLINK_TIME);
     }
 
     get currentPlayerName() {

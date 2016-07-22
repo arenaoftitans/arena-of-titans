@@ -17,6 +17,9 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { browsers } from '../../services/browser-sniffer';
+
+
 export class ImageSource {
     static forTrump(trump) {
         return `/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
@@ -89,5 +92,67 @@ export class Wait {
         Wait.idPromises[id] = defered.promise;
 
         return defered.promise;
+    }
+}
+
+
+export class Elements {
+    static forClass(className, containerId = null) {
+        let container = document;
+        if (containerId) {
+            container = document.getElementById(containerId);
+        }
+
+        let elements = container.getElementsByClassName(className);
+
+        if (browsers.msie || browsers.mac) {
+            elements = browsers.htmlCollection2Array(elements);
+        }
+
+        return elements;
+    }
+}
+
+
+export class Blink {
+    constructor(elements, maxBlinkTime, blinkTime, blinkClass) {
+        this._elements = elements;
+        this._maxBlinkTime = maxBlinkTime;
+        this._blinkTime = blinkTime;
+        this._blinkClass = blinkClass;
+    }
+
+    blink() {
+        this._blinkCount = 0;
+        this._makeBlink();
+    }
+
+    _makeBlink() {
+        this._blinkTimeout = setTimeout(() => {
+            this._blinkElements();
+            this._blinkCount++;
+            if (this._blinkCount * this._blinkTime <= this._maxBlinkTime) {
+                this._makeBlink();
+            } else {
+                this.clearElements();
+            }
+        }, this._blinkTime);
+    }
+
+    _blinkElements() {
+        for (let elt of this._elements) {
+            if (elt.classList.contains(this._blinkClass)) {
+                elt.classList.remove(this._blinkClass);
+            } else {
+                elt.classList.add(this._blinkClass);
+            }
+        }
+    }
+
+    clearElements() {
+        clearTimeout(this._blinkElements);
+        for (let elt of this._elements) {
+            elt.classList.remove(this._blinkClass);
+        }
     }
 }
