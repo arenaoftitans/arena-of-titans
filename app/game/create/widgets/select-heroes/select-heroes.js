@@ -125,7 +125,7 @@ export class AotSelectHeroesCustomElement {
                 setTimeout(() => {
                     iter--;
                     this.resize(elts, iter);
-                }, 50);
+                }, 100);
             });
         }
     }
