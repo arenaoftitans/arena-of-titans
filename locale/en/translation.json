@@ -92,9 +92,9 @@
         "me": "Me",
         "name": "Name:\u00a0{{playerName}}",
         "ok": "OK",
-        "propose_guided_visit_option": "Propose guided visit",
+        "propose_guided_visit_option": "Tutorial",
         "save": "Save",
-        "sound_option": "Enable/Disable sound"
+        "sound_option": "Sound"
     },
     "site": {
         "connection_button": "Connect",
