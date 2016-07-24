@@ -17,9 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import './setup';
 import { App } from '../../app/app';
-import { RouterStub } from './utils';
+import { RouterStub } from '../../app/test-utils';
 
 
 describe('the App module', () => {
@@ -42,5 +41,5 @@ describe('the App module', () => {
 
     it('configures the pushState', () => {
         expect(sut._router.options.pushState).toBe(true);
-    })
+    });
 });

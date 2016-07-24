@@ -17,10 +17,9 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../../setup';
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter/counter';
 import { Wait } from '../../../../../app/game/services/utils';
-import { ApiStub, EventAgregatorStub } from '../../../utils';
+import { ApiStub, EventAgregatorStub } from '../../../../../app/test-utils';
 
 
 describe('counter', () => {

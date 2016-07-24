@@ -17,9 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../setup';
 import { Api } from '../../../../app/game/services/api';
-import { EventAgregatorStub, NotifyStub, StorageStub, WsStub } from '../../utils';
+import { EventAgregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
 
 
 describe('services/api', () => {

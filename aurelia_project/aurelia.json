@@ -194,6 +194,12 @@
                         "main": "index"
                     }
                 ]
+            },
+            {
+                "name": "test-utils-bundle.js",
+                "source": [
+                    "[**/test-utils.js]"
+                ]
             }
         ]
     }

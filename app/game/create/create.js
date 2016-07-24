@@ -83,9 +83,11 @@ export class Create {
         this.editing = false;
         this._registerApiCallbacks(params);
 
+        // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
+        // a constructor' warnings when launching tests with Firefox.
         Wait.forId('copy-invite-link').then(() => {
             new Clipboard('#copy-invite-link'); // eslint-disable-line
-        });
+        }).catch(() => {});
 
         this._observerLocator.getObserver(this._api.me, 'name').subscribe(() => {
             if (!!!this.me.name) {

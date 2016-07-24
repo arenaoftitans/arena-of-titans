@@ -28,6 +28,7 @@ import Config from '../../../config/application';
 
 @inject(Ws, Storage, Config, Notify, EventAggregator)
 export class Api {
+    // Keep in sync with test-utils.
     requestTypes = {
         init_game: 'INIT_GAME',
         game_initialized: 'GAME_INITIALIZED',

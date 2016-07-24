@@ -17,9 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../../setup';
 import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps/trumps';
-import { ApiStub, GameStub, I18nStub, EventAgregatorStub } from '../../../utils';
+import { ApiStub, GameStub, I18nStub, EventAgregatorStub } from '../../../../../app/test-utils';
 
 
 describe('trumps', () => {

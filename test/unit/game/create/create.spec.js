@@ -17,7 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../setup';
 import { Create } from '../../../../app/game/create/create';
 import { Wait } from '../../../../app/game/services/utils';
 import {
@@ -27,7 +26,7 @@ import {
     RouterStub,
     StorageStub,
     HistoryStub,
-} from '../../utils';
+} from '../../../../app/test-utils';;
 
 
 describe('game/create', () => {
