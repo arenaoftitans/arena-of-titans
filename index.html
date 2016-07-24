@@ -32,7 +32,7 @@
         <meta name="description" content="Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones ! Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !">
         <meta name="keywords" content="AoT arena titans game board cards">
     </head>
-    <body>
+    <body aurelia-app="main">
         <div>
         </div>
 
@@ -45,13 +45,45 @@
                     }
                 }
                 return vals;
-            };
+            }
 
             if (typeof Object.values !== 'function') {
                 Object.values = values;
             }
-         </script>
+        </script>
 
-        <script src="/bundle.js"></script>
+        <script src="/scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+
+        <script type="text/javascript">
+            if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
+                var _paq = _paq || [];
+                var siteId;
+                var domains;
+                if (/^www/.test(window.location.host)) {
+                    siteId = 3;
+                    domains = ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"];
+                } else {
+                    siteId = 4;
+                    domains = ["*.dev.arenaoftitans.com"]
+                }
+                _paq.push(["setDomains", domains]);
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function () {
+                    var u = "//piwik.jujens.eu/";
+                    _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                    _paq.push(['setSiteId', siteId]);
+                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                    g.type = 'text/javascript';
+                    g.async = true;
+                    g.defer = true;
+                    g.src = u + 'piwik.js';
+                    s.parentNode.insertBefore(g, s);
+                })();
+            }
+        </script>
+        <noscript>
+            <p><img src="//piwik.jujens.eu/piwik.php?idsite=3" style="border:0;" alt="" /></p>
+        </noscript>
     </body>
 </html>

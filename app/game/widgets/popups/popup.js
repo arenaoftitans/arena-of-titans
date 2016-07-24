@@ -18,7 +18,6 @@
 */
 
 import { bindable } from 'aurelia-framework';
-import './popup.scss';
 
 
 export class AotPopupCustomElement {

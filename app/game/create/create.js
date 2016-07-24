@@ -24,9 +24,8 @@ import { Api } from '../services/api';
 import { Wait, ImageSource } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
-import Config from '../../../config/application.json';
-import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
-import './create.scss';
+import Config from '../../../config/application';
+import Clipboard from 'clipboard';
 
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)

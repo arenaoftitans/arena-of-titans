@@ -17,8 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../home.scss';
-
 
 export class Synopsis {
 }

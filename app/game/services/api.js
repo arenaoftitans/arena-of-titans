@@ -23,7 +23,7 @@ import { Notify } from './notify';
 import { Storage } from '../../services/storage';
 import { ImageClass, ImageSource, Wait } from './utils';
 import { Ws } from './ws';
-import Config from '../../../config/application.json';
+import Config from '../../../config/application';
 
 
 @inject(Ws, Storage, Config, Notify, EventAggregator)

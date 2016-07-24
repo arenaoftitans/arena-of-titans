@@ -18,21 +18,19 @@
 */
 
 // Promise polyfill for IE11
-let Promise = require('bluebird').config({  // eslint-disable-line no-unused-vars
+Promise.config({  // eslint-disable-line no-unused-vars
     longStackTraces: false,
     warnings: false,
 });
 
-import { bootstrap } from 'aurelia-bootstrapper-webpack';
 import XHR from 'i18next-xhr-backend';
-import enTranslations from '../locale/en/translation.json';
-import frTranslations from '../locale/fr/translation.json';
+import environment from './environment';
+import enTranslations from '../locale/en/translations';
+import frTranslations from '../locale/fr/translations';
 
-import './style/global.scss';
 
-
-bootstrap(aurelia => {
-    if (!global.Intl) {
+export function configure(aurelia) {
+    if (!window.Intl) {
         require.ensure([
             'intl',
             'intl/locale-data/jsonp/en.js',
@@ -44,13 +42,12 @@ bootstrap(aurelia => {
     } else {
         boot(aurelia);
     }
-});
+}
 
 
 function boot(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .developmentLogging()
         .plugin('aurelia-piwik')
         .plugin('aurelia-i18n', (instance) => {
             let language = navigator.language.split('-')[0];
@@ -84,6 +81,14 @@ function boot(aurelia) {
                 debug: false,
             });
         });
+
+    if (environment.debug) {
+        aurelia.use.developmentLogging();
+    }
+
+    if (environment.testing) {
+        aurelia.use.plugin('aurelia-testing');
+    }
 
     aurelia.start().then(() => aurelia.setRoot('app', document.body));
 }

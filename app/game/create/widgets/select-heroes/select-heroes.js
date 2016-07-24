@@ -21,7 +21,6 @@ import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
 import { Wait } from '../../../services/utils';
 import { browsers } from '../../../../services/browser-sniffer';
-import './select-heroes.scss';
 
 
 export class AotSelectHeroesCustomElement {

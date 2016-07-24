@@ -1,4 +1,4 @@
-{
+export default {
     "OPEN": "Ouvert",
     "TAKEN": "Pris,",
     "actions": {
@@ -136,4 +136,4 @@
         "tower_yellow": "Tour Jaune",
         "tower_yellow_description": "Emp\u00eache le joueur de se d\u00e9placer sur les cases jaunes"
     }
-}
+};
