@@ -11,6 +11,15 @@ Dependencies
 ------------
 
 - NodeJS (latest version, https://nodejs.org/en/)
+- Windows Users: you need to install `additional dependencies to install browser
+  sync <https://www.browsersync.io/docs/#windows-users>`_:
+
+  - python 2: https://www.python.org/downloads/release/python-2710/ (please tick
+    'Add python.exe to Path' during install).
+  - Microsoft Visual Studio C++ 2013:
+    https://www.microsoft.com/en-gb/download/details.aspx?id=44914 See `here in
+    case of installation problems
+    <https://github.com/nodejs/node-gyp/blob/master/README.md#installation>`_.
 
 You can now install the JS dependencies for AoT (launch these commands in the
 AoT folder):
