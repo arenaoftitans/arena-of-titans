@@ -30,22 +30,6 @@ import frTranslations from '../locale/fr/translations';
 
 
 export function configure(aurelia) {
-    if (!window.Intl) {
-        require.ensure([
-            'intl',
-            'intl/locale-data/jsonp/en.js',
-        ], require => {
-            require('intl');
-            require('intl/locale-data/jsonp/en.js');
-            boot(aurelia);
-        });
-    } else {
-        boot(aurelia);
-    }
-}
-
-
-function boot(aurelia) {
     aurelia.use
         .standardConfiguration()
         .plugin('aurelia-piwik')
