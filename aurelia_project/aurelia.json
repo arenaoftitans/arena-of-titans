@@ -106,13 +106,8 @@
                 ]
             },
             {
-                "name": "game-bundle.js",
+                "name": "game-common-bundle.js",
                 "dependencies": [
-                    {
-                        "name": "clipboard",
-                        "path": "../node_modules/clipboard/dist",
-                        "main": "clipboard"
-                    },
                     {
                         "name": "reconnectingwebsocket",
                         "path": "../node_modules/reconnectingwebsocket",
@@ -120,9 +115,34 @@
                     }
                 ],
                 "source": [
-                    "[**/game/**/*.js]",
+                    "[**/game/game.js]",
+                    "[**/game/services/*.js]",
+                    "[**/game/widgets/**/*.js]",
                     "[**/config/application.js]",
-                    "**/game/**/*.{css,html}"
+                    "**/game/**/*.{css,html}",
+                    "**/game/game.{css,html}",
+                    "**/game/widgets/**/*.{css,html}"
+                ]
+            },
+            {
+                "name": "game-create-bundle.js",
+                "dependencies": [
+                    {
+                        "name": "clipboard",
+                        "path": "../node_modules/clipboard/dist",
+                        "main": "clipboard"
+                    }
+                ],
+                "source": [
+                    "[**/game/create/**/*.js]",
+                    "**/game/create/**/*.{css,html}"
+                ]
+            },
+            {
+                "name": "game-play-bundle.js",
+                "source": [
+                    "[**/game/play/**/*.js]",
+                    "**/game/play/**/*.{css,html}"
                 ]
             },
             {
