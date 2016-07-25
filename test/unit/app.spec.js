@@ -32,14 +32,14 @@ describe('the App module', () => {
     });
 
     it('contains a router property', () => {
-        expect(sut._router).toBeDefined();
+        expect(sut.router).toBeDefined();
     });
 
     it('configures the router title', () => {
-        expect(sut._router.title).toEqual('Arena of Titans');
+        expect(sut.router.title).toEqual('Arena of Titans');
     });
 
     it('configures the pushState', () => {
-        expect(sut._router.options.pushState).toBe(true);
+        expect(sut.router.options.pushState).toBe(true);
     });
 });
