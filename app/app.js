@@ -18,10 +18,10 @@
 */
 
 export class App {
-    _router;
+    router;
 
     configureRouter(config, router) {
-        this._router = router;
+        this.router = router;
         config.title = 'Arena of Titans';
         config.options.pushState = true;
         config.map([

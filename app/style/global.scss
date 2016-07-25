@@ -148,6 +148,17 @@ strong.white-text {
 }
 
 
+.navigating {
+    cursor: wait !important;
+    opacity: 0.7;
+}
+
+.navigating button {
+    cursor: wait !important;
+    opacity: 0.5;
+}
+
+
 /* latin-ext */
 @font-face {
     font-family: 'Berkshire Swash';
