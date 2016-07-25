@@ -1,4 +1,4 @@
-{
+export default {
     "OPEN": "Open",
     "TAKEN": "Taken,",
     "actions": {
@@ -136,4 +136,4 @@
         "tower_yellow": "Yellow Tower",
         "tower_yellow_description": "Prevent the player to move on yellow squares."
     }
-}
+};

@@ -17,7 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../../setup';
 import { AotCardsCustomElement } from '../../../../../app/game/play/widgets/cards/cards';
 import {
     ApiStub,
@@ -25,7 +24,7 @@ import {
     I18nStub,
     EventAgregatorStub,
     ObserverLocatorStub,
-} from '../../../utils';
+} from '../../../../../app/test-utils';
 
 
 describe('cards', () => {

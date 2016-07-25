@@ -17,7 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import './aot-options.scss';
 import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
 import { Options } from '../../services/options';

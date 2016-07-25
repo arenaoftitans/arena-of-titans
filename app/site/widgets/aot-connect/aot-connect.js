@@ -17,8 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import './aot-connect.scss';
-
 
 export class AotConnectCustomElement {
 }

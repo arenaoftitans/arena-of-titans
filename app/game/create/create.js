@@ -24,9 +24,8 @@ import { Api } from '../services/api';
 import { Wait, ImageSource } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
-import Config from '../../../config/application.json';
-import Clipboard from '../../../node_modules/clipboard/dist/clipboard.js';
-import './create.scss';
+import Config from '../../../config/application';
+import Clipboard from 'clipboard';
 
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)
@@ -84,9 +83,11 @@ export class Create {
         this.editing = false;
         this._registerApiCallbacks(params);
 
+        // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
+        // a constructor' warnings when launching tests with Firefox.
         Wait.forId('copy-invite-link').then(() => {
             new Clipboard('#copy-invite-link'); // eslint-disable-line
-        });
+        }).catch(() => {});
 
         this._observerLocator.getObserver(this._api.me, 'name').subscribe(() => {
             if (!!!this.me.name) {

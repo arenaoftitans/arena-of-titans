@@ -6,5 +6,8 @@
 /build
 /coverage
 /public
-config/application.json
+/config/application.js
+/scripts/*bundle.js
+/scripts/*.map
+/app/environment.js
 npm-debug.log

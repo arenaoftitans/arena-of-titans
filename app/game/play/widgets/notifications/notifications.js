@@ -23,7 +23,6 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { ImageName, ImageSource, Elements, Blink } from '../../../services/utils';
 import { Options } from '../../../../services/options';
-import './notifications.scss';
 
 
 const GUIDED_VISIT_TIMEOUT = 3500;

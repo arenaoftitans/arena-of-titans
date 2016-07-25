@@ -17,9 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../setup';
 import { Game } from '../../../app/game/game';
-import { ApiStub, RouterStub, HistoryStub } from '../utils';
+import { ApiStub, RouterStub, HistoryStub } from '../../../app/test-utils';
 
 
 class Popup {

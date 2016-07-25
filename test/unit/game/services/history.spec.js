@@ -17,9 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import '../../setup';
 import { History } from '../../../../app/game/services/history';
-import { ApiStub } from '../../utils';
+import { ApiStub } from '../../../../app/test-utils';
 
 describe('services/history', () => {
     let sut;

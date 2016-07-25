@@ -20,7 +20,6 @@
 import { inject } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { Game } from '../game';
-import './play.scss';
 
 
 @inject(Api, Game)

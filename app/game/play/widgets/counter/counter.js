@@ -21,8 +21,7 @@ import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Api } from '../../../services/api';
 import { Wait } from '../../../services/utils';
-import Config from '../../../../../config/application.json';
-import './counter.scss';
+import Config from '../../../../../config/application';
 
 
 @inject(Api, Config, EventAggregator)

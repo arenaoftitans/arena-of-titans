@@ -23,7 +23,6 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { Blink, Elements } from '../../../services/utils';
 import { Game } from '../../../game';
-import './cards.scss';
 
 
 const BUTTON_BLINK_TIME = 1000;

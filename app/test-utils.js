@@ -17,8 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Api } from '../../app/game/services/api';
-
 
 export class RouterStub {
     options = {};
@@ -41,18 +39,16 @@ export class RouterStub {
 
 
 export class ApiStub {
-    _api;
     _cbs = {};
     _errorCbs = [];
     _game = {
-        slots: []
+        slots: [],
     };
     _me = {};
     _gameOverDefered = {};
     _reconnectDefered = {};
 
     constructor() {
-        this._api = new Api(new WsStub);
         this.onReconnectDefered = new Promise(() => {});
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
@@ -68,7 +64,7 @@ export class ApiStub {
         this._game.slots.push({
             index: 0,
             player_name: 'Player 1',
-            state: 'TAKEN'
+            state: 'TAKEN',
         });
         if (cbs) {
             cbs.forEach(cb => {
@@ -138,7 +134,17 @@ export class ApiStub {
     }
 
     get requestTypes() {
-        return this._api.requestTypes;
+        return {
+            init_game: 'INIT_GAME',
+            game_initialized: 'GAME_INITIALIZED',
+            add_slot: 'ADD_SLOT',
+            slot_updated: 'SLOT_UPDATED',
+            create_game: 'CREATE_GAME',
+            view: 'VIEW_POSSIBLE_SQUARES',
+            play: 'PLAY',
+            play_trump: 'PLAY_TRUMP',
+            player_played: 'PLAYER_PLAYED',
+        };
     }
 
     get me() {
@@ -181,7 +187,7 @@ export class I18nStub {
             'tower_blue_description': 'played',
             'tower_blue': 'played',
             'cards.king_red': 'played',
-            'cards.king': 'played'
+            'cards.king': 'played',
         };
 
         return key in translations ? translations[key] : key;

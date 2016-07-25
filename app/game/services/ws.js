@@ -18,8 +18,8 @@
 */
 
 import { inject } from 'aurelia-framework';
-import Config from '../../../config/application.json';
-import ReconnectingWebSocket from '../../../node_modules/reconnectingwebsocket/reconnecting-websocket.js';  // eslint-disable-line max-len
+import Config from '../../../config/application';
+import ReconnectingWebSocket from 'reconnectingwebsocket';
 
 
 @inject(Config)

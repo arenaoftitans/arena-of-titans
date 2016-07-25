@@ -19,7 +19,6 @@
 
 import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { Wait } from '../../../services/utils';
-import './infos.scss';
 
 
 // In milliseconds.

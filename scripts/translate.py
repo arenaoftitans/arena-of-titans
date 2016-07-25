@@ -5,7 +5,7 @@ from urllib.request import urlopen
 
 
 CALC_CSV_EXPORT_ADDRESS = 'https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid={sheet_number}'
-SAVE_TRANSLATIONS_FILE = 'locale/{lang}/translation.json'
+SAVE_TRANSLATIONS_FILE = 'locale/{lang}/translations.js'
 PAGE_TO_SHEET_NB = {
     'actions': 985921915,
     'cards': 2131671933,
@@ -79,7 +79,8 @@ def add_translations_global_namespace(translations_per_langs):
 def save(translations_per_langs):
     for lang, translations in translations_per_langs.items():
         with open(SAVE_TRANSLATIONS_FILE.format(lang=lang), 'w') as translation_file:
-            json.dump(translations, translation_file, sort_keys=True, indent=4)
+            translations = json.dumps(translations, sort_keys=True, indent=4)
+            translation_file.write('export default ' + translations + ';')
 
 
 if __name__ == '__main__':

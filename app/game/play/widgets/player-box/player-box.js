@@ -19,7 +19,6 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { Game } from '../../../game';
-import './player-box.scss';
 
 
 @inject(Game)

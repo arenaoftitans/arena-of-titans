@@ -23,6 +23,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link id="favicon" rel="shortcut icon" type="image/png" href="/assets/favicon.png">
+        <link rel="stylesheet" href="/assets/fonts/fontawesome/font-awesome.min.css">
         <title>Arena of Titans</title>
 
         <meta name="author" content="Arena of Titans">
@@ -31,10 +32,40 @@
 
         <meta name="description" content="Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones ! Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !">
         <meta name="keywords" content="AoT arena titans game board cards">
+
+        <style>
+            .splash {
+                text-align: center;
+                margin: 10% 0 0 0;
+                box-sizing: border-box;
+            }
+
+            .splash .message {
+                font-size: 72px;
+                line-height: 72px;
+                text-shadow: rgba(0, 0, 0, 0.5) 0 0 15px;
+                text-transform: uppercase;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+
+            .splash .fa-spinner {
+                text-align: center;
+                display: inline-block;
+                font-size: 72px;
+                margin-top: 50px;
+            }
+        </style>
     </head>
-    <body>
-        <div>
+    <body aurelia-app="main">
+        <div class="splash">
+            <div class="message">Arena of Titans</div>
+            <i class="fa fa-spinner fa-spin"></i>
         </div>
+
+        <noscript>
+            <p>Arena of Titans cannot work without JavaScript. Please enable it.</p>
+            <p>Arena of Titans ne peut pas fonctionner sans JavaScript. Merci de l'activer.</p>
+        </noscript>
 
         <script>
             function values(obj) {
@@ -45,13 +76,45 @@
                     }
                 }
                 return vals;
-            };
+            }
 
             if (typeof Object.values !== 'function') {
                 Object.values = values;
             }
-         </script>
+        </script>
 
-        <script src="/bundle.js"></script>
+        <script src="/dist/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+
+        <script type="text/javascript">
+            if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
+                var _paq = _paq || [];
+                var siteId;
+                var domains;
+                if (/^www/.test(window.location.host)) {
+                    siteId = 3;
+                    domains = ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"];
+                } else {
+                    siteId = 4;
+                    domains = ["*.dev.arenaoftitans.com"]
+                }
+                _paq.push(["setDomains", domains]);
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function () {
+                    var u = "//piwik.jujens.eu/";
+                    _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                    _paq.push(['setSiteId', siteId]);
+                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                    g.type = 'text/javascript';
+                    g.async = true;
+                    g.defer = true;
+                    g.src = u + 'piwik.js';
+                    s.parentNode.insertBefore(g, s);
+                })();
+            }
+        </script>
+        <noscript>
+            <p><img src="//piwik.jujens.eu/piwik.php?idsite=3" style="border:0;" alt="" /></p>
+        </noscript>
     </body>
 </html>
