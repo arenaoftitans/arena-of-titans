@@ -148,7 +148,7 @@
             {
                 "name": "vendor-bundle.js",
                 "prepend": [
-                    "node_modules/bluebird/js/browser/bluebird.core.js",
+                    "node_modules/bluebird/js/browser/bluebird.js",
                     "scripts/require.js"
                 ],
                 "dependencies": [

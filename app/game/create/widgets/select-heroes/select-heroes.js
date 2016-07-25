@@ -34,6 +34,13 @@ export class AotSelectHeroesCustomElement {
         this.loadDefered.promise = new Promise(resolve => {
             this.loadDefered.resolve = resolve;
         });
+        this.loadTimeoutDefered = {};
+        this.loadTimeoutDefered.promise = new Promise(resolve => {
+            this.loadTimeoutDefered.resolve = resolve;
+        });
+        setTimeout(() => {
+            this.loadTimeoutDefered.resolve();
+        }, 700);
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -78,15 +85,15 @@ export class AotSelectHeroesCustomElement {
         let waitForPlate = Wait.forId('select-heroes-plate');
         let waitForBg = Wait.forId('select-heroes-bg');
         let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
-        waitAll.then(elts => this.resize(elts, 2));
         let resize = () => {
-            waitAll.then(elts => this.resize(elts));
+            waitAll.then(elts => this.resize(elts, 2));
         };
         addEventListener('load', () => {
             resize();
             this.loadDefered.resolve();
         });
         addEventListener('resize', resize);
+        resize();
     }
 
     resize(elts, iter) {
@@ -120,11 +127,11 @@ export class AotSelectHeroesCustomElement {
         }
 
         if (iter > 0) {
-            this.loadDefered.promise.then(() => {
+            Promise.race([this.loadDefered.promise, this.loadTimeoutDefered.promise]).then(() => {
                 setTimeout(() => {
                     iter--;
                     this.resize(elts, iter);
-                }, 100);
+                }, 6);
             });
         }
     }
