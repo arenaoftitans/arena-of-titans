@@ -30,17 +30,6 @@ export class AotSelectHeroesCustomElement {
     constructor() {
         this.currentHeroIndex = 0;
         this.direction = null;
-        this.loadDefered = {};
-        this.loadDefered.promise = new Promise(resolve => {
-            this.loadDefered.resolve = resolve;
-        });
-        this.loadTimeoutDefered = {};
-        this.loadTimeoutDefered.promise = new Promise(resolve => {
-            this.loadTimeoutDefered.resolve = resolve;
-        });
-        setTimeout(() => {
-            this.loadTimeoutDefered.resolve();
-        }, 700);
 
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -88,10 +77,6 @@ export class AotSelectHeroesCustomElement {
         let resize = () => {
             waitAll.then(elts => this.resize(elts, 2));
         };
-        addEventListener('load', () => {
-            resize();
-            this.loadDefered.resolve();
-        });
         addEventListener('resize', resize);
         resize();
     }
@@ -104,6 +89,11 @@ export class AotSelectHeroesCustomElement {
         let plate = elts[1];
         let plateBoundingClientRect = plate.getBoundingClientRect();
         let bg = elts[2];
+
+        if (selectedHero.naturalWidth === 0) {
+            setTimeout(() => this.resize(elts, iter), 500);
+            return;
+        }
 
         // On some screen, if we attempt to center the caroussel, we go outside the plate.
         let centerInPlateValue = plateBoundingClientRect.top +
@@ -127,12 +117,10 @@ export class AotSelectHeroesCustomElement {
         }
 
         if (iter > 0) {
-            Promise.race([this.loadDefered.promise, this.loadTimeoutDefered.promise]).then(() => {
-                setTimeout(() => {
-                    iter--;
-                    this.resize(elts, iter);
-                }, 6);
-            });
+            setTimeout(() => {
+                iter--;
+                this.resize(elts, iter);
+            }, 6);
         }
     }
 
