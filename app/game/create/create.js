@@ -65,10 +65,6 @@ export class Create {
             this.playerInfoDefered.promise.then(data => {
                 this._api.initializeGame(data.name, data.hero);
             });
-        } else if (this.me.name) {
-            if (!this._config.test.debug && this.me.is_game_master && this.slots.length < 2) {
-                this.addSlot();
-            }
         } else {
             this._joinGame(params.id);
         }

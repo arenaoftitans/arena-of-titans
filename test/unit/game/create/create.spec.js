@@ -208,18 +208,6 @@ describe('game/create', () => {
             {id: gameInitializedData.game_id});
     });
 
-    it('should add slot after game initilization', () => {
-        spyOn(mockedApi, 'addSlot');
-
-        mockedApi._me = {
-            name: 'Player 1',
-            is_game_master: true
-        };
-        sut.activate({id: 'the_game'});
-
-        expect(mockedApi.addSlot).toHaveBeenCalled();
-    });
-
     it('should create game', () => {
        spyOn(mockedApi, 'createGame');
 
