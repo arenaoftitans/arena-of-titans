@@ -1,4 +1,5 @@
 export default {
+    "AI": "Computer",
     "OPEN": "Open",
     "TAKEN": "Taken,",
     "actions": {

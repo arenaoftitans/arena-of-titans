@@ -21,10 +21,12 @@ GLOBAL_NAMESPACE_VALUES = {
     'en': {
         'TAKEN': 'Taken,',
         'OPEN': 'Open',
+        'AI': 'Computer',
     },
     'fr': {
         'TAKEN': 'Pris,',
         'OPEN': 'Ouvert',
+        'AI': 'Ordinateur',
     }
 }
 

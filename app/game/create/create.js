@@ -30,6 +30,8 @@ import Clipboard from 'clipboard';
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)
 export class Create {
+    CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']
+
     _router;
     _api;
     _initGameCb;
@@ -197,6 +199,13 @@ export class Create {
         this._api.addSlot();
     }
 
+    updateSlot(slot) {
+        if (slot.state === 'AI') {
+            slot.player_name = `AI ${slot.index}`;
+        }
+        this._api.updateSlot(slot);
+    }
+
     editMe() {
         this.initPlayerInfoDefered();
         this.editing = true;
@@ -243,7 +252,7 @@ export class Create {
         if (this.slots) {
             let numberTakenSlots = 0;
             this.slots.forEach(slot => {
-                if (slot.state === 'TAKEN') {
+                if (slot.state === 'TAKEN' || slot.state === 'AI') {
                     numberTakenSlots++;
                 }
             });

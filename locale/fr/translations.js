@@ -1,4 +1,5 @@
 export default {
+    "AI": "Ordinateur",
     "OPEN": "Ouvert",
     "TAKEN": "Pris,",
     "actions": {
