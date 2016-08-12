@@ -21,7 +21,7 @@ import { inject, ObserverLocator } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait, ImageSource } from '../services/utils';
+import { Wait, ImageSource, randomInt } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application';
@@ -202,6 +202,7 @@ export class Create {
     updateSlot(slot) {
         if (slot.state === 'AI') {
             slot.player_name = `AI ${slot.index}`;
+            slot.hero = Game.heroes[randomInt(0, Game.heroes.length - 1)];
         }
         this._api.updateSlot(slot);
     }
