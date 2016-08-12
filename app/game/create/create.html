@@ -65,12 +65,7 @@
          if.bind="me.name"
          class="centered-block white-text hidden-on-page-load">
         <h2 t="game.create.others">Other players</h2>
-        <button class="button-light centered-block"
-                if.bind="me.is_game_master"
-                click.trigger="addSlot()"
-                disabled.bind="!canAddSlot"
-                t="game.create.add">Add Slot
-        </button>
+
         <p class="centered-text white-text" repeat.for="slot of slots">
             <span t="game.create.slot">Slot</span> n°${slot.index + 1}
             <span if.bind="!slot.player_name && me.is_game_master">

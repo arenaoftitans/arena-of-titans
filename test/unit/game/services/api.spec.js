@@ -57,22 +57,6 @@ describe('services/api', () => {
         expect(mockedWs.send).toHaveBeenCalledWith(gameData);
     });
 
-    it('should send slot data to ws', () => {
-        let slot = {
-            index: 0,
-            player_name: '',
-            state: 'OPEN'
-        };
-        spyOn(mockedWs, 'send');
-        sut._game.slots = [];
-
-        sut.addSlot();
-        expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: rt.add_slot,
-            slot: slot
-        });
-    });
-
     it('should register callbacks', () => {
         let cb = () => {
         };
@@ -443,7 +427,6 @@ describe('services/api', () => {
 
     it('should create game for debug', () => {
         spyOn(sut, 'initializeGame');
-        spyOn(sut, 'addSlot').and.callThrough();
         spyOn(mockedWs, 'send');
         spyOn(sut, 'createGame');
         mockedConfig.test.debug = true;
@@ -461,7 +444,6 @@ describe('services/api', () => {
                 player_name: 'Player 1'
             }]
         });
-        expect(sut.addSlot).toHaveBeenCalled();
 
         sut._handleMessage({
             rt: rt.slot_updated,
@@ -470,14 +452,6 @@ describe('services/api', () => {
             }
         });
         expect(sut.createGame).toHaveBeenCalled();
-        expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: rt.add_slot,
-            slot: {
-                index: 1,
-                player_name: 'Player 2',
-                state: 'TAKEN'
-            }
-        });
     });
 
     describe('game', () => {

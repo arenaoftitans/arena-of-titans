@@ -76,9 +76,6 @@ export class ApiStub {
     init() {
     }
 
-    addSlot() {
-    }
-
     updateMe() {
     }
 

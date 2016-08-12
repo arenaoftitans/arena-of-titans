@@ -137,7 +137,6 @@ export class Create {
         let gateLeft = elts[2];
         let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
         let slots = elts[3];
-        let addSlotsBtn = slots.getElementsByTagName('button')[0];
         let bg = elts[4];
 
         let plateWidth = plateBoundingClientRect.width + 'px';
@@ -156,10 +155,6 @@ export class Create {
         let gateLeftWidth = gateLeftBoundingClientRect.width + 'px';
         slots.style.top = gateLeftBoundingClientRect.top + 'px';
         slots.style.maxWidth = gateLeftWidth;
-        // Share link is only present for the game master.
-        if (addSlotsBtn) {
-            addSlotsBtn.style.maxWidth = gateLeftWidth;
-        }
         slots.style.left = gateLeftBoundingClientRect.left +
             gateLeftBoundingClientRect.width / 2 -
             slots.getBoundingClientRect().width / 2 +
@@ -193,10 +188,6 @@ export class Create {
                 hero: data.hero,
             });
         });
-    }
-
-    addSlot() {
-        this._api.addSlot();
     }
 
     updateSlot(slot) {
@@ -243,10 +234,6 @@ export class Create {
 
     get gameUrl() {
         return this._gameUrl;
-    }
-
-    get canAddSlot() {
-        return this.slots && this.slots.length < Game.MAX_NUMBER_PLAYERS;
     }
 
     get canCreateGame() {

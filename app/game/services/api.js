@@ -169,10 +169,6 @@ export class Api {
 
         this._game.id = message.game_id;
         this._game.slots = message.slots;
-
-        if (this.debug) {
-            this.addSlot();
-        }
     }
 
     _handleSlotUpdated(message) {
@@ -364,19 +360,6 @@ export class Api {
             rt: this.requestTypes.init_game,
             player_name: name,
             hero: hero,
-        });
-    }
-
-    addSlot() {
-        let slot = {
-            index: this.debug ? 1 : this.game.slots.length,
-            player_name: this.debug ? 'Player 2' : '',
-            state: this.debug ? 'TAKEN' : 'OPEN',
-        };
-
-        this._ws.send({
-            rt: this.requestTypes.add_slot,
-            slot: slot,
         });
     }
 
