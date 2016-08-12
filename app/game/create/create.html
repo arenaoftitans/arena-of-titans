@@ -68,13 +68,13 @@
 
         <p class="centered-text white-text" repeat.for="slot of slots">
             <span t="game.create.slot">Slot</span> n°${slot.index + 1}
-            <span if.bind="!slot.player_name && me.is_game_master">
-                <select value.bind="slot.state" change.delegate="updateSlot(slot)">
+            <span if.bind="me.is_game_master && (slot.state !== 'TAKEN' || !slot.player_name)">
+                <select class="slot-state-chooser" value.bind="slot.state" change.delegate="updateSlot(slot)">
                     <option repeat.for="state of CHOOSABLE_SLOTS_STATES"
                             value.bind="state">${state}</option>
                 </select>
             </span>
-            <span if.bind="slot.player_name || !me.is_game_master">
+            <span if.bind="(slot.player_name && slot.state === 'TAKEN') || !me.is_game_master">
                 <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
                 <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
                 <span t="AI" if.bind="slot.state === 'AI'"></span>
