@@ -75,9 +75,10 @@
                 </select>
             </span>
             <span if.bind="(slot.player_name && slot.state === 'TAKEN') || !me.is_game_master">
-                <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
-                <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
-                <span t="AI" if.bind="slot.state === 'AI'"></span>
+                <span t="game.create.TAKEN" if.bind="slot.state === 'TAKEN'"></span>
+                <span t="game.create.OPEN" if.bind="slot.state === 'OPEN'"></span>
+                <span t="game.create.AI" if.bind="slot.state === 'AI'"></span>
+                <span t="game.create.CLOSED" if.bind="slot.state === 'CLOSED'"></span>
                 ${slot.player_name}
             </span>
         </p>

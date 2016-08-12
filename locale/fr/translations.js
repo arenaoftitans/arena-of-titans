@@ -1,7 +1,4 @@
 export default {
-    "AI": "Ordinateur",
-    "OPEN": "Ouvert",
-    "TAKEN": "Pris,",
     "actions": {
         "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
         "passed_turn": "{{playerName}} vient de passer son tour",
@@ -49,6 +46,10 @@ export default {
     },
     "game": {
         "create": {
+            "AI": "Ordinateur",
+            "CLOSED": "Ferm\u00e9",
+            "OPEN": "Ouvert",
+            "TAKEN": "Pris",
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
             "enter_name": "Entre ton nom\u00a0:",

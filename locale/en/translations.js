@@ -1,7 +1,4 @@
 export default {
-    "AI": "Computer",
-    "OPEN": "Open",
-    "TAKEN": "Taken,",
     "actions": {
         "dicarded_card": "{{playerName}} just discarded a card",
         "passed_turn": "{{playerName}} just passed his/her turn",
@@ -49,6 +46,10 @@ export default {
     },
     "game": {
         "create": {
+            "AI": "Computer",
+            "CLOSED": "Closed",
+            "OPEN": "Open",
+            "TAKEN": "Taken",
             "add": "Add Slot",
             "create": "Create the game",
             "enter_name": "Enter your name:",
