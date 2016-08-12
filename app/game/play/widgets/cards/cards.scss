@@ -35,6 +35,8 @@ aot-cards {
     }
 
     #cards-img-container {
+        min-width: 384px;
+
         @include medium-height {
             float: left;
             margin-left: 3%;
@@ -43,6 +45,7 @@ aot-cards {
 
         @include medium-width {
             margin-left: 0;
+            min-width: 320px;
             width: 70%;
         }
     }

@@ -86,19 +86,17 @@
 }
 
 #cards-container {
+    align-items: center;
     background: url(/assets/game/backgrounds/cards.png);
     background-size: 100% 100%;
+    display: flex;
     height: $play-secondary-height;
+    justify-content: center;
     min-height: $play-secondary-min-height;
     text-align: center;
 
     @include small-height {
         height: $play-secondary-height + $play-logo-height;
-    }
-
-    @include medium-height {
-        display: flex;
-        align-items: center;
     }
 }
 
