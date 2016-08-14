@@ -80,7 +80,7 @@ export class AotTrumpsCustomElement {
                 // converted before usage in the API
                 targetIndex = parseInt(targetIndex, 10);
                 this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
-            });
+            }, () => console.debug('Player canceled trump'));  // eslint-disable-line no-console
         } else {
             this._api.playTrump({trumpName: trump.name});
         }
