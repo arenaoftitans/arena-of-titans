@@ -61,7 +61,7 @@ export class AotTrumpsCustomElement {
         } else if (trump.must_target_player) {
             let otherPlayerNames = [];
             for (let playerIndex of this.playerIndexes) {
-                if (playerIndex !== this.myIndex) {
+                if (playerIndex && playerIndex !== this.myIndex) {
                     let player = {
                         index: playerIndex,
                         name: this.playerNames[playerIndex],
@@ -69,7 +69,6 @@ export class AotTrumpsCustomElement {
                     otherPlayerNames.push(player);
                 }
             }
-            this.playerNames.filter((name, index) => this.myIndex !== index);
             this._lastSelected = {
                 trump: trump,
                 otherPlayerNames: otherPlayerNames,

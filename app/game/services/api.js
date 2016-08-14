@@ -200,11 +200,11 @@ export class Api {
         };
 
         for (let player of players) {
-            this._game.players.heroes.push(player.hero);
-            this._game.players.indexes.push(player.index);
-            this._game.players.names.push(player.name);
+            this._game.players.heroes.push(player ? player.hero : null);
+            this._game.players.indexes.push(player ? player.index : null);
+            this._game.players.names.push(player ? player.name : null);
 
-            if (player.square) {
+            if (player && player.square) {
                 this._game.players.squares.push(player.square);
             } else {
                 this._game.players.squares.push({});

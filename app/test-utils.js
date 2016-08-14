@@ -49,7 +49,6 @@ export class ApiStub {
     _reconnectDefered = {};
 
     constructor() {
-        this.onReconnectDefered = new Promise(() => {});
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
         });
@@ -155,6 +154,10 @@ export class ApiStub {
 
     get onGameOverDefered() {
         return this._gameOverDefered.promise;
+    }
+
+    get onReconnectDefered() {
+        return this._reconnectDefered.promise;
     }
 
     createGameDebug() {

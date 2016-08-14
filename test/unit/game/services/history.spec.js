@@ -40,6 +40,41 @@ describe('services/history', () => {
         expect(mockedApi.on.calls.mostRecent().args[0]).toBe(mockedApi.requestTypes.player_played);
     });
 
+    it('init with null', done => {
+        spyOn(mockedApi, 'on');
+        spyOn(mockedApi, 'off');
+        spyOn(sut, '_addEntry');
+        let message = {
+            history: [
+                [
+                    {
+                        card: 'card 1',
+                        player_index: 0,
+                    },
+                    {
+                        card: 'card 2',
+                        player_index: 0,
+                    },
+                ],
+                null
+            ],
+        };
+        mockedApi._reconnectDefered.promise = new Promise(resolve => mockedApi._reconnectDefered.resolve = resolve);
+        mockedApi._reconnectDefered.resolve(message);
+
+        sut.init().then(() => {
+            expect(sut._addEntry).toHaveBeenCalledWith({
+                card: 'card 1',
+                player_index: 0,
+            });
+            expect(sut._addEntry).toHaveBeenCalledWith({
+                card: 'card 2',
+                player_index: 0,
+            });
+            done();
+        });
+    });
+
     describe('getLastPlayedCards', () => {
         it('should return an empty array if history doesn\'t exists for player', () => {
             expect(sut.getLastPlayedCards(0)).toEqual(jasmine.any(Array));
