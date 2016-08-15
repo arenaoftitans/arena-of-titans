@@ -17,22 +17,11 @@ PAGE_TO_SHEET_NB = {
     'site': 0,
     'trumps': 195514419,
 }
-GLOBAL_NAMESPACE_VALUES = {
-    'en': {
-        'TAKEN': 'Taken,',
-        'OPEN': 'Open',
-    },
-    'fr': {
-        'TAKEN': 'Pris,',
-        'OPEN': 'Ouvert',
-    }
-}
 
 
 def main():
     translations_per_pages = fetch_translations()
     translations_per_langs = create_translation_all_languages(translations_per_pages)
-    add_translations_global_namespace(translations_per_langs)
     save(translations_per_langs)
 
 
@@ -69,11 +58,6 @@ def create_translation_all_languages(translations_per_pages):
 
 
     return translations_per_langs
-
-
-def add_translations_global_namespace(translations_per_langs):
-    for lang, translations in translations_per_langs.items():
-        translations.update(GLOBAL_NAMESPACE_VALUES[lang])
 
 
 def save(translations_per_langs):

@@ -21,7 +21,7 @@ import { inject, ObserverLocator } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait, ImageSource } from '../services/utils';
+import { Wait, ImageSource, randomInt } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application';
@@ -30,6 +30,8 @@ import Clipboard from 'clipboard';
 
 @inject(Router, Api, Storage, Config, ObserverLocator, History)
 export class Create {
+    CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']
+
     _router;
     _api;
     _initGameCb;
@@ -45,6 +47,11 @@ export class Create {
         this._config = config;
         this._observerLocator = observerLocator;
         this._history = history;
+
+        // We preload the board: it is big and can take a while to load on bad connections. So if
+        // a player reaches the create game page, we consider he/she will play. So it makes sense
+        // to start loading the board.
+        require(['game/play/widgets/board/board'], () => {});
     }
 
     activate(params = {}) {
@@ -65,10 +72,6 @@ export class Create {
             this.playerInfoDefered.promise.then(data => {
                 this._api.initializeGame(data.name, data.hero);
             });
-        } else if (this.me.name) {
-            if (!this._config.test.debug && this.me.is_game_master && this.slots.length < 2) {
-                this.addSlot();
-            }
         } else {
             this._joinGame(params.id);
         }
@@ -139,7 +142,6 @@ export class Create {
         let gateLeft = elts[2];
         let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
         let slots = elts[3];
-        let addSlotsBtn = slots.getElementsByTagName('button')[0];
         let bg = elts[4];
 
         let plateWidth = plateBoundingClientRect.width + 'px';
@@ -158,10 +160,6 @@ export class Create {
         let gateLeftWidth = gateLeftBoundingClientRect.width + 'px';
         slots.style.top = gateLeftBoundingClientRect.top + 'px';
         slots.style.maxWidth = gateLeftWidth;
-        // Share link is only present for the game master.
-        if (addSlotsBtn) {
-            addSlotsBtn.style.maxWidth = gateLeftWidth;
-        }
         slots.style.left = gateLeftBoundingClientRect.left +
             gateLeftBoundingClientRect.width / 2 -
             slots.getBoundingClientRect().width / 2 +
@@ -197,8 +195,12 @@ export class Create {
         });
     }
 
-    addSlot() {
-        this._api.addSlot();
+    updateSlot(slot) {
+        if (slot.state === 'AI') {
+            slot.player_name = `AI ${slot.index}`;
+            slot.hero = Game.heroes[randomInt(0, Game.heroes.length - 1)];
+        }
+        this._api.updateSlot(slot);
     }
 
     editMe() {
@@ -239,15 +241,11 @@ export class Create {
         return this._gameUrl;
     }
 
-    get canAddSlot() {
-        return this.slots && this.slots.length < Game.MAX_NUMBER_PLAYERS;
-    }
-
     get canCreateGame() {
         if (this.slots) {
             let numberTakenSlots = 0;
             this.slots.forEach(slot => {
-                if (slot.state === 'TAKEN') {
+                if (slot.state === 'TAKEN' || slot.state === 'AI') {
                     numberTakenSlots++;
                 }
             });

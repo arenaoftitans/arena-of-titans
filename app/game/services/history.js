@@ -37,20 +37,21 @@ export class History {
         this._playerPlayedCb = this._api.on(rt, message => {
             this._addEntry(message.last_action);
         });
+        // Map each players to his/her two last played cards.
+        this._history = {};
 
-        this._api.onReconnectDefered.then(message => {
+        return this._api.onReconnectDefered.then(message => {
             let history = message.history;
             if (history) {
                 for (let playerHistory of history) {
-                    for (let action of playerHistory) {
-                        this._addEntry(action);
+                    if (playerHistory) {
+                        for (let action of playerHistory) {
+                            this._addEntry(action);
+                        }
                     }
                 }
             }
         });
-
-        // Map each players to his/her two last played cards.
-        this._history = {};
     }
 
     _addEntry(action) {

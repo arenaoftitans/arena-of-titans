@@ -33,7 +33,7 @@
     "aurelia-i18n": "^1.0.0",
     "aurelia-logging-console": "^1.0.0",
     "aurelia-pal-browser": "^1.0.0",
-    "aurelia-piwik": "^0.1.2",
+    "aurelia-piwik": "^0.1.3",
     "aurelia-polyfills": "^1.0.0",
     "aurelia-router": "^1.0.2",
     "aurelia-templating": "^1.0.0",
@@ -47,7 +47,7 @@
     "reconnectingwebsocket": "^1.0.0"
   },
   "devDependencies": {
-    "aurelia-cli": "0.17.0",
+    "aurelia-cli": "git+https://github.com/Jenselme/cli.git#ce9c78f",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "aurelia-tools": "^0.2.4",
     "browser-sync": "^2.13.0",

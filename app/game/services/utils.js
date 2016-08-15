@@ -20,6 +20,17 @@
 import { browsers } from '../../services/browser-sniffer';
 
 
+/**
+ * Returns an int in [min, max]
+ * @param {int} min
+ * @param {int} max
+ * @returns {int}
+ */
+export function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 export class ImageSource {
     static forTrump(trump) {
         return `/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;

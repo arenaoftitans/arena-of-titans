@@ -43,8 +43,8 @@ describe('trumps', () => {
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
             players: {
-                names: ['Player 1', 'Player 2'],
-                indexes: [0, 1]
+                names: ['Player 1', null, 'Player 2'],
+                indexes: [0, null, 2]
             },
             your_turn: true
         };
@@ -60,18 +60,18 @@ describe('trumps', () => {
                 message: 'Who should be the target of Trump?', choices: [
                 {
                     name: 'Player 2',
-                    index: 1
+                    index: 2,
                 }
             ],
             'title': 'trumps.trump',
             description: 'trumps.trump_description',
             }
         );
-        defered.resolve(1);
+        defered.resolve(2);
         defered.promise.then(() => {
             expect(mockedApi.playTrump).toHaveBeenCalledWith({
                 trumpName: 'Trump',
-                targetIndex: 1
+                targetIndex: 2,
             });
             done();
         });
