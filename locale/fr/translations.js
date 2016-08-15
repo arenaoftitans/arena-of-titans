@@ -1,7 +1,4 @@
 export default {
-    "AI": "Ordinateur",
-    "OPEN": "Ouvert",
-    "TAKEN": "Pris,",
     "actions": {
         "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
         "passed_turn": "{{playerName}} vient de passer son tour",
@@ -49,6 +46,10 @@ export default {
     },
     "game": {
         "create": {
+            "AI": "Ordinateur",
+            "CLOSED": "Ferm\u00e9",
+            "OPEN": "Ouvert",
+            "TAKEN": "Pris",
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
             "enter_name": "Entre ton nom\u00a0:",
@@ -88,6 +89,7 @@ export default {
     "global": {
         "back_home": "Page d' Acceuil",
         "cancel": "Annuler",
+        "cannot_do_action": "Tu ne peux pas faire cette action :",
         "create_new_game": "Nouvelle Partie",
         "edit": "\u00c9diter",
         "me": "Moi",
@@ -126,6 +128,8 @@ export default {
         }
     },
     "trumps": {
+        "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
+        "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
         "reinforcements": "Renforcements",
         "reinforcements_description": "Autorise le joueur \u00e0 jouer une carte d\u00e9placement suppl\u00e9mentaire",
         "tower_black": "Tour Noire",

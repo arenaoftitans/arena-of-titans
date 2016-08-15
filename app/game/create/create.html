@@ -71,13 +71,16 @@
             <span if.bind="me.is_game_master && (slot.state !== 'TAKEN' || !slot.player_name)">
                 <select class="slot-state-chooser" value.bind="slot.state" change.delegate="updateSlot(slot)">
                     <option repeat.for="state of CHOOSABLE_SLOTS_STATES"
-                            value.bind="state">${state}</option>
+                            value.bind="state"
+                            t="game.create.${state}">
+                    </option>
                 </select>
             </span>
             <span if.bind="(slot.player_name && slot.state === 'TAKEN') || !me.is_game_master">
-                <span t="TAKEN" if.bind="slot.state === 'TAKEN'"></span>
-                <span t="OPEN" if.bind="slot.state === 'OPEN'"></span>
-                <span t="AI" if.bind="slot.state === 'AI'"></span>
+                <span t="game.create.TAKEN" if.bind="slot.state === 'TAKEN'"></span>
+                <span t="game.create.OPEN" if.bind="slot.state === 'OPEN'"></span>
+                <span t="game.create.AI" if.bind="slot.state === 'AI'"></span>
+                <span t="game.create.CLOSED" if.bind="slot.state === 'CLOSED'"></span>
                 ${slot.player_name}
             </span>
         </p>

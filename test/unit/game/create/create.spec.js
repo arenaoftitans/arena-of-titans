@@ -99,15 +99,20 @@ describe('game/create', () => {
 
     it('should not ask for the name if it knows the player name', done => {
         spyOn(mockedApi, 'initializeGame');
+        spyOn(sut, '_joinGame');
 
         mockedApi._me = {
             name: 'Player 1'
         };
-        sut.activate({id: 'toto'});
+        sut.activate({id: 'game_id'});
         sut.playerInfoDefered.resolve()
 
         sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).not.toHaveBeenCalled();
+            expect(sut._joinGame).toHaveBeenCalledWith('game_id');
+            done();
+        }, () => {
+            expect(false).toBe(true);
             done();
         });
     });
@@ -116,6 +121,7 @@ describe('game/create', () => {
         spyOn(mockedApi, 'joinGame');
         spyOn(mockedStorage, 'loadPlayerInfos');
         spyOn(mockedStorage, 'savePlayerInfos');
+        spyOn(mockedStorage, 'retrievePlayerId');
 
         sut.activate({id: 'game_id'});
         sut.playerInfoDefered.resolve({
@@ -124,9 +130,12 @@ describe('game/create', () => {
         });
 
         expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
+        expect(mockedStorage.retrievePlayerId).toHaveBeenCalled();
         sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester', hero: 'daemon'});
-            expect(mockedStorage.savePlayerInfos).toHaveBeenCalledWith({name: 'Tester', hero: 'daemon'});
+            done();
+        }, () => {
+            expect(false).toBe(true);
             done();
         });
     });

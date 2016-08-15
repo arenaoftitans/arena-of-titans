@@ -204,6 +204,29 @@ describe('services/api', () => {
         });
     });
 
+    it('should create players with null descriptions', () => {
+        sut._createPlayers([
+            {
+                hero: 'daemon',
+                index: 0,
+                name: 'Player 1',
+                square: {x: 1, y: 2},
+            },
+            null,
+            {
+                hero: 'orc',
+                index: 2,
+                name: 'Player 2',
+                square: null,
+            },
+        ]);
+
+        expect(sut._game.players.heroes).toEqual(['daemon', null, 'orc']);
+        expect(sut._game.players.indexes).toEqual([0, null, 2]);
+        expect(sut._game.players.names).toEqual(['Player 1', null, 'Player 2']);
+        expect(sut._game.players.squares).toEqual([{x: 1, y: 2}, {}, {}]);
+    });
+
     describe('joinGame', () => {
         it('should fetch the game id if neither name nor playerId is defined', () => {
             spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
