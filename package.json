@@ -47,7 +47,7 @@
     "reconnectingwebsocket": "^1.0.0"
   },
   "devDependencies": {
-    "aurelia-cli": "0.17.0",
+    "aurelia-cli": "git+https://github.com/Jenselme/cli.git#ce9c78f",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "aurelia-tools": "^0.2.4",
     "browser-sync": "^2.13.0",

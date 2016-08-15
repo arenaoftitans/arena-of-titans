@@ -47,6 +47,11 @@ export class Create {
         this._config = config;
         this._observerLocator = observerLocator;
         this._history = history;
+
+        // We preload the board: it is big and can take a while to load on bad connections. So if
+        // a player reaches the create game page, we consider he/she will play. So it makes sense
+        // to start loading the board.
+        require(['game/play/widgets/board/board'], () => {});
     }
 
     activate(params = {}) {
