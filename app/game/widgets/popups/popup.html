@@ -25,6 +25,7 @@
     <require from="./game-over"></require>
     <require from="./back-home"></require>
     <require from="./player-box-infos"></require>
+    <require from="./yes-no"></require>
 
     <div class="popup">
     </div>
@@ -48,6 +49,9 @@
             <aot-player-box-infos if.bind="type === 'player-box'"
                                   data.bind="data"
                                   done.bind="done"></aot-player-box-infos>
+            <aot-yes-no if.bind="type === 'yes-no'"
+                        data.bind="data"
+                        done.bind="done"></aot-yes-no>
         </div>
     </div>
 </template>

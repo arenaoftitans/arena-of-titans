@@ -51,7 +51,6 @@ export class Api {
     _me;
     _game;
     _config;
-    _hasPlayedOnced = false;
 
     constructor(ws, storage, config, notify, ea) {
         this._storage = storage;
@@ -252,7 +251,6 @@ export class Api {
 
     _handlePlay(message) {
         if (message.reconnect) {
-            this._cancelGuidedVisit();
             this._handleReconnect(message.reconnect);
         }
 
@@ -439,10 +437,6 @@ export class Api {
     }
 
     play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
-        if (!this._hasPlayedOnced) {
-            this._cancelGuidedVisit();
-            this._hasPlayedOnced = true;
-        }
         this._ws.send({
             rt: this.requestTypes.play,
             play_request: {
@@ -452,10 +446,6 @@ export class Api {
                 y: parseInt(y, 10),
             },
         });
-    }
-
-    _cancelGuidedVisit() {
-        this._ea.publish('aot:api:cancel_guided_visit');
     }
 
     playTrump({trumpName, targetIndex}) {
@@ -506,9 +496,5 @@ export class Api {
 
     get debug() {
         return this._config.test.debug;
-    }
-
-    get hasPlayedOnce() {
-        return this._hasPlayedOnced;
     }
 }

@@ -66,14 +66,6 @@ describe('services/api', () => {
         expect(sut.callbacks[rt.init_game][0]).toBe(cb);
     });
 
-    it('should published ea message when canceling guided visiti', () => {
-        spyOn(mockedEa, 'publish');
-
-        sut._cancelGuidedVisit();
-
-        expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:cancel_guided_visit');
-    });
-
     it('should deregister callbacks', () => {
         let index = sut.on(rt.init_game, () => {
         });
@@ -495,12 +487,9 @@ describe('services/api', () => {
 
         it('should play', () => {
             spyOn(mockedWs, 'send');
-            spyOn(sut, '_cancelGuidedVisit');
 
             sut.play({cardName: 'King', cardColor: 'red', x: '0', y: '0'});
 
-            expect(sut._cancelGuidedVisit).toHaveBeenCalled();
-            expect(sut.hasPlayedOnce).toBe(true);
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play,
                 play_request: {
@@ -583,12 +572,10 @@ describe('services/api', () => {
                 }
             };
             spyOn(sut, '_updateGame');
-            spyOn(sut, '_cancelGuidedVisit');
 
             sut._handleMessage(message);
 
             expect(sut._updateGame).toHaveBeenCalled();
-            expect(sut._cancelGuidedVisit).toHaveBeenCalled();
             expect(sut._game.players).toEqual({
                 indexes: [0],
                 names: [undefined],

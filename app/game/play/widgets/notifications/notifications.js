@@ -23,18 +23,17 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { ImageName, ImageSource, Elements, Blink } from '../../../services/utils';
 import { Options } from '../../../../services/options';
+import { Game } from '../../../game';
 
 
-const GUIDED_VISIT_TIMEOUT = 3500;
 const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-@inject(Api, I18N, EventAggregator, Options)
+@inject(Api, I18N, EventAggregator, Options, Game)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
-    proposeGuidedVisit = false;
     guidedVisitText;
     guidedVisitTextIndex = 0;
     guidedVisitTexts = [
@@ -48,25 +47,29 @@ export class AotNotificationsCustomElement {
     _lastAction = {};
     _i18n;
     _ea;
-    _guidedVisitTimeout;
     _lastActionMessageFromApi;
+    _popupMessage;
+    _popupMessageId;
+    _tutorialInProgress;
 
-    constructor(api, i18n, ea, options) {
+
+    constructor(api, i18n, ea, options, game) {
         this._api = api;
         this._i18n = i18n;
         this._ea = ea;
-        this.options = options;
+        this._options = options;
+        this._game = game;
+        this._popupMessage = {};
+        this._popupMessageId;
+        this._tutorialInProgress = false;
 
         this._ea.subscribe('i18n:locale:changed', () => {
             if (this._lastActionMessageFromApi) {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
-        });
 
-        this._guidedVisitTimeout = setTimeout(() => {
-            this.proposeGuidedVisit = true;
-        }, GUIDED_VISIT_TIMEOUT);
-        this._ea.subscribe('aot:api:cancel_guided_visit', () => this._cancelGuidedVisit());
+            this._translatePopupMessage();
+        });
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
@@ -81,9 +84,23 @@ export class AotNotificationsCustomElement {
         });
     }
 
-    _cancelGuidedVisit() {
-        clearTimeout(this._guidedVisitTimeout);
-        this.proposeGuidedVisit = false;
+    bind() {
+        this._popupMessageId = 'game.visit.propose';
+        this._translatePopupMessage();
+        if (this._options.proposeGuidedVisit) {
+            this._game.popup('yes-no', this._popupMessage).then(
+                () => this._startGuidedVisit(),
+                () => {
+                    this._options.proposeGuidedVisit = false;
+                }
+            );
+        }
+    }
+
+    _translatePopupMessage() {
+        if (this._popupMessageId) {
+            this._popupMessage.title = this._i18n.tr(this._popupMessageId);
+        }
     }
 
     _updateLastAction(message) {
@@ -123,9 +140,9 @@ export class AotNotificationsCustomElement {
         }
     }
 
-    startGuidedVisit() {
-        this.proposeGuidedVisit = false;
+    _startGuidedVisit() {
         this._ea.publish('aot:notifications:start_guided_visit');
+        this._tutorialInProgress = true;
         this._displayNextVisitText();
     }
 
@@ -141,7 +158,8 @@ export class AotNotificationsCustomElement {
             setTimeout(() => {
                 this.guidedVisitText = '';
                 this._ea.publish('aot:notifications:end_guided_visit');
-                this.options.proposeGuidedVisit = false;
+                this._tutorialInProgress = false;
+                this._options.proposeGuidedVisit = false;
             }, GUIDED_VISIT_DISPLAY_TIME);
         }
     }
@@ -185,5 +203,9 @@ export class AotNotificationsCustomElement {
 
     get lastAction() {
         return this._lastAction;
+    }
+
+    get tutorialInProgress() {
+        return this._tutorialInProgress;
     }
 }

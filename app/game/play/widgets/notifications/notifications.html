@@ -21,12 +21,13 @@
     <require from="./notifications.css"></require>
 
     <p class="centered-important margin-0"
+       if.bind="!tutorialInProgress"
        t="[html]game.play.whose_turn_message"
        t-params.bind="{playerName: currentPlayerName}">
         It's the turn of
     </p>
 
-    <div>
+    <div if.bind="!tutorialInProgress">
         <p if.bind="lastAction.description">
             ${lastAction.description}
             <span><br></span>
@@ -34,14 +35,6 @@
         <p if.bind="!lastAction.description">
             <em t="game.play.no_action">No action yet</em>
         </p>
-
-        <div>
-            <button class="button-light"
-                    if.bind="proposeGuidedVisit && options.proposeGuidedVisit"
-                    click.delegate="startGuidedVisit()"
-                    t="game.visit.propose">Propose guide visit</button>
-            <p>${guidedVisitText}</p>
-        </div>
 
         <img class="centered-block"
              src.bind="lastAction.img"
@@ -59,6 +52,17 @@
             <p>
                 ${lastAction.trump.description}
             </p>
+        </div>
+    </div>
+
+    <p class="centered-important margin-0"
+       if.bind="tutorialInProgress">
+        <strong class="white-text" t="game.visit.title"></strong>
+    </p>
+
+    <div if.bind="tutorialInProgress">
+        <div>
+            <p>${guidedVisitText}</p>
         </div>
     </div>
 </template>

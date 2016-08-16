@@ -82,7 +82,8 @@ export default {
             "goal": "Le but du jeu est d'atteindre le plus vite possible la derni\u00e8re ligne et d'y rester un tour complet.",
             "intro": "Tu as l'air nouveau. Laisse moi t'aider un peu.",
             "notifications": "Les derni\u00e8res actions jou\u00e9es sont visibles ici",
-            "propose": "Besoin d'aide ?",
+            "propose": "Veux-tu voir le tutoriel ?",
+            "title": "Tutoriel",
             "trumps": "Tu peux \u00e9galement utiliser des atouts pour te renforcer ou mettre des p\u00e9nalit\u00e9s \u00e0 d'autres joueurs."
         }
     },
@@ -94,10 +95,12 @@ export default {
         "edit": "\u00c9diter",
         "me": "Moi",
         "name": "Nom : {{playerName}}",
+        "no": "Non",
         "ok": "OK",
-        "propose_guided_visit_option": "Tutoriel",
+        "propose_tutorial_option": "Tutoriel",
         "save": "Sauvegarder",
-        "sound_option": "Sons"
+        "sound_option": "Sons",
+        "yes": "Oui"
     },
     "site": {
         "connection_button": "Se connecter",

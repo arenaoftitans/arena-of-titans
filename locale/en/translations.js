@@ -82,7 +82,8 @@ export default {
             "goal": "The goal of the game is to go to the last line as fast as you can and stay there for a turn.",
             "intro": "You look like a newcomer. Let me help you.",
             "notifications": "The last played actions are visible here.",
-            "propose": "Do you need help?",
+            "propose": "Do you want to see the tutorial?",
+            "title": "Tutorial",
             "trumps": "You can also use trumps to get bonuses or hinder your oponents."
         }
     },
@@ -94,10 +95,12 @@ export default {
         "edit": "Edit",
         "me": "Me",
         "name": "Name:\u00a0{{playerName}}",
+        "no": "No",
         "ok": "OK",
-        "propose_guided_visit_option": "Tutorial",
+        "propose_tutorial_option": "Tutorial",
         "save": "Save",
-        "sound_option": "Sound"
+        "sound_option": "Sound",
+        "yes": "Yes"
     },
     "site": {
         "connection_button": "Connect",

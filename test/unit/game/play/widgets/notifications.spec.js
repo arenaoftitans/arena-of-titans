@@ -18,20 +18,30 @@
 */
 
 import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';
-import { ApiStub, I18nStub, EventAgregatorStub } from '../../../../../app/test-utils';
+import {
+    ApiStub,
+    GameStub,
+    I18nStub,
+    EventAgregatorStub,
+}
+from '../../../../../app/test-utils';
 
 
 describe('notifications', () => {
     let mockedApi;
     let mockedI18n;
     let mockedEa;
+    let mockedOptions;
+    let mockedGame;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedI18n = new I18nStub();
         mockedEa = new EventAgregatorStub();
-        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa);
+        mockedOptions = {};
+        mockedGame = new GameStub();
+        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa, mockedOptions, mockedGame);
     });
 
     it('should update last action on player played', () => {
@@ -94,35 +104,61 @@ describe('notifications', () => {
     });
 
     describe('guided visit', () => {
-        it('should init guided visit timer', () => {
-            spyOn(window, 'setTimeout');
-            spyOn(mockedEa, 'subscribe');
+        it('cancel', done => {
+            let popupDefered = {};
+            popupDefered.promise = new Promise((resolve, reject) => {
+                popupDefered.reject = reject;
+            });
+            spyOn(mockedGame, 'popup').and.returnValue(popupDefered.promise);
+            mockedOptions.proposeGuidedVisit = true;
 
-            sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa);
+            sut.bind();
 
-            expect(window.setTimeout).toHaveBeenCalled();
-            expect(mockedEa.subscribe).toHaveBeenCalled();
-            expect(mockedEa.subscribe.calls.mostRecent().args[0]).toBe('aot:api:cancel_guided_visit');
+            expect(mockedGame.popup).toHaveBeenCalledWith('yes-no', {title: 'game.visit.propose'});
+            popupDefered.reject(new Error());
+            popupDefered.promise.then(() => {
+                expect(true).toBe(false);
+                done();
+            }, () => {
+                expect(mockedOptions.proposeGuidedVisit).toBe(false);
+                done();
+            });
         });
 
-        it('cancel', () => {
-            spyOn(window, 'clearTimeout');
-            sut.proposeGuidedVisit = true;
+        it('skip', () => {
+            mockedOptions.proposeGuidedVisit = false;
+            spyOn(mockedGame, 'popup');
 
-            sut._cancelGuidedVisit();
+            sut.bind();
 
-            expect(sut.proposeGuidedVisit).toBe(false);
-            expect(window.clearTimeout).toHaveBeenCalledWith(sut._guidedVisitTimeout);
+            expect(mockedGame.popup).not.toHaveBeenCalled();
         });
 
-        it('start', () => {
-            sut.proposeGuidedVisit = true;
+        it('start', done => {
+            let popupDefered = {};
+            popupDefered.promise = new Promise((resolve, reject) => {
+                popupDefered.resolve = resolve;
+            });
+            spyOn(mockedGame, 'popup').and.returnValue(popupDefered.promise);
+            spyOn(mockedEa, 'publish');
+            spyOn(sut, '_startGuidedVisit').and.callThrough();
             spyOn(sut, '_displayNextVisitText');
+            mockedOptions.proposeGuidedVisit = true;
 
-            sut.startGuidedVisit();
+            sut.bind();
 
-            expect(sut.proposeGuidedVisit).toBe(false);
-            expect(sut._displayNextVisitText).toHaveBeenCalled();
+            expect(mockedGame.popup).toHaveBeenCalledWith('yes-no', {title: 'game.visit.propose'});
+            popupDefered.resolve();
+            popupDefered.promise.then(() => {
+                expect(sut._startGuidedVisit).toHaveBeenCalled();
+                expect(sut._tutorialInProgress).toBe(true);
+                expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:start_guided_visit');
+                expect(sut._displayNextVisitText).toHaveBeenCalled();
+                done();
+            }, () => {
+                expect(false).toBe(true);
+                done();
+            });
         });
 
         it('display', () => {
