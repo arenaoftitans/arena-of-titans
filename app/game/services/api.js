@@ -53,6 +53,7 @@ export class Api {
     _game;
     _config;
     _logger;
+    _gameId;
 
     constructor(ws, storage, config, notify, ea) {
         this._storage = storage;
@@ -64,10 +65,6 @@ export class Api {
         this._notify = notify;
         this._ea = ea;
         this._logger = LogManager.getLogger('AoTApi');
-        this._reconnectDefered.promise = new Promise((resolve, reject) => {
-            this._reconnectDefered.resolve = resolve;
-            this._reconnectDefered.reject = reject;
-        });
 
         this.init();
     }
@@ -90,6 +87,23 @@ export class Api {
 
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
+        });
+        this._createReconnectDefered();
+
+        this._ea.subscribe('aot:ws:reconnected', () => {
+            this._createReconnectDefered();
+            // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
+            // if we call it with undefined it crashes.
+            this.joinGame({gameId: this._gameId}).then(() => {
+                this._ws.sendDefered();
+            });
+        });
+    }
+
+    _createReconnectDefered() {
+        this._reconnectDefered.promise = new Promise((resolve, reject) => {
+            this._reconnectDefered.resolve = resolve;
+            this._reconnectDefered.reject = reject;
         });
     }
 
@@ -398,10 +412,17 @@ export class Api {
             playerId = this._storage.retrievePlayerId(gameId);
         }
 
+        // When we reconnect after a failure of the API, joinGame is called in the API. So we
+        // save the gameId to transmit it in that case. In all the other cases, joinGame is
+        // called from a view which has the gameId as parameter.
+        if (gameId) {
+            this._gameId = gameId;
+        }
+
         this._ws.send({
             rt: this.requestTypes.init_game,
             player_name: name,
-            game_id: gameId,
+            game_id: this._gameId,
             player_id: playerId,
             hero: hero,
         });

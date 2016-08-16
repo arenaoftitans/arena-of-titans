@@ -18,16 +18,18 @@
 */
 
 import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import Config from '../../../config/application';
 import ReconnectingWebSocket from 'reconnectingwebsocket';
 
 
-@inject(Config)
+@inject(Config, EventAggregator)
 export class Ws {
+    _mustReconnect = false;
     _ws;
     _waitingOpen = [];
 
-    constructor(config) {
+    constructor(config, ea) {
         let api = config.api;
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
@@ -35,10 +37,20 @@ export class Ws {
 
         this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}`);
         this._ws.onopen = () => {
-            this._waitingOpen.forEach(data => {
-                this.send(data);
-            });
+            if (this._mustReconnect) {
+                this._mustReconnect = false;
+                ea.publish('aot:ws:reconnected');
+            }
         };
+        this._ws.onclose = () => {
+            this._mustReconnect = true;
+        };
+    }
+
+    sendDefered() {
+        for (let data of this._waitingOpen) {
+            this.send(data);
+        }
     }
 
     send(data) {
