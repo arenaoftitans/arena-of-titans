@@ -169,6 +169,17 @@ export class Api {
 
         this._game.id = message.game_id;
         this._game.slots = message.slots;
+
+        if (this.debug) {
+            this._ws.send({
+                rt: this.requestTypes.slot_updated,
+                slot: {index: 1,
+                    player_name: 'Debug AI',
+                    hero: 'orc',
+                    state: 'AI',
+                },
+            });
+        }
     }
 
     _handleSlotUpdated(message) {
@@ -341,6 +352,8 @@ export class Api {
             this._errorCallbacks.forEach(cb => {
                 cb({message: message.error_to_display});
             });
+        } else if (message.debug) {
+            console.debug(message.debug);  // eslint-disable-line no-console
         } else {
             console.error(message);  //eslint-disable-line no-console
         }
@@ -406,12 +419,13 @@ export class Api {
 
         this._ws.send({
             rt: this.requestTypes.create_game,
+            debug: this.debug,
             create_game_request: players,
         });
     }
 
     createGameDebug() {
-        this.initializeGame('Player 1');
+        this.initializeGame('Player 1', 'daemon');
     }
 
     viewPossibleMovements({name: name, color: color}) {

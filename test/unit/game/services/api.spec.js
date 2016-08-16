@@ -312,6 +312,7 @@ describe('services/api', () => {
 
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.create_game,
+            debug: false,
             create_game_request: [
                 {
                     index: 0,
@@ -455,7 +456,7 @@ describe('services/api', () => {
         mockedConfig.test.debug = true;
 
         sut.createGameDebug();
-        expect(sut.initializeGame).toHaveBeenCalledWith('Player 1');
+        expect(sut.initializeGame).toHaveBeenCalledWith('Player 1', 'daemon');
 
         sut._handleMessage({
             rt: rt.game_initialized,

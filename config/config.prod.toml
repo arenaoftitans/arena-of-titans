@@ -9,6 +9,6 @@ host = 'api.arenaoftitans.com'
 
 
 [test]
-# If debug is set to true, you will directly be taken to the game. Only the first player is
-# functional. You cannot play as player 2.
+# If debug is set to true, you will directly be taken to the game. You will play as the 1st
+# player. The second player will be an AI.
 debug = false
