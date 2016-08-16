@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
@@ -36,6 +37,7 @@ export class AotCardsCustomElement {
     _api;
     _game;
     _i18n;
+    _logger;
     infos = {};
 
     constructor(api, game, i18n, ea, ol) {
@@ -44,6 +46,7 @@ export class AotCardsCustomElement {
         this._i18n = i18n;
         this._popupMessage = {};
         this._popupMesasgeId;
+        this._logger = LogManager.getLogger('AotCards');
 
         ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
         let blinker;
@@ -113,7 +116,7 @@ export class AotCardsCustomElement {
             this._api.pass();
             this.selectedCard = null;
         }, () => {
-            console.info('Player canceled passe turn.');  // eslint-disable-line no-console
+            this._logger.debug('Player canceled pass turn.');
         });
     }
 

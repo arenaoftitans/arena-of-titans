@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
@@ -29,6 +30,7 @@ export class AotTrumpsCustomElement {
     _api;
     _game;
     _i18n;
+    _logger;
     infos = {};
     affectingInfos = {};
 
@@ -38,6 +40,7 @@ export class AotTrumpsCustomElement {
         this._i18n = i18n;
         this._popupMessage = {};
         this._lastSelected = null;
+        this._logger = LogManager.getLogger('AotTrumps');
 
         ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
     }
@@ -79,7 +82,7 @@ export class AotTrumpsCustomElement {
                 // converted before usage in the API
                 targetIndex = parseInt(targetIndex, 10);
                 this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
-            }, () => console.debug('Player canceled trump'));  // eslint-disable-line no-console
+            }, () => this._logger.debug('Player canceled trump'));
         } else {
             this._api.playTrump({trumpName: trump.name});
         }

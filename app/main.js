@@ -23,6 +23,7 @@ Promise.config({  // eslint-disable-line no-unused-vars
     warnings: false,
 });
 
+import * as Logger from 'aurelia-logging';
 import XHR from 'i18next-xhr-backend';
 import environment from './environment';
 import enTranslations from '../locale/en/translations';
@@ -68,6 +69,19 @@ export function configure(aurelia) {
 
     if (environment.debug) {
         aurelia.use.developmentLogging();
+    } else {
+        // Production logging is inspired by developmentLogging
+        aurelia.use.preTask(() => {
+            return aurelia.loader.normalize(
+                    'aurelia-logging-console',
+                    aurelia.bootstrapperName
+            ).then(name => {
+                return aurelia.loader.loadModule(name).then(m => {
+                    Logger.addAppender(new m.ConsoleAppender());
+                    Logger.setLevel(Logger.logLevel.warn);
+                });
+            });
+        });
     }
 
     if (environment.testing) {

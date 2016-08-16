@@ -272,7 +272,7 @@ describe('services/api', () => {
         let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut, '_callCallbacks');
-        spyOn(console, 'error');
+        spyOn(sut._logger, 'error');
 
         sut.onerror(errorCb);
         sut._handleMessage(message);
@@ -280,7 +280,7 @@ describe('services/api', () => {
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
         expect(sut._callCallbacks).not.toHaveBeenCalled();
         expect(errorCb).not.toHaveBeenCalled();
-        expect(console.error).toHaveBeenCalledWith(message);
+        expect(sut._logger.error).toHaveBeenCalledWith(message);
     });
 
     it('should create the game', () => {

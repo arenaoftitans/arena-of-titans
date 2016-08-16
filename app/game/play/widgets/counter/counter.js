@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Api } from '../../../services/api';
@@ -38,6 +39,7 @@ export class AotCounterCustomElement {
         this._ea = ea;
         this._paused = false;
         this._pausedDuration = 0;
+        this._logger = LogManager.getLogger('AotCounterCustomElement');
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
@@ -138,7 +140,7 @@ export class AotCounterCustomElement {
             ctx.fillStyle = 'black';
             ctx.fillText(this.formatedTimeLeft, 150, 150 + fontSize / 2);
         } else {
-            console.error('Browser doesn\'t support canvas');  //eslint-disable-line no-console
+            this._logger.error('Browser doesn\'t support canvas');
         }
     }
 

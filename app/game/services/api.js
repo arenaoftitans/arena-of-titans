@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Notify } from './notify';
@@ -51,6 +52,7 @@ export class Api {
     _me;
     _game;
     _config;
+    _logger;
 
     constructor(ws, storage, config, notify, ea) {
         this._storage = storage;
@@ -61,6 +63,7 @@ export class Api {
         this._config = config;
         this._notify = notify;
         this._ea = ea;
+        this._logger = LogManager.getLogger('AoTApi');
         this._reconnectDefered.promise = new Promise((resolve, reject) => {
             this._reconnectDefered.resolve = resolve;
             this._reconnectDefered.reject = reject;
@@ -312,7 +315,7 @@ export class Api {
             this._rotateBoard();
         }).catch(error => {
             if (!window.jasmine || !(error instanceof TypeError)) {
-                console.error(error);  // eslint-disable-line no-console
+                this._logger.error(error);
             }
         });
     }
@@ -351,9 +354,9 @@ export class Api {
                 cb({message: message.error_to_display});
             });
         } else if (message.debug) {
-            console.debug(message.debug);  // eslint-disable-line no-console
+            this._logger.debug(message.debug);
         } else {
-            console.error(message);  //eslint-disable-line no-console
+            this._logger.error(message);
         }
     }
 
