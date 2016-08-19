@@ -5,4 +5,29 @@ aot-footer {
         height: 200px;
         width: 100%;
     }
+
+    a[href*="twitter.com"] {
+        background-image: url(/assets/icons/twitter.png);
+    }
+
+    a[href*="facebook.com"] {
+        background-image: url(/assets/icons/facebook.png);
+    }
+
+    a[href*="bitbucket.org"] {
+        background-image: url(/assets/icons/bitbucket.png);
+    }
+
+
+    .social {
+        margin-top: 6vh;
+        a {
+            background-repeat: no-repeat;
+            background-size: 18px;
+            color: white;
+            margin-right: 90px;
+            padding-left: 25px;
+            text-decoration: none;
+        }
+    }
 }
