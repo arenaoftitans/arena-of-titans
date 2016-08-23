@@ -164,6 +164,30 @@ strong.white-text {
 }
 
 
+.social {
+    a {
+        background-repeat: no-repeat;
+        background-size: 18px;
+        color: white;
+        margin-right: 90px;
+        padding-left: 25px;
+        text-decoration: none;
+    }
+
+    a[href*="twitter.com"] {
+        background-image: url(/assets/icons/twitter.png);
+    }
+
+    a[href*="facebook.com"] {
+        background-image: url(/assets/icons/facebook.png);
+    }
+
+    a[href*="bitbucket.org"] {
+        background-image: url(/assets/icons/bitbucket.png);
+    }
+}
+
+
 /* latin-ext */
 @font-face {
     font-family: 'Berkshire Swash';
