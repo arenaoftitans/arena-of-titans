@@ -129,6 +129,9 @@ export class ApiStub {
         this._errorCbs.push(cb);
     }
 
+    updateSlot() {
+    }
+
     get requestTypes() {
         return {
             init_game: 'INIT_GAME',

@@ -109,7 +109,6 @@ describe('game/create', () => {
 
         sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).not.toHaveBeenCalled();
-            expect(sut._joinGame).toHaveBeenCalledWith('game_id');
             done();
         }, () => {
             expect(false).toBe(true);
@@ -215,6 +214,61 @@ describe('game/create', () => {
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'create',
             {id: gameInitializedData.game_id});
+    });
+
+    it('should set the 2nd slot to AI after game initilization', () => {
+        spyOn(mockedApi, 'updateSlot');
+
+        mockedApi._me = {
+            name: 'Player 1',
+            is_game_master: true,
+        };
+        mockedApi._game = {
+            slots: [
+                {
+                    state: 'TAKEN',
+                },
+            ],
+        };
+        for (let i = 1; i < 8; i++) {
+            mockedApi._game.slots.push({
+                state: 'OPEN',
+            });
+        }
+
+        sut._autoAddAi();
+
+        expect(mockedApi.updateSlot).toHaveBeenCalled();
+        let args = mockedApi.updateSlot.calls.mostRecent().args[0];
+        expect(args.state).toBe('AI');
+        expect(args.player_name).toBe('AI undefined');
+        expect(args.hero).toBeDefined();
+    });
+
+    it('should not set the 2nd slot to AI if player changed a slot', () => {
+        spyOn(mockedApi, 'updateSlot');
+
+        mockedApi._me = {
+            name: 'Player 1',
+            is_game_master: true,
+        };
+        mockedApi._game = {
+            slots: [
+                {
+                    state: 'TAKEN',
+                },
+            ],
+        };
+        for (let i = 1; i < 8; i++) {
+            mockedApi._game.slots.push({
+                state: 'OPEN',
+            });
+        }
+        mockedApi._game.slots[3].state = 'TAKEN';
+
+        sut._autoAddAi();
+
+        expect(mockedApi.updateSlot).not.toHaveBeenCalled();
     });
 
     it('should create game', () => {

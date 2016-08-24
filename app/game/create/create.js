@@ -35,6 +35,7 @@ export class Create {
     _router;
     _api;
     _initGameCb;
+    _gameInitializedCb;
     _gameUrl = '';
     _config;
     _observerLocator;
@@ -131,6 +132,19 @@ export class Create {
                 this._router.navigateToRoute('play', {id: params.id});
             }
         });
+        this._gameInitializedCb = this._api.on(this._api.requestTypes.game_initialized, () => {
+            this._autoAddAi();
+        });
+    }
+
+    _autoAddAi() {
+        // auto set the 2nd slot to an AI so the player can start the game immediatly.
+        let openedSlots = this.slots.filter(slot => slot.state === 'OPEN');
+        if (!this._config.test.debug && this.me.is_game_master && openedSlots.length === 7) {
+            let slot = this.slots[1];
+            slot.state = 'AI';
+            this.updateSlot(slot);
+        }
     }
 
     resize(elts) {
