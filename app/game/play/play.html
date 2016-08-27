@@ -27,13 +27,17 @@
     <require from="./widgets/trumps/trumps"></require>
 
     <header>
-        <div class="social centered-text play-social">
-            <a href="https://www.facebook.com/arenaoftitans/" target="_blanck">Facebook</a>
-            <a href="https://twitter.com/ArenaOfTitans" target="_blanck">Twitter</a>
-            <a href="https://bitbucket.org/arenaoftitans/" target="_blanck">Source code</a>
+        <div class="social play-column-left">
+            <a href="https://twitter.com/ArenaOfTitans" target="_blank">Twitter</a>
         </div>
 
-        <img class="logo pointer" src="/assets/game/aot-logo.png" click.delegate="backHome()" />
+        <div class="play-column-center">
+            <img class="logo pointer" src="/assets/game/aot-logo.png" click.delegate="backHome()" />
+        </div>
+
+        <div class="social play-column-right">
+            <a href="https://www.facebook.com/arenaoftitans/" target="_blank">Facebook</a>
+        </div>
     </header>
 
     <main id="play">

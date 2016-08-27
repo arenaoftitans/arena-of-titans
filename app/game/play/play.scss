@@ -2,13 +2,47 @@
 @import '../../style/media-queries';
 
 
-.logo {
-    display: block;
+header {
     height: $play-logo-height;
-    margin: auto;
 
     @include small-height {
         display: none;
+    }
+
+    .logo {
+        display: block;
+        height: $play-logo-height;
+        margin: auto;
+    }
+
+    .play-column-left {
+        float: left;
+        height: 100%;
+        position: relative;
+        width: $play-secondary-width;
+    }
+
+    .play-column-right {
+        float: right;
+        height: 100%;
+        position: relative;
+        width: $play-secondary-width;
+    }
+
+    .play-column-center {
+        display: inline-block;
+        width: 100 - 2 * $play-secondary-width;
+    }
+
+    .play-column-left,
+    .play-column-right {
+        a {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            transform: translate(50%, -50%);
+        }
     }
 }
 
@@ -20,13 +54,6 @@
     margin-top: 0.3%;
     min-height: $play-full-min-height;
     min-width: $play-full-min-width;
-}
-
-
-.play-social {
-    margin-left: 12%;
-    margin-top: 2.5vh;
-    position: absolute;
 }
 
 
