@@ -20,7 +20,7 @@
 <template>
     <require from="./player-box.css"></require>
 
-    <div class="player-box ${playerBoxIndex}" click.delegate="viewPlayerInfos()">
+    <div class="player-box ${playerBoxIndex}" click.delegate="viewPlayerInfos()" if.bind="index !== null">
         <div class="player-box-circle ${playerBoxCircleIndex}">
         </div>
         <p class="player-box-text">${playerName}</p>
