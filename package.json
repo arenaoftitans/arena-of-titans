@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "description": "Fight to death in the arena",
   "scripts": {
-    "dev": "node scripts/build-config.py --type dev && au run --watch",
+    "dev": "python3 scripts/build-config.py --type dev && au run --watch",
     "build": "au build --env prod",
     "devbuild": "au build",
     "prod": "npm run clean && python3 scripts/build-config.py --type prod && au build --env prod",
