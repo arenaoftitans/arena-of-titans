@@ -33,7 +33,7 @@ export class Ws {
         let api = config.api;
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
-        let port = isHttps ? api.wss_port : api.port;
+        let port = isHttps ? api.tls_port : api.port;
         let path = api.path ? api.path : '';
 
         this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}${path}`);
