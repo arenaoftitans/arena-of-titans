@@ -14,8 +14,6 @@
     "lint": "npm run jslint && npm run stylelint",
     "jslint": "eslint app",
     "stylelint": "stylelint --syntax scss app/**/*.scss",
-    "deploy": "npm run prod && rsync -a --delete -P --exclude=\"*.map\" \"index.html\" \"assets\" \"dist\" \"aot:app/\"",
-    "devdeploy": "npm run mock && rsync -a --delete -P --exclude=\"*.map\" \"index.html\" \"assets\" \"dist\" \"aot:devapp/\"",
     "translate": "python3 scripts/translate.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
   },
