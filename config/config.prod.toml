@@ -3,9 +3,10 @@
 # replace the relevant values.
 
 [api]
+host = 'api.arenaoftitans.com'
+path = '/ws/{socket_id}'
 port = 80
 wss_port = 443
-host = 'api.arenaoftitans.com'
 
 
 [test]

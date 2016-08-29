@@ -34,8 +34,9 @@ export class Ws {
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
         let port = isHttps ? api.wss_port : api.port;
+        let path = api.path ? api.path : '';
 
-        this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}`);
+        this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}${path}`);
         this._ws.onopen = () => {
             if (this._mustReconnect) {
                 this._mustReconnect = false;
