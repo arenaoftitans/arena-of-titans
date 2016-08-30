@@ -18,7 +18,6 @@
 */
 
 import { browsers } from '../../services/browser-sniffer';
-import config from '../../../config/application';
 
 
 /**
@@ -34,19 +33,19 @@ export function randomInt(min, max) {
 
 export class ImageSource {
     static forTrump(trump) {
-        return `/${config.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
+        return `/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
     }
 
     static forCard(card) {
-        return `/${config.version}/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
+        return `/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
     }
 
     static forHero(hero) {
-        return `/${config.version}/assets/game/heroes/${hero}.png`;
+        return `/assets/game/heroes/${hero}.png`;
     }
 
     static forCircledHero(hero) {
-        return `/${config.version}/assets/game/heroes/${hero}-circle.png`;
+        return `/assets/game/heroes/${hero}-circle.png`;
     }
 }
 

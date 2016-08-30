@@ -21,7 +21,6 @@ import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
 import { Wait } from '../../../services/utils';
 import { browsers } from '../../../../services/browser-sniffer';
-import config from '../../../../../config/application';
 
 
 export class AotSelectHeroesCustomElement {
@@ -126,7 +125,7 @@ export class AotSelectHeroesCustomElement {
     }
 
     setHeroImage(element, name) {
-        element.src = `/${config.version}/assets/game/heroes/${name}.png`;
+        element.src = `/assets/game/heroes/${name}.png`;
         element.alt = name;
     }
 
