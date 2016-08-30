@@ -8,7 +8,7 @@
 port = 80
 tls_port = 443
 host = 'devapi.arenaoftitans.com'
-path = '/ws/{socket_id}'
+path = '/ws/{version}'
 
 
 [test]
