@@ -20,6 +20,7 @@ def main(type, version):
 
     config = toml.load(config_file)
     config['api']['path'] = config['api']['path'].format(version=version)
+    config['version'] = version
     config = json.dumps(config, sort_keys=True, indent=4)
 
     with open(APP_CONF_FILE, 'w') as app_config:
