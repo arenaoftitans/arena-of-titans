@@ -204,7 +204,7 @@ describe('game/create', () => {
         });
     });
 
-    it('should navigate to create/{id} after game initialization', () => {
+    it('should navigate to {version}/create/{id} after game initialization', () => {
         let gameInitializedData = {game_id: 'the_game_id'};
         spyOn(mockedRouter, 'navigateToRoute');
 
@@ -213,7 +213,41 @@ describe('game/create', () => {
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'create',
-            {id: gameInitializedData.game_id});
+            {
+                id: gameInitializedData.game_id,
+                version: 'latest',
+            }
+        );
+    });
+
+    it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {
+        mockedConfig = {
+            test: {
+                debug: false,
+            },
+            version: 42,
+        };
+        sut = new Create(
+            mockedRouter,
+            mockedApi,
+            mockedStorage,
+            mockedConfig,
+            mockedobserverLocator,
+            mockedHistory
+        );
+        let gameInitializedData = {game_id: 'the_game_id'};
+        spyOn(mockedRouter, 'navigateToRoute');
+
+        sut.activate();
+        mockedApi.initializeGame(gameInitializedData);
+
+        expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
+            'create',
+            {
+                id: gameInitializedData.game_id,
+                version: 42,
+            }
+        );
     });
 
     it('should set the 2nd slot to AI after game initilization', () => {
@@ -287,8 +321,11 @@ describe('game/create', () => {
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'play',
-            {id: 'the_game_id'}
-        )
+            {
+                id: 'the_game_id',
+                version: 'latest',
+            }
+        );
     });
 
     it('should create debug game when config.test.debug is true', () => {
