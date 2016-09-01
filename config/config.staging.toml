@@ -5,14 +5,13 @@
 # Types that must match the configuration of the server: prod, staging
 
 [api]
-port = 80
-tls_port = 443
 host = 'devapi.arenaoftitans.com'
 path = '/ws/{version}'
+port = 80
+tls_port = 443
 
 
 [test]
 # If debug is set to true, you will directly be taken to the game. You will play as the 1st
 # player. The second player will be an AI.
-# debug = true
 debug = false
