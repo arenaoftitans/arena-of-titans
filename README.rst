@@ -8,6 +8,7 @@ Setup
 =====
 
 - NodeJS (latest version, https://nodejs.org/en/)
+- Firefox and Chrome to launch unit tests
 - Windows Users: you need to install `additional dependencies to install browser sync <https://www.browsersync.io/docs/#windows-users>`_:
 
   - `python 2 <https://www.python.org/downloads/release/python-2710/>`__ (please tick 'Add python.exe to Path' during install).
