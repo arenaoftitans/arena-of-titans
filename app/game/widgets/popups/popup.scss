@@ -123,8 +123,8 @@ aot-popup {
         }
 
         .cross-container {
-            background-color: #98999F;
-            border: solid #98999F;
+            background-color: #98999f;
+            border: solid #98999f;
             border-radius: 50%;
             cursor: pointer;
             height: 30px;
@@ -135,8 +135,9 @@ aot-popup {
         }
 
         .cross {
-            background: linear-gradient(to bottom, transparent 35%, #65666D 35%, #65666D 65%,  transparent 65%),
-                linear-gradient(to right, transparent 35%, #65666D 35%, #65666D 65%, transparent 65%);
+            background:
+                linear-gradient(to bottom, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%),
+                linear-gradient(to right, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%);
             cursor: pointer;
             height: 30px;
             transform: rotate(45deg);
