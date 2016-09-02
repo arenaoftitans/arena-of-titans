@@ -12,7 +12,7 @@
     "tdd": "au test --watch",
     "lint": "npm run jslint && npm run stylelint",
     "jslint": "eslint app",
-    "stylelint": "stylelint --syntax scss app/**/*.scss",
+    "stylelint": "stylelint --syntax scss 'app/**/*.scss'",
     "translate": "python3 scripts/translate.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
   },
