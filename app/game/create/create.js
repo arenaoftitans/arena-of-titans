@@ -67,7 +67,7 @@ export class Create {
             if (!params.id) {
                 this._api.createGameDebug();
             } else {
-                this._router.navigateToRoute('play', {id: params.id});
+                this._router.navigateToRoute('play', this._getNavParams(params.id));
             }
         } else if (!params.id) {
             this.playerInfoDefered.promise.then(data => {
@@ -76,6 +76,13 @@ export class Create {
         } else {
             this._joinGame(params.id);
         }
+    }
+
+    _getNavParams(gameId) {
+        return {
+            id: gameId,
+            version: this._config.version ? this._config.version : 'latest',
+        };
     }
 
     init(params) {
@@ -124,12 +131,12 @@ export class Create {
     _registerApiCallbacks(params) {
         this._initGameCb = this._api.on(this._api.requestTypes.game_initialized, (data) => {
             if (!params.id) {
-                this._router.navigateToRoute('create', {id: data.game_id});
+                this._router.navigateToRoute('create', this._getNavParams(data.game_id));
             }
         });
         this._createGameCb = this._api.on(this._api.requestTypes.create_game, () => {
             if (params.id) {
-                this._router.navigateToRoute('play', {id: params.id});
+                this._router.navigateToRoute('play', this._getNavParams(params.id));
             }
         });
         this._gameInitializedCb = this._api.on(this._api.requestTypes.game_initialized, () => {

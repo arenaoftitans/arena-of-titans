@@ -4,6 +4,9 @@
   "rules": {
     "indentation": 4,
     "max-empty-lines": 2,
+    "media-feature-name-no-unknown": [true, {
+       "ignoreMediaFeatureNames": ["min--moz-device-pixel-ratio", "min-device-pixel-ratio"]
+    }],
     "selector-type-no-unknown": [ true, {
       "ignoreTypes": [
         "aot-header",
@@ -18,7 +21,8 @@
         "aot-board",
         "aot-trumps-gauge",
         "aot-cards",
-        "aot-select-heroes"
+        "aot-select-heroes",
+        "aot-notifications"
       ]
     }],
     "declaration-block-properties-order": "alphabetical"

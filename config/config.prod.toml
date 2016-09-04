@@ -6,7 +6,7 @@
 
 [api]
 host = 'api.arenaoftitans.com'
-path = '/ws/{socket_id}'
+path = '/ws/{version}'
 port = 80
 tls_port = 443
 
