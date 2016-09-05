@@ -24,6 +24,7 @@ import { Notify } from './notify';
 import { Storage } from '../../services/storage';
 import { ImageClass, ImageSource, Wait } from './utils';
 import { Ws } from './ws';
+import environment from '../../environment';
 import Config from '../../../config/application';
 
 
@@ -441,7 +442,7 @@ export class Api {
 
         this._ws.send({
             rt: this.requestTypes.create_game,
-            debug: this.debug,
+            debug: this.debug || environment.debug,
             create_game_request: players,
         });
     }

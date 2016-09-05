@@ -304,7 +304,7 @@ describe('services/api', () => {
 
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.create_game,
-            debug: false,
+            debug: true,
             create_game_request: [
                 {
                     index: 0,
