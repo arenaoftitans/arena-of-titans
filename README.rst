@@ -64,8 +64,8 @@ Usage
   - When you installed Python, you added it to the PATH
   - Copy your ``python.exe`` from your Python install directory into ``python3.exe``
 
-- To launch tests on time, use ``npm run test``
-- To launch tests automatically when a modification is done, use ``npm run tdd``
+- To launch tests on time, use ``npm run test`` You can choose the browsers on which the tests will be executed with the ``-b BROWSER`` option. For intance: ``npm run test -- -b Chrome`` or ``npm run test -- -b Chrome -b Firefox``. Default browsers are Firefox and Chrome. You can view the list of available browsers in `karma's documentation <http://karma-runner.github.io/1.0/config/browsers.html>`__.
+- To launch tests automatically when a modification is done, use ``npm run tdd`` You can choose the browsers on which the tests will be executed. See above.
 - To build all the files as in dev, use ``npm run builddev``
 - To build the files for prod, use ``npm run buildprod``
 - To build the config like in dev, use ``npm run config -- --type dev --version latest`` You can adapt the build type and the version if needed.

@@ -21,6 +21,7 @@
 
 const path = require('path');
 const project = require('./aurelia_project/aurelia.json');
+let argv = require('minimist')(process.argv.slice(2));
 
 let testSrc = [
     {pattern: project.unitTestRunner.source, included: false},
@@ -33,6 +34,15 @@ let entryIndex = appSrc.indexOf(path.join(output, project.build.loader.configTar
 let entryBundle = appSrc.splice(entryIndex, 1)[0];
 let files = [entryBundle].concat(testSrc).concat(appSrc);
 
+let browsers = [];
+if (Array.isArray(argv.b)) {
+    browsers = browsers.concat(argv.b);
+} else if (argv.b) {
+    browsers.push(argv.b);
+}
+if (browsers.length === 0) {
+    browsers = ['Chrome', 'Firefox'];
+}
 
 module.exports = function (config) {
     config.set({
@@ -49,7 +59,7 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome', 'Firefox'],
+        browsers: browsers,
         singleRun: false,
     });
 };
