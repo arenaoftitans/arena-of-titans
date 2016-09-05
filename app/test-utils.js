@@ -268,3 +268,9 @@ export class HistoryStub {
     init() {
     }
 }
+
+
+export class WebsocketSub {
+    send() {
+    }
+}

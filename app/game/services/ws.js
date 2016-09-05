@@ -27,17 +27,27 @@ import ReconnectingWebSocket from 'reconnectingwebsocket';
 export class Ws {
     _mustReconnect = false;
     _ws;
+    // The messages stored in this array are delayed until we reconnect to the API.
+    _waitingGameJoined = [];
+    // The messages stored in this array are sent as soon as we are connected.
     _waitingOpen = [];
 
-    constructor(config, ea) {
+    constructor(config, ea, WebsocketSub) {
         let api = config.api;
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
         let port = isHttps ? api.tls_port : api.port;
         let path = api.path ? api.path : '';
 
-        this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}${path}`);
+        // If ReconnectingWebSocket we are in unit tests.
+        if (ReconnectingWebSocket) {
+            this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}${path}`);
+        } else {
+            this._ws = new WebsocketSub();
+        }
         this._ws.onopen = () => {
+            this._sendPending(this._waitingOpen);
+
             if (this._mustReconnect) {
                 this._mustReconnect = false;
                 ea.publish('aot:ws:reconnected');
@@ -48,10 +58,16 @@ export class Ws {
         };
     }
 
-    sendDefered() {
-        for (let data of this._waitingOpen) {
+    _sendPending(messages) {
+        let numberMessagesToSend = messages.length;
+        for (let i = 0; i < numberMessagesToSend; i++) {
+            let data = messages.shift();
             this.send(data);
         }
+    }
+
+    sendDefered() {
+        this._sendPending(this._waitingGameJoined);
     }
 
     send(data) {
@@ -59,7 +75,11 @@ export class Ws {
         if (this._ws.readyState === 1) {
             this._ws.send(JSON.stringify(data));
         } else {
-            this._waitingOpen.push(data);
+            if (data.rt === 'INIT_GAME') {
+                this._waitingOpen.push(data);
+            } else {
+                this._waitingGameJoined.push(data);
+            }
         }
     }
 
