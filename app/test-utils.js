@@ -178,6 +178,9 @@ export class GameStub {
 
         return this.popupPromise;
     }
+
+    navigateWithRefresh() {
+    }
 }
 
 

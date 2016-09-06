@@ -24,7 +24,7 @@ export class AotGameOverCustomElement {
     @bindable data = null;
     @bindable done = null;
 
-    ok() {
-        this.done.resolve();
+    ok(location) {
+        this.done.resolve(location);
     }
 }

@@ -122,4 +122,8 @@ export class Game {
 
         return this.popupDefered.promise;
     }
+
+    navigateWithRefresh(location) {
+        window.location.replace(location);
+    }
 }

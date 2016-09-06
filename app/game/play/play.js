@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { Game } from '../game';
@@ -33,6 +34,7 @@ export class Play {
     constructor(api, game) {
         this._api = api;
         this._game = game;
+        this._logger = LogManager.getLogger('AoTPlay');
     }
 
     activate(params = {}) {
@@ -41,12 +43,15 @@ export class Play {
         }
 
         this._api.onGameOverDefered.then(winners => {
-            this._game.popup('game-over', {message: winners});
-        });
+            return this._game.popup('game-over', {message: winners});
+        }).then(location => this._game.navigateWithRefresh(location));
     }
 
     backHome() {
-        this._game.popup('back-home', {});
+        this._game.popup('back-home', {}).then(
+            location => this._game.navigateWithRefresh(location),
+            () => this._logger.debug('cancel back home popup')
+        );
     }
 
     get me() {
