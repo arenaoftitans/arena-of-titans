@@ -25,8 +25,7 @@ aot-header {
     .column-center {
         display: inline-block;
         height: 56px;
-        max-width: 296px;
-        width: 30%;
+        width: 42%;
 
         a {
             display: block;
@@ -64,6 +63,11 @@ aot-header {
 
             .column-right {
                 bottom: -40px;
+            }
+
+            .column-center {
+                display: block;
+                margin: auto;
             }
         }
     }
