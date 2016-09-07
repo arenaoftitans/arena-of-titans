@@ -36,6 +36,7 @@ export class Create {
     _api;
     _initGameCb;
     _gameInitializedCb;
+    _playCb;
     _gameUrl = '';
     _config;
     _observerLocator;
@@ -142,6 +143,14 @@ export class Create {
         this._gameInitializedCb = this._api.on(this._api.requestTypes.game_initialized, () => {
             this._autoAddAi();
         });
+        // This callback is used to redirect the player to the game if he/she reconnects on the
+        // create page after a game was created.
+        this._playCb = this._api.on(this._api.requestTypes.play, () => {
+            if (/game\/.*\/create\/.+/.test(location.href)) {
+                this._router.navigateToRoute('play', this._getNavParams(params.id));
+            }
+            this._api.off(this._api.requestTypes.play, this._playCb);
+        });
     }
 
     _autoAddAi() {
@@ -240,6 +249,7 @@ export class Create {
     deactivate() {
         this._api.off(this._api.requestTypes.init_game, this._initGameCb);
         this._api.off(this._api.requestTypes.create_game, this._createGameCb);
+        this._api.off(this._api.requestTypes.play, this._playCb);
     }
 
     get me() {
