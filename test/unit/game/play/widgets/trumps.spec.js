@@ -100,4 +100,52 @@ describe('trumps', () => {
 
         expect(mockedApi.playTrump).not.toHaveBeenCalled();
     });
+
+    describe('should get the correct list of targets', () => {
+        it('for player 0', () => {
+            mockedApi._game = {
+                players: {
+                    indexes: [0, 1, null, 3, undefined, 5, null, null, null],
+                    names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
+                },
+            };
+            mockedApi._me = {
+                index: 0,
+            };
+
+            let otherPlayers = sut._getOtherPlayerNames();
+
+            expect(otherPlayers.length).toBe(3);
+            let expectedIndexes = [1, 3, 5];
+            for (let i = 0; i < otherPlayers.length; i++) {
+                let player = otherPlayers[i];
+                let index = expectedIndexes[i];
+                expect(player.index).toBe(index);
+                expect(player.name).toBe(`P${index}`);
+            }
+        });
+
+        it('for other player', () => {
+            mockedApi._game = {
+                players: {
+                    indexes: [0, 1, null, 3, undefined, 5, null, null, null],
+                    names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
+                },
+            };
+            mockedApi._me = {
+                index: 1,
+            };
+
+            let otherPlayers = sut._getOtherPlayerNames();
+
+            expect(otherPlayers.length).toBe(3);
+            let expectedIndexes = [0, 3, 5];
+            for (let i = 0; i < otherPlayers.length; i++) {
+                let player = otherPlayers[i];
+                let index = expectedIndexes[i];
+                expect(player.index).toBe(index);
+                expect(player.name).toBe(`P${index}`);
+            }
+        });
+    });
 });

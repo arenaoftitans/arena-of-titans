@@ -62,16 +62,7 @@ export class AotTrumpsCustomElement {
         if (!this.yourTurn) {
             return;
         } else if (trump.must_target_player) {
-            let otherPlayerNames = [];
-            for (let playerIndex of this.playerIndexes) {
-                if (playerIndex && playerIndex !== this.myIndex) {
-                    let player = {
-                        index: playerIndex,
-                        name: this.playerNames[playerIndex],
-                    };
-                    otherPlayerNames.push(player);
-                }
-            }
+            let otherPlayerNames = this._getOtherPlayerNames();
             this._lastSelected = {
                 trump: trump,
                 otherPlayerNames: otherPlayerNames,
@@ -86,6 +77,23 @@ export class AotTrumpsCustomElement {
         } else {
             this._api.playTrump({trumpName: trump.name});
         }
+    }
+
+    _getOtherPlayerNames() {
+        let otherPlayerNames = [];
+        for (let playerIndex of this.playerIndexes) {
+            // We need to check that playerIndex is neither null nor undefined.
+            // Just relying on "falsyness" isn't enough since 0 is valid but false.
+            if (playerIndex != null && playerIndex !== this.myIndex) { // eslint-disable-line
+                let player = {
+                    index: playerIndex,
+                    name: this.playerNames[playerIndex],
+                };
+                otherPlayerNames.push(player);
+            }
+        }
+
+        return otherPlayerNames;
     }
 
     getTranslatedTrumpTitle(trump) {
