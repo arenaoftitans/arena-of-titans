@@ -55,10 +55,11 @@ module.exports = function (config) {
             'dist/**/*.js': ['coverage'],
         },
         babelPreprocessor: {options: project.transpiler.options},
-        reporters: ['progress', 'coverage'],
-        coverageReporter: {
-            dir: 'coverage/',
-            type: 'html',
+        reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
+        remapIstanbulReporter: {
+            reports: {
+                html: 'coverage'
+            }
         },
         port: 9876,
         colors: true,
