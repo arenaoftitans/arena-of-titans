@@ -52,9 +52,14 @@ module.exports = function (config) {
         exclude: [],
         preprocessors: {
             [project.unitTestRunner.source]: [project.transpiler.id],
+            'dist/**/*.js': ['coverage'],
         },
         babelPreprocessor: {options: project.transpiler.options},
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
+        coverageReporter: {
+            dir: 'coverage/',
+            type: 'html',
+        },
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
