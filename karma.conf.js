@@ -47,19 +47,24 @@ if (browsers.length === 0) {
 module.exports = function (config) {
     config.set({
         basePath: '.',
-        frameworks: [project.testFramework.id],
-        files: files,
+        frameworks: [project.testFramework.id, 'requirejs'],
+        files: [{pattern: 'node_modules/aurelia*/dist/amd/**/*.js', included: false}, {pattern: 'test/unit/**/*.js', included: false}, 'test/aurelia-karma.js', {pattern: 'app/(!main)**/*.js', included: false}],
         exclude: [],
         preprocessors: {
-            [project.unitTestRunner.source]: [project.transpiler.id],
-            'dist/**/*.js': ['coverage'],
+            'app/**/*.js': ['coverage', project.transpiler.id],
+            'test/**/*.js': [project.transpiler.id],
         },
         babelPreprocessor: {options: project.transpiler.options},
-        reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
-        remapIstanbulReporter: {
-            reports: {
-                html: 'coverage'
-            }
+        reporters: ['progress', 'coverage'],
+        coverageReporter: {
+            instrumenters: {isparta: require('isparta')},
+            instrumenter: {
+                '**/*.js': 'isparta'
+            },
+            dir: 'coverage',
+            reporters: [
+                {type: 'html', subdir: 'report-html'},
+            ],
         },
         port: 9876,
         colors: true,
