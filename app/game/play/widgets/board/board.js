@@ -37,6 +37,10 @@ export class AotBoardCustomElement {
             this._highlightPossibleSquares(data);
         });
         this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
+        this._api.on(this._api.requestTypes.special_action_view_possible_actions, message => {
+            this._highlightPossibleSquares(message);
+        });
+    }
 
     _highlightPossibleSquares(data) {
         this._possibleSquares = data.possible_squares.map(square => {
