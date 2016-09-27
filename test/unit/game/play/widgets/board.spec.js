@@ -87,4 +87,23 @@ describe('board', () => {
 
         expect(sut._possibleSquares.length).toBe(0);
     });
+
+    describe('pawn clicked', () => {
+        it('should not do anything if pawnClickabel is false', () => {
+            spyOn(sut, 'onPawnClicked');
+
+            sut.pawnClicked();
+
+            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+        });
+
+        it('should call cb if pawnClickabel is true', () => {
+            spyOn(sut, 'onPawnClicked');
+            sut.pawnClickable = true;
+
+            sut.pawnClicked(0);
+
+            expect(sut.onPawnClicked).toHaveBeenCalledWith(0);
+        });
+    });
 });

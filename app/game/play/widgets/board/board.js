@@ -25,6 +25,8 @@ import { Api } from '../../../services/api';
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
+    @bindable pawnClickable = false;
+    @bindable onPawnClicked = null;
     _api;
     infos = {};
     _possibleSquares = [];
@@ -70,6 +72,12 @@ export class AotBoardCustomElement {
         this.infos = {
             visible: false,
         };
+    }
+
+    pawnClicked(index) {
+        if (this.pawnClickable) {
+            this.onPawnClicked(index);
+        }
     }
 
     get playerIndexes() {
