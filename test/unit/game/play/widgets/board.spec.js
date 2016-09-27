@@ -116,6 +116,16 @@ describe('board', () => {
             expect(sut.onPawnClicked).not.toHaveBeenCalled();
         });
 
+        it('should not do anything if index is excluded from clickable list', () => {
+            spyOn(sut, 'onPawnClicked');
+            sut.pawnClickable = true;
+            sut.pawnsForcedNotClickable = [0];
+
+            sut.pawnClicked(0);
+
+            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+        });
+
         it('should call cb if pawnClickabel is true', () => {
             spyOn(sut, 'onPawnClicked');
             sut.pawnClickable = true;

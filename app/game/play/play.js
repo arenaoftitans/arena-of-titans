@@ -30,6 +30,7 @@ export class Play {
     selectedCard = null;
     pawnClickable = false;
     onPawnClicked = null;
+    pawnsForcedNotClickable = [];
     _game;
     _api;
     _specialActionNotifyCb;
@@ -63,6 +64,7 @@ export class Play {
                     this.onPawnClicked = index => {
                         this._api.viewPossibleActions({name: action.name, targetIndex: index});
                     };
+                    this.pawnsForcedNotClickable.push(this.me.index);
                 }
                 break;
             default:

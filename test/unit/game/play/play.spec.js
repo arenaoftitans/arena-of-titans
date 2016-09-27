@@ -116,6 +116,7 @@ describe('play', () => {
             };
             spyOn(sut._api, 'viewPossibleActions');
             sut._api.game.your_turn = true;
+            sut._api.me.index = 0;
 
             sut._handleSpecialActionNotify(action);
 
@@ -126,6 +127,7 @@ describe('play', () => {
                 name: 'assassination',
                 targetIndex: 0,
             });
+            expect(sut.pawnsForcedNotClickable).toEqual([0]);
         });
     });
 });

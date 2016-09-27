@@ -26,6 +26,7 @@ export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
     @bindable pawnClickable = false;
+    @bindable pawnsForcedNotClickable = [];
     @bindable onPawnClicked = null;
     _api;
     infos = {};
@@ -82,12 +83,25 @@ export class AotBoardCustomElement {
     }
 
     pawnClicked(index) {
-        if (this.pawnClickable) {
+        if (this.isClickable(index)) {
             this.onPawnClicked(index);
         }
     }
 
+    isClickable(index) {
+        return this.pawnClickable && this.pawnsForcedNotClickable.indexOf(index) === -1;
+    }
+
     get playerIndexes() {
         return this._api.game.players.indexes;
+    }
+
+    get isPawnClickable() {
+        let results = [];
+        for (let i = 0; i < 7; i++) {
+            results.push(this.isClickable(i));
+        }
+
+        return results;
     }
 }
