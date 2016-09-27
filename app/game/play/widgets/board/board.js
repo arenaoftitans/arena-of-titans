@@ -34,11 +34,14 @@ export class AotBoardCustomElement {
     constructor(api) {
         this._api = api;
         this._api.on(this._api.requestTypes.view, data => {
-            this._possibleSquares = data.possible_squares.map(square => {
-                return `square-${square.x}-${square.y}`;
-            });
+            this._highlightPossibleSquares(data);
         });
         this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
+
+    _highlightPossibleSquares(data) {
+        this._possibleSquares = data.possible_squares.map(square => {
+            return `square-${square.x}-${square.y}`;
+        });
     }
 
     _resetPossibleSquares() {

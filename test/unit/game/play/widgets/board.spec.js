@@ -35,6 +35,25 @@ describe('board', () => {
         expect(mockedApi._cbs[mockedApi.requestTypes.player_played].length).toBe(1);
     });
 
+    it('should highlight possible squares', () => {
+        sut._highlightPossibleSquares({
+            possible_squares: [{x: 0, y:0}, {x: 7, y: 5}],
+        });
+
+        expect(sut._possibleSquares).toEqual([
+            'square-0-0',
+            'square-7-5',
+        ]);
+    });
+
+    it('should reset possible squares', () => {
+        sut._possibleSquares = ['square-0-0'];
+
+        sut._resetPossibleSquares();
+
+        expect(sut._possibleSquares).toEqual([]);
+    });
+
     it('should move to on possible square', () => {
         spyOn(mockedApi, 'play');
         sut._possibleSquares = ['square-0-0'];
