@@ -54,7 +54,10 @@
                                 index.bind="index"
                                 players.bind="players"></aot-player-box>
                 <div id="board-container">
-                    <aot-board selected-card.two-way="selectedCard" player-index.bind="me.index"></aot-board>
+                    <aot-board selected-card.two-way="selectedCard"
+                               pawn-clickable.bind="pawnClickable"
+                               on-pawn-clicked.bind="onPawnClicked"
+                               player-index.bind="me.index"></aot-board>
                 </div>
             </div>
 

@@ -28,8 +28,11 @@ export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.
     selectedCard = null;
+    pawnClickable = false;
+    onPawnClicked = null;
     _game;
     _api;
+    _specialActionNotifyCb;
 
     constructor(api, game) {
         this._api = api;
@@ -42,9 +45,35 @@ export class Play {
             this._api.joinGame({gameId: params.id});
         }
 
+        let type = this._api.requestTypes.special_action_notify;
+        this._specialActionNotifyCb = this._api.on(type, message => {
+            this._handleSpecialActionNotify(message);
+        });
+
         this._api.onGameOverDefered.then(winners => {
             return this._game.popup('game-over', {message: winners});
         }).then(location => this._game.navigateWithRefresh(location));
+    }
+
+    _handleSpecialActionNotify(action) {
+        switch (action.name) {
+            case 'assassination':
+                if (this.game.your_turn) {
+                    this.pawnClickable = true;
+                    this.onPawnClicked = index => {
+                        this._api.viewPossibleActions({name: action.name, targetIndex: index});
+                    };
+                }
+                break;
+            default:
+                action.info = 'Unknow special action';
+                this._logger.error(action);
+                break;
+        }
+    }
+
+    deactivate() {
+        this._api.off(this._api.requestTypes.special_action_notify, this._specialActionNotifyCb);
     }
 
     backHome() {

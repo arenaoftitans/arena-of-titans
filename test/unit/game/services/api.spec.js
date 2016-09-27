@@ -658,5 +658,24 @@ describe('services/api', () => {
                 }
             })
         });
+
+        describe('special actions', () => {
+            it('should display possible actions for assassinate', () => {
+                spyOn(sut._ws, 'send');
+
+                sut.viewPossibleActions({
+                    name: 'assassination',
+                    targetIndex: 0,
+                });
+
+                expect(sut._ws.send).toHaveBeenCalledWith({
+                    rt: sut.requestTypes.special_action_view_possible_actions,
+                    play_request: {
+                        name: 'assassination',
+                        target_index: 0,
+                    },
+                });
+            });
+        });
     });
 });

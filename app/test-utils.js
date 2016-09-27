@@ -94,6 +94,9 @@ export class ApiStub {
     viewPossibleMovements() {
     }
 
+    viewPossibleActions() {
+    }
+
     play() {
         let cbs = this._cbs[this.requestTypes.play];
         if (cbs) {

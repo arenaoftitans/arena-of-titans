@@ -41,6 +41,7 @@ export class Api {
         play: 'PLAY',
         play_trump: 'PLAY_TRUMP',
         player_played: 'PLAYER_PLAYED',
+        special_action_notify: 'SPECIAL_ACTION_NOTIFY',
     };
     requestTypesValues = [];
     callbacks = {};
@@ -161,6 +162,9 @@ export class Api {
                 break;
             case this.requestTypes.play_trump:
                 this._handlePlayTrump(message);
+                break;
+            case this.requestTypes.special_action_notify:
+                // Nothing to do beside calling callbacks
                 break;
             default:
                 this._handleErrors(message);
@@ -457,6 +461,16 @@ export class Api {
             play_request: {
                 card_name: name,
                 card_color: color,
+            },
+        });
+    }
+
+    viewPossibleActions({name, targetIndex}) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_view_possible_actions,
+            play_request: {
+                name: name,
+                target_index: targetIndex,
             },
         });
     }

@@ -32,6 +32,22 @@ describe('play', () => {
         sut = new Play(mockedApi, mockedGame);
     });
 
+    it('should register api callbacks on activation', () => {
+        spyOn(mockedApi, 'on');
+
+        sut.activate();
+
+        expect(mockedApi.on).toHaveBeenCalled();
+    });
+
+    it('should deregister api callbacks on deactivation', () => {
+        spyOn(mockedApi, 'off');
+
+        sut.deactivate();
+
+        expect(mockedApi.off).toHaveBeenCalled();
+    });
+
     it('should ask to join game in no name', () => {
         spyOn(mockedApi, 'joinGame');
         mockedApi._me = {};
@@ -61,6 +77,55 @@ describe('play', () => {
                 'game-over',
                 {message: ['Player 1', 'Player 2']});
             done();
+        });
+    });
+
+    describe('special actions', () => {
+        it('should log error for unknown action', () => {
+             spyOn(sut._logger, 'error');
+            let action = {
+                name: 'toto',
+            };
+
+            sut._handleSpecialActionNotify(action);
+
+            expect(sut._logger.error).toHaveBeenCalledWith({
+                name: 'toto',
+                info: 'Unknow special action',
+            });
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+        });
+
+        it('should NOT make pawns clickable for assassination if NOT your turn', () => {
+            let action = {
+                name: 'assassination',
+            };
+            spyOn(sut._api, 'viewPossibleActions');
+            sut._api.game.your_turn = false;
+
+            sut._handleSpecialActionNotify(action);
+
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+        });
+
+        it('should make pawns clickable for assassination if your turn', () => {
+            let action = {
+                name: 'assassination',
+            };
+            spyOn(sut._api, 'viewPossibleActions');
+            sut._api.game.your_turn = true;
+
+            sut._handleSpecialActionNotify(action);
+
+            expect(sut.pawnClickable).toBe(true);
+            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            sut.onPawnClicked(0);
+            expect(sut._api.viewPossibleActions).toHaveBeenCalledWith({
+                name: 'assassination',
+                targetIndex: 0,
+            });
         });
     });
 });
