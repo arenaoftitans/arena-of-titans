@@ -25,14 +25,22 @@ import { Wait } from '../../../services/utils';
 import Config from '../../../../../config/application';
 
 
+// In milliseconds to ease calculations.
+const TIME_FOR_TURN = 90000;
+const COUNTER_REFRESH_TIME = 50;
+const TIME_FOR_SPECIAL_ACTION = 15000;
+
+// Canvas variables
+const COUNTER_RADIUS = 140;
+const COUNTER_X = 150;
+const COUNTER_Y = 150;
+const COUNTER_WIDTH = 300;
+const COUNTER_HEIGHT = 300;
+
+
 @inject(Api, Config, EventAggregator)
 export class AotCounterCustomElement {
     _api;
-
-    // In milliseconds to ease calculations.
-    static TIME_FOR_TURN = 90000;
-    static COUNTER_REFRESH_TIME = 50;
-    static TIME_FOR_SPECIAL_ACTION = 15000;
 
     constructor(api, config, ea) {
         this._api = api;
@@ -46,7 +54,7 @@ export class AotCounterCustomElement {
         this.timerInterval = null;
         this.canvas = null;
         this.specialActionCanvas = null;
-        this.timeLeft = AotCounterCustomElement.TIME_FOR_TURN;
+        this.timeLeft = TIME_FOR_TURN;
         this.angle = 0;
         this.waitForCounter = Wait.forId('counter');
         this.waitForSpecialActionCounter = Wait.forId('counter-special-action');
@@ -115,7 +123,7 @@ export class AotCounterCustomElement {
 
     start() {
         let elapsedTime = this._api.me.elapsed_time || 0;
-        this.maxTime = AotCounterCustomElement.TIME_FOR_TURN - elapsedTime;
+        this.maxTime = TIME_FOR_TURN - elapsedTime;
         // Round max time to upper second
         this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
         this.startTime = (new Date()).getTime();
@@ -123,7 +131,7 @@ export class AotCounterCustomElement {
 
         this.timerInterval = setInterval(() => {
             if (this._paused) {
-                this._pausedDuration += AotCounterCustomElement.COUNTER_REFRESH_TIME;
+                this._pausedDuration += COUNTER_REFRESH_TIME;
             } else {
                 this.countDownClock();
             }
@@ -133,7 +141,7 @@ export class AotCounterCustomElement {
                 this.startTime = null;
                 this._api.pass();
             }
-        }, AotCounterCustomElement.COUNTER_REFRESH_TIME);
+        }, COUNTER_REFRESH_TIME);
     }
 
     countDownClock() {
@@ -144,9 +152,9 @@ export class AotCounterCustomElement {
         this.timeLeft = this.maxTime - (currentTime - this.startTime) + this._pausedDuration;
 
         // Angle to use, defined by 1 millisecond
-        this.angle = 2 * Math.PI / (AotCounterCustomElement.TIME_FOR_TURN * 0.001) *
+        this.angle = 2 * Math.PI / (TIME_FOR_TURN * 0.001) *
             (this.timeLeft * 0.001);
-        if (this.timeLeft === AotCounterCustomElement.TIME_FOR_TURN) {
+        if (this.timeLeft === TIME_FOR_TURN) {
             this.angle -= 0.0001;
         }
 
@@ -154,13 +162,13 @@ export class AotCounterCustomElement {
             let ctx = this.canvas.getContext('2d');
 
             // Clear canvas before re-drawing
-            ctx.clearRect(0, 0, 300, 300);
+            ctx.clearRect(0, 0, COUNTER_WIDTH, COUNTER_HEIGHT);
 
             // Black background ring
             ctx.beginPath();
             ctx.globalAlpha = 1;
-            ctx.arc(150, 150, 140, 0, 6.283, false);
-            ctx.arc(150, 150, 105, 6.283, Math.PI * 2, true);
+            ctx.arc(COUNTER_X, COUNTER_Y, COUNTER_RADIUS, 0, 6.283, false);
+            ctx.arc(COUNTER_X, COUNTER_Y, 105, 6.283, Math.PI * 2, true);
             ctx.fillStyle = '#000000';
             ctx.fill();
             ctx.closePath();
@@ -168,8 +176,8 @@ export class AotCounterCustomElement {
             // Clock face ring
             ctx.beginPath();
             ctx.globalAlpha = 1;
-            ctx.arc(150, 150, 140.1, - 1.57, - 1.57 + this.angle, false);
-            ctx.arc(150, 150, 105, - 1.57 + this.angle, Math.PI * 2 - 1.57, true);
+            ctx.arc(COUNTER_X, COUNTER_Y, COUNTER_RADIUS + 0.1, - 1.57, - 1.57 + this.angle, false);
+            ctx.arc(COUNTER_X, COUNTER_Y, 105, - 1.57 + this.angle, Math.PI * 2 - 1.57, true);
             ctx.fillStyle = this.colourChanger();
             ctx.fill();
             ctx.closePath();
@@ -179,7 +187,7 @@ export class AotCounterCustomElement {
             ctx.font = `${fontSize}pt Old English Text MT`;
             ctx.textAlign = 'center';
             ctx.fillStyle = 'black';
-            ctx.fillText(this.formatedTimeLeft, 150, 150 + fontSize / 2);
+            ctx.fillText(this.formatedTimeLeft, COUNTER_X, COUNTER_Y + fontSize / 2);
         } else {
             this._logger.error('Browser doesn\'t support canvas');
         }
@@ -208,7 +216,7 @@ export class AotCounterCustomElement {
     }
 
     startSpecialActionCounter() {
-        this.timeLeftForSpecialAction = AotCounterCustomElement.TIME_FOR_SPECIAL_ACTION;
+        this.timeLeftForSpecialAction = TIME_FOR_SPECIAL_ACTION;
 
         this.timerIntervalForSpecialAction = setInterval(() => {
             this.countDownClockForSpecialAction();
@@ -217,24 +225,29 @@ export class AotCounterCustomElement {
                 clearInterval(this.timerIntervalForSpecialAction);
                 this._api.cancelSpecialAction(this.specialActionName);
             }
-        }, AotCounterCustomElement.COUNTER_REFRESH_TIME);
+        }, COUNTER_REFRESH_TIME);
     }
 
     countDownClockForSpecialAction() {
-        this.timeLeftForSpecialAction -= AotCounterCustomElement.COUNTER_REFRESH_TIME;
+        this.timeLeftForSpecialAction -= COUNTER_REFRESH_TIME;
         if (this.specialActionCanvas && this.specialActionCanvas.getContext) {
             let ctx = this.specialActionCanvas.getContext('2d');
 
             // Clear canvas before re-drawing
-            ctx.clearRect(0, 0, 300, 300);
+            ctx.clearRect(0, 0, COUNTER_WIDTH, COUNTER_HEIGHT);
 
             // Black stroke.
-            let r = this.timeLeftForSpecialAction / AotCounterCustomElement.TIME_FOR_SPECIAL_ACTION;
+            let r = this.timeLeftForSpecialAction / TIME_FOR_SPECIAL_ACTION;
             ctx.beginPath();
-            ctx.arc(150, 150, 140.1, 0, 2 * Math.PI, false);
+            ctx.arc(COUNTER_X, COUNTER_Y, COUNTER_RADIUS, 0, 2 * Math.PI, false);
             ctx.clip();
             ctx.fillStyle = this.colourChangerForSpecialAction(r);
-            ctx.fillRect(150 - 140.1, 150 + 140.1, 140.1 * 2, - 140.1 * 2 * r);
+            ctx.fillRect(
+                COUNTER_X - COUNTER_RADIUS,
+                COUNTER_Y + COUNTER_RADIUS,
+                COUNTER_RADIUS * 2,
+                - COUNTER_RADIUS * 2 * r
+            );
             ctx.lineWidth = 5;
             ctx.strokeStyle = 'black';
             ctx.stroke();
@@ -246,7 +259,7 @@ export class AotCounterCustomElement {
             ctx.textAlign = 'center';
             ctx.fillStyle = 'black';
             let text = this.formatTimeLeft(this.timeLeftForSpecialAction);
-            ctx.fillText(text, 150, 150 + fontSize / 2);
+            ctx.fillText(text, COUNTER_X, COUNTER_Y + fontSize / 2);
         } else {
             this._logger.error('Browser doesn\'t support canvas');
         }
