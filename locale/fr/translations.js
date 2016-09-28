@@ -65,6 +65,7 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
+            "cancel_special_action": "Ne pas jouer l'action",
             "complete_turn": "Terminer le tour",
             "complete_turn_confirm_message": "\u00cates-vous s\u00fbr de vouloir terminer le tour ?",
             "discard": "D\u00e9fausser",

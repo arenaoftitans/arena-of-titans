@@ -705,6 +705,32 @@ describe('services/api', () => {
                     },
                 });
             });
+
+            it('should handle special action played when canceled', () => {
+                spyOn(sut, '_movePlayer');
+
+                sut._handleSpecialActionPlayed({
+                    name: null,
+                    player_index: 0,
+                });
+
+                expect(sut._movePlayer).not.toHaveBeenCalled();
+            });
+
+            it('should cancel special action', () => {
+                spyOn(sut._ws, 'send');
+
+                sut.cancelSpecialAction('assassination');
+
+                expect(sut._ws.send).toHaveBeenCalledWith({
+                    rt: sut.requestTypes.special_action_play,
+                    play_request: {
+                        name: 'assassination',
+                        cancel: true,
+                        target_index: -1,
+                    },
+                });
+            });
         });
     });
 });

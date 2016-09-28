@@ -181,20 +181,29 @@ describe('notifications', () => {
             sut._notifySpecialAction({name: 'action'});
 
             expect(sut.specialActionInProgress).toBe(true);
-            expect(sut._specialActionTextId).toBe('actions.special_action_action');
+            expect(sut._specialActionName).toBe('action');
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
         });
 
         it('should handle special action played message', () => {
             sut.specialActionInProgress = true;
-            sut._specialActionTextId = 'toto';
+            sut._specialActionName = 'toto';
             spyOn(sut, '_updateLastAction');
 
             sut._handleSpecialActionPlayed({name: 'action'});
 
             expect(sut.specialActionInProgress).toBe(false);
-            expect(sut._specialActionTextId).toBe(undefined);
+            expect(sut._specialActionName).toBe(undefined);
             expect(sut._updateLastAction).toHaveBeenCalledWith({name: 'action'});
+        });
+
+        it('should cancel special action', () => {
+            spyOn(mockedApi, 'cancelSpecialAction');
+            sut._specialActionName = 'action';
+
+            sut.cancelSpecialAction();
+
+            expect(mockedApi.cancelSpecialAction).toHaveBeenCalledWith('action');
         });
     });
 });

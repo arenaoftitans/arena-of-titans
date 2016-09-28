@@ -317,7 +317,13 @@ export class Api {
     }
 
     _handleSpecialActionPlayed(message) {
-        switch (message.name.toLowerCase()) {
+        let actionName = message.name;
+        // If player canceled the action, the name is null
+        if (actionName === null) {
+            return;
+        }
+
+        switch (actionName.toLowerCase()) {
             case 'assassination':
                 this._movePlayer({
                     playerIndex: message.player_index,
@@ -518,6 +524,18 @@ export class Api {
                 x: parseInt(x, 10),
                 y: parseInt(y, 10),
                 target_index: targetIndex,
+            },
+        });
+    }
+
+    cancelSpecialAction(actionName) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_play,
+            play_request: {
+                name: actionName,
+                cancel: true,
+                // We must send and non null index for the API to comply with the request.
+                target_index: -1,
             },
         });
     }

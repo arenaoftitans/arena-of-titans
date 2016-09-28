@@ -65,6 +65,7 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "What do you want to do?",
+            "cancel_special_action": "Skip special action",
             "complete_turn": "Complete the turn",
             "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
             "discard": "Discard",

@@ -45,7 +45,7 @@ export class AotNotificationsCustomElement {
     ];
     specialActionInProgress = false;
     specialActionText;
-    _specialActionTextId;
+    _specialActionName;
     _api;
     _lastAction = {};
     _i18n;
@@ -71,7 +71,7 @@ export class AotNotificationsCustomElement {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
 
-            if (this._specialActionTextId) {
+            if (this._specialActionName) {
                 this._translateSpecialActionText();
             }
 
@@ -225,18 +225,23 @@ export class AotNotificationsCustomElement {
 
     _handleSpecialActionPlayed(message) {
         this.specialActionInProgress = false;
-        this._specialActionTextId = undefined;
+        this._specialActionName = undefined;
         this._updateLastAction(message);
     }
 
     _notifySpecialAction(message) {
         this.specialActionInProgress = true;
-        this._specialActionTextId = `actions.special_action_${message.name.toLowerCase()}`;
+        this._specialActionName = message.name.toLowerCase();
         this._translateSpecialActionText();
     }
 
     _translateSpecialActionText() {
-        this.specialActionText = this._i18n.tr(this._specialActionTextId);
+        this.specialActionText =
+            this._i18n.tr(`actions.special_action_${this._specialActionName}`);
+    }
+
+    cancelSpecialAction() {
+        this._api.cancelSpecialAction(this._specialActionName);
     }
 
     get currentPlayerName() {
