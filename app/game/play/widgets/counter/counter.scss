@@ -2,7 +2,8 @@
 
 
 aot-counter {
-    #counter {
+    #counter,
+    #counter-special-action {
         max-height: $play-secondary-height - 3vh;
         max-width: 100%;
         opacity: 0.8;

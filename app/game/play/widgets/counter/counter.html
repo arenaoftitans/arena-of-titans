@@ -22,6 +22,12 @@
 
     <div id="counter-countainer">
         <canvas id="counter"
+            if.bind="!specialActionInProgress"
+            class="centered-block ${displayCounter ? '' : 'hidden'}"
+            width="300"
+            height="300"></canvas>
+        <canvas id="counter-special-action"
+            if.bind="specialActionInProgress"
             class="centered-block ${displayCounter ? '' : 'hidden'}"
             width="300"
             height="300"></canvas>

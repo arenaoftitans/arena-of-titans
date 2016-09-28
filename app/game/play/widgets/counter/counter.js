@@ -32,36 +32,62 @@ export class AotCounterCustomElement {
     // In milliseconds to ease calculations.
     static TIME_FOR_TURN = 90000;
     static COUNTER_REFRESH_TIME = 50;
+    static TIME_FOR_SPECIAL_ACTION = 15000;
 
     constructor(api, config, ea) {
         this._api = api;
         this._config = config;
         this._ea = ea;
         this._paused = false;
+        this.specialActionInProgress = false;
         this._pausedDuration = 0;
         this._logger = LogManager.getLogger('AotCounterCustomElement');
         this.startTime = null;
         this.timerInterval = null;
         this.canvas = null;
+        this.specialActionCanvas = null;
         this.timeLeft = AotCounterCustomElement.TIME_FOR_TURN;
         this.angle = 0;
         this.waitForCounter = Wait.forId('counter');
+        this.waitForSpecialActionCounter = Wait.forId('counter-special-action');
 
         this.init();
         this._api.on(this._api.requestTypes.play, () => {
-            this.init();
+            this._handlePlayRequest();
+        });
+
+        this._api.on(this._api.requestTypes.special_action_notify, message => {
+            this._handleSpecialActionNotify(message);
         });
 
         this._ea.subscribe('aot:notifications:start_guided_visit', () => {
-            this._paused = true;
+            this.pause();
         });
         this._ea.subscribe('aot:notifications:end_guided_visit', () => {
-            this._paused = false;
+            this.resume();
         });
+    }
+
+    _handlePlayRequest() {
+        if (this.specialActionInProgress) {
+            this.specialActionInProgress = false;
+            this.resume();
+        } else {
+            this.init();
+        }
+    }
+
+    _handleSpecialActionNotify(message) {
+        this.specialActionName = message.name;
+        this.pause();
+        this.specialActionInProgress = true;
+        this.initSpecialActionCounter();
     }
 
     init() {
         if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
+            this._paused = false;
+            this.specialActionInProgress = false;
             this.waitForCounter.then(canvas => {
                 this.canvas = canvas;
                 this.start();
@@ -70,6 +96,21 @@ export class AotCounterCustomElement {
             clearInterval(this.timerInterval);
             this.startTime = null;
         }
+    }
+
+    initSpecialActionCounter() {
+        this.waitForSpecialActionCounter.then(canvas => {
+            this.specialActionCanvas = canvas;
+            this.startSpecialActionCounter();
+        });
+    }
+
+    pause() {
+        this._paused = true;
+    }
+
+    resume() {
+        this._paused = false;
     }
 
     start() {
@@ -166,8 +207,66 @@ export class AotCounterCustomElement {
         return color;
     }
 
+    startSpecialActionCounter() {
+        this.timeLeftForSpecialAction = AotCounterCustomElement.TIME_FOR_SPECIAL_ACTION;
+
+        this.timerIntervalForSpecialAction = setInterval(() => {
+            this.countDownClockForSpecialAction();
+
+            if (this.timeLeftForSpecialAction <= 0 && !this._config.test.debug) {
+                clearInterval(this.timerIntervalForSpecialAction);
+                this._api.cancelSpecialAction(this.specialActionName);
+            }
+        }, AotCounterCustomElement.COUNTER_REFRESH_TIME);
+    }
+
+    countDownClockForSpecialAction() {
+        this.timeLeftForSpecialAction -= AotCounterCustomElement.COUNTER_REFRESH_TIME;
+        if (this.specialActionCanvas && this.specialActionCanvas.getContext) {
+            let ctx = this.specialActionCanvas.getContext('2d');
+
+            // Clear canvas before re-drawing
+            ctx.clearRect(0, 0, 300, 300);
+
+            // Black stroke.
+            let r = this.timeLeftForSpecialAction / AotCounterCustomElement.TIME_FOR_SPECIAL_ACTION;
+            ctx.beginPath();
+            ctx.arc(150, 150, 140.1, 0, 2 * Math.PI, false);
+            ctx.clip();
+            ctx.fillStyle = this.colourChangerForSpecialAction(r);
+            ctx.fillRect(150 - 140.1, 150 + 140.1, 140.1 * 2, - 140.1 * 2 * r);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.restore();
+
+            // Draw time
+            let fontSize = 120;
+            ctx.font = `${fontSize}pt Old English Text MT`;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'black';
+            let text = this.formatTimeLeft(this.timeLeftForSpecialAction);
+            ctx.fillText(text, 150, 150 + fontSize / 2);
+        } else {
+            this._logger.error('Browser doesn\'t support canvas');
+        }
+    }
+
+    colourChangerForSpecialAction(r) {
+        // RGB values
+        // Green: 	 51 153  0
+        // Orange:	244 138  0
+        // Red:		255   0  0
+
+        return `rgb(${Math.floor(204 * (1 - r) + 51)},${Math.floor(153 * r)},0)`;
+    }
+
     get formatedTimeLeft() {
-        return Math.max(Math.round(this.timeLeft / 1000), 0);
+        return this.formatTimeLeft(this.timeLeft);
+    }
+
+    formatTimeLeft(time) {
+        return Math.max(Math.round(time / 1000), 0);
     }
 
     get displayCounter() {
