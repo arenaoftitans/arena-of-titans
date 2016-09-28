@@ -172,6 +172,7 @@ export class Api {
                 // Nothing to do beside calling callbacks
                 break;
             case this.requestTypes.special_action_play:
+                this._handleSpecialActionPlayed(message);
                 break;
             default:
                 this._handleErrors(message);
@@ -313,6 +314,21 @@ export class Api {
 
     _handlePlayTrump(message) {
         this._updateAffectingTrumps(message.active_trumps);
+    }
+
+    _handleSpecialActionPlayed(message) {
+        switch (message.name.toLowerCase()) {
+            case 'assassination':
+                this._movePlayer({
+                    playerIndex: message.player_index,
+                    newSquare: message.new_square,
+                });
+                break;
+            default:
+                message.info = 'Unknow special action';
+                this._logger.error(message);
+                break;
+        }
     }
 
     _handleReconnect(reconnectMessage) {

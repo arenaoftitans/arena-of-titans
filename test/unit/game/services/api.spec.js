@@ -676,6 +676,35 @@ describe('services/api', () => {
                     },
                 });
             });
+
+            it('should handle special action played for invalid action', () => {
+                spyOn(sut._logger, 'error');
+
+                sut._handleSpecialActionPlayed({name: 'action'});
+
+                expect(sut._logger.error).toHaveBeenCalled();
+            });
+
+            it('should handle special action played for assassination', () => {
+                spyOn(sut, '_movePlayer');
+
+                sut._handleSpecialActionPlayed({
+                    name: 'Assassination',
+                    player_index: 0,
+                    new_square: {
+                        x: 1,
+                        y: 2,
+                    },
+                });
+
+                expect(sut._movePlayer).toHaveBeenCalledWith({
+                    playerIndex: 0,
+                    newSquare: {
+                        x: 1,
+                        y: 2,
+                    },
+                });
+            });
         });
     });
 });
