@@ -9,9 +9,10 @@ export default {
         "trump_played_by": "Jou\u00e9 par {{initiator}}"
     },
     "cards": {
-        "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal",
+        "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal.",
         "assassin_black": "Assassin noir",
         "assassin_blue": "Assassin bleu",
+        "assassin_complementary_description": "Coup sp\u00e9cial : Assassinat pour faire reculer un joueur.",
         "assassin_red": "Assassin rouge",
         "assassin_yellow": "Assassin jaune",
         "bishop": "D\u00e9placement de deux cases. Les cases peuvent \u00eatre de deux couleurs diff\u00e9rentes",

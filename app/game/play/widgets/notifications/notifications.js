@@ -130,6 +130,8 @@ export class AotNotificationsCustomElement {
             this._lastAction.card.title =
                 this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
             this._lastAction.card.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
+            this._lastAction.card.complementaryDescription =
+                    this._i18n.tr(`cards.${cardName.toLowerCase()}_complementary_description`);
 
             this._lastAction.img = ImageSource.forCard(lastAction.card);
         }

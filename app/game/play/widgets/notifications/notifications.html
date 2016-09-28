@@ -45,6 +45,9 @@
             <p>
                 ${lastAction.card.description}
             </p>
+            <p>
+                <em if.bind="lastAction.card.complementaryDescription">${lastAction.card.complementaryDescription}</em>
+            </p>
         </div>
 
         <div if.bind="lastAction && lastAction.trump">

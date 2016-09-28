@@ -12,6 +12,7 @@ export default {
         "assassin": "Move two squares in line or diagonal.",
         "assassin_black": "Black Assassin",
         "assassin_blue": "Blue Assassin",
+        "assassin_complementary_description": "Special action: Assassination to make a player move back.",
         "assassin_red": "Red Assassin",
         "assassin_yellow": "Yellow Assassin",
         "bishop": "Move two squares in diagonal. Can move on two different colors.",
