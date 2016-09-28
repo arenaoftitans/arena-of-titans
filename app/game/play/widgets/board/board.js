@@ -31,6 +31,8 @@ export class AotBoardCustomElement {
     _api;
     infos = {};
     _possibleSquares = [];
+    _selectedPawnIndex = -1;
+    _actionName;
 
     constructor(api) {
         this._api = api;
@@ -39,6 +41,7 @@ export class AotBoardCustomElement {
         });
         this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
         this._api.on(this._api.requestTypes.special_action_view_possible_actions, message => {
+            this._actionName = message.name;
             this._highlightPossibleSquares(message);
         });
     }
@@ -63,8 +66,19 @@ export class AotBoardCustomElement {
                 x: x,
                 y: y,
             });
-            this._possibleSquares = [];
+            this._resetPossibleSquares();
             this.selectedCard = null;
+        } else if (this._possibleSquares.length > 0 &&
+                this._possibleSquares.indexOf(squareId) > -1 &&
+                this._selectedPawnIndex > -1) {
+            this._api.playSpecialAction({
+                x: x,
+                y: y,
+                name: this._actionName,
+                targetIndex: this._selectedPawnIndex,
+            });
+            this._selectedPawnIndex = -1;
+            this._resetPossibleSquares();
         }
     }
 
@@ -84,6 +98,7 @@ export class AotBoardCustomElement {
 
     pawnClicked(index) {
         if (this.isClickable(index)) {
+            this._selectedPawnIndex = index;
             this.onPawnClicked(index);
         }
     }

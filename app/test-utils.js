@@ -106,6 +106,9 @@ export class ApiStub {
         }
     }
 
+    playSpecialAction() {
+    }
+
     playTrump() {
     }
 

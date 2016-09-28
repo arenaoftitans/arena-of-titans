@@ -134,5 +134,23 @@ describe('board', () => {
 
             expect(sut.onPawnClicked).toHaveBeenCalledWith(0);
         });
+
+        it('should move to if possible squares and pawn', () => {
+            spyOn(mockedApi, 'playSpecialAction');
+            sut._possibleSquares = ['square-0-0'];
+            sut._selectedPawnIndex = 0;
+            sut._actionName = 'action';
+
+            sut.moveTo('square-0-0', 0, 0);
+
+            expect(mockedApi.playSpecialAction).toHaveBeenCalledWith({
+                x: 0,
+                y: 0,
+                name: 'action',
+                targetIndex: 0,
+            });
+            expect(sut._possibleSquares).toEqual([]);
+            expect(sut._selectedPawnIndex).toBe(-1);
+        });
     });
 });
