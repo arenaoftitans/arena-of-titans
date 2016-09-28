@@ -30,10 +30,12 @@ export class Play {
     selectedCard = null;
     pawnClickable = false;
     onPawnClicked = null;
+    onPawnSquareClicked = null;
     pawnsForcedNotClickable = [];
     _game;
     _api;
     _specialActionNotifyCb;
+    _specialActionViewPossibleActionsCb;
 
     constructor(api, game) {
         this._api = api;
@@ -50,6 +52,10 @@ export class Play {
         this._specialActionNotifyCb = this._api.on(type, message => {
             this._handleSpecialActionNotify(message);
         });
+        type = this._api.requestTypes.special_action_view_possible_actions;
+        this._specialActionViewPossibleActionsCb = this._api.on(type, message => {
+            this._handleSpecialActionViewPossibleActions(message);
+        });
 
         this._api.onGameOverDefered.then(winners => {
             return this._game.popup('game-over', {message: winners});
@@ -57,7 +63,7 @@ export class Play {
     }
 
     _handleSpecialActionNotify(action) {
-        switch (action.name) {
+        switch (action.name.toLowerCase()) {
             case 'assassination':
                 if (this.game.your_turn) {
                     this.pawnClickable = true;
@@ -74,8 +80,35 @@ export class Play {
         }
     }
 
+    _handleSpecialActionViewPossibleActions(action) {
+        switch (action.name.toLowerCase()) {
+            case 'assassination':
+                this.onPawnSquareClicked = (squareId, x, y, targetIndex) => {
+                    this._api.playSpecialAction({
+                        x: x,
+                        y: y,
+                        name: action.name,
+                        targetIndex: targetIndex,
+                    });
+                    this.pawnClickable = false;
+                    this.onPawnClicked = null;
+                    this.pawnsForcedNotClickable = [];
+                    this.onPawnSquareClicked = null;
+                };
+                break;
+            default:
+                action.info = 'Unknow special action';
+                this._logger.error(action);
+                break;
+        }
+    }
+
     deactivate() {
         this._api.off(this._api.requestTypes.special_action_notify, this._specialActionNotifyCb);
+        this._api.off(
+            this._api.requestTypes.special_action_view_possible_actions,
+            this._specialActionViewPossibleActionsCb
+        );
     }
 
     backHome() {

@@ -28,26 +28,28 @@ export class AotBoardCustomElement {
     @bindable pawnClickable = false;
     @bindable pawnsForcedNotClickable = [];
     @bindable onPawnClicked = null;
+    // This is called when the player clicks on a square after clicking on a pawn.
+    @bindable onPawnSquareClicked = null;
     _api;
     infos = {};
     _possibleSquares = [];
     _selectedPawnIndex = -1;
-    _actionName;
 
     constructor(api) {
         this._api = api;
         this._api.on(this._api.requestTypes.view, data => {
-            this._highlightPossibleSquares(data);
+            this._highlightPossibleSquares(data.possible_squares);
         });
         this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
         this._api.on(this._api.requestTypes.special_action_view_possible_actions, message => {
-            this._actionName = message.name;
-            this._highlightPossibleSquares(message);
+            if (message.possible_squares) {
+                this._highlightPossibleSquares(message.possible_squares);
+            }
         });
     }
 
-    _highlightPossibleSquares(data) {
-        this._possibleSquares = data.possible_squares.map(square => {
+    _highlightPossibleSquares(possibleSquares) {
+        this._possibleSquares = possibleSquares.map(square => {
             return `square-${square.x}-${square.y}`;
         });
     }
@@ -71,12 +73,7 @@ export class AotBoardCustomElement {
         } else if (this._possibleSquares.length > 0 &&
                 this._possibleSquares.indexOf(squareId) > -1 &&
                 this._selectedPawnIndex > -1) {
-            this._api.playSpecialAction({
-                x: x,
-                y: y,
-                name: this._actionName,
-                targetIndex: this._selectedPawnIndex,
-            });
+            this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
             this._selectedPawnIndex = -1;
             this._resetPossibleSquares();
         }

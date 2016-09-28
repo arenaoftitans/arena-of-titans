@@ -36,9 +36,10 @@ describe('board', () => {
     });
 
     it('should highlight possible squares', () => {
-        sut._highlightPossibleSquares({
-            possible_squares: [{x: 0, y:0}, {x: 7, y: 5}],
-        });
+        sut._highlightPossibleSquares([
+            {x: 0, y: 0},
+            {x: 7, y: 5},
+        ]);
 
         expect(sut._possibleSquares).toEqual([
             'square-0-0',
@@ -140,15 +141,12 @@ describe('board', () => {
             sut._possibleSquares = ['square-0-0'];
             sut._selectedPawnIndex = 0;
             sut._actionName = 'action';
+            sut.onPawnSquareClicked = () => {};
+            spyOn(sut, 'onPawnSquareClicked');
 
             sut.moveTo('square-0-0', 0, 0);
 
-            expect(mockedApi.playSpecialAction).toHaveBeenCalledWith({
-                x: 0,
-                y: 0,
-                name: 'action',
-                targetIndex: 0,
-            });
+            expect(sut.onPawnSquareClicked).toHaveBeenCalledWith('square-0-0', 0, 0, 0);
             expect(sut._possibleSquares).toEqual([]);
             expect(sut._selectedPawnIndex).toBe(-1);
         });

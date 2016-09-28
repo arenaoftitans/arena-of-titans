@@ -129,5 +129,35 @@ describe('play', () => {
             });
             expect(sut.pawnsForcedNotClickable).toEqual([0]);
         });
+
+        it('should handle view special action', () => {
+            sut.pawnClickable = true;
+            sut.onPawnClicked = () => {};
+            sut.pawnsForcedNotClickable = [0];
+
+            sut._handleSpecialActionViewPossibleActions({
+                name: 'Assassination',
+            });
+
+            expect(sut.onPawnSquareClicked).toEqual(jasmine.any(Function));
+            expect(sut.pawnClickable).toBe(true);
+            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            expect(sut.pawnsForcedNotClickable).toEqual([0]);
+
+            spyOn(mockedApi, 'playSpecialAction');
+
+            sut.onPawnSquareClicked('square-0-0', 0, 0, 0);
+
+            expect(sut.onPawnSquareClicked).toBe(null);
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+            expect(sut.pawnsForcedNotClickable).toEqual([]);
+            expect(mockedApi.playSpecialAction).toHaveBeenCalledWith({
+                x: 0,
+                y: 0,
+                name: 'Assassination',
+                targetIndex: 0,
+            });
+        });
     });
 });
