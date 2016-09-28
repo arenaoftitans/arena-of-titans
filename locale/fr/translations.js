@@ -6,6 +6,7 @@ export default {
         "played_special_action": "{{playerName}} vient de jouer une action sp\u00e9ciale sur {{targetName}}",
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
         "problem": "Il vient d'y avoir un probl\u00e8me",
+        "special_action_assassination": "Clique sur le pion d'un joueur. Tu pourras alors choisir la case sur laquelle tu peux le faire reculer.",
         "trump_played_by": "Jou\u00e9 par {{initiator}}"
     },
     "cards": {

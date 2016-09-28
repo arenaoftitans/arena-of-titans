@@ -43,6 +43,9 @@ export class AotNotificationsCustomElement {
         'game.visit.trumps',
         'game.visit.notifications',
     ];
+    specialActionInProgress = false;
+    specialActionText;
+    _specialActionTextId;
     _api;
     _lastAction = {};
     _i18n;
@@ -68,6 +71,10 @@ export class AotNotificationsCustomElement {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
 
+            if (this._specialActionTextId) {
+                this._translateSpecialActionText();
+            }
+
             this._translatePopupMessage();
         });
 
@@ -83,8 +90,12 @@ export class AotNotificationsCustomElement {
             this._updateLastAction(message);
         });
 
+        this._api.on(this._api.requestTypes.special_action_notify, message => {
+            this._notifySpecialAction(message);
+        });
+
         this._api.on(this._api.requestTypes.special_action_play, message => {
-            this._updateLastAction(message);
+            this._handleSpecialActionPlayed(message);
         });
     }
 
@@ -212,12 +223,34 @@ export class AotNotificationsCustomElement {
         }
     }
 
+    _handleSpecialActionPlayed(message) {
+        this.specialActionInProgress = false;
+        this._specialActionTextId = undefined;
+        this._updateLastAction(message);
+    }
+
+    _notifySpecialAction(message) {
+        if (this.game.your_turn) {
+            this.specialActionInProgress = true;
+            this._specialActionTextId = `actions.special_action_${message.name.toLowerCase()}`;
+            this._translateSpecialActionText();
+        }
+    }
+
+    _translateSpecialActionText() {
+        this.specialActionText = this._i18n.tr(this._specialActionTextId);
+    }
+
     get currentPlayerName() {
         return this.players.names[this.currentPlayerIndex];
     }
 
     get lastAction() {
         return this._lastAction;
+    }
+
+    get game()  {
+        return this._api.game;
     }
 
     get tutorialInProgress() {

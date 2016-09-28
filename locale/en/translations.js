@@ -6,6 +6,7 @@ export default {
         "played_special_action": "{{playerName}} just played a special action on {{targetName}}",
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
         "problem": "A problem occured",
+        "special_action_assassination": "Click on the pawn of a player. You will then be able to move it back.",
         "trump_played_by": "Played by {{initiator}}"
     },
     "cards": {

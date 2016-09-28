@@ -171,4 +171,42 @@ describe('notifications', () => {
             expect(sut._highlightVisitElements).toHaveBeenCalledWith(initialGuidedVisitIndex);
         });
     });
+
+    describe('special action', () => {
+        it('should notify special actions if your turn', () => {
+            sut.specialActionInProgress = false;
+            spyOn(sut, '_translateSpecialActionText');
+            mockedApi.game.your_turn = true;
+
+            sut._notifySpecialAction({name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(true);
+            expect(sut._specialActionTextId).toBe('actions.special_action_action');
+            expect(sut._translateSpecialActionText).toHaveBeenCalled();
+        });
+
+        it('should NOT notify special actions if NOT your turn', () => {
+            sut.specialActionInProgress = false;
+            spyOn(sut, '_translateSpecialActionText');
+            mockedApi.game.your_turn = false;
+
+            sut._notifySpecialAction({name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(false);
+            expect(sut._specialActionTextId).toBe(undefined);
+            expect(sut._translateSpecialActionText).not.toHaveBeenCalled();
+        });
+
+        it('should handle special action played message', () => {
+            sut.specialActionInProgress = true;
+            sut._specialActionTextId = 'toto';
+            spyOn(sut, '_updateLastAction');
+
+            sut._handleSpecialActionPlayed({name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(false);
+            expect(sut._specialActionTextId).toBe(undefined);
+            expect(sut._updateLastAction).toHaveBeenCalledWith({name: 'action'});
+        });
+    });
 });

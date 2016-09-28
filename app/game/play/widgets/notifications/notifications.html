@@ -27,7 +27,7 @@
         It's the turn of
     </p>
 
-    <div if.bind="!tutorialInProgress">
+    <div if.bind="!tutorialInProgress && !specialActionInProgress">
         <p if.bind="lastAction.description">
             ${lastAction.description}
             <span><br></span>
@@ -73,6 +73,12 @@
     <div if.bind="tutorialInProgress">
         <div>
             <p>${guidedVisitText}</p>
+        </div>
+    </div>
+
+    <div if.bind="specialActionInProgress">
+        <div>
+            <p>${specialActionText}</p>
         </div>
     </div>
 </template>
