@@ -53,6 +53,13 @@
                 ${lastAction.trump.description}
             </p>
         </div>
+
+        <div if.bind="lastAction && lastAction.specialAction">
+            <p class="centered-important"><strong class="white-text">${lastAction.specialAction.title}</strong></p>
+            <p>
+                ${lastAction.specialAction.description}
+            </p>
+        </div>
     </div>
 
     <p class="centered-important margin-0"

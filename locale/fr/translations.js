@@ -3,6 +3,7 @@ export default {
         "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
         "passed_turn": "{{playerName}} vient de passer son tour",
         "played_card": "{{playerName}} vient de jouer une carte",
+        "played_special_action": "{{playerName}} vient de jouer une action sp\u00e9ciale sur {{targetName}}",
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
         "problem": "Il vient d'y avoir un probl\u00e8me",
         "trump_played_by": "Jou\u00e9 par {{initiator}}"
@@ -131,6 +132,8 @@ export default {
         }
     },
     "trumps": {
+        "assassination": "Assassinat",
+        "assassination_description": "Permet de faire reculer un joueur d'une case",
         "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
         "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
         "reinforcements": "Renforcements",

@@ -3,6 +3,7 @@ export default {
         "dicarded_card": "{{playerName}} just discarded a card",
         "passed_turn": "{{playerName}} just passed his/her turn",
         "played_card": "{{playerName}} just played a card",
+        "played_special_action": "{{playerName}} just played a special action on {{targetName}}",
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
         "problem": "A problem occured",
         "trump_played_by": "Played by {{initiator}}"
@@ -131,6 +132,8 @@ export default {
         }
     },
     "trumps": {
+        "assassination": "Assassination",
+        "assassination_description": "Make an other player move back",
         "max_number_played_trumps": "You cannot play more trumps during this turn",
         "max_number_trumps": "This player cannot be the target of anymore trump during this turn",
         "reinforcements": "Reinforcements",

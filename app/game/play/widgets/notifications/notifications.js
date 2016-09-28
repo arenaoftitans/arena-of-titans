@@ -82,6 +82,10 @@ export class AotNotificationsCustomElement {
         this._api.on(this._api.requestTypes.play_trump, message => {
             this._updateLastAction(message);
         });
+
+        this._api.on(this._api.requestTypes.special_action_play, message => {
+            this._updateLastAction(message);
+        });
     }
 
     bind() {
@@ -137,6 +141,15 @@ export class AotNotificationsCustomElement {
             let trumpName = ImageName.forTrump(trump).replace('-', '_');
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
+        }
+
+        if (lastAction.special_action) {
+            let action = lastAction.special_action;
+            this._lastAction.specialAction = action;
+            let actionName = action.name.toLowerCase();
+            this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
+            this._lastAction.specialAction.description =
+                    this._i18n.tr(`trumps.${actionName}_description`);
         }
     }
 
