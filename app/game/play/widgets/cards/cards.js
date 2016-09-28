@@ -39,6 +39,7 @@ export class AotCardsCustomElement {
     _i18n;
     _logger;
     infos = {};
+    specialActionInProgress = false;
 
     constructor(api, game, i18n, ea, ol) {
         this._api = api;
@@ -59,6 +60,14 @@ export class AotCardsCustomElement {
             } else if (blinker) {
                 blinker.clearElements();
             }
+        });
+
+        this._api.on(this._api.requestTypes.special_action_notify, message => {
+            this._notifySpecialAction(message);
+        });
+
+        this._api.on(this._api.requestTypes.special_action_play, message => {
+            this._handleSpecialActionPlayed(message);
         });
     }
 
@@ -83,8 +92,16 @@ export class AotCardsCustomElement {
         return this._i18n.tr(`cards.${card.name.toLowerCase()}`);
     }
 
+    _notifySpecialAction() {
+        this.specialActionInProgress = true;
+    }
+
+    _handleSpecialActionPlayed() {
+        this.specialActionInProgress = false;
+    }
+
     viewPossibleMovements(card) {
-        if (this.yourTurn) {
+        if (this.yourTurn && !this.specialActionInProgress) {
             this.selectedCard = card;
             this._api.viewPossibleMovements({name: card.name, color: card.color});
         }
