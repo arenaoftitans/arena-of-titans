@@ -66,8 +66,15 @@ export class AotCardsCustomElement {
             this._notifySpecialAction(message);
         });
 
-        this._api.on(this._api.requestTypes.special_action_play, message => {
-            this._handleSpecialActionPlayed(message);
+        this._api.on(this._api.requestTypes.special_action_play, () => {
+            this._handleSpecialActionPlayed();
+        });
+
+        this._api.on(this._api.requestTypes.play, () => {
+            // When we receive a play message, there cannot be a special action in
+            // progress. This is mostly useful when a player passes his/her turn during a special
+            // action.
+            this._handleSpecialActionPlayed();
         });
     }
 

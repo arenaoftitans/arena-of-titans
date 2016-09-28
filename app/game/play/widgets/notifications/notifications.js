@@ -86,6 +86,13 @@ export class AotNotificationsCustomElement {
             this._updateLastAction(message);
         });
 
+        this._api.on(this._api.requestTypes.play, () => {
+            // When we receive a play message, there cannot be a special action in
+            // progress. This is mostly useful when a player passes his/her turn during a special
+            // action.
+            this._handleSpecialActionPlayed();
+        });
+
         this._api.on(this._api.requestTypes.play_trump, message => {
             this._updateLastAction(message);
         });
@@ -226,7 +233,9 @@ export class AotNotificationsCustomElement {
     _handleSpecialActionPlayed(message) {
         this.specialActionInProgress = false;
         this._specialActionName = undefined;
-        this._updateLastAction(message);
+        if (message) {
+            this._updateLastAction(message);
+        }
     }
 
     _notifySpecialAction(message) {
