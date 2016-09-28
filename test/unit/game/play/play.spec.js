@@ -97,19 +97,6 @@ describe('play', () => {
             expect(sut.onPawnClicked).toBe(null);
         });
 
-        it('should NOT make pawns clickable for assassination if NOT your turn', () => {
-            let action = {
-                name: 'assassination',
-            };
-            spyOn(sut._api, 'viewPossibleActions');
-            sut._api.game.your_turn = false;
-
-            sut._handleSpecialActionNotify(action);
-
-            expect(sut.pawnClickable).toBe(false);
-            expect(sut.onPawnClicked).toBe(null);
-        });
-
         it('should make pawns clickable for assassination if your turn', () => {
             let action = {
                 name: 'assassination',

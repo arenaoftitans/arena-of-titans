@@ -65,13 +65,11 @@ export class Play {
     _handleSpecialActionNotify(action) {
         switch (action.name.toLowerCase()) {
             case 'assassination':
-                if (this.game.your_turn) {
-                    this.pawnClickable = true;
-                    this.onPawnClicked = index => {
-                        this._api.viewPossibleActions({name: action.name, targetIndex: index});
-                    };
-                    this.pawnsForcedNotClickable.push(this.me.index);
-                }
+                this.pawnClickable = true;
+                this.onPawnClicked = index => {
+                    this._api.viewPossibleActions({name: action.name, targetIndex: index});
+                };
+                this.pawnsForcedNotClickable.push(this.me.index);
                 break;
             default:
                 action.info = 'Unknow special action';

@@ -230,11 +230,9 @@ export class AotNotificationsCustomElement {
     }
 
     _notifySpecialAction(message) {
-        if (this.game.your_turn) {
-            this.specialActionInProgress = true;
-            this._specialActionTextId = `actions.special_action_${message.name.toLowerCase()}`;
-            this._translateSpecialActionText();
-        }
+        this.specialActionInProgress = true;
+        this._specialActionTextId = `actions.special_action_${message.name.toLowerCase()}`;
+        this._translateSpecialActionText();
     }
 
     _translateSpecialActionText() {
