@@ -63,7 +63,7 @@ export class Play {
         });
 
         this._api.onReconnectDefered.then(message => {
-            if (message.special_action !== null) {
+            if (message.special_action_name) {
                 this._handleSpecialActionNotify(message);
             }
         });
