@@ -46,7 +46,9 @@
                 ${lastAction.card.description}
             </p>
             <p>
-                <em if.bind="lastAction.card.complementaryDescription">${lastAction.card.complementaryDescription}</em>
+                <em if.bind="lastAction.card.complementaryDescription.indexOf('cards.') === -1">
+                    ${lastAction.card.complementaryDescription}
+                </em>
             </p>
         </div>
 
