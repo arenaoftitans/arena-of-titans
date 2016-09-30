@@ -84,13 +84,13 @@ describe('play', () => {
         it('should log error for unknown action', () => {
              spyOn(sut._logger, 'error');
             let action = {
-                name: 'toto',
+                special_action_name: 'toto',
             };
 
             sut._handleSpecialActionNotify(action);
 
             expect(sut._logger.error).toHaveBeenCalledWith({
-                name: 'toto',
+                special_action_name: 'toto',
                 info: 'Unknow special action',
             });
             expect(sut.pawnClickable).toBe(false);
@@ -99,7 +99,7 @@ describe('play', () => {
 
         it('should make pawns clickable for assassination if your turn', () => {
             let action = {
-                name: 'assassination',
+                special_action_name: 'assassination',
             };
             spyOn(sut._api, 'viewPossibleActions');
             sut._api.game.your_turn = true;
@@ -123,7 +123,7 @@ describe('play', () => {
             sut.pawnsForcedNotClickable = [0];
 
             sut._handleSpecialActionViewPossibleActions({
-                name: 'Assassination',
+                special_action_name: 'Assassination',
             });
 
             expect(sut.onPawnSquareClicked).toEqual(jasmine.any(Function));

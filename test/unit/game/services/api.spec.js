@@ -671,7 +671,7 @@ describe('services/api', () => {
                 expect(sut._ws.send).toHaveBeenCalledWith({
                     rt: sut.requestTypes.special_action_view_possible_actions,
                     play_request: {
-                        name: 'assassination',
+                        special_action_name: 'assassination',
                         target_index: 0,
                     },
                 });
@@ -680,7 +680,7 @@ describe('services/api', () => {
             it('should handle special action played for invalid action', () => {
                 spyOn(sut._logger, 'error');
 
-                sut._handleSpecialActionPlayed({name: 'action'});
+                sut._handleSpecialActionPlayed({special_action_name: 'action'});
 
                 expect(sut._logger.error).toHaveBeenCalled();
             });
@@ -689,7 +689,7 @@ describe('services/api', () => {
                 spyOn(sut, '_movePlayer');
 
                 sut._handleSpecialActionPlayed({
-                    name: 'Assassination',
+                    special_action_name: 'Assassination',
                     player_index: 0,
                     new_square: {
                         x: 1,
@@ -710,7 +710,7 @@ describe('services/api', () => {
                 spyOn(sut, '_movePlayer');
 
                 sut._handleSpecialActionPlayed({
-                    name: null,
+                    special_action_name: null,
                     player_index: 0,
                 });
 
@@ -725,7 +725,7 @@ describe('services/api', () => {
                 expect(sut._ws.send).toHaveBeenCalledWith({
                     rt: sut.requestTypes.special_action_play,
                     play_request: {
-                        name: 'assassination',
+                        special_action_name: 'assassination',
                         cancel: true,
                         target_index: -1,
                     },

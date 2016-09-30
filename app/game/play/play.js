@@ -73,8 +73,11 @@ export class Play {
         }).then(location => this._game.navigateWithRefresh(location));
     }
 
-    _handleSpecialActionNotify(action) {
-        let name = action.name || action.special_action;
+    _handleSpecialActionNotify(message) {
+        let name = message.special_action_name;
+        if (name === null) {
+            return;
+        }
         switch (name.toLowerCase()) {
             case 'assassination':
                 this.pawnClickable = true;
@@ -84,28 +87,29 @@ export class Play {
                 this.pawnsForcedNotClickable.push(this.me.index);
                 break;
             default:
-                action.info = 'Unknow special action';
-                this._logger.error(action);
+                message.info = 'Unknow special action';
+                this._logger.error(message);
                 break;
         }
     }
 
-    _handleSpecialActionViewPossibleActions(action) {
-        switch (action.name.toLowerCase()) {
+    _handleSpecialActionViewPossibleActions(message) {
+        let name = message.special_action_name;
+        switch (name.toLowerCase()) {
             case 'assassination':
                 this.onPawnSquareClicked = (squareId, x, y, targetIndex) => {
                     this._api.playSpecialAction({
                         x: x,
                         y: y,
-                        name: action.name,
+                        name: name,
                         targetIndex: targetIndex,
                     });
                     this._resetPawns();
                 };
                 break;
             default:
-                action.info = 'Unknow special action';
-                this._logger.error(action);
+                message.info = 'Unknow special action';
+                this._logger.error(message);
                 break;
         }
     }

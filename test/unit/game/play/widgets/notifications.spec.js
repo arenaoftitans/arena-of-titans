@@ -178,7 +178,7 @@ describe('notifications', () => {
             spyOn(sut, '_translateSpecialActionText');
             mockedApi.game.your_turn = true;
 
-            sut._notifySpecialAction({name: 'action'});
+            sut._notifySpecialAction({special_action_name: 'action'});
 
             expect(sut.specialActionInProgress).toBe(true);
             expect(sut._specialActionName).toBe('action');
@@ -190,11 +190,11 @@ describe('notifications', () => {
             sut._specialActionName = 'toto';
             spyOn(sut, '_updateLastAction');
 
-            sut._handleSpecialActionPlayed({name: 'action'});
+            sut._handleSpecialActionPlayed({special_action_name: 'action'});
 
             expect(sut.specialActionInProgress).toBe(false);
             expect(sut._specialActionName).toBe(undefined);
-            expect(sut._updateLastAction).toHaveBeenCalledWith({name: 'action'});
+            expect(sut._updateLastAction).toHaveBeenCalledWith({special_action_name: 'action'});
         });
 
         it('should cancel special action', () => {

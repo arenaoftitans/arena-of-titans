@@ -70,7 +70,7 @@ export class AotCounterCustomElement {
         });
 
         this._api.onReconnectDefered.then(message => {
-            if (message.special_action !== null) {
+            if (message.special_action_name !== null) {
                 this._handleSpecialActionNotify(message);
             }
         });
@@ -93,7 +93,7 @@ export class AotCounterCustomElement {
     }
 
     _handleSpecialActionNotify(message) {
-        this.specialActionName = message.name || message.special_action;
+        this.specialActionName = message.special_action_name;
         this.pause();
         this.specialActionInProgress = true;
         this.initSpecialActionCounter();

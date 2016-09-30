@@ -100,7 +100,7 @@ describe('counter', () => {
     it('should handle special action notify', () => {
         spyOn(sut, 'initSpecialActionCounter');
 
-        sut._handleSpecialActionNotify({name: 'action'});
+        sut._handleSpecialActionNotify({special_action_name: 'action'});
 
         expect(sut.specialActionName).toBe('action');
         expect(sut._paused).toBe(true);
