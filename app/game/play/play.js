@@ -62,17 +62,24 @@ export class Play {
             this._resetPawns();
         });
 
+        this._api.onReconnectDefered.then(message => {
+            if (message.special_action !== null) {
+                this._handleSpecialActionNotify(message);
+            }
+        });
+
         this._api.onGameOverDefered.then(winners => {
             return this._game.popup('game-over', {message: winners});
         }).then(location => this._game.navigateWithRefresh(location));
     }
 
     _handleSpecialActionNotify(action) {
-        switch (action.name.toLowerCase()) {
+        let name = action.name || action.special_action;
+        switch (name.toLowerCase()) {
             case 'assassination':
                 this.pawnClickable = true;
                 this.onPawnClicked = index => {
-                    this._api.viewPossibleActions({name: action.name, targetIndex: index});
+                    this._api.viewPossibleActions({name: name, targetIndex: index});
                 };
                 this.pawnsForcedNotClickable.push(this.me.index);
                 break;

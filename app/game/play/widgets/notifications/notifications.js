@@ -80,6 +80,9 @@ export class AotNotificationsCustomElement {
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
+            if (message.special_action !== null) {
+                this._notifySpecialAction(message);
+            }
         });
 
         this._api.on(this._api.requestTypes.player_played, message => {
@@ -240,7 +243,8 @@ export class AotNotificationsCustomElement {
 
     _notifySpecialAction(message) {
         this.specialActionInProgress = true;
-        this._specialActionName = message.name.toLowerCase();
+        let name = message.name || message.special_action;
+        this._specialActionName = name.toLowerCase();
         this._translateSpecialActionText();
     }
 

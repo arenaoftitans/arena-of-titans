@@ -66,8 +66,13 @@ export class AotCounterCustomElement {
         });
 
         this._api.on(this._api.requestTypes.special_action_notify, message => {
-            clearInterval(this.timerIntervalForSpecialAction);
             this._handleSpecialActionNotify(message);
+        });
+
+        this._api.onReconnectDefered.then(message => {
+            if (message.special_action !== null) {
+                this._handleSpecialActionNotify(message);
+            }
         });
 
         this._ea.subscribe('aot:notifications:start_guided_visit', () => {
@@ -88,7 +93,7 @@ export class AotCounterCustomElement {
     }
 
     _handleSpecialActionNotify(message) {
-        this.specialActionName = message.name;
+        this.specialActionName = message.name || message.special_action;
         this.pause();
         this.specialActionInProgress = true;
         this.initSpecialActionCounter();
