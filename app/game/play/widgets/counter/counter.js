@@ -61,10 +61,12 @@ export class AotCounterCustomElement {
 
         this.init();
         this._api.on(this._api.requestTypes.play, () => {
+            clearInterval(this.timerIntervalForSpecialAction);
             this._handlePlayRequest();
         });
 
         this._api.on(this._api.requestTypes.special_action_notify, message => {
+            clearInterval(this.timerIntervalForSpecialAction);
             this._handleSpecialActionNotify(message);
         });
 
