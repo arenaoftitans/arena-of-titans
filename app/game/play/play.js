@@ -36,6 +36,7 @@ export class Play {
     _api;
     _specialActionNotifyCb;
     _specialActionViewPossibleActionsCb;
+    _specialActionPlayCb;
 
     constructor(api, game) {
         this._api = api;
@@ -55,6 +56,10 @@ export class Play {
         type = this._api.requestTypes.special_action_view_possible_actions;
         this._specialActionViewPossibleActionsCb = this._api.on(type, message => {
             this._handleSpecialActionViewPossibleActions(message);
+        });
+        type = this._api.requestTypes.play;
+        this._specialActionPlayCb = this._api.on(type, () => {
+            this._resetPawns();
         });
 
         this._api.onGameOverDefered.then(winners => {
@@ -88,10 +93,7 @@ export class Play {
                         name: action.name,
                         targetIndex: targetIndex,
                     });
-                    this.pawnClickable = false;
-                    this.onPawnClicked = null;
-                    this.pawnsForcedNotClickable = [];
-                    this.onPawnSquareClicked = null;
+                    this._resetPawns();
                 };
                 break;
             default:
@@ -101,12 +103,20 @@ export class Play {
         }
     }
 
+    _resetPawns() {
+        this.pawnClickable = false;
+        this.onPawnClicked = null;
+        this.pawnsForcedNotClickable = [];
+        this.onPawnSquareClicked = null;
+    }
+
     deactivate() {
         this._api.off(this._api.requestTypes.special_action_notify, this._specialActionNotifyCb);
         this._api.off(
             this._api.requestTypes.special_action_view_possible_actions,
             this._specialActionViewPossibleActionsCb
         );
+        this._api.off(this._api.requestTypes.play, this._specialActionPlayCb);
     }
 
     backHome() {

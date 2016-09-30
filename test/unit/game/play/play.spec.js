@@ -146,5 +146,17 @@ describe('play', () => {
                 targetIndex: 0,
             });
         });
+
+        it('reset pawns', () => {
+            sut.pawnClickable = true;
+            sut.onPawnClicked = () => {};
+            sut.pawnsForcedNotClickable = [0];
+
+            sut._resetPawns();
+
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+            expect(sut.pawnsForcedNotClickable).toEqual([]);
+        });
     });
 });
