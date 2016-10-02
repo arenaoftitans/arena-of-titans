@@ -96,7 +96,7 @@ export class AotCounterCustomElement {
         this.specialActionName = message.special_action_name;
         this.pause();
         this.specialActionInProgress = true;
-        this.initSpecialActionCounter();
+        this.initSpecialActionCounter(message.special_action_elapsed_time);
     }
 
     init() {
@@ -113,10 +113,10 @@ export class AotCounterCustomElement {
         }
     }
 
-    initSpecialActionCounter() {
+    initSpecialActionCounter(elapsedTime) {
         this.waitForSpecialActionCounter.then(canvas => {
             this.specialActionCanvas = canvas;
-            this.startSpecialActionCounter();
+            this.startSpecialActionCounter(elapsedTime);
         });
     }
 
@@ -222,8 +222,8 @@ export class AotCounterCustomElement {
         return color;
     }
 
-    startSpecialActionCounter() {
-        this.timeLeftForSpecialAction = TIME_FOR_SPECIAL_ACTION;
+    startSpecialActionCounter(elapsedTime = 0) {
+        this.timeLeftForSpecialAction = TIME_FOR_SPECIAL_ACTION - elapsedTime;
 
         this.timerIntervalForSpecialAction = setInterval(() => {
             this.countDownClockForSpecialAction();

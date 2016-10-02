@@ -105,6 +105,6 @@ describe('counter', () => {
         expect(sut.specialActionName).toBe('action');
         expect(sut._paused).toBe(true);
         expect(sut.specialActionInProgress).toBe(true);
-        expect(sut.initSpecialActionCounter).toHaveBeenCalledWith();
+        expect(sut.initSpecialActionCounter).toHaveBeenCalledWith(undefined);
     });
 });
