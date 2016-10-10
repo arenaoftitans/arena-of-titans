@@ -53,6 +53,7 @@ export class AotNotificationsCustomElement {
     _lastActionMessageFromApi;
     _popupMessage;
     _popupMessageId;
+    _specialActionPopupMessage;
     _tutorialInProgress;
 
 
@@ -63,6 +64,7 @@ export class AotNotificationsCustomElement {
         this._options = options;
         this._game = game;
         this._popupMessage = {};
+        this._specialActionPopupMessage = {};
         this._popupMessageId;
         this._tutorialInProgress = false;
 
@@ -125,6 +127,16 @@ export class AotNotificationsCustomElement {
     _translatePopupMessage() {
         if (this._popupMessageId) {
             this._popupMessage.title = this._i18n.tr(this._popupMessageId);
+        }
+
+        if (this._specialActionName) {
+            this._specialActionPopupMessage.title = this._i18n.tr(
+                'actions.special_action_info_popup',
+                {
+                    action: this._i18n.tr(`trumps.${this._specialActionName}`),
+                }
+            );
+            this._specialActionPopupMessage.message = this._i18n.tr(this.specialActionText);
         }
     }
 
@@ -245,6 +257,15 @@ export class AotNotificationsCustomElement {
         this.specialActionInProgress = true;
         this._specialActionName = message.special_action_name.toLowerCase();
         this._translateSpecialActionText();
+        if (this._options.mustViewInGameHelp(this._specialActionName)) {
+            this._translatePopupMessage();
+            this._game.popup('infos', this._specialActionPopupMessage).then(() => {
+                this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+                this._options.markInGameOptionSeen(this._specialActionName);
+            });
+        } else {
+            this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+        }
     }
 
     _translateSpecialActionText() {

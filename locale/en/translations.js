@@ -7,6 +7,7 @@ export default {
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
         "problem": "A problem occured",
         "special_action_assassination": "Click on the pawn of a player. You will then be able to move it back.",
+        "special_action_info_popup": "You just played a card with a special action {{action}}",
         "trump_played_by": "Played by {{initiator}}"
     },
     "cards": {
@@ -101,6 +102,7 @@ export default {
         "name": "Name:\u00a0{{playerName}}",
         "no": "No",
         "ok": "OK",
+        "propose_in_game_help_option": "View in game help",
         "propose_tutorial_option": "Tutorial",
         "save": "Save",
         "sound_option": "Sound",

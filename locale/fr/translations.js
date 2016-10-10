@@ -7,6 +7,7 @@ export default {
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
         "problem": "Il vient d'y avoir un probl\u00e8me",
         "special_action_assassination": "Clique sur le pion d'un joueur. Tu pourras alors choisir la case sur laquelle tu peux le faire reculer.",
+        "special_action_info_popup": "Tu viens de jouer une carte avec une action sp\u00e9cial {{action}}",
         "trump_played_by": "Jou\u00e9 par {{initiator}}"
     },
     "cards": {
@@ -101,6 +102,7 @@ export default {
         "name": "Nom : {{playerName}}",
         "no": "Non",
         "ok": "OK",
+        "propose_in_game_help_option": "Voir l\u2019aide int\u00e9gr\u00e9e au jeu",
         "propose_tutorial_option": "Tutoriel",
         "save": "Sauvegarder",
         "sound_option": "Sons",

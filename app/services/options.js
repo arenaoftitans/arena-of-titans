@@ -17,13 +17,19 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject, ObserverLocator } from 'aurelia-framework';
 import { Storage } from './storage';
+
+
+export const ASSASSIN_IN_GAME_HELP = 'ASSASSIN_IN_GAME_HELP';
 
 
 @inject(Storage, ObserverLocator)
 export class Options {
     constructor(storage, observerLocator) {
+        this._storage = storage;
+        this._logger = LogManager.getLogger('AoTOptionsService');
         let savedOptions = storage.loadOptions();
         for (let key of Object.keys(savedOptions)) {
             this[key] = savedOptions[key];
@@ -32,9 +38,41 @@ export class Options {
         this.sound = this.sound === undefined ? true : this.sound;
         this.proposeGuidedVisit =
             this.proposeGuidedVisit === undefined ? true : this.proposeGuidedVisit;
+        this.proposeInGameHelp =
+                this.proposeInGameHelp === undefined ? true : this.proposeInGameHelp;
+        this.inGameHelpSeen = this.inGameHelpSeen || [];
 
         for (let key of Object.keys(this)) {
-            observerLocator.getObserver(this, key).subscribe(() => storage.saveOptions(this));
+            observerLocator.getObserver(this, key)
+                    .subscribe(() => this._storage.saveOptions(this));
+        }
+    }
+
+    mustViewInGameHelp(name) {
+        switch (name.toLowerCase()) {
+            case 'assassination':
+                return this.proposeInGameHelp &&
+                        !this.inGameHelpSeen.includes(ASSASSIN_IN_GAME_HELP);
+            default:
+                this._logger.warn(`Unknown name ${name}`);
+                return false;
+        }
+    }
+
+    markInGameOptionSeen(name) {
+        let id;
+        switch (name.toLowerCase()) {
+            case 'assassination':
+                id = ASSASSIN_IN_GAME_HELP;
+                break;
+            default:
+                this._logger.warn(`Unknown name ${name}`);
+                break;
+        }
+
+        if (id && !this.inGameHelpSeen.includes(id)) {
+            this.inGameHelpSeen.push(id);
+            this._storage.saveOptions(this);
         }
     }
 }

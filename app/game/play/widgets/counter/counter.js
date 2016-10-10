@@ -72,6 +72,7 @@ export class AotCounterCustomElement {
         this._api.onReconnectDefered.then(message => {
             if (message.special_action_name) {
                 this._handleSpecialActionNotify(message);
+                this.initSpecialActionCounter(message.special_action_elapsed_time);
             }
         });
 
@@ -80,6 +81,9 @@ export class AotCounterCustomElement {
         });
         this._ea.subscribe('aot:notifications:end_guided_visit', () => {
             this.resume();
+        });
+        this._ea.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
+            this.initSpecialActionCounter();
         });
     }
 
@@ -96,7 +100,6 @@ export class AotCounterCustomElement {
         this.specialActionName = message.special_action_name;
         this.pause();
         this.specialActionInProgress = true;
-        this.initSpecialActionCounter(message.special_action_elapsed_time);
     }
 
     init() {
@@ -113,7 +116,7 @@ export class AotCounterCustomElement {
         }
     }
 
-    initSpecialActionCounter(elapsedTime) {
+    initSpecialActionCounter(elapsedTime = 0) {
         this.waitForSpecialActionCounter.then(canvas => {
             this.specialActionCanvas = canvas;
             this.startSpecialActionCounter(elapsedTime);
@@ -224,6 +227,13 @@ export class AotCounterCustomElement {
 
     startSpecialActionCounter(elapsedTime = 0) {
         this.timeLeftForSpecialAction = TIME_FOR_SPECIAL_ACTION - elapsedTime;
+
+        if (this.timerIntervalForSpecialAction !== undefined) {
+            // If the player is reconnected before validating the special action help popup
+            // he/she will have multiple special actions counter that will cause not your
+            // turn messages to be displayed.
+            clearInterval(this.timerIntervalForSpecialAction);
+        }
 
         this.timerIntervalForSpecialAction = setInterval(() => {
             this.countDownClockForSpecialAction();

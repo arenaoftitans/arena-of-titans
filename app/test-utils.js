@@ -233,6 +233,15 @@ export class StorageStub {
 }
 
 
+export class LocalStorageStub {
+    setItem() {
+    }
+
+    getItem() {
+    }
+}
+
+
 export class WsStub {
     send(data) {
     }
@@ -284,5 +293,14 @@ export class HistoryStub {
 
 export class WebsocketSub {
     send() {
+    }
+}
+
+
+export class OptionsStub {
+    mustViewInGameHelp() {
+    }
+
+    markInGameOptionSeen() {
     }
 }
