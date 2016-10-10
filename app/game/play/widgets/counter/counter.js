@@ -274,11 +274,15 @@ export class AotCounterCustomElement {
 
     colourChangerForSpecialAction(r) {
         // RGB values
-        // Green: 	 51 153  0
-        // Orange:	244 138  0
-        // Red:		255   0  0
+        // R: 63 -> 7
+        // G: 188 -> 17
+        // B: 180 -> 92
+        let rr = 1 - r;
+        let R = Math.floor(63 * r + 7 * rr);
+        let G = Math.floor(188 * r + 17 * rr);
+        let B = Math.floor(180 * r + 92 * rr);
 
-        return `rgb(${Math.floor(204 * (1 - r) + 51)},${Math.floor(153 * r)},0)`;
+        return `rgb(${R},${G},${B})`;
     }
 
     get formatedTimeLeft() {
