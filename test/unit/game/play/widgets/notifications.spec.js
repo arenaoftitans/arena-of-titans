@@ -196,14 +196,5 @@ describe('notifications', () => {
             expect(sut._specialActionName).toBe(undefined);
             expect(sut._updateLastAction).toHaveBeenCalledWith({special_action_name: 'action'});
         });
-
-        it('should cancel special action', () => {
-            spyOn(mockedApi, 'cancelSpecialAction');
-            sut._specialActionName = 'action';
-
-            sut.cancelSpecialAction();
-
-            expect(mockedApi.cancelSpecialAction).toHaveBeenCalledWith('action');
-        });
     });
 });

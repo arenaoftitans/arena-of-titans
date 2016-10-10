@@ -252,10 +252,6 @@ export class AotNotificationsCustomElement {
             this._i18n.tr(`actions.special_action_${this._specialActionName}`);
     }
 
-    cancelSpecialAction() {
-        this._api.cancelSpecialAction(this._specialActionName);
-    }
-
     get currentPlayerName() {
         return this.players.names[this.currentPlayerIndex];
     }
