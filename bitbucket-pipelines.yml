@@ -1,0 +1,12 @@
+image: node:latest
+
+pipelines:
+  default:
+    - step:
+        script:
+          - apt-get update -qq && apt-get install -y -qq python3
+          - npm install
+          - cp config/config.staging.toml config/config.dev.toml
+          - npm run config -- --type dev --version latest
+          - npm run builddev
+          - npm run test -- -b PhantomJS
