@@ -209,13 +209,13 @@
                     },
                     {
                         "name": "i18next",
-                        "path": "../node_modules/i18next/dist/commonjs",
-                        "main": "index"
+                        "path": "../node_modules/i18next/dist/umd",
+                        "main": "i18next"
                     },
                     {
                         "name": "i18next-xhr-backend",
-                        "path": "../node_modules/i18next-xhr-backend/dist/commonjs",
-                        "main": "index"
+                        "path": "../node_modules/i18next-xhr-backend/dist/umd",
+                        "main": "i18nextXHRBackend"
                     }
                 ]
             },

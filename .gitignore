@@ -10,4 +10,5 @@
 /scripts/*bundle.js
 /scripts/*.map
 /app/environment.js
+/test/karma-require-config.js
 npm-debug.log

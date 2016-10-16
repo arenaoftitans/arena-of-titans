@@ -9,7 +9,7 @@
     "config": "python3 scripts/build-config.py",
     "clean": "rm -rf dist/*",
     "test": "au test",
-    "tdd": "au test --watch",
+    "tdd": "au test --watch --source",
     "lint": "npm run jslint && npm run stylelint && npm run aureliatemplatelint",
     "jslint": "eslint app",
     "stylelint": "stylelint --syntax scss app/**/*.scss",
@@ -62,7 +62,7 @@
     "source-map-url": "0.4.0"
   },
   "devDependencies": {
-    "aurelia-cli": "0.20.0",
+    "aurelia-cli": "0.21.0",
     "aurelia-template-lint": "^0.9.15",
     "aurelia-testing": "1.0.0-beta.2.0.0",
     "aurelia-tools": "0.2.4",
