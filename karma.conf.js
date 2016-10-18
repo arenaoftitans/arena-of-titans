@@ -21,6 +21,7 @@
 
 const path = require('path');
 const project = require('./aurelia_project/aurelia.json');
+const externalFiles = require('./test/karma-vendor-files.json');
 const CLIOptions = require('aurelia-cli').CLIOptions;
 
 let tdd = CLIOptions.hasFlag('source');
@@ -46,9 +47,6 @@ if (tdd) {
     // Note: When serving up the node_modules, the amount of files in folder will affect how long it takes for Karma to start up.
     // If you want better startup times, find some way to create a tree of only the node_modules that are used and use that list instead of a blanket include of all node_modules
     testSrc = [
-        //Specifically set watched to false to stop Karma from listening to node files (intensive task)
-        {pattern: 'node_modules/**/*', included: false, watched: false},
-
         {pattern: project.markupProcessor.source, included: false},
     ];
 
@@ -66,7 +64,7 @@ if (tdd) {
         'test/aurelia-karma.js',
     ]);
 
-    files = ['scripts/require.js'].concat(testSrc);
+    files = ['scripts/require.js'].concat(externalFiles).concat(testSrc);
     // Node modules sometimes publish their test files, we want to exclude any test file that might be caught up in our tests
     exclude = ['node_modules/**/*{test,Test,spec,Spec}.js']; 
     preprocessors[project.unitTestRunner.source] = [project.transpiler.id];

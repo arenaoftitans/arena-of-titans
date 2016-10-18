@@ -11,4 +11,5 @@
 /scripts/*.map
 /app/environment.js
 /test/karma-require-config.js
+/test/karma-vendor-files.json
 npm-debug.log
