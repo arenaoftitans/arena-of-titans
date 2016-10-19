@@ -94,6 +94,58 @@ Code style
 - Use spaces, not tabs.
 - Use 4 spaces to indent and 8 for continuation indentation. It is intended to avoid lines starting far at in the right.
 
+Code organization
+-----------------
+
+The code is written with the `Aurelia JavaScript framework <http://aurelia.io/>`__. We can distinguish three main categories:
+
+- Pages: a web page used in the routers.
+- Services: they are instanced once and injected as needed in the others elements (services or widgets) of the application. They provide state and useful methods. They are similar to services in AngularJS.
+- Widgets: It is an element (component or Custom Element in Aurelia's terminology) instantiated in the DOM of the application. A widget can be instantiated multiple times and each instance is independent of the others. It consists of a JS file, an HTML template and, if needed, a SCSS file for its style. All these files are grouped in a folder named after the widget. They are similar to directives in AngularJS.
+
+The code is then organized as follow:
+
+- The ``app`` folder contains the code of the application (JS and HTML). It is structured as follow:
+
+  - Directly in the folder the bootstrap files for the application.
+  - The ``game`` folder for everything related to the game. This folder is then splitted in:
+
+    - ``game.js`` and ``game.html`` the main page for the game. It contains a router to navigate between create and play.
+    - ``create`` for widgets and services used to create the game.
+    - ``play`` for widgets and services used to play the game.
+    - ``services`` for services common to create and play.
+    - ``widgets`` for widgets common to create and play.
+
+  - The ``site`` folder for the page of the site and its widgets.
+  - The ``style`` folder for global SCSS files.
+  - The ``widgets`` folder for global widgets.
+
+- The ``assets`` folder contains all the images, fonts, media files (if small!) of the application.
+- The ``aurelia_project`` folder contains:
+
+  - ``aurelia.json`` the configuration file of `aurelia-cli <https://github.com/aurelia/cli>`__.
+  - The tasks and libraries used by aurelia-cli to work.
+
+- The ``config`` folder contains:
+
+  - A `TOML <https://github.com/toml-lang/toml>`__ file per build type (dev, prod, staging and testing). These files are used to build ``application.js`` the config file of the application.
+  - A JS file containing the configuration of the application. This files mostly describe how to connect to the API. It is built from the TOML configuration files.
+
+- The ``dist`` folder (untracked) will contain the built bundles that are used in the browser.
+- The ``locale`` folder contains a subdirectory per lang. Each subdirectory contains a JS file exporting an object containing the translations for this language. These JS files are updated with ``npm run translate``.
+- The ``scripts`` folder contains:
+
+  - Utility scripts for various tasks (update translations, lint templates, …).
+  - JS scripts that don't belong to the app but are required for it to work (require.js, text.js, tracking.js, polyfills.js)
+
+- Unit tests go into the ``test/unit`` folder. The structure of the ``test/unit`` folder should reflect the structure of the app.
+
+Code conventions
+----------------
+
+- Tests files should have the same name than the file they are testing and end with the ``.spec.js`` extension.
+- Private methods and attributes starts with an underscore ``_``. In a service this means that the method or the attribute shouldn't be accessed outside of it. In the JS part of a Custom Element, it means the method or attribute shouldn't be used in the HTML template.
+
 Commit
 ------
 
