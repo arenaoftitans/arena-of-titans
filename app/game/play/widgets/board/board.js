@@ -45,7 +45,7 @@ export class AotBoardCustomElement {
 
     moveTo(squareId, x, y) {
         if (this._possibleSquares.length > 0 &&
-                this._possibleSquares.indexOf(squareId) > -1 &&
+                this._possibleSquares.includes(squareId) &&
                 this.selectedCard) {
             this._api.play({
                 cardName: this.selectedCard.name,
