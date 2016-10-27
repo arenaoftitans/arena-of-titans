@@ -286,7 +286,7 @@ export class Api {
             playerIndex: message.player_index,
             newSquare: message.new_square,
         });
-
+        this.can_play_trump = message.can_play_trump;
         this._handleGameOverMessage(message);
     }
 
