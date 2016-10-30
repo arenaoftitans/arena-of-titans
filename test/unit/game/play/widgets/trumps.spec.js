@@ -46,10 +46,11 @@ describe('trumps', () => {
                 names: ['Player 1', null, 'Player 2'],
                 indexes: [0, null, 2]
             },
-            your_turn: true
+            can_play_trump: true,
+            your_turn: true,
         };
         mockedApi._me = {
-            index: 0
+            index: 0,
         };
 
         sut.play({name: 'Trump', must_target_player: true});
@@ -81,7 +82,8 @@ describe('trumps', () => {
         spyOn(mockedGame, 'popup');
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
-            your_turn: true
+            can_play_trump: true,
+            your_turn: true,
         };
 
         sut.play({name: 'Trump', must_target_player: false});
