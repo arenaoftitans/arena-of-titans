@@ -76,4 +76,35 @@ describe('counter', () => {
             done();
         });
     });
+
+    it('should handle play request while special action in progress', () => {
+        sut.specialActionInProgress = true;
+        sut._paused = true;
+        spyOn(sut, 'init');
+        
+        sut._handlePlayRequest();
+        
+        expect(sut.specialActionInProgress).toBe(false);
+        expect(sut._paused).toBe(false);
+        expect(sut.init).not.toHaveBeenCalled();
+    });
+
+    it('should handle play request', () => {
+        spyOn(sut, 'init');
+
+        sut._handlePlayRequest();
+
+        expect(sut.init).toHaveBeenCalledWith();
+    });
+
+    it('should handle special action notify', () => {
+        spyOn(sut, 'initSpecialActionCounter');
+
+        sut._handleSpecialActionNotify({special_action_name: 'action'});
+
+        expect(sut.specialActionName).toBe('action');
+        expect(sut._paused).toBe(true);
+        expect(sut.specialActionInProgress).toBe(true);
+        expect(sut.initSpecialActionCounter).not.toHaveBeenCalledWith();
+    });
 });

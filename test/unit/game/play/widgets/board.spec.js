@@ -35,6 +35,26 @@ describe('board', () => {
         expect(mockedApi._cbs[mockedApi.requestTypes.player_played].length).toBe(1);
     });
 
+    it('should highlight possible squares', () => {
+        sut._highlightPossibleSquares([
+            {x: 0, y: 0},
+            {x: 7, y: 5},
+        ]);
+
+        expect(sut._possibleSquares).toEqual([
+            'square-0-0',
+            'square-7-5',
+        ]);
+    });
+
+    it('should reset possible squares', () => {
+        sut._possibleSquares = ['square-0-0'];
+
+        sut._resetPossibleSquares();
+
+        expect(sut._possibleSquares).toEqual([]);
+    });
+
     it('should move to on possible square', () => {
         spyOn(mockedApi, 'play');
         sut._possibleSquares = ['square-0-0'];
@@ -86,5 +106,49 @@ describe('board', () => {
         sut._resetPossibleSquares();
 
         expect(sut._possibleSquares.length).toBe(0);
+    });
+
+    describe('pawn clicked', () => {
+        it('should not do anything if pawnClickabel is false', () => {
+            spyOn(sut, 'onPawnClicked');
+
+            sut.pawnClicked();
+
+            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+        });
+
+        it('should not do anything if index is excluded from clickable list', () => {
+            spyOn(sut, 'onPawnClicked');
+            sut.pawnClickable = true;
+            sut.pawnsForcedNotClickable = [0];
+
+            sut.pawnClicked(0);
+
+            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+        });
+
+        it('should call cb if pawnClickabel is true', () => {
+            spyOn(sut, 'onPawnClicked');
+            sut.pawnClickable = true;
+
+            sut.pawnClicked(0);
+
+            expect(sut.onPawnClicked).toHaveBeenCalledWith(0);
+        });
+
+        it('should move to if possible squares and pawn', () => {
+            spyOn(mockedApi, 'playSpecialAction');
+            sut._possibleSquares = ['square-0-0'];
+            sut._selectedPawnIndex = 0;
+            sut._actionName = 'action';
+            sut.onPawnSquareClicked = () => {};
+            spyOn(sut, 'onPawnSquareClicked');
+
+            sut.moveTo('square-0-0', 0, 0);
+
+            expect(sut.onPawnSquareClicked).toHaveBeenCalledWith('square-0-0', 0, 0, 0);
+            expect(sut._possibleSquares).toEqual([]);
+            expect(sut._selectedPawnIndex).toBe(-1);
+        });
     });
 });

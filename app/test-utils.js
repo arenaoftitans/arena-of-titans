@@ -94,6 +94,9 @@ export class ApiStub {
     viewPossibleMovements() {
     }
 
+    viewPossibleActions() {
+    }
+
     play() {
         let cbs = this._cbs[this.requestTypes.play];
         if (cbs) {
@@ -101,6 +104,12 @@ export class ApiStub {
                 cb();
             });
         }
+    }
+
+    playSpecialAction() {
+    }
+
+    cancelSpecialAction() {
     }
 
     playTrump() {
@@ -224,6 +233,15 @@ export class StorageStub {
 }
 
 
+export class LocalStorageStub {
+    setItem() {
+    }
+
+    getItem() {
+    }
+}
+
+
 export class WsStub {
     send(data) {
     }
@@ -275,5 +293,14 @@ export class HistoryStub {
 
 export class WebsocketSub {
     send() {
+    }
+}
+
+
+export class OptionsStub {
+    mustViewInGameHelp() {
+    }
+
+    markInGameOptionSeen() {
     }
 }

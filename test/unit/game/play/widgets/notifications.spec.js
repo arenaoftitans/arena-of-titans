@@ -23,6 +23,7 @@ import {
     GameStub,
     I18nStub,
     EventAgregatorStub,
+    OptionsStub,
 }
 from '../../../../../app/test-utils';
 
@@ -39,7 +40,7 @@ describe('notifications', () => {
         mockedApi = new ApiStub();
         mockedI18n = new I18nStub();
         mockedEa = new EventAgregatorStub();
-        mockedOptions = {};
+        mockedOptions = new OptionsStub();
         mockedGame = new GameStub();
         sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa, mockedOptions, mockedGame);
     });
@@ -169,6 +170,60 @@ describe('notifications', () => {
 
             expect(sut.guidedVisitTextIndex).toBe(initialGuidedVisitIndex + 1);
             expect(sut._highlightVisitElements).toHaveBeenCalledWith(initialGuidedVisitIndex);
+        });
+    });
+
+    describe('special action', () => {
+        it('should notify special actions without popup', () => {
+            sut.specialActionInProgress = false;
+            spyOn(sut, '_translateSpecialActionText');
+            spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(false);
+            spyOn(mockedEa, 'publish');
+            spyOn(mockedGame, 'popup');
+
+            sut._notifySpecialAction({special_action_name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(true);
+            expect(sut._specialActionName).toBe('action');
+            expect(sut._translateSpecialActionText).toHaveBeenCalled();
+            expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
+            expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
+            expect(mockedGame.popup).not.toHaveBeenCalled();
+        });
+
+        it('should notify special actions with popup', done => {
+            sut.specialActionInProgress = false;
+            spyOn(sut, '_translateSpecialActionText');
+            spyOn(sut, '_translatePopupMessage');
+            spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
+            spyOn(mockedEa, 'publish');
+            let promise = new Promise(resolve => resolve());
+            spyOn(mockedGame, 'popup').and.returnValue(promise);
+
+            sut._notifySpecialAction({special_action_name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(true);
+            expect(sut._specialActionName).toBe('action');
+            expect(sut._translateSpecialActionText).toHaveBeenCalled();
+            expect(sut._translatePopupMessage).toHaveBeenCalled();
+            expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
+            expect(mockedGame.popup).toHaveBeenCalled();
+            promise.then(() => {
+                expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
+                done();
+            });
+        });
+
+        it('should handle special action played message', () => {
+            sut.specialActionInProgress = true;
+            sut._specialActionName = 'toto';
+            spyOn(sut, '_updateLastAction');
+
+            sut._handleSpecialActionPlayed({special_action_name: 'action'});
+
+            expect(sut.specialActionInProgress).toBe(false);
+            expect(sut._specialActionName).toBe(undefined);
+            expect(sut._updateLastAction).toHaveBeenCalledWith({special_action_name: 'action'});
         });
     });
 });

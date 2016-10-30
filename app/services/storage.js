@@ -33,7 +33,14 @@ export class Storage {
     }
 
     saveOptions(options) {
-        localStorage.setItem(OPTIONS_KEY, JSON.stringify(options));
+        let toSave = {};
+        // We don't save private properties
+        for (let key of Object.keys(options)) {
+            if (!key.startsWith('_')) {
+                toSave[key] = options[key];
+            }
+        }
+        localStorage.setItem(OPTIONS_KEY, JSON.stringify(toSave));
     }
 
     loadOptions() {

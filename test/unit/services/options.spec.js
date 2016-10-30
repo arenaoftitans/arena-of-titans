@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Options } from '../../../app/services/options';
+import { Options, ASSASSIN_IN_GAME_HELP } from '../../../app/services/options';
 import { StorageStub } from '../../../app/test-utils';
 import { ObserverLocator } from 'aurelia-framework';
 import {TaskQueue} from 'aurelia-task-queue';
@@ -58,5 +58,51 @@ describe('app/services/options', () => {
         expect(sut.test).toBe(789);
         expect(mockedObserver.getObserver).toHaveBeenCalledWith(sut, 'sound');
         expect(mockedObserver.getObserver).toHaveBeenCalledWith(sut, 'test');
+    });
+
+    it('should update the inGameHelpSeen array', () => {
+        spyOn(mockedStorage, 'saveOptions');
+        sut.inGameHelpSeen = [];
+
+        sut.markInGameOptionSeen('assassination');
+
+        expect(sut.inGameHelpSeen.length).toBe(1);
+        expect(mockedStorage.saveOptions).toHaveBeenCalled();
+    });
+
+    it('should not readd it to the inGameHelpSeen array', () => {
+        spyOn(mockedStorage, 'saveOptions');
+        sut.inGameHelpSeen = [ASSASSIN_IN_GAME_HELP];
+
+        sut.markInGameOptionSeen('assassination');
+
+        expect(sut.inGameHelpSeen.length).toBe(1);
+        expect(mockedStorage.saveOptions).not.toHaveBeenCalled();
+    });
+
+    it('should not add undefined to the inGameHelpSeen array', () => {
+        spyOn(mockedStorage, 'saveOptions');
+        sut.inGameHelpSeen = [];
+
+        sut.markInGameOptionSeen('wrong_action');
+
+        expect(sut.inGameHelpSeen.length).toBe(0);
+        expect(mockedStorage.saveOptions).not.toHaveBeenCalled();
+    });
+
+    it('should view in game help by default', () => {
+        expect(sut.mustViewInGameHelp('assassination')).toBe(true);
+    });
+
+    it('should not view in game help if disabled', () => {
+        sut.proposeInGameHelp = false;
+
+        expect(sut.mustViewInGameHelp('assassination')).toBe(false);
+    });
+
+    it('should not view in game help if already seen', () => {
+        sut.inGameHelpSeen = [ASSASSIN_IN_GAME_HELP];
+
+        expect(sut.mustViewInGameHelp('assassination')).toBe(false);
     });
 });

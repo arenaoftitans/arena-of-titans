@@ -658,5 +658,79 @@ describe('services/api', () => {
                 }
             })
         });
+
+        describe('special actions', () => {
+            it('should display possible actions for assassinate', () => {
+                spyOn(sut._ws, 'send');
+
+                sut.viewPossibleActions({
+                    name: 'assassination',
+                    targetIndex: 0,
+                });
+
+                expect(sut._ws.send).toHaveBeenCalledWith({
+                    rt: sut.requestTypes.special_action_view_possible_actions,
+                    play_request: {
+                        special_action_name: 'assassination',
+                        target_index: 0,
+                    },
+                });
+            });
+
+            it('should handle special action played for invalid action', () => {
+                spyOn(sut._logger, 'error');
+
+                sut._handleSpecialActionPlayed({special_action_name: 'action'});
+
+                expect(sut._logger.error).toHaveBeenCalled();
+            });
+
+            it('should handle special action played for assassination', () => {
+                spyOn(sut, '_movePlayer');
+
+                sut._handleSpecialActionPlayed({
+                    special_action_name: 'Assassination',
+                    player_index: 0,
+                    new_square: {
+                        x: 1,
+                        y: 2,
+                    },
+                });
+
+                expect(sut._movePlayer).toHaveBeenCalledWith({
+                    playerIndex: 0,
+                    newSquare: {
+                        x: 1,
+                        y: 2,
+                    },
+                });
+            });
+
+            it('should handle special action played when canceled', () => {
+                spyOn(sut, '_movePlayer');
+
+                sut._handleSpecialActionPlayed({
+                    special_action_name: null,
+                    player_index: 0,
+                });
+
+                expect(sut._movePlayer).not.toHaveBeenCalled();
+            });
+
+            it('should cancel special action', () => {
+                spyOn(sut._ws, 'send');
+
+                sut.cancelSpecialAction('assassination');
+
+                expect(sut._ws.send).toHaveBeenCalledWith({
+                    rt: sut.requestTypes.special_action_play,
+                    play_request: {
+                        special_action_name: 'assassination',
+                        cancel: true,
+                        target_index: -1,
+                    },
+                });
+            });
+        });
     });
 });

@@ -27,7 +27,7 @@
         It's the turn of
     </p>
 
-    <div if.bind="!tutorialInProgress">
+    <div if.bind="!tutorialInProgress && !specialActionInProgress">
         <p if.bind="lastAction.description">
             ${lastAction.description}
             <span><br></span>
@@ -45,12 +45,24 @@
             <p>
                 ${lastAction.card.description}
             </p>
+            <p>
+                <em if.bind="lastAction.card.complementaryDescription.indexOf('cards.') === -1">
+                    ${lastAction.card.complementaryDescription}
+                </em>
+            </p>
         </div>
 
         <div if.bind="lastAction && lastAction.trump">
             <p class="centered-important"><strong class="white-text">${lastAction.trump.title}</strong></p>
             <p>
                 ${lastAction.trump.description}
+            </p>
+        </div>
+
+        <div if.bind="lastAction && lastAction.specialAction">
+            <p class="centered-important"><strong class="white-text">${lastAction.specialAction.title}</strong></p>
+            <p>
+                ${lastAction.specialAction.description}
             </p>
         </div>
     </div>
@@ -63,6 +75,12 @@
     <div if.bind="tutorialInProgress">
         <div>
             <p>${guidedVisitText}</p>
+        </div>
+    </div>
+
+    <div if.bind="specialActionInProgress">
+        <div>
+            <p>${specialActionText}</p>
         </div>
     </div>
 </template>

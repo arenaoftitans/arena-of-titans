@@ -32,6 +32,22 @@ describe('play', () => {
         sut = new Play(mockedApi, mockedGame);
     });
 
+    it('should register api callbacks on activation', () => {
+        spyOn(mockedApi, 'on');
+
+        sut.activate();
+
+        expect(mockedApi.on).toHaveBeenCalled();
+    });
+
+    it('should deregister api callbacks on deactivation', () => {
+        spyOn(mockedApi, 'off');
+
+        sut.deactivate();
+
+        expect(mockedApi.off).toHaveBeenCalled();
+    });
+
     it('should ask to join game in no name', () => {
         spyOn(mockedApi, 'joinGame');
         mockedApi._me = {};
@@ -61,6 +77,86 @@ describe('play', () => {
                 'game-over',
                 {message: ['Player 1', 'Player 2']});
             done();
+        });
+    });
+
+    describe('special actions', () => {
+        it('should log error for unknown action', () => {
+             spyOn(sut._logger, 'error');
+            let action = {
+                special_action_name: 'toto',
+            };
+
+            sut._handleSpecialActionNotify(action);
+
+            expect(sut._logger.error).toHaveBeenCalledWith({
+                special_action_name: 'toto',
+                info: 'Unknow special action',
+            });
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+        });
+
+        it('should make pawns clickable for assassination if your turn', () => {
+            let action = {
+                special_action_name: 'assassination',
+            };
+            spyOn(sut._api, 'viewPossibleActions');
+            sut._api.game.your_turn = true;
+            sut._api.me.index = 0;
+
+            sut._handleSpecialActionNotify(action);
+
+            expect(sut.pawnClickable).toBe(true);
+            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            sut.onPawnClicked(0);
+            expect(sut._api.viewPossibleActions).toHaveBeenCalledWith({
+                name: 'assassination',
+                targetIndex: 0,
+            });
+            expect(sut.pawnsForcedNotClickable).toEqual([0]);
+        });
+
+        it('should handle view special action', () => {
+            sut.pawnClickable = true;
+            sut.onPawnClicked = () => {};
+            sut.pawnsForcedNotClickable = [0];
+
+            sut._handleSpecialActionViewPossibleActions({
+                special_action_name: 'Assassination',
+            });
+
+            expect(sut.onPawnSquareClicked).toEqual(jasmine.any(Function));
+            expect(sut.pawnClickable).toBe(true);
+            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            expect(sut.pawnsForcedNotClickable).toEqual([0]);
+
+            spyOn(mockedApi, 'playSpecialAction');
+
+            sut.onPawnSquareClicked('square-0-0', 0, 0, 0);
+
+            expect(sut.onPawnSquareClicked).toBe(null);
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+            expect(sut.pawnsForcedNotClickable).toEqual([]);
+            expect(mockedApi.playSpecialAction).toHaveBeenCalledWith({
+                x: 0,
+                y: 0,
+                name: 'Assassination',
+                targetIndex: 0,
+            });
+        });
+
+        it('reset pawns', () => {
+            sut.pawnClickable = true;
+            sut.onPawnClicked = () => {};
+            sut.pawnsForcedNotClickable = [0];
+
+            sut._resetPawns();
+
+            expect(sut.pawnClickable).toBe(false);
+            expect(sut.onPawnClicked).toBe(null);
+            expect(sut.pawnsForcedNotClickable).toEqual([]);
         });
     });
 });

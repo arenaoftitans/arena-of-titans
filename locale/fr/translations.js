@@ -3,14 +3,18 @@ export default {
         "dicarded_card": "{{playerName}} vient de se d\u00e9fausser d'une carte",
         "passed_turn": "{{playerName}} vient de passer son tour",
         "played_card": "{{playerName}} vient de jouer une carte",
+        "played_special_action": "{{playerName}} vient de jouer une action sp\u00e9ciale sur {{targetName}}",
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
         "problem": "Il vient d'y avoir un probl\u00e8me",
+        "special_action_assassination": "Clique sur le pion d'un joueur. Tu pourras alors choisir la case sur laquelle tu peux le faire reculer.",
+        "special_action_info_popup": "Tu viens de jouer une carte avec une action sp\u00e9cial {{action}}",
         "trump_played_by": "Jou\u00e9 par {{initiator}}"
     },
     "cards": {
-        "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal",
+        "assassin": "D\u00e9placement de deux cases en ligne ou en diagonal.",
         "assassin_black": "Assassin noir",
         "assassin_blue": "Assassin bleu",
+        "assassin_complementary_description": "Coup sp\u00e9cial : Assassinat pour faire reculer un joueur.",
         "assassin_red": "Assassin rouge",
         "assassin_yellow": "Assassin jaune",
         "bishop": "D\u00e9placement de deux cases. Les cases peuvent \u00eatre de deux couleurs diff\u00e9rentes",
@@ -62,6 +66,7 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
+            "cancel_special_action": "Ne pas jouer l'action",
             "complete_turn": "Terminer le tour",
             "complete_turn_confirm_message": "\u00cates-vous s\u00fbr de vouloir terminer le tour ?",
             "discard": "D\u00e9fausser",
@@ -97,6 +102,7 @@ export default {
         "name": "Nom : {{playerName}}",
         "no": "Non",
         "ok": "OK",
+        "propose_in_game_help_option": "Voir l\u2019aide int\u00e9gr\u00e9e au jeu",
         "propose_tutorial_option": "Tutoriel",
         "save": "Sauvegarder",
         "sound_option": "Sons",
@@ -131,6 +137,8 @@ export default {
         }
     },
     "trumps": {
+        "assassination": "Assassinat",
+        "assassination_description": "Permet de faire reculer un joueur d'une case",
         "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
         "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
         "reinforcements": "Renforcements",

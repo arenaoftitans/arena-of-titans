@@ -25,18 +25,33 @@ import { Api } from '../../../services/api';
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
+    @bindable pawnClickable = false;
+    @bindable pawnsForcedNotClickable = [];
+    @bindable onPawnClicked = null;
+    // This is called when the player clicks on a square after clicking on a pawn.
+    @bindable onPawnSquareClicked = null;
     _api;
     infos = {};
     _possibleSquares = [];
+    _selectedPawnIndex = -1;
 
     constructor(api) {
         this._api = api;
         this._api.on(this._api.requestTypes.view, data => {
-            this._possibleSquares = data.possible_squares.map(square => {
-                return `square-${square.x}-${square.y}`;
-            });
+            this._highlightPossibleSquares(data.possible_squares);
         });
         this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
+        this._api.on(this._api.requestTypes.special_action_view_possible_actions, message => {
+            if (message.possible_squares) {
+                this._highlightPossibleSquares(message.possible_squares);
+            }
+        });
+    }
+
+    _highlightPossibleSquares(possibleSquares) {
+        this._possibleSquares = possibleSquares.map(square => {
+            return `square-${square.x}-${square.y}`;
+        });
     }
 
     _resetPossibleSquares() {
@@ -53,8 +68,14 @@ export class AotBoardCustomElement {
                 x: x,
                 y: y,
             });
-            this._possibleSquares = [];
+            this._resetPossibleSquares();
             this.selectedCard = null;
+        } else if (this._possibleSquares.length > 0 &&
+                this._possibleSquares.indexOf(squareId) > -1 &&
+                this._selectedPawnIndex > -1) {
+            this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
+            this._selectedPawnIndex = -1;
+            this._resetPossibleSquares();
         }
     }
 
@@ -72,7 +93,27 @@ export class AotBoardCustomElement {
         };
     }
 
+    pawnClicked(index) {
+        if (this.isClickable(index)) {
+            this._selectedPawnIndex = index;
+            this.onPawnClicked(index);
+        }
+    }
+
+    isClickable(index) {
+        return this.pawnClickable && this.pawnsForcedNotClickable.indexOf(index) === -1;
+    }
+
     get playerIndexes() {
         return this._api.game.players.indexes;
+    }
+
+    get isPawnClickable() {
+        let results = [];
+        for (let i = 0; i < 7; i++) {
+            results.push(this.isClickable(i));
+        }
+
+        return results;
     }
 }

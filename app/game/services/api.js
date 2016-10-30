@@ -41,6 +41,9 @@ export class Api {
         play: 'PLAY',
         play_trump: 'PLAY_TRUMP',
         player_played: 'PLAYER_PLAYED',
+        special_action_notify: 'SPECIAL_ACTION_NOTIFY',
+        special_action_play: 'SPECIAL_ACTION_PLAY',
+        special_action_view_possible_actions: 'SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS',
     };
     requestTypesValues = [];
     callbacks = {};
@@ -161,6 +164,15 @@ export class Api {
                 break;
             case this.requestTypes.play_trump:
                 this._handlePlayTrump(message);
+                break;
+            case this.requestTypes.special_action_notify:
+                // Nothing to do beside calling callbacks
+                break;
+            case this.requestTypes.special_action_view_possible_actions:
+                // Nothing to do beside calling callbacks
+                break;
+            case this.requestTypes.special_action_play:
+                this._handleSpecialActionPlayed(message);
                 break;
             default:
                 this._handleErrors(message);
@@ -304,6 +316,27 @@ export class Api {
     _handlePlayTrump(message) {
         this._game.can_play_trump = message.can_play_trump;
         this._updateAffectingTrumps(message.active_trumps);
+    }
+
+    _handleSpecialActionPlayed(message) {
+        let actionName = message.special_action_name;
+        // If player canceled the action, the name is null
+        if (actionName === null) {
+            return;
+        }
+
+        switch (actionName.toLowerCase()) {
+            case 'assassination':
+                this._movePlayer({
+                    playerIndex: message.player_index,
+                    newSquare: message.new_square,
+                });
+                break;
+            default:
+                message.info = 'Unknow special action';
+                this._logger.error(message);
+                break;
+        }
     }
 
     _handleReconnect(reconnectMessage) {
@@ -463,6 +496,16 @@ export class Api {
         });
     }
 
+    viewPossibleActions({name, targetIndex}) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_view_possible_actions,
+            play_request: {
+                special_action_name: name,
+                target_index: targetIndex,
+            },
+        });
+    }
+
     play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
         this._ws.send({
             rt: this.requestTypes.play,
@@ -471,6 +514,30 @@ export class Api {
                 card_color: cardColor,
                 x: parseInt(x, 10),
                 y: parseInt(y, 10),
+            },
+        });
+    }
+
+    playSpecialAction({x, y, name, targetIndex}) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_play,
+            play_request: {
+                special_action_name: name,
+                x: parseInt(x, 10),
+                y: parseInt(y, 10),
+                target_index: targetIndex,
+            },
+        });
+    }
+
+    cancelSpecialAction(actionName) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_play,
+            play_request: {
+                special_action_name: actionName,
+                cancel: true,
+                // We must send and non null index for the API to comply with the request.
+                target_index: -1,
             },
         });
     }

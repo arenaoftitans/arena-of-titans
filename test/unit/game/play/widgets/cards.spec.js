@@ -137,4 +137,40 @@ describe('cards', () => {
         expect(mockedApi.discard).not.toHaveBeenCalled();
         expect(mockedGame.popup).toHaveBeenCalledWith('infos', {message: 'You must select a card'});
     });
+
+    describe('special action', () => {
+        it('should register callbacks', () => {
+            spyOn(mockedApi, 'on');
+
+            sut =
+                new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa, mockedOl);
+
+            expect(mockedApi.on).toHaveBeenCalled();
+        });
+
+        it('should notify special action', () => {
+            sut.specialActionInProgress = false;
+
+            sut._notifySpecialAction();
+
+            expect(sut.specialActionInProgress).toBe(true);
+        });
+
+        it('should handle special action', () => {
+            sut.specialActionInProgress = true;
+
+            sut._handleSpecialActionPlayed();
+
+            expect(sut.specialActionInProgress).toBe(false);
+        });
+
+        it('should view possible movements for cards', () => {
+            sut.specialActionInProgress = true;
+            spyOn(mockedApi, 'viewPossibleMovements');
+
+            sut.viewPossibleMovements();
+
+            expect(mockedApi.viewPossibleMovements).not.toHaveBeenCalled();
+        });
+    });
 });

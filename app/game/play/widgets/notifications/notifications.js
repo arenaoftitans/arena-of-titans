@@ -43,6 +43,9 @@ export class AotNotificationsCustomElement {
         'game.visit.trumps',
         'game.visit.notifications',
     ];
+    specialActionInProgress = false;
+    specialActionText;
+    _specialActionName;
     _api;
     _lastAction = {};
     _i18n;
@@ -50,6 +53,7 @@ export class AotNotificationsCustomElement {
     _lastActionMessageFromApi;
     _popupMessage;
     _popupMessageId;
+    _specialActionPopupMessage;
     _tutorialInProgress;
 
 
@@ -60,6 +64,7 @@ export class AotNotificationsCustomElement {
         this._options = options;
         this._game = game;
         this._popupMessage = {};
+        this._specialActionPopupMessage = {};
         this._popupMessageId;
         this._tutorialInProgress = false;
 
@@ -68,19 +73,41 @@ export class AotNotificationsCustomElement {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
 
+            if (this._specialActionName) {
+                this._translateSpecialActionText();
+            }
+
             this._translatePopupMessage();
         });
 
         this._api.onReconnectDefered.then(message => {
             this._updateLastAction(message);
+            if (message.special_action_name) {
+                this._notifySpecialAction(message);
+            }
         });
 
         this._api.on(this._api.requestTypes.player_played, message => {
             this._updateLastAction(message);
         });
 
+        this._api.on(this._api.requestTypes.play, () => {
+            // When we receive a play message, there cannot be a special action in
+            // progress. This is mostly useful when a player passes his/her turn during a special
+            // action.
+            this._handleSpecialActionPlayed();
+        });
+
         this._api.on(this._api.requestTypes.play_trump, message => {
             this._updateLastAction(message);
+        });
+
+        this._api.on(this._api.requestTypes.special_action_notify, message => {
+            this._notifySpecialAction(message);
+        });
+
+        this._api.on(this._api.requestTypes.special_action_play, message => {
+            this._handleSpecialActionPlayed(message);
         });
     }
 
@@ -100,6 +127,16 @@ export class AotNotificationsCustomElement {
     _translatePopupMessage() {
         if (this._popupMessageId) {
             this._popupMessage.title = this._i18n.tr(this._popupMessageId);
+        }
+
+        if (this._specialActionName) {
+            this._specialActionPopupMessage.title = this._i18n.tr(
+                'actions.special_action_info_popup',
+                {
+                    action: this._i18n.tr(`trumps.${this._specialActionName}`),
+                }
+            );
+            this._specialActionPopupMessage.message = this._i18n.tr(this.specialActionText);
         }
     }
 
@@ -126,6 +163,8 @@ export class AotNotificationsCustomElement {
             this._lastAction.card.title =
                 this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
             this._lastAction.card.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
+            this._lastAction.card.complementaryDescription =
+                    this._i18n.tr(`cards.${cardName.toLowerCase()}_complementary_description`);
 
             this._lastAction.img = ImageSource.forCard(lastAction.card);
         }
@@ -137,6 +176,15 @@ export class AotNotificationsCustomElement {
             let trumpName = ImageName.forTrump(trump).replace('-', '_');
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
+        }
+
+        if (lastAction.special_action) {
+            let action = lastAction.special_action;
+            this._lastAction.specialAction = action;
+            let actionName = action.name.toLowerCase();
+            this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
+            this._lastAction.specialAction.description =
+                    this._i18n.tr(`trumps.${actionName}_description`);
         }
     }
 
@@ -197,12 +245,44 @@ export class AotNotificationsCustomElement {
         }
     }
 
+    _handleSpecialActionPlayed(message) {
+        this.specialActionInProgress = false;
+        this._specialActionName = undefined;
+        if (message) {
+            this._updateLastAction(message);
+        }
+    }
+
+    _notifySpecialAction(message) {
+        this.specialActionInProgress = true;
+        this._specialActionName = message.special_action_name.toLowerCase();
+        this._translateSpecialActionText();
+        if (this._options.mustViewInGameHelp(this._specialActionName)) {
+            this._translatePopupMessage();
+            this._game.popup('infos', this._specialActionPopupMessage).then(() => {
+                this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+                this._options.markInGameOptionSeen(this._specialActionName);
+            });
+        } else {
+            this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+        }
+    }
+
+    _translateSpecialActionText() {
+        this.specialActionText =
+            this._i18n.tr(`actions.special_action_${this._specialActionName}`);
+    }
+
     get currentPlayerName() {
         return this.players.names[this.currentPlayerIndex];
     }
 
     get lastAction() {
         return this._lastAction;
+    }
+
+    get game()  {
+        return this._api.game;
     }
 
     get tutorialInProgress() {

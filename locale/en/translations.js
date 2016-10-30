@@ -3,14 +3,18 @@ export default {
         "dicarded_card": "{{playerName}} just discarded a card",
         "passed_turn": "{{playerName}} just passed his/her turn",
         "played_card": "{{playerName}} just played a card",
+        "played_special_action": "{{playerName}} just played a special action on {{targetName}}",
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
         "problem": "A problem occured",
+        "special_action_assassination": "Click on the pawn of a player. You will then be able to move it back.",
+        "special_action_info_popup": "You just played a card with a special action {{action}}",
         "trump_played_by": "Played by {{initiator}}"
     },
     "cards": {
         "assassin": "Move two squares in line or diagonal.",
         "assassin_black": "Black Assassin",
         "assassin_blue": "Blue Assassin",
+        "assassin_complementary_description": "Special action: Assassination to make a player move back.",
         "assassin_red": "Red Assassin",
         "assassin_yellow": "Yellow Assassin",
         "bishop": "Move two squares in diagonal. Can move on two different colors.",
@@ -62,6 +66,7 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "What do you want to do?",
+            "cancel_special_action": "Skip special action",
             "complete_turn": "Complete the turn",
             "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
             "discard": "Discard",
@@ -97,6 +102,7 @@ export default {
         "name": "Name:\u00a0{{playerName}}",
         "no": "No",
         "ok": "OK",
+        "propose_in_game_help_option": "View in game help",
         "propose_tutorial_option": "Tutorial",
         "save": "Save",
         "sound_option": "Sound",
@@ -131,6 +137,8 @@ export default {
         }
     },
     "trumps": {
+        "assassination": "Assassination",
+        "assassination_description": "Make an other player move back",
         "max_number_played_trumps": "You cannot play more trumps during this turn",
         "max_number_trumps": "This player cannot be the target of anymore trump during this turn",
         "reinforcements": "Reinforcements",

@@ -24,7 +24,7 @@
     <div id="cards-img-container" if.bind="!hasWon">
         <aot-infos type="cards"
                    infos.bind="infos"></aot-infos>
-        <div class="card ${yourTurn ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
+        <div class="card ${yourTurn && !specialActionInProgress ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
              repeat.for="card of hand"
              click.delegate="viewPossibleMovements(card)"
              mouseover.delegate="displayInfos(card, $event)"
