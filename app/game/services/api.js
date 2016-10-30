@@ -302,6 +302,7 @@ export class Api {
     }
 
     _handlePlayTrump(message) {
+        this._game.can_play_trump = message.can_play_trump;
         this._updateAffectingTrumps(message.active_trumps);
     }
 
