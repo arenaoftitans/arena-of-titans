@@ -59,7 +59,7 @@ export class AotTrumpsCustomElement {
     }
 
     play(trump) {
-        if (!this.yourTurn) {
+        if (!this.yourTurn || !this.canPlayTrump) {
             return;
         } else if (trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
@@ -165,5 +165,9 @@ export class AotTrumpsCustomElement {
 
     get yourTurn() {
         return this._api.game.your_turn;
+    }
+
+    get canPlayTrump() {
+        return this._api.game.can_play_trump;
     }
 }
