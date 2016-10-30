@@ -95,12 +95,16 @@ export class Api {
         this._createReconnectDefered();
 
         this._ea.subscribe('aot:ws:reconnected', () => {
-            this._createReconnectDefered();
-            // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
-            // if we call it with undefined it crashes.
-            this.joinGame({gameId: this._gameId}).then(() => {
-                this._ws.sendDefered();
-            });
+            this._handleWsReconnected();
+        });
+    }
+
+    _handleWsReconnected() {
+        this._createReconnectDefered();
+        // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
+        // if we call it with undefined it crashes.
+        this.joinGame({gameId: this._gameId}).then(() => {
+            this._ws.sendDefered();
         });
     }
 

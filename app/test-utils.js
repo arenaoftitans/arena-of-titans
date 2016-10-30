@@ -248,6 +248,9 @@ export class WsStub {
 
     onmessage(cb) {
     }
+
+    sendDefered() {
+    }
 }
 
 

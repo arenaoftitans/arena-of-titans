@@ -732,5 +732,22 @@ describe('services/api', () => {
                 });
             });
         });
+
+        describe('WS reconnected', () => {
+            it('should reconnect to the game', done => {
+                sut._reconnectDefered = {};
+                let promise = new Promise(resolve => resolve());
+                spyOn(sut, 'joinGame').and.returnValue(promise);
+                spyOn(sut._ws, 'sendDefered');
+
+                sut._handleWsReconnected();
+
+                expect(sut._reconnectDefered.promise).toEqual(jasmine.any(Promise));
+                promise.then(() => {
+                    expect(sut._ws.sendDefered).toHaveBeenCalled();
+                    done();
+                });
+            });
+        });
     });
 });
