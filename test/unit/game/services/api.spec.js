@@ -734,8 +734,9 @@ describe('services/api', () => {
         });
 
         describe('WS reconnected', () => {
-            it('should reconnect to the game', done => {
+            it('should join the game if game was created', done => {
                 sut._reconnectDefered = {};
+                sut._gameId = 'game_id';
                 let promise = new Promise(resolve => resolve());
                 spyOn(sut, 'joinGame').and.returnValue(promise);
                 spyOn(sut._ws, 'sendDefered');
@@ -747,6 +748,16 @@ describe('services/api', () => {
                     expect(sut._ws.sendDefered).toHaveBeenCalled();
                     done();
                 });
+            });
+
+            it('should not join the game if it has not been created', () => {
+               spyOn(sut, '_createReconnectDefered');
+               spyOn(sut, 'joinGame');
+
+               sut._handleWsReconnected();
+
+               expect(sut._createReconnectDefered).not.toHaveBeenCalled();
+               expect(sut.joinGame).not.toHaveBeenCalled();
             });
         });
     });

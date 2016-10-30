@@ -100,6 +100,12 @@ export class Api {
     }
 
     _handleWsReconnected() {
+        if (!this._gameId) {
+            // Don't attempt to reconnect if no game was created.
+            // This happen on the create game page if the API is down.
+            return;
+        }
+
         this._createReconnectDefered();
         // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
         // if we call it with undefined it crashes.
