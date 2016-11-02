@@ -26,8 +26,14 @@ describe('app/services/storage', () => {
 
     beforeEach(() => {
         // By default on FireFox, localStorage is read only. Make writable to replace it with mock.
-        Object.defineProperty(window, 'localStorage', { writable: true });
-        window.localStorage = new LocalStorageStub();
+        // On PhatomJS this doesn't work, don't do anything.
+        if (navigator.userAgent.indexOf('PhantomJS') === -1) {
+            Object.defineProperty(window, 'localStorage', {
+                writable: true,
+                configurable: true,
+            });
+            window.localStorage = new LocalStorageStub();
+        }
         sut = new Storage();
     });
 
