@@ -6,6 +6,7 @@ pipelines:
         script:
           - apt-get update -qq && apt-get install -y -qq python3
           - npm install
+          - npm run lint
           - cp config/config.staging.toml config/config.dev.toml
           - npm run config -- --type dev --version latest
           - npm run builddev
