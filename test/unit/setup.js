@@ -24,14 +24,14 @@ initialize();
 
 
 function values(obj) {
-    var vals = [];
-    for (var key in obj) {
+    let vals = [];
+    for (let key in obj) {
         if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
             vals.push(obj[key]);
         }
     }
     return vals;
-};
+}
 
 
 if (typeof Object.values !== 'function') {

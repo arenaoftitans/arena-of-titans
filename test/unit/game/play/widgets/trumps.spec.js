@@ -38,13 +38,15 @@ describe('trumps', () => {
 
     it('should play trump with a target after a popup', done => {
         let defered = {};
-        defered.promise = new Promise(resolve => defered.resolve = resolve);
+        defered.promise = new Promise(resolve => {
+            defered.resolve = resolve;
+        });
         spyOn(mockedGame, 'popup').and.returnValue(defered.promise);
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
             players: {
                 names: ['Player 1', null, 'Player 2'],
-                indexes: [0, null, 2]
+                indexes: [0, null, 2],
             },
             can_play_trump: true,
             your_turn: true,
@@ -58,14 +60,13 @@ describe('trumps', () => {
         expect(mockedGame.popup).toHaveBeenCalledWith(
             'confirm',
             {
-                message: 'Who should be the target of Trump?', choices: [
-                {
+                message: 'Who should be the target of Trump?',
+                choices: [{
                     name: 'Player 2',
                     index: 2,
-                }
-            ],
-            'title': 'trumps.trump',
-            description: 'trumps.trump_description',
+                }],
+                title: 'trumps.trump',
+                description: 'trumps.trump_description',
             }
         );
         defered.resolve(2);
@@ -95,7 +96,7 @@ describe('trumps', () => {
     it('should not play a trump if not your turn', () => {
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
-            your_turn: false
+            your_turn: false,
         };
 
         sut.play({name: 'Trump'});

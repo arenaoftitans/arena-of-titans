@@ -22,8 +22,8 @@ import { RouterStub } from '../../app/test-utils';
 
 
 describe('the App module', () => {
-    var sut;
-    var mockedRouter;
+    let sut;
+    let mockedRouter;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();

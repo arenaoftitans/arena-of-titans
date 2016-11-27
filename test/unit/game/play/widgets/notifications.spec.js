@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';
+import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';  // eslint-disable-line
 import {
     ApiStub,
     GameStub,
@@ -42,7 +42,13 @@ describe('notifications', () => {
         mockedEa = new EventAgregatorStub();
         mockedOptions = new OptionsStub();
         mockedGame = new GameStub();
-        sut = new AotNotificationsCustomElement(mockedApi, mockedI18n, mockedEa, mockedOptions, mockedGame);
+        sut = new AotNotificationsCustomElement(
+            mockedApi,
+            mockedI18n,
+            mockedEa,
+            mockedOptions,
+            mockedGame
+        );
     });
 
     it('should update last action on player played', () => {
@@ -55,10 +61,10 @@ describe('notifications', () => {
                 card: {
                     name: 'King',
                     color: 'RED',
-                    description: 'A card'
+                    description: 'A card',
                 },
-                player_name: 'Player 1'
-            }
+                player_name: 'Player 1',
+            },
         };
 
         cb(message);
@@ -82,16 +88,16 @@ describe('notifications', () => {
                 description: 'played_trump',
                 trump: {
                     name: 'Tower Blue',
-                    description: 'Block player.'
+                    description: 'Block player.',
                 },
                 player_name: 'Player 1',
                 target_name: 'Player 2',
-            }
+            },
         };
 
         cb(message);
 
-       expect(mockedI18n.tr).toHaveBeenCalledWith(
+        expect(mockedI18n.tr).toHaveBeenCalledWith(
             'actions.played_trump',
             {
                 playerName: 'Player 1',
@@ -153,7 +159,8 @@ describe('notifications', () => {
             popupDefered.promise.then(() => {
                 expect(sut._startGuidedVisit).toHaveBeenCalled();
                 expect(sut._tutorialInProgress).toBe(true);
-                expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:start_guided_visit');
+                expect(mockedEa.publish)
+                    .toHaveBeenCalledWith('aot:notifications:start_guided_visit');
                 expect(sut._displayNextVisitText).toHaveBeenCalled();
                 done();
             }, () => {
@@ -187,7 +194,8 @@ describe('notifications', () => {
             expect(sut._specialActionName).toBe('action');
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
-            expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
+            expect(mockedEa.publish)
+                .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
             expect(mockedGame.popup).not.toHaveBeenCalled();
         });
 
@@ -209,7 +217,8 @@ describe('notifications', () => {
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
             expect(mockedGame.popup).toHaveBeenCalled();
             promise.then(() => {
-                expect(mockedEa.publish).toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
+                expect(mockedEa.publish)
+                    .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
                 done();
             });
         });

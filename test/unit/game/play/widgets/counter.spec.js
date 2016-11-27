@@ -81,9 +81,9 @@ describe('counter', () => {
         sut.specialActionInProgress = true;
         sut._paused = true;
         spyOn(sut, 'init');
-        
+
         sut._handlePlayRequest();
-        
+
         expect(sut.specialActionInProgress).toBe(false);
         expect(sut._paused).toBe(false);
         expect(sut.init).not.toHaveBeenCalled();

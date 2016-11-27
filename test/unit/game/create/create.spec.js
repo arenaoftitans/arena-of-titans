@@ -26,13 +26,12 @@ import {
     RouterStub,
     StorageStub,
     HistoryStub,
-} from '../../../../app/test-utils';;
+} from '../../../../app/test-utils';
 
 
 describe('game/create', () => {
     let sut;
     let mockedRouter;
-    let mockedGame;
     let mockedApi;
     let mockedobserverLocator;
     let mockedStorage;
@@ -47,8 +46,8 @@ describe('game/create', () => {
         mockedHistory = new HistoryStub();
         mockedConfig = {
             test: {
-                debug: false
-            }
+                debug: false,
+            },
         };
         sut = new Create(
             mockedRouter,
@@ -102,10 +101,10 @@ describe('game/create', () => {
         spyOn(sut, '_joinGame');
 
         mockedApi._me = {
-            name: 'Player 1'
+            name: 'Player 1',
         };
         sut.activate({id: 'game_id'});
-        sut.playerInfoDefered.resolve()
+        sut.playerInfoDefered.resolve();
 
         sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).not.toHaveBeenCalled();
@@ -131,7 +130,11 @@ describe('game/create', () => {
         expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
         expect(mockedStorage.retrievePlayerId).toHaveBeenCalled();
         sut.playerInfoDefered.promise.then(() => {
-            expect(mockedApi.joinGame).toHaveBeenCalledWith({gameId: 'game_id', name: 'Tester', hero: 'daemon'});
+            expect(mockedApi.joinGame).toHaveBeenCalledWith({
+                gameId: 'game_id',
+                name: 'Tester',
+                hero: 'daemon',
+            });
             done();
         }, () => {
             expect(false).toBe(true);
@@ -220,7 +223,7 @@ describe('game/create', () => {
         );
     });
 
-    it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {
+    it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {  // eslint-disable-line
         mockedConfig = {
             test: {
                 debug: false,
@@ -306,7 +309,7 @@ describe('game/create', () => {
     });
 
     it('should create game', () => {
-       spyOn(mockedApi, 'createGame');
+        spyOn(mockedApi, 'createGame');
 
         sut.createGame();
 

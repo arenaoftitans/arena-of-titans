@@ -56,10 +56,12 @@ describe('services/history', () => {
                         player_index: 0,
                     },
                 ],
-                null
+                null,
             ],
         };
-        mockedApi._reconnectDefered.promise = new Promise(resolve => mockedApi._reconnectDefered.resolve = resolve);
+        mockedApi._reconnectDefered.promise = new Promise(resolve => {
+            mockedApi._reconnectDefered.resolve = resolve;
+        });
         mockedApi._reconnectDefered.resolve(message);
 
         sut.init().then(() => {

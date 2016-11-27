@@ -66,7 +66,7 @@ describe('board', () => {
             cardName: 'King',
             cardColor: 'red',
             x: 0,
-            y: 0
+            y: 0,
         });
         expect(sut._possibleSquares.length).toBe(0);
         expect(sut.selectedCard).toBe(null);

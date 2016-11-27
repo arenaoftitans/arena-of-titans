@@ -82,7 +82,7 @@ describe('play', () => {
 
     describe('special actions', () => {
         it('should log error for unknown action', () => {
-             spyOn(sut._logger, 'error');
+            spyOn(sut._logger, 'error');
             let action = {
                 special_action_name: 'toto',
             };

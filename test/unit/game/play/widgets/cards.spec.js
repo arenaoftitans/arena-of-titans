@@ -109,7 +109,7 @@ describe('cards', () => {
         spyOn(mockedGame, 'popup').and.callThrough();
         sut.selectedCard = {
             name: 'King',
-            color: 'red'
+            color: 'red',
         };
 
         sut.discard();
@@ -121,7 +121,7 @@ describe('cards', () => {
         mockedGame.popupPromise.then(() => {
             expect(mockedApi.discard).toHaveBeenCalledWith({
                 cardName: 'King',
-                cardColor: 'red'
+                cardColor: 'red',
             });
             expect(sut.selectedCard).toBe(null);
             done();

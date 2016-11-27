@@ -35,8 +35,8 @@ describe('services/api', () => {
         mockedWs = new WsStub();
         mockedConfig = {
             test: {
-                debug: false
-            }
+                debug: false,
+            },
         };
         mockedNotify = new NotifyStub();
         mockedEa = new EventAgregatorStub();
@@ -48,7 +48,7 @@ describe('services/api', () => {
         let gameData = {
             player_name: 'Tester',
             hero: 'daemon',
-            rt: rt.init_game
+            rt: rt.init_game,
         };
         spyOn(mockedWs, 'send');
 
@@ -85,8 +85,8 @@ describe('services/api', () => {
             slots: [{
                 index: 0,
                 name: 'Player 1',
-                state: 'TAKEN'
-            }]
+                state: 'TAKEN',
+            }],
         };
         let gameInitializedCallback = jasmine.createSpy('gameInitializedCallback');
         sut.on(rt.game_initialized, gameInitializedCallback);
@@ -95,7 +95,10 @@ describe('services/api', () => {
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
-        expect(mockedStorage.savePlayerId).toHaveBeenCalledWith(gameInitializedMessage.game_id, gameInitializedMessage.player_id);
+        expect(mockedStorage.savePlayerId).toHaveBeenCalledWith(
+            gameInitializedMessage.game_id,
+            gameInitializedMessage.player_id
+        );
         expect(sut.me.index).toBe(gameInitializedMessage.index);
         expect(sut.me.is_game_master).toBe(gameInitializedMessage.is_game_master);
         expect(sut.me.id).toBe(gameInitializedMessage.player_id);
@@ -110,8 +113,8 @@ describe('services/api', () => {
             slot: {
                 index: 0,
                 name: '',
-                state: 'OPEN'
-            }
+                state: 'OPEN',
+            },
         };
         let slotUpdatedCallback = jasmine.createSpy('slotUpdatedCallback');
         sut.on(rt.slot_updated, slotUpdatedCallback);
@@ -149,7 +152,7 @@ describe('services/api', () => {
                 index: 0,
                 player_name: 'Player 1',
                 state: 'TAKEN',
-            }]
+            }],
         };
         sut.updateMe('New Name', 'reaper');
 
@@ -163,9 +166,9 @@ describe('services/api', () => {
                 hero: 'reaper',
                 index: 0,
                 player_name: 'New Name',
-                state: 'TAKEN'
-            }
-        })
+                state: 'TAKEN',
+            },
+        });
     });
 
     it('should send game data when joining game', () => {
@@ -297,8 +300,8 @@ describe('services/api', () => {
                     index: 1,
                     player_name: 'Player 2',
                     hero: 'daemon',
-                }
-            ]
+                },
+            ],
         };
         sut.createGame();
 
@@ -315,9 +318,9 @@ describe('services/api', () => {
                     index: 1,
                     name: 'Player 2',
                     hero: 'daemon',
-                }
-            ]
-        })
+                },
+            ],
+        });
     });
 
     it('should update the game', () => {
@@ -330,18 +333,18 @@ describe('services/api', () => {
             next_player: 0,
             active_trumps: [{
                 player_index: 0,
-                player_name: "Player 1",
+                player_name: 'Player 1',
                 trumps: [{
-                    name: 'Reinforcements'
-                }]
+                    name: 'Reinforcements',
+                }],
             }, {
                 player_index: 1,
-                player_name: "Player 2",
-                trumps: []
+                player_name: 'Player 2',
+                trumps: [],
             }],
             hand: [{
-                name: "King",
-                color: "RED"
+                name: 'King',
+                color: 'RED',
             }],
             elapsed_time: elapsedTime,
         };
@@ -358,14 +361,14 @@ describe('services/api', () => {
             {
                 name: 'King',
                 color: 'RED',
-                img: 'sprite-movement-king-red'
-            }
+                img: 'sprite-movement-king-red',
+            },
         ]);
         expect(sut._me.has_won).toBe(false);
         expect(sut._me.rank).toBe(-1);
         expect(sut._me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
-            img: '/assets/game/cards/trumps/reinforcements.png'
+            img: '/assets/game/cards/trumps/reinforcements.png',
         }]);
         expect(sut._me.elapsed_time).toBe(elapsedTime);
         expect(sut._me.on_last_line).toBe(false);
@@ -407,19 +410,19 @@ describe('services/api', () => {
             players: [{
                 hero: 'daemon',
                 index: 0,
-                name: "Player 1"
+                name: 'Player 1',
             }, {
                 hero: 'reaper',
                 index: 1,
-                name: "Player 2"
+                name: 'Player 2',
             }],
             trumps: [{
-                name: "Red Tower",
-                description: "Prevents a player to move on red squares.",
+                name: 'Red Tower',
+                description: 'Prevents a player to move on red squares.',
                 cost: 0,
                 duration: 1,
-                must_target_player: true
-            }]
+                must_target_player: true,
+            }],
         };
         spyOn(sut, '_updateGame');
         sut._handleMessage(message);
@@ -429,15 +432,15 @@ describe('services/api', () => {
             heroes: ['daemon', 'reaper'],
             indexes: [0, 1],
             names: ['Player 1', 'Player 2'],
-            squares: [{}, {}]
+            squares: [{}, {}],
         });
         expect(sut._me.trumps).toEqual([{
-            name: "Red Tower",
+            name: 'Red Tower',
             img: '/assets/game/cards/trumps/red-tower.png',
-            description: "Prevents a player to move on red squares.",
+            description: 'Prevents a player to move on red squares.',
             cost: 0,
             duration: 1,
-            must_target_player: true
+            must_target_player: true,
         }]);
     });
 
@@ -457,15 +460,15 @@ describe('services/api', () => {
             index: 0,
             is_game_master: true,
             slots: [{
-                player_name: 'Player 1'
-            }]
+                player_name: 'Player 1',
+            }],
         });
 
         sut._handleMessage({
             rt: rt.slot_updated,
             slot: {
-                index: 1
-            }
+                index: 1,
+            },
         });
         expect(sut.createGame).toHaveBeenCalled();
     });
@@ -480,8 +483,8 @@ describe('services/api', () => {
                 rt: sut.requestTypes.view,
                 play_request: {
                     card_name: 'King',
-                    card_color: 'red'
-                }
+                    card_color: 'red',
+                },
             });
         });
 
@@ -496,15 +499,15 @@ describe('services/api', () => {
                     card_name: 'King',
                     card_color: 'red',
                     x: 0,
-                    y: 0
-                }
+                    y: 0,
+                },
             });
         });
 
         it('should handle play and your turn', () => {
             let message = {
                 rt: sut.requestTypes.play,
-                your_turn: true
+                your_turn: true,
             };
             spyOn(sut, '_updateGame');
             spyOn(mockedNotify, 'clearNotifications');
@@ -521,7 +524,7 @@ describe('services/api', () => {
         it('should handle play and not your turn', () => {
             let message = {
                 rt: sut.requestTypes.play,
-                your_turn: false
+                your_turn: false,
             };
             spyOn(sut, '_updateGame');
             spyOn(mockedNotify, 'clearNotifications');
@@ -538,7 +541,7 @@ describe('services/api', () => {
         it('should handle play and your turn and was not your turn', () => {
             let message = {
                 rt: sut.requestTypes.play,
-                your_turn: true
+                your_turn: true,
             };
             spyOn(sut, '_updateGame');
             spyOn(mockedNotify, 'clearNotifications');
@@ -562,14 +565,14 @@ describe('services/api', () => {
                             index: 0,
                             square: {x: 0, y: 0},
                             hero: 'daemon',
-                        }
+                        },
                     ],
                     trumps: [
                         {
-                            name: 'Tower red'
-                        }
-                    ]
-                }
+                            name: 'Tower red',
+                        },
+                    ],
+                },
             };
             spyOn(sut, '_updateGame');
 
@@ -585,8 +588,8 @@ describe('services/api', () => {
             expect(sut._me.trumps).toEqual([
                 {
                     name: 'Tower red',
-                    img: '/assets/game/cards/trumps/tower-red.png'
-                }
+                    img: '/assets/game/cards/trumps/tower-red.png',
+                },
             ]);
         });
 
@@ -612,8 +615,8 @@ describe('services/api', () => {
                 rt: sut.requestTypes.play_trump,
                 play_request: {
                     name: 'Trump',
-                    target_index: null
-                }
+                    target_index: null,
+                },
             });
         });
 
@@ -626,8 +629,8 @@ describe('services/api', () => {
                 rt: sut.requestTypes.play_trump,
                 play_request: {
                     name: 'Trump',
-                    target_index: 0
-                }
+                    target_index: 0,
+                },
             });
         });
 
@@ -639,9 +642,9 @@ describe('services/api', () => {
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play,
                 play_request: {
-                    pass: true
-                }
-            })
+                    pass: true,
+                },
+            });
         });
 
         it('should discard', () => {
@@ -654,9 +657,9 @@ describe('services/api', () => {
                 play_request: {
                     discard: true,
                     card_name: 'King',
-                    card_color: 'red'
-                }
-            })
+                    card_color: 'red',
+                },
+            });
         });
 
         describe('special actions', () => {
@@ -751,13 +754,13 @@ describe('services/api', () => {
             });
 
             it('should not join the game if it has not been created', () => {
-               spyOn(sut, '_createReconnectDefered');
-               spyOn(sut, 'joinGame');
+                spyOn(sut, '_createReconnectDefered');
+                spyOn(sut, 'joinGame');
 
-               sut._handleWsReconnected();
+                sut._handleWsReconnected();
 
-               expect(sut._createReconnectDefered).not.toHaveBeenCalled();
-               expect(sut.joinGame).not.toHaveBeenCalled();
+                expect(sut._createReconnectDefered).not.toHaveBeenCalled();
+                expect(sut.joinGame).not.toHaveBeenCalled();
             });
         });
     });

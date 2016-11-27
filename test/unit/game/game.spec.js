@@ -27,10 +27,6 @@ import {
 } from '../../../app/test-utils';
 
 
-class Popup {
-}
-
-
 describe('the Game module', () => {
     let mockedApi;
     let mockedHistory;
