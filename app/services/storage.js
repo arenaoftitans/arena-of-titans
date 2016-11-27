@@ -19,17 +19,48 @@
 
 const OPTIONS_KEY = 'options';
 const PLAYER_INFOS_KEY = 'player';
+const KEEP_PLAYER_ID_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 
 export class Storage {
     _expiresKey = 'expires';
 
     savePlayerId(gameId, playerId) {
-        localStorage.setItem(gameId, playerId);
+        for (let key of Object.keys(localStorage)) {
+            if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY) {
+                let data = localStorage.getItem(key);
+                // Convert old keys to new format with the date.
+                // TODO: remove this part after some time.
+                try {
+                    // If we can parse the JSON, then the value is in the new format.
+                    data = JSON.parse(data);
+                } catch (e) {
+                    data = {
+                        playerId: playerId,
+                        date: Date.now(),
+                    };
+                    localStorage.setItem(key, JSON.stringify(data));
+                }
+
+                // Remove old keys.
+                if ((Date.now() - data.date) > KEEP_PLAYER_ID_DURATION) {
+                    localStorage.removeItem(key);
+                }
+            }
+        }
+
+        let data = {
+            playerId: playerId,
+            date: Date.now(),
+        };
+        localStorage.setItem(gameId, JSON.stringify(data));
     }
 
     retrievePlayerId(gameId) {
-        return localStorage.getItem(gameId);
+        let data = localStorage.getItem(gameId);
+        data = JSON.parse(data);
+
+        return data.playerId;
     }
 
     saveOptions(options) {
