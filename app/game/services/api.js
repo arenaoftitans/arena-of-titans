@@ -283,6 +283,7 @@ export class Api {
         this._me.elapsed_time = message.elapsed_time;
         this._updateAffectingTrumps(message.active_trumps);
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.gauge_value = message.gauge_value;
     }
 
     _updateAffectingTrumps(activeTrumps) {
@@ -310,6 +311,7 @@ export class Api {
             newSquare: message.new_square,
         });
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.gauge_value = message.gauge_value;
         this._handleGameOverMessage(message);
     }
 
@@ -325,6 +327,7 @@ export class Api {
 
     _handlePlayTrump(message) {
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.gauge_value = message.gauge_value;
         this._updateAffectingTrumps(message.active_trumps);
     }
 

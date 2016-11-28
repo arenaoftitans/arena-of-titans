@@ -165,12 +165,28 @@
                     style="stop-color:#4F4F4F"
                     id="stop72" />
             </radialGradient>
+
+            <mask id="filling-gauge-mask"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="100">
+                <rect x="0" y="${currentY}" width="1000" height="466"
+                      style="stroke:none; fill: #ffffff"/>
+            </mask>
         </defs>
         <polygon
             stroke-miterlimit="10"
             points="313.375,125 313.375,567.265 294.377,567.265 294.417,124.625 303.5,96.5 "
-            id="polygon26"
+            id="empty-gauge"
+            style="fill: rgba(80, 80, 80, 0.8); stroke: #1d1d1b; stroke-miterlimit: 10"
+            transform="translate(-234.50001,-94.924672)" />
+        <polygon
+            stroke-miterlimit="10"
+            points="313.375,125 313.375,567.265 294.377,567.265 294.417,124.625 303.5,96.5 "
+            id="filled-gauge"
             style="fill:url(#gauge-fill-1);stroke:#1d1d1b;stroke-miterlimit:10"
+            mask="url(#filling-gauge-mask)"
             transform="translate(-234.50001,-94.924672)" />
         <ellipse
             stroke-miterlimit="10"

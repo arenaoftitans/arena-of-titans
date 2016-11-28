@@ -17,12 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { Wait } from '../../../services/utils';
+import { Api } from '../../../services/api';
 
 
+const MAX_VALUE = 100;
+const MIN_HEIGHT = 100;
+const MAX_HEIGHT = 566;
+
+@inject(Api, ObserverLocator)
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
+
+    constructor(api, observerLocator) {
+        this._api = api;
+        this._observerLocator = observerLocator;
+        this.currentY = MAX_HEIGHT;
+    }
 
     bind() {
         Wait.forId('gauge-svg').then(gaugeSvg => {
@@ -37,6 +49,34 @@ export class AotTrumpsGaugeCustomElement {
                 element.style.fill = '';
                 element.style.fill = fillStyle;
             }
+
+            this._fill();
+            this._observerLocator.getObserver(this, 'value').subscribe((newValue, oldValue) => {
+                if (newValue !== oldValue) {
+                    this._fill();
+                }
+            });
         });
+    }
+
+    _fill() {
+        let maxDelta = MAX_HEIGHT - MIN_HEIGHT;
+        let percentFill = this.value / MAX_VALUE;
+        let newY = MAX_HEIGHT - Math.round(maxDelta * percentFill);
+
+        clearInterval(this._fillInterval);
+        this._fillInterval = setInterval(() => {
+            if (this.currentY > newY) {
+                this.currentY--;
+            } else if (this.currentY < newY) {
+                this.currentY++;
+            } else {
+                clearInterval(this._fillInterval);
+            }
+        }, 50);
+    }
+
+    get value() {
+        return this._api.game.gauge_value;
     }
 }
