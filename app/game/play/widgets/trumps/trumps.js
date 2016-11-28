@@ -58,8 +58,8 @@ export class AotTrumpsCustomElement {
         }
     }
 
-    play(trump) {
-        if (!this.yourTurn || !this.canPlayTrump) {
+    play(trump, index) {
+        if (!this.yourTurn || !this.trumpsStatuses[index]) {
             return;
         } else if (trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
@@ -167,7 +167,7 @@ export class AotTrumpsCustomElement {
         return this._api.game.your_turn;
     }
 
-    get canPlayTrump() {
-        return this._api.game.can_play_trump;
+    get trumpsStatuses() {
+        return this._api.game.trumps_statuses;
     }
 }
