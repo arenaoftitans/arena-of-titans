@@ -60,7 +60,7 @@ export class Storage {
         let data = localStorage.getItem(gameId);
         data = JSON.parse(data);
 
-        return data.playerId;
+        return data === null ? data : data.playerId;
     }
 
     saveOptions(options) {
