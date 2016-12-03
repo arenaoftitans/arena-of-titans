@@ -32,13 +32,13 @@
         </div>
     </div>
     <div id="cards-actions" if.bind="!hasWon">
-        <button class="button-dark"
+        <button class="grey-button"
                 click.delegate="pass()"
                 disabled.bind="!yourTurn">
                 <span if.bind="!onLastLine" t="game.play.pass">Pass</span>
                 <span if.bind="onLastLine" t="game.play.complete_turn">Complete turn</span>
         </button>
-        <button class="button-light"
+        <button class="blue-button"
                 click.delegate="discard()"
                 disabled.bind="!yourTurn"
                 t="game.play.discard">Discard</button>

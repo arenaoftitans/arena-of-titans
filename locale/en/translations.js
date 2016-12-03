@@ -79,7 +79,7 @@ export default {
             "player_box_cards": "Last played cards",
             "player_box_trumps": "Trumps active on player",
             "select_trump_target": "Who should be the target of {{trumpname}}?",
-            "whose_turn_message": "It is the turn of <br /><strong class=\"white-text\">{{playerName}}</strong>",
+            "whose_turn_message": "It is the turn of <br /><strong class=\"blue-text\">{{playerName}}</strong>",
             "your_turn": "It's your turn!"
         },
         "visit": {

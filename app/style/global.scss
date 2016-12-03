@@ -1,7 +1,7 @@
 @import 'button';
 
 body {
-    background-image: url(/assets/backgrounds/background.png);
+    background-image: url(/assets/backgrounds/background.jpg);
     font-family: 'Berkshire Swash', cursive;
 }
 
@@ -99,6 +99,11 @@ select {
 .white-text,
 strong.white-text {
     color: white;
+}
+
+.blue-text,
+strong.blue-text {
+    color: mediumblue;
 }
 
 .red-text {

@@ -79,7 +79,7 @@ export default {
             "player_box_cards": "Derni\u00e8res cartes jou\u00e9es",
             "player_box_trumps": "Atouts actifs sur le joueur",
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
-            "whose_turn_message": "C'est le tour de <br /><strong class=\"white-text\">{{playerName}}</strong>",
+            "whose_turn_message": "C'est le tour de <br /><strong class=\"blue-text\">{{playerName}}</strong>",
             "your_turn": "C'est ton tour !"
         },
         "visit": {

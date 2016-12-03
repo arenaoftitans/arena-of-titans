@@ -41,7 +41,7 @@
              if.bind="lastAction && lastAction.img" />
 
         <div if.bind="lastAction && lastAction.card">
-            <p class="centered-important"><strong class="white-text">${lastAction.card.title}</strong></p>
+            <p class="centered-important"><strong class="blue-text">${lastAction.card.title}</strong></p>
             <p>
                 ${lastAction.card.description}
             </p>
@@ -53,14 +53,14 @@
         </div>
 
         <div if.bind="lastAction && lastAction.trump">
-            <p class="centered-important"><strong class="white-text">${lastAction.trump.title}</strong></p>
+            <p class="centered-important"><strong class="blue-text">${lastAction.trump.title}</strong></p>
             <p>
                 ${lastAction.trump.description}
             </p>
         </div>
 
         <div if.bind="lastAction && lastAction.specialAction">
-            <p class="centered-important"><strong class="white-text">${lastAction.specialAction.title}</strong></p>
+            <p class="centered-important"><strong class="blue-text">${lastAction.specialAction.title}</strong></p>
             <p>
                 ${lastAction.specialAction.description}
             </p>
@@ -69,7 +69,7 @@
 
     <p class="centered-important margin-0"
        if.bind="tutorialInProgress">
-        <strong class="white-text" t="game.visit.title"></strong>
+        <strong class="blue-text" t="game.visit.title"></strong>
     </p>
 
     <div if.bind="tutorialInProgress">

@@ -35,12 +35,12 @@
         <img class="selected-hero" src.bind="heroSrc" />
         <p class="centered-text white-text">
             <span t="global.name" t-params.bind="{playerName: me.name}">Name</span>
-            <button class="button-light"
+            <button class="blue-button"
                     click.trigger="editMe()"
                     t="global.edit">Edit
             </button>
         </p>
-        <button class="button-light centered-block"
+        <button class="blue-button centered-block"
                 if.bind="me.is_game_master"
                 disabled.bind="!canCreateGame"
                 click.trigger="createGame()"
@@ -98,7 +98,7 @@
          height="100%"
          viewBox="0 0 1300 750"
          preserveAspectRatio="none">
-        <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/game-creation.png"  transform="matrix(0.9999 0 0 0.9999 0 0)">
+        <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/game-creation.jpg"  transform="matrix(0.9999 0 0 0.9999 0 0)">
         </image>
         <rect id="create-game-gate-left" x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
         <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
