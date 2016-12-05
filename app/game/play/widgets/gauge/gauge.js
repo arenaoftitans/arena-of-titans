@@ -22,7 +22,7 @@ import { Wait } from '../../../services/utils';
 import { Api } from '../../../services/api';
 
 
-const MAX_VALUE = 100;
+const MAX_VALUE = 40;
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 566;
 
