@@ -107,6 +107,69 @@
                     style="stop-color:#063300"
                     id="stop55" />
             </linearGradient>
+            <linearGradient
+                id="gauge-fill-trumps-costs-1"
+                gradientUnits="userSpaceOnUse"
+                x1="303.4167"
+                y1="95.2002"
+                x2="303.4167"
+                y2="565.9648">
+                <stop
+                    offset="0"
+                    style="stop-color: #B2B2B2"
+                    id="stop129" />
+                <stop
+                    offset="3.397432e-02"
+                    style="stop-color: #AAB2AA"
+                    id="stop131" />
+                <stop
+                    offset="9.395371e-02"
+                    style="stop-color: #96b195"
+                    id="stop133" />
+                <stop
+                    offset="0.1729"
+                    style="stop-color: #75b174"
+                    id="stop135" />
+                <stop
+                    offset="0.2666"
+                    style="stop-color: #48b046"
+                    id="stop137" />
+                <stop
+                    offset="0.3429"
+                    style="stop-color: #1faf1c"
+                    id="stop139" />
+                <stop
+                    offset="0.3463"
+                    style="stop-color: #20b21d"
+                    id="stop141" />
+                <stop
+                    offset="0.4307"
+                    style="stop-color: #1ea71b"
+                    id="stop143" /><stop
+                    offset="0.6976"
+                    style="stop-color: #1eab1c"
+                    id="stop145" />
+                <stop
+                    offset="0.7691"
+                    style="stop-color: #167e12"
+                    id="stop147" />
+                <stop
+                    offset="0.8403"
+                    style="stop-color: #0e570a"
+                    id="stop149" />
+                <stop
+                    offset="0.901"
+                    style="stop-color: #093b04"
+                    id="stop151" />
+                <stop
+                    offset="0.9489"
+                    style="stop-color: #052A01"
+                    id="stop153" />
+                <stop
+                    offset="0.978"
+                    style="stop-color: #042300"
+                    id="stop155" />
+            </linearGradient>
             <radialGradient
                 id="gauge-fill-2"
                 cx="303.3335"
@@ -225,6 +288,14 @@
                 <rect x="0" y="${currentY}" width="1000" height="466"
                       style="stroke:none; fill: #ffffff"/>
             </mask>
+            <mask id="displaying-trump-cost-mask"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="100">
+                <rect x="0" y="${currentY}" width="1000" height="${heightForCost}"
+                      style="stroke:none; fill: #ffffff"/>
+            </mask>
         </defs>
         <polygon
             stroke-miterlimit="10"
@@ -238,6 +309,13 @@
             id="filled-gauge"
             style="fill:url(#gauge-fill-1);stroke:#1d1d1b;stroke-miterlimit:10"
             mask="url(#filling-gauge-mask)"
+            transform="translate(-234.50001,-94.924672)" />
+        <polygon
+            stroke-miterlimit="10"
+            points="313.375,125 313.375,567.265 294.377,567.265 294.417,124.625 303.5,96.5 "
+            id="trumps-costs-gauge"
+            style="fill: url(#gauge-fill-trumps-costs-1);stroke:#1d1d1b;stroke-miterlimit:10"
+            mask="url(#displaying-trump-cost-mask)"
             transform="translate(-234.50001,-94.924672)" />
         <ellipse
             stroke-miterlimit="10"

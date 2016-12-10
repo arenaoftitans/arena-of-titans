@@ -33,6 +33,7 @@ export class AotTrumpsCustomElement {
     _logger;
     infos = {};
     affectingInfos = {};
+    selectedTrumpCost = 0;
 
     constructor(api, game, i18n, ea) {
         this._api = api;
@@ -115,12 +116,14 @@ export class AotTrumpsCustomElement {
             visible: true,
             event: event,
         };
+        this.selectedTrumpCost = trump.cost;
     }
 
     hideInfos() {
         this.infos = {
             visible: false,
         };
+        this.selectedTrumpCost = 0;
     }
 
     displayAffectingInfos(trump, event) {

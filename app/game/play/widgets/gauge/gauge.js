@@ -25,15 +25,18 @@ import { Api } from '../../../services/api';
 const MAX_VALUE = 40;
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 566;
+const MAX_DELTA = MAX_HEIGHT - MIN_HEIGHT;
 
 @inject(Api, ObserverLocator)
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
+    @bindable cost = 0;
 
     constructor(api, observerLocator) {
         this._api = api;
         this._observerLocator = observerLocator;
         this.currentY = MAX_HEIGHT;
+        this.heightForCost = 0;
     }
 
     bind() {
@@ -56,13 +59,17 @@ export class AotTrumpsGaugeCustomElement {
                     this._fill();
                 }
             });
+            this._observerLocator.getObserver(this, 'cost').subscribe((newValue, oldValue) => {
+                if (newValue !== oldValue) {
+                    this.heightForCost = this.cost / MAX_VALUE * MAX_DELTA;
+                }
+            });
         });
     }
 
     _fill() {
-        let maxDelta = MAX_HEIGHT - MIN_HEIGHT;
         let percentFill = this.value / MAX_VALUE;
-        let newY = MAX_HEIGHT - Math.round(maxDelta * percentFill);
+        let newY = MAX_HEIGHT - Math.round(MAX_DELTA * percentFill);
 
         clearInterval(this._fillInterval);
         this._fillInterval = setInterval(() => {
