@@ -27,6 +27,18 @@ function values(obj) {
     return vals;
 }
 
+
+function isInteger(value) {
+  return typeof value === "number" &&
+    isFinite(value) &&
+    Math.floor(value) === value;
+}
+
+
 if (typeof Object.values !== 'function') {
     Object.values = values;
+}
+
+if (typeof Number.isInteger !== 'function') {
+    Number.isInteger = isInteger;
 }

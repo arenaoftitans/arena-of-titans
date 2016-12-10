@@ -312,8 +312,6 @@ export class Api {
             newSquare: message.new_square,
         });
         this._game.trumps_statuses = message.trumps_statuses;
-        this._game.gauge_value = message.gauge_value;
-        this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
         this._handleGameOverMessage(message);
     }
 
@@ -329,8 +327,10 @@ export class Api {
 
     _handlePlayTrump(message) {
         this._game.trumps_statuses = message.trumps_statuses;
-        this._game.gauge_value = message.gauge_value;
-        this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
+        if (Number.isInteger(message.gauge_value)) {
+            this._game.gauge_value = message.gauge_value;
+            this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
+        }
         this._updateAffectingTrumps(message.active_trumps);
     }
 
