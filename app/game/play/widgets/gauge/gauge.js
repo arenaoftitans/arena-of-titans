@@ -76,6 +76,12 @@ export class AotTrumpsGaugeCustomElement {
             if (this.currentY > newY) {
                 this.currentY--;
             } else if (this.currentY < newY) {
+                // Here we are emptiing the gauge. If the user still has its mouse over the trump,
+                // we adjust the height of the mask so the gauge empties to the original bottom of
+                // it.
+                if (this.heightForCost > 0) {
+                    this.heightForCost--;
+                }
                 this.currentY++;
             } else {
                 clearInterval(this._fillInterval);
