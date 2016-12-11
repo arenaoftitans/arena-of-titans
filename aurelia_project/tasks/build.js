@@ -20,5 +20,5 @@ function readProjectConfiguration() {
 }
 
 function writeBundles() {
-  return build.dest(project.platform);
+  return build.dest();
 }

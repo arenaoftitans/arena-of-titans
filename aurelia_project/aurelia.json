@@ -1,18 +1,18 @@
 {
     "name": "test-cli",
     "type": "project:application",
+    "platform": {
+        "id": "web",
+        "displayName": "Web",
+        "output": "scripts",
+        "index": "index.html"
+    },
     "transpiler": {
         "id": "babel",
         "displayName": "Babel",
         "fileExtension": ".js",
         "options": {
-            "sourceMap": true,
-            "moduleIds": false,
-            "comments": false,
-            "compact": false,
-            "code": true,
             "presets": [
-                "es2015-loose",
                 "stage-1"
             ],
             "plugins": [
@@ -153,7 +153,7 @@
                 "prepend": [
                     "node_modules/bluebird/js/browser/bluebird.js",
                     "scripts/polyfills.js",
-                    "scripts/require.js"
+                    "node_modules/requirejs/require.js"
                 ],
                 "dependencies": [
                     "aurelia-binding",
@@ -187,10 +187,7 @@
                     "aurelia-task-queue",
                     "aurelia-templating",
                     "aurelia-templating-binding",
-                    {
-                        "name": "text",
-                        "path": "../scripts/text"
-                    },
+                    "text",
                     {
                         "name": "aurelia-templating-resources",
                         "path": "../node_modules/aurelia-templating-resources/dist/amd",
