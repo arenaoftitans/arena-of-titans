@@ -19,19 +19,23 @@
 
 <template>
     <require from="./aot-header.css"></require>
+    <!--<require from="./widgets/aot-connect/aot-connect"></require>-->
 
-    <header class="row-block">
+    <header>
+
+        <aot-connect></aot-connect>
+
         <div class="navbar">
             <div class="column-left">
-                <a class="button grey-button" href="/rules" t="site.header_rules">Règles</a>
-                <a class="button grey-button" href="/synopsis" t="site.header_synopsis">Synopsis</a>
+                <a class="button" href="/rules" t="site.header_rules">Règles</a>
+                <a class="button" href="/synopsis" t="site.header_synopsis">Synopsis</a>
             </div>
             <div class="column-center">
-                <a href="/"></a>
+                <a class="logo" href="/"></a>
             </div>
             <div class="column-right">
-                <a class="button grey-button button-disabled" t="site.header_news">Actualité</a>
-                <a class="button grey-button button-disabled" t="site.header_community">Communauté</a>
+                <a class="button button-disabled" t="site.header_news">Actualité</a>
+                <a class="button button-disabled" t="site.header_community">Communauté</a>
             </div>
         </div>
     </header>
