@@ -53,42 +53,42 @@ aot-player-box {
     @for $i from 0 to length($players-colors) {
         .player-box-#{$i} {
             @if $i < 4 {
-                right: 2%;
+                right: 5%;
             } @else {  /* stylelint-disable-line */
-                left: 2%;
+                left: 5%;
             }
 
             @if $i == 0 or $i == 7 {
-                bottom: 3%;
+                bottom: 10%;
             } @else if $i == 1 or $i == 6 {  /* stylelint-disable-line */
-                bottom: 9%;
+                bottom: 16%;
 
                 @include medium-height {
-                    bottom: 10.5%;
+                    bottom: 18.5%;
                 }
 
                 @include small-height {
-                    bottom: 14%;
+                    bottom: 21%;
                 }
 
                 @include tiny-height {
-                    bottom: 17%;
+                    bottom: 24%;
                 }
             } @else if $i == 2 or $i == 5 {  /* stylelint-disable-line */
-                top: 3%;
+                top: 10%;
             } @else {  /* stylelint-disable-line */
-                top: 9%;
+                top: 16%;
 
                 @include medium-height {
-                    top: 10.5%;
+                    top: 18.5%;
                 }
 
                 @include small-height {
-                    top: 14%;
+                    top: 21%;
                 }
 
                 @include tiny-height {
-                    top: 17%;
+                    top: 24%;
                 }
             }
         }

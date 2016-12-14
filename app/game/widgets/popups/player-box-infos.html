@@ -24,12 +24,12 @@
         </div>
         <h1>
             <img src="${heroSource}" />
-            <strong class="white-text">${data.playerName}</strong>
+            <strong class="blue-text">${data.playerName}</strong>
         </h1>
 
         <div class="margin-top-0">
             <h2 t="game.play.player_box_cards"
-                class="white-text"></h2>
+                class="blue-text"></h2>
             <img repeat.for="card of lastPlayedCards"
                  src.bind="card"
                  class="card" />
@@ -37,7 +37,7 @@
 
         <div class="margin-top-0">
             <h2 t="game.play.player_box_trumps"
-                class="white-text"></h2>
+                class="blue-text"></h2>
             <img repeat.for="trump of activeTrumps"
                  src.bind="trump"
                  class="trump" />

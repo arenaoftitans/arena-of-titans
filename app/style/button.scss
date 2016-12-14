@@ -28,27 +28,27 @@ button[disabled],
 }
 
 
-.button-dark {
-    background: url(/assets/components/button-dark.png) no-repeat;
+.grey-button {
+    background: url(/assets/components/grey-button.png) no-repeat;
     background-position: 0 0;
     background-size: 100% 200%;
 }
 
-.button-dark:hover {
-    background: url(/assets/components/button-dark.png) no-repeat;
+.grey-button:hover {
+    background: url(/assets/components/grey-button.png) no-repeat;
     background-position: 0 -32px;
     background-size: 100% 200%;
 }
 
 
-.button-light {
-    background: url(/assets/components/button-light.png) no-repeat;
+.blue-button {
+    background: url(/assets/components/blue-button.png) no-repeat;
     background-position: 0 0;
     background-size: 100% 200%;
 }
 
-.button-light:hover {
-    background: url(/assets/components/button-light.png) no-repeat;
+.blue-button:hover {
+    background: url(/assets/components/blue-button.png) no-repeat;
     background-position: 0 -32px;
     background-size: 100% 200%;
 }

@@ -53,7 +53,7 @@ export class AotCardsCustomElement {
         let blinker;
         ol.getObserver(this, 'highlightPassButton').subscribe(() => {
             if (this.highlightPassButton) {
-                let elements = Elements.forClass('button-dark', 'cards-actions');
+                let elements = Elements.forClass('grey-button', 'cards-actions');
                 blinker = new Blink(
                     elements, MAX_BUTTON_BLINK_TIME, BUTTON_BLINK_TIME, BUTTON_BLINK_CLASS);
                 blinker.blink();
