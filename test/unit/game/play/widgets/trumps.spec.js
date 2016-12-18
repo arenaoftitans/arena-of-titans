@@ -48,14 +48,14 @@ describe('trumps', () => {
                 names: ['Player 1', null, 'Player 2'],
                 indexes: [0, null, 2],
             },
-            can_play_trump: true,
+            trumps_statuses: [true],
             your_turn: true,
         };
         mockedApi._me = {
             index: 0,
         };
 
-        sut.play({name: 'Trump', must_target_player: true});
+        sut.play({name: 'Trump', must_target_player: true}, 0);
 
         expect(mockedGame.popup).toHaveBeenCalledWith(
             'confirm',
@@ -83,11 +83,11 @@ describe('trumps', () => {
         spyOn(mockedGame, 'popup');
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
-            can_play_trump: true,
+            trumps_statuses: [true],
             your_turn: true,
         };
 
-        sut.play({name: 'Trump', must_target_player: false});
+        sut.play({name: 'Trump', must_target_player: false}, 0);
 
         expect(mockedGame.popup).not.toHaveBeenCalled();
         expect(mockedApi.playTrump).toHaveBeenCalledWith({trumpName: 'Trump'});

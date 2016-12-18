@@ -33,6 +33,7 @@ export class AotTrumpsCustomElement {
     _logger;
     infos = {};
     affectingInfos = {};
+    selectedTrumpCost = 0;
 
     constructor(api, game, i18n, ea) {
         this._api = api;
@@ -58,8 +59,8 @@ export class AotTrumpsCustomElement {
         }
     }
 
-    play(trump) {
-        if (!this.yourTurn || !this.canPlayTrump) {
+    play(trump, index) {
+        if (!this.yourTurn || !this.trumpsStatuses[index]) {
             return;
         } else if (trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
@@ -115,12 +116,14 @@ export class AotTrumpsCustomElement {
             visible: true,
             event: event,
         };
+        this.selectedTrumpCost = trump.cost;
     }
 
     hideInfos() {
         this.infos = {
             visible: false,
         };
+        this.selectedTrumpCost = 0;
     }
 
     displayAffectingInfos(trump, event) {
@@ -167,7 +170,7 @@ export class AotTrumpsCustomElement {
         return this._api.game.your_turn;
     }
 
-    get canPlayTrump() {
-        return this._api.game.can_play_trump;
+    get trumpsStatuses() {
+        return this._api.game.trumps_statuses;
     }
 }

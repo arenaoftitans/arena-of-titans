@@ -23,7 +23,7 @@
     <require from="../gauge/gauge"></require>
 
 	<div id="gauge" class="centered-block">
-        <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero"></aot-trumps-gauge>
+        <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero" cost.bind="selectedTrumpCost"></aot-trumps-gauge>
 	</div>
 
     <!-- Infos for affecting trump must be here not be hidden by the player's trumps -->
@@ -45,10 +45,10 @@
             <aot-infos type="trumps"
                        infos.bind="infos"></aot-infos>
 
-            <img class="player-trumps ${yourTurn && canPlayTrump ? 'active-trump' : 'inactive-trump'}"
+            <img class="player-trumps ${yourTurn && trumpsStatuses[$index] ? 'active-trump' : 'inactive-trump'}"
                  repeat.for="trump of trumps"
                  src.bind="trump.img"
-                 click.delegate="play(trump)"
+                 click.delegate="play(trump, $index)"
                  mouseover.delegate="displayInfos(trump, $event)"
                  mouseout.delegate="hideInfos()" />
         </div>
