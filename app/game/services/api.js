@@ -373,12 +373,12 @@ export class Api {
         let waitForBoard = Wait.forId('player0');
 
         waitForBoard.then(() => {
+            this._rotateBoard();
             this._game.players.squares.forEach((square, index) => {
                 if (square && Object.keys(square).length > 0) {
                     this._movePlayer({playerIndex: index, newSquare: square});
                 }
             });
-            this._rotateBoard();
         }).catch(error => {
             if (!window.jasmine || !(error instanceof TypeError)) {
                 this._logger.error(error);
@@ -410,8 +410,22 @@ export class Api {
         let boardLayer = document.getElementById('boardLayer');
         let pawnLayer = document.getElementById('pawnLayer');
         let angle = 45 * this._me.index;
-        boardLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
-        pawnLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
+        let transformBoardLayer = boardLayer.getAttribute('transform');
+        let transformPawnLayer = pawnLayer.getAttribute('transform');
+        let [translationX, translationY] = transformBoardLayer.replace('translate(', '')
+            .replace(')', '')
+            .split(',');
+        let rotationX = -parseInt(translationX, 10) + 310;
+        let rotationY = -parseInt(translationY, 10) + 310;
+
+        boardLayer.setAttribute(
+            'transform',
+            `${transformBoardLayer} rotate(${angle} ${rotationX} ${rotationY})`
+        );
+        pawnLayer.setAttribute(
+            'transform',
+            `${transformPawnLayer} rotate(${angle} ${rotationX} ${rotationY})`
+        );
     }
 
     _handleErrors(message) {

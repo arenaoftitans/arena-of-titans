@@ -10,7 +10,8 @@ aot-board {
 
 
     @for $i from 0 to length($players-colors) {
-        #player#{$i} .pawn-circle {
+        #player#{$i} .pawn-circle,
+        path.arrival-#{$i} {
             fill: nth($players-colors, $i + 1);
         }
     }
@@ -51,6 +52,8 @@ aot-board {
     }
 
     .pawn {
-        fill: black;
+        stroke: #13110c;
+        stroke-miterlimit: 10;
+        stroke-width: 0.5px;
     }
 }
