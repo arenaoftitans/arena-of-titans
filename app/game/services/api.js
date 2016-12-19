@@ -373,12 +373,12 @@ export class Api {
         let waitForBoard = Wait.forId('player0');
 
         waitForBoard.then(() => {
+            this._rotateBoard();
             this._game.players.squares.forEach((square, index) => {
                 if (square && Object.keys(square).length > 0) {
                     this._movePlayer({playerIndex: index, newSquare: square});
                 }
             });
-            this._rotateBoard();
         }).catch(error => {
             if (!window.jasmine || !(error instanceof TypeError)) {
                 this._logger.error(error);
@@ -392,7 +392,7 @@ export class Api {
         let pawnContainer = document.getElementById(`${pawnId}Container`);
         let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
         let boundingBox = square.getBBox();
-        let transform = square.getAttribute('transform');
+        let transform = square.getAttribute('transform') || '';
 
         pawnContainer.setAttribute('transform', transform);
         pawn.setAttribute('height', boundingBox.height);
@@ -410,8 +410,17 @@ export class Api {
         let boardLayer = document.getElementById('boardLayer');
         let pawnLayer = document.getElementById('pawnLayer');
         let angle = 45 * this._me.index;
-        boardLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
-        pawnLayer.setAttribute('transform', `rotate(${angle} 990 990)`);
+        let transformBoardLayer = boardLayer.getAttribute('transform');
+        let transformPawnLayer = pawnLayer.getAttribute('transform');
+
+        boardLayer.setAttribute(
+            'transform',
+            `${transformBoardLayer} rotate(${angle} 990 990)`
+        );
+        pawnLayer.setAttribute(
+            'transform',
+            `${transformPawnLayer} rotate(${angle} 990 990)`
+        );
     }
 
     _handleErrors(message) {
