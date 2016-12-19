@@ -392,7 +392,7 @@ export class Api {
         let pawnContainer = document.getElementById(`${pawnId}Container`);
         let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
         let boundingBox = square.getBBox();
-        let transform = square.getAttribute('transform');
+        let transform = square.getAttribute('transform') || '';
 
         pawnContainer.setAttribute('transform', transform);
         pawn.setAttribute('height', boundingBox.height);
@@ -412,19 +412,14 @@ export class Api {
         let angle = 45 * this._me.index;
         let transformBoardLayer = boardLayer.getAttribute('transform');
         let transformPawnLayer = pawnLayer.getAttribute('transform');
-        let [translationX, translationY] = transformBoardLayer.replace('translate(', '')
-            .replace(')', '')
-            .split(',');
-        let rotationX = -parseInt(translationX, 10) + 310;
-        let rotationY = -parseInt(translationY, 10) + 310;
 
         boardLayer.setAttribute(
             'transform',
-            `${transformBoardLayer} rotate(${angle} ${rotationX} ${rotationY})`
+            `${transformBoardLayer} rotate(${angle} 990 990)`
         );
         pawnLayer.setAttribute(
             'transform',
-            `${transformPawnLayer} rotate(${angle} ${rotationX} ${rotationY})`
+            `${transformPawnLayer} rotate(${angle} 990 990)`
         );
     }
 
