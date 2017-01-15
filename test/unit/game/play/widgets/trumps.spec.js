@@ -67,6 +67,7 @@ describe('trumps', () => {
                 }],
                 title: 'trumps.trump',
                 description: 'trumps.trump_description',
+                selectedChoice: '1',
             }
         );
         defered.resolve(2);

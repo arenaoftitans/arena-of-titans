@@ -21,6 +21,7 @@ import * as LogManager from 'aurelia-logging';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { randomInt } from '../../../services/utils';
 import { Api } from '../../../services/api';
 import { Game } from '../../../game';
 
@@ -56,6 +57,8 @@ export class AotTrumpsCustomElement {
             this._popupMessage.description =
                     this.getTranslatedTrumpDescription(this._lastSelected.trump);
             this._popupMessage.choices = this._lastSelected.otherPlayerNames;
+            this._popupMessage.selectedChoice =
+                    randomInt(1, this._popupMessage.choices.length).toString();
         }
     }
 

@@ -93,7 +93,7 @@ export default {
         }
     },
     "global": {
-        "back_home": "Page d' Acceuil",
+        "back_home": "Page d' Accueil",
         "cancel": "Annuler",
         "cannot_do_action": "Tu ne peux pas faire cette action :",
         "create_new_game": "Nouvelle Partie",
