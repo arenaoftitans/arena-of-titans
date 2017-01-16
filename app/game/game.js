@@ -45,6 +45,8 @@ export class Game {
         this._i18n = i18n;
         this._eas = eas;
 
+        this._currentPlayerIndex = null;
+
         this._popupMessageId;
         this._popupMessage = {};
         this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
@@ -55,9 +57,9 @@ export class Game {
         history.init();
     }
 
-    _translatePopupMessage() {
+    _translatePopupMessage(options = {}) {
         if (this._popupMessageId) {
-            this._popupMessage.message = this._i18n.tr(this._popupMessageId);
+            this._popupMessage.message = this._i18n.tr(this._popupMessageId, options);
         }
     }
 
@@ -100,6 +102,21 @@ export class Game {
                     location.reload();
                 }
             });
+        });
+        this._api.on(this._api.requestTypes.play, () => {
+            if (this._api.game.next_player !== this._currentPlayerIndex) {
+                this._currentPlayerIndex = this._api.game.next_player;
+                this._popupMessageId = 'game.play.whose_turn_message';
+                this._translatePopupMessage({
+                    playerName: this._api.game.players.names[this._currentPlayerIndex],
+                });
+                this._popupMessage.htmlMessage = true;
+
+                this.popup('infos', this._popupMessage, {timeout: 5000}).then(() => {
+                    this._popupMessageId = undefined;
+                    this._popupMessage = {};
+                });
+            }
         });
     }
 
