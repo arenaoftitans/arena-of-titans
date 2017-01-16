@@ -106,11 +106,15 @@ export class Game {
         this._api.on(this._api.requestTypes.play, () => {
             if (this._api.game.next_player !== this._currentPlayerIndex) {
                 this._currentPlayerIndex = this._api.game.next_player;
-                this._popupMessageId = 'game.play.whose_turn_message';
+                if (this._currentPlayerIndex !== this._api.me.index) {
+                    this._popupMessageId = 'game.play.whose_turn_message';
+                    this._popupMessage.htmlMessage = true;
+                } else {
+                    this._popupMessageId = 'game.play.your_turn';
+                }
                 this._translatePopupMessage({
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 });
-                this._popupMessage.htmlMessage = true;
 
                 this.popup('infos', this._popupMessage, {timeout: 5000}).then(() => {
                     this._popupMessageId = undefined;
