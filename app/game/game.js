@@ -107,7 +107,7 @@ export class Game {
         this._eas.dispose();
     }
 
-    popup(type, data) {
+    popup(type, data, {timeout = 0} = {}) {
         this.data = data;
         this.type = type;
         this.popupDefered.promise = new Promise((resolve, reject) => {
@@ -122,6 +122,16 @@ export class Game {
             this.data = null;
             this.type = null;
         });
+
+        if (timeout) {
+            let closeTimeout = setTimeout(() => {
+                this.popupDefered.reject();
+            }, timeout);
+            let cancelCloseTimout = () => {
+                clearTimeout(closeTimeout);
+            };
+            this.popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
+        }
 
         return this.popupDefered.promise;
     }
