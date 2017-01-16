@@ -23,7 +23,8 @@
             <strong>${data.title}</strong>
         </p>
 
-        <p class="centered-text">${data.message}</p>
+        <p class="centered-text" if.bind="!data.htmlMessage">${data.message}</p>
+        <p class="centered-text" if.bind="data.htmlMessage" innerhtml.bind="data.message"></p>
         <button class="blue-button"
                 click.delegate="ok()"
                 t="global.ok">OK</button>
