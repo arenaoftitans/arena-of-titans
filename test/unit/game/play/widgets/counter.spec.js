@@ -33,15 +33,15 @@ describe('counter', () => {
         sut = new AotCounterCustomElement(mockedApi, {}, mockedEas);
     });
 
-    it('should start on your turn', done => {
-        spyOn(sut, 'start');
+    it('should init on your turn', done => {
+        spyOn(sut, 'countDownClock');
 
         mockedApi.game.your_turn = true;
         mockedApi.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
         Wait.forId('counter').then(() => {
-            expect(sut.start).toHaveBeenCalled();
+            expect(sut.countDownClock).toHaveBeenCalled();
             done();
         });
     });
