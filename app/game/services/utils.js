@@ -17,6 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { browsers } from '../../services/browser-sniffer';
 
 
@@ -165,5 +167,36 @@ export class Blink {
         for (let elt of this._elements) {
             elt.classList.remove(this._blinkClass);
         }
+    }
+}
+
+
+/**
+ * Utility object to manage (ie subscribe and dispose) group of EventAggregator subscriptions.
+ * You need to inject a new instance each time you use it. Otherwise all the subscriptions will
+ * be disposed of! To acheive this, use NewInstance.of(EventAggregatorSubscriptions)
+ */
+@inject(EventAggregator)
+export class EventAggregatorSubscriptions {
+    constructor(ea) {
+        this._ea = ea;
+        this._subscriptions = [];
+    }
+
+    subscribe(signal, fn) {
+        let sub = this._ea.subscribe(signal, fn);
+        this._subscriptions.push(sub);
+    }
+
+    dispose() {
+        for (let subscription of this._subscriptions) {
+            subscription.dispose();
+        }
+
+        this._subscriptions = [];
+    }
+
+    publish(signal, message) {
+        this._ea.publish(signal, message);
     }
 }

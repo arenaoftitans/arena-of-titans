@@ -18,21 +18,38 @@
 */
 
 import { AotBoardCustomElement } from '../../../../../app/game/play/widgets/board/board';
-import { ApiStub } from '../../../../../app/test-utils';
+import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../../app/test-utils';
 
 
 describe('board', () => {
     let sut;
     let mockedApi;
+    let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new AotBoardCustomElement(mockedApi);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new AotBoardCustomElement(mockedApi, mockedEas);
     });
 
     it('should register callbacks', () => {
-        expect(mockedApi._cbs[mockedApi.requestTypes.view].length).toBe(1);
-        expect(mockedApi._cbs[mockedApi.requestTypes.player_played].length).toBe(1);
+        spyOn(mockedEas, 'subscribe');
+
+        sut = new AotBoardCustomElement(mockedApi, mockedEas);
+
+        expect(mockedEas.subscribe).toHaveBeenCalled();
+        expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:view_possible_squares');
+        expect(mockedEas.subscribe.calls.argsFor(1)[0]).toBe('aot:api:player_played');
+        expect(mockedEas.subscribe.calls.argsFor(2)[0])
+            .toBe('aot:api:special_action_view_possible_actions');
+    });
+
+    it('should dispose of subscriptions', () => {
+        spyOn(mockedEas, 'dispose');
+
+        sut.unbind();
+
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
     it('should highlight possible squares', () => {

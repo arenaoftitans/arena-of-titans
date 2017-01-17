@@ -75,12 +75,6 @@ export class ApiStub {
     }
 
     createGame() {
-        let cbs = this._cbs[this.requestTypes.create_game];
-        if (cbs) {
-            cbs.forEach(cb => {
-                cb();
-            });
-        }
     }
 
     viewPossibleMovements() {
@@ -90,12 +84,6 @@ export class ApiStub {
     }
 
     play() {
-        let cbs = this._cbs[this.requestTypes.play];
-        if (cbs) {
-            cbs.forEach(cb => {
-                cb();
-            });
-        }
     }
 
     playSpecialAction() {
@@ -273,6 +261,24 @@ export class EventAgregatorStub {
                 fn(message);
             }
         }
+    }
+}
+
+
+export class EventAggregatorSubscriptionsStub {
+    constructor() {
+        this.ea = new EventAgregatorStub();
+    }
+
+    subscribe(signal, fn) {
+        this.ea.subscribe(signal, fn);
+    }
+
+    dispose() {
+    }
+
+    publish(signal, message) {
+        this.ea.publish(signal, message);
     }
 }
 

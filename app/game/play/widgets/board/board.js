@@ -17,11 +17,12 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject } from 'aurelia-framework';
+import { bindable, inject, NewInstance } from 'aurelia-framework';
 import { Api } from '../../../services/api';
+import { EventAggregatorSubscriptions } from '../../../services/utils';
 
 
-@inject(Api)
+@inject(Api, NewInstance.of(EventAggregatorSubscriptions))
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
@@ -35,17 +36,23 @@ export class AotBoardCustomElement {
     _possibleSquares = [];
     _selectedPawnIndex = -1;
 
-    constructor(api) {
+    constructor(api, eas) {
         this._api = api;
-        this._api.on(this._api.requestTypes.view, data => {
+        this._eas = eas;
+
+        this._eas.subscribe('aot:api:view_possible_squares', data => {
             this._highlightPossibleSquares(data.possible_squares);
         });
-        this._api.on(this._api.requestTypes.player_played, () => this._resetPossibleSquares());
-        this._api.on(this._api.requestTypes.special_action_view_possible_actions, message => {
+        this._eas.subscribe('aot:api:player_played', () => this._resetPossibleSquares());
+        this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
             if (message.possible_squares) {
                 this._highlightPossibleSquares(message.possible_squares);
             }
         });
+    }
+
+    unbind() {
+        this._eas.dispose();
     }
 
     _highlightPossibleSquares(possibleSquares) {

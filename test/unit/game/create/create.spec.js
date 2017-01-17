@@ -26,6 +26,8 @@ import {
     RouterStub,
     StorageStub,
     HistoryStub,
+    EventAggregatorSubscriptionsStub,
+    EventAgregatorStub,
 } from '../../../../app/test-utils';
 
 
@@ -37,6 +39,8 @@ describe('game/create', () => {
     let mockedStorage;
     let mockedConfig;
     let mockedHistory;
+    let mockedEas;
+    let mockedEa;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
@@ -44,6 +48,8 @@ describe('game/create', () => {
         mockedStorage = new StorageStub();
         mockedobserverLocator = new ObserverLocatorStub();
         mockedHistory = new HistoryStub();
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        mockedEa = new EventAgregatorStub();
         mockedConfig = {
             test: {
                 debug: false,
@@ -55,30 +61,34 @@ describe('game/create', () => {
             mockedStorage,
             mockedConfig,
             mockedobserverLocator,
-            mockedHistory
+            mockedHistory,
+            mockedEa,
+            mockedEas
         );
     });
 
     it('should register api callbacks on activation', () => {
-        spyOn(mockedApi, 'on');
+        spyOn(mockedEas, 'subscribe');
+        spyOn(mockedEa, 'subscribe');
 
         sut.activate();
 
-        expect(mockedApi.on).toHaveBeenCalled();
+        expect(mockedEas.subscribe).toHaveBeenCalled();
+        expect(mockedEas.subscribe).toHaveBeenCalled();
     });
 
     it('should deregister api callbacks on deactivation', () => {
-        spyOn(mockedApi, 'off');
+        spyOn(mockedEas, 'dispose');
 
         sut.deactivate();
 
-        expect(mockedApi.off).toHaveBeenCalled();
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
     it('should reset with init method', () => {
         let observerLocatorStubResults = new ObserverLocatorStubResults();
         spyOn(sut, 'initPlayerInfoDefered');
-        spyOn(sut, '_registerApiCallbacks');
+        spyOn(sut, '_registerEvents');
         spyOn(mockedApi, 'init');
         spyOn(Wait, 'flushCache');
         spyOn(mockedobserverLocator, 'getObserver').and.returnValue(observerLocatorStubResults);
@@ -88,7 +98,7 @@ describe('game/create', () => {
         sut.init();
 
         expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
-        expect(sut._registerApiCallbacks).toHaveBeenCalled();
+        expect(sut._registerEvents).toHaveBeenCalled();
         expect(mockedApi.init).toHaveBeenCalled();
         expect(Wait.flushCache).toHaveBeenCalled();
         expect(mockedobserverLocator.getObserver).toHaveBeenCalledWith({}, 'name');
@@ -212,7 +222,7 @@ describe('game/create', () => {
         spyOn(mockedRouter, 'navigateToRoute');
 
         sut.activate();
-        mockedApi.initializeGame(gameInitializedData);
+        mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'create',
@@ -236,13 +246,15 @@ describe('game/create', () => {
             mockedStorage,
             mockedConfig,
             mockedobserverLocator,
-            mockedHistory
+            mockedHistory,
+            mockedEa,
+            mockedEas
         );
         let gameInitializedData = {game_id: 'the_game_id'};
         spyOn(mockedRouter, 'navigateToRoute');
 
         sut.activate();
-        mockedApi.initializeGame(gameInitializedData);
+        mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'create',
@@ -320,7 +332,7 @@ describe('game/create', () => {
         spyOn(mockedRouter, 'navigateToRoute');
 
         sut.activate({id: 'the_game_id'});
-        mockedApi.createGame();
+        mockedEas.publish('aot:api:create_game');
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
             'play',

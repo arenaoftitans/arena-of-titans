@@ -17,18 +17,28 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, ObserverLocator } from 'aurelia-framework';
+import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait, ImageSource, randomInt } from '../services/utils';
+import { Wait, ImageSource, randomInt, EventAggregatorSubscriptions } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../../config/application';
 import Clipboard from 'clipboard';
 
 
-@inject(Router, Api, Storage, Config, ObserverLocator, History)
+@inject(
+    Router,
+    Api,
+    Storage,
+    Config,
+    ObserverLocator,
+    History,
+    EventAggregator,
+    NewInstance.of(EventAggregatorSubscriptions)
+)
 export class Create {
     CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']
 
@@ -36,19 +46,20 @@ export class Create {
     _api;
     _initGameCb;
     _gameInitializedCb;
-    _playCb;
     _gameUrl = '';
     _config;
     _observerLocator;
     _history;
 
-    constructor(router, api, storage, config, observerLocator, history) {
+    constructor(router, api, storage, config, observerLocator, history, ea, eas) {
         this._router = router;
         this._api = api;
         this._storage = storage;
         this._config = config;
         this._observerLocator = observerLocator;
         this._history = history;
+        this._ea = ea;
+        this._eas = eas;
 
         // We preload the board: it is big and can take a while to load on bad connections. So if
         // a player reaches the create game page, we consider he/she will play. So it makes sense
@@ -57,7 +68,7 @@ export class Create {
     }
 
     activate(params = {}) {
-        this._registerApiCallbacks(params);
+        this._registerEvents(params);
         this._gameUrl = window.location.href;
 
         if (!params.id || (params.id && params.id !== this._api.game.id)) {
@@ -93,7 +104,7 @@ export class Create {
         this.initPlayerInfoDefered();
         this.playerInfo = this._storage.loadPlayerInfos();
         this.editing = false;
-        this._registerApiCallbacks(params);
+        this._registerEvents(params);
 
         // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
         // a constructor' warnings when launching tests with Firefox.
@@ -129,27 +140,29 @@ export class Create {
         this.playerInfoDefered.promise.then(data => this._storage.savePlayerInfos(data));
     }
 
-    _registerApiCallbacks(params) {
-        this._initGameCb = this._api.on(this._api.requestTypes.game_initialized, (data) => {
+    _registerEvents(params) {
+        this._eas.dispose();
+        this._eas.subscribe('aot:api:game_initialized', data => {
             if (!params.id) {
                 this._router.navigateToRoute('create', this._getNavParams(data.game_id));
             }
         });
-        this._createGameCb = this._api.on(this._api.requestTypes.create_game, () => {
+        this._eas.subscribe('aot:api:create_game', () => {
             if (params.id) {
                 this._router.navigateToRoute('play', this._getNavParams(params.id));
             }
         });
-        this._gameInitializedCb = this._api.on(this._api.requestTypes.game_initialized, () => {
+        this._eas.subscribe('aot:api:game_initialized', () => {
             this._autoAddAi();
         });
+
         // This callback is used to redirect the player to the game if he/she reconnects on the
         // create page after a game was created.
-        this._playCb = this._api.on(this._api.requestTypes.play, () => {
+        let subscription = this._ea.subscribe('aot:api:play', () => {
             if (/game\/.*\/create\/.+/.test(location.href)) {
                 this._router.navigateToRoute('play', this._getNavParams(params.id));
             }
-            this._api.off(this._api.requestTypes.play, this._playCb);
+            subscription.dispose();
         });
     }
 
@@ -247,9 +260,7 @@ export class Create {
     }
 
     deactivate() {
-        this._api.off(this._api.requestTypes.init_game, this._initGameCb);
-        this._api.off(this._api.requestTypes.create_game, this._createGameCb);
-        this._api.off(this._api.requestTypes.play, this._playCb);
+        this._eas.dispose();
     }
 
     get me() {

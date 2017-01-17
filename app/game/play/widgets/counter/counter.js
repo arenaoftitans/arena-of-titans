@@ -18,10 +18,9 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { inject, NewInstance } from 'aurelia-framework';
 import { Api } from '../../../services/api';
-import { Wait } from '../../../services/utils';
+import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 import Config from '../../../../../config/application';
 
 
@@ -38,14 +37,14 @@ const COUNTER_WIDTH = 300;
 const COUNTER_HEIGHT = 300;
 
 
-@inject(Api, Config, EventAggregator)
+@inject(Api, Config, NewInstance.of(EventAggregatorSubscriptions))
 export class AotCounterCustomElement {
     _api;
 
-    constructor(api, config, ea) {
+    constructor(api, config, eas) {
         this._api = api;
         this._config = config;
-        this._ea = ea;
+        this._eas = eas;
         this._paused = false;
         this.specialActionInProgress = false;
         this._pausedDuration = 0;
@@ -60,12 +59,12 @@ export class AotCounterCustomElement {
         this.waitForSpecialActionCounter = Wait.forId('counter-special-action');
 
         this.init();
-        this._api.on(this._api.requestTypes.play, () => {
+        this._eas.subscribe('aot:api:play', () => {
             clearInterval(this.timerIntervalForSpecialAction);
             this._handlePlayRequest();
         });
 
-        this._api.on(this._api.requestTypes.special_action_notify, message => {
+        this._eas.subscribe('aot:api:special_action_notify', message => {
             this._handleSpecialActionNotify(message);
         });
 
@@ -76,15 +75,19 @@ export class AotCounterCustomElement {
             }
         });
 
-        this._ea.subscribe('aot:notifications:start_guided_visit', () => {
+        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
             this.pause();
         });
-        this._ea.subscribe('aot:notifications:end_guided_visit', () => {
+        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
             this.resume();
         });
-        this._ea.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
+        this._eas.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
             this.initSpecialActionCounter();
         });
+    }
+
+    unbind() {
+        this._eas.dispose();
     }
 
     _handlePlayRequest() {

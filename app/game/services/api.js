@@ -45,8 +45,6 @@ export class Api {
         special_action_play: 'SPECIAL_ACTION_PLAY',
         special_action_view_possible_actions: 'SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS',
     };
-    requestTypesValues = [];
-    callbacks = {};
     _ea;
     _reconnectDefered = {};
     _gameOverDefered = {};
@@ -83,10 +81,6 @@ export class Api {
                 indexes: [],
             },
         };
-        for (let rt of Object.values(this.requestTypes)) {
-            this.requestTypesValues.push(rt);
-            this.callbacks[rt] = [];
-        }
 
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
@@ -118,24 +112,6 @@ export class Api {
             this._reconnectDefered.resolve = resolve;
             this._reconnectDefered.reject = reject;
         });
-    }
-
-    on(requestType, cb) {
-        if (requestType in this.callbacks) {
-            let index = this.callbacks[requestType].length;
-            this.callbacks[requestType].push(cb);
-            return index;
-        }
-
-        return -1;
-    }
-
-    off(requestType, cbIndex) {
-        if (requestType in this.requestTypes || this.requestTypesValues.includes(requestType)) {
-            if (cbIndex !== undefined) {
-                this.callbacks[requestType][cbIndex] = undefined;
-            }
-        }
     }
 
     _handleMessage(message) {
@@ -174,7 +150,8 @@ export class Api {
                 this._handleErrors(message);
                 return;
         }
-        this._callCallbacks(message);
+
+        this._ea.publish(`aot:api:${message.rt.toLowerCase()}`, message);
     }
 
     _handleGameInitialized(message) {
@@ -417,15 +394,6 @@ export class Api {
         } else {
             this._logger.error(message);
         }
-    }
-
-    _callCallbacks(message) {
-        let rt = message.rt;
-        this.callbacks[rt].forEach((fn) => {
-            if (fn) {
-                fn(message);
-            }
-        });
     }
 
     initializeGame(name, hero) {

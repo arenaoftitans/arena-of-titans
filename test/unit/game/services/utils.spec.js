@@ -17,8 +17,9 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Elements } from '../../../../app/game/services/utils';
+import { Elements, EventAggregatorSubscriptions } from '../../../../app/game/services/utils';
 import { browsers } from '../../../../app/services/browser-sniffer';
+import { EventAgregatorStub } from '../../../../app/test-utils';
 
 
 describe('services/utils', () => {
@@ -68,6 +69,45 @@ describe('services/utils', () => {
             expect(browsers.htmlCollection2Array).toHaveBeenCalled();
 
             browsers.mac = false;
+        });
+    });
+
+    describe('EventAggregatorSubscriptions', () => {
+        let mockedEa;
+        let sut;
+
+        beforeEach(() => {
+            mockedEa = new EventAgregatorStub();
+            sut = new EventAggregatorSubscriptions(mockedEa);
+        });
+
+        it('should subscribe', () => {
+            spyOn(mockedEa, 'subscribe');
+            let fn = () => {};
+
+            sut.subscribe('signal', fn);
+
+            expect(mockedEa.subscribe).toHaveBeenCalledWith('signal', fn);
+            expect(sut._subscriptions.length).toBe(1);
+        });
+
+        it('should dispose', () => {
+            let subscription = {
+                dispose: jasmine.createSpy('dispose'),
+            };
+            sut._subscriptions = [subscription];
+
+
+            sut.dispose();
+
+            expect(subscription.dispose).toHaveBeenCalled();
+            expect(sut._subscriptions.length).toBe(0);
+        });
+
+        it('should dispose empty', () => {
+            sut.dispose();
+
+            expect(sut._subscriptions.length).toBe(0);
         });
     });
 });

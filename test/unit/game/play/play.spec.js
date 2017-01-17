@@ -18,34 +18,36 @@
 */
 
 import { Play } from '../../../../app/game/play/play';
-import { ApiStub, GameStub } from '../../../../app/test-utils';
+import { ApiStub, GameStub, EventAggregatorSubscriptionsStub } from '../../../../app/test-utils';
 
 
 describe('play', () => {
     let sut;
     let mockedApi;
     let mockedGame;
+    let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
-        sut = new Play(mockedApi, mockedGame);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new Play(mockedApi, mockedGame, mockedEas);
     });
 
     it('should register api callbacks on activation', () => {
-        spyOn(mockedApi, 'on');
+        spyOn(mockedEas, 'subscribe');
 
         sut.activate();
 
-        expect(mockedApi.on).toHaveBeenCalled();
+        expect(mockedEas.subscribe).toHaveBeenCalled();
     });
 
     it('should deregister api callbacks on deactivation', () => {
-        spyOn(mockedApi, 'off');
+        spyOn(mockedEas, 'dispose');
 
         sut.deactivate();
 
-        expect(mockedApi.off).toHaveBeenCalled();
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
     it('should ask to join game in no name', () => {

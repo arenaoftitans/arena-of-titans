@@ -19,18 +19,18 @@
 
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter/counter';
 import { Wait } from '../../../../../app/game/services/utils';
-import { ApiStub, EventAgregatorStub } from '../../../../../app/test-utils';
+import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../../app/test-utils';
 
 
 describe('counter', () => {
     let mockedApi;
-    let mockedEa;
+    let mockedEas;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        mockedEa = new EventAgregatorStub();
-        sut = new AotCounterCustomElement(mockedApi, {}, mockedEa);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new AotCounterCustomElement(mockedApi, {}, mockedEas);
     });
 
     it('should start on your turn', done => {
@@ -38,7 +38,7 @@ describe('counter', () => {
 
         mockedApi.game.your_turn = true;
         mockedApi.game.game_over = false;
-        mockedApi.play();
+        mockedEas.publish('aot:api:play');
 
         Wait.forId('counter').then(() => {
             expect(sut.start).toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe('counter', () => {
         sut.startTime = (new Date()).getTime();
         mockedApi.game.your_turn = false;
         mockedApi.game.game_over = false;
-        mockedApi.play();
+        mockedEas.publish('aot:api:play');
 
         Wait.forId('counter').then(() => {
             expect(sut.start).not.toHaveBeenCalled();
@@ -106,5 +106,13 @@ describe('counter', () => {
         expect(sut._paused).toBe(true);
         expect(sut.specialActionInProgress).toBe(true);
         expect(sut.initSpecialActionCounter).not.toHaveBeenCalledWith();
+    });
+
+    it('should dispose subscriptions', () => {
+        spyOn(mockedEas, 'dispose');
+
+        sut.unbind();
+
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 });

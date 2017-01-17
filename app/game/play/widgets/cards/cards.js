@@ -18,11 +18,10 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { bindable, inject, ObserverLocator } from 'aurelia-framework';
+import { bindable, inject, NewInstance, ObserverLocator } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
-import { Blink, Elements } from '../../../services/utils';
+import { Blink, Elements, EventAggregatorSubscriptions } from '../../../services/utils';
 import { Game } from '../../../game';
 
 
@@ -31,7 +30,7 @@ const MAX_BUTTON_BLINK_TIME = 90000;
 const BUTTON_BLINK_CLASS = 'blink-container';
 
 
-@inject(Api, Game, I18N, EventAggregator, ObserverLocator)
+@inject(Api, Game, I18N, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
@@ -41,15 +40,15 @@ export class AotCardsCustomElement {
     infos = {};
     specialActionInProgress = false;
 
-    constructor(api, game, i18n, ea, ol) {
+    constructor(api, game, i18n, ol, eas) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._eas = eas;
         this._popupMessage = {};
         this._popupMesasgeId;
         this._logger = LogManager.getLogger('AotCards');
 
-        ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
         let blinker;
         ol.getObserver(this, 'highlightPassButton').subscribe(() => {
             if (this.highlightPassButton) {
@@ -62,20 +61,26 @@ export class AotCardsCustomElement {
             }
         });
 
-        this._api.on(this._api.requestTypes.special_action_notify, message => {
+        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+
+        this._eas.subscribe('aot:api:special_action_notify', message => {
             this._notifySpecialAction(message);
         });
 
-        this._api.on(this._api.requestTypes.special_action_play, () => {
+        this._eas.subscribe('aot:api:special_action_play', () => {
             this._handleSpecialActionPlayed();
         });
 
-        this._api.on(this._api.requestTypes.play, () => {
+        this._eas.subscribe('aot:api:play', () => {
             // When we receive a play message, there cannot be a special action in
             // progress. This is mostly useful when a player passes his/her turn during a special
             // action.
             this._handleSpecialActionPlayed();
         });
+    }
+
+    unbind() {
+        this._eas.dispose();
     }
 
     _translatePopupMessage() {
