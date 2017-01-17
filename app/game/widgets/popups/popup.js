@@ -17,9 +17,10 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 
 
+@inject(Element)
 export class AotPopupCustomElement {
     @bindable data = null;
     @bindable type = null;
@@ -27,7 +28,27 @@ export class AotPopupCustomElement {
 
     background = '';
 
+    constructor(element) {
+        this._element = element;
+    }
+
+    attached() {
+        this._element.getElementsByClassName('popup-container')[0].focus();
+    }
+
     bind() {
+        this._keyupEventListener = event => {
+            let keyCode = event.code.toLowerCase();
+
+            // The player must validate the game over popup
+            if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
+                this.done.reject();
+            }
+        };
+        window.addEventListener('keyup', event => {
+            this._keyupEventListener(event);
+        });
+
         switch (this.type) {
             case 'game-over':
                 this.background = 'game-over';
@@ -39,5 +60,9 @@ export class AotPopupCustomElement {
                 this.background = 'default';
                 break;
         }
+    }
+
+    unbind() {
+        window.removeEventListener('keyup', this._keyupEventListener);
     }
 }
