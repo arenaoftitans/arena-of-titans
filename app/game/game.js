@@ -146,7 +146,7 @@ export class Game {
 
         if (timeout) {
             let closeTimeout = setTimeout(() => {
-                this.popupDefered.reject();
+                this.popupDefered.resolve();
             }, timeout);
             let cancelCloseTimout = () => {
                 clearTimeout(closeTimeout);
