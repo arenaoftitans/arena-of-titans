@@ -258,32 +258,33 @@ describe('services/api', () => {
 
     it('should handle errors to display', () => {
         let message = {error_to_display: 'error'};
-        let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut, '_callCallbacks');
+        spyOn(sut._ea, 'publish');
 
-        sut.onerror(errorCb);
         sut._handleMessage(message);
 
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
         expect(sut._callCallbacks).not.toHaveBeenCalled();
-        expect(errorCb).toHaveBeenCalledWith({message: message.error_to_display});
+        expect(sut._ea.publish).toHaveBeenCalledWith(
+            'aot:api:error',
+            {message: message.error_to_display}
+        );
     });
 
     it('should handle errors to log', () => {
         let message = {error: 'error'};
-        let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut, '_callCallbacks');
         spyOn(sut._logger, 'error');
+        spyOn(sut._ea, 'publish');
 
-        sut.onerror(errorCb);
         sut._handleMessage(message);
 
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
         expect(sut._callCallbacks).not.toHaveBeenCalled();
-        expect(errorCb).not.toHaveBeenCalled();
         expect(sut._logger.error).toHaveBeenCalledWith(message);
+        expect(sut._ea.publish).not.toHaveBeenCalled();
     });
 
     it('should create the game', () => {

@@ -19,7 +19,6 @@
 
 import { Game } from '../../../app/game/game';
 import {
-    ApiStub,
     RouterStub,
     HistoryStub,
     I18nStub,
@@ -28,24 +27,22 @@ import {
 
 
 describe('the Game module', () => {
-    let mockedApi;
     let mockedHistory;
     let mockedI18n;
     let mockedEa;
     let sut;
 
     beforeEach(() => {
-        mockedApi = new ApiStub();
         mockedHistory = new HistoryStub();
         mockedI18n = new I18nStub();
         mockedEa = new EventAgregatorStub();
-        sut = new Game(mockedApi, mockedHistory, mockedI18n, mockedEa);
+        sut = new Game(mockedHistory, mockedI18n, mockedEa);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedApi, mockedHistory, mockedI18n, mockedEa);
+        sut = new Game(mockedHistory, mockedI18n, mockedEa);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
@@ -88,11 +85,12 @@ describe('the Game module', () => {
 
     describe('errors', () => {
         it('should register error callback', () => {
-            spyOn(mockedApi, 'onerror');
+            spyOn(mockedEa, 'subscribe');
 
             sut.activate();
 
-            expect(mockedApi.onerror).toHaveBeenCalled();
+            expect(mockedEa.subscribe).toHaveBeenCalled();
+            expect(mockedEa.subscribe.calls.argsFor(0)[0]).toBe('aot:api:error');
         });
 
         it('should display error popup on error', () => {
@@ -100,9 +98,7 @@ describe('the Game module', () => {
             spyOn(sut, 'popup').and.returnValue(new Promise(resolve => {}));
 
             sut.activate();
-            mockedApi._errorCbs.forEach(cb => {
-                cb(message);
-            });
+            mockedEa.publish('aot:api:error', message);
 
             expect(sut.popup).toHaveBeenCalledWith('error', message);
         });

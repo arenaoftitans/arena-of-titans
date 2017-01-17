@@ -50,7 +50,6 @@ export class Api {
     _ea;
     _reconnectDefered = {};
     _gameOverDefered = {};
-    _errorCallbacks = [];
     _storage;
     _ws;
     _me;
@@ -136,19 +135,6 @@ export class Api {
             if (cbIndex !== undefined) {
                 this.callbacks[requestType][cbIndex] = undefined;
             }
-        }
-    }
-
-    onerror(cb) {
-        let index = this._errorCallbacks.length;
-        this._errorCallbacks.push(cb);
-
-        return index;
-    }
-
-    offerror(index) {
-        if (index !== undefined) {
-            this._errorCallbacks[index] = undefined;
         }
     }
 
@@ -425,9 +411,7 @@ export class Api {
 
     _handleErrors(message) {
         if (message.error_to_display) {
-            this._errorCallbacks.forEach(cb => {
-                cb({message: message.error_to_display});
-            });
+            this._ea.publish('aot:api:error', {message: message.error_to_display});
         } else if (message.debug) {
             this._logger.debug(message.debug);
         } else {
