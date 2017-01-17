@@ -28,6 +28,18 @@ export class AotPopupCustomElement {
     background = '';
 
     bind() {
+        this._keyupEventListener = event => {
+            let keyCode = event.code.toLowerCase();
+
+            // The player must validate the game over popup
+            if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
+                this.done.reject();
+            }
+        };
+        window.addEventListener('keyup', event => {
+            this._keyupEventListener(event);
+        });
+
         switch (this.type) {
             case 'game-over':
                 this.background = 'game-over';
@@ -39,5 +51,9 @@ export class AotPopupCustomElement {
                 this.background = 'default';
                 break;
         }
+    }
+
+    unbind() {
+        window.removeEventListener('keyup', this._keyupEventListener);
     }
 }
