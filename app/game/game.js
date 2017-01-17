@@ -119,7 +119,6 @@ export class Game {
                 this.popup('infos', this._popupMessage, {timeout: 5000}).then(() => {
                     this._popupMessageId = undefined;
                     this._popupMessage = {};
-                    this._ea.publish('aot:game:counter_start');
                 });
             }
         });
@@ -154,6 +153,11 @@ export class Game {
             };
             this.popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
         }
+
+        let startCounter = () => {
+            this._ea.publish('aot:game:counter_start');
+        };
+        this.popupDefered.promise.then(startCounter, startCounter);
 
         return this.popupDefered.promise;
     }
