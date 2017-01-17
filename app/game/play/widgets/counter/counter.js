@@ -62,6 +62,11 @@ export class AotCounterCustomElement {
         this._eas.subscribe('aot:api:play', () => {
             clearInterval(this.timerIntervalForSpecialAction);
             this._handlePlayRequest();
+            this.pause();
+        });
+
+        this._ea.subscribe('aot:game:counter_start', () => {
+            this.resume();
         });
 
         this._eas.subscribe('aot:api:special_action_notify', message => {
@@ -141,6 +146,8 @@ export class AotCounterCustomElement {
         this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
         this.startTime = (new Date()).getTime();
         this._pausedDuration = 0;
+        // Draw the counter.
+        this.countDownClock();
 
         this.timerInterval = setInterval(() => {
             if (this._paused) {
