@@ -17,15 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 
 
+@inject(Element)
 export class AotPopupCustomElement {
     @bindable data = null;
     @bindable type = null;
     @bindable done = null;
 
     background = '';
+
+    constructor(element) {
+        this._element = element;
+    }
+
+    attached() {
+        this._element.getElementsByClassName('popup-container')[0].focus();
+    }
 
     bind() {
         this._keyupEventListener = event => {
