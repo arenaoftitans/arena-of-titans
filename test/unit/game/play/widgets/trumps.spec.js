@@ -18,7 +18,12 @@
 */
 
 import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps/trumps';
-import { ApiStub, GameStub, I18nStub, EventAgregatorStub } from '../../../../../app/test-utils';
+import {
+    ApiStub,
+    EventAggregatorSubscriptionsStub,
+    GameStub,
+    I18nStub,
+} from '../../../../../app/test-utils';
 
 
 describe('trumps', () => {
@@ -26,14 +31,14 @@ describe('trumps', () => {
     let mockedI18n;
     let mockedApi;
     let mockedGame;
-    let mockedEa;
+    let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
-        mockedEa = new EventAgregatorStub();
-        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEas);
     });
 
     it('should play trump with a target after a popup', done => {
@@ -103,6 +108,14 @@ describe('trumps', () => {
         sut.play({name: 'Trump'});
 
         expect(mockedApi.playTrump).not.toHaveBeenCalled();
+    });
+
+    it('should dispose subscriptions', () => {
+        spyOn(mockedEas, 'dispose');
+
+        sut.unbind();
+
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
     describe('should get the correct list of targets', () => {
