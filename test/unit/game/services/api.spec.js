@@ -18,7 +18,7 @@
 */
 
 import { Api } from '../../../../app/game/services/api';
-import { EventAgregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
+import { EventAggregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
 
 
 describe('services/api', () => {
@@ -39,7 +39,7 @@ describe('services/api', () => {
             },
         };
         mockedNotify = new NotifyStub();
-        mockedEa = new EventAgregatorStub();
+        mockedEa = new EventAggregatorStub();
         sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify, mockedEa);
         rt = sut.requestTypes;
     });

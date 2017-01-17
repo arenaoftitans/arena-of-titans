@@ -17,15 +17,15 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventAgregatorStub } from '../../app/test-utils';
+import { EventAggregatorStub } from '../../app/test-utils';
 
 
 describe('test-utils', () => {
-    describe('EventAgregatorStub', () => {
+    describe('EventAggregatorStub', () => {
         let sut;
 
         beforeEach(() => {
-            sut = new EventAgregatorStub();
+            sut = new EventAggregatorStub();
         });
 
         it('should register callbacks', () => {

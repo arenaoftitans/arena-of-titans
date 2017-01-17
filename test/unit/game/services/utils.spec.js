@@ -19,7 +19,7 @@
 
 import { Elements, EventAggregatorSubscriptions } from '../../../../app/game/services/utils';
 import { browsers } from '../../../../app/services/browser-sniffer';
-import { EventAgregatorStub } from '../../../../app/test-utils';
+import { EventAggregatorStub } from '../../../../app/test-utils';
 
 
 describe('services/utils', () => {
@@ -77,7 +77,7 @@ describe('services/utils', () => {
         let sut;
 
         beforeEach(() => {
-            mockedEa = new EventAgregatorStub();
+            mockedEa = new EventAggregatorStub();
             sut = new EventAggregatorSubscriptions(mockedEa);
         });
 

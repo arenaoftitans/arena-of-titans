@@ -17,7 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventAgregatorStub, WebsocketSub } from '../../../../app/test-utils';
+import { EventAggregatorStub, WebsocketSub } from '../../../../app/test-utils';
 import { Ws } from '../../../../app/game/services/ws';
 
 
@@ -34,7 +34,7 @@ describe('services/ws', () => {
                 path: '/ws/unit',
             },
         };
-        mockedEa = new EventAgregatorStub();
+        mockedEa = new EventAggregatorStub();
         sut = new Ws(mockedConfig, mockedEa, WebsocketSub);
     });
 

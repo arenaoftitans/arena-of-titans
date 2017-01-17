@@ -242,7 +242,7 @@ export class NotifyStub {
 }
 
 
-export class EventAgregatorStub {
+export class EventAggregatorStub {
     constructor() {
         this.cbs = {};
     }
@@ -267,7 +267,7 @@ export class EventAgregatorStub {
 
 export class EventAggregatorSubscriptionsStub {
     constructor() {
-        this.ea = new EventAgregatorStub();
+        this.ea = new EventAggregatorStub();
     }
 
     subscribe(signal, fn) {

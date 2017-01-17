@@ -27,7 +27,7 @@ import {
     StorageStub,
     HistoryStub,
     EventAggregatorSubscriptionsStub,
-    EventAgregatorStub,
+    EventAggregatorStub,
 } from '../../../../app/test-utils';
 
 
@@ -49,7 +49,7 @@ describe('game/create', () => {
         mockedobserverLocator = new ObserverLocatorStub();
         mockedHistory = new HistoryStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        mockedEa = new EventAgregatorStub();
+        mockedEa = new EventAggregatorStub();
         mockedConfig = {
             test: {
                 debug: false,
