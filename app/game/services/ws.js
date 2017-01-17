@@ -59,8 +59,7 @@ export class Ws {
     }
 
     _sendPending(messages) {
-        let numberMessagesToSend = messages.length;
-        for (let i = 0; i < numberMessagesToSend; i++) {
+        while (messages.length > 0) {
             let data = messages.shift();
             this.send(data);
         }
