@@ -189,11 +189,10 @@ export class EventAggregatorSubscriptions {
     }
 
     dispose() {
-        for (let subscription of this._subscriptions) {
+        while (this._subscriptions.length > 0) {
+            let subscription = this._subscriptions.shift();
             subscription.dispose();
         }
-
-        this._subscriptions = [];
     }
 
     publish(signal, message) {
