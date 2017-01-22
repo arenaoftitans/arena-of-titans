@@ -20,10 +20,10 @@
 
 export class AotHeaderCustomElement {
     isSubMenuVisible = false;
-    showSubMenu(){
+    showSubMenu() {
         this.isSubMenuVisible = true;
     }
-    hideSubMenu(){
+    hideSubMenu() {
         this.isSubMenuVisible = false;
     }
 }

@@ -1,22 +1,23 @@
 @import '../../../style/media-queries';
 
+$logo-size: 230;
 
 aot-header {
     a {
         padding-left: 0;
     }
 
-    .button{
+    .button {
         display: inline;
-        text-align: inherit;
         padding-right: 45px;
+        text-align: inherit;
     }
 
     header {
-        padding-top: 80px;
-        margin-bottom: 130px;
         background: #020101;
         font-size: 26px;
+        margin-bottom: 130px;
+        padding-top: 80px;
         position: relative;
     }
 
@@ -29,40 +30,41 @@ aot-header {
         width: 0;
 
         a.logo-shadow {
-            $logo-size: 230;
             display: block;
             height: #{$logo-size}px;
-            width: #{$logo-size}px;
+            left: calc(50% - #{$logo-size/2}px);
             position: absolute;
             top: 10px;
-            left: calc(50% - #{$logo-size/2}px);
+            width: #{$logo-size}px;
         }
     }
 
-    .column-left, .column-right{
-        width:auto;
+    .column-left,
+    .column-right {
+        width: auto;
     }
 
-    .column-right{
+    .column-right {
         text-align: right;
     }
 
     .navbar {
-        padding-right: 5%;
+        font-size: 36px;
         padding-bottom: 20px;
-        font-size:36px;
+        padding-right: 5%;
     }
 
-    .navbar, .submenu{
+    .navbar,
+    .submenu {
         padding-left: 5%;
     }
 
-    .submenu{
-        width: 95%;
+    .submenu {
+        background: #600f0d;
         height: 50px;
         line-height: 50px;
-        background: #600f0d;
         position: absolute;
+        width: 95%;
         z-index: -1;
     }
 
