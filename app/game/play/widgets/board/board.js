@@ -60,28 +60,13 @@ export class AotBoardCustomElement {
             x: 0,
             y: 0,
         };
-        this._previousPosition = {
+        this._previousMousePosition = {
             x: 0,
             y: 0,
         };
-    }
 
-    attached() {
         Wait.forId('board').then(board => {
-            this._element.addEventListener('wheel', event => {
-                if (event.deltaY < 0 && this._currentScale < MAX_ZOOM) {
-                    this._currentScale = (10 * this._currentScale + 10 * ZOOM_STEP) / 10;
-                } else if (event.deltaY > 0 && this._currentScale > MIN_ZOOM) {
-                    this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
-                }
-
-                board.style.transform = `scale(${this._currentScale})`;
-            });
-            this._element.addEventListener('mousedown', event => {
-                if (event.which === 1) {
-                    this._moveBoard(board);
-                }
-            });
+            this._board = board;
         });
     }
 
@@ -89,29 +74,64 @@ export class AotBoardCustomElement {
         this._eas.dispose();
     }
 
-    _moveBoard(board) {
-        let mousemoveCb = event => {
-            // We only move the board if we have a previous position.
-            if (this._previousPosition.x !== 0 && this._previousPosition.y !== 0) {
-                this._currentTranslate.x += event.clientX - this._previousPosition.x;
-                this._currentTranslate.y += event.clientY - this._previousPosition.y;
-                board.style.transform =
-                    `translate(${this._currentTranslate.x}px, ${this._currentTranslate.y}px)`;
-                board.style.cursor = 'move';
-            }
-            this._previousPosition.x = event.clientX;
-            this._previousPosition.y = event.clientY;
-        };
-        this._element.addEventListener('mousemove', mousemoveCb);
+    attached() {
+        this._element.addEventListener('wheel', event => {
+            let direction = event.deltaY < 0 ? 'in' : 'out';
+            this.zoom(direction);
+        });
 
-        let stopBoardMove = () => {
-            board.style.cursor = '';
-            this._previousPosition.x = 0;
-            this._previousPosition.y = 0;
-            this._element.removeEventListener('mousemove', mousemoveCb);
-            this._element.removeEventListener('mouseup', stopBoardMove);
-        };
-        this._element.addEventListener('mouseup', stopBoardMove);
+        this._element.addEventListener('mousedown', event => {
+            if (event.which === 1) {
+                let mousemoveCb = moveEvent => {
+                    this._board.style.cursor = 'move';
+                    // We only move the board if we have a previous mouse position.
+                    if (this._previousMousePosition.x !== 0 &&
+                            this._previousMousePosition.y !== 0) {
+                        let deltaX = moveEvent.clientX - this._previousMousePosition.x;
+                        let deltaY = moveEvent.clientY - this._previousMousePosition.y;
+                        this.moveBoard(deltaX, deltaY);
+                    }
+
+                    this._previousMousePosition.x = moveEvent.clientX;
+                    this._previousMousePosition.y = moveEvent.clientY;
+                };
+                this._element.addEventListener('mousemove', mousemoveCb);
+
+                let stopBoardMove = () => {
+                    this._board.style.cursor = '';
+                    this._previousMousePosition.x = 0;
+                    this._previousMousePosition.y = 0;
+                    this._element.removeEventListener('mousemove', mousemoveCb);
+                    this._element.removeEventListener('mouseup', stopBoardMove);
+                };
+                this._element.addEventListener('mouseup', stopBoardMove);
+            }
+        });
+    }
+
+    zoom(direction) {
+        if (!this._board) {
+            return;
+        }
+
+        if (direction === 'in' && this._currentScale < MAX_ZOOM) {
+            this._currentScale = (10 * this._currentScale + 10 * ZOOM_STEP) / 10;
+        } else if (direction === 'out' && this._currentScale > MIN_ZOOM) {
+            this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
+        }
+
+        this._board.style.transform = `scale(${this._currentScale})`;
+    }
+
+    moveBoard(deltaX, deltaY) {
+        if (!this._board) {
+            return;
+        }
+
+        this._currentTranslate.x += deltaX;
+        this._currentTranslate.y += deltaY;
+        this._board.style.transform =
+                `translate(${this._currentTranslate.x}px, ${this._currentTranslate.y}px)`;
     }
 
     _highlightPossibleSquares(possibleSquares) {
