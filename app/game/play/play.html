@@ -20,6 +20,7 @@
 <template>
     <require from="./play.css"></require>
     <require from="./widgets/board/board"></require>
+    <require from="./widgets/board-controls/board-controls"></require>
     <require from="./widgets/cards/cards"></require>
     <require from="./widgets/counter/counter"></require>
     <require from="./widgets/notifications/notifications"></require>
@@ -60,6 +61,8 @@
                                pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
                                on-pawn-square-clicked.bind="onPawnSquareClicked"
                                player-index.bind="me.index"></aot-board>
+
+                    <aot-board-controls></aot-board-controls>
                 </div>
             </div>
 

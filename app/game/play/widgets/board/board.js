@@ -27,6 +27,9 @@ const MAX_ZOOM = 3;
 const MIN_ZOOM = 1;
 
 
+export { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP };
+
+
 @inject(Api, Element, NewInstance.of(EventAggregatorSubscriptions))
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
@@ -55,6 +58,15 @@ export class AotBoardCustomElement {
                 this._highlightPossibleSquares(message.possible_squares);
             }
         });
+
+        this._eas.subscribe('aot:board:controls:zoom', data => {
+            if (data.direction !== null) {
+                this.zoom(data.direction);
+            } else {
+                this.zoomTo(parseFloat(data.value, 10));
+            }
+        });
+
         this._currentScale = 1;
         this._currentTranslate = {
             x: 0,
@@ -123,6 +135,11 @@ export class AotBoardCustomElement {
             this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
         }
 
+        this._applyTransformOnBoard();
+    }
+
+    zoomTo(value) {
+        this._currentScale = value;
         this._applyTransformOnBoard();
     }
 
