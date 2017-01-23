@@ -56,6 +56,14 @@ export class AotBoardCustomElement {
             }
         });
         this._currentScale = 1;
+        this._currentTranslate = {
+            x: 0,
+            y: 0,
+        };
+        this._previousPosition = {
+            x: 0,
+            y: 0,
+        };
     }
 
     attached() {
@@ -69,11 +77,41 @@ export class AotBoardCustomElement {
 
                 board.style.transform = `scale(${this._currentScale})`;
             });
+            this._element.addEventListener('mousedown', event => {
+                if (event.which === 1) {
+                    this._moveBoard(board);
+                }
+            });
         });
     }
 
     unbind() {
         this._eas.dispose();
+    }
+
+    _moveBoard(board) {
+        let mousemoveCb = event => {
+            // We only move the board if we have a previous position.
+            if (this._previousPosition.x !== 0 && this._previousPosition.y !== 0) {
+                this._currentTranslate.x += event.clientX - this._previousPosition.x;
+                this._currentTranslate.y += event.clientY - this._previousPosition.y;
+                board.style.transform =
+                    `translate(${this._currentTranslate.x}px, ${this._currentTranslate.y}px)`;
+                board.style.cursor = 'move';
+            }
+            this._previousPosition.x = event.clientX;
+            this._previousPosition.y = event.clientY;
+        };
+        this._element.addEventListener('mousemove', mousemoveCb);
+
+        let stopBoardMove = () => {
+            board.style.cursor = '';
+            this._previousPosition.x = 0;
+            this._previousPosition.y = 0;
+            this._element.removeEventListener('mousemove', mousemoveCb);
+            this._element.removeEventListener('mouseup', stopBoardMove);
+        };
+        this._element.addEventListener('mouseup', stopBoardMove);
     }
 
     _highlightPossibleSquares(possibleSquares) {
