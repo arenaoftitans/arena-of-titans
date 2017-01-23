@@ -75,12 +75,13 @@ export class AotBoardCustomElement {
     }
 
     attached() {
-        this._element.addEventListener('wheel', event => {
+        this._wheelEventCb = event => {
             let direction = event.deltaY < 0 ? 'in' : 'out';
             this.zoom(direction);
-        });
+        };
+        this._element.addEventListener('wheel', this._wheelEventCb);
 
-        this._element.addEventListener('mousedown', event => {
+        this._mousedownEventCb = event => {
             if (event.which === 1) {
                 let mousemoveCb = moveEvent => {
                     this._board.style.cursor = 'move';
@@ -106,7 +107,13 @@ export class AotBoardCustomElement {
                 };
                 this._element.addEventListener('mouseup', stopBoardMove);
             }
-        });
+        };
+        this._element.addEventListener('mousedown', this._mousedownEventCb);
+    }
+
+    detached() {
+        this._element.removeEventListener('wheel', this._wheelEventCb);
+        this._element.removeEventListener('mousedown', this._mousedownEventCb);
     }
 
     zoom(direction) {
