@@ -26,6 +26,7 @@ const MAX_VALUE = 40;
 const MIN_HEIGHT = 100;
 const MAX_HEIGHT = 566;
 const MAX_DELTA = MAX_HEIGHT - MIN_HEIGHT;
+const FILL_REFRESH_TIME = 50;
 
 @inject(Api, ObserverLocator)
 export class AotTrumpsGaugeCustomElement {
@@ -37,6 +38,9 @@ export class AotTrumpsGaugeCustomElement {
         this._observerLocator = observerLocator;
         this.currentY = MAX_HEIGHT;
         this.heightForCost = 0;
+        // We don't display the value directly in order for it increase/decrease while the gauge
+        // is filling.
+        this.displayedValue = 0;
     }
 
     bind() {
@@ -53,10 +57,10 @@ export class AotTrumpsGaugeCustomElement {
                 element.style.fill = fillStyle;
             }
 
-            this._fill();
+            this._fill(this.value, 0);
             this._observerLocator.getObserver(this, 'value').subscribe((newValue, oldValue) => {
                 if (newValue !== oldValue) {
-                    this._fill();
+                    this._fill(newValue, oldValue);
                 }
             });
             this._observerLocator.getObserver(this, 'cost').subscribe((newValue, oldValue) => {
@@ -67,12 +71,22 @@ export class AotTrumpsGaugeCustomElement {
         });
     }
 
-    _fill() {
+    _fill(newValue, oldValue) {
         let percentFill = this.value / MAX_VALUE;
         let newY = MAX_HEIGHT - Math.round(MAX_DELTA * percentFill);
+        let numberStepsBeforeFilled = Math.abs(newY - this.currentY) + 1;
+        let deltaValue = newValue - oldValue;
+        let valueDeltaPerStep = deltaValue / numberStepsBeforeFilled;
+        let intermerdiaryGaugeValue = oldValue;
 
         clearInterval(this._fillInterval);
         this._fillInterval = setInterval(() => {
+            // In order for the number to increase/decrease regularly, we add a small value to it.
+            // But since the value of the gauge is always an int, we display the rounded value to
+            // the user.
+            intermerdiaryGaugeValue += valueDeltaPerStep;
+            this.displayedValue = Math.round(intermerdiaryGaugeValue);
+
             if (this.currentY > newY) {
                 this.currentY--;
             } else if (this.currentY < newY) {
@@ -84,9 +98,10 @@ export class AotTrumpsGaugeCustomElement {
                 }
                 this.currentY++;
             } else {
+                this.displayedValue = this.value;
                 clearInterval(this._fillInterval);
             }
-        }, 50);
+        }, FILL_REFRESH_TIME);
     }
 
     get value() {

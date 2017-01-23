@@ -280,6 +280,20 @@
                     id="stop132" />
             </radialGradient>
 
+            <radialGradient
+                id="gauge-value-gradient"
+                cx="232.095"
+                cy="578.3311"
+                r="29.7849"
+                gradientUnits="userSpaceOnUse">
+                <stop offset="6.382980e-02" style="stop-color:#FFFFFF"/>
+                <stop offset="0.1469" style="stop-color:#F4F5F3"/>
+                <stop offset="0.2976" style="stop-color:#D5DBD3"/>
+                <stop offset="0.4989" style="stop-color:#A4B19F"/>
+                <stop offset="0.7433" style="stop-color:#607756"/>
+                <stop offset="1" style="stop-color:#123403"/>
+            </radialGradient>
+
             <mask id="filling-gauge-mask"
                   x="0"
                   y="0"
@@ -349,5 +363,17 @@
             y2="470.7403"
             id="line78"
             style="fill:none;stroke:#1d1d1b;stroke-miterlimit:10" />
+
+        <!-- circle to display the value -->
+        <g>
+            <g transform="translate(-236.05063,-93.045201)">
+                <circle cx="232.1" cy="578.3" r="29.8" style="fill: url(#gauge-value-gradient)" />
+            </g>
+            <g transform="translate(-3.9171229,-93.503552)">
+                <circle x="232.1" cy="578.3" r="29.8" style="fill:none;stroke:#000000;stroke-width:0.75;stroke-miterlimit:10;" />
+            </g>
+            <circle cx="-3.9506269" cy="485.25479" r="22.7" style="fill:#020202;stroke:#000000;stroke-miterlimit:10;" />
+            <text x="-3.9506269" y="485.25479" text-anchor="middle" fill="#FFF" dy="0.2em" font-size="2em">${displayedValue}</text>
+        </g>
     </svg>
 </template>
