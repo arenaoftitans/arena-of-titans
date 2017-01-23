@@ -18,6 +18,51 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 aot-board-controls {
+    .arrow {
+        cursor: pointer;
+        position: absolute;
+    }
+
+    .arrow-up {
+        border-bottom: 20px solid black;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        height: 0;
+        right: 5%;
+        top: 5%;
+        width: 0;
+    }
+
+    .arrow-down {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid black;
+        height: 0;
+        right: 5%;
+        top: 20%;
+        width: 0;
+    }
+
+    .arrow-right {
+        border-bottom: 20px solid transparent;
+        border-left: 20px solid black;
+        border-top: 20px solid transparent;
+        height: 0;
+        right: 4%;
+        top: 10%;
+        width: 0;
+    }
+
+    .arrow-left {
+        border-bottom: 20px solid transparent;
+        border-right: 20px solid black;
+        border-top: 20px solid transparent;
+        height: 0;
+        right: 8%;
+        top: 10%;
+        width: 0;
+    }
+
     .board-control {
         background-color: white;
         color: black;

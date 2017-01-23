@@ -25,9 +25,10 @@ import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 const ZOOM_STEP = 0.4;
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 1;
+const MOVE_STEP = 10;
 
 
-export { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP };
+export { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP };
 
 
 @inject(Api, Element, NewInstance.of(EventAggregatorSubscriptions))
@@ -65,6 +66,10 @@ export class AotBoardCustomElement {
             } else {
                 this.zoomTo(parseFloat(data.value, 10));
             }
+        });
+
+        this._ea.subscribe('aot:board:controls:move', data => {
+            this.moveBoard(data.deltaX, data.deltaY);
         });
 
         this._currentScale = 1;

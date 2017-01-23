@@ -20,7 +20,7 @@
 import { inject, ObserverLocator } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
-import { MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from '../board/board';
+import { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP } from '../board/board';
 
 
 @inject(ObserverLocator, EventAggregator)
@@ -43,6 +43,33 @@ export class AotBoardControlsCustomElement {
         this._ea.publish('aot:board:controls:zoom', {
             direction: direction,
             value: null,
+        });
+    }
+
+    move(direction) {
+        let deltaX = 0;
+        let deltaY = 0;
+
+        switch (direction) {
+            case 'up':
+                deltaY = -MOVE_STEP;
+                break;
+            case 'right':
+                deltaX = MOVE_STEP;
+                break;
+            case 'down':
+                deltaY = MOVE_STEP;
+                break;
+            case 'left':
+                deltaX = -MOVE_STEP;
+                break;
+            default:
+                break;
+        }
+
+        this._ea.publish('aot:board:controls:move', {
+            deltaX: deltaX,
+            deltaY: deltaY,
         });
     }
 
