@@ -19,10 +19,15 @@
 
 import { bindable, inject, NewInstance } from 'aurelia-framework';
 import { Api } from '../../../services/api';
-import { EventAggregatorSubscriptions } from '../../../services/utils';
+import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 
 
-@inject(Api, NewInstance.of(EventAggregatorSubscriptions))
+const ZOOM_STEP = 0.4;
+const MAX_ZOOM = 3;
+const MIN_ZOOM = 1;
+
+
+@inject(Api, Element, NewInstance.of(EventAggregatorSubscriptions))
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
@@ -36,7 +41,8 @@ export class AotBoardCustomElement {
     _possibleSquares = [];
     _selectedPawnIndex = -1;
 
-    constructor(api, eas) {
+    constructor(api, element, eas) {
+        this._element = element;
         this._api = api;
         this._eas = eas;
 
@@ -48,6 +54,21 @@ export class AotBoardCustomElement {
             if (message.possible_squares) {
                 this._highlightPossibleSquares(message.possible_squares);
             }
+        });
+        this._currentScale = 1;
+    }
+
+    attached() {
+        Wait.forId('board').then(board => {
+            this._element.addEventListener('wheel', event => {
+                if (event.deltaY < 0 && this._currentScale < MAX_ZOOM) {
+                    this._currentScale = (10 * this._currentScale + 10 * ZOOM_STEP) / 10;
+                } else if (event.deltaY > 0 && this._currentScale > MIN_ZOOM) {
+                    this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
+                }
+
+                board.style.transform = `scale(${this._currentScale})`;
+            });
         });
     }
 

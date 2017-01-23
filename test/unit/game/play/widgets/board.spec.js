@@ -24,18 +24,20 @@ import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../../app/te
 describe('board', () => {
     let sut;
     let mockedApi;
+    let element;
     let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
+        element = {};
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotBoardCustomElement(mockedApi, mockedEas);
+        sut = new AotBoardCustomElement(mockedApi, element, mockedEas);
     });
 
     it('should register callbacks', () => {
         spyOn(mockedEas, 'subscribe');
 
-        sut = new AotBoardCustomElement(mockedApi, mockedEas);
+        sut = new AotBoardCustomElement(mockedApi, element, mockedEas);
 
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:view_possible_squares');

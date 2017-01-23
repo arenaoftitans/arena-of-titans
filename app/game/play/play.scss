@@ -102,15 +102,17 @@ header {
 #board-bg {
     background: url(/assets/game/backgrounds/board.jpg);
     background-size: 100% 100%;
-    height: $play-main-height;
+    height: $play-main-height - 2vh; /* Compensate for padding-top & padding-bottom */
     min-height: $play-main-min-height;
+    padding: 1vh 0.2em 1vh 0.4em;
     position: relative;
 }
 
 #board-container {
     display: block;
     margin: auto;
-    padding-top: 1.8vh;
+    overflow: hidden;
+    padding-top: 0.5vh;
     text-align: center;
 }
 
