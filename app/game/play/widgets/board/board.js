@@ -110,28 +110,31 @@ export class AotBoardCustomElement {
     }
 
     zoom(direction) {
-        if (!this._board) {
-            return;
-        }
-
         if (direction === 'in' && this._currentScale < MAX_ZOOM) {
             this._currentScale = (10 * this._currentScale + 10 * ZOOM_STEP) / 10;
         } else if (direction === 'out' && this._currentScale > MIN_ZOOM) {
             this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
         }
 
-        this._board.style.transform = `scale(${this._currentScale})`;
+        this._applyTransformOnBoard();
     }
 
-    moveBoard(deltaX, deltaY) {
+    _applyTransformOnBoard() {
         if (!this._board) {
             return;
         }
 
+        let scale = `scale(${this._currentScale})`;
+        let translate = `translate(${this._currentTranslate.x}px, ${this._currentTranslate.y}px)`;
+
+        this._board.style.transform = `${scale} ${translate}`;
+    }
+
+    moveBoard(deltaX, deltaY) {
         this._currentTranslate.x += deltaX;
         this._currentTranslate.y += deltaY;
-        this._board.style.transform =
-                `translate(${this._currentTranslate.x}px, ${this._currentTranslate.y}px)`;
+
+        this._applyTransformOnBoard();
     }
 
     _highlightPossibleSquares(possibleSquares) {
