@@ -39,8 +39,6 @@ export class RouterStub {
 
 
 export class ApiStub {
-    _cbs = {};
-    _errorCbs = [];
     _game = {
         slots: [],
     };
@@ -59,17 +57,11 @@ export class ApiStub {
     }
 
     initializeGame(data) {
-        let cbs = this._cbs[this.requestTypes.game_initialized];
         this._game.slots.push({
             index: 0,
             player_name: 'Player 1',
             state: 'TAKEN',
         });
-        if (cbs) {
-            cbs.forEach(cb => {
-                cb(data);
-            });
-        }
     }
 
     init() {
@@ -83,12 +75,6 @@ export class ApiStub {
     }
 
     createGame() {
-        let cbs = this._cbs[this.requestTypes.create_game];
-        if (cbs) {
-            cbs.forEach(cb => {
-                cb();
-            });
-        }
     }
 
     viewPossibleMovements() {
@@ -98,12 +84,6 @@ export class ApiStub {
     }
 
     play() {
-        let cbs = this._cbs[this.requestTypes.play];
-        if (cbs) {
-            cbs.forEach(cb => {
-                cb();
-            });
-        }
     }
 
     playSpecialAction() {
@@ -119,23 +99,6 @@ export class ApiStub {
     }
 
     discard() {
-    }
-
-    on(rt, fn) {
-        if (!(rt in this._cbs)) {
-            this._cbs[rt] = [];
-        }
-        let index =  this._cbs[rt].length;
-        this._cbs[rt].push(fn);
-
-        return index;
-    }
-
-    off() {
-    }
-
-    onerror(cb) {
-        this._errorCbs.push(cb);
     }
 
     updateSlot() {
@@ -279,11 +242,43 @@ export class NotifyStub {
 }
 
 
-export class EventAgregatorStub {
-    subscribe() {
+export class EventAggregatorStub {
+    constructor() {
+        this.cbs = {};
     }
 
-    publish() {
+    subscribe(signal, fn) {
+        if (!(signal in this.cbs)) {
+            this.cbs[signal] = [];
+        }
+
+        this.cbs[signal].push(fn);
+    }
+
+    publish(signal, message) {
+        if (signal in this.cbs) {
+            for (let fn of this.cbs[signal]) {
+                fn(message);
+            }
+        }
+    }
+}
+
+
+export class EventAggregatorSubscriptionsStub {
+    constructor() {
+        this.ea = new EventAggregatorStub();
+    }
+
+    subscribe(signal, fn) {
+        this.ea.subscribe(signal, fn);
+    }
+
+    dispose() {
+    }
+
+    publish(signal, message) {
+        this.ea.publish(signal, message);
     }
 }
 

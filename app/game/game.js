@@ -17,14 +17,13 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { inject } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { Api } from './services/api';
 import { History } from './services/history';
+import { EventAggregatorSubscriptions } from './services/utils';
 
 
-@inject(Api, History, I18N, EventAggregator)
+@inject(History, I18N, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -42,13 +41,13 @@ export class Game {
         reject: null,
     };
 
-    constructor(api, history, i18n, ea) {
-        this._api = api;
+    constructor(history, i18n, eas) {
         this._i18n = i18n;
+        this._eas = eas;
 
         this._popupMessageId;
         this._popupMessage = {};
-        ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
         // Init history here: if the page is reloaded on the game page, the history may not be
         // setup until the player click on the player box. This may result in some actions not
         // being displayed. For instance, create a game, refresh, play a card. Without the line
@@ -93,7 +92,7 @@ export class Game {
     }
 
     activate() {
-        this._api.onerror(data => {
+        this._eas.subscribe('aot:api:error', data => {
             this._popupMessageId = data.message;
             this._translatePopupMessage();
             this.popup('error', this._popupMessage).then(() => {
@@ -102,6 +101,10 @@ export class Game {
                 }
             });
         });
+    }
+
+    deactivate() {
+        this._eas.dispose();
     }
 
     popup(type, data) {

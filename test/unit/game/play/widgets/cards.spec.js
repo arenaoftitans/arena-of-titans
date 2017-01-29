@@ -22,7 +22,7 @@ import {
     ApiStub,
     GameStub,
     I18nStub,
-    EventAgregatorStub,
+    EventAggregatorSubscriptionsStub,
     ObserverLocatorStub,
 } from '../../../../../app/test-utils';
 
@@ -32,16 +32,16 @@ describe('cards', () => {
     let mockedApi;
     let mockedGame;
     let mockedI18n;
-    let mockedEa;
+    let mockedEas;
     let mockedOl;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
-        mockedEa = new EventAgregatorStub();
         mockedOl = new ObserverLocatorStub();
-        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa, mockedOl);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedOl, mockedEas);
     });
 
     it('should view possible movements', () => {
@@ -140,12 +140,20 @@ describe('cards', () => {
 
     describe('special action', () => {
         it('should register callbacks', () => {
-            spyOn(mockedApi, 'on');
+            spyOn(mockedEas, 'subscribe');
 
             sut =
-                new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEa, mockedOl);
+                new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedOl, mockedEas);
 
-            expect(mockedApi.on).toHaveBeenCalled();
+            expect(mockedEas.subscribe).toHaveBeenCalled();
+        });
+
+        it('should dispose subscriptions', () => {
+            spyOn(mockedEas, 'dispose');
+
+            sut.unbind();
+
+            expect(mockedEas.dispose).toHaveBeenCalled();
         });
 
         it('should notify special action', () => {

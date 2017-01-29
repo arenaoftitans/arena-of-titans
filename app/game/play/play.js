@@ -18,12 +18,13 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
 import { Api } from '../services/api';
+import { EventAggregatorSubscriptions } from '../services/utils';
 import { Game } from '../game';
 
 
-@inject(Api, Game)
+@inject(Api, Game, NewInstance.of(EventAggregatorSubscriptions))
 export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.
@@ -34,14 +35,14 @@ export class Play {
     pawnsForcedNotClickable = [];
     _game;
     _api;
-    _specialActionNotifyCb;
-    _specialActionViewPossibleActionsCb;
-    _specialActionPlayCb;
 
-    constructor(api, game) {
+    constructor(api, game, eas) {
         this._api = api;
         this._game = game;
+        this._eas = eas;
         this._logger = LogManager.getLogger('AoTPlay');
+
+        this._eventAggregatorSubscriptions = [];
     }
 
     activate(params = {}) {
@@ -49,16 +50,13 @@ export class Play {
             this._api.joinGame({gameId: params.id});
         }
 
-        let type = this._api.requestTypes.special_action_notify;
-        this._specialActionNotifyCb = this._api.on(type, message => {
+        this._eas.subscribe('aot:api:special_action_notify', message => {
             this._handleSpecialActionNotify(message);
         });
-        type = this._api.requestTypes.special_action_view_possible_actions;
-        this._specialActionViewPossibleActionsCb = this._api.on(type, message => {
+        this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
             this._handleSpecialActionViewPossibleActions(message);
         });
-        type = this._api.requestTypes.play;
-        this._specialActionPlayCb = this._api.on(type, () => {
+        this._eas.subscribe('aot:api:play', () => {
             this._resetPawns();
         });
 
@@ -122,12 +120,7 @@ export class Play {
     }
 
     deactivate() {
-        this._api.off(this._api.requestTypes.special_action_notify, this._specialActionNotifyCb);
-        this._api.off(
-            this._api.requestTypes.special_action_view_possible_actions,
-            this._specialActionViewPossibleActionsCb
-        );
-        this._api.off(this._api.requestTypes.play, this._specialActionPlayCb);
+        this._eas.dispose();
     }
 
     backHome() {

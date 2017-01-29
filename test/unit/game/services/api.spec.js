@@ -18,7 +18,7 @@
 */
 
 import { Api } from '../../../../app/game/services/api';
-import { EventAgregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
+import { EventAggregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
 
 
 describe('services/api', () => {
@@ -39,7 +39,7 @@ describe('services/api', () => {
             },
         };
         mockedNotify = new NotifyStub();
-        mockedEa = new EventAgregatorStub();
+        mockedEa = new EventAggregatorStub();
         sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify, mockedEa);
         rt = sut.requestTypes;
     });
@@ -57,24 +57,6 @@ describe('services/api', () => {
         expect(mockedWs.send).toHaveBeenCalledWith(gameData);
     });
 
-    it('should register callbacks', () => {
-        let cb = () => {
-        };
-        sut.on(rt.init_game, cb);
-
-        expect(sut.callbacks[rt.init_game].length).toBe(1);
-        expect(sut.callbacks[rt.init_game][0]).toBe(cb);
-    });
-
-    it('should deregister callbacks', () => {
-        let index = sut.on(rt.init_game, () => {
-        });
-        sut.off(rt.init_game, index);
-
-        expect(sut.callbacks[rt.init_game].length).toBe(1);
-        expect(sut.callbacks[rt.init_game][0]).toBe(undefined);
-    });
-
     it('should handle game initialized', () => {
         let gameInitializedMessage = {
             rt: sut.requestTypes.game_initialized,
@@ -88,8 +70,6 @@ describe('services/api', () => {
                 state: 'TAKEN',
             }],
         };
-        let gameInitializedCallback = jasmine.createSpy('gameInitializedCallback');
-        sut.on(rt.game_initialized, gameInitializedCallback);
         spyOn(sut, '_handleGameInitialized').and.callThrough();
         spyOn(mockedStorage, 'savePlayerId');
 
@@ -104,7 +84,6 @@ describe('services/api', () => {
         expect(sut.me.id).toBe(gameInitializedMessage.player_id);
         expect(sut.game.id).toBe(gameInitializedMessage.game_id);
         expect(sut.game.slots).toBe(gameInitializedMessage.slots);
-        expect(gameInitializedCallback).toHaveBeenCalledWith(gameInitializedMessage);
     });
 
     it('should handle slot updated', () => {
@@ -116,8 +95,6 @@ describe('services/api', () => {
                 state: 'OPEN',
             },
         };
-        let slotUpdatedCallback = jasmine.createSpy('slotUpdatedCallback');
-        sut.on(rt.slot_updated, slotUpdatedCallback);
         spyOn(sut, '_handleSlotUpdated').and.callThrough();
         sut._game.slots = [];
 
@@ -127,7 +104,6 @@ describe('services/api', () => {
         expect(sut._game.slots.length).toBe(1);
         expect(sut._game.slots[0]).toBe(slotUpdatedMessage.slot);
         expect(sut._game.slots[0].name).toBe('');
-        expect(slotUpdatedCallback).toHaveBeenCalledWith(slotUpdatedMessage);
 
         slotUpdatedMessage.slot.name = 'Player 1';
         slotUpdatedMessage.slot.state = 'TAKEN';
@@ -136,7 +112,6 @@ describe('services/api', () => {
         expect(sut._game.slots[0].name).toBe('Player 1');
         expect(sut._game.slots[0].state).toBe('TAKEN');
         expect(sut._game.slots[0].index).toBe(0);
-        expect(slotUpdatedCallback).toHaveBeenCalledWith(slotUpdatedMessage);
     });
 
     it('should update name', () => {
@@ -257,33 +232,31 @@ describe('services/api', () => {
     });
 
     it('should handle errors to display', () => {
-        let message = {error_to_display: 'error'};
-        let errorCb = jasmine.createSpy('errorCb');
+        let message = {error_to_display: 'error', rt: 'error2'};
         spyOn(sut, '_handleErrors').and.callThrough();
-        spyOn(sut, '_callCallbacks');
+        spyOn(sut._ea, 'publish');
 
-        sut.onerror(errorCb);
         sut._handleMessage(message);
 
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
-        expect(sut._callCallbacks).not.toHaveBeenCalled();
-        expect(errorCb).toHaveBeenCalledWith({message: message.error_to_display});
+        expect(sut._ea.publish).toHaveBeenCalledWith(
+            'aot:api:error',
+            {message: message.error_to_display}
+        );
+        expect(sut._ea.publish.calls.count()).toBe(1);
     });
 
     it('should handle errors to log', () => {
         let message = {error: 'error'};
-        let errorCb = jasmine.createSpy('errorCb');
         spyOn(sut, '_handleErrors').and.callThrough();
-        spyOn(sut, '_callCallbacks');
         spyOn(sut._logger, 'error');
+        spyOn(sut._ea, 'publish');
 
-        sut.onerror(errorCb);
         sut._handleMessage(message);
 
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
-        expect(sut._callCallbacks).not.toHaveBeenCalled();
-        expect(errorCb).not.toHaveBeenCalled();
         expect(sut._logger.error).toHaveBeenCalledWith(message);
+        expect(sut._ea.publish).not.toHaveBeenCalled();
     });
 
     it('should create the game', () => {

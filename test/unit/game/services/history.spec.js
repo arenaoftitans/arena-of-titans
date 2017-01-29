@@ -18,31 +18,33 @@
 */
 
 import { History } from '../../../../app/game/services/history';
-import { ApiStub } from '../../../../app/test-utils';
+import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../app/test-utils';
 
 describe('services/history', () => {
     let sut;
     let mockedApi;
+    let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        sut = new History(mockedApi);
+        mockedEas = new EventAggregatorSubscriptionsStub();
+        sut = new History(mockedApi, mockedEas);
     });
 
     it('init', () => {
-        spyOn(mockedApi, 'on');
-        spyOn(mockedApi, 'off');
+        spyOn(mockedEas, 'subscribe');
+        spyOn(mockedEas, 'dispose');
 
         sut.init();
 
-        expect(mockedApi.off).toHaveBeenCalledWith(mockedApi.requestTypes.player_played, 0);
-        expect(mockedApi.on).toHaveBeenCalled();
-        expect(mockedApi.on.calls.mostRecent().args[0]).toBe(mockedApi.requestTypes.player_played);
+        expect(mockedEas.dispose).toHaveBeenCalled();
+        expect(mockedEas.subscribe).toHaveBeenCalled();
+        expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
     });
 
     it('init with null', done => {
-        spyOn(mockedApi, 'on');
-        spyOn(mockedApi, 'off');
+        spyOn(mockedEas, 'subscribe');
+        spyOn(mockedEas, 'dispose');
         spyOn(sut, '_addEntry');
         let message = {
             history: [
@@ -65,6 +67,9 @@ describe('services/history', () => {
         mockedApi._reconnectDefered.resolve(message);
 
         sut.init().then(() => {
+            expect(mockedEas.dispose).toHaveBeenCalled();
+            expect(mockedEas.subscribe).toHaveBeenCalled();
+            expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
             expect(sut._addEntry).toHaveBeenCalledWith({
                 card: 'card 1',
                 player_index: 0,

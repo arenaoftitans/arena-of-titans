@@ -18,15 +18,14 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { inject } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { randomInt } from '../../../services/utils';
+import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 import { Api } from '../../../services/api';
 import { Game } from '../../../game';
 
 
-@inject(Api, Game, I18N, EventAggregator)
+@inject(Api, Game, I18N, NewInstance.of(EventAggregatorSubscriptions))
 export class AotTrumpsCustomElement {
     _api;
     _game;
@@ -36,15 +35,20 @@ export class AotTrumpsCustomElement {
     affectingInfos = {};
     selectedTrumpCost = 0;
 
-    constructor(api, game, i18n, ea) {
+    constructor(api, game, i18n, eas) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._eas = eas;
         this._popupMessage = {};
         this._lastSelected = null;
         this._logger = LogManager.getLogger('AotTrumps');
 
-        ea.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+    }
+
+    unbind() {
+        this._eas.dispose();
     }
 
     _translatePopupMessage() {

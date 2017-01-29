@@ -22,7 +22,7 @@ import {
     ApiStub,
     GameStub,
     I18nStub,
-    EventAgregatorStub,
+    EventAggregatorSubscriptionsStub,
     OptionsStub,
 }
 from '../../../../../app/test-utils';
@@ -31,7 +31,7 @@ from '../../../../../app/test-utils';
 describe('notifications', () => {
     let mockedApi;
     let mockedI18n;
-    let mockedEa;
+    let mockedEas;
     let mockedOptions;
     let mockedGame;
     let sut;
@@ -39,21 +39,20 @@ describe('notifications', () => {
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedI18n = new I18nStub();
-        mockedEa = new EventAgregatorStub();
+        mockedEas = new EventAggregatorSubscriptionsStub();
         mockedOptions = new OptionsStub();
         mockedGame = new GameStub();
         sut = new AotNotificationsCustomElement(
             mockedApi,
             mockedI18n,
-            mockedEa,
             mockedOptions,
-            mockedGame
+            mockedGame,
+            mockedEas
         );
     });
 
     it('should update last action on player played', () => {
         spyOn(mockedI18n, 'tr').and.returnValue('translated');
-        let cb = mockedApi._cbs[mockedApi.requestTypes.player_played][0];
         let message = {
             player_index: 0,
             last_action: {
@@ -67,7 +66,7 @@ describe('notifications', () => {
             },
         };
 
-        cb(message);
+        mockedEas.publish('aot:api:player_played', message);
 
         expect(mockedI18n.tr).toHaveBeenCalledWith(
             'actions.played',
@@ -82,7 +81,6 @@ describe('notifications', () => {
 
     it('should update last action when a trump is played', () => {
         spyOn(mockedI18n, 'tr').and.returnValue('translated');
-        let cb = mockedApi._cbs[mockedApi.requestTypes.play_trump][0];
         let message = {
             last_action: {
                 description: 'played_trump',
@@ -95,7 +93,7 @@ describe('notifications', () => {
             },
         };
 
-        cb(message);
+        mockedEas.publish('aot:api:play_trump', message);
 
         expect(mockedI18n.tr).toHaveBeenCalledWith(
             'actions.played_trump',
@@ -108,6 +106,14 @@ describe('notifications', () => {
         expect(sut.lastAction.trump.description).toBe('translated');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
         expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
+    });
+
+    it('should dispose subscriptions', () => {
+        spyOn(mockedEas, 'dispose');
+
+        sut.unbind();
+
+        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
     describe('guided visit', () => {
@@ -147,7 +153,7 @@ describe('notifications', () => {
                 popupDefered.resolve = resolve;
             });
             spyOn(mockedGame, 'popup').and.returnValue(popupDefered.promise);
-            spyOn(mockedEa, 'publish');
+            spyOn(mockedEas, 'publish');
             spyOn(sut, '_startGuidedVisit').and.callThrough();
             spyOn(sut, '_displayNextVisitText');
             mockedOptions.proposeGuidedVisit = true;
@@ -159,7 +165,7 @@ describe('notifications', () => {
             popupDefered.promise.then(() => {
                 expect(sut._startGuidedVisit).toHaveBeenCalled();
                 expect(sut._tutorialInProgress).toBe(true);
-                expect(mockedEa.publish)
+                expect(mockedEas.publish)
                     .toHaveBeenCalledWith('aot:notifications:start_guided_visit');
                 expect(sut._displayNextVisitText).toHaveBeenCalled();
                 done();
@@ -185,7 +191,7 @@ describe('notifications', () => {
             sut.specialActionInProgress = false;
             spyOn(sut, '_translateSpecialActionText');
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(false);
-            spyOn(mockedEa, 'publish');
+            spyOn(mockedEas, 'publish');
             spyOn(mockedGame, 'popup');
 
             sut._notifySpecialAction({special_action_name: 'action'});
@@ -194,7 +200,7 @@ describe('notifications', () => {
             expect(sut._specialActionName).toBe('action');
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
-            expect(mockedEa.publish)
+            expect(mockedEas.publish)
                 .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
             expect(mockedGame.popup).not.toHaveBeenCalled();
         });
@@ -204,7 +210,7 @@ describe('notifications', () => {
             spyOn(sut, '_translateSpecialActionText');
             spyOn(sut, '_translatePopupMessage');
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
-            spyOn(mockedEa, 'publish');
+            spyOn(mockedEas, 'publish');
             let promise = new Promise(resolve => resolve());
             spyOn(mockedGame, 'popup').and.returnValue(promise);
 
@@ -217,7 +223,7 @@ describe('notifications', () => {
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
             expect(mockedGame.popup).toHaveBeenCalled();
             promise.then(() => {
-                expect(mockedEa.publish)
+                expect(mockedEas.publish)
                     .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
                 done();
             });

@@ -17,11 +17,16 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { bindable, inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
-import { ImageName, ImageSource, Elements, Blink } from '../../../services/utils';
+import {
+    Blink,
+    Elements,
+    EventAggregatorSubscriptions,
+    ImageName,
+    ImageSource,
+} from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { Game } from '../../../game';
 
@@ -30,7 +35,7 @@ const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-@inject(Api, I18N, EventAggregator, Options, Game)
+@inject(Api, I18N, Options, Game, NewInstance.of(EventAggregatorSubscriptions))
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
@@ -57,18 +62,18 @@ export class AotNotificationsCustomElement {
     _tutorialInProgress;
 
 
-    constructor(api, i18n, ea, options, game) {
+    constructor(api, i18n, options, game, eas) {
         this._api = api;
         this._i18n = i18n;
-        this._ea = ea;
         this._options = options;
         this._game = game;
+        this._eas = eas;
         this._popupMessage = {};
         this._specialActionPopupMessage = {};
         this._popupMessageId;
         this._tutorialInProgress = false;
 
-        this._ea.subscribe('i18n:locale:changed', () => {
+        this._eas.subscribe('i18n:locale:changed', () => {
             if (this._lastActionMessageFromApi) {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
@@ -87,26 +92,26 @@ export class AotNotificationsCustomElement {
             }
         });
 
-        this._api.on(this._api.requestTypes.player_played, message => {
+        this._eas.subscribe('aot:api:player_played', message => {
             this._updateLastAction(message);
         });
 
-        this._api.on(this._api.requestTypes.play, () => {
+        this._eas.subscribe('aot:api:play', () => {
             // When we receive a play message, there cannot be a special action in
             // progress. This is mostly useful when a player passes his/her turn during a special
             // action.
             this._handleSpecialActionPlayed();
         });
 
-        this._api.on(this._api.requestTypes.play_trump, message => {
+        this._eas.subscribe('aot:api:play_trump', message => {
             this._updateLastAction(message);
         });
 
-        this._api.on(this._api.requestTypes.special_action_notify, message => {
+        this._eas.subscribe('aot:api:special_action_notify', message => {
             this._notifySpecialAction(message);
         });
 
-        this._api.on(this._api.requestTypes.special_action_play, message => {
+        this._eas.subscribe('aot:api:special_action_play', message => {
             this._handleSpecialActionPlayed(message);
         });
     }
@@ -122,6 +127,10 @@ export class AotNotificationsCustomElement {
                 }
             );
         }
+    }
+
+    unbind() {
+        this._eas.dispose();
     }
 
     _translatePopupMessage() {
@@ -189,7 +198,7 @@ export class AotNotificationsCustomElement {
     }
 
     _startGuidedVisit() {
-        this._ea.publish('aot:notifications:start_guided_visit');
+        this._eas.publish('aot:notifications:start_guided_visit');
         this._tutorialInProgress = true;
         this._displayNextVisitText();
     }
@@ -205,7 +214,7 @@ export class AotNotificationsCustomElement {
         } else {
             setTimeout(() => {
                 this.guidedVisitText = '';
-                this._ea.publish('aot:notifications:end_guided_visit');
+                this._eas.publish('aot:notifications:end_guided_visit');
                 this._tutorialInProgress = false;
                 this._options.proposeGuidedVisit = false;
             }, GUIDED_VISIT_DISPLAY_TIME);
@@ -260,11 +269,11 @@ export class AotNotificationsCustomElement {
         if (this._options.mustViewInGameHelp(this._specialActionName)) {
             this._translatePopupMessage();
             this._game.popup('infos', this._specialActionPopupMessage).then(() => {
-                this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+                this._eas.publish('aot:notifications:special_action_in_game_help_seen');
                 this._options.markInGameOptionSeen(this._specialActionName);
             });
         } else {
-            this._ea.publish('aot:notifications:special_action_in_game_help_seen');
+            this._eas.publish('aot:notifications:special_action_in_game_help_seen');
         }
     }
 

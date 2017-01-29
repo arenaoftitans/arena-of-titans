@@ -17,24 +17,25 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
+import { EventAggregatorSubscriptions } from './utils';
 import { Api } from './api';
 
 
-@inject(Api)
+@inject(Api, NewInstance.of(EventAggregatorSubscriptions))
 export class History {
     _api;
-    _playerPlayedCb;
+    _ea;
 
-    constructor(api) {
+    constructor(api, eas) {
         this._api = api;
+        this._eas = eas;
         this.init();
     }
 
     init() {
-        let rt = this._api.requestTypes.player_played;
-        this._api.off(rt, this._playerPlayedCb);
-        this._playerPlayedCb = this._api.on(rt, message => {
+        this._eas.dispose();
+        this._eas.subscribe('aot:api:player_played', message => {
             this._addEntry(message.last_action);
         });
         // Map each players to his/her two last played cards.
