@@ -36,7 +36,9 @@ export class AotInfosCustomElement {
     width;
 
     constructor(observerLocator) {
-        observerLocator.getObserver(this, 'infos').subscribe(() => {
+        this._observerLocator = observerLocator;
+
+        this._infosObserverCb = () => {
             if (this.element === null) {
                 this.init();
             } else {
@@ -53,7 +55,12 @@ export class AotInfosCustomElement {
                 let target = this.infos.event.target;
                 this.timeout = setTimeout(() => this.show(target), POPUP_INFOS_APPEAR_TIMEOUT);
             }
-        });
+        };
+        this._observerLocator.getObserver(this, 'infos').subscribe(this._infosObserverCb);
+    }
+
+    unbind() {
+        this._observerLocator.getObserver(this, 'infos').subscribe(this._infosObserverCb);
     }
 
     init() {

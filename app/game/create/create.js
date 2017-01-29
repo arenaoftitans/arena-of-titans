@@ -49,6 +49,7 @@ export class Create {
     _gameUrl = '';
     _config;
     _observerLocator;
+    _myNameObserverCb;
     _history;
 
     constructor(router, api, storage, config, observerLocator, history, ea, eas) {
@@ -112,7 +113,8 @@ export class Create {
             new Clipboard('#copy-invite-link'); // eslint-disable-line
         }).catch(() => {});
 
-        this._observerLocator.getObserver(this._api.me, 'name').subscribe(() => {
+        this._unregisterMyNameObserver();
+        this._myNameObserverCb = () => {
             if (!!!this.me.name) {
                 return;
             }
@@ -129,7 +131,18 @@ export class Create {
             addEventListener('resize', () => {
                 waitAll.then(elts => this.resize(elts));
             });
-        });
+        };
+
+        this._observerLocator.getObserver(this._api.me, 'name')
+            .subscribe(this._myNameObserverCb);
+    }
+
+    _unregisterMyNameObserver() {
+        if (this._myNameObserverCb) {
+            this._observerLocator.getObserver(this._api.me, 'name')
+                .unsubscribe(this._myNameObserverCb);
+            this._myNameObserverCb = null;
+        }
     }
 
     initPlayerInfoDefered() {
@@ -261,6 +274,7 @@ export class Create {
 
     deactivate() {
         this._eas.dispose();
+        this._unregisterMyNameObserver();
     }
 
     get me() {

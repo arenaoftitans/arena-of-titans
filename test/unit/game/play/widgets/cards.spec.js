@@ -24,6 +24,7 @@ import {
     I18nStub,
     EventAggregatorSubscriptionsStub,
     ObserverLocatorStub,
+    ObserverLocatorStubResults,
 } from '../../../../../app/test-utils';
 
 
@@ -149,11 +150,15 @@ describe('cards', () => {
         });
 
         it('should dispose subscriptions', () => {
+            let observerLocatorStubResults = new ObserverLocatorStubResults();
+            spyOn(mockedOl, 'getObserver').and.returnValue(observerLocatorStubResults);
+            spyOn(observerLocatorStubResults, 'unsubscribe');
             spyOn(mockedEas, 'dispose');
 
             sut.unbind();
 
             expect(mockedEas.dispose).toHaveBeenCalled();
+            expect(observerLocatorStubResults.unsubscribe).toHaveBeenCalled();
         });
 
         it('should notify special action', () => {

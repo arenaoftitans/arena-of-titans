@@ -58,17 +58,24 @@ export class AotTrumpsGaugeCustomElement {
             }
 
             this._fill(this.value, 0);
-            this._observerLocator.getObserver(this, 'value').subscribe((newValue, oldValue) => {
+            this._valueObserverCb = (newValue, oldValue) => {
                 if (newValue !== oldValue) {
                     this._fill(newValue, oldValue);
                 }
-            });
-            this._observerLocator.getObserver(this, 'cost').subscribe((newValue, oldValue) => {
+            };
+            this._observerLocator.getObserver(this, 'value').subscribe(this._valueObserverCb);
+            this._costObserverCb = (newValue, oldValue) => {
                 if (newValue !== oldValue) {
                     this.heightForCost = this.cost / MAX_VALUE * MAX_DELTA;
                 }
-            });
+            };
+            this._observerLocator.getObserver(this, 'cost').subscribe(this._costObserverCb);
         });
+    }
+
+    unbind() {
+        this._observerLocator.getObserver(this, 'value').unsubscribe(this._valueObserverCb);
+        this._observerLocator.getObserver(this, 'cost').unsubscribe(this._costObserverCb);
     }
 
     _fill(newValue, oldValue) {

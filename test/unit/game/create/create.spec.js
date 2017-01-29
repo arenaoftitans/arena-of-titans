@@ -79,10 +79,12 @@ describe('game/create', () => {
 
     it('should deregister api callbacks on deactivation', () => {
         spyOn(mockedEas, 'dispose');
+        spyOn(sut, '_unregisterMyNameObserver');
 
         sut.deactivate();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
+        expect(sut._unregisterMyNameObserver).toHaveBeenCalled();
     });
 
     it('should reset with init method', () => {
@@ -94,6 +96,7 @@ describe('game/create', () => {
         spyOn(mockedobserverLocator, 'getObserver').and.returnValue(observerLocatorStubResults);
         spyOn(observerLocatorStubResults, 'subscribe');
         spyOn(mockedHistory, 'init');
+        spyOn(sut, '_unregisterMyNameObserver');
 
         sut.init();
 
@@ -103,6 +106,7 @@ describe('game/create', () => {
         expect(Wait.flushCache).toHaveBeenCalled();
         expect(mockedobserverLocator.getObserver).toHaveBeenCalledWith({}, 'name');
         expect(observerLocatorStubResults.subscribe).toHaveBeenCalled();
+        expect(sut._unregisterMyNameObserver).toHaveBeenCalled();
         expect(mockedHistory.init).toHaveBeenCalled();
     });
 

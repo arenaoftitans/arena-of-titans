@@ -44,13 +44,14 @@ export class AotCardsCustomElement {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._ol = ol;
         this._eas = eas;
         this._popupMessage = {};
         this._popupMesasgeId;
         this._logger = LogManager.getLogger('AotCards');
 
         let blinker;
-        ol.getObserver(this, 'highlightPassButton').subscribe(() => {
+        this._highlightPassButtonObserverCb = () => {
             if (this.highlightPassButton) {
                 let elements = Elements.forClass('grey-button', 'cards-actions');
                 blinker = new Blink(
@@ -59,7 +60,9 @@ export class AotCardsCustomElement {
             } else if (blinker) {
                 blinker.clearElements();
             }
-        });
+        };
+        this._ol.getObserver(this, 'highlightPassButton')
+            .subscribe(this._highlightPassButtonObserverCb);
 
         this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
 
@@ -81,6 +84,8 @@ export class AotCardsCustomElement {
 
     unbind() {
         this._eas.dispose();
+        this._ol.getObserver(this, 'highlightPassButton')
+            .unsubscribe(this._highlightPassButtonObserverCb);
     }
 
     _translatePopupMessage() {

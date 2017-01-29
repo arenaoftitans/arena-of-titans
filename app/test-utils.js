@@ -227,6 +227,9 @@ export class ObserverLocatorStub {
 export class ObserverLocatorStubResults {
     subscribe() {
     }
+
+    unsubscribe() {
+    }
 }
 
 
