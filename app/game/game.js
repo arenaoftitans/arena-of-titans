@@ -21,13 +21,14 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
 import { Api } from './services/api';
+import { Options } from '../services/options';
 import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
 
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 6000;
 
 
-@inject(History, I18N, Api, NewInstance.of(EventAggregatorSubscriptions))
+@inject(History, I18N, Api, Options, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -45,9 +46,10 @@ export class Game {
         reject: null,
     };
 
-    constructor(history, i18n, api, eas) {
+    constructor(history, i18n, api, options, eas) {
         this._i18n = i18n;
         this._api = api;
+        this._options = options;
         this._eas = eas;
 
         this._currentPlayerIndex = null;
@@ -111,7 +113,12 @@ export class Game {
                 }
             });
         });
-        this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], () => {
+        this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
+            if (message.rt === 'CREATE_GAME' && this._options.proposeGuidedVisit) {
+                // We dispaly the tutorial, don't display the transition popup.
+                return;
+            }
+
             if (this._api.game.next_player !== this._currentPlayerIndex) {
                 this._currentPlayerIndex = this._api.game.next_player;
                 if (this._currentPlayerIndex !== this._api.me.index) {

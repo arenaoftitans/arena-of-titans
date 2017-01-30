@@ -31,6 +31,7 @@ describe('the Game module', () => {
     let mockedHistory;
     let mockedI18n;
     let mockedApi;
+    let mockedOptions;
     let mockedEas;
     let sut;
 
@@ -38,14 +39,15 @@ describe('the Game module', () => {
         mockedHistory = new HistoryStub();
         mockedI18n = new I18nStub();
         mockedApi = new ApiStub();
+        mockedOptions = {};
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
