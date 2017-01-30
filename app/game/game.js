@@ -62,9 +62,12 @@ export class Game {
         history.init();
     }
 
-    _translatePopupMessage(options = {}) {
+    _translatePopupMessage() {
         if (this._popupMessageId) {
-            this._popupMessage.message = this._i18n.tr(this._popupMessageId, options);
+            this._popupMessage.message = this._i18n.tr(
+                this._popupMessageId,
+                this._popupMessageOptions
+            );
         }
     }
 
@@ -117,9 +120,10 @@ export class Game {
                 } else {
                     this._popupMessageId = 'game.play.your_turn';
                 }
-                this._translatePopupMessage({
+                this._popupMessageOptions = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
-                });
+                };
+                this._translatePopupMessage();
 
                 let options = {
                     timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
@@ -127,6 +131,7 @@ export class Game {
                 this.popup('infos', this._popupMessage, options).then(() => {
                     this._popupMessageId = undefined;
                     this._popupMessage = {};
+                    this._popupMessageOptions = {};
                 });
             }
         });
