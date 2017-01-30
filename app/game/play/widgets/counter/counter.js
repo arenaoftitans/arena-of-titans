@@ -65,7 +65,7 @@ export class AotCounterCustomElement {
         });
 
         this._eas.subscribe('aot:game:counter_start', () => {
-            if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
+            if (this._canStart()) {
                 this.start();
             }
         });
@@ -85,11 +85,19 @@ export class AotCounterCustomElement {
             this.pause();
         });
         this._eas.subscribe('aot:notifications:end_guided_visit', () => {
-            this.resume();
+            if (this._canStart()) {
+                this.start();
+            } else {
+                this.resume();
+            }
         });
         this._eas.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
             this.initSpecialActionCounter();
         });
+    }
+
+    _canStart() {
+        return this._api.game.your_turn && !this._api.game.game_over && this.startTime === null;
     }
 
     unbind() {
