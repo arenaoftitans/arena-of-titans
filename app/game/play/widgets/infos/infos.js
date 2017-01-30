@@ -94,14 +94,7 @@ export class AotInfosCustomElement {
             let trumpsContainer = this.type === 'trumps' ? document.getElementById('player-trumps')
                 : document.getElementById('trumps-affecting-player');
 
-            let top = 0;
-            let element = target;
-            do {
-                top += element.offsetTop || 0;
-                element = element.offsetParent;
-            } while (element);
-
-            this.element.style.top = top -
+            this.element.style.top = target.getBoundingClientRect().top -
                 this.height -
                 target.getBoundingClientRect().height +
                 'px';

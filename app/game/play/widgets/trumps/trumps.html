@@ -43,13 +43,8 @@
 
     <div id="player-trumps">
         <div>
-            <aot-infos type="trumps"
-                       infos.bind="infos"></aot-infos>
-
             <aot-trump repeat.for="trump of trumps"
                        click.delegate="play(trump, $index)"
-                       mouseover.delegate="displayInfos(trump, $event)"
-                       mouseout.delegate="hideInfos()"
                        trump.bind="trump"
                        index.bind="$index"
                        kind="player"></aot-trump>

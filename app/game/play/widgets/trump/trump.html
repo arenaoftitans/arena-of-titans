@@ -19,9 +19,15 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 -->
 <template>
     <require from="./trump.css"></require>
+    <require from="../infos/infos"></require>
+
+    <aot-infos type="trumps"
+               infos.bind="infos"></aot-infos>
 
     <svg version="1.1"
          class="${svgClass} ${yourTurn && trumpsStatuses[index] ? 'active-trump' : 'inactive-trump'}"
+         mouseover.delegate="displayInfos($event)"
+         mouseout.delegate="hideInfos()"
          x="0px"
          y="0px"
          viewBox="0 0 285 332"

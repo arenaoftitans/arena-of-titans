@@ -18,12 +18,14 @@
  */
 
 import { bindable, inject } from 'aurelia-framework';
+import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 
 
-@inject(Api)
+@inject(Api, I18N)
 export class AotTrumpCustomElement {
     _api;
+    infos = {};
     @bindable trump = {};
     /**
      * Use the index of the trump so the image is correct `url(#trump-${index})`. If we don't on
@@ -36,8 +38,9 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api) {
+    constructor(api, i18n) {
         this._api = api;
+        this._i18n = i18n;
     }
 
     bind() {
@@ -57,6 +60,33 @@ export class AotTrumpCustomElement {
         // https://github.com/MeirionHughes/aurelia-template-lint/issues/23
         this.imagePatternId = `trump-${this.index}`;
         this.imageFillStyle = `fill: url(#${this.imagePatternId})`;
+    }
+
+    displayInfos(event) {
+        this.infos = {
+            title: this.getTranslatedTrumpTitle(),
+            description: this.getTranslatedTrumpDescription(),
+            visible: true,
+            event: event,
+        };
+    }
+
+    normalizeTrumpName() {
+        return this.trump.name.toLowerCase().replace(' ', '_');
+    }
+
+    getTranslatedTrumpDescription() {
+        return this._i18n.tr(`trumps.${this.normalizeTrumpName()}_description`);
+    }
+
+    getTranslatedTrumpTitle() {
+        return this._i18n.tr(`trumps.${this.normalizeTrumpName()}`);
+    }
+
+    hideInfos() {
+        this.infos = {
+            visible: false,
+        };
     }
 
     get yourTurn() {

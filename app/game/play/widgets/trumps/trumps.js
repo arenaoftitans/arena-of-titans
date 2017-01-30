@@ -31,7 +31,6 @@ export class AotTrumpsCustomElement {
     _game;
     _i18n;
     _logger;
-    infos = {};
     affectingInfos = {};
     selectedTrumpCost = 0;
 
@@ -114,23 +113,6 @@ export class AotTrumpsCustomElement {
 
     getTranslatedTrumpDescription(trump) {
         return this._i18n.tr(`trumps.${this.normalizeTrumpName(trump)}_description`);
-    }
-
-    displayInfos(trump, event) {
-        this.infos = {
-            title: this.getTranslatedTrumpTitle(trump),
-            description: this.getTranslatedTrumpDescription(trump),
-            visible: true,
-            event: event,
-        };
-        this.selectedTrumpCost = trump.cost;
-    }
-
-    hideInfos() {
-        this.infos = {
-            visible: false,
-        };
-        this.selectedTrumpCost = 0;
     }
 
     displayAffectingInfos(trump, event) {
