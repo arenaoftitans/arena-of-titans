@@ -235,7 +235,7 @@ export class AotNotificationsCustomElement {
                 blinkClass = 'blink-img';
                 break;
             case 3:  // Trumps
-                elements = Elements.forClass('player-trumps', 'player-trumps');
+                elements = Elements.forClass('player-trump', 'player-trumps');
                 blinkClass = 'blink-img';
                 break;
             case 4:  // Notfications
