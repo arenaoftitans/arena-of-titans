@@ -1,23 +1,23 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2017 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { AotTrumpsCustomElement } from '../../../../../app/game/play/widgets/trumps/trumps';
+import { AotTrumpCustomElement } from '../../../../../app/game/play/widgets/trump/trump';
 import {
     ApiStub,
     EventAggregatorSubscriptionsStub,
@@ -26,7 +26,7 @@ import {
 } from '../../../../../app/test-utils';
 
 
-describe('trumps', () => {
+describe('trump', () => {
     let sut;
     let mockedI18n;
     let mockedApi;
@@ -38,7 +38,8 @@ describe('trumps', () => {
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotTrumpsCustomElement(mockedApi, mockedGame, mockedI18n, mockedEas);
+        sut = new AotTrumpCustomElement(mockedApi, mockedGame, mockedI18n, mockedEas);
+        sut.kind = 'player';
     });
 
     it('should play trump with a target after a popup', done => {
@@ -59,8 +60,10 @@ describe('trumps', () => {
         mockedApi._me = {
             index: 0,
         };
+        sut.trump = {name: 'Trump', must_target_player: true};
+        sut.index = 0;
 
-        sut.play({name: 'Trump', must_target_player: true}, 0);
+        sut.play();
 
         expect(mockedGame.popup).toHaveBeenCalledWith(
             'confirm',
@@ -92,8 +95,10 @@ describe('trumps', () => {
             trumps_statuses: [true],
             your_turn: true,
         };
+        sut.trump = {name: 'Trump', must_target_player: false};
+        sut.index = 0;
 
-        sut.play({name: 'Trump', must_target_player: false}, 0);
+        sut.play();
 
         expect(mockedGame.popup).not.toHaveBeenCalled();
         expect(mockedApi.playTrump).toHaveBeenCalledWith({trumpName: 'Trump'});
@@ -116,6 +121,17 @@ describe('trumps', () => {
         sut.unbind();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
+    });
+
+    it('should not play trump if kind is different than player', () => {
+        spyOn(mockedApi, 'playTrump');
+        spyOn(mockedGame, 'popup');
+        sut.kind = 'affecting';
+
+        sut.play();
+
+        expect(mockedApi.playTrump).not.toHaveBeenCalled();
+        expect(mockedGame.popup).not.toHaveBeenCalled();
     });
 
     describe('should get the correct list of targets', () => {

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+-->
+<template>
+    <require from="./trump.css"></require>
+    <require from="../infos/infos"></require>
+
+    <aot-infos type.bind="infosType"
+               infos.bind="infos"></aot-infos>
+
+    <svg version="1.1"
+         class="${svgClass} ${yourTurn && trumpsStatuses[index] ? 'active-trump' : 'inactive-trump'}"
+         mouseover.delegate="displayInfos($event)"
+         mouseout.delegate="hideInfos()"
+         click.delegate="play()"
+         x="0px"
+         y="0px"
+         viewBox="0 0 285 332"
+         width="285"
+         height="332">
+    <defs>
+        <pattern id.bind="imagePatternId" x="0%" y="0%" height="100%" width="100%" viewBox="0 0 512 512">
+            <image x="0%" y="0%" width="512" height="512" xlink:href="${trump.img}"></image>
+        </pattern>
+
+        <radialGradient id="trump-gradient-1"
+                        cx="423.5"
+                        cy="310.49969"
+                        r="210.7838"
+                        gradientTransform="matrix(0.7983,0,0,0.7698,49.4118,34.4204)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:#FFFFFF" id="stop4" />
+            <stop offset="4.358071e-02" style="stop-color:#EFEFEF" id="stop6" />
+            <stop offset="0.2516" style="stop-color:#A8A8A8" id="stop8" />
+            <stop offset="0.4476" style="stop-color:#6C6C6C" id="stop10" />
+            <stop offset="0.6259" style="stop-color:#3D3D3D" id="stop12" />
+            <stop offset="0.7831" style="stop-color:#1C1C1C" id="stop14" />
+            <stop offset="0.9131" style="stop-color:#070707" id="stop16" />
+            <stop offset="1" style="stop-color:#000000" id="stop18" />
+        </radialGradient>
+
+        <linearGradient id="trump-gradient-2"
+                        gradientUnits="userSpaceOnUse"
+                        x1="301.8718"
+                        y1="188.6575"
+                        x2="245.60719"
+                        y2="132.39281">
+            <stop offset="3.750000e-02" style="stop-color:#FFFFFF" id="stop27" />
+            <stop offset="0.2791" style="stop-color:#CBCBCB" id="stop29" />
+            <stop offset="0.6232" style="stop-color:#888888" id="stop31" />
+            <stop offset="0.8728" style="stop-color:#5D5D5D" id="stop33" />
+            <stop offset="1" style="stop-color:#4D4D4D" id="stop35" />
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-3"
+                        gradientUnits="userSpaceOnUse"
+                        x1="473.12851"
+                        y1="188.6573"
+                        x2="529.39288"
+                        y2="132.3929">
+            <stop offset="3.750000e-02" style="stop-color:#FFFFFF" id="stop44" />
+            <stop offset="0.2791" style="stop-color:#CBCBCB" id="stop46" />
+            <stop offset="0.6232" style="stop-color:#888888" id="stop48" />
+            <stop offset="0.8728" style="stop-color:#5D5D5D" id="stop50" />
+            <stop offset="1" style="stop-color:#4D4D4D" id="stop52" />
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-4"
+                        gradientUnits="userSpaceOnUse"
+                        x1="473.12869"
+                        y1="358.21609"
+                        x2="529.39282"
+                        y2="414.48019">
+            <stop offset="3.750000e-02" style="stop-color:#FFFFFF" id="stop61" />
+            <stop offset="0.2791" style="stop-color:#CBCBCB" id="stop63" />
+            <stop offset="0.6232" style="stop-color:#888888" id="stop65" />
+            <stop offset="0.8728" style="stop-color:#5D5D5D" id="stop67" />
+            <stop offset="1" style="stop-color:#4D4D4D" id="stop69" />
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-5"
+                        gradientUnits="userSpaceOnUse"
+                        x1="292.93451"
+                        y1="353.10141"
+                        x2="254.54449"
+                        y2="419.59491">
+            <stop offset="3.750000e-02" style="stop-color:#FFFFFF" id="stop78" />
+            <stop offset="0.2791" style="stop-color:#CBCBCB" id="stop80" />
+            <stop offset="0.6232" style="stop-color:#888888" id="stop82" />
+            <stop offset="0.8728" style="stop-color:#5D5D5D" id="stop84" />
+            <stop offset="1" style="stop-color:#4D4D4D" id="stop86" />
+        </linearGradient>
+
+        <radialGradient id="trump-gradient-6"
+                        cx="410.25769"
+                        cy="462.04691"
+                        r="71.985703"
+                        gradientTransform="matrix(0.9946,0,0,0.9575,-20.9525,-39.0395)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:#FFFFFF" id="stop101" />
+            <stop offset="4.358071e-02" style="stop-color:#EFEFEF" id="stop103" />
+            <stop offset="0.2516" style="stop-color:#A8A8A8" id="stop105" />
+            <stop offset="0.4476" style="stop-color:#6C6C6C" id="stop107" />
+            <stop offset="0.6259" style="stop-color:#3D3D3D" id="stop109" />
+            <stop offset="0.7831" style="stop-color:#1C1C1C" id="stop111" />
+            <stop offset="0.9131" style="stop-color:#070707" id="stop113" />
+            <stop offset="1" style="stop-color:#000000" id="stop115" />
+        </radialGradient>
+
+        <radialGradient id="trump-gradient-7"
+                        cx="422.5"
+                        cy="474.99979"
+                        r="55.6217"
+                        gradientTransform="matrix(0.7983,0,0,0.7924,49.4118,27.4081)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="8.250000e-02" style="stop-color:#FFFFFF" id="stop124" />
+            <stop offset="0.3598" style="stop-color:#FDFDFD" id="stop126" />
+            <stop offset="0.4991" style="stop-color:#F5F5F5" id="stop128" />
+            <stop offset="0.6077" style="stop-color:#E8E8E8" id="stop130" />
+            <stop offset="0.7004" style="stop-color:#D5D5D5" id="stop132" />
+            <stop offset="0.783" style="stop-color:#BDBDBD" id="stop134" />
+            <stop offset="0.8584" style="stop-color:#9F9F9F" id="stop136" />
+            <stop offset="0.9283" style="stop-color:#7B7B7B" id="stop138" />
+            <stop offset="0.9922" style="stop-color:#525252" id="stop140" />
+            <stop offset="1" style="stop-color:#4D4D4D" id="stop142" />
+        </radialGradient>
+    </defs>
+
+    <g id="g25"
+       transform="translate(-245,-132)">
+        <rect
+            x="245.5"
+            y="132.5"
+            width="284"
+            height="281.89999"
+            id="rect21"
+            style="fill:url(#trump-gradient-1)" />
+        <path
+            d="M 529,133 V 413.9 H 246 V 133 h 283 m 1,-1 H 245 v 282.9 h 285 z"
+            id="path23" />
+    </g>
+    <g id="g42"
+       transform="translate(-245,-132)">
+        <rect
+            x="245.5"
+            y="132.5"
+            width="56.5"
+            height="56.099998"
+            id="rect38"
+            style="fill:url(#trump-gradient-2)" />
+        <path
+            d="m 301.5,133 v 55.1 H 246 V 133 h 55.5 m 1,-1 H 245 v 57.1 h 57.5 z"
+            id="path40" />
+    </g>
+    <g id="g59"
+       transform="translate(-245,-132)">
+        <rect
+            x="473"
+            y="132.5"
+            width="56.5"
+            height="56.099998"
+            id="rect55"
+            style="fill:url(#trump-gradient-3)" />
+        <path
+            d="m 529,133 v 55.1 H 473.5 V 133 H 529 m 1,-1 h -57.5 v 57.1 H 530 Z"
+            id="path57" />
+    </g>
+    <g id="g76"
+       transform="translate(-245,-132)">
+        <rect
+            x="473"
+            y="358.29999"
+            width="56.5"
+            height="56"
+            id="rect72"
+            style="fill:url(#trump-gradient-4)" />
+        <path
+            d="m 529,358.8 v 55.1 H 473.5 V 358.8 H 529 m 1,-1 h -57.5 v 57.1 H 530 Z"
+            id="path74" />
+    </g>
+    <g id="g93"
+       transform="translate(-245,-132)">
+        <rect
+            x="245.5"
+            y="358.29999"
+            width="56.5"
+            height="56"
+            id="rect89"
+            style="fill:url(#trump-gradient-5)" />
+        <path
+            d="m 301.5,358.8 v 55.1 H 246 v -55.1 h 55.5 m 1,-1 H 245 v 57.1 h 57.5 z"
+            id="path91" />
+    </g>
+    <g id="g99"
+       transform="translate(-245,-132)">
+    <rect
+        x="269.39999"
+        y="157.10001"
+        width="235.3"
+        height="233.5"
+        id="trump-img-container"
+        style.bind="imageFillStyle" />
+    <path
+        d="M 504.3,157.6 V 390.1 H 269.9 V 157.6 h 234.4 m 1,-1 H 268.9 V 391.1 H 505.2 V 156.6 Z"
+        id="path97" />
+    </g>
+    <g id="g122"
+       transform="translate(-245,-132)">
+        <path
+            d="m 387.1,463.5 c -33.2,0 -60.2,-27 -60.2,-60.1 0,-33.1 27,-60.1 60.2,-60.1 33.2,0 60.2,27 60.2,60.1 0,33.1 -27,60.1 -60.2,60.1 z"
+            id="path118"
+            style="fill:url(#trump-gradient-6)" />
+        <path
+            d="m 387.1,343.8 c 32.9,0 59.7,26.7 59.7,59.6 0,32.9 -26.8,59.6 -59.7,59.6 -32.9,0 -59.7,-26.7 -59.7,-59.6 0,-32.9 26.8,-59.6 59.7,-59.6 m 0,-1 c -33.5,0 -60.7,27.1 -60.7,60.6 0,33.5 27.2,60.6 60.7,60.6 33.5,0 60.7,-27.1 60.7,-60.6 0,-33.5 -27.2,-60.6 -60.7,-60.6 z"
+            id="path120" />
+    </g>
+    <g id="g149"
+       transform="translate(-245,-132)">
+        <path
+            d="m 386.7,447.7 c -24.6,0 -44.6,-19.7 -44.6,-43.9 0,-24.2 20,-43.9 44.6,-43.9 24.6,0 44.6,19.7 44.6,43.9 0,24.2 -20,43.9 -44.6,43.9 z"
+            id="value"
+            style="fill:url(#trump-gradient-7)" />
+        <path
+            d="m 386.7,360.4 c 24.3,0 44.1,19.5 44.1,43.4 0,23.9 -19.8,43.4 -44.1,43.4 -24.3,0 -44.1,-19.5 -44.1,-43.4 0,-23.9 19.8,-43.4 44.1,-43.4 m 0,-1 c -24.9,0 -45.1,19.9 -45.1,44.4 0,24.5 20.2,44.4 45.1,44.4 24.9,0 45.1,-19.9 45.1,-44.4 0,-24.5 -20.2,-44.4 -45.1,-44.4 z"
+            id="path147" />
+    </g>
+
+    <text font-size="3em"
+          x="130.85381"
+          y="285.76059"
+          id="trump-cost">
+        ${trump.cost}
+    </text>
+    </svg>
+</template>
