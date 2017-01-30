@@ -55,6 +55,7 @@ export class Game {
 
         this._logger = LogManager.getLogger('AotGame');
         this._currentPlayerIndex = null;
+        this._tutorialInProgress = false;
 
         this._popupMessageId;
         this._popupMessage = {};
@@ -115,9 +116,17 @@ export class Game {
                 }
             });
         });
+
+        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
+            this._tutorialInProgress = true;
+        });
+
+        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
+            this._tutorialInProgress = false;
+        });
+
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
-            if (message.rt === 'CREATE_GAME' && this._options.proposeGuidedVisit) {
-                // We dispaly the tutorial, don't display the transition popup.
+            if (!this.canDisplayTransitionPopup(message)) {
                 return;
             }
 
@@ -146,6 +155,13 @@ export class Game {
                 });
             }
         });
+    }
+
+    canDisplayTransitionPopup(message) {
+        // We are displaying the tutorial, don't display the transition popup.
+        let tutorialPopupDisplayed = message.rt === 'CREATE_GAME' &&
+            this._options.proposeGuidedVisit;
+        return !tutorialPopupDisplayed && !this._tutorialInProgress;
     }
 
     deactivate() {
