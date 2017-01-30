@@ -24,6 +24,9 @@ import { Api } from './services/api';
 import { EventAggregatorSubscriptions } from './services/utils';
 
 
+const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 5000;
+
+
 @inject(History, I18N, Api, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
@@ -118,7 +121,10 @@ export class Game {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 });
 
-                this.popup('infos', this._popupMessage, {timeout: 5000}).then(() => {
+                let options = {
+                    timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+                };
+                this.popup('infos', this._popupMessage, options).then(() => {
                     this._popupMessageId = undefined;
                     this._popupMessage = {};
                 });
