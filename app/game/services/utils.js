@@ -47,7 +47,13 @@ export class ImageSource {
     }
 
     static forChestHero(hero) {
-        return '/assets/game/heroes/elf-chest.png';
+        const supportedHero = ['elf'];
+
+        if (supportedHero.includes(hero)) {
+            return `/assets/game/heroes/${hero}-chest.png`;
+        }
+
+        return ImageSource.forCircledHero(hero);
     }
 
     static forCircledHero(hero) {
