@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
@@ -52,6 +53,7 @@ export class Game {
         this._options = options;
         this._eas = eas;
 
+        this._logger = LogManager.getLogger('AotGame');
         this._currentPlayerIndex = null;
 
         this._popupMessageId;
@@ -151,6 +153,15 @@ export class Game {
     }
 
     popup(type, data, {timeout = 0} = {}) {
+        // We display only one popup at a time. If a popup is already being displayed, we log an
+        // error and reject the promise.
+        if (this.type !== null) {
+            this._logger.error('We can display only a popup at a time', type, data);
+            return new Promise((resolve, reject) => {
+                reject(new Error('We can display only a popup at a time'));
+            });
+        }
+
         this.data = data;
         this.type = type;
         this.popupDefered.promise = new Promise((resolve, reject) => {

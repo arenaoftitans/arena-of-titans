@@ -77,6 +77,20 @@ describe('the Game module', () => {
 
             sut.popupDefered.resolve({test: true});
         });
+
+        it('should log and reject promise if we already have a popup', done => {
+            sut.type = 'info';
+            spyOn(sut._logger, 'error');
+
+            sut.popup('test', {test: true}).then(() => {
+                expect(true).toBe(false);
+                done();
+            }, error => {
+                expect(sut._logger.error).toHaveBeenCalled();
+                expect(error.message).toBe('We can display only a popup at a time');
+                done();
+            });
+        });
     });
 
     describe('router', () => {
