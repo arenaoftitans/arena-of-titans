@@ -120,7 +120,8 @@ export class Game {
                 } else {
                     this._popupMessageId = 'game.play.your_turn';
                 }
-                this._popupMessage.img = ImageSource.forChestHero(this._api.me.hero);
+                let hero = this._api.game.players.heroes[this._api.game.next_player];
+                this._popupMessage.img = ImageSource.forChestHero(hero);
                 this._popupMessageOptions = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 };
