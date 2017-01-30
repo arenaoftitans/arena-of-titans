@@ -17,7 +17,10 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventAggregatorStub } from '../../app/test-utils';
+import {
+    EventAggregatorStub,
+    EventAggregatorSubscriptionsStub,
+} from '../../app/test-utils';
 
 
 describe('test-utils', () => {
@@ -50,6 +53,25 @@ describe('test-utils', () => {
             sut.publish('signal', 'message');
 
             expect(fn).toHaveBeenCalledWith('message');
+        });
+    });
+
+    describe('EventAggregatorSubscriptionsStub', () => {
+        let sut;
+
+        beforeEach(() => {
+            sut = new EventAggregatorSubscriptionsStub();
+        });
+
+        it('should subscribe multiple', () => {
+            let fn = () => {};
+            let signals = ['signal1', 'signal2'];
+            spyOn(sut, 'subscribe');
+
+            sut.subscribeMultiple(signals, fn);
+
+            expect(sut.subscribe).toHaveBeenCalledWith('signal1', fn);
+            expect(sut.subscribe).toHaveBeenCalledWith('signal2', fn);
         });
     });
 });

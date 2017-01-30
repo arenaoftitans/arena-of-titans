@@ -277,6 +277,12 @@ export class EventAggregatorSubscriptionsStub {
         this.ea.subscribe(signal, fn);
     }
 
+    subscribeMultiple(signals, fn) {
+        for (let signal of signals) {
+            this.subscribe(signal, fn);
+        }
+    }
+
     dispose() {
     }
 
