@@ -105,7 +105,7 @@ export class Game {
                 }
             });
         });
-        this._eas.subscribe('aot:api:play', () => {
+        this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], () => {
             if (this._api.game.next_player !== this._currentPlayerIndex) {
                 this._currentPlayerIndex = this._api.game.next_player;
                 if (this._currentPlayerIndex !== this._api.me.index) {

@@ -188,6 +188,12 @@ export class EventAggregatorSubscriptions {
         this._subscriptions.push(sub);
     }
 
+    subscribeMultiple(signals, fn) {
+        for (let signal of signals) {
+            this.subscribe(signal, fn);
+        }
+    }
+
     dispose() {
         while (this._subscriptions.length > 0) {
             let subscription = this._subscriptions.shift();
