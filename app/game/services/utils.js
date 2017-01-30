@@ -46,6 +46,10 @@ export class ImageSource {
         return `/assets/game/heroes/${hero}.png`;
     }
 
+    static forChestHero(hero) {
+        return '/assets/game/heroes/elf-chest.png';
+    }
+
     static forCircledHero(hero) {
         return `/assets/game/heroes/${hero}-circle.png`;
     }

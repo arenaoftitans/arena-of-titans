@@ -21,7 +21,7 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
 import { Api } from './services/api';
-import { EventAggregatorSubscriptions } from './services/utils';
+import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
 
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 5000;
@@ -120,6 +120,7 @@ export class Game {
                 } else {
                     this._popupMessageId = 'game.play.your_turn';
                 }
+                this._popupMessage.img = ImageSource.forChestHero(this._api.me.hero);
                 this._popupMessageOptions = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 };
@@ -128,7 +129,7 @@ export class Game {
                 let options = {
                     timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
                 };
-                this.popup('infos', this._popupMessage, options).then(() => {
+                this.popup('transition', this._popupMessage, options).then(() => {
                     this._popupMessageId = undefined;
                     this._popupMessage = {};
                     this._popupMessageOptions = {};
