@@ -71,7 +71,7 @@ export class AotTrumpCustomElement {
         // We define these two properties to use id.bind and style.bind to dispaly the proper
         // image. If we don't and use string interpolation instead, we get a lint error:
         // https://github.com/MeirionHughes/aurelia-template-lint/issues/23
-        this.imagePatternId = `trump-${this.index}`;
+        this.imagePatternId = `trump-${this.kind}-${this.index}`;
         this.imageFillStyle = `fill: url(#${this.imagePatternId})`;
     }
 
