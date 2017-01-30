@@ -21,6 +21,7 @@
     <require from="./trumps.css"></require>
     <require from="../infos/infos"></require>
     <require from="../gauge/gauge"></require>
+    <require from="../trump/trump"></require>
 
 	<div id="gauge" class="centered-block">
         <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero" cost.bind="selectedTrumpCost"></aot-trumps-gauge>
@@ -45,12 +46,13 @@
             <aot-infos type="trumps"
                        infos.bind="infos"></aot-infos>
 
-            <img class="player-trumps ${yourTurn && trumpsStatuses[$index] ? 'active-trump' : 'inactive-trump'}"
-                 repeat.for="trump of trumps"
-                 src.bind="trump.img"
-                 click.delegate="play(trump, $index)"
-                 mouseover.delegate="displayInfos(trump, $event)"
-                 mouseout.delegate="hideInfos()" />
+            <aot-trump repeat.for="trump of trumps"
+                       click.delegate="play(trump, $index)"
+                       mouseover.delegate="displayInfos(trump, $event)"
+                       mouseout.delegate="hideInfos()"
+                       trump.bind="trump"
+                       index.bind="$index"
+                       kind="player"></aot-trump>
         </div>
     </div>
 </template>
