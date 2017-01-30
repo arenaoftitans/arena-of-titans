@@ -44,7 +44,6 @@
     <div id="player-trumps">
         <div>
             <aot-trump repeat.for="trump of trumps"
-                       click.delegate="play(trump, $index)"
                        trump.bind="trump"
                        index.bind="$index"
                        kind="player"></aot-trump>

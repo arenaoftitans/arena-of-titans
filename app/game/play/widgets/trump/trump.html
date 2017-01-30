@@ -28,6 +28,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
          class="${svgClass} ${yourTurn && trumpsStatuses[index] ? 'active-trump' : 'inactive-trump'}"
          mouseover.delegate="displayInfos($event)"
          mouseout.delegate="hideInfos()"
+         click.delegate="play()"
          x="0px"
          y="0px"
          viewBox="0 0 285 332"

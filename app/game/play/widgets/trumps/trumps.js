@@ -17,90 +17,21 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import * as LogManager from 'aurelia-logging';
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 import { Api } from '../../../services/api';
-import { Game } from '../../../game';
 
 
-@inject(Api, Game, I18N, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, I18N)
 export class AotTrumpsCustomElement {
     _api;
     _game;
     _i18n;
-    _logger;
     affectingInfos = {};
-    selectedTrumpCost = 0;
 
-    constructor(api, game, i18n, eas) {
+    constructor(api, i18n) {
         this._api = api;
-        this._game = game;
         this._i18n = i18n;
-        this._eas = eas;
-        this._popupMessage = {};
-        this._lastSelected = null;
-        this._logger = LogManager.getLogger('AotTrumps');
-
-        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
-    }
-
-    unbind() {
-        this._eas.dispose();
-    }
-
-    _translatePopupMessage() {
-        if (this._lastSelected) {
-            this._popupMessage.message = this._i18n.tr(
-                'game.play.select_trump_target', {
-                    trumpname: this.getTranslatedTrumpTitle(this._lastSelected.trump),
-                });
-            this._popupMessage.title = this.getTranslatedTrumpTitle(this._lastSelected.trump);
-            this._popupMessage.description =
-                    this.getTranslatedTrumpDescription(this._lastSelected.trump);
-            this._popupMessage.choices = this._lastSelected.otherPlayerNames;
-            this._popupMessage.selectedChoice =
-                    randomInt(1, this._popupMessage.choices.length).toString();
-        }
-    }
-
-    play(trump, index) {
-        if (!this.yourTurn || !this.trumpsStatuses[index]) {
-            return;
-        } else if (trump.must_target_player) {
-            let otherPlayerNames = this._getOtherPlayerNames();
-            this._lastSelected = {
-                trump: trump,
-                otherPlayerNames: otherPlayerNames,
-            };
-            this._translatePopupMessage();
-            this._game.popup('confirm', this._popupMessage).then(targetIndex => {
-                // targetIndex is binded in a template, hence it became a string and must be
-                // converted before usage in the API
-                targetIndex = parseInt(targetIndex, 10);
-                this._api.playTrump({trumpName: trump.name, targetIndex: targetIndex});
-            }, () => this._logger.debug('Player canceled trump'));
-        } else {
-            this._api.playTrump({trumpName: trump.name});
-        }
-    }
-
-    _getOtherPlayerNames() {
-        let otherPlayerNames = [];
-        for (let playerIndex of this.playerIndexes) {
-            // We need to check that playerIndex is neither null nor undefined.
-            // Just relying on "falsyness" isn't enough since 0 is valid but false.
-            if (playerIndex != null && playerIndex !== this.myIndex) { // eslint-disable-line
-                let player = {
-                    index: playerIndex,
-                    name: this.playerNames[playerIndex],
-                };
-                otherPlayerNames.push(player);
-            }
-        }
-
-        return otherPlayerNames;
     }
 
     getTranslatedTrumpTitle(trump) {
@@ -139,20 +70,8 @@ export class AotTrumpsCustomElement {
         return this._api.me.affecting_trumps;
     }
 
-    get playerNames() {
-        return this._api.game.players.names;
-    }
-
-    get playerIndexes() {
-        return this._api.game.players.indexes;
-    }
-
     get me() {
         return this._api.me;
-    }
-
-    get myIndex() {
-        return this._api.me.index;
     }
 
     get yourTurn() {
