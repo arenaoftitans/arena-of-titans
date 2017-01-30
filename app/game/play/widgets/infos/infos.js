@@ -73,14 +73,17 @@ export class AotInfosCustomElement {
 
     show(target) {
         if (this.type === 'trumps' || this.type === 'affecting-trumps') {
-            let trumpsContainer = this.type === 'trumps' ? document.getElementById('player-trumps')
-                : document.getElementById('trumps-affecting-player');
+            let left = document.getElementById('player-trumps').getBoundingClientRect().width;
+            if (this.type === 'affecting-trumps') {
+                left +=  document.getElementById('trumps-affecting-player')
+                                 .getBoundingClientRect().width;
+            }
 
             this.infosDiv.style.top = target.getBoundingClientRect().top -
                 this.height -
                 target.getBoundingClientRect().height +
                 'px';
-            this.infosDiv.style.left = trumpsContainer.getBoundingClientRect().width + 'px';
+            this.infosDiv.style.left = `${left}px`;
         } else if (this.type === 'cards') {
             let targetBoundingClientRect = target.getBoundingClientRect();
 

@@ -22,6 +22,7 @@ aot-trumps {
     #trumps-affecting-player {
         display: block;
         float: left;
+        margin-top: 2.5vh;
         width: 50%;
     }
 
@@ -51,15 +52,5 @@ aot-trumps {
         max-width: 60px;
         min-width: 42px;
         width: 60%;
-    }
-
-    .trumps-affecting-player {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 1vh;
-        max-height: 9vh;
-        max-width: 40%;
-        min-width: 32px;
     }
 }

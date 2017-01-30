@@ -60,9 +60,11 @@ export class AotTrumpCustomElement {
         switch (this.kind) {
             case 'player':
                 this.svgClass = 'player-trump';
+                this.infosType = 'trumps';
                 break;
             case 'affecting':
                 this.svgClass = 'trump-affecting-player';
+                this.infosType = 'affecting-trumps';
                 break;
             default:
                 this.svgClass = undefined;

@@ -34,34 +34,6 @@ export class AotTrumpsCustomElement {
         this._i18n = i18n;
     }
 
-    getTranslatedTrumpTitle(trump) {
-        return this._i18n.tr(`trumps.${this.normalizeTrumpName(trump)}`);
-    }
-
-    normalizeTrumpName(trump) {
-        return trump.name.toLowerCase().replace(' ', '_');
-    }
-
-    getTranslatedTrumpDescription(trump) {
-        return this._i18n.tr(`trumps.${this.normalizeTrumpName(trump)}_description`);
-    }
-
-    displayAffectingInfos(trump, event) {
-        this.affectingInfos = {
-            title: this.getTranslatedTrumpTitle(trump),
-            description: this.getTranslatedTrumpDescription(trump),
-            initiator: trump.initiator,
-            visible: true,
-            event: event,
-        };
-    }
-
-    hideAffectingInfos() {
-        this.affectingInfos = {
-            visible: false,
-        };
-    }
-
     get trumps() {
         return this._api.me.trumps;
     }
@@ -72,13 +44,5 @@ export class AotTrumpsCustomElement {
 
     get me() {
         return this._api.me;
-    }
-
-    get yourTurn() {
-        return this._api.game.your_turn;
-    }
-
-    get trumpsStatuses() {
-        return this._api.game.trumps_statuses;
     }
 }
