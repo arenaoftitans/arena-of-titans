@@ -64,7 +64,7 @@ export class AotCounterCustomElement {
             this._handlePlayRequest();
         });
 
-        this._ea.subscribe('aot:game:counter_start', () => {
+        this._eas.subscribe('aot:game:counter_start', () => {
             if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
                 this.start();
             }

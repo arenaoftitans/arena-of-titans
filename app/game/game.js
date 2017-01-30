@@ -20,10 +20,11 @@
 import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
+import { Api } from './services/api';
 import { EventAggregatorSubscriptions } from './services/utils';
 
 
-@inject(History, I18N, NewInstance.of(EventAggregatorSubscriptions))
+@inject(History, I18N, Api, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -41,8 +42,9 @@ export class Game {
         reject: null,
     };
 
-    constructor(history, i18n, eas) {
+    constructor(history, i18n, api, eas) {
         this._i18n = i18n;
+        this._api = api;
         this._eas = eas;
 
         this._currentPlayerIndex = null;
@@ -103,7 +105,7 @@ export class Game {
                 }
             });
         });
-        this._api.on(this._api.requestTypes.play, () => {
+        this._eas.subscribe('aot:api:play', () => {
             if (this._api.game.next_player !== this._currentPlayerIndex) {
                 this._currentPlayerIndex = this._api.game.next_player;
                 if (this._currentPlayerIndex !== this._api.me.index) {
@@ -155,7 +157,7 @@ export class Game {
         }
 
         let startCounter = () => {
-            this._ea.publish('aot:game:counter_start');
+            this._eas.publish('aot:game:counter_start');
         };
         this.popupDefered.promise.then(startCounter, startCounter);
 

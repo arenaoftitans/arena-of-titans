@@ -19,6 +19,7 @@
 
 import { Game } from '../../../app/game/game';
 import {
+    ApiStub,
     RouterStub,
     HistoryStub,
     I18nStub,
@@ -29,20 +30,22 @@ import {
 describe('the Game module', () => {
     let mockedHistory;
     let mockedI18n;
+    let mockedApi;
     let mockedEas;
     let sut;
 
     beforeEach(() => {
         mockedHistory = new HistoryStub();
         mockedI18n = new I18nStub();
+        mockedApi = new ApiStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedI18n, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedI18n, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
