@@ -20,18 +20,12 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 <template>
     <require from="./board-controls.css"></require>
 
-    <button class="board-control zoom-in"
-            type="button"
-            click.delegate="zoom('in')">+</button>
     <input class="zoom-control"
            type="range"
            value.bind="value"
            min.bind="minZoom"
            max.bind="maxZoom"
            step.bind="zoomStep" />
-    <button class="board-control zoom-out"
-            type="button"
-            click.delegate="zoom('out')">-</button>
 
     <div class="arrow arrow-up" click.delegate="move('up')"></div>
     <div class="arrow arrow-right" click.delegate="move('right')"></div>

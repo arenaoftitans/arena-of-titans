@@ -39,13 +39,6 @@ export class AotBoardControlsCustomElement {
         });
     }
 
-    zoom(direction) {
-        this._ea.publish('aot:board:controls:zoom', {
-            direction: direction,
-            value: null,
-        });
-    }
-
     move(direction) {
         let deltaX = 0;
         let deltaY = 0;
