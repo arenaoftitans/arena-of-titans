@@ -66,6 +66,10 @@ export class AotBoardControlsCustomElement {
         });
     }
 
+    reset() {
+        this._ea.publish('aot:board:controls:reset');
+    }
+
     get maxZoom() {
         return MAX_ZOOM;
     }

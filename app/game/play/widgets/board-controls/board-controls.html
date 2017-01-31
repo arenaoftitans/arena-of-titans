@@ -20,6 +20,11 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 <template>
     <require from="./board-controls.css"></require>
 
+    <button class="grey-button reset-button"
+            click.delegate="reset()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+    </button>
+
     <div class="zoom-container">
         <i class="fa fa-search-minus zoom-indicator" aria-hidden="true"></i>
         <input class="zoom-control"

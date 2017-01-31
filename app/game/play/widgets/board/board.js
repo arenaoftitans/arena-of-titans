@@ -72,6 +72,10 @@ export class AotBoardCustomElement {
             this.moveBoard(data.deltaX, data.deltaY);
         });
 
+        this._eas.subscribe('aot:board:controls:reset', () => {
+            this.reset();
+        });
+
         this._currentScale = 1;
         this._currentTranslate = {
             x: 0,
@@ -162,6 +166,14 @@ export class AotBoardCustomElement {
     moveBoard(deltaX, deltaY) {
         this._currentTranslate.x += deltaX;
         this._currentTranslate.y += deltaY;
+
+        this._applyTransformOnBoard();
+    }
+
+    reset() {
+        this._currentScale = 1;
+        this._currentTranslate.x = 0;
+        this._currentTranslate.y = 0;
 
         this._applyTransformOnBoard();
     }

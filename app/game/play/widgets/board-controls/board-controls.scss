@@ -72,6 +72,18 @@ aot-board-controls {
         width: 15px;
     }
 
+    .reset-button {
+        bottom: 47%;
+        padding: 0.5%;
+        position: absolute;
+        right: 5%;
+        width: auto;
+
+        i {
+            transform: translateY(-25%);
+        }
+    }
+
     .zoom-container {
         bottom: 47%;
         float: right;
