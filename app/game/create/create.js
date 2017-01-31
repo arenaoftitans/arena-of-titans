@@ -71,10 +71,7 @@ export class Create {
     activate(params = {}) {
         this._registerEvents(params);
         this._gameUrl = window.location.href;
-
-        if (!params.id || (params.id && params.id !== this._api.game.id)) {
-            this.init(params);
-        }
+        this.init(params);
 
         if (this._config.test.debug) {
             if (!params.id) {
@@ -99,9 +96,14 @@ export class Create {
     }
 
     init(params) {
+        // Services must only be initialized on first activation: when we create a new game or
+        // join a different game.
+        if (!params.id || (params.id && params.id !== this._api.game.id)) {
+            this._api.init();
+            this._history.init();
+        }
+
         Wait.flushCache();
-        this._api.init();
-        this._history.init();
         this.initPlayerInfoDefered();
         this.playerInfo = this._storage.loadPlayerInfos();
         this.editing = false;
