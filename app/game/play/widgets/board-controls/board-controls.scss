@@ -72,11 +72,23 @@ aot-board-controls {
         width: 15px;
     }
 
-    .zoom-control {
+    .zoom-container {
         bottom: 47%;
         float: right;
         position: absolute;
         right: 5%;
         transform: rotate(-90deg);
+    }
+
+    .zoom-control {
+        -webkit-appearance: none;
+        background: url('/assets/game/backgrounds/zoom.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 0;
+    }
+
+    .zoom-indicator {
+        transform: rotate(90deg) translate(-25%);
     }
 }

@@ -20,12 +20,16 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 <template>
     <require from="./board-controls.css"></require>
 
-    <input class="zoom-control"
-           type="range"
-           value.bind="value"
-           min.bind="minZoom"
-           max.bind="maxZoom"
-           step.bind="zoomStep" />
+    <div class="zoom-container">
+        <i class="fa fa-search-minus zoom-indicator" aria-hidden="true"></i>
+        <input class="zoom-control"
+               type="range"
+               value.bind="value"
+               min.bind="minZoom"
+               max.bind="maxZoom"
+               step.bind="zoomStep" />
+        <i class="fa fa-search-plus zoom-indicator" aria-hidden="true"></i>
+    </div>
 
     <div class="arrow arrow-up" click.delegate="move('up')"></div>
     <div class="arrow arrow-right" click.delegate="move('right')"></div>
