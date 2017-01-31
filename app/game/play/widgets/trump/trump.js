@@ -88,6 +88,7 @@ export class AotTrumpCustomElement {
             visible: true,
             event: event,
         };
+        this._eas.publish('aot:trump:mouseover', this.trump);
     }
 
     normalizeTrumpName() {
@@ -106,6 +107,7 @@ export class AotTrumpCustomElement {
         this.infos = {
             visible: false,
         };
+        this._eas.publish('aot:trump:mouseout');
     }
 
     play() {

@@ -17,8 +17,8 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject, ObserverLocator } from 'aurelia-framework';
-import { Wait } from '../../../services/utils';
+import { bindable, inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 import { Api } from '../../../services/api';
 
 
@@ -28,14 +28,14 @@ const MAX_HEIGHT = 566;
 const MAX_DELTA = MAX_HEIGHT - MIN_HEIGHT;
 const FILL_REFRESH_TIME = 50;
 
-@inject(Api, ObserverLocator)
+@inject(Api, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
-    @bindable cost = 0;
 
-    constructor(api, observerLocator) {
+    constructor(api, observerLocator, eas) {
         this._api = api;
         this._observerLocator = observerLocator;
+        this._eas = eas;
         this.currentY = MAX_HEIGHT;
         this.heightForCost = 0;
         // We don't display the value directly in order for it increase/decrease while the gauge
@@ -64,18 +64,18 @@ export class AotTrumpsGaugeCustomElement {
                 }
             };
             this._observerLocator.getObserver(this, 'value').subscribe(this._valueObserverCb);
-            this._costObserverCb = (newValue, oldValue) => {
-                if (newValue !== oldValue) {
-                    this.heightForCost = this.cost / MAX_VALUE * MAX_DELTA;
-                }
-            };
-            this._observerLocator.getObserver(this, 'cost').subscribe(this._costObserverCb);
+            this._eas.subscribe('aot:trump:mouseover', trump => {
+                this.heightForCost = trump.cost / MAX_VALUE * MAX_DELTA;
+            });
+            this._eas.subscribe('aot:trump:mouseout', () => {
+                this.heightForCost = 0;
+            });
         });
     }
 
     unbind() {
         this._observerLocator.getObserver(this, 'value').unsubscribe(this._valueObserverCb);
-        this._observerLocator.getObserver(this, 'cost').unsubscribe(this._costObserverCb);
+        this._eas.dispose();
     }
 
     _fill(newValue, oldValue) {
