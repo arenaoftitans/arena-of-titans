@@ -68,7 +68,7 @@ export class AotBoardCustomElement {
             }
         });
 
-        this._ea.subscribe('aot:board:controls:move', data => {
+        this._eas.subscribe('aot:board:controls:move', data => {
             this.moveBoard(data.deltaX, data.deltaY);
         });
 
