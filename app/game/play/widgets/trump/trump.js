@@ -25,7 +25,7 @@ import { Api } from '../../../services/api';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 
 
-@inject(Api, Game, I18N, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Game, I18N, Element, NewInstance.of(EventAggregatorSubscriptions))
 export class AotTrumpCustomElement {
     _api;
     _logger;
@@ -42,10 +42,11 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api, game, i18n, eas) {
+    constructor(api, game, i18n, element, eas) {
         this._api = api;
         this._game = game;
         this._i18n = i18n;
+        this._element = element;
         this._eas = eas;
 
         this._popupMessage = {};
@@ -54,6 +55,27 @@ export class AotTrumpCustomElement {
         this._logger = LogManager.getLogger('AotTrumps');
 
         this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
+    }
+
+    attached() {
+        // Rewrite gradient ids to make them specific to this component.
+        let gradientIdTemplate = 'trump-gradient-{i}';
+        let i = 1;
+        let svg = this._element.getElementsByTagName('svg')[0];
+        let gradientId = gradientIdTemplate.replace('{i}', i);
+        let gradient = svg.getElementById(gradientId);
+
+        while (gradient !== null) {
+            let newId = `${gradientId}-${this.kind}-${this.index}`;
+            gradient.id = newId;
+            for (let svgElement of svg.querySelectorAll(`[style*="${gradientId}"]`)) {
+                svgElement.style.fill = `url(#${newId})`;
+            }
+
+            i++;
+            gradientId = gradientIdTemplate.replace('{i}', i);
+            gradient = svg.getElementById(gradientId);
+        }
     }
 
     bind() {

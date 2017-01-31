@@ -31,6 +31,7 @@ describe('trump', () => {
     let mockedI18n;
     let mockedApi;
     let mockedGame;
+    let element;
     let mockedEas;
 
     beforeEach(() => {
@@ -38,7 +39,7 @@ describe('trump', () => {
         mockedGame = new GameStub();
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotTrumpCustomElement(mockedApi, mockedGame, mockedI18n, mockedEas);
+        sut = new AotTrumpCustomElement(mockedApi, mockedGame, mockedI18n, element, mockedEas);
         sut.kind = 'player';
     });
 
