@@ -98,7 +98,7 @@ describe('game/create', () => {
         spyOn(mockedHistory, 'init');
         spyOn(sut, '_unregisterMyNameObserver');
 
-        sut.init();
+        sut.init({id: 'game_id'});
 
         expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
         expect(sut._registerEvents).toHaveBeenCalled();
