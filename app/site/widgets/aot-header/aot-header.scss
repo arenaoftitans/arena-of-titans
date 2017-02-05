@@ -1,6 +1,7 @@
 @import '../../../style/media-queries';
 
 $logo-size: 230;
+$logo-size-mobile: 100;
 
 aot-header {
     a {
@@ -9,13 +10,20 @@ aot-header {
 
     .button {
         display: inline;
-        padding-right: 45px;
+        margin-right: 3vw;
         text-align: inherit;
+    }
+
+    .blue-button {
+        padding: 10px 2vw;
+    }
+
+    .blue-button:hover {
+        background-position: 0 -70px;
     }
 
     header {
         background: #020101;
-        font-size: 26px;
         margin-bottom: 130px;
         padding-top: 80px;
         position: relative;
@@ -36,6 +44,7 @@ aot-header {
             position: absolute;
             top: 10px;
             width: #{$logo-size}px;
+            z-index: 2;
         }
     }
 
@@ -49,9 +58,13 @@ aot-header {
     }
 
     .navbar {
-        font-size: 36px;
+        font-size: 2.2vw;
         padding-bottom: 20px;
         padding-right: 5%;
+    }
+
+    .submenu {
+        font-size: 1.8vw;
     }
 
     .navbar,
@@ -65,7 +78,7 @@ aot-header {
         line-height: 50px;
         position: absolute;
         width: 95%;
-        z-index: -1;
+        z-index: 1;
     }
 
     @include fluid {
