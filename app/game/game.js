@@ -34,6 +34,7 @@ export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
         'daemon',
+        'elf',
         'orc',
         'reaper',
         'thief',
