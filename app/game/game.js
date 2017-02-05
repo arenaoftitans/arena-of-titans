@@ -17,17 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
-import { EventAggregatorSubscriptions } from './services/utils';
+import { Api } from './services/api';
+import { Options } from '../services/options';
+import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
 
 
-@inject(History, I18N, NewInstance.of(EventAggregatorSubscriptions))
+const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 6000;
+
+
+@inject(History, I18N, Api, Options, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
         'daemon',
+        'elf',
         'orc',
         'reaper',
         'thief',
@@ -41,9 +48,15 @@ export class Game {
         reject: null,
     };
 
-    constructor(history, i18n, eas) {
+    constructor(history, i18n, api, options, eas) {
         this._i18n = i18n;
+        this._api = api;
+        this._options = options;
         this._eas = eas;
+
+        this._logger = LogManager.getLogger('AotGame');
+        this._currentPlayerIndex = null;
+        this._tutorialInProgress = false;
 
         this._popupMessageId;
         this._popupMessage = {};
@@ -57,7 +70,10 @@ export class Game {
 
     _translatePopupMessage() {
         if (this._popupMessageId) {
-            this._popupMessage.message = this._i18n.tr(this._popupMessageId);
+            this._popupMessage.message = this._i18n.tr(
+                this._popupMessageId,
+                this._popupMessageOptions
+            );
         }
     }
 
@@ -101,13 +117,68 @@ export class Game {
                 }
             });
         });
+
+        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
+            this._tutorialInProgress = true;
+        });
+
+        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
+            this._tutorialInProgress = false;
+        });
+
+        this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
+            if (!this.canDisplayTransitionPopup(message)) {
+                return;
+            }
+
+            if (this._api.game.next_player !== this._currentPlayerIndex) {
+                this._currentPlayerIndex = this._api.game.next_player;
+                if (this._currentPlayerIndex !== this._api.me.index) {
+                    this._popupMessageId = 'game.play.whose_turn_message';
+                    this._popupMessage.htmlMessage = true;
+                } else {
+                    this._popupMessageId = 'game.play.your_turn';
+                }
+                let hero = this._api.game.players.heroes[this._api.game.next_player];
+                this._popupMessage.img = ImageSource.forChestHero(hero);
+                this._popupMessageOptions = {
+                    playerName: this._api.game.players.names[this._currentPlayerIndex],
+                };
+                this._translatePopupMessage();
+
+                let options = {
+                    timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+                };
+                this.popup('transition', this._popupMessage, options).then(() => {
+                    this._popupMessageId = undefined;
+                    this._popupMessage = {};
+                    this._popupMessageOptions = {};
+                });
+            }
+        });
+    }
+
+    canDisplayTransitionPopup(message) {
+        // We are displaying the tutorial, don't display the transition popup.
+        let tutorialPopupDisplayed = message.rt === 'CREATE_GAME' &&
+            this._options.proposeGuidedVisit;
+        return !tutorialPopupDisplayed && !this._tutorialInProgress;
     }
 
     deactivate() {
         this._eas.dispose();
     }
 
-    popup(type, data) {
+    popup(type, data, {timeout = 0} = {}) {
+        // We display only one popup at a time. If a popup is already being displayed, we log an
+        // error and reject the promise.
+        if (this.type !== null) {
+            this._logger.error('We can display only a popup at a time', type, data);
+            return new Promise((resolve, reject) => {
+                reject(new Error('We can display only a popup at a time'));
+            });
+        }
+
         this.data = data;
         this.type = type;
         this.popupDefered.promise = new Promise((resolve, reject) => {
@@ -122,6 +193,21 @@ export class Game {
             this.data = null;
             this.type = null;
         });
+
+        if (timeout) {
+            let closeTimeout = setTimeout(() => {
+                this.popupDefered.resolve();
+            }, timeout);
+            let cancelCloseTimout = () => {
+                clearTimeout(closeTimeout);
+            };
+            this.popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
+        }
+
+        let startCounter = () => {
+            this._eas.publish('aot:game:counter_start');
+        };
+        this.popupDefered.promise.then(startCounter, startCounter);
 
         return this.popupDefered.promise;
     }

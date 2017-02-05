@@ -1,0 +1,74 @@
+/*
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+aot-transition {
+    img {
+        animation-duration: 4s;
+        animation-iteration-count: 1;
+        animation-name: slidein;
+        bottom: 0;
+        height: 65vh;
+        position: absolute;
+        right: 0;
+
+        @keyframes slidein {
+            from {
+                right: 100%;
+            }
+
+            to {
+                right: 0;
+            }
+        }
+    }
+
+    h1 {
+        animation-delay: 2s;
+        animation-duration: 2s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: 1;
+        animation-name: fadein;
+        left: 15%;
+        opacity: 0;
+        position: absolute;
+        top: 30%;
+
+        @keyframes fadein {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.25;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            75% {
+                opacity: 0.75;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    }
+}

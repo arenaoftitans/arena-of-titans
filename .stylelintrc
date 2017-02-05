@@ -23,6 +23,7 @@
         "aot-trumps-gauge",
         "aot-cards",
         "aot-select-heroes",
+        "aot-transition",
         "aot-notifications"
       ]
     }],

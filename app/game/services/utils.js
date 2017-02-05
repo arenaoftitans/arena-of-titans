@@ -46,6 +46,10 @@ export class ImageSource {
         return `/assets/game/heroes/${hero}.png`;
     }
 
+    static forChestHero(hero) {
+        return `/assets/game/heroes/${hero}-chest.png`;
+    }
+
     static forCircledHero(hero) {
         return `/assets/game/heroes/${hero}-circle.png`;
     }
@@ -186,6 +190,12 @@ export class EventAggregatorSubscriptions {
     subscribe(signal, fn) {
         let sub = this._ea.subscribe(signal, fn);
         this._subscriptions.push(sub);
+    }
+
+    subscribeMultiple(signals, fn) {
+        for (let signal of signals) {
+            this.subscribe(signal, fn);
+        }
     }
 
     dispose() {

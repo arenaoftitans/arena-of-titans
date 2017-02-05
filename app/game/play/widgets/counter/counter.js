@@ -46,6 +46,7 @@ export class AotCounterCustomElement {
         this._config = config;
         this._eas = eas;
         this._paused = false;
+        this.tutorialInProgress = false;
         this.specialActionInProgress = false;
         this._pausedDuration = 0;
         this._logger = LogManager.getLogger('AotCounterCustomElement');
@@ -64,6 +65,12 @@ export class AotCounterCustomElement {
             this._handlePlayRequest();
         });
 
+        this._eas.subscribe('aot:game:counter_start', () => {
+            if (this._canStart()) {
+                this.start();
+            }
+        });
+
         this._eas.subscribe('aot:api:special_action_notify', message => {
             this._handleSpecialActionNotify(message);
         });
@@ -76,14 +83,24 @@ export class AotCounterCustomElement {
         });
 
         this._eas.subscribe('aot:notifications:start_guided_visit', () => {
+            this.tutorialInProgress = true;
             this.pause();
         });
         this._eas.subscribe('aot:notifications:end_guided_visit', () => {
-            this.resume();
+            this.tutorialInProgress = false;
+            if (this._canStart()) {
+                this.start();
+            } else {
+                this.resume();
+            }
         });
         this._eas.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
             this.initSpecialActionCounter();
         });
+    }
+
+    _canStart() {
+        return this._api.game.your_turn && !this._api.game.game_over && this.startTime === null;
     }
 
     unbind() {
@@ -111,7 +128,13 @@ export class AotCounterCustomElement {
             this.specialActionInProgress = false;
             this.waitForCounter.then(canvas => {
                 this.canvas = canvas;
-                this.start();
+                let elapsedTime = this._api.me.elapsed_time || 0;
+                this.maxTime = TIME_FOR_TURN - elapsedTime;
+                // Round max time to upper second
+                this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
+                this._pausedDuration = 0;
+                // Draw the counter.
+                this.countDownClock();
             });
         } else if (!this._api.game.your_turn) {
             clearInterval(this.timerInterval);
@@ -135,12 +158,7 @@ export class AotCounterCustomElement {
     }
 
     start() {
-        let elapsedTime = this._api.me.elapsed_time || 0;
-        this.maxTime = TIME_FOR_TURN - elapsedTime;
-        // Round max time to upper second
-        this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
         this.startTime = (new Date()).getTime();
-        this._pausedDuration = 0;
 
         this.timerInterval = setInterval(() => {
             if (this._paused) {
@@ -162,7 +180,12 @@ export class AotCounterCustomElement {
 
         // Time started, minus time now, subtracked from maxTime seconds
         let currentTime = (new Date()).getTime();
-        this.timeLeft = this.maxTime - (currentTime - this.startTime) + this._pausedDuration;
+        if (this.startTime === null) {
+            // This is the inital drawing with the counter at max time
+            this.timeLeft = this.maxTime;
+        } else {
+            this.timeLeft = this.maxTime - (currentTime - this.startTime) + this._pausedDuration;
+        }
 
         // Angle to use, defined by 1 millisecond
         this.angle = 2 * Math.PI / (TIME_FOR_TURN * 0.001) *

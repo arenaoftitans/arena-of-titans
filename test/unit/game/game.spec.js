@@ -19,6 +19,7 @@
 
 import { Game } from '../../../app/game/game';
 import {
+    ApiStub,
     RouterStub,
     HistoryStub,
     I18nStub,
@@ -29,20 +30,24 @@ import {
 describe('the Game module', () => {
     let mockedHistory;
     let mockedI18n;
+    let mockedApi;
+    let mockedOptions;
     let mockedEas;
     let sut;
 
     beforeEach(() => {
         mockedHistory = new HistoryStub();
         mockedI18n = new I18nStub();
+        mockedApi = new ApiStub();
+        mockedOptions = {};
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedI18n, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedI18n, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
@@ -71,6 +76,20 @@ describe('the Game module', () => {
             });
 
             sut.popupDefered.resolve({test: true});
+        });
+
+        it('should log and reject promise if we already have a popup', done => {
+            sut.type = 'info';
+            spyOn(sut._logger, 'error');
+
+            sut.popup('test', {test: true}).then(() => {
+                expect(true).toBe(false);
+                done();
+            }, error => {
+                expect(sut._logger.error).toHaveBeenCalled();
+                expect(error.message).toBe('We can display only a popup at a time');
+                done();
+            });
         });
     });
 
