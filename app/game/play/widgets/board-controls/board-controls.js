@@ -17,25 +17,38 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject, ObserverLocator } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
 
+import { EventAggregatorSubscriptions } from '../../../services/utils';
 import { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP } from '../board/board';
 
 
-@inject(ObserverLocator, EventAggregator)
+@inject(ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
 export class AotBoardControlsCustomElement {
-    constructor(observerLocator, ea) {
-        this._ea = ea;
+    constructor(observerLocator, eas) {
+        this._ol = observerLocator;
+        this._eas = eas;
+
+        // Set this to true, when the value is changed just to sync the input with the zoom level.
+        // We don't want to trigger an zoom in this case.
+        this._synching = false;
 
         this.value = 1;
-        observerLocator.getObserver(this, 'value').subscribe((newValue, oldValue) => {
-            if (newValue !== oldValue) {
-                this._ea.publish('aot:board:controls:zoom', {
+        this._valueObserverCb = (newValue, oldValue) => {
+            if (newValue !== oldValue && !this._synching) {
+                this._eas.publish('aot:board:controls:zoom', {
                     direction: null,
                     value: newValue,
                 });
             }
+            this._synching = false;
+        };
+        this._ol.getObserver(this, 'value').subscribe(this._valueObserverCb);
+        this._eas.subscribe('aot:board:zoom', message => {
+            this._synching = true;
+            // The transmitted value is a number but the result of the binding is a string. So, if
+            // we set the value to a number, this will trigger an unecessary change.
+            this.value = message.value.toString();
         });
     }
 
@@ -60,14 +73,19 @@ export class AotBoardControlsCustomElement {
                 break;
         }
 
-        this._ea.publish('aot:board:controls:move', {
+        this._eas.publish('aot:board:controls:move', {
             deltaX: deltaX,
             deltaY: deltaY,
         });
     }
 
     reset() {
-        this._ea.publish('aot:board:controls:reset');
+        this._eas.publish('aot:board:controls:reset');
+    }
+
+    unbind() {
+        this._eas.dispose();
+        this._ol.getObserver(this, 'value').unsubscribe(this._valueObserverCb);
     }
 
     get maxZoom() {

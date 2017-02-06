@@ -143,12 +143,14 @@ export class AotBoardCustomElement {
         } else if (direction === 'out' && this._currentScale > MIN_ZOOM) {
             this._currentScale = (10 * this._currentScale - 10 * ZOOM_STEP) / 10;
         }
+        this._eas.publish('aot:board:zoom', {value: this._currentScale});
 
         this._applyTransformOnBoard();
     }
 
     zoomTo(value) {
         this._currentScale = value;
+        this._eas.publish('aot:board:zoom', {value: this._currentScale});
         this._applyTransformOnBoard();
     }
 
