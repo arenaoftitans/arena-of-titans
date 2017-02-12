@@ -108,22 +108,8 @@ export class AotBoardCustomElement {
             // Save the position of the pointed element after zoom and calculate how much we need
             // to move the board.
             let afterPosition = event.target.getBoundingClientRect();
-            let scaleWidth;
-            if (originalPosition.width > afterPosition.with) {
-                scaleWidth = afterPosition.width / originalPosition.width;
-            } else {
-                scaleWidth = originalPosition.width / afterPosition.width;
-            }
-            let scaleHeight;
-            if (originalPosition.height > afterPosition.height) {
-                scaleHeight = afterPosition.height / originalPosition.height;
-            } else {
-                scaleHeight = originalPosition.height / afterPosition.height;
-            }
-            let deltaX = (originalPosition.left - afterPosition.left) * scaleWidth;
-            let deltaY = (originalPosition.top - afterPosition.top) * scaleHeight;
             if (followElement) {
-                this.moveBoard(deltaX, deltaY);
+                this._moveBoardToFollowElement(originalPosition, afterPosition);
             }
         };
         this._element.addEventListener('wheel', this._wheelEventCb);
@@ -156,6 +142,24 @@ export class AotBoardCustomElement {
             }
         };
         this._element.addEventListener('mousedown', this._mousedownEventCb);
+    }
+
+    _moveBoardToFollowElement(originalPosition, afterPosition) {
+        let scaleWidth;
+        if (originalPosition.width > afterPosition.with) {
+            scaleWidth = afterPosition.width / originalPosition.width;
+        } else {
+            scaleWidth = originalPosition.width / afterPosition.width;
+        }
+        let scaleHeight;
+        if (originalPosition.height > afterPosition.height) {
+            scaleHeight = afterPosition.height / originalPosition.height;
+        } else {
+            scaleHeight = originalPosition.height / afterPosition.height;
+        }
+        let deltaX = (originalPosition.left - afterPosition.left) * scaleWidth;
+        let deltaY = (originalPosition.top - afterPosition.top) * scaleHeight;
+        this.moveBoard(deltaX, deltaY);
     }
 
     detached() {
