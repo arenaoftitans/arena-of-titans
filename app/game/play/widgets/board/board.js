@@ -64,7 +64,7 @@ export class AotBoardCustomElement {
             if (data.direction !== null) {
                 this.zoom(data.direction);
             } else {
-                this.zoomTo(parseFloat(data.value, 10));
+                this.zoomTo(parseFloat(data.value, 10), data);
             }
         });
 
@@ -178,10 +178,22 @@ export class AotBoardCustomElement {
         this._applyTransformOnBoard();
     }
 
-    zoomTo(value) {
+    zoomTo(value, { fixPawn = false } = {}) {
+        let originalPawnPosition;
+        let pawnId = `player${this._api.me.index}`;
+        let pawn = document.getElementById(pawnId);
+        if (fixPawn && this._board) {
+            originalPawnPosition = pawn.getBoundingClientRect();
+        }
+
         this._currentScale = value;
         this._eas.publish('aot:board:zoom', {value: this._currentScale});
         this._applyTransformOnBoard();
+
+        if (fixPawn && this._board) {
+            let newPawnPosition = pawn.getBoundingClientRect();
+            this._moveBoardToFollowElement(originalPawnPosition, newPawnPosition);
+        }
     }
 
     _applyTransformOnBoard() {

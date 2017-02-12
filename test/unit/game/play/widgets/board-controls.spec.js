@@ -86,6 +86,7 @@ describe('board-controls', () => {
             expect(mockedEas.publish).toHaveBeenCalledWith('aot:board:controls:zoom', {
                 direction: null,
                 value: '1',
+                fixPawn: true,
             });
         });
     });

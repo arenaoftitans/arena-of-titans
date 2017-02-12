@@ -39,6 +39,7 @@ export class AotBoardControlsCustomElement {
                 this._eas.publish('aot:board:controls:zoom', {
                     direction: null,
                     value: newValue,
+                    fixPawn: true,
                 });
             }
             this._synching = false;
