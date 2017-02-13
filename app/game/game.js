@@ -128,6 +128,10 @@ export class Game {
 
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
             if (!this.canDisplayTransitionPopup(message)) {
+                // We update the current player index nonetheless. This way, after viewing or
+                // skiping the tutorial and playing a card, the player won't see the transition
+                // popup display "it's your turn".
+                this._currentPlayerIndex = this._api.game.next_player;
                 return;
             }
 
