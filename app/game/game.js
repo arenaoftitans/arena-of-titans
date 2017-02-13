@@ -166,7 +166,9 @@ export class Game {
         // We are displaying the tutorial, don't display the transition popup.
         let tutorialPopupDisplayed = message.rt === 'CREATE_GAME' &&
             this._options.proposeGuidedVisit;
-        return !tutorialPopupDisplayed && !this._tutorialInProgress;
+        return !tutorialPopupDisplayed &&
+            !this._tutorialInProgress &&
+            !this._api.game.game_over;
     }
 
     deactivate() {
