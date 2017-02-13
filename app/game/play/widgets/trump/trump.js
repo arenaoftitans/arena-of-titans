@@ -57,27 +57,6 @@ export class AotTrumpCustomElement {
         this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
     }
 
-    attached() {
-        // Rewrite gradient ids to make them specific to this component.
-        let gradientIdTemplate = 'trump-gradient-{i}';
-        let i = 1;
-        let svg = this._element.getElementsByTagName('svg')[0];
-        let gradientId = gradientIdTemplate.replace('{i}', i);
-        let gradient = svg.getElementById(gradientId);
-
-        while (gradient !== null) {
-            let newId = `${gradientId}-${this.kind}-${this.index}`;
-            gradient.id = newId;
-            for (let svgElement of svg.querySelectorAll(`[style*="${gradientId}"]`)) {
-                svgElement.style.fill = `url(#${newId})`;
-            }
-
-            i++;
-            gradientId = gradientIdTemplate.replace('{i}', i);
-            gradient = svg.getElementById(gradientId);
-        }
-    }
-
     bind() {
         switch (this.kind) {
             case 'player':
@@ -92,11 +71,6 @@ export class AotTrumpCustomElement {
                 this.svgClass = undefined;
                 break;
         }
-        // We define these two properties to use id.bind and style.bind to dispaly the proper
-        // image. If we don't and use string interpolation instead, we get a lint error:
-        // https://github.com/MeirionHughes/aurelia-template-lint/issues/23
-        this.imagePatternId = `trump-${this.kind}-${this.index}`;
-        this.imageFillStyle = `fill: url(#${this.imagePatternId})`;
     }
 
     unbind() {
