@@ -19,7 +19,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-transition {
     img {
-        animation-duration: 4s;
+        animation-duration: 0.8s;
         animation-iteration-count: 1;
         animation-name: slidein;
         bottom: 0;
@@ -39,8 +39,8 @@ aot-transition {
     }
 
     h1 {
-        animation-delay: 2s;
-        animation-duration: 2s;
+        animation-delay: 0.7s;
+        animation-duration: 0.3s;
         animation-fill-mode: forwards;
         animation-iteration-count: 1;
         animation-name: fadein;
@@ -54,17 +54,6 @@ aot-transition {
                 opacity: 0;
             }
 
-            25% {
-                opacity: 0.25;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-
-            75% {
-                opacity: 0.75;
-            }
 
             100% {
                 opacity: 1;

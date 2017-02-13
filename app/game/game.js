@@ -26,7 +26,7 @@ import { Options } from '../services/options';
 import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
 
 
-const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 6000;
+const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
 @inject(History, I18N, Api, Options, NewInstance.of(EventAggregatorSubscriptions))
