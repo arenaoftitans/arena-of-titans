@@ -18,20 +18,27 @@
 */
 
 import { Play } from '../../../../app/game/play/play';
-import { ApiStub, GameStub, EventAggregatorSubscriptionsStub } from '../../../../app/test-utils';
+import {
+    ApiStub,
+    GameStub,
+    EventAggregatorSubscriptionsStub,
+    PopupStub,
+} from '../../../../app/test-utils';
 
 
 describe('play', () => {
     let sut;
     let mockedApi;
     let mockedGame;
+    let mockedPopup;
     let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedGame = new GameStub();
+        mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Play(mockedApi, mockedGame, mockedEas);
+        sut = new Play(mockedApi, mockedGame, mockedPopup, mockedEas);
     });
 
     it('should register api callbacks on activation', () => {
@@ -69,13 +76,13 @@ describe('play', () => {
     });
 
     it('should display the game over popup on game over', done => {
-        spyOn(mockedGame, 'popup');
+        spyOn(mockedPopup, 'display');
         mockedApi._gameOverDefered.resolve(['Player 1', 'Player 2']);
 
         sut.activate();
 
         mockedApi.onGameOverDefered.then(() => {
-            expect(mockedGame.popup).toHaveBeenCalledWith(
+            expect(mockedPopup.display).toHaveBeenCalledWith(
                 'game-over',
                 {message: ['Player 1', 'Player 2']});
             done();

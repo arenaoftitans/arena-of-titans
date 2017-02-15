@@ -141,17 +141,18 @@ export class ApiStub {
 
 
 export class GameStub {
-    popupPromise;
+    navigateWithRefresh() {
+    }
+}
 
-    popup(type, data) {
+
+export class PopupStub {
+    display(type, data) {
         this.popupPromise = new Promise((resolve, reject) => {
             resolve({name: 'Tester', hero: 'daemon'});
         });
 
         return this.popupPromise;
-    }
-
-    navigateWithRefresh() {
     }
 }
 

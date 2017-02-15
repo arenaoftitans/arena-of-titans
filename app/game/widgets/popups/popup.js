@@ -17,38 +17,79 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
+import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
-@inject(Element)
+@inject(EventAggregatorSubscriptions)
+export class Popup {
+    _popupDefered;
+
+    constructor(eas) {
+        this._eas = eas;
+    }
+
+    display(type, data, {timeout = 0} = {}) {
+        let popupDefered = {};
+        popupDefered.promise = new Promise((resolve, reject) => {
+            popupDefered.resolve = resolve;
+            popupDefered.reject = reject;
+        });
+
+        if (timeout) {
+            let closeTimeout = setTimeout(() => {
+                popupDefered.resolve();
+            }, timeout);
+            let cancelCloseTimout = () => {
+                clearTimeout(closeTimeout);
+            };
+            popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
+        }
+
+        let startCounter = () => {
+            this._eas.publish('aot:game:counter_start');
+        };
+        popupDefered.promise.then(startCounter, startCounter);
+
+        this._eas.publish('aot:popup:display', {
+            type: type,
+            data: data,
+            done: popupDefered,
+        });
+
+        return popupDefered.promise;
+    }
+}
+
+
+@inject(Element, EventAggregatorSubscriptions)
 export class AotPopupCustomElement {
-    @bindable data = null;
-    @bindable type = null;
-    @bindable done = null;
+    data = null;
+    type = null;
+    done = null;
 
     background = '';
 
-    constructor(element) {
+    constructor(element, eas) {
         this._element = element;
-    }
+        this._eas = eas;
 
-    attached() {
-        this._element.getElementsByClassName('popup-container')[0].focus();
-    }
+        this._eas.subscribe('aot:popup:display', message => {
+            this.data = message.data;
+            this.type = message.type;
+            this.done = message.done;
 
-    bind() {
-        this._keyupEventListener = event => {
-            let keyCode = event.code.toLowerCase();
+            this._open();
 
-            // The player must validate the game over popup
-            if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
-                this.done.reject();
-            }
-        };
-        window.addEventListener('keyup', event => {
-            this._keyupEventListener(event);
+            this.done.promise.then(() => {
+                this._close();
+            }, () => {
+                this._close();
+            });
         });
+    }
 
+    _open() {
         switch (this.type) {
             case 'game-over':
                 this.background = 'game-over';
@@ -63,9 +104,35 @@ export class AotPopupCustomElement {
                 this.background = 'default';
                 break;
         }
+
+        Wait.forClass('popup-container', {
+            element: this._element,
+            fresh: true,
+        }).then(elements => elements[0].focus());
+    }
+
+    _close() {
+        this.data = null;
+        this.type = null;
+        this.done = null;
+    }
+
+    bind() {
+        this._keyupEventListener = event => {
+            let keyCode = event.code.toLowerCase();
+
+            // The player must validate the game over popup
+            if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
+                this.done.reject();
+            }
+        };
+        window.addEventListener('keyup', event => {
+            this._keyupEventListener(event);
+        });
     }
 
     unbind() {
         window.removeEventListener('keyup', this._keyupEventListener);
+        this._eas.dispose();
     }
 }

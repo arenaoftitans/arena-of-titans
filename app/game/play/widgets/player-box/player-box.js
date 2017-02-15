@@ -18,16 +18,16 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
-import { Game } from '../../../game';
+import { Popup } from '../../../widgets/popups/popup';
 
 
-@inject(Game)
+@inject(Popup)
 export class AotPlayerBoxCustomElement {
     @bindable index;
     @bindable players;
 
-    constructor(game) {
-        this._game = game;
+    constructor(popup) {
+        this._popup = popup;
     }
 
     bind() {
@@ -36,7 +36,7 @@ export class AotPlayerBoxCustomElement {
     }
 
     viewPlayerInfos() {
-        this._game.popup(
+        this._popup.display(
             'player-box',
             {
                 playerName: this.playerName,

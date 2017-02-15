@@ -20,7 +20,7 @@
 import { AotCardsCustomElement } from '../../../../../app/game/play/widgets/cards/cards';
 import {
     ApiStub,
-    GameStub,
+    PopupStub,
     I18nStub,
     EventAggregatorSubscriptionsStub,
     ObserverLocatorStub,
@@ -31,18 +31,18 @@ import {
 describe('cards', () => {
     let sut;
     let mockedApi;
-    let mockedGame;
+    let mockedPopup;
     let mockedI18n;
     let mockedEas;
     let mockedOl;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        mockedGame = new GameStub();
+        mockedPopup = new PopupStub();
         mockedI18n = new I18nStub();
         mockedOl = new ObserverLocatorStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedOl, mockedEas);
+        sut = new AotCardsCustomElement(mockedApi, mockedPopup, mockedI18n, mockedOl, mockedEas);
     });
 
     it('should view possible movements', () => {
@@ -69,16 +69,16 @@ describe('cards', () => {
     });
 
     it('should pass', done => {
-        spyOn(mockedGame, 'popup').and.callThrough();
+        spyOn(mockedPopup, 'display').and.callThrough();
         spyOn(mockedApi, 'pass');
         sut.selectedCard = {name: 'King', color: 'red'};
 
         sut.pass();
 
-        expect(mockedGame.popup).toHaveBeenCalledWith(
+        expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
             {message: 'Are you sure you want to pass your turn?'});
-        mockedGame.popupPromise.then(() => {
+        mockedPopup.popupPromise.then(() => {
             expect(sut.selectedCard).toBe(null);
             expect(mockedApi.pass).toHaveBeenCalled();
             done();
@@ -87,12 +87,12 @@ describe('cards', () => {
 
     it('should not pass on cancel', done => {
         let promise = Promise.reject(new Error());
-        spyOn(mockedGame, 'popup').and.returnValue(promise);
+        spyOn(mockedPopup, 'display').and.returnValue(promise);
         spyOn(mockedApi, 'pass');
 
         sut.pass();
 
-        expect(mockedGame.popup).toHaveBeenCalledWith(
+        expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
             {message: 'Are you sure you want to pass your turn?'});
 
@@ -107,7 +107,7 @@ describe('cards', () => {
 
     it('should discard a card', done => {
         spyOn(mockedApi, 'discard');
-        spyOn(mockedGame, 'popup').and.callThrough();
+        spyOn(mockedPopup, 'display').and.callThrough();
         sut.selectedCard = {
             name: 'King',
             color: 'red',
@@ -115,11 +115,11 @@ describe('cards', () => {
 
         sut.discard();
 
-        expect(mockedGame.popup).toHaveBeenCalledWith(
+        expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
             {message: 'game.play.discard_confirm_message'});
 
-        mockedGame.popupPromise.then(() => {
+        mockedPopup.popupPromise.then(() => {
             expect(mockedApi.discard).toHaveBeenCalledWith({
                 cardName: 'King',
                 cardColor: 'red',
@@ -131,12 +131,15 @@ describe('cards', () => {
 
     it('should display a popup if no card is selected', () => {
         spyOn(mockedApi, 'discard');
-        spyOn(mockedGame, 'popup');
+        spyOn(mockedPopup, 'display');
 
         sut.discard();
 
         expect(mockedApi.discard).not.toHaveBeenCalled();
-        expect(mockedGame.popup).toHaveBeenCalledWith('infos', {message: 'You must select a card'});
+        expect(mockedPopup.display).toHaveBeenCalledWith(
+            'infos',
+            {message: 'You must select a card'}
+        );
     });
 
     describe('special action', () => {
@@ -144,7 +147,7 @@ describe('cards', () => {
             spyOn(mockedEas, 'subscribe');
 
             sut =
-                new AotCardsCustomElement(mockedApi, mockedGame, mockedI18n, mockedOl, mockedEas);
+                new AotCardsCustomElement(mockedApi, mockedPopup, mockedI18n, mockedOl, mockedEas);
 
             expect(mockedEas.subscribe).toHaveBeenCalled();
         });

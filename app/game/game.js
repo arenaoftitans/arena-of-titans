@@ -24,12 +24,13 @@ import { History } from './services/history';
 import { Api } from './services/api';
 import { Options } from '../services/options';
 import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
+import { Popup } from './widgets/popups/popup';
 
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 6000;
 
 
-@inject(History, I18N, Api, Options, NewInstance.of(EventAggregatorSubscriptions))
+@inject(History, I18N, Api, Options, Popup, NewInstance.of(EventAggregatorSubscriptions))
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -48,10 +49,11 @@ export class Game {
         reject: null,
     };
 
-    constructor(history, i18n, api, options, eas) {
+    constructor(history, i18n, api, options, popup, eas) {
         this._i18n = i18n;
         this._api = api;
         this._options = options;
+        this._popup = popup;
         this._eas = eas;
 
         this._logger = LogManager.getLogger('AotGame');
@@ -111,7 +113,7 @@ export class Game {
         this._eas.subscribe('aot:api:error', data => {
             this._popupMessageId = data.message;
             this._translatePopupMessage();
-            this.popup('error', this._popupMessage).then(() => {
+            this._popup.display('error', this._popupMessage).then(() => {
                 if (/\/game\/create\/.+/.test(location.pathname)) {
                     location.reload();
                 }
@@ -153,7 +155,7 @@ export class Game {
                 let options = {
                     timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
                 };
-                this.popup('transition', this._popupMessage, options).then(() => {
+                this._popup.display('transition', this._popupMessage, options).then(() => {
                     this._popupMessageId = undefined;
                     this._popupMessage = {};
                     this._popupMessageOptions = {};
@@ -173,49 +175,6 @@ export class Game {
 
     deactivate() {
         this._eas.dispose();
-    }
-
-    popup(type, data, {timeout = 0} = {}) {
-        // We display only one popup at a time. If a popup is already being displayed, we log an
-        // error and reject the promise.
-        if (this.type !== null) {
-            this._logger.error('We can display only a popup at a time', type, data);
-            return new Promise((resolve, reject) => {
-                reject(new Error('We can display only a popup at a time'));
-            });
-        }
-
-        this.data = data;
-        this.type = type;
-        this.popupDefered.promise = new Promise((resolve, reject) => {
-            this.popupDefered.resolve = resolve;
-            this.popupDefered.reject = reject;
-        });
-
-        this.popupDefered.promise.then(() => {
-            this.data = null;
-            this.type = null;
-        }, () => {
-            this.data = null;
-            this.type = null;
-        });
-
-        if (timeout) {
-            let closeTimeout = setTimeout(() => {
-                this.popupDefered.resolve();
-            }, timeout);
-            let cancelCloseTimout = () => {
-                clearTimeout(closeTimeout);
-            };
-            this.popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
-        }
-
-        let startCounter = () => {
-            this._eas.publish('aot:game:counter_start');
-        };
-        this.popupDefered.promise.then(startCounter, startCounter);
-
-        return this.popupDefered.promise;
     }
 
     navigateWithRefresh(location) {

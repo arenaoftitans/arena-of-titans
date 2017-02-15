@@ -28,9 +28,9 @@
     <require from="./transition"></require>
     <require from="./yes-no"></require>
 
-    <div class="popup">
+    <div class="popup" if.bind="type !== null">
     </div>
-    <div class="popup-container" tabindex="0">
+    <div class="popup-container" tabindex="0" if.bind="type !== null">
         <div class="popup-content ${background}">
             <aot-error if.bind="type === 'error'"
                        data.bind="data"

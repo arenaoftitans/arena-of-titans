@@ -21,7 +21,7 @@ import { AotTrumpCustomElement } from '../../../../../app/game/play/widgets/trum
 import {
     ApiStub,
     EventAggregatorSubscriptionsStub,
-    GameStub,
+    PopupStub,
     I18nStub,
 } from '../../../../../app/test-utils';
 
@@ -30,16 +30,16 @@ describe('trump', () => {
     let sut;
     let mockedI18n;
     let mockedApi;
-    let mockedGame;
+    let mockedPopup;
     let element;
     let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        mockedGame = new GameStub();
+        mockedPopup = new PopupStub();
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotTrumpCustomElement(mockedApi, mockedGame, mockedI18n, element, mockedEas);
+        sut = new AotTrumpCustomElement(mockedApi, mockedPopup, mockedI18n, element, mockedEas);
         sut.kind = 'player';
     });
 
@@ -48,7 +48,7 @@ describe('trump', () => {
         defered.promise = new Promise(resolve => {
             defered.resolve = resolve;
         });
-        spyOn(mockedGame, 'popup').and.returnValue(defered.promise);
+        spyOn(mockedPopup, 'display').and.returnValue(defered.promise);
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
             players: {
@@ -66,7 +66,7 @@ describe('trump', () => {
 
         sut.play();
 
-        expect(mockedGame.popup).toHaveBeenCalledWith(
+        expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
             {
                 message: 'Who should be the target of Trump?',
@@ -90,7 +90,7 @@ describe('trump', () => {
     });
 
     it('should play trump without a target directly', () => {
-        spyOn(mockedGame, 'popup');
+        spyOn(mockedPopup, 'display');
         spyOn(mockedApi, 'playTrump');
         mockedApi._game = {
             trumps_statuses: [true],
@@ -101,7 +101,7 @@ describe('trump', () => {
 
         sut.play();
 
-        expect(mockedGame.popup).not.toHaveBeenCalled();
+        expect(mockedPopup.display).not.toHaveBeenCalled();
         expect(mockedApi.playTrump).toHaveBeenCalledWith({trumpName: 'Trump'});
     });
 
@@ -126,13 +126,13 @@ describe('trump', () => {
 
     it('should not play trump if kind is different than player', () => {
         spyOn(mockedApi, 'playTrump');
-        spyOn(mockedGame, 'popup');
+        spyOn(mockedPopup, 'display');
         sut.kind = 'affecting';
 
         sut.play();
 
         expect(mockedApi.playTrump).not.toHaveBeenCalled();
-        expect(mockedGame.popup).not.toHaveBeenCalled();
+        expect(mockedPopup.display).not.toHaveBeenCalled();
     });
 
     describe('should get the correct list of targets', () => {

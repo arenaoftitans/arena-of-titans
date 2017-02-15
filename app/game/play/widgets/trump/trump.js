@@ -20,12 +20,12 @@
 import * as LogManager from 'aurelia-logging';
 import { bindable, inject, NewInstance } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { Game } from '../../../game';
+import { Popup } from '../../../widgets/popups/popup';
 import { Api } from '../../../services/api';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 
 
-@inject(Api, Game, I18N, Element, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Popup, I18N, Element, NewInstance.of(EventAggregatorSubscriptions))
 export class AotTrumpCustomElement {
     _api;
     _logger;
@@ -42,9 +42,9 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api, game, i18n, element, eas) {
+    constructor(api, popup, i18n, element, eas) {
         this._api = api;
-        this._game = game;
+        this._popup = popup;
         this._i18n = i18n;
         this._element = element;
         this._eas = eas;
@@ -116,7 +116,7 @@ export class AotTrumpCustomElement {
                 otherPlayerNames: otherPlayerNames,
             };
             this._translatePopupMessage();
-            this._game.popup('confirm', this._popupMessage).then(targetIndex => {
+            this._popup.display('confirm', this._popupMessage).then(targetIndex => {
                 // targetIndex is binded in a template, hence it became a string and must be
                 // converted before usage in the API
                 targetIndex = parseInt(targetIndex, 10);

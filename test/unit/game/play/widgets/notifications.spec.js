@@ -20,7 +20,7 @@
 import { AotNotificationsCustomElement } from '../../../../../app/game/play/widgets/notifications/notifications';  // eslint-disable-line
 import {
     ApiStub,
-    GameStub,
+    PopupStub,
     I18nStub,
     EventAggregatorSubscriptionsStub,
     OptionsStub,
@@ -33,7 +33,7 @@ describe('notifications', () => {
     let mockedI18n;
     let mockedEas;
     let mockedOptions;
-    let mockedGame;
+    let mockedPopup;
     let sut;
 
     beforeEach(() => {
@@ -41,12 +41,12 @@ describe('notifications', () => {
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
         mockedOptions = new OptionsStub();
-        mockedGame = new GameStub();
+        mockedPopup = new PopupStub();
         sut = new AotNotificationsCustomElement(
             mockedApi,
             mockedI18n,
             mockedOptions,
-            mockedGame,
+            mockedPopup,
             mockedEas
         );
     });
@@ -122,12 +122,15 @@ describe('notifications', () => {
             popupDefered.promise = new Promise((resolve, reject) => {
                 popupDefered.reject = reject;
             });
-            spyOn(mockedGame, 'popup').and.returnValue(popupDefered.promise);
+            spyOn(mockedPopup, 'display').and.returnValue(popupDefered.promise);
             mockedOptions.proposeGuidedVisit = true;
 
             sut.bind();
 
-            expect(mockedGame.popup).toHaveBeenCalledWith('yes-no', {title: 'game.visit.propose'});
+            expect(mockedPopup.display).toHaveBeenCalledWith(
+                'yes-no',
+                {title: 'game.visit.propose'}
+            );
             popupDefered.reject(new Error());
             popupDefered.promise.then(() => {
                 expect(true).toBe(false);
@@ -140,11 +143,11 @@ describe('notifications', () => {
 
         it('skip', () => {
             mockedOptions.proposeGuidedVisit = false;
-            spyOn(mockedGame, 'popup');
+            spyOn(mockedPopup, 'display');
 
             sut.bind();
 
-            expect(mockedGame.popup).not.toHaveBeenCalled();
+            expect(mockedPopup.display).not.toHaveBeenCalled();
         });
 
         it('start', done => {
@@ -152,7 +155,7 @@ describe('notifications', () => {
             popupDefered.promise = new Promise((resolve, reject) => {
                 popupDefered.resolve = resolve;
             });
-            spyOn(mockedGame, 'popup').and.returnValue(popupDefered.promise);
+            spyOn(mockedPopup, 'display').and.returnValue(popupDefered.promise);
             spyOn(mockedEas, 'publish');
             spyOn(sut, '_startGuidedVisit').and.callThrough();
             spyOn(sut, '_displayNextVisitText');
@@ -160,7 +163,10 @@ describe('notifications', () => {
 
             sut.bind();
 
-            expect(mockedGame.popup).toHaveBeenCalledWith('yes-no', {title: 'game.visit.propose'});
+            expect(mockedPopup.display).toHaveBeenCalledWith(
+                'yes-no',
+                {title: 'game.visit.propose'}
+            );
             popupDefered.resolve();
             popupDefered.promise.then(() => {
                 expect(sut._startGuidedVisit).toHaveBeenCalled();
@@ -192,7 +198,7 @@ describe('notifications', () => {
             spyOn(sut, '_translateSpecialActionText');
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(false);
             spyOn(mockedEas, 'publish');
-            spyOn(mockedGame, 'popup');
+            spyOn(mockedPopup, 'display');
 
             sut._notifySpecialAction({special_action_name: 'action'});
 
@@ -202,7 +208,7 @@ describe('notifications', () => {
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
             expect(mockedEas.publish)
                 .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
-            expect(mockedGame.popup).not.toHaveBeenCalled();
+            expect(mockedPopup.display).not.toHaveBeenCalled();
         });
 
         it('should notify special actions with popup', done => {
@@ -212,7 +218,7 @@ describe('notifications', () => {
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
             spyOn(mockedEas, 'publish');
             let promise = new Promise(resolve => resolve());
-            spyOn(mockedGame, 'popup').and.returnValue(promise);
+            spyOn(mockedPopup, 'display').and.returnValue(promise);
 
             sut._notifySpecialAction({special_action_name: 'action'});
 
@@ -221,7 +227,7 @@ describe('notifications', () => {
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
             expect(sut._translatePopupMessage).toHaveBeenCalled();
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
-            expect(mockedGame.popup).toHaveBeenCalled();
+            expect(mockedPopup.display).toHaveBeenCalled();
             promise.then(() => {
                 expect(mockedEas.publish)
                     .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
