@@ -31,6 +31,14 @@ export class Popup {
 
         this._popups = [];
         this._displayedPopupPromise = null;
+
+        this._popupReadyDefered = {};
+        this._popupReadyDefered.promise = new Promise(resolve => {
+            this._popupReadyDefered.resolve = resolve;
+        });
+        this._eas.subscribe('aot:popup:ready', () => {
+            this._popupReadyDefered.resolve();
+        });
     }
 
     display(type, data, {timeout = 0} = {}) {
@@ -51,7 +59,11 @@ export class Popup {
             defered: popupDefered,
             timeout: timeout,
         });
-        this._displayNext();
+        // Since services are instanciated first, we need to wait for aot-popup to be attached
+        // before trying to display a popup.
+        this._popupReadyDefered.promise.then(() => {
+            this._displayNext();
+        });
 
         return popupDefered.promise;
     }
@@ -118,6 +130,10 @@ export class AotPopupCustomElement {
                 this._close();
             });
         });
+    }
+
+    attached() {
+        this._eas.publish('aot:popup:ready');
     }
 
     _open() {
