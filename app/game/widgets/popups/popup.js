@@ -23,10 +23,14 @@ import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 @inject(EventAggregatorSubscriptions)
 export class Popup {
-    _popupDefered;
+    _popups;
+    _displayedPopupPromise;
 
     constructor(eas) {
         this._eas = eas;
+
+        this._popups = [];
+        this._displayedPopupPromise = null;
     }
 
     display(type, data, {timeout = 0} = {}) {
@@ -36,28 +40,55 @@ export class Popup {
             popupDefered.reject = reject;
         });
 
-        if (timeout) {
-            let closeTimeout = setTimeout(() => {
-                popupDefered.resolve();
-            }, timeout);
-            let cancelCloseTimout = () => {
-                clearTimeout(closeTimeout);
-            };
-            popupDefered.promise.then(cancelCloseTimout, cancelCloseTimout);
-        }
-
         let startCounter = () => {
             this._eas.publish('aot:game:counter_start');
         };
         popupDefered.promise.then(startCounter, startCounter);
 
-        this._eas.publish('aot:popup:display', {
+        this._popups.push({
             type: type,
             data: data,
             defered: popupDefered,
+            timeout: timeout,
         });
+        this._displayNext();
 
         return popupDefered.promise;
+    }
+
+    _displayNext() {
+        // We check that we have popup to display: if we are in the recursion, this._popups
+        // may be an empty array.
+        if (this._displayedPopupPromise === null && this._popups.length > 0) {
+            let popup = this._popups.shift();
+
+            if (popup.timeout) {
+                let closeTimeout = setTimeout(() => {
+                    popup.defered.resolve();
+                }, popup.timeout);
+                let cancelCloseTimout = () => {
+                    clearTimeout(closeTimeout);
+                };
+                popup.defered.promise.then(cancelCloseTimout, cancelCloseTimout);
+            }
+
+            this._eas.publish('aot:popup:display', {
+                type: popup.type,
+                data: popup.data,
+                defered: popup.defered,
+            });
+
+            this._displayedPopupPromise = popup.defered.promise;
+        } else {
+            // As soon as the current popup is closed, we display the next one.
+            this._displayedPopupPromise.then(() => {
+                this._displayedPopupPromise = null;
+                this._displayNext();
+            }, () => {
+                this._displayedPopupPromise = null;
+                this._displayNext();
+            });
+        }
     }
 }
 
