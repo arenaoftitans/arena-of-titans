@@ -22,13 +22,13 @@ import { bindable } from 'aurelia-framework';
 
 export class AotYesNoCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 
     yes() {
-        this.done.resolve();
+        this.defered.resolve();
     }
 
     no() {
-        this.done.reject();
+        this.defered.reject();
     }
 }

@@ -22,16 +22,16 @@ import { bindable } from 'aurelia-framework';
 
 export class AotConfirmCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 
     ok() {
         if (this.data.choices && this.data.selectedChoice === undefined) {
             return;
         }
-        this.done.resolve(this.data.selectedChoice);
+        this.defered.resolve(this.data.selectedChoice);
     }
 
     cancel() {
-        this.done.reject();
+        this.defered.reject();
     }
 }

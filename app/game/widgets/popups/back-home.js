@@ -22,13 +22,13 @@ import { bindable } from 'aurelia-framework';
 
 export class AotBackHomeCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 
     ok(location) {
-        this.done.resolve(location);
+        this.defered.resolve(location);
     }
 
     cancel() {
-        this.done.reject();
+        this.defered.reject();
     }
 }

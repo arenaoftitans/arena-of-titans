@@ -34,28 +34,28 @@
         <div class="popup-content ${background}">
             <aot-error if.bind="type === 'error'"
                        data.bind="data"
-                       done.bind="done"></aot-error>
+                       defered.bind="defered"></aot-error>
             <aot-infos if.bind="type === 'infos'"
                        data.bind="data"
-                       done.bind="done"></aot-infos>
+                       defered.bind="defered"></aot-infos>
             <aot-confirm if.bind="type === 'confirm'"
                          data.bind="data"
-                         done.bind="done"></aot-confirm>
+                         defered.bind="defered"></aot-confirm>
             <aot-game-over if.bind="type === 'game-over'"
                            data.bind="data"
-                           done.bind="done"></aot-game-over>
+                           defered.bind="defered"></aot-game-over>
             <aot-back-home if.bind="type === 'back-home'"
                            data.bind="data"
-                           done.bind="done"></aot-back-home>
+                           defered.bind="defered"></aot-back-home>
             <aot-player-box-infos if.bind="type === 'player-box'"
                                   data.bind="data"
-                                  done.bind="done"></aot-player-box-infos>
+                                  defered.bind="defered"></aot-player-box-infos>
             <aot-transition if.bind="type === 'transition'"
                             data.bind="data"
-                            done.bind="done"></aot-transition>
+                            defered.bind="defered"></aot-transition>
             <aot-yes-no if.bind="type === 'yes-no'"
                         data.bind="data"
-                        done.bind="done"></aot-yes-no>
+                        defered.bind="defered"></aot-yes-no>
         </div>
     </div>
 </template>

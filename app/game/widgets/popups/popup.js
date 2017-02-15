@@ -54,7 +54,7 @@ export class Popup {
         this._eas.publish('aot:popup:display', {
             type: type,
             data: data,
-            done: popupDefered,
+            defered: popupDefered,
         });
 
         return popupDefered.promise;
@@ -66,7 +66,7 @@ export class Popup {
 export class AotPopupCustomElement {
     data = null;
     type = null;
-    done = null;
+    defered = null;
 
     background = '';
 
@@ -77,11 +77,11 @@ export class AotPopupCustomElement {
         this._eas.subscribe('aot:popup:display', message => {
             this.data = message.data;
             this.type = message.type;
-            this.done = message.done;
+            this.defered = message.defered;
 
             this._open();
 
-            this.done.promise.then(() => {
+            this.defered.promise.then(() => {
                 this._close();
             }, () => {
                 this._close();
@@ -114,7 +114,7 @@ export class AotPopupCustomElement {
     _close() {
         this.data = null;
         this.type = null;
-        this.done = null;
+        this.defered = null;
     }
 
     bind() {
@@ -123,7 +123,7 @@ export class AotPopupCustomElement {
 
             // The player must validate the game over popup
             if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
-                this.done.reject();
+                this.defered.reject();
             }
         };
         window.addEventListener('keyup', event => {
