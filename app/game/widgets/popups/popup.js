@@ -111,10 +111,10 @@ export class Popup {
             this._displayedPopupDefered.promise = popup.defered.promise;
             // We need to be able to reject the promise to close all popup
             // displayed on the screen.
-        } else {
             this._displayedPopupDefered.reject = popup.defered.reject;
             // Just for testing.
             this._displayedPopupDefered.resolve = popup.defered.resolve;
+        } else if (this._displayedPopupDefered.promise !== null) {
             // As soon as the current popup is closed, we display the next one.
             this._displayedPopupDefered.promise.then(() => {
                 this._displayedPopupDefered.promise = null;
