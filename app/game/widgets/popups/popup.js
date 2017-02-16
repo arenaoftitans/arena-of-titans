@@ -25,17 +25,20 @@ import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 @inject(NewInstance.of(EventAggregatorSubscriptions))
 export class Popup {
     _popups;
-    _displayedPopupPromise;
+    _displayedPopupDefered;
 
     constructor(eas) {
         this._eas = eas;
 
         this._logger = LogManager.getLogger('AoTPopup');
         this._popups = [];
-        this._displayedPopupPromise = null;
+        this._displayedPopupDefered = {};
+        this._displayedPopupDefered.promise = null;
         // Initialize with an empty function to prevent the code to crash when the first
         // transition popup is displayed.
-        this._displayedPopupReject = () => {};
+        this._displayedPopupDefered.reject = () => {};
+        // Just for testing.
+        this._displayedPopupDefered.resolve = () => {};
 
         this._popupReadyDefered = {};
         this._popupReadyDefered.promise = new Promise(resolve => {
@@ -80,13 +83,13 @@ export class Popup {
     _closeAll() {
         this._logger.debug('Closing all popups');
         this._popups = [];
-        this._displayedPopupReject(new Error('Closed automatically'));
+        this._displayedPopupDefered.reject(new Error('Closed automatically'));
     }
 
     _displayNext() {
         // We check that we have popup to display: if we are in the recursion, this._popups
         // may be an empty array.
-        if (this._displayedPopupPromise === null && this._popups.length > 0) {
+        if (this._displayedPopupDefered.promise === null && this._popups.length > 0) {
             let popup = this._popups.shift();
 
             if (popup.timeout) {
@@ -105,20 +108,24 @@ export class Popup {
                 defered: popup.defered,
             });
 
-            this._displayedPopupPromise = popup.defered.promise;
+            this._displayedPopupDefered.promise = popup.defered.promise;
             // We need to be able to reject the promise to close all popup
             // displayed on the screen.
-            this._displayedPopupReject = popup.defered.reject;
         } else {
+            this._displayedPopupDefered.reject = popup.defered.reject;
+            // Just for testing.
+            this._displayedPopupDefered.resolve = popup.defered.resolve;
             // As soon as the current popup is closed, we display the next one.
-            this._displayedPopupPromise.then(() => {
-                this._displayedPopupPromise = null;
+            this._displayedPopupDefered.promise.then(() => {
+                this._displayedPopupDefered.promise = null;
                 // Reset to an empty function not to reject a already fullfiled promise.
-                this._displayedPopupReject = () => {};
+                this._displayedPopupDefered.reject = () => {};
+                this._displayedPopupDefered.resolve = () => {};
                 this._displayNext();
             }, () => {
-                this._displayedPopupPromise = null;
-                this._displayedPopupReject = () => {};
+                this._displayedPopupDefered.promise = null;
+                this._displayedPopupDefered.reject = () => {};
+                this._displayedPopupDefered.resolve = () => {};
                 this._displayNext();
             });
         }
