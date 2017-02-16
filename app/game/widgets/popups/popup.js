@@ -17,11 +17,11 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject } from 'aurelia-framework';
+import { inject, NewInstance } from 'aurelia-framework';
 import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
-@inject(EventAggregatorSubscriptions)
+@inject(NewInstance.of(EventAggregatorSubscriptions))
 export class Popup {
     _popups;
     _displayedPopupPromise;
