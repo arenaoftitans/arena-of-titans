@@ -17,6 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { inject, NewInstance } from 'aurelia-framework';
 import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
@@ -29,8 +30,12 @@ export class Popup {
     constructor(eas) {
         this._eas = eas;
 
+        this._logger = LogManager.getLogger('AoTPopup');
         this._popups = [];
         this._displayedPopupPromise = null;
+        // Initialize with an empty function to prevent the code to crash when the first
+        // transition popup is displayed.
+        this._displayedPopupReject = () => {};
 
         this._popupReadyDefered = {};
         this._popupReadyDefered.promise = new Promise(resolve => {
@@ -42,6 +47,10 @@ export class Popup {
     }
 
     display(type, data, {timeout = 0} = {}) {
+        if (type === 'transition') {
+            this._closeAll();
+        }
+
         let popupDefered = {};
         popupDefered.promise = new Promise((resolve, reject) => {
             popupDefered.resolve = resolve;
@@ -68,6 +77,12 @@ export class Popup {
         return popupDefered.promise;
     }
 
+    _closeAll() {
+        this._logger.debug('Closing all popups');
+        this._popups = [];
+        this._displayedPopupReject(new Error('Closed automatically'));
+    }
+
     _displayNext() {
         // We check that we have popup to display: if we are in the recursion, this._popups
         // may be an empty array.
@@ -91,13 +106,19 @@ export class Popup {
             });
 
             this._displayedPopupPromise = popup.defered.promise;
+            // We need to be able to reject the promise to close all popup
+            // displayed on the screen.
+            this._displayedPopupReject = popup.defered.reject;
         } else {
             // As soon as the current popup is closed, we display the next one.
             this._displayedPopupPromise.then(() => {
                 this._displayedPopupPromise = null;
+                // Reset to an empty function not to reject a already fullfiled promise.
+                this._displayedPopupReject = () => {};
                 this._displayNext();
             }, () => {
                 this._displayedPopupPromise = null;
+                this._displayedPopupReject = () => {};
                 this._displayNext();
             });
         }
