@@ -96,10 +96,10 @@ export class Popup {
                 let closeTimeout = setTimeout(() => {
                     popup.defered.resolve();
                 }, popup.timeout);
-                let cancelCloseTimout = () => {
+                let cancelCloseTimeout = () => {
                     clearTimeout(closeTimeout);
                 };
-                popup.defered.promise.then(cancelCloseTimout, cancelCloseTimout);
+                popup.defered.promise.then(cancelCloseTimeout, cancelCloseTimeout);
             }
 
             this._eas.publish('aot:popup:display', {
