@@ -21,11 +21,10 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { EventAggregatorSubscriptions } from '../services/utils';
-import { Game } from '../game';
 import { Popup } from '../widgets/popups/popup';
 
 
-@inject(Api, Game, Popup, EventAggregatorSubscriptions)
+@inject(Api, Popup, EventAggregatorSubscriptions)
 export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.
@@ -37,9 +36,8 @@ export class Play {
     _game;
     _api;
 
-    constructor(api, game, popup, eas) {
+    constructor(api, popup, eas) {
         this._api = api;
-        this._game = game;
         this._popup = popup;
         this._eas = eas;
         this._logger = LogManager.getLogger('AoTPlay');
@@ -70,7 +68,13 @@ export class Play {
 
         this._api.onGameOverDefered.then(winners => {
             return this._popup.display('game-over', {message: winners});
-        }).then(location => this._game.navigateWithRefresh(location));
+        }).then(location => this._navigateWithRefresh(location));
+    }
+
+    _navigateWithRefresh(location) {
+        if (!window.jasmine) {
+            window.location.replace(location);
+        }
     }
 
     _handleSpecialActionNotify(message) {
@@ -127,7 +131,7 @@ export class Play {
 
     backHome() {
         this._popup.display('back-home', {}).then(
-            location => this._game.navigateWithRefresh(location),
+            location => this._navigateWithRefresh(location),
             () => this._logger.debug('cancel back home popup')
         );
     }

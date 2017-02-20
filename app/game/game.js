@@ -176,8 +176,4 @@ export class Game {
     deactivate() {
         this._eas.dispose();
     }
-
-    navigateWithRefresh(location) {
-        window.location.replace(location);
-    }
 }

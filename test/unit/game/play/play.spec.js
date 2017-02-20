@@ -20,7 +20,6 @@
 import { Play } from '../../../../app/game/play/play';
 import {
     ApiStub,
-    GameStub,
     EventAggregatorSubscriptionsStub,
     PopupStub,
 } from '../../../../app/test-utils';
@@ -29,16 +28,14 @@ import {
 describe('play', () => {
     let sut;
     let mockedApi;
-    let mockedGame;
     let mockedPopup;
     let mockedEas;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
-        mockedGame = new GameStub();
         mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Play(mockedApi, mockedGame, mockedPopup, mockedEas);
+        sut = new Play(mockedApi, mockedPopup, mockedEas);
     });
 
     it('should register api callbacks on activation', () => {

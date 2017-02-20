@@ -140,12 +140,6 @@ export class ApiStub {
 }
 
 
-export class GameStub {
-    navigateWithRefresh() {
-    }
-}
-
-
 export class PopupStub {
     display(type, data) {
         this.popupPromise = new Promise((resolve, reject) => {
