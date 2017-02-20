@@ -18,7 +18,7 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
 import { Api } from './services/api';
@@ -30,7 +30,7 @@ import { Popup } from './widgets/popups/popup';
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
-@inject(History, I18N, Api, Options, Popup, NewInstance.of(EventAggregatorSubscriptions))
+@inject(History, I18N, Api, Options, Popup, EventAggregatorSubscriptions)
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [

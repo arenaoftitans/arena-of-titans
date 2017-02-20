@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject, NewInstance } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
 import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 
@@ -31,7 +31,7 @@ const MOVE_STEP = 10;
 export { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP };
 
 
-@inject(Api, Element, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Element, EventAggregatorSubscriptions)
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;

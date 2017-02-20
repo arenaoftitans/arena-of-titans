@@ -18,14 +18,14 @@
  */
 
 import * as LogManager from 'aurelia-logging';
-import { bindable, inject, NewInstance } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Popup } from '../../../widgets/popups/popup';
 import { Api } from '../../../services/api';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 
 
-@inject(Api, Popup, I18N, Element, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Popup, I18N, Element, EventAggregatorSubscriptions)
 export class AotTrumpCustomElement {
     _api;
     _logger;

@@ -18,14 +18,14 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { EventAggregatorSubscriptions } from '../services/utils';
 import { Game } from '../game';
 import { Popup } from '../widgets/popups/popup';
 
 
-@inject(Api, Game, Popup, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Game, Popup, EventAggregatorSubscriptions)
 export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.

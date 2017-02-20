@@ -18,7 +18,7 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { bindable, inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { Blink, Elements, EventAggregatorSubscriptions } from '../../../services/utils';
@@ -30,7 +30,7 @@ const MAX_BUTTON_BLINK_TIME = 90000;
 const BUTTON_BLINK_CLASS = 'blink-container';
 
 
-@inject(Api, Popup, I18N, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Popup, I18N, ObserverLocator, EventAggregatorSubscriptions)
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;

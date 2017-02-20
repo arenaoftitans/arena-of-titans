@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { EventAggregatorSubscriptions, ImageSource, Wait } from '../../../services/utils';
 import { Api } from '../../../services/api';
 
@@ -28,7 +28,7 @@ const MAX_HEIGHT = 566;
 const MAX_DELTA = MAX_HEIGHT - MIN_HEIGHT;
 const FILL_REFRESH_TIME = 50;
 
-@inject(Api, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, ObserverLocator, EventAggregatorSubscriptions)
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
 

@@ -17,13 +17,13 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { inject, ObserverLocator } from 'aurelia-framework';
 
 import { EventAggregatorSubscriptions } from '../../../services/utils';
 import { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP } from '../board/board';
 
 
-@inject(ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
+@inject(ObserverLocator, EventAggregatorSubscriptions)
 export class AotBoardControlsCustomElement {
     constructor(observerLocator, eas) {
         this._ol = observerLocator;

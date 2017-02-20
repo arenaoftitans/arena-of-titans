@@ -17,12 +17,12 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { EventAggregatorSubscriptions } from './utils';
 import { Api } from './api';
 
 
-@inject(Api, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, EventAggregatorSubscriptions)
 export class History {
     _api;
     _ea;

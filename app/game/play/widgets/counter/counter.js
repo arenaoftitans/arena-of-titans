@@ -18,7 +18,7 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
 import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
 import Config from '../../../../../config/application';
@@ -37,7 +37,7 @@ const COUNTER_WIDTH = 300;
 const COUNTER_HEIGHT = 300;
 
 
-@inject(Api, Config, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Config, EventAggregatorSubscriptions)
 export class AotCounterCustomElement {
     _api;
 

@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject, NewInstance } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import {
@@ -35,7 +35,7 @@ const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-@inject(Api, I18N, Options, Popup, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;

@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject } from 'aurelia-framework';
+import { inject, transient } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { browsers } from '../../services/browser-sniffer';
 
@@ -208,8 +208,10 @@ export class Blink {
 /**
  * Utility object to manage (ie subscribe and dispose) group of EventAggregator subscriptions.
  * You need to inject a new instance each time you use it. Otherwise all the subscriptions will
- * be disposed of! To acheive this, use NewInstance.of(EventAggregatorSubscriptions)
+ * be disposed of! To acheive this, we use the transient decorator so each item it is injected,
+ * a new instance is created.
  */
+@transient()
 @inject(EventAggregator)
 export class EventAggregatorSubscriptions {
     constructor(ea) {

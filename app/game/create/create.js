@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { inject, ObserverLocator } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
@@ -37,7 +37,7 @@ import Clipboard from 'clipboard';
     ObserverLocator,
     History,
     EventAggregator,
-    NewInstance.of(EventAggregatorSubscriptions)
+    EventAggregatorSubscriptions
 )
 export class Create {
     CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']

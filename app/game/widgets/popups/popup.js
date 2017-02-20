@@ -18,11 +18,11 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject, NewInstance } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
-@inject(NewInstance.of(EventAggregatorSubscriptions))
+@inject(EventAggregatorSubscriptions)
 export class Popup {
     _popups;
     _displayedPopupDefered;
