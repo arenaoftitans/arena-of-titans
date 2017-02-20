@@ -60,23 +60,23 @@ describe('board', () => {
             {x: 7, y: 5},
         ]);
 
-        expect(sut._possibleSquares).toEqual([
+        expect(sut.possibleSquares).toEqual([
             'square-0-0',
             'square-7-5',
         ]);
     });
 
     it('should reset possible squares', () => {
-        sut._possibleSquares = ['square-0-0'];
+        sut.possibleSquares = ['square-0-0'];
 
         sut._resetPossibleSquares();
 
-        expect(sut._possibleSquares).toEqual([]);
+        expect(sut.possibleSquares).toEqual([]);
     });
 
     it('should move to on possible square', () => {
         spyOn(mockedApi, 'play');
-        sut._possibleSquares = ['square-0-0'];
+        sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
         sut.moveTo('square-0-0', 0, 0);
@@ -87,13 +87,13 @@ describe('board', () => {
             x: 0,
             y: 0,
         });
-        expect(sut._possibleSquares.length).toBe(0);
+        expect(sut.possibleSquares.length).toBe(0);
         expect(sut.selectedCard).toBe(null);
     });
 
     it('should only move on possible square', () => {
         spyOn(mockedApi, 'play');
-        sut._possibleSquares = ['square-0-0'];
+        sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
         sut.moveTo('square-1-0', 0, 0);
@@ -112,7 +112,7 @@ describe('board', () => {
 
     it('should not move if no selected card', () => {
         spyOn(mockedApi, 'play');
-        sut._possibleSquares = ['square-0-0'];
+        sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = null;
 
         sut.moveTo('square-0-0', 0, 0);
@@ -121,10 +121,10 @@ describe('board', () => {
     });
 
     it('should reset possible squares', () => {
-        sut._possibleSquares = ['square-0-0'];
+        sut.possibleSquares = ['square-0-0'];
         sut._resetPossibleSquares();
 
-        expect(sut._possibleSquares.length).toBe(0);
+        expect(sut.possibleSquares.length).toBe(0);
     });
 
     describe('pawn clicked', () => {
@@ -157,7 +157,7 @@ describe('board', () => {
 
         it('should move to if possible squares and pawn', () => {
             spyOn(mockedApi, 'playSpecialAction');
-            sut._possibleSquares = ['square-0-0'];
+            sut.possibleSquares = ['square-0-0'];
             sut._selectedPawnIndex = 0;
             sut._actionName = 'action';
             sut.onPawnSquareClicked = () => {};
@@ -166,7 +166,7 @@ describe('board', () => {
             sut.moveTo('square-0-0', 0, 0);
 
             expect(sut.onPawnSquareClicked).toHaveBeenCalledWith('square-0-0', 0, 0, 0);
-            expect(sut._possibleSquares).toEqual([]);
+            expect(sut.possibleSquares).toEqual([]);
             expect(sut._selectedPawnIndex).toBe(-1);
         });
     });

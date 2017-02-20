@@ -42,7 +42,7 @@ export class AotBoardCustomElement {
     @bindable onPawnSquareClicked = null;
     _api;
     infos = {};
-    _possibleSquares = [];
+    possibleSquares = [];
     _selectedPawnIndex = -1;
 
     constructor(api, element, eas) {
@@ -223,18 +223,18 @@ export class AotBoardCustomElement {
     }
 
     _highlightPossibleSquares(possibleSquares) {
-        this._possibleSquares = possibleSquares.map(square => {
+        this.possibleSquares = possibleSquares.map(square => {
             return `square-${square.x}-${square.y}`;
         });
     }
 
     _resetPossibleSquares() {
-        this._possibleSquares = [];
+        this.possibleSquares = [];
     }
 
     moveTo(squareId, x, y) {
-        if (this._possibleSquares.length > 0 &&
-                this._possibleSquares.includes(squareId) &&
+        if (this.possibleSquares.length > 0 &&
+                this.possibleSquares.includes(squareId) &&
                 this.selectedCard) {
             this._api.play({
                 cardName: this.selectedCard.name,
@@ -244,8 +244,8 @@ export class AotBoardCustomElement {
             });
             this._resetPossibleSquares();
             this.selectedCard = null;
-        } else if (this._possibleSquares.length > 0 &&
-                this._possibleSquares.indexOf(squareId) > -1 &&
+        } else if (this.possibleSquares.length > 0 &&
+                this.possibleSquares.indexOf(squareId) > -1 &&
                 this._selectedPawnIndex > -1) {
             this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
             this._selectedPawnIndex = -1;
