@@ -138,7 +138,7 @@ describe('services/utils', () => {
 
                 let promise = Wait.forClass(className);
 
-                expect(promise.then).toBeDefined();
+                expect(promise).toEqual(jasmine.any(Promise));
                 expect(document.getElementsByClassName).toHaveBeenCalledWith(className);
                 expect(Wait.classPromises[className]).toBe(promise);
             });
