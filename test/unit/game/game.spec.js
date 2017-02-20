@@ -24,6 +24,7 @@ import {
     HistoryStub,
     I18nStub,
     EventAggregatorSubscriptionsStub,
+    PopupStub,
 } from '../../../app/test-utils';
 
 
@@ -32,6 +33,7 @@ describe('the Game module', () => {
     let mockedI18n;
     let mockedApi;
     let mockedOptions;
+    let mockedPopup;
     let mockedEas;
     let sut;
 
@@ -40,14 +42,15 @@ describe('the Game module', () => {
         mockedI18n = new I18nStub();
         mockedApi = new ApiStub();
         mockedOptions = {};
+        mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedPopup, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedEas);
+        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedPopup, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
@@ -58,39 +61,6 @@ describe('the Game module', () => {
         sut.deactivate();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
-    });
-
-    describe('popups', () => {
-        it('creates a popup', () => {
-            sut.popup('test', {test: true});
-            expect(sut.type).toBe('test');
-            expect(sut.data.test).toBe(true);
-        });
-
-        it('close the popup on resolve', done => {
-            sut.popup('test', {test: true}).then(data => {
-                expect(data.test).toBe(true);
-                expect(sut.type).toBe(null);
-                expect(sut.data).toBe(null);
-                done();
-            });
-
-            sut.popupDefered.resolve({test: true});
-        });
-
-        it('should log and reject promise if we already have a popup', done => {
-            sut.type = 'info';
-            spyOn(sut._logger, 'error');
-
-            sut.popup('test', {test: true}).then(() => {
-                expect(true).toBe(false);
-                done();
-            }, error => {
-                expect(sut._logger.error).toHaveBeenCalled();
-                expect(error.message).toBe('We can display only a popup at a time');
-                done();
-            });
-        });
     });
 
     describe('router', () => {
@@ -122,12 +92,12 @@ describe('the Game module', () => {
 
         it('should display error popup on error', () => {
             let message = {message: 'error'};
-            spyOn(sut, 'popup').and.returnValue(new Promise(resolve => {}));
+            spyOn(mockedPopup, 'display').and.returnValue(new Promise(resolve => {}));
 
             sut.activate();
             mockedEas.publish('aot:api:error', message);
 
-            expect(sut.popup).toHaveBeenCalledWith('error', message);
+            expect(mockedPopup.display).toHaveBeenCalledWith('error', message);
         });
     });
 });

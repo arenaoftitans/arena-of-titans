@@ -22,5 +22,5 @@ import { bindable } from 'aurelia-framework';
 
 export class AotTransitionCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 }

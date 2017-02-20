@@ -22,7 +22,7 @@ import { bindable, inject, NewInstance, ObserverLocator } from 'aurelia-framewor
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { Blink, Elements, EventAggregatorSubscriptions } from '../../../services/utils';
-import { Game } from '../../../game';
+import { Popup } from '../../../widgets/popups/popup';
 
 
 const BUTTON_BLINK_TIME = 1000;
@@ -30,7 +30,7 @@ const MAX_BUTTON_BLINK_TIME = 90000;
 const BUTTON_BLINK_CLASS = 'blink-container';
 
 
-@inject(Api, Game, I18N, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Popup, I18N, ObserverLocator, NewInstance.of(EventAggregatorSubscriptions))
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
@@ -40,9 +40,9 @@ export class AotCardsCustomElement {
     infos = {};
     specialActionInProgress = false;
 
-    constructor(api, game, i18n, ol, eas) {
+    constructor(api, popup, i18n, ol, eas) {
         this._api = api;
-        this._game = game;
+        this._popup = popup;
         this._i18n = i18n;
         this._ol = ol;
         this._eas = eas;
@@ -146,7 +146,7 @@ export class AotCardsCustomElement {
             this._popupMessageId = 'game.play.pass_confirm_message';
         }
         this._translatePopupMessage();
-        this._game.popup('confirm', this._popupMessage).then(() => {
+        this._popup.display('confirm', this._popupMessage).then(() => {
             this._api.pass();
             this.selectedCard = null;
         }, () => {
@@ -158,7 +158,7 @@ export class AotCardsCustomElement {
         if (this.selectedCard) {
             this._popupMessageId = 'game.play.discard_confirm_message';
             this._translatePopupMessage();
-            this._game.popup('confirm', this._popupMessage).then(() => {
+            this._popup.display('confirm', this._popupMessage).then(() => {
                 this._api.discard({
                     cardName: this.selectedCard.name,
                     cardColor: this.selectedCard.color,
@@ -168,7 +168,7 @@ export class AotCardsCustomElement {
         } else {
             this._popupMessageId = 'game.play.discard_no_selected_card';
             this._translatePopupMessage();
-            this._game.popup('infos', this._popupMessage);
+            this._popup.display('infos', this._popupMessage);
         }
     }
 

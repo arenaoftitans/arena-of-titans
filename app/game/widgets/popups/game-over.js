@@ -22,9 +22,9 @@ import { bindable } from 'aurelia-framework';
 
 export class AotGameOverCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 
     ok(location) {
-        this.done.resolve(location);
+        this.defered.resolve(location);
     }
 }

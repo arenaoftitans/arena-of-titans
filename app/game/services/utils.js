@@ -80,9 +80,11 @@ export class ImageName {
 
 export class Wait {
     static idPromises = {};
+    static classPromises = {};
 
     static flushCache() {
         Wait.idPromises = {};
+        Wait.classPromises = {};
     }
 
     static forId(id) {
@@ -107,6 +109,34 @@ export class Wait {
         })();
 
         Wait.idPromises[id] = defered.promise;
+
+        return defered.promise;
+    }
+
+    static forClass(className, {element = document, fresh = false} = {}) {
+        if (className in Wait.classPromises && !fresh) {
+            return Wait.classPromises[className];
+        }
+
+        let defered = {};
+        defered.promise = new Promise(resolve => {
+            defered.resolve = resolve;
+        });
+
+        (function wait() {
+            let elementsWithClasses = element.getElementsByClassName(className);
+            // If jasmine is defined, we are running this in a unit test and must resolve the
+            // promise.
+            if (elementsWithClasses.length > 0 || window.jasmine) {
+                defered.resolve(elementsWithClasses);
+            } else {
+                setTimeout(wait, 50);
+            }
+        })();
+
+        if (!fresh) {
+            Wait.classPromises[className] = defered.promise;
+        }
 
         return defered.promise;
     }

@@ -17,7 +17,11 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Elements, EventAggregatorSubscriptions } from '../../../../app/game/services/utils';
+import {
+    Elements,
+    EventAggregatorSubscriptions,
+    Wait,
+} from '../../../../app/game/services/utils';
 import { browsers } from '../../../../app/services/browser-sniffer';
 import { EventAggregatorStub } from '../../../../app/test-utils';
 
@@ -108,6 +112,69 @@ describe('services/utils', () => {
             sut.dispose();
 
             expect(sut._subscriptions.length).toBe(0);
+        });
+    });
+
+    describe('Wait', () => {
+        beforeEach(() => {
+            Wait.flushCache();
+        });
+
+        it('should flush cache', () => {
+            Wait.idPromises.toto = null;
+            Wait.classPromises.toto = null;
+
+            Wait.flushCache();
+
+            expect(Wait.idPromises).toEqual({});
+            expect(Wait.classPromises).toEqual({});
+        });
+
+        describe('forClass', () => {
+            let className = 'my-class';
+
+            it('should create new promise', () => {
+                spyOn(document, 'getElementsByClassName').and.returnValue([]);
+
+                let promise = Wait.forClass(className);
+
+                expect(promise.then).toBeDefined();
+                expect(document.getElementsByClassName).toHaveBeenCalledWith(className);
+                expect(Wait.classPromises[className]).toBe(promise);
+            });
+
+            it('should serve from cache if present', () => {
+                let promise = new Promise(() => {});
+                Wait.classPromises[className] = promise;
+
+                let returnedPromise = Wait.forClass(className);
+
+                expect(returnedPromise).toBe(promise);
+            });
+
+            it('should return new promise if fresh is true', () => {
+                let promise = new Promise(() => {});
+                Wait.classPromises[className] = promise;
+
+                let returnedPromise = Wait.forClass(className, {fresh: true});
+
+                expect(returnedPromise).not.toBe(promise);
+            });
+
+            it('should search from element if passed', () => {
+                spyOn(document, 'getElementsByClassName');
+                let spy = jasmine.createSpy('getElementsByClassName').and.returnValue([]);
+                let element = {
+                    getElementsByClassName: spy,
+                };
+
+                let promise = Wait.forClass(className, {element: element});
+
+                expect(promise.then).toBeDefined();
+                expect(document.getElementsByClassName).not.toHaveBeenCalled();
+                expect(element.getElementsByClassName).toHaveBeenCalledWith(className);
+                expect(Wait.classPromises[className]).toBe(promise);
+            });
         });
     });
 });

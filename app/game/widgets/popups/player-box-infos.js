@@ -26,7 +26,7 @@ import { Api } from '../../services/api';
 @inject(History, Api)
 export class AotPlayerBoxInfosCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
     _history;
     _api;
 
@@ -36,7 +36,7 @@ export class AotPlayerBoxInfosCustomElement {
     }
 
     close() {
-        this.done.resolve();
+        this.defered.resolve();
     }
 
     get heroSource() {

@@ -28,14 +28,14 @@ import {
     ImageSource,
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
-import { Game } from '../../../game';
+import { Popup } from '../../../widgets/popups/popup';
 
 
 const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-@inject(Api, I18N, Options, Game, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, I18N, Options, Popup, NewInstance.of(EventAggregatorSubscriptions))
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
@@ -62,11 +62,11 @@ export class AotNotificationsCustomElement {
     _tutorialInProgress;
 
 
-    constructor(api, i18n, options, game, eas) {
+    constructor(api, i18n, options, popup, eas) {
         this._api = api;
         this._i18n = i18n;
         this._options = options;
-        this._game = game;
+        this._popup = popup;
         this._eas = eas;
         this._popupMessage = {};
         this._specialActionPopupMessage = {};
@@ -120,7 +120,7 @@ export class AotNotificationsCustomElement {
         this._popupMessageId = 'game.visit.propose';
         this._translatePopupMessage();
         if (this._options.proposeGuidedVisit) {
-            this._game.popup('yes-no', this._popupMessage).then(
+            this._popup.display('yes-no', this._popupMessage).then(
                 () => this._startGuidedVisit(),
                 () => {
                     this._options.proposeGuidedVisit = false;
@@ -268,7 +268,7 @@ export class AotNotificationsCustomElement {
         this._translateSpecialActionText();
         if (this._options.mustViewInGameHelp(this._specialActionName)) {
             this._translatePopupMessage();
-            this._game.popup('infos', this._specialActionPopupMessage).then(() => {
+            this._popup.display('infos', this._specialActionPopupMessage).then(() => {
                 this._eas.publish('aot:notifications:special_action_in_game_help_seen');
                 this._options.markInGameOptionSeen(this._specialActionName);
             });

@@ -22,9 +22,9 @@ import { bindable } from 'aurelia-framework';
 
 export class AotErrorCustomElement {
     @bindable data = null;
-    @bindable done = null;
+    @bindable defered = null;
 
     ok() {
-        this.done.resolve();
+        this.defered.resolve();
     }
 }

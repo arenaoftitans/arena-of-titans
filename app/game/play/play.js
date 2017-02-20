@@ -22,9 +22,10 @@ import { inject, NewInstance } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { EventAggregatorSubscriptions } from '../services/utils';
 import { Game } from '../game';
+import { Popup } from '../widgets/popups/popup';
 
 
-@inject(Api, Game, NewInstance.of(EventAggregatorSubscriptions))
+@inject(Api, Game, Popup, NewInstance.of(EventAggregatorSubscriptions))
 export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.
@@ -36,9 +37,10 @@ export class Play {
     _game;
     _api;
 
-    constructor(api, game, eas) {
+    constructor(api, game, popup, eas) {
         this._api = api;
         this._game = game;
+        this._popup = popup;
         this._eas = eas;
         this._logger = LogManager.getLogger('AoTPlay');
 
@@ -67,7 +69,7 @@ export class Play {
         });
 
         this._api.onGameOverDefered.then(winners => {
-            return this._game.popup('game-over', {message: winners});
+            return this._popup.display('game-over', {message: winners});
         }).then(location => this._game.navigateWithRefresh(location));
     }
 
@@ -124,7 +126,7 @@ export class Play {
     }
 
     backHome() {
-        this._game.popup('back-home', {}).then(
+        this._popup.display('back-home', {}).then(
             location => this._game.navigateWithRefresh(location),
             () => this._logger.debug('cancel back home popup')
         );
