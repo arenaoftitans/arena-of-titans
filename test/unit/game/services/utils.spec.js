@@ -176,5 +176,28 @@ describe('services/utils', () => {
                 expect(Wait.classPromises[className]).toBe(promise);
             });
         });
+
+        describe('forId', () => {
+            let idName = 'my-id';
+
+            it('should create new promise', () => {
+                spyOn(document, 'getElementById').and.returnValue([]);
+
+                let promise = Wait.forId(idName);
+
+                expect(promise).toEqual(jasmine.any(Promise));
+                expect(document.getElementById).toHaveBeenCalledWith(idName);
+                expect(Wait.idPromises[idName]).toBe(promise);
+            });
+
+            it('should serve from cache if present', () => {
+                let promise = new Promise(() => {});
+                Wait.idPromises[idName] = promise;
+
+                let returnedPromise = Wait.forId(idName);
+
+                expect(returnedPromise).toBe(promise);
+            });
+        });
     });
 });
