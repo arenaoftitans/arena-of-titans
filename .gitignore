@@ -11,3 +11,4 @@
 /scripts/*.map
 /app/environment.js
 npm-debug.log
+.venv
