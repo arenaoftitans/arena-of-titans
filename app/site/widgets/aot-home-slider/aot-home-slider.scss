@@ -1,0 +1,58 @@
+#home-slider{
+  width: 300%;
+  -moz-transition: transform 1s; 
+  -webkit-transition: transform 1s;  
+  -ms-transition: transform 1s;  
+  -o-transition: transform 1s;  
+  transition: transform 1s;
+  display: flex;
+
+  .slide{
+    position: relative; 
+    width:33.333%;
+    padding-bottom: 200px;
+    background-size: cover;
+
+    .slide-caption{
+        position: absolute;
+        top: 40%;
+        padding: 20px;
+        color: white;
+        background: rgba(black, 0.8);
+    }
+  }
+
+  .slide-elfe{ background-image: url('/assets/homepage/home-slider/elfe_slide.png');}
+  .slide-orc{
+    background-image: url('/assets/homepage/home-slider/orc_slide.png');
+    .slide-caption{ right: 0px; } 
+  }
+}
+
+#home-slider-container{
+  overflow:hidden;
+  position: relative;
+}
+
+#controls{
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .circle{
+    display: inline-block;
+    background: coral;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+  
+    &.active{
+      background:red;
+    }
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
