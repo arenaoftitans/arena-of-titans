@@ -28,24 +28,24 @@ export class AotHomeSliderCustomElement {
         this.createAutomaticSlidingInterval();
     }
 
-    createAutomaticSlidingInterval = function(){
-        this.automaticSlidingInterval = window.setInterval(()=>{ 
+    createAutomaticSlidingInterval = function() {
+        this.automaticSlidingInterval = window.setInterval(()=>{
             this.goToSlide(this.activeSlide + 1);
         }, this.automaticSlidingPeriod);
     };
 
-    goToSlide = function(slideNumber){
-        if(slideNumber >= this.slideTotal){ 
+    goToSlide = function(slideNumber) {
+        if (slideNumber >= this.slideTotal) {
             this.goToSlide(0);
             return;
         }
 
         clearInterval(this.automaticSlidingInterval);
-        
+
         //update active slide
         this.activeSlide = slideNumber;
         //move slider
-        this.homeSlider.style.transform = 'translateX(-'+ slideNumber*33.333 +'%)';
+        this.homeSlider.style.transform = 'translateX(-' + slideNumber * 33.333 + '%)';
 
         this.createAutomaticSlidingInterval();
     };

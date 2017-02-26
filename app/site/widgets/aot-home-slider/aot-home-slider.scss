@@ -1,70 +1,77 @@
-html, body{
-  height: 100%;
+html,
+body {
+    height: 100%;
 }
 
-#home-slider-container{
-  height: 81.5%;
+#home-slider-container {
+    height: 81.5%;
 }
 
-#home-slider{
-  height: 100%;
+#home-slider {
+    height: 100%;
 }
 
-#home-slider{
-  width: 300%;
-  -moz-transition: transform 1s; 
-  -webkit-transition: transform 1s;  
-  -ms-transition: transform 1s;  
-  -o-transition: transform 1s;  
-  transition: transform 1s;
-  display: flex;
+#home-slider {
+    display: flex;
+    -moz-transition: transform 1s;
+    -ms-transition: transform 1s;
+    -o-transition: transform 1s;
+    -webkit-transition: transform 1s;
+    transition: transform 1s;
+    width: 300%;
 
-  .slide{
-    position: relative; 
-    width:33.333%;
-    padding-bottom: 200px;
-    background-size: contain;
+    .slide {
+        background-size: contain;
+        height: 100%;
+        position: relative;
+        width: 33.333%;
 
-    .slide-caption{
-        position: absolute;
-        top: 40%;
-        padding: 20px;
-        color: white;
-        background: rgba(black, 0.8);
-    }
-  }
-
-  .slide-elfe{ background-image: url('/assets/homepage/home-slider/elfe_slide.png');}
-  .slide-orc{
-    background-image: url('/assets/homepage/home-slider/orc_slide.png');
-    .slide-caption{ right: 0px; } 
-  }
-}
-
-#home-slider-container{
-  overflow:hidden;
-  position: relative;
-}
-
-#controls{
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  .circle{
-    display: inline-block;
-    background: #908F8D;
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-  
-    &.active{
-      background:#E5C356;
+        .slide-caption {
+            background: rgba(black, 0.8);
+            color: white;
+            padding: 20px;
+            position: absolute;
+            top: 40%;
+        }
     }
 
-    &:hover{
-      cursor: pointer;
+    .slide-elfe {
+        background-image: url('/assets/homepage/home-slider/elfe_slide.png');
     }
-  }
+
+    .slide-orc {
+        background-image: url('/assets/homepage/home-slider/orc_slide.png');
+
+        .slide-caption {
+            right: 0;
+        }
+    }
+}
+
+#home-slider-container {
+    overflow: hidden;
+    position: relative;
+}
+
+#controls {
+    bottom: 0;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+
+    .circle {
+        background: #908f8d;
+        border-radius: 20px;
+        display: inline-block;
+        height: 20px;
+        width: 20px;
+
+        &.active {
+            background: #e5c356;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
