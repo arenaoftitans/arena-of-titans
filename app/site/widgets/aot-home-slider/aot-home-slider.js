@@ -25,7 +25,7 @@ export class AotHomeSliderCustomElement {
     automaticSlidingPeriod = 50000;
 
     constructor() {
-        //this.createAutomaticSlidingInterval();
+        this.createAutomaticSlidingInterval();
     }
 
     createAutomaticSlidingInterval = function(){

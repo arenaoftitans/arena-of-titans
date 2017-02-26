@@ -1,3 +1,15 @@
+html, body{
+  height: 100%;
+}
+
+#home-slider-container{
+  height: 81.5%;
+}
+
+#home-slider{
+  height: 100%;
+}
+
 #home-slider{
   width: 300%;
   -moz-transition: transform 1s; 
@@ -11,7 +23,7 @@
     position: relative; 
     width:33.333%;
     padding-bottom: 200px;
-    background-size: cover;
+    background-size: contain;
 
     .slide-caption{
         position: absolute;
@@ -42,13 +54,13 @@
 
   .circle{
     display: inline-block;
-    background: coral;
+    background: #908F8D;
     height: 20px;
     width: 20px;
     border-radius: 20px;
   
     &.active{
-      background:red;
+      background:#E5C356;
     }
 
     &:hover{
