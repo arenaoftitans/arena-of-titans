@@ -9,6 +9,7 @@ let config = new Config();
 let unclosedFromSvg = [
     'circle',
     'ellipse',
+    'image',
     'line',
     'path',
     'polygon',
