@@ -18,22 +18,28 @@
  */
 
 import { Popup } from '../../../app/game/widgets/popups/popup';
-import { EventAggregatorSubscriptionsStub } from '../../../app/test-utils';
+import {
+    EventAggregatorSubscriptionsStub,
+    I18nStub,
+} from '../../../app/test-utils';
 
 
 describe('Popups', () => {
     describe('service', () => {
+        let mockedI18n;
         let mockedEas;
         let sut;
 
         beforeEach(() => {
+            mockedI18n = new I18nStub();
             mockedEas = new EventAggregatorSubscriptionsStub();
-            sut = new Popup(mockedEas);
+            sut = new Popup(mockedI18n, mockedEas);
         });
 
         it('should initalize correctly', () => {
             expect(sut._popups).toEqual([]);
             expect(sut._displayedPopupDefered.promise).toBeNull();
+            expect(sut._displayedPopupData).toBeNull();
             expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
             expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
             expect(sut._popupReadyDefered.promise).toEqual(jasmine.any(Promise));
@@ -95,6 +101,7 @@ describe('Popups', () => {
             it('should close all popups', () => {
                 spyOn(sut._logger, 'debug');
                 spyOn(sut._displayedPopupDefered, 'reject');
+                sut._displayedPopupData = {};
                 sut._popups.push({});
 
                 sut._closeAll();
@@ -102,6 +109,7 @@ describe('Popups', () => {
                 expect(sut._logger.debug).toHaveBeenCalled();
                 expect(sut._popups).toEqual([]);
                 expect(sut._displayedPopupDefered.reject).toHaveBeenCalledWith(jasmine.any(Error));
+                expect(sut._displayedPopupData).toBeNull();
             });
         });
 
@@ -121,6 +129,7 @@ describe('Popups', () => {
                 });
                 let resolve = sut._displayedPopupDefered.resolve;
                 let reject = sut._displayedPopupDefered.reject;
+                sut._displayedPopupData = {};
                 spyOn(sut._displayedPopupDefered.promise, 'then').and.callThrough();
 
                 sut._displayNext();
@@ -133,6 +142,7 @@ describe('Popups', () => {
                     expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
                     expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
                     expect(sut._displayedPopupDefered.reject).not.toBe(reject);
+                    expect(sut._displayedPopupData).toBeNull();
                     done();
                 });
             });
@@ -144,6 +154,7 @@ describe('Popups', () => {
                 });
                 let resolve = sut._displayedPopupDefered.resolve;
                 let reject = sut._displayedPopupDefered.reject;
+                sut._displayedPopupData = {};
                 spyOn(sut._displayedPopupDefered.promise, 'then').and.callThrough();
 
                 sut._displayNext();
@@ -156,6 +167,7 @@ describe('Popups', () => {
                     expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
                     expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
                     expect(sut._displayedPopupDefered.reject).not.toBe(reject);
+                    expect(sut._displayedPopupData).toBeNull();
                     done();
                 });
             });
@@ -216,6 +228,67 @@ describe('Popups', () => {
                     data: {message: 'Hello'},
                     defered: popup.defered,
                 });
+            });
+        });
+
+        describe('_translatePopup', () => {
+            it('should not do anything if there is no popup', () => {
+                spyOn(sut, '_translateObj');
+
+                sut._translatePopup();
+
+                expect(sut._translateObj).not.toHaveBeenCalled();
+            });
+
+            it('should not do anything if there is nothing to translate', () => {
+                sut._displayedPopupData = {};
+                spyOn(sut, '_translateObj');
+
+                sut._translatePopup();
+
+                expect(sut._translateObj).not.toHaveBeenCalled();
+            });
+
+            it('should not do anything if there is no messages to translate', () => {
+                sut._displayedPopupData = {
+                    translate: {
+                    },
+                };
+                spyOn(sut, '_translateObj');
+
+                sut._translatePopup();
+
+                expect(sut._translateObj).not.toHaveBeenCalled();
+            });
+
+            it('should translate', () => {
+                sut._displayedPopupData = {
+                    translate: {
+                        messages: {
+                            toto: 'hello',
+                        },
+                        params: {
+                            p1: 'world',
+                        },
+                        paramsToTranslate: {
+                            pt1: 'test',
+                        },
+                    },
+                };
+                spyOn(sut, '_translateObj');
+
+                sut._translatePopup();
+
+                expect(sut._translateObj).toHaveBeenCalledWith(
+                    { p1: 'world' },
+                    { pt1: 'test' }
+                );
+            // Since _translateObj is mocked, the params cannot contain pt1
+                expect(sut._translateObj).toHaveBeenCalledWith(
+                    sut._displayedPopupData,
+                    sut._displayedPopupData.translate.messages,
+                    { p1: 'world' }
+                );
             });
         });
     });

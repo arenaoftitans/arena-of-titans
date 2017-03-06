@@ -22,7 +22,6 @@ import {
     ApiStub,
     RouterStub,
     HistoryStub,
-    I18nStub,
     EventAggregatorSubscriptionsStub,
     PopupStub,
 } from '../../../app/test-utils';
@@ -30,7 +29,6 @@ import {
 
 describe('the Game module', () => {
     let mockedHistory;
-    let mockedI18n;
     let mockedApi;
     let mockedOptions;
     let mockedPopup;
@@ -39,18 +37,17 @@ describe('the Game module', () => {
 
     beforeEach(() => {
         mockedHistory = new HistoryStub();
-        mockedI18n = new I18nStub();
         mockedApi = new ApiStub();
         mockedOptions = {};
         mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedPopup, mockedEas);
+        sut = new Game(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedI18n, mockedApi, mockedOptions, mockedPopup, mockedEas);
+        sut = new Game(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
@@ -97,7 +94,11 @@ describe('the Game module', () => {
             sut.activate();
             mockedEas.publish('aot:api:error', message);
 
-            expect(mockedPopup.display).toHaveBeenCalledWith('error', message);
+            expect(mockedPopup.display).toHaveBeenCalledWith('error', {
+                translate: {
+                    messages: message,
+                },
+            });
         });
     });
 });

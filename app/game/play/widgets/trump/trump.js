@@ -49,12 +49,7 @@ export class AotTrumpCustomElement {
         this._element = element;
         this._eas = eas;
 
-        this._popupMessage = {};
-        this._lastSelected = null;
-
         this._logger = LogManager.getLogger('AotTrumps');
-
-        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
     }
 
     bind() {
@@ -111,12 +106,21 @@ export class AotTrumpCustomElement {
             return;
         } else if (this.trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
-            this._lastSelected = {
-                trump: this.trump,
-                otherPlayerNames: otherPlayerNames,
+            let popupData = {
+                selectedChoice: randomInt(1, otherPlayerNames.length).toString(),
+                choices: otherPlayerNames,
+                translate: {
+                    messages: {
+                        title: `trumps.${this.normalizeTrumpName()}`,
+                        description: `trumps.${this.normalizeTrumpName()}_description`,
+                        message: 'game.play.select_trump_target',
+                    },
+                    paramsToTranslate: {
+                        trumpname: `trumps.${this.normalizeTrumpName()}`,
+                    },
+                },
             };
-            this._translatePopupMessage();
-            this._popup.display('confirm', this._popupMessage).then(targetIndex => {
+            this._popup.display('confirm', popupData).then(targetIndex => {
                 // targetIndex is binded in a template, hence it became a string and must be
                 // converted before usage in the API
                 targetIndex = parseInt(targetIndex, 10);
@@ -142,21 +146,6 @@ export class AotTrumpCustomElement {
         }
 
         return otherPlayerNames;
-    }
-
-    _translatePopupMessage() {
-        if (this._lastSelected) {
-            this._popupMessage.message = this._i18n.tr(
-                'game.play.select_trump_target', {
-                    trumpname: this.getTranslatedTrumpTitle(this._lastSelected.trump),
-                });
-            this._popupMessage.title = this.getTranslatedTrumpTitle(this._lastSelected.trump);
-            this._popupMessage.description =
-                    this.getTranslatedTrumpDescription(this._lastSelected.trump);
-            this._popupMessage.choices = this._lastSelected.otherPlayerNames;
-            this._popupMessage.selectedChoice =
-                    randomInt(1, this._popupMessage.choices.length).toString();
-        }
     }
 
     get yourTurn() {

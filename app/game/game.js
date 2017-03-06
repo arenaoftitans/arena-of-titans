@@ -19,7 +19,6 @@
 
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
 import { History } from './services/history';
 import { Api } from './services/api';
 import { Options } from '../services/options';
@@ -30,7 +29,7 @@ import { Popup } from './widgets/popups/popup';
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
-@inject(History, I18N, Api, Options, Popup, EventAggregatorSubscriptions)
+@inject(History, Api, Options, Popup, EventAggregatorSubscriptions)
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
@@ -49,8 +48,7 @@ export class Game {
         reject: null,
     };
 
-    constructor(history, i18n, api, options, popup, eas) {
-        this._i18n = i18n;
+    constructor(history, api, options, popup, eas) {
         this._api = api;
         this._options = options;
         this._popup = popup;
@@ -60,23 +58,11 @@ export class Game {
         this._currentPlayerIndex = null;
         this._tutorialInProgress = false;
 
-        this._popupMessageId;
-        this._popupMessage = {};
-        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
         // Init history here: if the page is reloaded on the game page, the history may not be
         // setup until the player click on the player box. This may result in some actions not
         // being displayed. For instance, create a game, refresh, play a card. Without the line
         // below, it will not appear in the player box.
         history.init();
-    }
-
-    _translatePopupMessage() {
-        if (this._popupMessageId) {
-            this._popupMessage.message = this._i18n.tr(
-                this._popupMessageId,
-                this._popupMessageOptions
-            );
-        }
     }
 
     configureRouter(config, router) {
@@ -111,9 +97,14 @@ export class Game {
 
     activate() {
         this._eas.subscribe('aot:api:error', data => {
-            this._popupMessageId = data.message;
-            this._translatePopupMessage();
-            this._popup.display('error', this._popupMessage).then(() => {
+            let popupData = {
+                translate: {
+                    messages: {
+                        message: data.message,
+                    },
+                },
+            };
+            this._popup.display('error', popupData).then(() => {
                 if (/\/game\/create\/.+/.test(location.pathname)) {
                     location.reload();
                 }
@@ -139,27 +130,27 @@ export class Game {
 
             if (this._api.game.next_player !== this._currentPlayerIndex) {
                 this._currentPlayerIndex = this._api.game.next_player;
+                let popupData = {
+                    translate: {
+                        messages: {},
+                    },
+                };
                 if (this._currentPlayerIndex !== this._api.me.index) {
-                    this._popupMessageId = 'game.play.whose_turn_message';
-                    this._popupMessage.htmlMessage = true;
+                    popupData.translate.messages.message = 'game.play.whose_turn_message';
+                    popupData.htmlMessage = true;
                 } else {
-                    this._popupMessageId = 'game.play.your_turn';
+                    popupData.translate.messages.message = 'game.play.your_turn';
                 }
                 let hero = this._api.game.players.heroes[this._api.game.next_player];
-                this._popupMessage.img = ImageSource.forChestHero(hero);
-                this._popupMessageOptions = {
+                popupData.img = ImageSource.forChestHero(hero);
+                popupData.translate.params = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 };
-                this._translatePopupMessage();
 
                 let options = {
                     timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
                 };
-                this._popup.display('transition', this._popupMessage, options).then(() => {
-                    this._popupMessageId = undefined;
-                    this._popupMessage = {};
-                    this._popupMessageOptions = {};
-                });
+                this._popup.display('transition', popupData, options);
             }
         });
     }

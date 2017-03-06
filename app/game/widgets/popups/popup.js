@@ -19,19 +19,23 @@
 
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
+import { I18N } from 'aurelia-i18n';
 import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
-@inject(EventAggregatorSubscriptions)
+@inject(I18N, EventAggregatorSubscriptions)
 export class Popup {
     _popups;
     _displayedPopupDefered;
+    _displayedPopupData;
 
-    constructor(eas) {
+    constructor(i18n, eas) {
+        this._i18n = i18n;
         this._eas = eas;
 
         this._logger = LogManager.getLogger('AoTPopup');
         this._popups = [];
+        this._displayedPopupData = null;
         this._displayedPopupDefered = {};
         this._displayedPopupDefered.promise = null;
         // Initialize with an empty function to prevent the code to crash when the first
@@ -46,6 +50,9 @@ export class Popup {
         });
         this._eas.subscribe('aot:popup:ready', () => {
             this._popupReadyDefered.resolve();
+        });
+        this._eas.subscribe('i18n:locale:changed', () => {
+            this._translatePopup();
         });
     }
 
@@ -84,6 +91,7 @@ export class Popup {
         this._logger.debug('Closing all popups');
         this._popups = [];
         this._displayedPopupDefered.reject(new Error('Closed automatically'));
+        this._displayedPopupData = null;
     }
 
     _displayNext() {
@@ -91,6 +99,8 @@ export class Popup {
         // may be an empty array.
         if (this._displayedPopupDefered.promise === null && this._popups.length > 0) {
             let popup = this._popups.shift();
+            this._displayedPopupData = popup.data;
+            this._translatePopup();
 
             if (popup.timeout) {
                 let closeTimeout = setTimeout(() => {
@@ -115,6 +125,7 @@ export class Popup {
             // Just for testing.
             this._displayedPopupDefered.resolve = popup.defered.resolve;
         } else if (this._displayedPopupDefered.promise !== null) {
+            this._displayedPopupData = null;
             // As soon as the current popup is closed, we display the next one.
             this._displayedPopupDefered.promise.then(() => {
                 this._displayedPopupDefered.promise = null;
@@ -128,6 +139,29 @@ export class Popup {
                 this._displayedPopupDefered.resolve = () => {};
                 this._displayNext();
             });
+        }
+    }
+
+    _translatePopup() {
+        if (!this._canTranslatePopup()) {
+            return;
+        }
+
+        let translateData = this._displayedPopupData.translate;
+        let params = translateData.params || {};
+        this._translateObj(params, translateData.paramsToTranslate);
+        this._translateObj(this._displayedPopupData, translateData.messages, params);
+    }
+
+    _canTranslatePopup() {
+        return this._displayedPopupData !== null &&
+            this._displayedPopupData.translate &&
+            this._displayedPopupData.translate.messages;
+    }
+
+    _translateObj(dest, source, params = {}) {
+        for (let key in source) {
+            dest[key] = this._i18n.tr(source[key], params);
         }
     }
 }

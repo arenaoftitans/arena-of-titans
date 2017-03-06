@@ -56,9 +56,6 @@ export class AotNotificationsCustomElement {
     _i18n;
     _ea;
     _lastActionMessageFromApi;
-    _popupMessage;
-    _popupMessageId;
-    _specialActionPopupMessage;
     _tutorialInProgress;
 
 
@@ -68,9 +65,6 @@ export class AotNotificationsCustomElement {
         this._options = options;
         this._popup = popup;
         this._eas = eas;
-        this._popupMessage = {};
-        this._specialActionPopupMessage = {};
-        this._popupMessageId;
         this._tutorialInProgress = false;
 
         this._eas.subscribe('i18n:locale:changed', () => {
@@ -81,8 +75,6 @@ export class AotNotificationsCustomElement {
             if (this._specialActionName) {
                 this._translateSpecialActionText();
             }
-
-            this._translatePopupMessage();
         });
 
         this._api.onReconnectDefered.then(message => {
@@ -117,10 +109,15 @@ export class AotNotificationsCustomElement {
     }
 
     bind() {
-        this._popupMessageId = 'game.visit.propose';
-        this._translatePopupMessage();
+        let popupData = {
+            translate: {
+                messages: {
+                    title: 'game.visit.propose',
+                },
+            },
+        };
         if (this._options.proposeGuidedVisit) {
-            this._popup.display('yes-no', this._popupMessage).then(
+            this._popup.display('yes-no', popupData).then(
                 () => this._startGuidedVisit(),
                 () => {
                     this._options.proposeGuidedVisit = false;
@@ -131,22 +128,6 @@ export class AotNotificationsCustomElement {
 
     unbind() {
         this._eas.dispose();
-    }
-
-    _translatePopupMessage() {
-        if (this._popupMessageId) {
-            this._popupMessage.title = this._i18n.tr(this._popupMessageId);
-        }
-
-        if (this._specialActionName) {
-            this._specialActionPopupMessage.title = this._i18n.tr(
-                'actions.special_action_info_popup',
-                {
-                    action: this._i18n.tr(`trumps.${this._specialActionName}`),
-                }
-            );
-            this._specialActionPopupMessage.message = this._i18n.tr(this.specialActionText);
-        }
     }
 
     _updateLastAction(message) {
@@ -267,8 +248,18 @@ export class AotNotificationsCustomElement {
         this._specialActionName = message.special_action_name.toLowerCase();
         this._translateSpecialActionText();
         if (this._options.mustViewInGameHelp(this._specialActionName)) {
-            this._translatePopupMessage();
-            this._popup.display('infos', this._specialActionPopupMessage).then(() => {
+            let popupData = {
+                translate: {
+                    messages: {
+                        title: 'actions.special_action_info_popup',
+                        message: this.specialActionText,
+                    },
+                    paramsToTranslate: {
+                        action: `trumps.${this._specialActionName}`,
+                    },
+                },
+            };
+            this._popup.display('infos', popupData).then(() => {
                 this._eas.publish('aot:notifications:special_action_in_game_help_seen');
                 this._options.markInGameOptionSeen(this._specialActionName);
             });

@@ -69,13 +69,20 @@ describe('trump', () => {
         expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
             {
-                message: 'Who should be the target of Trump?',
                 choices: [{
                     name: 'Player 2',
                     index: 2,
                 }],
-                title: 'trumps.trump',
-                description: 'trumps.trump_description',
+                translate: {
+                    messages: {
+                        title: 'trumps.trump',
+                        description: 'trumps.trump_description',
+                        message: 'game.play.select_trump_target',
+                    },
+                    paramsToTranslate: {
+                        trumpname: 'trumps.trump',
+                    },
+                },
                 selectedChoice: '1',
             }
         );

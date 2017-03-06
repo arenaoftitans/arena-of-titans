@@ -46,8 +46,6 @@ export class AotCardsCustomElement {
         this._i18n = i18n;
         this._ol = ol;
         this._eas = eas;
-        this._popupMessage = {};
-        this._popupMesasgeId;
         this._logger = LogManager.getLogger('AotCards');
 
         let blinker;
@@ -63,8 +61,6 @@ export class AotCardsCustomElement {
         };
         this._ol.getObserver(this, 'highlightPassButton')
             .subscribe(this._highlightPassButtonObserverCb);
-
-        this._eas.subscribe('i18n:locale:changed', () => this._translatePopupMessage());
 
         this._eas.subscribe('aot:api:special_action_notify', message => {
             this._notifySpecialAction(message);
@@ -86,19 +82,6 @@ export class AotCardsCustomElement {
         this._eas.dispose();
         this._ol.getObserver(this, 'highlightPassButton')
             .unsubscribe(this._highlightPassButtonObserverCb);
-    }
-
-    _translatePopupMessage() {
-        if (this._popupMessageId) {
-            let params;
-            if (this._popupMessageId === 'game.play.discard_confirm_message') {
-                params = {
-                    cardName: this.getTranslatedCardName(this.selectedCard),
-                };
-            }
-
-            this._popupMessage.message = this._i18n.tr(this._popupMessageId, params);
-        }
     }
 
     getTranslatedCardName(card) {
@@ -140,13 +123,18 @@ export class AotCardsCustomElement {
     }
 
     pass() {
+        let popupData = {
+            translate: {
+                messages: {},
+            },
+        };
+
         if (this.onLastLine) {
-            this._popupMessageId = 'game.play.complete_turn_confirm_message';
+            popupData.translate.messages.message = 'game.play.complete_turn_confirm_message';
         } else {
-            this._popupMessageId = 'game.play.pass_confirm_message';
+            popupData.translate.messages.message = 'game.play.pass_confirm_message';
         }
-        this._translatePopupMessage();
-        this._popup.display('confirm', this._popupMessage).then(() => {
+        this._popup.display('confirm', popupData).then(() => {
             this._api.pass();
             this.selectedCard = null;
         }, () => {
@@ -155,10 +143,18 @@ export class AotCardsCustomElement {
     }
 
     discard() {
+        let popupData = {
+            translate: {
+                messages: {},
+                paramsToTranslate: {},
+            },
+        };
         if (this.selectedCard) {
-            this._popupMessageId = 'game.play.discard_confirm_message';
-            this._translatePopupMessage();
-            this._popup.display('confirm', this._popupMessage).then(() => {
+            let card = this.selectedCard;
+            popupData.translate.messages.message = 'game.play.discard_confirm_message';
+            popupData.translate.paramsToTranslate.cardName =
+                `cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`;
+            this._popup.display('confirm', popupData).then(() => {
                 this._api.discard({
                     cardName: this.selectedCard.name,
                     cardColor: this.selectedCard.color,
@@ -166,9 +162,8 @@ export class AotCardsCustomElement {
                 this.selectedCard = null;
             });
         } else {
-            this._popupMessageId = 'game.play.discard_no_selected_card';
-            this._translatePopupMessage();
-            this._popup.display('infos', this._popupMessage);
+            popupData.translate.messages.message = 'game.play.discard_no_selected_card';
+            this._popup.display('infos', popupData);
         }
     }
 

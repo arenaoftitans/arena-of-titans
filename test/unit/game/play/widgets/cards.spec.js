@@ -77,7 +77,12 @@ describe('cards', () => {
 
         expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
-            {message: 'Are you sure you want to pass your turn?'});
+            {
+                translate: {
+                    messages: { message: 'game.play.pass_confirm_message' },
+                },
+            }
+        );
         mockedPopup.popupPromise.then(() => {
             expect(sut.selectedCard).toBe(null);
             expect(mockedApi.pass).toHaveBeenCalled();
@@ -94,7 +99,12 @@ describe('cards', () => {
 
         expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
-            {message: 'Are you sure you want to pass your turn?'});
+            {
+                translate: {
+                    messages: { message: 'game.play.pass_confirm_message' },
+                },
+            }
+        );
 
         promise.then(() => {
             expect(false).toBe(true);
@@ -117,7 +127,13 @@ describe('cards', () => {
 
         expect(mockedPopup.display).toHaveBeenCalledWith(
             'confirm',
-            {message: 'game.play.discard_confirm_message'});
+            {
+                translate: {
+                    messages: { message: 'game.play.discard_confirm_message' },
+                    paramsToTranslate: { cardName: 'cards.king_red' },
+                },
+            }
+        );
 
         mockedPopup.popupPromise.then(() => {
             expect(mockedApi.discard).toHaveBeenCalledWith({
@@ -138,7 +154,12 @@ describe('cards', () => {
         expect(mockedApi.discard).not.toHaveBeenCalled();
         expect(mockedPopup.display).toHaveBeenCalledWith(
             'infos',
-            {message: 'You must select a card'}
+            {
+                translate: {
+                    messages: { message: 'game.play.discard_no_selected_card' },
+                    paramsToTranslate: {},
+                },
+            }
         );
     });
 

@@ -129,7 +129,11 @@ describe('notifications', () => {
 
             expect(mockedPopup.display).toHaveBeenCalledWith(
                 'yes-no',
-                {title: 'game.visit.propose'}
+                {
+                    translate: {
+                        messages: { title: 'game.visit.propose' },
+                    },
+                }
             );
             popupDefered.reject(new Error());
             popupDefered.promise.then(() => {
@@ -165,7 +169,11 @@ describe('notifications', () => {
 
             expect(mockedPopup.display).toHaveBeenCalledWith(
                 'yes-no',
-                {title: 'game.visit.propose'}
+                {
+                    translate: {
+                        messages: { title: 'game.visit.propose' },
+                    },
+                }
             );
             popupDefered.resolve();
             popupDefered.promise.then(() => {
@@ -214,7 +222,6 @@ describe('notifications', () => {
         it('should notify special actions with popup', done => {
             sut.specialActionInProgress = false;
             spyOn(sut, '_translateSpecialActionText');
-            spyOn(sut, '_translatePopupMessage');
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
             spyOn(mockedEas, 'publish');
             let promise = new Promise(resolve => resolve());
@@ -225,7 +232,6 @@ describe('notifications', () => {
             expect(sut.specialActionInProgress).toBe(true);
             expect(sut._specialActionName).toBe('action');
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
-            expect(sut._translatePopupMessage).toHaveBeenCalled();
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
             expect(mockedPopup.display).toHaveBeenCalled();
             promise.then(() => {
