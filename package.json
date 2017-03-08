@@ -100,6 +100,7 @@
     "karma-chrome-launcher": "2.0.0",
     "karma-firefox-launcher": "1.0.1",
     "karma-jasmine": "1.1.0",
+    "karma-jasmine-diff-reporter": "1.0.0",
     "karma-phantomjs-launcher": "1.0.2",
     "minimatch": "3.0.3",
     "minimist": "1.2.0",
