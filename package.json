@@ -15,7 +15,7 @@
     "stylelint": "node scripts/stylelint.js",
     "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
     "translate": "python3 scripts/translate.py",
-    "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
+    "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
   },
   "repository": {
     "type": "git",
