@@ -9,5 +9,4 @@ pipelines:
           - npm run lint
           - cp config/config.staging.toml config/config.dev.toml
           - npm run config -- --type dev --version latest
-          - npm run builddev
           - npm run test -- -b PhantomJS
