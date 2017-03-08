@@ -19,7 +19,8 @@
 
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
-import { AssetSource, Wait } from '../../../services/utils';
+import { AssetSource } from '../../../../services/assets';
+import { Wait } from '../../../services/utils';
 import { browsers } from '../../../../services/browser-sniffer';
 
 

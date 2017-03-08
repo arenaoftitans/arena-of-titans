@@ -19,7 +19,6 @@
 
 import { inject, transient } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import Config from '../../services/configuration';
 import { browsers } from '../../services/browser-sniffer';
 
 
@@ -31,114 +30,6 @@ import { browsers } from '../../services/browser-sniffer';
  */
 export function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
-export class AssetSource {
-    static version = Config.version;
-
-    static preloadImages(kind) {
-        if (!(kind in Config.images)) {
-            throw new Error(`No such kind of images to preload: ${kind}`);
-        }
-
-        for (let src of Config.images[kind]) {
-            let img = new Image();
-            img.src = `//${location.host}/${this.version}/${src}`;
-        }
-    }
-
-    static forTrump(trump) {
-        return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
-    }
-
-    static forCard(card) {
-        return `/${this.version}/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
-    }
-
-    static forHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}.png`;
-    }
-
-    static forChestHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}-chest.png`;
-    }
-
-    static forCircledHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}-circle.png`;
-    }
-
-    static forBackground(kind) {
-        switch (kind) {
-            case 'board':
-                return `/${this.version}/assets/game/backgrounds/board.png`;
-            case 'board-outline':
-                return `/${this.version}/assets/game/backgrounds/board-outline.png`;
-            case 'create-game':
-                return `/${this.version}/assets/game/backgrounds/game-creation.jpg`;
-            case 'heroes-selection':
-                return `/${this.version}/assets/game/backgrounds/heroes-selection.png`;
-            default:
-                throw new Error(`No such background: ${kind}`);
-        }
-    }
-
-    static forMiscImage(kind) {
-        switch (kind) {
-            case 'clippy':
-                return `/${this.version}/assets/game/misc/clippy.svg`;
-            case 'arrow-left':
-                return `/${this.version}/assets/game/misc/arrow-left.png`;
-            case 'arrow-right':
-                return `/${this.version}/assets/game/misc/arrow-right.png`;
-            default:
-                throw new Error(`No such misc image: ${kind}`);
-        }
-    }
-
-    static forGame(kind) {
-        switch (kind) {
-            case 'logo':
-                return `/${this.version}/assets/game/aot-logo.png`;
-            default:
-                throw new Error(`No such image for game: ${kind}`);
-        }
-    }
-
-    static forSound(kind, format) {
-        switch (kind) {
-            case 'your-turn':
-                return `/${this.version}/assets/sounds/game/your-turn-sound.${format}`;
-            case 'your-turn-voice':
-                return `/${this.version}/assets/sounds/game/your-turn-voice.${format}`;
-            case 'game-over':
-                return `/${this.version}/assets/sounds/game/game-over.${format}`;
-            default:
-                throw new Error(`No such sound: ${kind}`);
-        }
-    }
-}
-
-
-export class ImageClass {
-    static forCard(card) {
-        return `sprite-movement-${ImageName.forCard(card)}`;
-    }
-}
-
-
-export class ImageName {
-    static forTrump(trump) {
-        let trumpName = trump.name.replace(' ', '-').toLowerCase();
-        return `${trumpName}`;
-    }
-
-    static forCard(card) {
-        let name = card.name.toLowerCase();
-        let color = card.color.toLocaleLowerCase();
-
-        return `${name}-${color}`;
-    }
 }
 
 

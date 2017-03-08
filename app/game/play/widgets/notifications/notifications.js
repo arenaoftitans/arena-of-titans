@@ -20,12 +20,11 @@
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
+import { AssetSource, ImageName } from '../../../../services/assets';
 import {
     Blink,
     Elements,
     EventAggregatorSubscriptions,
-    ImageName,
-    AssetSource,
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { Popup } from '../../../widgets/popups/popup';

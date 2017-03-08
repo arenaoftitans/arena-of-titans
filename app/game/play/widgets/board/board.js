@@ -19,9 +19,9 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
+import { AssetSource } from '../../../../services/assets';
 import {
     EventAggregatorSubscriptions,
-    AssetSource,
     Wait,
 } from '../../../services/utils';
 

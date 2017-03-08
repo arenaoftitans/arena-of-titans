@@ -20,9 +20,10 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { AssetSource, ImageClass } from '../../services/assets';
 import { Notify } from './notify';
 import { Storage } from '../../services/storage';
-import { ImageClass, AssetSource, Wait } from './utils';
+import { Wait } from './utils';
 import { Ws } from './ws';
 import environment from '../../environment';
 import Config from '../../services/configuration';
