@@ -69,6 +69,7 @@ export class Create {
     }
 
     activate(params = {}) {
+        this._preloadGameImages();
         this._registerEvents(params);
         this._gameUrl = window.location.href;
         this.init(params);
@@ -85,6 +86,18 @@ export class Create {
             });
         } else {
             this._joinGame(params.id);
+        }
+    }
+
+    _preloadGameImages() {
+        let version = location.pathname.split('/')[2];
+        // Only preload images once the version of the game is known.
+        if (/[0-9]+/.test(version) || version === 'latest') {
+            ImageSource.setVersion(version);
+            for (let src of this._config.images.game) {
+                let img = new Image();
+                img.src = `//${location.host}/${version}/${src}`;
+            }
         }
     }
 
