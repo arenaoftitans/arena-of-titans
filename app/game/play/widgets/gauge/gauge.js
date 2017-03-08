@@ -18,7 +18,7 @@
 */
 
 import { bindable, inject, ObserverLocator } from 'aurelia-framework';
-import { EventAggregatorSubscriptions, ImageSource, Wait } from '../../../services/utils';
+import { EventAggregatorSubscriptions, AssetSource, Wait } from '../../../services/utils';
 import { Api } from '../../../services/api';
 
 
@@ -70,7 +70,7 @@ export class AotTrumpsGaugeCustomElement {
             });
         });
 
-        this.heroImg = ImageSource.forCircledHero(this.hero);
+        this.heroImg = AssetSource.forCircledHero(this.hero);
     }
 
     unbind() {

@@ -22,7 +22,7 @@ import { inject } from 'aurelia-framework';
 import { History } from './services/history';
 import { Api } from './services/api';
 import { Options } from '../services/options';
-import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
+import { EventAggregatorSubscriptions, AssetSource } from './services/utils';
 import { Popup } from './widgets/popups/popup';
 
 
@@ -142,7 +142,7 @@ export class Game {
                     popupData.translate.messages.message = 'game.play.your_turn';
                 }
                 let hero = this._api.game.players.heroes[this._api.game.next_player];
-                popupData.img = ImageSource.forChestHero(hero);
+                popupData.img = AssetSource.forChestHero(hero);
                 popupData.translate.params = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 };

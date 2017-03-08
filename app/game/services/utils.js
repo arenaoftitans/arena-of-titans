@@ -34,7 +34,7 @@ export function randomInt(min, max) {
 }
 
 
-export class ImageSource {
+export class AssetSource {
     static version = Config.version;
 
     static forTrump(trump) {

@@ -22,7 +22,7 @@ import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Notify } from './notify';
 import { Storage } from '../../services/storage';
-import { ImageClass, ImageSource, Wait } from './utils';
+import { ImageClass, AssetSource, Wait } from './utils';
 import { Ws } from './ws';
 import environment from '../../environment';
 import Config from '../../../config/application';
@@ -227,7 +227,7 @@ export class Api {
 
     _createTrumps(trumps) {
         return trumps.map(trump => {
-            trump.img = ImageSource.forTrump(trump);
+            trump.img = AssetSource.forTrump(trump);
             return trump;
         });
     }

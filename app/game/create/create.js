@@ -331,6 +331,6 @@ export class Create {
     }
 
     get heroSrc() {
-        return ImageSource.forHero(this.me.hero);
+        return AssetSource.forHero(this.me.hero);
     }
 }
