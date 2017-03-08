@@ -19,7 +19,7 @@
 
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
-import { Wait } from '../../../services/utils';
+import { AssetSource, Wait } from '../../../services/utils';
 import { browsers } from '../../../../services/browser-sniffer';
 
 
@@ -28,6 +28,7 @@ export class AotSelectHeroesCustomElement {
     @bindable data = null;
 
     constructor() {
+        this.assetSource = AssetSource;
         this.currentHeroIndex = 0;
         this.direction = null;
 
@@ -125,7 +126,7 @@ export class AotSelectHeroesCustomElement {
     }
 
     setHeroImage(element, name) {
-        element.src = `/assets/game/heroes/${name}.png`;
+        element.src = AssetSource.forHero(name);
         element.alt = name;
     }
 

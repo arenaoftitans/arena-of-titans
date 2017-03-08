@@ -19,7 +19,11 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
-import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
+import {
+    EventAggregatorSubscriptions,
+    AssetSource,
+    Wait,
+} from '../../../services/utils';
 
 
 const ZOOM_STEP = 0.4;
@@ -49,6 +53,7 @@ export class AotBoardCustomElement {
         this._element = element;
         this._api = api;
         this._eas = eas;
+        this.assetSource = AssetSource;
 
         this._eas.subscribe('aot:api:view_possible_squares', data => {
             this._highlightPossibleSquares(data.possible_squares);

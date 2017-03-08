@@ -56,6 +56,56 @@ export class AssetSource {
     static forCircledHero(hero) {
         return `/${this.version}/assets/game/heroes/${hero}-circle.png`;
     }
+
+    static forBackground(kind) {
+        switch (kind) {
+            case 'board':
+                return `/${this.version}/assets/game/backgrounds/board.png`;
+            case 'board-outline':
+                return `/${this.version}/assets/game/backgrounds/board-outline.png`;
+            case 'create-game':
+                return `/${this.version}/assets/game/backgrounds/game-creation.jpg`;
+            case 'heroes-selection':
+                return `/${this.version}/assets/game/backgrounds/heroes-selection.png`;
+            default:
+                throw new Error(`No such background: ${kind}`);
+        }
+    }
+
+    static forMiscImage(kind) {
+        switch (kind) {
+            case 'clippy':
+                return `/${this.version}/assets/game/misc/clippy.svg`;
+            case 'arrow-left':
+                return `/${this.version}/assets/game/misc/arrow-left.png`;
+            case 'arrow-right':
+                return `/${this.version}/assets/game/misc/arrow-right.png`;
+            default:
+                throw new Error(`No such misc image: ${kind}`);
+        }
+    }
+
+    static forGame(kind) {
+        switch (kind) {
+            case 'logo':
+                return `/${this.version}/assets/game/aot-logo.png`;
+            default:
+                throw new Error(`No such image for game: ${kind}`);
+        }
+    }
+
+    static forSound(kind, format) {
+        switch (kind) {
+            case 'your-turn':
+                return `/${this.version}/assets/sounds/game/your-turn-sound.${format}`;
+            case 'your-turn-voice':
+                return `/${this.version}/assets/sounds/game/your-turn-voice.${format}`;
+            case 'game-over':
+                return `/${this.version}/assets/sounds/game/game-over.${format}`;
+            default:
+                throw new Error(`No such sound: ${kind}`);
+        }
+    }
 }
 
 

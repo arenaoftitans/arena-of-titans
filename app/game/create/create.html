@@ -32,7 +32,7 @@
          if.bind="me.name"
          class="centered-block white-text hidden-on-page-load">
         <h2 t="global.me">Me</h2>
-        <img class="selected-hero" src.bind="heroSrc" />
+        <img class="selected-hero" src.bind="assetSource.forHero(me.hero)" />
         <p class="centered-text white-text">
             <span t="global.name" t-params.bind="{playerName: me.name}">Name</span>
             <button class="blue-button"
@@ -54,7 +54,7 @@
                     <span t="game.create.invite_text">Invite</span>
                     <input id="invite-link" type="text" value.bind="gameUrl" readonly/>
                     <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
-                        <img src="/assets/game/misc/clippy.svg" width="13" alt="Copy to clipboard">
+                        <img src.bind="assetSource.forMiscImage('clippy')" width="13" alt="Copy to clipboard">
                     </button>
                 </label>
             </div>
@@ -98,7 +98,7 @@
          height="100%"
          viewBox="0 0 1300 750"
          preserveAspectRatio="none">
-        <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/game-creation.jpg"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
+        <image overflow="visible" width="1300" height="750" xlink:href.bind="assetSource.forBackground('create-game')"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
         <rect id="create-game-gate-left" x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
         <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
         <rect id="create-game-plate" x="363.667" y="228.667" fill="none" width="522.667" height="496"/>
