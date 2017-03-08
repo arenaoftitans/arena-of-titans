@@ -63,6 +63,8 @@ export class Game {
         // being displayed. For instance, create a game, refresh, play a card. Without the line
         // below, it will not appear in the player box.
         history.init();
+
+        AssetSource.preloadImages('game');
     }
 
     configureRouter(config, router) {

@@ -37,6 +37,17 @@ export function randomInt(min, max) {
 export class AssetSource {
     static version = Config.version;
 
+    static preloadImages(kind) {
+        if (!(kind in Config.images)) {
+            throw new Error(`No such kind of images to preload: ${kind}`);
+        }
+
+        for (let src of Config.images[kind]) {
+            let img = new Image();
+            img.src = `//${location.host}/${this.version}/${src}`;
+        }
+    }
+
     static forTrump(trump) {
         return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
     }
