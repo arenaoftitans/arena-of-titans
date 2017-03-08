@@ -76,7 +76,7 @@ describe('notifications', () => {
             });
         expect(sut.lastAction.description).toBe('translated');
         expect(sut.lastAction.card).toEqual(message.last_action.card);
-        expect(sut.lastAction.img).toBe('/assets/game/cards/movement/king-red.png');
+        expect(sut.lastAction.img).toBe('/latest/assets/game/cards/movement/king-red.png');
     });
 
     it('should update last action when a trump is played', () => {
@@ -105,7 +105,7 @@ describe('notifications', () => {
         expect(mockedI18n.tr).toHaveBeenCalledWith('trumps.tower_blue_description');
         expect(sut.lastAction.trump.description).toBe('translated');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
-        expect(sut.lastAction.img).toBe('/assets/game/cards/trumps/tower-blue.png');
+        expect(sut.lastAction.img).toBe('/latest/assets/game/cards/trumps/tower-blue.png');
     });
 
     it('should dispose subscriptions', () => {

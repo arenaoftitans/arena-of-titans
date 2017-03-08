@@ -34,24 +34,30 @@ export function randomInt(min, max) {
 
 
 export class ImageSource {
+    static version = 'latest';
+
+    static setVersion(version) {
+        this.version = version;
+    }
+
     static forTrump(trump) {
-        return `/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
+        return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
     }
 
     static forCard(card) {
-        return `/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
+        return `/${this.version}/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
     }
 
     static forHero(hero) {
-        return `/assets/game/heroes/${hero}.png`;
+        return `/${this.version}/assets/game/heroes/${hero}.png`;
     }
 
     static forChestHero(hero) {
-        return `/assets/game/heroes/${hero}-chest.png`;
+        return `/${this.version}/assets/game/heroes/${hero}-chest.png`;
     }
 
     static forCircledHero(hero) {
-        return `/assets/game/heroes/${hero}-circle.png`;
+        return `/${this.version}/assets/game/heroes/${hero}-circle.png`;
     }
 }
 

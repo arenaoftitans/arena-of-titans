@@ -341,7 +341,7 @@ describe('services/api', () => {
         expect(sut._me.rank).toBe(-1);
         expect(sut._me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
-            img: '/assets/game/cards/trumps/reinforcements.png',
+            img: '/latest/assets/game/cards/trumps/reinforcements.png',
         }]);
         expect(sut._me.elapsed_time).toBe(elapsedTime);
         expect(sut._me.on_last_line).toBe(false);
@@ -409,7 +409,7 @@ describe('services/api', () => {
         });
         expect(sut._me.trumps).toEqual([{
             name: 'Red Tower',
-            img: '/assets/game/cards/trumps/red-tower.png',
+            img: '/latest/assets/game/cards/trumps/red-tower.png',
             description: 'Prevents a player to move on red squares.',
             cost: 0,
             duration: 1,
@@ -561,7 +561,7 @@ describe('services/api', () => {
             expect(sut._me.trumps).toEqual([
                 {
                     name: 'Tower red',
-                    img: '/assets/game/cards/trumps/tower-red.png',
+                    img: '/latest/assets/game/cards/trumps/tower-red.png',
                 },
             ]);
         });
