@@ -19,6 +19,7 @@
 
 import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
+import { AssetSource } from '../../services/assets';
 import { Options } from '../../services/options';
 
 
@@ -27,6 +28,7 @@ export class AotOptionsCustomElement {
     constructor(i18n, options) {
         this.i18n = i18n;
         this.options = options;
+        this.assetSource = AssetSource;
     }
 
     changeLang(lang) {

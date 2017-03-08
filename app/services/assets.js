@@ -76,6 +76,19 @@ export class AssetSource {
         }
     }
 
+    static forGlobalImage(kind) {
+        switch (kind) {
+            case 'french-flag':
+                return `/${this.version}/assets/components/french.png`;
+            case 'english-flag':
+                return `/${this.version}/assets/components/english.png`;
+            case 'gear':
+                return `/${this.version}/assets/components/gear.png`;
+            default:
+                throw new Error(`No such global image: ${kind}`);
+        }
+    }
+
     static forSound(kind, format) {
         switch (kind) {
             case 'your-turn':
