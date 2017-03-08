@@ -249,3 +249,23 @@ Add a hero
 #. Add the main image in ``asserts/game/heroes/<hero-name>.png`` (used in hero selection)
 #. Add the circled image in ``asserts/game/heroes/<hero-name>-circle.png`` (used in the game)
 #. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
+
+
+Update the dependencies
+=======================
+
+#. Change the versions in ``package.json``.
+#. Run ``npm install`` to update them.
+#. Build the application for dev, prod and run the tests to check everything is running as expected.
+
+Update aurelia-cli
+------------------
+
+#. Update the version in ``package.json``.
+#. Diff the ``aurelia_project`` folder with one from a new and similar project. To create a project:
+
+   #. Run ``au new tmp``.
+   #. Follow the instructions. Use ES6 and SASS to have similar tasks.
+
+#. Update files in ``aurelia_project/tasks`` based on the diff.
+#. Check that the build and test tasks are running correctly.
