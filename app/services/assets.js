@@ -110,6 +110,10 @@ export class AssetSource {
         if (!(kind in Config.images)) {
             throw new Error(`No such kind of images to preload: ${kind}`);
         }
+        // Don't try to preload images when testing the application.
+        if (window.jasmine) {
+            return;
+        }
 
         for (let src of Config.images[kind]) {
             let img = new Image();
