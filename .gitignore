@@ -6,10 +6,10 @@
 /build
 /coverage
 /public
-/config/application.js
 /scripts/*bundle.js
 /scripts/*.map
 /app/environment.js
+/app/services/configuration.js
 npm-debug.log
 .venv
 *.pyc

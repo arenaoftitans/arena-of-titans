@@ -12,7 +12,7 @@ from glob import glob
 
 
 CONF_FILE_TEMPLATE = 'config/config.{type}.toml'
-APP_CONF_FILE = 'config/application.js'
+APP_CONF_FILE = 'app/services/configuration.js'
 
 
 def main(type, version):

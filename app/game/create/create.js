@@ -25,7 +25,7 @@ import { Api } from '../services/api';
 import { Wait, AssetSource, randomInt, EventAggregatorSubscriptions } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
-import Config from '../../../config/application';
+import Config from '../../services/configuration';
 import Clipboard from 'clipboard';
 
 

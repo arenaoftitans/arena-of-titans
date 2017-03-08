@@ -19,7 +19,7 @@
 
 import { inject, transient } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import Config from '../../../config/application';
+import Config from '../../services/configuration';
 import { browsers } from '../../services/browser-sniffer';
 
 

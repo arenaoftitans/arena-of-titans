@@ -25,7 +25,7 @@ import { Storage } from '../../services/storage';
 import { ImageClass, AssetSource, Wait } from './utils';
 import { Ws } from './ws';
 import environment from '../../environment';
-import Config from '../../../config/application';
+import Config from '../../services/configuration';
 
 
 @inject(Ws, Storage, Config, Notify, EventAggregator)

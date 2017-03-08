@@ -23,7 +23,7 @@
                 "transform-flow-strip-types"
             ]
         },
-        "source": ["app/**/*.js", "config/application.js", "locale/**/*.js"]
+        "source": ["app/**/*.js", "locale/**/*.js"]
     },
     "markupProcessor": {
         "id": "none",
@@ -92,6 +92,7 @@
                     "[**/app.js]",
                     "[**/environment.js]",
                     "[**/main.js]",
+                    "[**/services/configuration.js]",
                     "[**/services/options.js]",
                     "[**/services/storage.js]",
                     "[**/services/browser-sniffer.js]",
@@ -122,7 +123,6 @@
                     "[**/game/game.js]",
                     "[**/game/services/*.js]",
                     "[**/game/widgets/**/*.js]",
-                    "[**/config/application.js]",
                     "**/game/**/*.{css,html}",
                     "**/game/game.{css,html}",
                     "**/game/widgets/**/*.{css,html}"
