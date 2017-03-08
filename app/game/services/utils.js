@@ -19,6 +19,7 @@
 
 import { inject, transient } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import Config from '../../../config/application';
 import { browsers } from '../../services/browser-sniffer';
 
 
@@ -34,11 +35,7 @@ export function randomInt(min, max) {
 
 
 export class ImageSource {
-    static version = 'latest';
-
-    static setVersion(version) {
-        this.version = version;
-    }
+    static version = Config.version;
 
     static forTrump(trump) {
         return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;

@@ -93,7 +93,6 @@ export class Create {
         let version = location.pathname.split('/')[2];
         // Only preload images once the version of the game is known.
         if (/[0-9]+/.test(version) || version === 'latest') {
-            ImageSource.setVersion(version);
             for (let src of this._config.images.game) {
                 let img = new Image();
                 img.src = `//${location.host}/${version}/${src}`;
