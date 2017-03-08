@@ -1,10 +1,10 @@
-image: node:latest
+image: fedora:latest
 
 pipelines:
   default:
     - step:
         script:
-          - apt-get update -qq && apt-get install -y -qq python3
+          - dnf install -y python3 nodejs npm git bzip2 gzip freetype fontconfig
           - npm install
           - npm run --silent lint
           - cp config/config.staging.toml config/config.dev.toml
