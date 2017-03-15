@@ -29,13 +29,13 @@ export class AotHomeSliderCustomElement {
     }
 
     goToSlide(slideNumber) {
-        if(slideNumber >= SLIDE_TOTAL){ 
+        if (slideNumber >= SLIDE_TOTAL) {
             this.goToSlide(0);
             return;
         }
 
         clearTimeout(this.automaticSlidingTimeOut);
-        
+
         //update active slide
         this.activeSlide = slideNumber;
         //move slider
@@ -43,7 +43,7 @@ export class AotHomeSliderCustomElement {
 
         this.automaticSlidingTimeOut = setTimeout(() => {
             this.goToSlide(this.activeSlide + 1);
-        }, AUTOMATIC_SLIDING_PERIOD);;
-    };
+        }, AUTOMATIC_SLIDING_PERIOD);
+    }
 }
 
