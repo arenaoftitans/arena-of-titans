@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
+* Copyright (C) 2015-2017 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -16,38 +16,34 @@
 * You should have received a copy of the GNU Affero General Public License
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
-
+const SLIDE_TOTAL = 3;
+const AUTOMATIC_SLIDING_PERIOD = 5000;
 
 export class AotHomeSliderCustomElement {
     activeSlide = 0;
-    slideTotal = 3;
-    automaticSlidingInterval;
-    automaticSlidingPeriod = 50000;
+    automaticSlidingTimeOut;
 
-    constructor() {
-        this.createAutomaticSlidingInterval();
+    attached() {
+        //start automatic slider
+        this.goToSlide(0);
     }
 
-    createAutomaticSlidingInterval = function() {
-        this.automaticSlidingInterval = window.setInterval(()=>{
-            this.goToSlide(this.activeSlide + 1);
-        }, this.automaticSlidingPeriod);
-    };
-
-    goToSlide = function(slideNumber) {
-        if (slideNumber >= this.slideTotal) {
+    goToSlide(slideNumber) {
+        if(slideNumber >= SLIDE_TOTAL){ 
             this.goToSlide(0);
             return;
         }
 
-        clearInterval(this.automaticSlidingInterval);
-
+        clearTimeout(this.automaticSlidingTimeOut);
+        
         //update active slide
         this.activeSlide = slideNumber;
         //move slider
         this.homeSlider.style.transform = 'translateX(-' + slideNumber * 33.333 + '%)';
 
-        this.createAutomaticSlidingInterval();
+        this.automaticSlidingTimeOut = setTimeout(() => {
+            this.goToSlide(this.activeSlide + 1);
+        }, AUTOMATIC_SLIDING_PERIOD);;
     };
 }
 

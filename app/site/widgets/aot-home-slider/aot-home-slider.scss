@@ -1,16 +1,3 @@
-html,
-body {
-    height: 100%;
-}
-
-#home-slider-container {
-    height: 81.5%;
-}
-
-#home-slider {
-    height: 100%;
-}
-
 #home-slider {
     display: flex;
     -moz-transition: transform 1s;
@@ -23,6 +10,7 @@ body {
     .slide {
         background-size: contain;
         height: 100%;
+        padding-bottom: 13.8%;
         position: relative;
         width: 33.333%;
 
