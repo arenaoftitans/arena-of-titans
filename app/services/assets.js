@@ -20,6 +20,9 @@
 import Config from './configuration';
 
 
+const PRELOAD_DELAY = 1000;
+const PRELOAD_CHUNK_SIZE = 5;
+
 export class AssetSource {
     static version = Config.version;
 
@@ -114,8 +117,26 @@ export class AssetSource {
         if (window.jasmine) {
             return;
         }
+        let imagesToPreload = Config.images[kind];
+        let imagesChunkToPreload = [];
+        let startIndex = 0;
+        while (startIndex < imagesToPreload.length) {
+            let chunk = imagesToPreload.slice(startIndex, startIndex + PRELOAD_CHUNK_SIZE);
+            imagesChunkToPreload.push(chunk);
+            startIndex += PRELOAD_CHUNK_SIZE;
+        }
 
-        for (let src of Config.images[kind]) {
+        let timeout = 0;
+        for (let chunk of imagesChunkToPreload) {
+            setTimeout(() => {
+                this._preloadImages(chunk);
+            }, timeout);
+            timeout += PRELOAD_DELAY;
+        }
+    }
+
+    static _preloadImages(images) {
+        for (let src of images) {
             let img = new Image();
             img.src = `//${location.host}/${this.version}/${src}`;
         }
