@@ -1,5 +1,6 @@
+@import '../../../style/media-queries';
+
 #home-slider {
-    display: flex;
     -moz-transition: transform 1s;
     -ms-transition: transform 1s;
     -o-transition: transform 1s;
@@ -8,6 +9,7 @@
     width: 300%;
 
     .slide {
+        float:left;
         background-size: contain;
         height: 100%;
         padding-bottom: 13.8%;
@@ -19,7 +21,11 @@
             color: white;
             padding: 20px;
             position: absolute;
-            top: 40%;
+            top: 40%; 
+
+            @include fluid{
+                font-size: 30px;
+            }
         }
     }
 
