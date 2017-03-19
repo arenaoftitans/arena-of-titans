@@ -114,6 +114,7 @@ export default {
         "connection_label": "Connection",
         "header_community": "Community",
         "header_news": "News",
+        "header_ranking": "Ranking",
         "header_rules": "Rules",
         "header_synopsis": "Synopsis",
         "homepage": {
@@ -130,6 +131,10 @@ export default {
             "moves": "<h2>D\u00e9placements</h2>\n                <p>Les cartes D\u00e9placement sont les cartes \u00e0 bords jaunes, noirs, rouges et bleus.<br/>\n                    Lorsque vous utilisez une carte D\u00e9placement, vous pouvez avancer votre pion sur le plateau.<br/>\n                    Le nombre de cases, la couleur des cases et le type de mouvement que vous pouvez faire sont impos\u00e9s par la carte que vous avez jou\u00e9e.\n                </p>\n                <img src=\"/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",
             "rules": "<h1>R\u00e8gles G\u00e9n\u00e9rales</h1>\n            <div class=\"half-column-left\">\n                <h2>But du jeu</h2>\n                <p>En partant d'un bout d'une branche du plateau, soyez le premier \u00e0 le traverser jusqu'\u00e0 atteindre la derni\u00e8re ligne oppos\u00e9e et \u00e0 y rester pendant un tour.</p>\n            </div>\n            <img class=\"half-column-right border-black\"\n                 src=\"/assets/homepage/board.png\"\n                 alt=\"The board of the game\" />",
             "trumps": "<h2>Atouts</h2>\n                <p>Avant une partie, vous avez la possibilit\u00e9 de cr\u00e9er un Build contenant 4 Atouts.<br/>\n                    Les Atouts servent \u00e0 bloquer les autres joueurs, bloquer les atouts des autres joueurs, am\u00e9liorer vos d\u00e9placements,\u2026</p>\n                <img src=\"/assets/rules/trumps.png\"\n                     alt=\"The trumps\" />"
+        },
+        "slide": {
+            "elf": "Nul ne peut arr\u00eater ce qui est invisible",
+            "orc": "Plus facile d'\u00eatre premier lorsqu'il ne reste plus d'adversaires"
         },
         "synopsis": {
             "pitch": "<h1>Synopsis</h1>\n                <p class=\"big-column-center\">Au commencement de tout, lorsque le monde n\u2019\u00e9tait que n\u00e9ant, quatre \u00eatres \u00e9merg\u00e8rent de la matrice originelle que les elfes nomment A\u00f6ctra : l\u2019essence de toutes les essences. Ces cr\u00e9atures furent appel\u00e9es les Titans. Deux femmes et deux hommes qui avaient pour noms Th\u00e9zalia, Noya, Da\u00eflum, et Kranth.</p>",
