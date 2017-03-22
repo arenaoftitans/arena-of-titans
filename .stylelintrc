@@ -1,6 +1,9 @@
 {
   "extends": "stylelint-config-standard",
   "defaultSeverity": "error",
+  "plugins": [
+    "stylelint-order"
+  ],
   "rules": {
     "indentation": 4,
     "max-empty-lines": 2,
@@ -28,6 +31,6 @@
         "aot-notifications"
       ]
     }],
-    "declaration-block-properties-order": "alphabetical"
+    "order/properties-alphabetical-order": true
   }
 }
