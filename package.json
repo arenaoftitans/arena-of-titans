@@ -12,7 +12,7 @@
     "tdd": "au test --watch",
     "lint": "npm run jslint && npm run stylelint && npm run aureliatemplatelint",
     "jslint": "eslint app && eslint test",
-    "stylelint": "stylelint --syntax scss app/**/*.scss",
+    "stylelint": "node scripts/stylelint.js",
     "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
     "translate": "python3 scripts/translate.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
