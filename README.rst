@@ -248,6 +248,15 @@ Add a hero
 #. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
 
 
+Add a popup
+===========
+
+#. Create the model and its view in the ``app/game/widgets/popups`` folder. They must be named after the type of the popup. So for the ``transition`` popup, you will need ``transition.js`` and ``transition.html``.
+#. Add the require to the file in ``app/game/widgets/popups/popups.html``
+#. If you need specific style for your popup, add a SCSS file named after the type of the popup and wrap your code in ``aot-popup .popup-TYPE``. You can then require the style file as usual in the view: ``<require from="./TYPE.css"></require>``.
+#. That's it, the ``compose`` element will take care of the rest.
+
+
 Update the dependencies
 =======================
 

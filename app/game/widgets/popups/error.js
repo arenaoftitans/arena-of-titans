@@ -17,12 +17,12 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
-
 
 export class AotErrorCustomElement {
-    @bindable data = null;
-    @bindable defered = null;
+    activate(model) {
+        this.data = model.data;
+        this.defered = model.defered;
+    }
 
     ok() {
         this.defered.resolve();

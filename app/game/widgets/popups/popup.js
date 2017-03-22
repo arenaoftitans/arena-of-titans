@@ -172,6 +172,7 @@ export class AotPopupCustomElement {
     data = null;
     type = null;
     defered = null;
+    popupModel = {};
 
     background = '';
 
@@ -180,13 +181,13 @@ export class AotPopupCustomElement {
         this._eas = eas;
 
         this._eas.subscribe('aot:popup:display', message => {
-            this.data = message.data;
             this.type = message.type;
-            this.defered = message.defered;
+            this.popupModel.data = message.data;
+            this.popupModel.defered = message.defered;
 
             this._open();
 
-            this.defered.promise.then(() => {
+            message.defered.promise.then(() => {
                 this._close();
             }, () => {
                 this._close();
@@ -221,9 +222,8 @@ export class AotPopupCustomElement {
     }
 
     _close() {
-        this.data = null;
         this.type = null;
-        this.defered = null;
+        this.popupModel = {};
     }
 
     bind() {

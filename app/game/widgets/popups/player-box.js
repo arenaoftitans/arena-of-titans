@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { ImageSource } from '../../services/utils';
 import { History } from '../../services/history';
 import { Api } from '../../services/api';
@@ -25,14 +25,17 @@ import { Api } from '../../services/api';
 
 @inject(History, Api)
 export class AotPlayerBoxInfosCustomElement {
-    @bindable data = null;
-    @bindable defered = null;
     _history;
     _api;
 
     constructor(history, api) {
         this._history = history;
         this._api = api;
+    }
+
+    activate(model) {
+        this.data = model.data;
+        this.defered = model.defered;
     }
 
     close() {

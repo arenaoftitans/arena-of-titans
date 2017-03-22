@@ -24,38 +24,17 @@
     <require from="./confirm"></require>
     <require from="./game-over"></require>
     <require from="./back-home"></require>
-    <require from="./player-box-infos"></require>
+    <require from="./player-box"></require>
     <require from="./transition"></require>
     <require from="./yes-no"></require>
 
     <div class="popup" if.bind="type !== null">
     </div>
     <div class="popup-container" tabindex="0" if.bind="type !== null">
-        <div class="popup-content ${background}">
-            <aot-error if.bind="type === 'error'"
-                       data.bind="data"
-                       defered.bind="defered"></aot-error>
-            <aot-infos if.bind="type === 'infos'"
-                       data.bind="data"
-                       defered.bind="defered"></aot-infos>
-            <aot-confirm if.bind="type === 'confirm'"
-                         data.bind="data"
-                         defered.bind="defered"></aot-confirm>
-            <aot-game-over if.bind="type === 'game-over'"
-                           data.bind="data"
-                           defered.bind="defered"></aot-game-over>
-            <aot-back-home if.bind="type === 'back-home'"
-                           data.bind="data"
-                           defered.bind="defered"></aot-back-home>
-            <aot-player-box-infos if.bind="type === 'player-box'"
-                                  data.bind="data"
-                                  defered.bind="defered"></aot-player-box-infos>
-            <aot-transition if.bind="type === 'transition'"
-                            data.bind="data"
-                            defered.bind="defered"></aot-transition>
-            <aot-yes-no if.bind="type === 'yes-no'"
-                        data.bind="data"
-                        defered.bind="defered"></aot-yes-no>
+        <div class="popup-content popup-${type} ${background}">
+            <compose view-model="./${type}"
+                     model.one-way="popupModel">
+            </compose>
         </div>
     </div>
 </template>
