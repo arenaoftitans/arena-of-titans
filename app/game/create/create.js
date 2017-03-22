@@ -54,8 +54,6 @@ const DEFAULT_NAMES = [
     EventAggregatorSubscriptions
 )
 export class Create {
-    CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']
-
     _router;
     _api;
     _initGameCb;
@@ -204,6 +202,10 @@ export class Create {
 
     get me() {
         return this._api.me;
+    }
+
+    get isGameMaster() {
+        return this.me.is_game_master;
     }
 
     get slots() {

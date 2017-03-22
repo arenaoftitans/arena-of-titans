@@ -29,6 +29,14 @@ div.create-game-container {
         height: $door-main-height;
     }
 
+    .right-wall {
+        left: $left-width + $door-width;
+        padding-left: 4%;
+        padding-top: 2%;
+        position: absolute;
+        width: $right-width;
+    }
+
     .splash-block {
         color: white;
         left: 43%;
