@@ -106,8 +106,9 @@ export class AotTrumpCustomElement {
             return;
         } else if (this.trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
+            let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
             let popupData = {
-                selectedChoice: randomInt(1, otherPlayerNames.length).toString(),
+                selectedChoice: otherPlayerNames[selectedIndex],
                 choices: otherPlayerNames,
                 translate: {
                     messages: {
@@ -120,11 +121,8 @@ export class AotTrumpCustomElement {
                     },
                 },
             };
-            this._popup.display('confirm', popupData).then(targetIndex => {
-                // targetIndex is binded in a template, hence it became a string and must be
-                // converted before usage in the API
-                targetIndex = parseInt(targetIndex, 10);
-                this._api.playTrump({trumpName: this.trump.name, targetIndex: targetIndex});
+            this._popup.display('confirm', popupData).then(choice => {
+                this._api.playTrump({trumpName: this.trump.name, targetIndex: choice.index});
             }, () => this._logger.debug('Player canceled trump'));
         } else {
             this._api.playTrump({trumpName: this.trump.name});

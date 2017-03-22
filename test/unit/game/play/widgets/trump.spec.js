@@ -83,10 +83,16 @@ describe('trump', () => {
                         trumpname: 'trumps.trump',
                     },
                 },
-                selectedChoice: '1',
+                selectedChoice: {
+                    name: 'Player 2',
+                    index: 2,
+                },
             }
         );
-        defered.resolve(2);
+        defered.resolve({
+            name: 'Player 2',
+            index: 2,
+        });
         defered.promise.then(() => {
             expect(mockedApi.playTrump).toHaveBeenCalledWith({
                 trumpName: 'Trump',

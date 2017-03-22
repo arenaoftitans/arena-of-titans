@@ -31,7 +31,7 @@
             <label repeat.for="choice of data.choices">
                 <input type="radio"
                        name="choices"
-                       value.bind="choice.index"
+                       model.bind="choice"
                        checked.bind="data.selectedChoice"
                        required />
                 ${choice.name}
