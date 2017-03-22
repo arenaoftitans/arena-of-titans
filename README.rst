@@ -9,10 +9,7 @@ Setup
 
 - NodeJS (latest version, https://nodejs.org/en/)
 - Firefox and Chrome to launch unit tests
-- Windows Users: you need to install `additional dependencies to install browser sync <https://www.browsersync.io/docs/#windows-users>`_:
-
-  - `python 2 <https://www.python.org/downloads/release/python-2710/>`__ (please tick 'Add python.exe to Path' during install).
-  - `Microsoft Visual Studio C++ 2013 <https://www.microsoft.com/en-gb/download/details.aspx?id=44914>`__. See `here in case of installation problems <https://github.com/nodejs/node-gyp/blob/master/README.md#installation>`_.
+- `Python 3.4+ <https://www.python.org/downloads/>`__ to build the configuration (please tick 'Add python.exe to Path' during install). If you  are on Windows, you will need to copy ``python.exe`` into ``python3.exe`` for the script to work.
 
 You can now install the node dependencies. To do so, launch in the folder in which you cloned this repository:
 
