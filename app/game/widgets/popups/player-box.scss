@@ -1,0 +1,101 @@
+/*
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@import '../../../style/media-queries';
+
+
+aot-popup .popup-player-box {
+    background: url(/assets/game/backgrounds/popup.png) no-repeat;
+    background-size: 100% 100%;
+    padding-bottom: 40px;
+
+    @include small-height {
+        padding-bottom: 10px;
+    }
+
+    @include tiny-height {
+        padding-top: 10px;
+    }
+
+    h1 {
+        display: table;
+        margin: auto;
+
+        img {
+            margin-right: 20px;
+            max-width: 100px;
+
+            @include small-height {
+                display: none !important;
+            }
+        }
+
+        img,
+        strong {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+
+    h2 {
+        @include tiny-height {
+            margin: 6px;
+        }
+    }
+
+    .card {
+        margin-right: 1%;
+        max-width: 69px;
+
+        @include small-height {
+            max-height: 80px;
+        }
+    }
+
+    .cross-container {
+        background-color: #98999f;
+        border: solid #98999f;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 30px;
+    }
+
+    .cross {
+        background:
+            linear-gradient(to bottom, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%),
+            linear-gradient(to right, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%);
+        cursor: pointer;
+        height: 30px;
+        transform: rotate(45deg);
+        width: 30px;
+    }
+
+    .trump {
+        margin-right: 1%;
+        max-width: 80px;
+
+        @include small-height {
+            max-width: 45px;
+        }
+    }
+}
