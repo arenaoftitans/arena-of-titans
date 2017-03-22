@@ -9,8 +9,8 @@
     width: 300%;
 
     .slide {
-        float:left;
         background-size: contain;
+        float: left;
         height: 100%;
         padding-bottom: 13.8%;
         position: relative;
@@ -21,9 +21,9 @@
             color: white;
             padding: 20px;
             position: absolute;
-            top: 40%; 
+            top: 40%;
 
-            @include fluid{
+            @include fluid {
                 font-size: 30px;
             }
         }
