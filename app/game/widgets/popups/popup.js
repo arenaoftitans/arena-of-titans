@@ -232,7 +232,7 @@ export class AotPopupCustomElement {
 
             // The player must validate the game over popup
             if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
-                this.defered.reject();
+                this.popupModel.defered.reject();
             }
         };
         window.addEventListener('keyup', event => {
