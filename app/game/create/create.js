@@ -22,13 +22,26 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
+import {
+    EventAggregatorSubscriptions,
+    Wait,
+    randomInt,
+    selectRandomElement,
+} from '../services/utils';
 import { AssetSource } from '../../services/assets';
-import { Wait, randomInt, EventAggregatorSubscriptions } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../services/configuration';
 import Clipboard from 'clipboard';
 
+
+const DEFAULT_NAMES = [
+    'Guido',
+    'Aurelia',
+    'Brendan',
+    'Seb',
+    'Fred',
+];
 
 @inject(
     Router,
@@ -77,16 +90,13 @@ export class Create {
         this._gameUrl = window.location.href;
         this.init(params);
 
-        if (this._config.test.debug) {
-            if (!params.id) {
-                this._api.createGameDebug();
-            } else {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
-            }
-        } else if (!params.id) {
-            this.playerInfoDefered.promise.then(data => {
-                this._api.initializeGame(data.name, data.hero);
-            });
+        if (!params.id) {
+            this.creating = true;
+            this._api.initializeGame(this.playerInfo.name, this.playerInfo.hero);
+        } else if (this._config.test.debug) {
+            this._router.navigateToRoute('play', this._getNavParams(params.id));
+        } else if (this.creating) {
+            this.creating = false;
         } else {
             this._joinGame(params.id);
         }
@@ -108,9 +118,7 @@ export class Create {
         }
 
         Wait.flushCache();
-        this.initPlayerInfoDefered();
-        this.playerInfo = this._storage.loadPlayerInfos();
-        this.editing = false;
+        this.initPlayerInfos();
         this._registerEvents(params);
 
         // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
@@ -120,12 +128,14 @@ export class Create {
         }).catch(() => {});
     }
 
-    initPlayerInfoDefered() {
-        this.playerInfoDefered = {};
-        this.playerInfoDefered.promise = new Promise((resolve, reject) => {
-            this.playerInfoDefered.resolve = resolve;
-        });
-        this.playerInfoDefered.promise.then(data => this._storage.savePlayerInfos(data));
+    initPlayerInfos() {
+        this.playerInfo = this._storage.loadPlayerInfos();
+        if (!this.playerInfo.name) {
+            this.playerInfo.name = selectRandomElement(DEFAULT_NAMES);
+        }
+        if (!this.playerInfo.hero) {
+            this.playerInfo.hero = selectRandomElement(Game.heroes);
+        }
     }
 
     _registerEvents(params) {
@@ -176,31 +186,12 @@ export class Create {
         }
     }
 
-    _askName(gameId) {
-        this.playerInfoDefered.promise.then(data => {
-            this._api.joinGame({
-                gameId: gameId,
-                name: data.name,
-                hero: data.hero,
-            });
-        });
-    }
-
     updateSlot(slot) {
         if (slot.state === 'AI') {
             slot.player_name = `AI ${slot.index}`;
             slot.hero = Game.heroes[randomInt(0, Game.heroes.length - 1)];
         }
         this._api.updateSlot(slot);
-    }
-
-    editMe() {
-        this.initPlayerInfoDefered();
-        this.editing = true;
-        this.playerInfoDefered.promise.then(data => {
-            this.editing = false;
-            this._api.updateMe(data.name, data.hero);
-        });
     }
 
     createGame() {

@@ -460,10 +460,6 @@ export class Api {
         });
     }
 
-    createGameDebug() {
-        this.initializeGame('Player 1', 'daemon');
-    }
-
     viewPossibleMovements({name: name, color: color}) {
         this._ws.send({
             rt: this.requestTypes.view,

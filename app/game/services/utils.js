@@ -33,6 +33,23 @@ export function randomInt(min, max) {
 }
 
 
+/**
+ * Choose and return a random element from the array. If the array is empty, it
+ * returns undefined.
+ *
+ * @param {Array} array - The array in which to choose the element.
+ * @returns {Object|undefined}
+ */
+export function selectRandomElement(array) {
+    if (array.length === 0) {
+        return undefined;
+    }
+
+    let index = randomInt(0, array.length);
+    return array[index];
+}
+
+
 export class Wait {
     static idPromises = {};
     static classPromises = {};
