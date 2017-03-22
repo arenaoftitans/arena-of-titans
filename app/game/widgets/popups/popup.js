@@ -228,7 +228,9 @@ export class AotPopupCustomElement {
 
     bind() {
         this._keyupEventListener = event => {
-            let keyCode = event.code.toLowerCase();
+            // code doesn't exist on IE, we need to use key.
+            let keyCode = event.code || event.key;
+            keyCode = keyCode.toLowerCase();
 
             // The player must validate the game over popup
             if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
