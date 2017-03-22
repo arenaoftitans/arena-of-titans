@@ -15,7 +15,7 @@ aot-popup {
     .popup-container {
         height: 100vh;
         margin-top: $popup-full-screen-margin-top;
-        overflow-y: hidden;
+        overflow: hidden;
         position: absolute;
         width: 100%;
     }

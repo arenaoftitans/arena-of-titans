@@ -45,16 +45,14 @@ export class AotTrumpsGaugeCustomElement {
 
     bind() {
         Wait.forId('gauge-svg').then(gaugeSvg => {
-            // Prevent promise rejection on IE11
-            if (gaugeSvg.children === undefined) {
-                return;
-            }
-
-            for (let i = 0; i < gaugeSvg.children.length; i++) {
-                let element = gaugeSvg.children[i];
-                let fillStyle = element.style.fill;
-                element.style.fill = '';
-                element.style.fill = fillStyle;
+            // Reapply style on bind so it is correct on FireFox.
+            for (let i = 0; i < gaugeSvg.childNodes.length; i++) {
+                let element = gaugeSvg.childNodes.item(i);
+                if (element.style) {
+                    let fillStyle = element.style.fill;
+                    element.style.fill = '';
+                    element.style.fill = fillStyle;
+                }
             }
 
             this._fill(this.value, 0);
