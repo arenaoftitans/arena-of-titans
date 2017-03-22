@@ -64,6 +64,8 @@ export class Create {
         this._eas = eas;
         this.assetSource = AssetSource;
 
+        this.selectedHero = null;
+
         // We preload the board: it is big and can take a while to load on bad connections. So if
         // a player reaches the create game page, we consider he/she will play. So it makes sense
         // to start loading the board.
@@ -116,37 +118,6 @@ export class Create {
         Wait.forId('copy-invite-link').then(() => {
             new Clipboard('#copy-invite-link'); // eslint-disable-line
         }).catch(() => {});
-
-        this._unregisterMyNameObserver();
-        this._myNameObserverCb = () => {
-            if (!!!this.me.name) {
-                return;
-            }
-
-            let waitForPlate = Wait.forId('create-game-plate');
-            let waitForMe = Wait.forId('create-game-me');
-            let waitForGateLeft = Wait.forId('create-game-gate-left');
-            let waitForSlots = Wait.forId('create-game-slots');
-            let waitForBg = Wait.forId('create-game-bg');
-            let waitAll = Promise.all(
-                    [waitForPlate, waitForMe, waitForGateLeft, waitForSlots, waitForBg]);
-
-            waitAll.then(elts => this.resize(elts));
-            addEventListener('resize', () => {
-                waitAll.then(elts => this.resize(elts));
-            });
-        };
-
-        this._observerLocator.getObserver(this._api.me, 'name')
-            .subscribe(this._myNameObserverCb);
-    }
-
-    _unregisterMyNameObserver() {
-        if (this._myNameObserverCb) {
-            this._observerLocator.getObserver(this._api.me, 'name')
-                .unsubscribe(this._myNameObserverCb);
-            this._myNameObserverCb = null;
-        }
     }
 
     initPlayerInfoDefered() {
@@ -190,46 +161,6 @@ export class Create {
             let slot = this.slots[1];
             slot.state = 'AI';
             this.updateSlot(slot);
-        }
-    }
-
-    resize(elts) {
-        let plate = elts[0];
-        let plateBoundingClientRect = plate.getBoundingClientRect();
-        let me = elts[1];
-        let name = me.getElementsByTagName('p')[0];
-        let shareLink = me.getElementsByTagName('div')[0];
-        let gateLeft = elts[2];
-        let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
-        let slots = elts[3];
-        let bg = elts[4];
-
-        let plateWidth = plateBoundingClientRect.width + 'px';
-        name.style.maxWidth = plateWidth;
-        // Share link is only present for the game master.
-        if (shareLink) {
-            shareLink.style.maxWidth = plateWidth;
-        }
-
-        me.style.top = plateBoundingClientRect.top + 25 + 'px';
-        me.style.left = plateBoundingClientRect.left +
-            plateBoundingClientRect.width / 2 -
-            me.getBoundingClientRect().width / 2 +
-            'px';
-
-        let gateLeftWidth = gateLeftBoundingClientRect.width + 'px';
-        slots.style.top = gateLeftBoundingClientRect.top + 'px';
-        slots.style.maxWidth = gateLeftWidth;
-        slots.style.left = gateLeftBoundingClientRect.left +
-            gateLeftBoundingClientRect.width / 2 -
-            slots.getBoundingClientRect().width / 2 +
-            'px';
-
-        let heightDiff = me.getBoundingClientRect().bottom - bg.getBoundingClientRect().bottom;
-        if (heightDiff > 0) {
-            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
-        } else {
-            bg.style.height = undefined;
         }
     }
 
@@ -278,7 +209,6 @@ export class Create {
 
     deactivate() {
         this._eas.dispose();
-        this._unregisterMyNameObserver();
     }
 
     get me() {

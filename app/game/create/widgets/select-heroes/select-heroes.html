@@ -20,56 +20,24 @@
 <template>
     <require from="./select-heroes.css"></require>
 
-    <form id="select-heroes-form"
-          class="hidden-on-page-load white-text"
-          name="player-info"
-          submit.delegate="save()">
+    <div class="select-hero-container">
         <div class="select-hero centered-text">
-            <p class="margin-0"
+            <p class="margin-0 white-text"
                t="game.create.popup_select_avatar">Select your avatar</p>
 
             <img class="arrow"
                  src.bind="assetSource.forMiscImage('arrow-left')"
                  click.delegate="viewPreviousHero()" />
 
-            <span id="heroes-carousel">
-                <img class="hero-img hidden" />
-                <img class="hero-img left-pos" />
-                <img class="hero-img main-pos" />
-                <img class="hero-img right-pos "/>
-                <img class="hero-img hidden" />
-            </span>
+            <div class="heroes-carousel">
+                <img class="hero-img"
+                     if.bind="selectedHero"
+                     src.bind="assetSource.forHero(selectedHero.name)" />
+            </div>
 
             <img class="arrow"
                  src.bind="assetSource.forMiscImage('arrow-right')"
                  click.delegate="viewNextHero()" />
         </div>
-
-        <div class="centered-text">
-            <label>
-                <span t="game.create.enter_name">Enter your name:</span>
-                <input name="aotname" type="text" value.bind="data.name" placeholder="Chronos" maxlength="12" required />
-            </label>
-            <br>
-            <button class="blue-button margin-top-10" type="submit" t="global.save">Save</button>
-        </div>
-    </form>
-
-    <!-- svg background -->
-    <svg id="select-heroes-bg"
-         class="svg-full-screen-bg"
-         version="1.1"
-         xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         x="0px"
-         y="0px"
-	     width="100%"
-         height="100%"
-         viewBox="0 0 1300 750"
-         preserveAspectRatio="none">
-        <image overflow="visible" width="1300" height="750" xlink:href.bind="assetSource.forBackground('heroes-selection')"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
-        <rect x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
-        <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
-        <rect id="select-heroes-plate" x="383.667" y="264.667" fill="none" width="502.667" height="296"/>
-    </svg>
+    </div>
 </template>

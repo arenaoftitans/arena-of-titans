@@ -1,21 +1,31 @@
-#copy-invite-link {
-    margin-left: 5px;
-    width: 27px;
-}
+$left-width: 25%;
+$right-width: 25%;
+$door-width: 100% - $left-width - $right-width;
+$door-height: 85vh;
+$door-upper-margin: 100vh - $door-height;
+$door-arch-height: 25vh;
+$door-main-height: $door-height - $door-arch-height;
 
-#copy-invite-link:hover {
-    background-color: grey;
-}
 
-.selected-hero {
-    display: block;
-    margin: auto;
-    max-width: 150px;
-}
+div.create-game-container {
+    background: url('/#{$version}/assets/game/backgrounds/game-creation.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100vh;
 
-.slot-state-chooser {
-    background-color: #623629;
-    color: white;
-    margin: 0;
-    padding: 0;
+    .door {
+        height: $door-height;
+        left: $left-width;
+        position: absolute;
+        top: $door-upper-margin;
+        width: $door-width;
+    }
+
+    .door-arch {
+        height: $door-arch-height;
+    }
+
+    .door-main {
+        height: $door-main-height;
+    }
 }
