@@ -12,7 +12,7 @@
     "tdd": "au test --watch",
     "lint": "npm run jslint && npm run stylelint && npm run aureliatemplatelint",
     "jslint": "eslint app && eslint test",
-    "stylelint": "stylelint --syntax scss app/**/*.scss",
+    "stylelint": "node scripts/stylelint.js",
     "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
     "translate": "python3 scripts/translate.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/sprites"
@@ -106,7 +106,8 @@
     "minimist": "1.2.0",
     "phantomjs-prebuilt": "2.1.14",
     "stylelint": "7.9.0",
-    "stylelint-config-standard": "15.0.0",
+    "stylelint-config-standard": "16.0.0",
+    "stylelint-order": "^0.4.1",
     "through2": "2.0.3",
     "uglify-js": "2.7.5",
     "vinyl-fs": "2.4.4"
