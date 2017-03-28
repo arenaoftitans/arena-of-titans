@@ -16,8 +16,7 @@ div.create-game-container {
     .door {
         height: $door-height;
         left: $left-width;
-        position: absolute;
-        top: $door-upper-margin;
+        margin-top: $door-upper-margin;
         width: $door-width;
     }
 
@@ -29,12 +28,18 @@ div.create-game-container {
         height: $door-main-height;
     }
 
+    .left-wall {
+        height: 100vh;
+        width: $left-width;
+    }
+
     .right-wall {
-        left: $left-width + $door-width;
-        padding-left: 4%;
-        padding-top: 2%;
-        position: absolute;
         width: $right-width;
+
+        .slots-container {
+            margin-left: 15%;
+            margin-top: 10%;
+        }
     }
 
     .splash-block {
@@ -58,5 +63,9 @@ div.create-game-container {
             margin-top: 50px;
             text-align: center;
         }
+    }
+
+    .wall-part {
+        float: left;
     }
 }

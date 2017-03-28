@@ -32,11 +32,11 @@
 
     <div class="create-game-container"
          if.bind="!creating">
-        <div class="left-wall">
+        <div class="left-wall wall-part">
 
         </div>
 
-        <div class="door">
+        <div class="door wall-part">
             <div class="door-arch"></div>
 
             <div class="door-main">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="right-wall">
+        <div class="right-wall wall-part">
             <div class="slots-container">
                 <aot-slot repeat.for="slot of slots"
                           can-admin.bind="isGameMaster"
