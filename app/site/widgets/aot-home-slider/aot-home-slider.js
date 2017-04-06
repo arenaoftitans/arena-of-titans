@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU Affero General Public License
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
+
 const SLIDE_TOTAL = 3;
 const AUTOMATIC_SLIDING_PERIOD = 5000;
 
@@ -36,10 +37,10 @@ export class AotHomeSliderCustomElement {
 
         clearTimeout(this.automaticSlidingTimeOut);
 
-        //update active slide
+        // Update active slide
         this.activeSlide = slideNumber;
-        //move slider
-        this.homeSlider.style.transform = 'translateX(-' + slideNumber * 33.333 + '%)';
+        // Move slider
+        this.homeSlider.style.transform = `translateX(-${slideNumber * 33.333}%)`;
 
         this.automaticSlidingTimeOut = setTimeout(() => {
             this.goToSlide(this.activeSlide + 1);
