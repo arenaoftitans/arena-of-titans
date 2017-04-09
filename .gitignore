@@ -12,3 +12,4 @@
 /app/environment.js
 npm-debug.log
 .venv
+*.pyc
