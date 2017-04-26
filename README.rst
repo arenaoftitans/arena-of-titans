@@ -13,7 +13,7 @@ Setup
 
 You can now install the node dependencies. To do so, launch in the folder in which you cloned this repository:
 
-- Install node modules: ``npm install``
+- Install node modules with yarn (recommanded) ``yarn`` or ``npm install``
 
 Configuration
 -------------
