@@ -18,6 +18,7 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
+import { DOM } from 'aurelia-pal';
 import { Api } from '../../../services/api';
 import { AssetSource } from '../../../../services/assets';
 import {
@@ -35,7 +36,7 @@ const MOVE_STEP = 10;
 export { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP };
 
 
-@inject(Api, Element, EventAggregatorSubscriptions)
+@inject(Api, DOM.Element, EventAggregatorSubscriptions)
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;

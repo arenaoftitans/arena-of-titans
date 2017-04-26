@@ -20,6 +20,7 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { DOM } from 'aurelia-pal';
 import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
@@ -167,7 +168,7 @@ export class Popup {
 }
 
 
-@inject(Element, EventAggregatorSubscriptions)
+@inject(DOM.Element, EventAggregatorSubscriptions)
 export class AotPopupCustomElement {
     data = null;
     type = null;

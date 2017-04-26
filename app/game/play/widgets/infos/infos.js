@@ -18,13 +18,14 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
+import { DOM } from 'aurelia-pal';
 
 
 // In milliseconds.
 const POPUP_INFOS_APPEAR_TIMEOUT = 500;
 
 
-@inject(Element)
+@inject(DOM.Element)
 export class AotInfosCustomElement {
     @bindable type = null;
     @bindable infos = null;

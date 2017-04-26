@@ -20,12 +20,13 @@
 import * as LogManager from 'aurelia-logging';
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
+import { DOM } from 'aurelia-pal';
 import { Popup } from '../../../widgets/popups/popup';
 import { Api } from '../../../services/api';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 
 
-@inject(Api, Popup, I18N, Element, EventAggregatorSubscriptions)
+@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions)
 export class AotTrumpCustomElement {
     _api;
     _logger;
