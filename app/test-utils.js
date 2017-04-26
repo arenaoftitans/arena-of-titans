@@ -263,6 +263,14 @@ export class EventAggregatorStub {
 }
 
 
+export class BindingEngineStub {
+    propertyObserver(object, property) {
+        this.propertyObserverObj = jasmine.createSpyObj('propertyObserver', ['subscribe']);
+        return this.propertyObserverObj;
+    }
+}
+
+
 export class EventAggregatorSubscriptionsStub {
     constructor() {
         this.ea = new EventAggregatorStub();
