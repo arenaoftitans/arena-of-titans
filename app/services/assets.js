@@ -74,6 +74,10 @@ export class AssetSource {
                 return `/${this.version}/assets/game/misc/arrow-left.png`;
             case 'arrow-right':
                 return `/${this.version}/assets/game/misc/arrow-right.png`;
+            case 'favicon':
+                return `/${this.version}/assets/favicon.png`;
+            case 'favicon-notify':
+                return `/${this.version}/assets/favicon-notify.png`;
             default:
                 throw new Error(`No such misc image: ${kind}`);
         }

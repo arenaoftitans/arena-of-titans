@@ -29,6 +29,7 @@ describe('services/notify', () => {
     let link = document.createElement('link');
 
     beforeEach(() => {
+        link.href = '/latest/asset/favicon.png';
         spyOn(document, 'getElementById').and.returnValue(link);
 
         mockedI18n = new I18nStub();
@@ -38,7 +39,7 @@ describe('services/notify', () => {
 
     it('should clearNotifications', () => {
         sut._originalTitle = 'originalTitle';
-        sut._originalFaviconHref = '/original/favicon';
+        sut._originalFaviconHref = '/original/favicon.png';
         expect(document.title).not.toBe(sut._originalTitle);
         spyOn(sut, '_createFavicon');
 
@@ -54,7 +55,7 @@ describe('services/notify', () => {
         sut._swapFavicon();
 
         expect(document.getElementById).toHaveBeenCalledWith('favicon');
-        expect(sut._createFavicon).toHaveBeenCalledWith('/assets/favicon-notify.png', link);
+        expect(sut._createFavicon).toHaveBeenCalledWith('/latest/assets/favicon-notify.png', link);
     });
 
     it('should not play sound if sounds are disabled', () => {
