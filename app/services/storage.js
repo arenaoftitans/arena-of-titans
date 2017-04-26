@@ -63,6 +63,10 @@ export class Storage {
         return data === null ? data : data.playerId;
     }
 
+    clearPlayerId(gameId) {
+        localStorage.removeItem(gameId);
+    }
+
     saveOptions(options) {
         let toSave = {};
         // We don't save private properties

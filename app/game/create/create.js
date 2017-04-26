@@ -199,7 +199,11 @@ export class Create {
             this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
                 this.playerInfos.name = this.me.name;
                 this.playerInfos.hero = this.me.hero;
-            }, () => this._logger.warn('Failed to join game'));
+            }, () => {
+                this._logger.warn('Failed to join game');
+                this._storage.clearPlayerId(this.gameId);
+                this._joinGame();
+            });
         } else {
             this._api.joinGame({
                 gameId: this.gameId,
