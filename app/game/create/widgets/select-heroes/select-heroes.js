@@ -19,12 +19,14 @@
 
 import { bindable } from 'aurelia-framework';
 import { Game } from '../../../game';
+import { AssetSource } from '../../../../services/assets';
 
 
 export class AotSelectHeroesCustomElement {
     @bindable selectedHero = null;
 
     constructor() {
+        this.assetSource = AssetSource;
         this.heroes = [];
         for (let hero of Game.heroes) {
             this.heroes.push({
