@@ -45,7 +45,7 @@ export function selectRandomElement(array) {
         return undefined;
     }
 
-    let index = randomInt(0, array.length);
+    let index = randomInt(0, array.length - 1);
     return array[index];
 }
 

@@ -18,6 +18,8 @@
  */
 
 import {
+    randomInt,
+    selectRandomElement,
     BindingEngineSubscriptions,
     Elements,
     EventAggregatorSubscriptions,
@@ -31,6 +33,23 @@ import {
 
 
 describe('services/utils', () => {
+    describe('selectRandomElement', () => {
+        it('should return undefined for empty array', () => {
+            expect(selectRandomElement([])).toBeUndefined();
+        });
+
+        it('should return an item for a non empty arry', () => {
+            expect(selectRandomElement(['toto'])).toBe('toto');
+        });
+    });
+
+    describe('randomInt', () => {
+        it('should return correct value if min === max', () => {
+            expect(randomInt(0, 0)).toBe(0);
+            expect(randomInt(10, 10)).toBe(10);
+        });
+    });
+
     describe('Elements', () => {
         it('forClass without container', () => {
             spyOn(document, 'getElementById');
