@@ -66,6 +66,11 @@ module.exports = function (config) {
         // the root of the aurelia project.
         client: {
             args: ['aurelia-root', project.paths.root]
+        },
+        browserConsoleLogOptions: {
+            level: 'log',
+            format: '%b %T: %m',
+            terminal: true
         }
     });
 };
