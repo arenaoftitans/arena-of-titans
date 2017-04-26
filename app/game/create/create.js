@@ -200,6 +200,12 @@ export class Create {
                 this.playerInfos.name = this.me.name;
                 this.playerInfos.hero = this.me.hero;
             }, () => this._logger.warn('Failed to join game'));
+        } else {
+            this._api.joinGame({
+                gameId: this.gameId,
+                name: this.playerInfos.name,
+                hero: this.playerInfos.hero,
+            });
         }
     }
 
