@@ -17,14 +17,14 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable, inject, ObserverLocator } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 
 
 // In milliseconds.
 const POPUP_INFOS_APPEAR_TIMEOUT = 500;
 
 
-@inject(ObserverLocator, Element)
+@inject(Element)
 export class AotInfosCustomElement {
     @bindable type = null;
     @bindable infos = null;
@@ -34,25 +34,8 @@ export class AotInfosCustomElement {
     waitForElement;
     width;
 
-    constructor(observerLocator, element) {
-        this._observerLocator = observerLocator;
+    constructor(element) {
         this.element = element;
-
-        this._infosObserverCb = () => {
-            this.hide();
-
-            if (this.timeout !== undefined) {
-                clearTimeout(this.timeout);
-            }
-
-            if (!this.infos.event) {
-                return;
-            } else if (this.infos.visible) {
-                let target = this.infos.event.target;
-                this.timeout = setTimeout(() => this.show(target), POPUP_INFOS_APPEAR_TIMEOUT);
-            }
-        };
-        this._observerLocator.getObserver(this, 'infos').subscribe(this._infosObserverCb);
     }
 
     attached() {
@@ -60,8 +43,19 @@ export class AotInfosCustomElement {
         this.init();
     }
 
-    unbind() {
-        this._observerLocator.getObserver(this, 'infos').subscribe(this._infosObserverCb);
+    infosChanged() {
+        this.hide();
+
+        if (this.timeout !== undefined) {
+            clearTimeout(this.timeout);
+        }
+
+        if (!this.infos.event) {
+            return;
+        } else if (this.infos.visible) {
+            let target = this.infos.event.target;
+            this.timeout = setTimeout(() => this.show(target), POPUP_INFOS_APPEAR_TIMEOUT);
+        }
     }
 
     init() {
