@@ -37,7 +37,13 @@
         </div>
 
         <div class="door wall-part">
-            <div class="door-arch"></div>
+            <div class="door-arch">
+                <h2 class="white-text" t="global.me"></h2>
+                <input class="centered-text centered-block"
+                       type="text"
+                       maxlength="12"
+                       value.two-way="playerInfos.name & debounce" />
+            </div>
 
             <div class="door-main">
                 <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>

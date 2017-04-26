@@ -17,12 +17,14 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, ObserverLocator } from 'aurelia-framework';
+import * as LogManager from 'aurelia-logging';
+import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
 import {
+    BindingEngineSubscriptions,
     EventAggregatorSubscriptions,
     Wait,
     randomInt,
@@ -48,7 +50,7 @@ const DEFAULT_NAMES = [
     Api,
     Storage,
     Config,
-    ObserverLocator,
+    BindingEngineSubscriptions,
     History,
     EventAggregator,
     EventAggregatorSubscriptions
@@ -60,20 +62,21 @@ export class Create {
     _gameInitializedCb;
     _gameUrl = '';
     _config;
-    _observerLocator;
-    _myNameObserverCb;
+    _bes;
+    _playerInfosChanged;
     _history;
 
-    constructor(router, api, storage, config, observerLocator, history, ea, eas) {
+    constructor(router, api, storage, config, bindingEngineSubscription, history, ea, eas) {
         this._router = router;
         this._api = api;
         this._storage = storage;
         this._config = config;
-        this._observerLocator = observerLocator;
+        this._bes = bindingEngineSubscription;
         this._history = history;
         this._ea = ea;
         this._eas = eas;
         this.assetSource = AssetSource;
+        this._logger = LogManager.getLogger('aot:create');
 
         this.selectedHero = null;
 
@@ -96,7 +99,8 @@ export class Create {
         } else if (this.creating) {
             this.creating = false;
         } else {
-            this._joinGame(params.id);
+            this.gameId = params.id;
+            this._joinGame();
         }
     }
 
@@ -134,6 +138,25 @@ export class Create {
         if (!this.playerInfos.hero) {
             this.playerInfos.hero = selectRandomElement(Game.heroes);
         }
+        this._playerInfosChanged = () => {
+            this._storage.savePlayerInfos(this.playerInfos);
+
+            if (this.gameId && this.playerInfos.name && this.playerInfos.hero) {
+                this._api.updateMe(this.playerInfos.name, this.playerInfos.hero);
+            }
+        };
+        this._playerInfosChanged();
+        this._disposeObservers();
+        this._registerObservers();
+    }
+
+    _disposeObservers() {
+        this._bes.dispose();
+    }
+
+    _registerObservers() {
+        this._bes.subscribe(this.playerInfos, 'name', this._playerInfosChanged);
+        this._bes.subscribe(this.playerInfos, 'hero', this._playerInfosChanged);
     }
 
     _registerEvents(params) {
@@ -172,16 +195,13 @@ export class Create {
         }
     }
 
-    _joinGame(gameId) {
-        let playerId = this._storage.retrievePlayerId(gameId);
-        if (playerId) {
-            this._api.joinGame({gameId: gameId, playerId: playerId}).then(() => {
-            }, () => this._askName(gameId));
-        } else {
-            this._askName(gameId);
+    _joinGame() {
+        this.playerId = this._storage.retrievePlayerId(this.gameId);
+        if (this.playerId) {
             this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
                 this.playerInfos.name = this.me.name;
                 this.playerInfos.hero = this.me.hero;
+            }, () => this._logger.warn('Failed to join game'));
         }
     }
 
@@ -199,6 +219,7 @@ export class Create {
 
     deactivate() {
         this._eas.dispose();
+        this._disposeObservers();
     }
 
     get me() {

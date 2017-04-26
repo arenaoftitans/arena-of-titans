@@ -21,7 +21,8 @@ div.create-game-container {
     }
 
     .door-arch {
-        height: $door-arch-height;
+        height: $door-arch-height - 3vh;
+        padding-top: 3vh;
     }
 
     .door-main {
