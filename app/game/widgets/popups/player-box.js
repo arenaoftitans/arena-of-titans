@@ -18,7 +18,7 @@
 */
 
 import { inject } from 'aurelia-framework';
-import { AssetSource } from '../../services/utils';
+import { AssetSource } from '../../../services/assets';
 import { History } from '../../services/history';
 import { Api } from '../../services/api';
 
