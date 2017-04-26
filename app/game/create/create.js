@@ -90,7 +90,7 @@ export class Create {
 
         if (!params.id) {
             this.creating = true;
-            this._api.initializeGame(this.playerInfo.name, this.playerInfo.hero);
+            this._api.initializeGame(this.playerInfos.name, this.playerInfos.hero);
         } else if (this._config.test.debug) {
             this._router.navigateToRoute('play', this._getNavParams(params.id));
         } else if (this.creating) {
@@ -127,12 +127,12 @@ export class Create {
     }
 
     initPlayerInfos() {
-        this.playerInfo = this._storage.loadPlayerInfos();
-        if (!this.playerInfo.name) {
-            this.playerInfo.name = selectRandomElement(DEFAULT_NAMES);
+        this.playerInfos = this._storage.loadPlayerInfos();
+        if (!this.playerInfos.name) {
+            this.playerInfos.name = selectRandomElement(DEFAULT_NAMES);
         }
-        if (!this.playerInfo.hero) {
-            this.playerInfo.hero = selectRandomElement(Game.heroes);
+        if (!this.playerInfos.hero) {
+            this.playerInfos.hero = selectRandomElement(Game.heroes);
         }
     }
 
@@ -176,11 +176,12 @@ export class Create {
         let playerId = this._storage.retrievePlayerId(gameId);
         if (playerId) {
             this._api.joinGame({gameId: gameId, playerId: playerId}).then(() => {
-                this.playerInfo.name = this.me.name;
-                this.playerInfo.hero = this.me.hero;
             }, () => this._askName(gameId));
         } else {
             this._askName(gameId);
+            this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
+                this.playerInfos.name = this.me.name;
+                this.playerInfos.hero = this.me.hero;
         }
     }
 
