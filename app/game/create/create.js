@@ -58,8 +58,6 @@ const DEFAULT_NAMES = [
 export class Create {
     _router;
     _api;
-    _initGameCb;
-    _gameInitializedCb;
     _gameUrl = '';
     _config;
     _bes;
@@ -259,9 +257,5 @@ export class Create {
         }
 
         return false;
-    }
-
-    get hasHero() {
-        return this.me.hero !== undefined;
     }
 }
