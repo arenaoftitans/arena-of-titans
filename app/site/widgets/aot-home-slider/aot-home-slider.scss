@@ -30,11 +30,11 @@
     }
 
     .slide-elfe {
-        background-image: url('/assets/homepage/home-slider/elfe_slide.png');
+        background-image: url('/#{$version}/assets/homepage/home-slider/elfe_slide.png');
     }
 
     .slide-orc {
-        background-image: url('/assets/homepage/home-slider/orc_slide.png');
+        background-image: url('/#{$version}/assets/homepage/home-slider/orc_slide.png');
 
         .slide-caption {
             right: 0;

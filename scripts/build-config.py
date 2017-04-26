@@ -4,11 +4,15 @@ import json
 import sys
 import toml
 from argparse import ArgumentParser
-from os.path import exists
+from os.path import (
+    exists,
+    isfile,
+)
+from glob import glob
 
 
 CONF_FILE_TEMPLATE = 'config/config.{type}.toml'
-APP_CONF_FILE = 'config/application.js'
+APP_CONF_FILE = 'app/services/configuration.js'
 
 
 def main(type, version):
@@ -21,6 +25,9 @@ def main(type, version):
     config = toml.load(config_file)
     config['api']['path'] = config['api']['path'].format(version=version)
     config['version'] = version
+    config['images'] = {
+        'game': [file for file in glob('assets/game/**/*', recursive=True) if isfile(file)],
+    }
     config = json.dumps(config, sort_keys=True, indent=4)
 
     with open(APP_CONF_FILE, 'w') as app_config:

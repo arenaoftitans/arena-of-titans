@@ -25,8 +25,8 @@
             <div class="option">
                 <div class="choices">
                     <div class="lang-chooser">
-                        <img src="/assets/components/french.png" click.delegate="changeLang('fr')" />
-                        <img src="/assets/components/english.png" click.delegate="changeLang('en')" />
+                        <img src.bind="assetSource.forGlobalImage('french-flag')" click.delegate="changeLang('fr')" />
+                        <img src.bind="assetSource.forGlobalImage('english-flag')" click.delegate="changeLang('en')" />
                     </div>
                     <label class="white-text">
                         <span t="global.sound_option">Enable/Disable sound</span>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
 
-                <img class="hover-hide" src="/assets/components/gear.png" />
+                <img class="hover-hide" src.bind="assetSource.forGlobalImage('gear')" />
             </div>
         </div>
     </div>

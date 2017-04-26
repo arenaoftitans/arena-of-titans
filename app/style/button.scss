@@ -29,28 +29,28 @@ button[disabled],
 
 
 .grey-button {
-    background: url(/assets/components/grey-button.png) no-repeat;
+    background: url(/#{$version}/assets/components/grey-button.png) no-repeat;
     background-position: 0 0;
     background-size: 100% 200%;
 }
 
 .grey-button:focus,
 .grey-button:hover {
-    background: url(/assets/components/grey-button.png) no-repeat;
+    background: url(/#{$version}/assets/components/grey-button.png) no-repeat;
     background-position: 0 -32px;
     background-size: 100% 200%;
 }
 
 
 .blue-button {
-    background: url(/assets/components/blue-button.png) no-repeat;
+    background: url(/#{$version}/assets/components/blue-button.png) no-repeat;
     background-position: 0 0;
     background-size: 100% 200%;
 }
 
 .blue-button:focus,
 .blue-button:hover {
-    background: url(/assets/components/blue-button.png) no-repeat;
+    background: url(/#{$version}/assets/components/blue-button.png) no-repeat;
     background-position: 0 -32px;
     background-size: 100% 200%;
 }

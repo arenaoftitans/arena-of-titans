@@ -20,6 +20,7 @@
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Wait } from './utils';
+import { AssetSource } from '../../services/assets';
 import { Options } from '../../services/options';
 
 
@@ -33,8 +34,8 @@ export class Notify {
         this._options = options;
         this._originalTitle = document.title;
         this._head = document.head || (document.head = document.getElementsByTagName('head')[0]);
-        this._originalFaviconHref = document.getElementById('favicon').href;
-        this._notifyFavicon = '/assets/favicon-notify.png';
+        this._originalFaviconHref = AssetSource.forMiscImage('favicon');
+        this._notifyFavicon = AssetSource.forMiscImage('favicon-notify');
         this._body = document.body || document.getElementByTagName('body')[0];
 
         document.addEventListener('visibilitychange', () => this._handleVisibilityChange());
@@ -63,7 +64,8 @@ export class Notify {
 
     _swapFavicon() {
         let oldLink = document.getElementById('favicon');
-        let src = oldLink.href === this._originalFaviconHref ?
+        // Versions may differ between the two. Only test the file name.
+        let src = oldLink.href.endsWith('favicon.png') ?
             this._notifyFavicon : this._originalFaviconHref;
         this._createFavicon(src, oldLink);
     }

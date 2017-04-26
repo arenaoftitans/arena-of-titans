@@ -22,10 +22,11 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
-import { Wait, ImageSource, randomInt, EventAggregatorSubscriptions } from '../services/utils';
+import { AssetSource } from '../../services/assets';
+import { Wait, randomInt, EventAggregatorSubscriptions } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
-import Config from '../../../config/application';
+import Config from '../../services/configuration';
 import Clipboard from 'clipboard';
 
 
@@ -61,6 +62,7 @@ export class Create {
         this._history = history;
         this._ea = ea;
         this._eas = eas;
+        this.assetSource = AssetSource;
 
         // We preload the board: it is big and can take a while to load on bad connections. So if
         // a player reaches the create game page, we consider he/she will play. So it makes sense
@@ -316,9 +318,5 @@ export class Create {
 
     get hasHero() {
         return this.me.hero !== undefined;
-    }
-
-    get heroSrc() {
-        return ImageSource.forHero(this.me.hero);
     }
 }

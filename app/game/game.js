@@ -21,8 +21,9 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { History } from './services/history';
 import { Api } from './services/api';
+import { AssetSource } from '../services/assets';
 import { Options } from '../services/options';
-import { EventAggregatorSubscriptions, ImageSource } from './services/utils';
+import { EventAggregatorSubscriptions } from './services/utils';
 import { Popup } from './widgets/popups/popup';
 
 
@@ -63,6 +64,8 @@ export class Game {
         // being displayed. For instance, create a game, refresh, play a card. Without the line
         // below, it will not appear in the player box.
         history.init();
+
+        AssetSource.preloadImages('game');
     }
 
     configureRouter(config, router) {
@@ -142,7 +145,7 @@ export class Game {
                     popupData.translate.messages.message = 'game.play.your_turn';
                 }
                 let hero = this._api.game.players.heroes[this._api.game.next_player];
-                popupData.img = ImageSource.forChestHero(hero);
+                popupData.img = AssetSource.forChestHero(hero);
                 popupData.translate.params = {
                     playerName: this._api.game.players.names[this._currentPlayerIndex],
                 };

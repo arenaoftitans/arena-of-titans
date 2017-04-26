@@ -20,12 +20,11 @@
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
+import { AssetSource, ImageName } from '../../../../services/assets';
 import {
     Blink,
     Elements,
     EventAggregatorSubscriptions,
-    ImageName,
-    ImageSource,
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { Popup } from '../../../widgets/popups/popup';
@@ -156,13 +155,13 @@ export class AotNotificationsCustomElement {
             this._lastAction.card.complementaryDescription =
                     this._i18n.tr(`cards.${cardName.toLowerCase()}_complementary_description`);
 
-            this._lastAction.img = ImageSource.forCard(lastAction.card);
+            this._lastAction.img = AssetSource.forCard(lastAction.card);
         }
 
         if (lastAction.trump) {
             let trump = lastAction.trump;
             this._lastAction.trump = trump;
-            this._lastAction.img = ImageSource.forTrump(trump);
+            this._lastAction.img = AssetSource.forTrump(trump);
             let trumpName = ImageName.forTrump(trump).replace('-', '_');
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);

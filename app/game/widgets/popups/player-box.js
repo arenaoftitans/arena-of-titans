@@ -18,7 +18,7 @@
 */
 
 import { inject } from 'aurelia-framework';
-import { ImageSource } from '../../services/utils';
+import { AssetSource } from '../../../services/assets';
 import { History } from '../../services/history';
 import { Api } from '../../services/api';
 
@@ -43,13 +43,13 @@ export class AotPlayerBoxInfosCustomElement {
     }
 
     get heroSource() {
-        return ImageSource.forCircledHero(this.data.hero);
+        return AssetSource.forCircledHero(this.data.hero);
     }
 
     get lastPlayedCards() {
         let images = [];
         for (let card of this._history.getLastPlayedCards(this.data.playerIndex)) {
-            images.push(ImageSource.forCard(card));
+            images.push(AssetSource.forCard(card));
         }
 
         return images;
@@ -59,7 +59,7 @@ export class AotPlayerBoxInfosCustomElement {
         let trumps = this._api.game.active_trumps[this.data.playerIndex].trumps;
         let images = [];
         for (let trump of trumps) {
-            images.push(ImageSource.forTrump(trump));
+            images.push(AssetSource.forTrump(trump));
         }
 
         return images;

@@ -21,7 +21,7 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
 import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
-import Config from '../../../../../config/application';
+import Config from '../../../../services/configuration';
 
 
 // In milliseconds to ease calculations.

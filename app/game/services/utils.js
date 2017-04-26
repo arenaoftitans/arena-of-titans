@@ -33,51 +33,6 @@ export function randomInt(min, max) {
 }
 
 
-export class ImageSource {
-    static forTrump(trump) {
-        return `/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
-    }
-
-    static forCard(card) {
-        return `/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
-    }
-
-    static forHero(hero) {
-        return `/assets/game/heroes/${hero}.png`;
-    }
-
-    static forChestHero(hero) {
-        return `/assets/game/heroes/${hero}-chest.png`;
-    }
-
-    static forCircledHero(hero) {
-        return `/assets/game/heroes/${hero}-circle.png`;
-    }
-}
-
-
-export class ImageClass {
-    static forCard(card) {
-        return `sprite-movement-${ImageName.forCard(card)}`;
-    }
-}
-
-
-export class ImageName {
-    static forTrump(trump) {
-        let trumpName = trump.name.replace(' ', '-').toLowerCase();
-        return `${trumpName}`;
-    }
-
-    static forCard(card) {
-        let name = card.name.toLowerCase();
-        let color = card.color.toLocaleLowerCase();
-
-        return `${name}-${color}`;
-    }
-}
-
-
 export class Wait {
     static idPromises = {};
     static classPromises = {};

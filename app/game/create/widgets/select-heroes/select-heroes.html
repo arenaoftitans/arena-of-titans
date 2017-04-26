@@ -29,7 +29,7 @@
                t="game.create.popup_select_avatar">Select your avatar</p>
 
             <img class="arrow"
-                 src="/assets/game/misc/arrow-left.png"
+                 src.bind="assetSource.forMiscImage('arrow-left')"
                  click.delegate="viewPreviousHero()" />
 
             <span id="heroes-carousel">
@@ -41,7 +41,7 @@
             </span>
 
             <img class="arrow"
-                 src="/assets/game/misc/arrow-right.png"
+                 src.bind="assetSource.forMiscImage('arrow-right')"
                  click.delegate="viewNextHero()" />
         </div>
 
@@ -67,7 +67,7 @@
          height="100%"
          viewBox="0 0 1300 750"
          preserveAspectRatio="none">
-        <image overflow="visible" width="1300" height="750" xlink:href="/assets/game/backgrounds/heroes-selection.png"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
+        <image overflow="visible" width="1300" height="750" xlink:href.bind="assetSource.forBackground('heroes-selection')"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
         <rect x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
         <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
         <rect id="select-heroes-plate" x="383.667" y="264.667" fill="none" width="502.667" height="296"/>

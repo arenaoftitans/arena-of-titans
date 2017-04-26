@@ -85,7 +85,7 @@ aot-board-controls {
 
     .zoom-control {
         -webkit-appearance: none;
-        background: url('/assets/game/backgrounds/zoom.png');
+        background: url('/#{$version}/assets/game/backgrounds/zoom.png');
         background-repeat: no-repeat;
         background-size: 100% 100%;
         margin: 0;
