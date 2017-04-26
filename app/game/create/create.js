@@ -136,16 +136,17 @@ export class Create {
         if (!this.playerInfos.hero) {
             this.playerInfos.hero = selectRandomElement(Game.heroes);
         }
-        this._playerInfosChanged = () => {
-            this._storage.savePlayerInfos(this.playerInfos);
-
-            if (this.gameId && this.playerInfos.name && this.playerInfos.hero) {
-                this._api.updateMe(this.playerInfos.name, this.playerInfos.hero);
-            }
-        };
         this._playerInfosChanged();
         this._disposeObservers();
         this._registerObservers();
+    }
+
+    _playerInfosChanged() {
+        this._storage.savePlayerInfos(this.playerInfos);
+
+        if (this.gameId && this.playerInfos.name && this.playerInfos.hero) {
+            this._api.updateMe(this.playerInfos.name, this.playerInfos.hero);
+        }
     }
 
     _disposeObservers() {
@@ -153,8 +154,11 @@ export class Create {
     }
 
     _registerObservers() {
-        this._bes.subscribe(this.playerInfos, 'name', this._playerInfosChanged);
-        this._bes.subscribe(this.playerInfos, 'hero', this._playerInfosChanged);
+        let cb = () => {
+            this._playerInfosChanged();
+        };
+        this._bes.subscribe(this.playerInfos, 'name', cb);
+        this._bes.subscribe(this.playerInfos, 'hero', cb);
     }
 
     _registerEvents(params) {
@@ -196,21 +200,21 @@ export class Create {
     _joinGame() {
         this.playerId = this._storage.retrievePlayerId(this.gameId);
         if (this.playerId) {
-            this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
+            return this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
                 this.playerInfos.name = this.me.name;
                 this.playerInfos.hero = this.me.hero;
             }, () => {
-                this._logger.warn('Failed to join game');
+                this._logger.warn('Failed to join the game');
                 this._storage.clearPlayerId(this.gameId);
                 this._joinGame();
             });
-        } else {
-            this._api.joinGame({
-                gameId: this.gameId,
-                name: this.playerInfos.name,
-                hero: this.playerInfos.hero,
-            });
         }
+
+        return this._api.joinGame({
+            gameId: this.gameId,
+            name: this.playerInfos.name,
+            hero: this.playerInfos.hero,
+        });
     }
 
     updateSlot(slot) {

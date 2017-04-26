@@ -175,6 +175,9 @@ export class StorageStub {
     retrievePlayerId() {
     }
 
+    clearPlayerId() {
+    }
+
     saveOptions() {
     }
 
@@ -291,6 +294,15 @@ export class EventAggregatorSubscriptionsStub {
 
     publish(signal, message) {
         this.ea.publish(signal, message);
+    }
+}
+
+
+export class BindingEngineSubscriptionsStub {
+    subscribe(object, property, fn) {
+    }
+
+    dispose() {
     }
 }
 
