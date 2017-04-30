@@ -239,6 +239,56 @@ To translate something:
 
 See `the plugin page on github <https://github.com/aurelia/i18n>`__ for the full documentation.
 
+Translate text in a popup
+-------------------------
+
+In order for the translations to be correctly applied to the popup, the ``data`` object passed to the ``popup.display`` function must contain a translate key. This key must be associated with an object like:
+
+.. code:: javascript
+
+    {
+        // The messages used in the popup template (like ``title``) associated with their translation key.
+        messages: {
+            POPUP_KEY: TRANSLATION_KEY,
+        },
+        // Dynamic parameters to use in the translation of messages strings.
+        // They will be translated before the messages. This is required to
+        // translate the parameters before they are injected in the message
+        // string.
+        paramsToTranslate: {
+            PARAM_NAME: TRANSLATION_KEY,
+        },
+        // Optionnal params for the translations that don't need translations.
+        params: {
+            PARAM_NAME: VALE,
+        }
+    }
+
+Complete ``data`` example:
+
+.. code:: javascript
+
+    let popupData = {
+        selectedChoice: otherPlayerNames[selectedIndex],
+        choices: otherPlayerNames,
+        translate: {
+            messages: {
+                title: `trumps.${this.normalizeTrumpName()}`,
+                description: `trumps.${this.normalizeTrumpName()}_description`,
+                message: 'game.play.select_trump_target',
+            },
+            paramsToTranslate: {
+                trumpname: `trumps.${this.normalizeTrumpName()}`,
+            },
+        },
+    };
+
+Associated translation to the ``'game.play.select_trump_target'`` to illustrate usage of the params:
+
+::
+
+    "Who should be the target of {{trumpname}}?"
+
 
 Add a hero
 ==========
