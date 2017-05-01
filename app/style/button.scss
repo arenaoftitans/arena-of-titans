@@ -54,3 +54,14 @@ button[disabled],
     background-position: 0 -32px;
     background-size: 100% 200%;
 }
+
+
+.big-button {
+    font-size: x-large;
+    height: 6vh;
+    width: 30%;
+}
+
+.big-button:hover {
+    background-position: 0 -42px;
+}

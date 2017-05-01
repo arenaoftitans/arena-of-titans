@@ -27,6 +27,10 @@ div.create-game-container {
 
     .door-main {
         height: $door-main-height;
+
+        .bottom-door {
+            margin-top: 8vh;
+        }
     }
 
     .left-wall {

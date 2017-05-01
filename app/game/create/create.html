@@ -48,6 +48,16 @@
 
             <div class="door-main">
                 <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
+
+                <div class="bottom-door">
+                    <button class="blue-button centered-block big-button"
+                            if.bind="me.is_game_master"
+                            disabled.bind="!canCreateGame"
+                            click.trigger="createGame()"
+                            t="game.create.create">
+                        Create Game
+                    </button>
+                </div>
             </div>
         </div>
 
