@@ -164,6 +164,9 @@ export class Create {
                 this._router.navigateToRoute('play', this._getNavParams(params.id));
             }
         });
+        this._eas.subscribe('aot:api:game_initialized', () => {
+            this._autoAddAi();
+        });
 
         // This callback is used to redirect the player to the game if he/she reconnects on the
         // create page after a game was created.
@@ -173,6 +176,16 @@ export class Create {
             }
             subscription.dispose();
         });
+    }
+
+    _autoAddAi() {
+        // auto set the 2nd slot to an AI so the player can start the game immediatly.
+        let openedSlots = this.slots.filter(slot => slot.state === 'OPEN');
+        if (this.me.is_game_master && openedSlots.length === 7) {
+            let slot = this.slots[1];
+            slot.state = 'AI';
+            this.updateSlot(slot);
+        }
     }
 
     _joinGame() {
