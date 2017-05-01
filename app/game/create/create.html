@@ -21,6 +21,7 @@
     <require from="./create.css"></require>
     <require from="./widgets/select-heroes/select-heroes"></require>
     <require from="./widgets/slot/slot"></require>
+    <require from="./widgets/url-copy/url-copy"></require>
 
     <div class="create-game-container"
          if.bind="creating">
@@ -55,6 +56,11 @@
                 <aot-slot repeat.for="slot of slots"
                           can-admin.bind="isGameMaster"
                           player.bind="slot"></aot-slot>
+            </div>
+            <div class="game-url-container"
+                 if.bind="me.is_game_master">
+                <h2 class="bright-red-text" t="game.create.invite">Invite</h2>
+                <aot-url-copy url.bind="gameUrl"></aot-url-copy>
             </div>
         </div>
     </div>

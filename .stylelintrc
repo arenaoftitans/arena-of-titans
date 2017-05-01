@@ -28,6 +28,7 @@
         "aot-cards",
         "aot-select-heroes",
         "aot-transition",
+        "aot-url-copy",
         "aot-notifications"
       ]
     }],

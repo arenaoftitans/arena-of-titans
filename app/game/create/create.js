@@ -34,7 +34,6 @@ import { AssetSource } from '../../services/assets';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../services/configuration';
-import Clipboard from 'clipboard';
 
 
 const DEFAULT_NAMES = [
@@ -118,12 +117,6 @@ export class Create {
         Wait.flushCache();
         this.initPlayerInfos();
         this._registerEvents(params);
-
-        // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
-        // a constructor' warnings when launching tests with Firefox.
-        Wait.forId('copy-invite-link').then(() => {
-            new Clipboard('#copy-invite-link'); // eslint-disable-line
-        }).catch(() => {});
     }
 
     initPlayerInfos() {

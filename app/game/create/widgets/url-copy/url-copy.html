@@ -1,0 +1,13 @@
+<template>
+    <require from="./url-copy.css"></require>
+
+        <div class="centered-text">
+            <p class="bright-red-text" t="game.create.invite_text">Invite</p>
+            <div class="url-container">
+                <input id="invite-link" type="text" value.bind="url" readonly/>
+                <button id="copy-invite-link" class="" data-clipboard-target="#invite-link">
+                    <img src.bind="assetSource.forMiscImage('clippy')" width="13" alt="Copy to clipboard">
+                </button>
+            </div>
+        </div>
+</template>
