@@ -47,14 +47,17 @@ export class AotSelectHeroesCustomElement {
     }
 
     attached() {
-        this.selectedHero = this.heroes[0];
+        this._displayedHero = this.heroes[0];
+        this.selectedHero = this._displayedHero.name;
     }
 
     viewNextHero() {
-        this.selectedHero = this.selectedHero.next;
+        this._displayedHero = this._displayedHero.next;
+        this.selectedHero = this._displayedHero.name;
     }
 
     viewPreviousHero() {
-        this.selectedHero = this.selectedHero.previous;
+        this._displayedHero = this._displayedHero.previous;
+        this.selectedHero = this._displayedHero.name;
     }
 }
