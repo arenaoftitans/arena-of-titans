@@ -49,11 +49,7 @@ describe('game/create', () => {
         mockedHistory = new HistoryStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
         mockedEa = new EventAggregatorStub();
-        mockedConfig = {
-            test: {
-                debug: false,
-            },
-        };
+        mockedConfig = {};
         sut = new Create(
             mockedRouter,
             mockedApi,
@@ -191,9 +187,6 @@ describe('game/create', () => {
 
     it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {  // eslint-disable-line
         mockedConfig = {
-            test: {
-                debug: false,
-            },
             version: 42,
         };
         sut = new Create(
@@ -219,61 +212,6 @@ describe('game/create', () => {
                 version: 42,
             }
         );
-    });
-
-    it('should set the 2nd slot to AI after game initilization', () => {
-        spyOn(mockedApi, 'updateSlot');
-
-        mockedApi._me = {
-            name: 'Player 1',
-            is_game_master: true,
-        };
-        mockedApi._game = {
-            slots: [
-                {
-                    state: 'TAKEN',
-                },
-            ],
-        };
-        for (let i = 1; i < 8; i++) {
-            mockedApi._game.slots.push({
-                state: 'OPEN',
-            });
-        }
-
-        sut._autoAddAi();
-
-        expect(mockedApi.updateSlot).toHaveBeenCalled();
-        let args = mockedApi.updateSlot.calls.mostRecent().args[0];
-        expect(args.state).toBe('AI');
-        expect(args.player_name).toBe('AI undefined');
-        expect(args.hero).toBeDefined();
-    });
-
-    it('should not set the 2nd slot to AI if player changed a slot', () => {
-        spyOn(mockedApi, 'updateSlot');
-
-        mockedApi._me = {
-            name: 'Player 1',
-            is_game_master: true,
-        };
-        mockedApi._game = {
-            slots: [
-                {
-                    state: 'TAKEN',
-                },
-            ],
-        };
-        for (let i = 1; i < 8; i++) {
-            mockedApi._game.slots.push({
-                state: 'OPEN',
-            });
-        }
-        mockedApi._game.slots[3].state = 'TAKEN';
-
-        sut._autoAddAi();
-
-        expect(mockedApi.updateSlot).not.toHaveBeenCalled();
     });
 
     it('should create game', () => {
