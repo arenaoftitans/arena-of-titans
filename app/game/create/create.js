@@ -126,6 +126,7 @@ export class Create {
         if (!this.playerInfos.hero) {
             this.playerInfos.hero = selectRandomElement(Game.heroes);
         }
+        this.selectedHero = this.playerInfos.hero;
         this._playerInfosChanged();
         this._disposeObservers();
         this._registerObservers();
@@ -149,6 +150,10 @@ export class Create {
         };
         this._bes.subscribe(this.playerInfos, 'name', cb);
         this._bes.subscribe(this.playerInfos, 'hero', cb);
+        let selectedHeroChanged = () => {
+            this.playerInfos.hero = this.selectedHero;
+        };
+        this._bes.subscribe(this, 'selectedHero', selectedHeroChanged);
     }
 
     _registerEvents(params) {
