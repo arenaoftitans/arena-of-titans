@@ -29,10 +29,6 @@ div.create-game-container {
         height: $door-main-height;
     }
 
-    .game-url-container {
-        margin-top: 25vh;
-    }
-
     .left-wall {
         height: 100vh;
         width: $left-width;
@@ -41,9 +37,14 @@ div.create-game-container {
     .right-wall {
         width: $right-width;
 
+        .game-url-container {
+            margin-top: 25vh;
+        }
+
         .slots-container {
+            height: 50vh;
             margin-left: 15%;
-            margin-top: 10%;
+            margin-top: 4vh;
         }
     }
 
