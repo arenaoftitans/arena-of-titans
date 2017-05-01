@@ -139,12 +139,12 @@ describe('game/create', () => {
         spyOn(sut._logger, 'warn');
         sut.gameId = 'game_id';
 
-        return sut._joinGame().then(() => fail('Unwanted code branch'), () => {
+        return sut._joinGame().then(() => {
             expect(mockedApi.joinGame)
                 .toHaveBeenCalledWith({gameId: 'game_id', playerId: 'player_id'});
             expect(sut._logger.warn).toHaveBeenCalledWith('Failed to join the game');
             expect(mockedStorage.clearPlayerId).toHaveBeenCalledWith('game_id');
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should join the game from an id', () => {

@@ -75,7 +75,7 @@ export class Create {
         this.assetSource = AssetSource;
         this._logger = LogManager.getLogger('aot:create');
 
-        this.selectedHero = null;
+        this.initPlayerInfos();
 
         // We preload the board: it is big and can take a while to load on bad connections. So if
         // a player reaches the create game page, we consider he/she will play. So it makes sense
@@ -115,7 +115,6 @@ export class Create {
         }
 
         Wait.flushCache();
-        this.initPlayerInfos();
         this._registerEvents(params);
     }
 
