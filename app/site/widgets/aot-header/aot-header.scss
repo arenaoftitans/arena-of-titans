@@ -45,6 +45,13 @@ aot-header {
             top: 10px;
             width: #{$logo-size}px;
             z-index: 2;
+
+            @include fluid {
+                height: #{$logo-size-mobile}px;
+                left: calc(50% - #{$logo-size-mobile/2}px);
+                top: 48px;
+                width: #{$logo-size-mobile}px;
+            }
         }
     }
 
@@ -79,28 +86,5 @@ aot-header {
         position: absolute;
         width: 95%;
         z-index: 1;
-    }
-
-    @include fluid {
-        header {
-            .column-left,
-            .column-right {
-                position: relative;
-                width: 45%;
-            }
-
-            .column-left {
-                bottom: -100px;
-            }
-
-            .column-right {
-                bottom: -40px;
-            }
-
-            .column-center {
-                display: block;
-                margin: auto;
-            }
-        }
     }
 }
