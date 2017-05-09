@@ -298,6 +298,13 @@ Add a hero
 #. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
 
 
+Modify the aliases used by default
+==================================
+
+#. Modify the list located here: https://docs.google.com/spreadsheets/d/1Ees-A_yNQTfba7wH-flbrJunLMiTcTOUsbHqUTyOKm8/edit#gid=0
+#. Run ``npm run default-names``
+
+
 Add a popup
 ===========
 

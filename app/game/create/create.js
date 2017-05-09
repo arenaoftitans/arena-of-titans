@@ -34,15 +34,8 @@ import { AssetSource } from '../../services/assets';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../services/configuration';
+import DEFAULT_NAMES from './default-names';
 
-
-const DEFAULT_NAMES = [
-    'Guido',
-    'Aurelia',
-    'Brendan',
-    'Seb',
-    'Fred',
-];
 
 @inject(
     Router,
