@@ -74,7 +74,7 @@ export class AotSelectHeroesCustomElement {
 
     viewNextHero() {
         this._displayedHero = this._displayedHero.next;
-        this._animateHero();
+        this.selectedHero = this._displayedHero.name;
     }
 
     /**
@@ -91,18 +91,17 @@ export class AotSelectHeroesCustomElement {
      */
     _animateHero() {
         return this._animator.addClass(this.heroImage, 'change-hero').then(() => {
-            this.selectedHero = this._displayedHero.name;
-        }).then(() => {
             return this._animator.removeClass(this.heroImage, 'change-hero');
         });
     }
 
     viewPreviousHero() {
         this._displayedHero = this._displayedHero.previous;
-        this._animateHero();
+        this.selectedHero = this._displayedHero.name;
     }
 
     selectedHeroChanged() {
+        this._animateHero();
         this._updateDisplayedHeroFromSelected();
     }
 }

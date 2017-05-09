@@ -62,4 +62,13 @@ describe('create/select-heroes', () => {
         expect(sut._displayedHero).toBeDefined();
         expect(sut._displayedHero.name).toBe('daemon');
     });
+
+    it('should run the animation on selectedHero change', () => {
+        sut.selectedHero = 'daemon';
+        spyOn(sut, '_animateHero');
+
+        sut.selectedHeroChanged();
+
+        expect(sut._animateHero).toHaveBeenCalled();
+    });
 });

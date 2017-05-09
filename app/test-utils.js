@@ -329,4 +329,11 @@ export class OptionsStub {
 
 
 export class CssAnimatorStub {
+    addClass() {
+        return new Promise(resolve => resolve());
+    }
+
+    removeClass() {
+        return new Promise(resolve => resolve());
+    }
 }
