@@ -17,8 +17,28 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
+
+
+@inject(EventAggregator)
 export class App {
     router;
+    ea;
+
+    constructor(ea) {
+        this._ea = ea;
+    }
+
+    bind() {
+        this.navigationSubcription = this._ea.subscribe('router:navigation:complete', () => {
+            window.scrollTo(0, 0);
+        });
+    }
+
+    unbind() {
+        this.navigationSubcription.dispose();
+    }
 
     configureRouter(config, router) {
         this.router = router;
