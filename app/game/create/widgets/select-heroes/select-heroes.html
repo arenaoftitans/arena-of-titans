@@ -25,7 +25,7 @@
             <p class="margin-0 white-text"
                t="game.create.popup_select_avatar">Select your avatar</p>
 
-            <img class="arrow"
+            <img class="arrow arrow-left"
                  src.bind="assetSource.forMiscImage('arrow-left')"
                  click.delegate="viewPreviousHero()" />
 
@@ -35,7 +35,7 @@
                      src.bind="assetSource.forHero(selectedHero)" />
             </div>
 
-            <img class="arrow"
+            <img class="arrow arrow-right"
                  src.bind="assetSource.forMiscImage('arrow-right')"
                  click.delegate="viewNextHero()" />
         </div>
