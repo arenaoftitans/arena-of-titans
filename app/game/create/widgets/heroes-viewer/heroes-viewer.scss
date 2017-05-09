@@ -19,8 +19,9 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-heroes-viewer {
     .hero-img {
-        height: 14vh;
         margin: 1%;
+        max-height: 14vh;
+        max-width: 22%;
     }
 
     .selected {
