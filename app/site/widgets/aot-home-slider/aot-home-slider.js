@@ -29,6 +29,10 @@ export class AotHomeSliderCustomElement {
         this.goToSlide(0);
     }
 
+    detached() {
+        clearTimeout(this.automaticSlidingTimeOut);
+    }
+
     goToSlide(slideNumber) {
         if (slideNumber >= SLIDE_TOTAL) {
             this.goToSlide(0);
