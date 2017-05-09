@@ -93,12 +93,12 @@ export default {
         }
     },
     "global": {
+        "alias": "Pseudo",
         "back_home": "Page d' Accueil",
         "cancel": "Annuler",
         "cannot_do_action": "Tu ne peux pas faire cette action :",
         "create_new_game": "Nouvelle Partie",
         "edit": "\u00c9diter",
-        "me": "Moi",
         "name": "Nom : {{playerName}}",
         "no": "Non",
         "ok": "OK",
