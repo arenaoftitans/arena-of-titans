@@ -22,10 +22,16 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
     <div class="heroes-viewer-container">
         <div class="row"
              repeat.for="row of heroesRows">
-            <img class="hero-img pointer ${hero === selectedHero ? 'selected' : ''}"
-                 repeat.for="hero of row"
-                 click.delegate="selectHero(hero)"
-                 src.bind="assetSource.forHero(hero)" />
+            <div class="inline"
+                 repeat.for="hero of row">
+                <img class="hero-img pointer ${hero === selectedHero ? 'selected' : ''}"
+                     if.bind="hero !==  'placeholder'"
+                     click.delegate="selectHero(hero)"
+                     src.bind="assetSource.forHero(hero)" />
+                <img class="hero-img not-allowed"
+                     if.bind="hero ===  'placeholder'"
+                     src.bind="assetSource.forHero(hero)" />
+            </div>
         </div>
     </div>
 </template>

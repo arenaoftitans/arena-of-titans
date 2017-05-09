@@ -22,20 +22,28 @@ import { Game } from '../../../game';
 import { AssetSource } from '../../../../services/assets';
 
 
+const NB_HEROES_PER_LINE = 4;
+
 export class AotHeroesViewerCustomElement {
     @bindable selectedHero;
 
     constructor() {
         this.assetSource = AssetSource;
         this.heroesRows = [[], []];
+        let line = this.heroesRows[0];
 
         for (let i = 0; i < Game.heroes.length; i++) {
             let hero = Game.heroes[i];
-            if (i > Game.heroes.length / 2) {
-                this.heroesRows[1].push(hero);
-            } else {
-                this.heroesRows[0].push(hero);
+            line.push(hero);
+
+            // Index start at 0, so if i === 3, we have NB_HEROES_PER_LINE.
+            if (i === NB_HEROES_PER_LINE - 1) {
+                line = this.heroesRows[1];
             }
+        }
+
+        while (line.length < NB_HEROES_PER_LINE) {
+            line.push('placeholder');
         }
     }
 
