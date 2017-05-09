@@ -33,6 +33,7 @@ import frTranslations from '../locale/fr/translations';
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
+        .plugin('aurelia-animator-css')
         .plugin('aurelia-piwik')
         .plugin('aurelia-i18n', (instance) => {
             let language = navigator.language.split('-')[0];

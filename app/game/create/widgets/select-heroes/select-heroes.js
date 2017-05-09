@@ -17,15 +17,21 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
+import { CssAnimator } from 'aurelia-animator-css';
 import { Game } from '../../../game';
 import { AssetSource } from '../../../../services/assets';
 
 
+@inject(CssAnimator)
 export class AotSelectHeroesCustomElement {
     @bindable selectedHero = null;
+    // Referenced in the template.
+    heroImage;
 
-    constructor() {
+    constructor(animator) {
+        this._animator = animator;
+
         this.assetSource = AssetSource;
         this.heroes = [];
         for (let hero of Game.heroes) {
@@ -57,11 +63,32 @@ export class AotSelectHeroesCustomElement {
 
     viewNextHero() {
         this._displayedHero = this._displayedHero.next;
-        this.selectedHero = this._displayedHero.name;
+        this._animateHero();
+    }
+
+    /**
+     * When we change the hero, we use the animator to add the .change-hero class to animate the
+     * transition between hero images. We reduce the opacity of the image, change the image and
+     * increase the opacity agin. This is done with the aurelia-animator-css plugin. According
+     * to the documentation of the plugin, the heroImage element will have the following classes
+     * (each class is removed before the next one is added):
+     * - the .change-hero-add class to animate the addition of the class, we must fade out to
+     *   change the image of the hero.
+     * - the .change-hero class when we change the image.
+     * - the .change-hero-remove class to animate the removal of the class, we must fade in to
+     *   display the image of the new hero.
+     */
+    _animateHero() {
+        return this._animator.addClass(this.heroImage, 'change-hero').then(() => {
+            this.selectedHero = this._displayedHero.name;
+        }).then(() => {
+            return this._animator.removeClass(this.heroImage, 'change-hero');
+        });
     }
 
     viewPreviousHero() {
         this._displayedHero = this._displayedHero.previous;
-        this.selectedHero = this._displayedHero.name;
+        this._animateHero();
+    }
     }
 }

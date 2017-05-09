@@ -19,17 +19,17 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 
 $hero-img-height: 35vh;
+$change-hero-opacity: 0.4;
+$fade-time: 0.2s;
 
 aot-select-heroes {
-    img.hero-img {
+    .hero-img {
         background: #333;
         display: inline-block;
         height: $hero-img-height;
         margin-top: 1%;
+        opacity: 1;
         overflow: hidden;
-        -moz-transition: all 0.3s ease-in-out;
-        -webkit-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
     }
 
     .arrow {
@@ -47,5 +47,88 @@ aot-select-heroes {
 
     .select-hero-container {
         padding-top: 2.5vh;
+    }
+
+    .change-hero {
+        opacity: $change-hero-opacity;
+    }
+
+    .change-hero-remove {
+        -moz-animation: fadeIn $fade-time;
+        -ms-animation: fadeIn $fade-time;
+        -o-animation: fadeIn $fade-time;
+        -webkit-animation: fadeIn $fade-time;
+        animation: fadeIn $fade-time;
+        opacity: $change-hero-opacity;
+    }
+
+    .change-hero-add {
+        -moz-animation: fadeOut $fade-time;
+        -ms-animation: fadeOut $fade-time;
+        -o-animation: fadeOut $fade-time;
+        -webkit-animation: fadeOut $fade-time;
+        animation: fadeOut $fade-time;
+    }
+
+
+    /* fadeIn */
+    @keyframes fadeIn {
+        from { opacity: $change-hero-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadeIn {
+        from { opacity: $change-hero-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadeIn {
+        from { opacity: $change-hero-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadeIn {
+        from { opacity: $change-hero-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadeIn {
+        from { opacity: $change-hero-opacity; }
+        to { opacity: 1; }
+    }
+
+
+    /* fadeOut */
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-hero-opacity; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-hero-opacity; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-hero-opacity; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-hero-opacity; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-hero-opacity; }
     }
 }
