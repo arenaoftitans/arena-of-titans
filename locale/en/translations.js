@@ -57,6 +57,7 @@ export default {
             "add": "Add Slot",
             "create": "Create the game",
             "enter_name": "Enter your name:",
+            "heroes": "Heroes",
             "invite": "Invite",
             "invite_text": "To join this game, share this link:",
             "others": "Other Players",

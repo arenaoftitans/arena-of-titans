@@ -57,6 +57,7 @@ export default {
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
             "enter_name": "Entre ton nom\u00a0:",
+            "heroes": "H\u00e9ros",
             "invite": "Invitation",
             "invite_text": "Pour inviter tes amis, donne leur ce lien\u00a0:",
             "others": "Autres joueurs",
