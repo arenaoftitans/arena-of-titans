@@ -53,6 +53,17 @@ export class AotSelectHeroesCustomElement {
     }
 
     bind() {
+        this._updateDisplayedHeroFromSelected();
+    }
+
+    /**
+     * Update the _displayedHero property used to navigate between heroes from the selectedHero
+     * property.
+     *
+     * This must be done on component initialization and each time the selectedHero property is
+     * changed outside this component so the navigation is correct.
+     */
+    _updateDisplayedHeroFromSelected() {
         for (let hero of this.heroes) {
             if (hero.name === this.selectedHero) {
                 this._displayedHero = hero;
@@ -90,5 +101,8 @@ export class AotSelectHeroesCustomElement {
         this._displayedHero = this._displayedHero.previous;
         this._animateHero();
     }
+
+    selectedHeroChanged() {
+        this._updateDisplayedHeroFromSelected();
     }
 }
