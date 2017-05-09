@@ -238,9 +238,7 @@ export class AotPopupCustomElement {
                 this.popupModel.defered.reject();
             }
         };
-        window.addEventListener('keyup', event => {
-            this._keyupEventListener(event);
-        });
+        window.addEventListener('keyup', this._keyupEventListener);
     }
 
     unbind() {
