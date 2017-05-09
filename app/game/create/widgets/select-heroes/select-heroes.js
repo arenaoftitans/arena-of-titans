@@ -54,6 +54,20 @@ export class AotSelectHeroesCustomElement {
 
     bind() {
         this._updateDisplayedHeroFromSelected();
+
+        // Listen to keyup event to change hero with keyboard.
+        this._keyupEventListener = event => {
+            // code doesn't exist on IE, we need to use key.
+            let keyCode = event.code || event.key;
+
+            // The player must validate the game over popup
+            if (keyCode === 'ArrowRight') {
+                this.viewNextHero();
+            } else if (keyCode === 'ArrowLeft') {
+                this.viewPreviousHero();
+            }
+        };
+        window.addEventListener('keyup', this._keyupEventListener);
     }
 
     /**
@@ -103,5 +117,9 @@ export class AotSelectHeroesCustomElement {
     selectedHeroChanged() {
         this._animateHero();
         this._updateDisplayedHeroFromSelected();
+    }
+
+    unbind() {
+        window.removeEventListener('keyup', this._keyupEventListener);
     }
 }
