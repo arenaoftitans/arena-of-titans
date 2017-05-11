@@ -1,3 +1,4 @@
 configuration.js
 environment.js
 aurelia-karma.js
+app/game/create/default-names.js

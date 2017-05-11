@@ -16,10 +16,6 @@ def main():
 
     with open(SAVE_FILE, 'w') as names_file:
         names = json.dumps(names, sort_keys=True, indent=4)
-        # Replace " by ' to prevent lint errors in the JS file.
-        # Add a comma after the last name to prevent lint error in the JS file.
-        names = (names.replace('"', '\'')
-                 .replace('\'\n', '\',\n'))
         names_file.write('export default ' + names + ';\n')
 
 
