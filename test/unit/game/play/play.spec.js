@@ -72,18 +72,17 @@ describe('play', () => {
         expect(mockedApi.joinGame).not.toHaveBeenCalled();
     });
 
-    it('should display the game over popup on game over', done => {
+    it('should display the game over popup on game over', () => {
         spyOn(mockedPopup, 'display');
         mockedApi._gameOverDefered.resolve(['Player 1', 'Player 2']);
 
         sut.activate();
 
-        mockedApi.onGameOverDefered.then(() => {
+        return mockedApi.onGameOverDefered.then(() => {
             expect(mockedPopup.display).toHaveBeenCalledWith(
                 'game-over',
                 {message: ['Player 1', 'Player 2']});
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     describe('special actions', () => {

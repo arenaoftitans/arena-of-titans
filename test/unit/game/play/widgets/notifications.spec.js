@@ -117,7 +117,7 @@ describe('notifications', () => {
     });
 
     describe('guided visit', () => {
-        it('cancel', done => {
+        it('cancel', () => {
             let popupDefered = {};
             popupDefered.promise = new Promise((resolve, reject) => {
                 popupDefered.reject = reject;
@@ -136,13 +136,9 @@ describe('notifications', () => {
                 }
             );
             popupDefered.reject(new Error());
-            popupDefered.promise.then(() => {
-                expect(true).toBe(false);
-                done();
-            }, () => {
+            return popupDefered.promise.then(() => fail('Unwanted code branch'), () => {
                 expect(mockedOptions.proposeGuidedVisit).toBe(false);
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
 
         it('skip', () => {
@@ -154,7 +150,7 @@ describe('notifications', () => {
             expect(mockedPopup.display).not.toHaveBeenCalled();
         });
 
-        it('start', done => {
+        it('start', () => {
             let popupDefered = {};
             popupDefered.promise = new Promise((resolve, reject) => {
                 popupDefered.resolve = resolve;
@@ -176,17 +172,13 @@ describe('notifications', () => {
                 }
             );
             popupDefered.resolve();
-            popupDefered.promise.then(() => {
+            return popupDefered.promise.then(() => {
                 expect(sut._startGuidedVisit).toHaveBeenCalled();
                 expect(sut._tutorialInProgress).toBe(true);
                 expect(mockedEas.publish)
                     .toHaveBeenCalledWith('aot:notifications:start_guided_visit');
                 expect(sut._displayNextVisitText).toHaveBeenCalled();
-                done();
-            }, () => {
-                expect(false).toBe(true);
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
 
         it('display', () => {
@@ -219,7 +211,7 @@ describe('notifications', () => {
             expect(mockedPopup.display).not.toHaveBeenCalled();
         });
 
-        it('should notify special actions with popup', done => {
+        it('should notify special actions with popup', () => {
             sut.specialActionInProgress = false;
             spyOn(sut, '_translateSpecialActionText');
             spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
@@ -237,8 +229,7 @@ describe('notifications', () => {
             promise.then(() => {
                 expect(mockedEas.publish)
                     .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
 
         it('should handle special action played message', () => {

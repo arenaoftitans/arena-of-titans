@@ -33,20 +33,19 @@ describe('counter', () => {
         sut = new AotCounterCustomElement(mockedApi, {}, mockedEas);
     });
 
-    it('should init on your turn', done => {
+    it('should init on your turn', () => {
         spyOn(sut, 'countDownClock');
 
         mockedApi.game.your_turn = true;
         mockedApi.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
-        Wait.forId('counter').then(() => {
+        return Wait.forId('counter').then(() => {
             expect(sut.countDownClock).toHaveBeenCalled();
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('shouldn\'t start but reset when not your turn', done => {
+    it('shouldn\'t start but reset when not your turn', () => {
         spyOn(sut, 'start');
         spyOn(window, 'clearInterval');
 
@@ -55,15 +54,14 @@ describe('counter', () => {
         mockedApi.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
-        Wait.forId('counter').then(() => {
+        return Wait.forId('counter').then(() => {
             expect(sut.start).not.toHaveBeenCalled();
             expect(window.clearInterval).toHaveBeenCalled();
             expect(sut.startTime).toBe(null);
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('shouldn\'t start on game over', done => {
+    it('shouldn\'t start on game over', () => {
         spyOn(sut, 'start');
         spyOn(window, 'clearInterval');
 
@@ -71,10 +69,9 @@ describe('counter', () => {
         mockedApi.game.game_over = true;
         mockedApi.play();
 
-        Wait.forId('counter').then(() => {
+        return Wait.forId('counter').then(() => {
             expect(sut.start).not.toHaveBeenCalled();
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should handle play request while special action in progress', () => {

@@ -710,7 +710,7 @@ describe('services/api', () => {
         });
 
         describe('WS reconnected', () => {
-            it('should join the game if game was created', done => {
+            it('should join the game if game was created', () => {
                 sut._reconnectDefered = {};
                 sut._gameId = 'game_id';
                 let promise = new Promise(resolve => resolve());
@@ -720,10 +720,9 @@ describe('services/api', () => {
                 sut._handleWsReconnected();
 
                 expect(sut._reconnectDefered.promise).toEqual(jasmine.any(Promise));
-                promise.then(() => {
+                return promise.then(() => {
                     expect(sut._ws.sendDefered).toHaveBeenCalled();
-                    done();
-                });
+                }, () => fail('Unwanted code branch'));
             });
 
             it('should not join the game if it has not been created', () => {

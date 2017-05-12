@@ -97,6 +97,7 @@
     "gulp-sass-variables": "1.1.1",
     "gulp-sourcemaps": "2.6.0",
     "jasmine-core": "2.6.0",
+    "jasmine-promises": "^0.4.1",
     "karma": "1.6.0",
     "karma-babel-preprocessor": "6.0.1",
     "karma-chrome-launcher": "2.0.0",

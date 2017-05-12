@@ -42,7 +42,7 @@ describe('services/history', () => {
         expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
     });
 
-    it('init with null', done => {
+    it('init with null', () => {
         spyOn(mockedEas, 'subscribe');
         spyOn(mockedEas, 'dispose');
         spyOn(sut, '_addEntry');
@@ -66,7 +66,7 @@ describe('services/history', () => {
         });
         mockedApi._reconnectDefered.resolve(message);
 
-        sut.init().then(() => {
+        return sut.init().then(() => {
             expect(mockedEas.dispose).toHaveBeenCalled();
             expect(mockedEas.subscribe).toHaveBeenCalled();
             expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
@@ -78,8 +78,7 @@ describe('services/history', () => {
                 card: 'card 2',
                 player_index: 0,
             });
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     describe('getLastPlayedCards', () => {

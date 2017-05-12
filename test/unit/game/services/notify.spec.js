@@ -83,34 +83,31 @@ describe('services/notify', () => {
             spyOn(Wait, 'forId').and.returnValue(promise);
         });
 
-        it('voice', done => {
+        it('voice', () => {
             sut._playVoice();
 
             expect(Wait.forId).toHaveBeenCalledWith('notify-voice-player');
-            Wait.forId('notify-voice-player').then(() => {
+            return Wait.forId('notify-voice-player').then(() => {
                 expect(element.play).toHaveBeenCalled();
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
 
-        it('sound', done => {
+        it('sound', () => {
             sut._playYourTurnSound();
 
             expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
-            Wait.forId('notify-sound-player').then(() => {
+            return Wait.forId('notify-sound-player').then(() => {
                 expect(element.play).toHaveBeenCalled();
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
 
-        it('game over', done => {
+        it('game over', () => {
             sut.notifyGameOver();
 
             expect(Wait.forId).toHaveBeenCalledWith('notify-game-over-player');
-            Wait.forId('notify-game-over-player').then(() => {
+            return Wait.forId('notify-game-over-player').then(() => {
                 expect(element.play).toHaveBeenCalled();
-                done();
-            });
+            }, () => fail('Unwanted code branch'));
         });
     });
 });

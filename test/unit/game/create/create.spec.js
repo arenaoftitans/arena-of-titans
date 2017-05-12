@@ -110,7 +110,7 @@ describe('game/create', () => {
         expect(mockedHistory.init).toHaveBeenCalled();
     });
 
-    it('should not ask for the name if it knows the player name', done => {
+    it('should not ask for the name if it knows the player name', () => {
         spyOn(mockedApi, 'initializeGame');
         spyOn(sut, '_joinGame');
 
@@ -120,16 +120,12 @@ describe('game/create', () => {
         sut.activate({id: 'game_id'});
         sut.playerInfoDefered.resolve();
 
-        sut.playerInfoDefered.promise.then(() => {
+        return sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).not.toHaveBeenCalled();
-            done();
-        }, () => {
-            expect(false).toBe(true);
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('should ask the player name when joining a game', done => {
+    it('should ask the player name when joining a game', () => {
         spyOn(mockedApi, 'joinGame');
         spyOn(mockedStorage, 'loadPlayerInfos');
         spyOn(mockedStorage, 'savePlayerInfos');
@@ -143,33 +139,27 @@ describe('game/create', () => {
 
         expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
         expect(mockedStorage.retrievePlayerId).toHaveBeenCalled();
-        sut.playerInfoDefered.promise.then(() => {
+        return sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.joinGame).toHaveBeenCalledWith({
                 gameId: 'game_id',
                 name: 'Tester',
                 hero: 'daemon',
             });
-            done();
-        }, () => {
-            expect(false).toBe(true);
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('should ask the player name when reconnecting to a freed slot', done => {
+    it('should ask the player name when reconnecting to a freed slot', () => {
         spyOn(sut, '_askName');
         spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
 
         sut.activate({id: 'game_id'});
         mockedApi._reconnectDefered.reject(new Error());
 
-        mockedApi._reconnectDefered.promise.then(() => {
-            expect(false).toBe(true);
-            done();
-        }, () => {
-            expect(sut._askName).toHaveBeenCalledWith('game_id');
-            done();
-        });
+        return mockedApi._reconnectDefered.promise.then(
+            () => fail('Unwanted code branch'),
+            () => {
+                expect(sut._askName).toHaveBeenCalledWith('game_id');
+            });
     });
 
     it('should join the game from a cookie', () => {
@@ -187,7 +177,7 @@ describe('game/create', () => {
         });
     });
 
-    it('should navigate to initialize the game if no id param', done => {
+    it('should navigate to initialize the game if no id param', () => {
         spyOn(mockedApi, 'initializeGame');
         let data = {
             name: 'Tester',
@@ -197,13 +187,12 @@ describe('game/create', () => {
         sut.activate();
         sut.playerInfoDefered.resolve(data);
 
-        sut.playerInfoDefered.promise.then(() => {
+        return sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester', 'daemon');
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('should edit name', done => {
+    it('should edit name', () => {
         spyOn(mockedApi, 'updateMe');
         spyOn(sut, 'initPlayerInfoDefered').and.callThrough();
         let data = {
@@ -215,10 +204,9 @@ describe('game/create', () => {
         sut.playerInfoDefered.resolve(data);
 
         expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
-        sut.playerInfoDefered.promise.then(() => {
+        return sut.playerInfoDefered.promise.then(() => {
             expect(mockedApi.updateMe).toHaveBeenCalledWith('Tester', 'daemon');
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should navigate to {version}/create/{id} after game initialization', () => {

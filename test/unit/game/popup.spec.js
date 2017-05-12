@@ -72,7 +72,7 @@ describe('Popups', () => {
                 expect(ret).toEqual(jasmine.any(Promise));
             });
 
-            it('should call _displayNext once popups are ready', done => {
+            it('should call _displayNext once popups are ready', () => {
                 spyOn(sut, '_displayNext');
                 let type = 'info';
                 let data = {message: 'Hello'};
@@ -80,9 +80,10 @@ describe('Popups', () => {
                 sut.display(type, data);
 
                 sut._popupReadyDefered.resolve();
-                sut._popupReadyDefered.promise.then(() => {
+                return sut._popupReadyDefered.promise.then(() => {
                     expect(sut._displayNext).toHaveBeenCalled();
-                    done();
+                }, () => {
+                    fail('Unwanted code branch');
                 });
             });
 
@@ -122,7 +123,7 @@ describe('Popups', () => {
                 expect(mockedEas.publish).not.toHaveBeenCalled();
             });
 
-            it('should clean displayed defered on resolve', done => {
+            it('should clean displayed defered on resolve', () => {
                 sut._displayedPopupDefered.promise = new Promise((resolve, reject) => {
                     sut._displayedPopupDefered.resolve = resolve;
                     sut._displayedPopupDefered.reject = reject;
@@ -136,18 +137,17 @@ describe('Popups', () => {
 
                 expect(sut._displayedPopupDefered.promise.then).toHaveBeenCalled();
                 resolve();
-                sut._displayedPopupDefered.promise.then(() => {
+                return sut._displayedPopupDefered.promise.then(() => {
                     expect(sut._displayedPopupDefered.promise).toBeNull();
                     expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
                     expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
                     expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
                     expect(sut._displayedPopupDefered.reject).not.toBe(reject);
                     expect(sut._displayedPopupData).toBeNull();
-                    done();
-                });
+                }, () => fail('Unwanted code branch'));
             });
 
-            it('should clean displayed defered on reject', done => {
+            it('should clean displayed defered on reject', () => {
                 sut._displayedPopupDefered.promise = new Promise((resolve, reject) => {
                     sut._displayedPopupDefered.resolve = resolve;
                     sut._displayedPopupDefered.reject = reject;
@@ -161,15 +161,17 @@ describe('Popups', () => {
 
                 expect(sut._displayedPopupDefered.promise.then).toHaveBeenCalled();
                 reject(new Error());
-                sut._displayedPopupDefered.promise.then(() => {}, () => {
-                    expect(sut._displayedPopupDefered.promise).toBeNull();
-                    expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
-                    expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDefered.reject).not.toBe(reject);
-                    expect(sut._displayedPopupData).toBeNull();
-                    done();
-                });
+
+                return sut._displayedPopupDefered.promise.then(
+                    () => fail('Unwanted code branch'),
+                    () => {
+                        expect(sut._displayedPopupDefered.promise).toBeNull();
+                        expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
+                        expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
+                        expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
+                        expect(sut._displayedPopupDefered.reject).not.toBe(reject);
+                        expect(sut._displayedPopupData).toBeNull();
+                    });
             });
 
             it('should display next popup', () => {

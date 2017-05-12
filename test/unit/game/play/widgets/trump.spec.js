@@ -43,7 +43,7 @@ describe('trump', () => {
         sut.kind = 'player';
     });
 
-    it('should play trump with a target after a popup', done => {
+    it('should play trump with a target after a popup', () => {
         let defered = {};
         defered.promise = new Promise(resolve => {
             defered.resolve = resolve;
@@ -93,13 +93,12 @@ describe('trump', () => {
             name: 'Player 2',
             index: 2,
         });
-        defered.promise.then(() => {
+        return defered.promise.then(() => {
             expect(mockedApi.playTrump).toHaveBeenCalledWith({
                 trumpName: 'Trump',
                 targetIndex: 2,
             });
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should play trump without a target directly', () => {

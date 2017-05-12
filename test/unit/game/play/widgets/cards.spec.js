@@ -68,7 +68,7 @@ describe('cards', () => {
         expect(mockedApi.viewPossibleMovements).not.toHaveBeenCalledWith();
     });
 
-    it('should pass', done => {
+    it('should pass', () => {
         spyOn(mockedPopup, 'display').and.callThrough();
         spyOn(mockedApi, 'pass');
         sut.selectedCard = {name: 'King', color: 'red'};
@@ -83,14 +83,13 @@ describe('cards', () => {
                 },
             }
         );
-        mockedPopup.popupPromise.then(() => {
+        return mockedPopup.popupPromise.then(() => {
             expect(sut.selectedCard).toBe(null);
             expect(mockedApi.pass).toHaveBeenCalled();
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('should not pass on cancel', done => {
+    it('should not pass on cancel', () => {
         let promise = Promise.reject(new Error());
         spyOn(mockedPopup, 'display').and.returnValue(promise);
         spyOn(mockedApi, 'pass');
@@ -106,16 +105,12 @@ describe('cards', () => {
             }
         );
 
-        promise.then(() => {
-            expect(false).toBe(true);
-            done();
-        }, () => {
+        return promise.then(() => fail('Unwanted code branch'), () => {
             expect(mockedApi.pass).not.toHaveBeenCalled();
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
-    it('should discard a card', done => {
+    it('should discard a card', () => {
         spyOn(mockedApi, 'discard');
         spyOn(mockedPopup, 'display').and.callThrough();
         sut.selectedCard = {
@@ -135,14 +130,13 @@ describe('cards', () => {
             }
         );
 
-        mockedPopup.popupPromise.then(() => {
+        return mockedPopup.popupPromise.then(() => {
             expect(mockedApi.discard).toHaveBeenCalledWith({
                 cardName: 'King',
                 cardColor: 'red',
             });
             expect(sut.selectedCard).toBe(null);
-            done();
-        });
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should display a popup if no card is selected', () => {
