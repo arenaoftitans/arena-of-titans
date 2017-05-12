@@ -1,12 +1,10 @@
-image: fedora:latest
+image: node:latest
 
 pipelines:
   default:
     - step:
         script:
-          - dnf install -y python3 nodejs npm git bzip2 gzip freetype fontconfig
-          - npm install
+          - yarn
           - npm run --silent lint
-          - cp config/config.staging.toml config/config.dev.toml
-          - npm run config -- --type dev --version latest
+          - cp config/test-cfg.js app/services/configuration.js
           - npm run test -- -b PhantomJS
