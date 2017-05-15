@@ -70,6 +70,7 @@ describe('game/create', () => {
 
         sut.activate({id: 'game_id'});
 
+        expect(sut.gameId).toBe('game_id');
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(sut.init).toHaveBeenCalled();
@@ -165,6 +166,7 @@ describe('game/create', () => {
 
         expect(mockedApi.initializeGame)
             .toHaveBeenCalledWith(jasmine.any(String), jasmine.any(String));
+        expect(sut.gameId).toBeUndefined();
     });
 
     it('should navigate to {version}/create/{id} after game initialization', () => {
@@ -277,6 +279,7 @@ describe('game/create', () => {
 
     it('should navigate to play/{id} after the game creation', () => {
         spyOn(mockedRouter, 'navigateToRoute');
+        sut.creating = true;
 
         sut.activate({id: 'the_game_id'});
         mockedEas.publish('aot:api:create_game');
@@ -288,5 +291,6 @@ describe('game/create', () => {
                 version: 'latest',
             }
         );
+        expect(sut.gameId).toBe('the_game_id');
     });
 });

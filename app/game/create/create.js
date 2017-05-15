@@ -85,6 +85,9 @@ export class Create {
             this.creating = true;
             this._api.initializeGame(this.playerInfos.name, this.playerInfos.hero);
         } else if (this.creating) {
+            // We just created the game, no need to send a joinGame request.
+            // However, we need to save the game id.
+            this.gameId = params.id;
             this.creating = false;
         } else {
             this.gameId = params.id;
