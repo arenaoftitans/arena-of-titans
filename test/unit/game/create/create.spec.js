@@ -93,6 +93,7 @@ describe('game/create', () => {
         spyOn(Wait, 'flushCache');
         spyOn(sut, 'initPlayerInfos');
         spyOn(mockedHistory, 'init');
+        spyOn(mockedBes, 'subscribe');
 
         sut.init({id: 'game_id'});
 
@@ -101,11 +102,13 @@ describe('game/create', () => {
         expect(Wait.flushCache).toHaveBeenCalled();
         expect(mockedHistory.init).toHaveBeenCalled();
         expect(sut.initPlayerInfos);
+        expect(mockedBes.subscribe)
+            .toHaveBeenCalledWith(sut.playerInfos, 'name', jasmine.any(Function));
+        expect(mockedBes.subscribe)
+            .toHaveBeenCalledWith(sut.playerInfos, 'hero', jasmine.any(Function));
     });
 
     it('should initialize player infos', () => {
-        spyOn(mockedBes, 'dispose');
-        spyOn(mockedBes, 'subscribe');
         spyOn(mockedStorage, 'loadPlayerInfos').and.returnValue({});
 
         sut.initPlayerInfos();
@@ -113,11 +116,6 @@ describe('game/create', () => {
         expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
         expect(sut.playerInfos.name.length).toBeGreaterThan(0);
         expect(sut.playerInfos.hero.length).toBeGreaterThan(0);
-        expect(mockedBes.dispose).toHaveBeenCalled();
-        expect(mockedBes.subscribe)
-            .toHaveBeenCalledWith(sut.playerInfos, 'name', jasmine.any(Function));
-        expect(mockedBes.subscribe)
-            .toHaveBeenCalledWith(sut.playerInfos, 'hero', jasmine.any(Function));
     });
 
     it('should clear player id when reconnecting to the game and the slot was freed', () => {

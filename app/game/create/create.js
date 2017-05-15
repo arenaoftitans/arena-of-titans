@@ -109,6 +109,7 @@ export class Create {
 
         Wait.flushCache();
         this._registerEvents(params);
+        this._registerObservers();
     }
 
     initPlayerInfos() {
@@ -121,8 +122,6 @@ export class Create {
         }
         this.selectedHero = this.playerInfos.hero;
         this._playerInfosChanged();
-        this._disposeObservers();
-        this._registerObservers();
     }
 
     _playerInfosChanged() {
