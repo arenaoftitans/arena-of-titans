@@ -222,6 +222,8 @@ export class Api {
         this._game.was_your_turn = this._game.your_turn;
         this._game.your_turn = message.your_turn;
         this._game.next_player = message.next_player;
+        // This value may be undefined on game creation. In this case, there were 0 turn.
+        this._game.nb_turns = message.nb_turns || 0;
         this._me.hand = message.hand.map(card => {
             card.img = ImageClass.forCard(card);
             return card;

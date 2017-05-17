@@ -128,11 +128,14 @@ export class Game {
                 // skiping the tutorial and playing a card, the player won't see the transition
                 // popup display "it's your turn".
                 this._currentPlayerIndex = this._api.game.next_player;
+                this._currentNbTurns = this._api.game.nb_turns;
                 return;
             }
 
-            if (this._api.game.next_player !== this._currentPlayerIndex) {
+            if (this._api.game.next_player !== this._currentPlayerIndex ||
+                    this._currentNbTurns !== this._api.game.nb_turns) {
                 this._currentPlayerIndex = this._api.game.next_player;
+                this._currentNbTurns = this._api.game.nb_turns;
                 let popupData = {
                     translate: {
                         messages: {},
