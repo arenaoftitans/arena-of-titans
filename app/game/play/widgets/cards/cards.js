@@ -66,14 +66,10 @@ export class AotCardsCustomElement {
             this._notifySpecialAction(message);
         });
 
-        this._eas.subscribe('aot:api:special_action_play', () => {
-            this._handleSpecialActionPlayed();
-        });
-
+        // If the special action is passed or the player passes his/her turn, special_action_play
+        // is never fired. But in all cases a play request is made to update the position of the
+        // players on the board.
         this._eas.subscribe('aot:api:play', () => {
-            // When we receive a play message, there cannot be a special action in
-            // progress. This is mostly useful when a player passes his/her turn during a special
-            // action.
             this._handleSpecialActionPlayed();
         });
     }
