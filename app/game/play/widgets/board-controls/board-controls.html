@@ -21,11 +21,13 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
     <require from="./board-controls.css"></require>
 
     <div class="controls-container">
-        <a class="reset-button"
-                click.delegate="reset()"
-                target="_self">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-        </a>
+        <div class="reset-button-container">
+            <a class="reset-button"
+                    click.delegate="reset()"
+                    target="_self">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+            </a>
+        </div>
 
         <div class="zoom-container">
             <i class="fa fa-search-minus zoom-indicator" aria-hidden="true"></i>
