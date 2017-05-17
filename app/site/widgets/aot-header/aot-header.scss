@@ -23,19 +23,6 @@ aot-header {
         width: 50%;
     }
 
-    .column-center {
-        display: inline-block;
-        height: 200px;
-        margin-left: 85px;
-        width: 200px;
-
-        a {
-            display: block;
-            height: 100%;
-            width: 100%;
-        }
-    }
-
     .column-left {
         display: inline-block;
         width: 35%;
@@ -43,7 +30,17 @@ aot-header {
 
     .column-right {
         display: inline-block;
+        text-align: right;
         width: 35%;
+    }
+
+    .logo {
+        display: block;
+        height: 200px;
+        margin: auto;
+        position: relative;
+        top: 11%;
+        width: 200px;
     }
 
     .navbar {
