@@ -49,6 +49,7 @@ export class AotTrumpCustomElement {
         this._i18n = i18n;
         this._element = element;
         this._eas = eas;
+        this.disabled = false;
 
         this._logger = LogManager.getLogger('AotTrumps');
     }
@@ -67,6 +68,16 @@ export class AotTrumpCustomElement {
                 this.svgClass = undefined;
                 break;
         }
+
+        this._eas.subscribe('aot:api:special_action_notify', () => {
+            this.disabled = true;
+        });
+        // If the special action is passed or the player passes his/her turn, special_action_play
+        // is never fired. But in all cases a play request is made to update the position of the
+        // players on the board.
+        this._eas.subscribe('aot:api:play', () => {
+            this.disabled = false;
+        });
     }
 
     unbind() {
@@ -103,7 +114,10 @@ export class AotTrumpCustomElement {
     }
 
     play() {
-        if (!this.yourTurn || !this.trumpsStatuses[this.index] || this.kind !== 'player') {
+        if (!this.yourTurn ||
+                !this.trumpsStatuses[this.index] ||
+                this.disabled ||
+                this.kind !== 'player') {
             return;
         } else if (this.trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
