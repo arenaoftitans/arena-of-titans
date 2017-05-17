@@ -46,6 +46,7 @@ export class AotCounterCustomElement {
         this._config = config;
         this._eas = eas;
         this._paused = false;
+        this._currentNbTurns = 0;
         this.tutorialInProgress = false;
         this.specialActionInProgress = false;
         this._pausedDuration = 0;
@@ -112,6 +113,11 @@ export class AotCounterCustomElement {
             this.specialActionInProgress = false;
             this.resume();
         } else {
+            if (this._currentNbTurns !== this._api.game.nb_turns && this.startTime !== null) {
+                this.startTime = null;
+            }
+            this._currentNbTurns = this._api.game.nb_turns;
+
             this.init();
         }
     }
