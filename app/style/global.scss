@@ -62,6 +62,10 @@ select {
     cursor: pointer;
 }
 
+.not-allowed {
+    cursor: not-allowed;
+}
+
 
 .display-table {
     display: table;
@@ -172,6 +176,11 @@ strong.blue-text {
 .navigating button {
     cursor: wait !important;
     opacity: 0.5;
+}
+
+
+.inline {
+    display: inline;
 }
 
 

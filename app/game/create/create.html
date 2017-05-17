@@ -20,88 +20,67 @@
 <template>
     <require from="./create.css"></require>
     <require from="./widgets/select-heroes/select-heroes"></require>
+    <require from="./widgets/heroes-viewer/heroes-viewer"></require>
+    <require from="./widgets/slot/slot"></require>
+    <require from="./widgets/url-copy/url-copy"></require>
 
-    <aot-select-heroes if.bind="!hasHero || editing"
-                       data.bind="playerInfo"
-                       done.bind="playerInfoDefered.resolve"></aot-select-heroes>
-
-<div class="centered-block"
-     if.bind="hasHero && !editing">
-
-    <div id="create-game-me"
-         if.bind="me.name"
-         class="centered-block white-text hidden-on-page-load">
-        <h2 t="global.me">Me</h2>
-        <img class="selected-hero" src.bind="assetSource.forHero(me.hero)" />
-        <p class="centered-text white-text">
-            <span t="global.name" t-params.bind="{playerName: me.name}">Name</span>
-            <button class="blue-button"
-                    click.trigger="editMe()"
-                    t="global.edit">Edit
-            </button>
-        </p>
-        <button class="blue-button centered-block"
-                if.bind="me.is_game_master"
-                disabled.bind="!canCreateGame"
-                click.trigger="createGame()"
-                t="game.create.create">Create Game
-        </button>
-
-        <div if.bind="me.is_game_master">
-            <h2 t="game.create.invite">Invite</h2>
-            <div class="display-table">
-                <label class="centered-text bright-red-text display-table-cell">
-                    <span t="game.create.invite_text">Invite</span>
-                    <input id="invite-link" type="text" value.bind="gameUrl" readonly/>
-                    <button id="copy-invite-link" class="display-table-cell" data-clipboard-target="#invite-link">
-                        <img src.bind="assetSource.forMiscImage('clippy')" width="13" alt="Copy to clipboard">
-                    </button>
-                </label>
-            </div>
+    <div class="create-game-container"
+         if.bind="creating">
+        <div class="splash-block">
+            <div class="message">loading</div>
+            <i class="fa fa-spinner fa-spin"></i>
         </div>
     </div>
 
-    <div id="create-game-slots"
-         if.bind="me.name"
-         class="centered-block white-text hidden-on-page-load">
-        <h2 t="game.create.others">Other players</h2>
+    <div class="create-game-container"
+         if.bind="!creating">
+        <div class="left-wall wall-part">
+            <div class="heroes-viewr-container">
+                <h3 t="game.create.heroes"
+                    class="centered-text white-text"></h3>
+                <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
+            </div>
+            <div class="heroes-description-container">
+                <p class="white-text">${'heroes.' + selectedHero & t}</p>
+                <p class="white-text">${'heroes.' + selectedHero + '_power' & t}</p>
+            </div>
+        </div>
 
-        <p class="centered-text white-text" repeat.for="slot of slots">
-            <span t="game.create.slot">Slot</span> n°${slot.index + 1}
-            <span if.bind="me.is_game_master && (slot.state !== 'TAKEN' || !slot.player_name)">
-                <select class="slot-state-chooser" value.bind="slot.state" change.delegate="updateSlot(slot)">
-                    <option repeat.for="state of CHOOSABLE_SLOTS_STATES"
-                            value.bind="state"
-                            t="game.create.${state}">
-                    </option>
-                </select>
-            </span>
-            <span if.bind="(slot.player_name && slot.state === 'TAKEN') || !me.is_game_master">
-                <span t="game.create.TAKEN" if.bind="slot.state === 'TAKEN'"></span>
-                <span t="game.create.OPEN" if.bind="slot.state === 'OPEN'"></span>
-                <span t="game.create.AI" if.bind="slot.state === 'AI'"></span>
-                <span t="game.create.CLOSED" if.bind="slot.state === 'CLOSED'"></span>
-                ${slot.player_name}
-            </span>
-        </p>
+        <div class="door wall-part">
+            <div class="door-arch">
+                <h2 class="white-text" t="global.alias"></h2>
+                <input class="centered-text centered-block"
+                       type="text"
+                       maxlength="12"
+                       value.two-way="playerInfos.name & debounce" />
+            </div>
+
+            <div class="door-main">
+                <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
+
+                <div class="bottom-door">
+                    <button class="blue-button centered-block big-button"
+                            if.bind="me.is_game_master"
+                            disabled.bind="!canCreateGame"
+                            click.trigger="createGame()"
+                            t="game.create.create">
+                        Create Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-wall wall-part">
+            <div class="slots-container">
+                <aot-slot repeat.for="slot of slots"
+                          can-admin.bind="isGameMaster"
+                          player.bind="slot"></aot-slot>
+            </div>
+            <div class="game-url-container"
+                 if.bind="me.is_game_master">
+                <h2 class="bright-red-text" t="game.create.invite">Invite</h2>
+                <aot-url-copy url.bind="gameUrl"></aot-url-copy>
+            </div>
+        </div>
     </div>
-
-    <!-- svg background -->
-    <svg id="create-game-bg"
-         class="svg-full-screen-bg"
-         version="1.1"
-         xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         x="0px"
-         y="0px"
-	     width="100%"
-         height="100%"
-         viewBox="0 0 1300 750"
-         preserveAspectRatio="none">
-        <image overflow="visible" width="1300" height="750" xlink:href.bind="assetSource.forBackground('create-game')"  transform="matrix(0.9999 0 0 0.9999 0 0)" />
-        <rect id="create-game-gate-left" x="19.667" y="164.667" fill="none" width="277.333" height="560"/>
-        <rect x="981" y="164.667" fill="none" width="294.667" height="560"/>
-        <rect id="create-game-plate" x="363.667" y="228.667" fill="none" width="522.667" height="496"/>
-    </svg>
-</div>
 </template>

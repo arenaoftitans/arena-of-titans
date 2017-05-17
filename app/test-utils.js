@@ -175,6 +175,9 @@ export class StorageStub {
     retrievePlayerId() {
     }
 
+    clearPlayerId() {
+    }
+
     saveOptions() {
     }
 
@@ -263,6 +266,14 @@ export class EventAggregatorStub {
 }
 
 
+export class BindingEngineStub {
+    propertyObserver(object, property) {
+        this.propertyObserverObj = jasmine.createSpyObj('propertyObserver', ['subscribe']);
+        return this.propertyObserverObj;
+    }
+}
+
+
 export class EventAggregatorSubscriptionsStub {
     constructor() {
         this.ea = new EventAggregatorStub();
@@ -287,6 +298,15 @@ export class EventAggregatorSubscriptionsStub {
 }
 
 
+export class BindingEngineSubscriptionsStub {
+    subscribe(object, property, fn) {
+    }
+
+    dispose() {
+    }
+}
+
+
 export class HistoryStub {
     init() {
     }
@@ -304,5 +324,16 @@ export class OptionsStub {
     }
 
     markInGameOptionSeen() {
+    }
+}
+
+
+export class CssAnimatorStub {
+    addClass() {
+        return new Promise(resolve => resolve());
+    }
+
+    removeClass() {
+        return new Promise(resolve => resolve());
     }
 }

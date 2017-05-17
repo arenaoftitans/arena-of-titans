@@ -18,15 +18,38 @@
  */
 
 import {
+    randomInt,
+    selectRandomElement,
+    BindingEngineSubscriptions,
     Elements,
     EventAggregatorSubscriptions,
     Wait,
 } from '../../../../app/game/services/utils';
 import { browsers } from '../../../../app/services/browser-sniffer';
-import { EventAggregatorStub } from '../../../../app/test-utils';
+import {
+    BindingEngineStub,
+    EventAggregatorStub,
+} from '../../../../app/test-utils';
 
 
 describe('services/utils', () => {
+    describe('selectRandomElement', () => {
+        it('should return undefined for empty array', () => {
+            expect(selectRandomElement([])).toBeUndefined();
+        });
+
+        it('should return an item for a non empty arry', () => {
+            expect(selectRandomElement(['toto'])).toBe('toto');
+        });
+    });
+
+    describe('randomInt', () => {
+        it('should return correct value if min === max', () => {
+            expect(randomInt(0, 0)).toBe(0);
+            expect(randomInt(10, 10)).toBe(10);
+        });
+    });
+
     describe('Elements', () => {
         it('forClass without container', () => {
             spyOn(document, 'getElementById');
@@ -92,6 +115,47 @@ describe('services/utils', () => {
             sut.subscribe('signal', fn);
 
             expect(mockedEa.subscribe).toHaveBeenCalledWith('signal', fn);
+            expect(sut._subscriptions.length).toBe(1);
+        });
+
+        it('should dispose', () => {
+            let subscription = {
+                dispose: jasmine.createSpy('dispose'),
+            };
+            sut._subscriptions = [subscription];
+
+
+            sut.dispose();
+
+            expect(subscription.dispose).toHaveBeenCalled();
+            expect(sut._subscriptions.length).toBe(0);
+        });
+
+        it('should dispose empty', () => {
+            sut.dispose();
+
+            expect(sut._subscriptions.length).toBe(0);
+        });
+    });
+
+    describe('BindingEngineSubscriptions', () => {
+        let mockedBindingEngine;
+        let sut;
+
+        beforeEach(() => {
+            mockedBindingEngine = new BindingEngineStub();
+            sut = new BindingEngineSubscriptions(mockedBindingEngine);
+        });
+
+        it('should subscribe', () => {
+            spyOn(mockedBindingEngine, 'propertyObserver').and.callThrough();
+            let fn = () => {};
+            let object = {};
+
+            sut.subscribe(object, 'property', fn);
+
+            expect(mockedBindingEngine.propertyObserver).toHaveBeenCalledWith(object, 'property');
+            expect(mockedBindingEngine.propertyObserverObj.subscribe).toHaveBeenCalledWith(fn);
             expect(sut._subscriptions.length).toBe(1);
         });
 

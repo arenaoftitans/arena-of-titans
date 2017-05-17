@@ -57,6 +57,7 @@ export default {
             "add": "Ajouter un joueur",
             "create": "Cr\u00e9er le jeu",
             "enter_name": "Entre ton nom\u00a0:",
+            "heroes": "H\u00e9ros",
             "invite": "Invitation",
             "invite_text": "Pour inviter tes amis, donne leur ce lien\u00a0:",
             "others": "Autres joueurs",
@@ -93,12 +94,12 @@ export default {
         }
     },
     "global": {
+        "alias": "Pseudo",
         "back_home": "Page d' Accueil",
         "cancel": "Annuler",
         "cannot_do_action": "Tu ne peux pas faire cette action :",
         "create_new_game": "Nouvelle Partie",
         "edit": "\u00c9diter",
-        "me": "Moi",
         "name": "Nom : {{playerName}}",
         "no": "Non",
         "ok": "OK",
@@ -107,6 +108,24 @@ export default {
         "save": "Sauvegarder",
         "sound_option": "Sons",
         "yes": "Oui"
+    },
+    "heroes": {
+        "araneen": "Ulya fait partie des Yrilles, les chevaucheuses d\u2019\u00e9lite aux ordres de la reine aran\u00e9enne. Accompagn\u00e9e de son Arakoss V\u00e9nisse, Ulya s\u2019est distingu\u00e9e par de nombreux exploits en tournoi et en terrassant un dragon des sables. Les tatouages qui couvrent le corps de l\u2019aran\u00e9enne illustrent ses prouesses au combat. Le duo ne conna\u00eet \u00e0 ce jour aucune d\u00e9faite.",
+        "araneen_power": "\u00ab\u00a0Domination\u00a0\u00bb (passif)\u00a0: Lorsque vous jouez une carte \u00ab\u00a0Dame\u00a0\u00bb vous pouvez vous d\u00e9placer de 3 cases au lieu de 2.",
+        "centaur": "Comme la plupart des Centaures, Garez appr\u00e9cie la boisson, les grillades et les femmes. Lorsqu\u2019il n\u2019est pas occup\u00e9 \u00e0 festoyer, il endosse le r\u00f4le de commandant des arm\u00e9es du seigneur de guerre Rennack. N\u2019appr\u00e9ciant pas particuli\u00e8rement le combat, il \u00e9limine ses ennemis en un temps record. Ceux qui se trouvent sur sa route peuvent s\u2019attendre \u00e0 une mort aussi rapide qu\u2019impr\u00e9visible.",
+        "centaur_power": "\u00ab\u00a0Chevauch\u00e9e Intr\u00e9pide\u00a0\u00bb (passif)\u00a0: Les d\u00e9placements des \u00ab\u00a0Cavaliers\u00a0\u00bb ne peuvent \u00eatre bloqu\u00e9s par aucun effet d\u2019atouts ou de comp\u00e9tence de h\u00e9ros.",
+        "daemon": "Kharliass est un d\u00e9mon de classe majeure connue pour avoir sem\u00e9 la panique dans divers pays du monde des humains et orchestr\u00e9 un certains nombres d\u2019\u00e9meutes particuli\u00e8rement sanglantes durant l\u2019Antiquit\u00e9. Elle plonge ses proies dans un \u00e9tat de confusion totale en rev\u00eatant leur propre apparence juste avant de les tuer.",
+        "daemon_power": "\u00ab M\u00e9tamorphose\u00bb (actif) : Pendant 1 tour vous pouvez prendre l\u2019apparence d\u2019un de vos adversaires. Cette comp\u00e9tence est alors remplac\u00e9e par la comp\u00e9tence h\u00e9ros du joueur s\u00e9lectionn\u00e9 et son co\u00fbt d\u2019utilisation est nul.",
+        "dwarf": "Dj\u00f6r est un b\u00e2tisseur l\u00e9gendaire dont la renomm\u00e9e d\u00e9passe de loin les fronti\u00e8res de Nifelheim, le royaume des nains. On raconte qu\u2019il aurait fait fortune en \u00e9rigeant le ch\u00e2teau du roi Rogn\u00efr et que depuis lors il parcourt les terres du Miroir \u00e0 la recherche d\u2019aventures et de nouveaux d\u00e9fis.",
+        "dwarf_power": "\u00ab Infranchissable \u00bb (passif) : Vos atouts \u00ab Forteresses \u00bb ne peuvent \u00eatre annul\u00e9s par l\u2019effet de l\u2019atout \u00ab B\u00e9lier \u00bb",
+        "elf": "Chasseuse hors paire, Arline est une Elfe issue d\u2019une famille modeste de forgerons. Elle a apprit \u00e0 manier l\u2019arc d\u00e8s son plus jeune \u00e2ge et s\u2019est b\u00e2tie une solide r\u00e9putation d\u2019arch\u00e8re d\u2019\u00e9lite m\u00eame parmi les hautes castes de la soci\u00e9t\u00e9 elfique. Ceux qui l\u2019ont sous-estim\u00e9e ne sont plus en mesure de le regretter.",
+        "elf_power": "\u00ab Brume Nocturne\u00bb (actif) : Lorsque vous d\u00e9clenchez cette comp\u00e9tence, vous disparaissez du plateau de jeu et vos adversaires ne peuvent plus vous cibler pendant 1 tour.",
+        "orc": "Razbrak est le fr\u00e8re cadet du chef du clan Akta-Ross. Expert en maniement des armes, il affectionne en particulier la hache dont il se sert pour d\u00e9capiter ses ennemis. Sous ses airs de brute sauvage et sanguinaire se cache un v\u00e9ritable artiste : il collectionne les cr\u00e2nes de ses victimes afin de les sculpter et d\u2019en faire de magnifiques bougeoirs.",
+        "orc_power": "\u00ab Force de la Nature \u00bb (passif) : Les atouts \u00ab Tour \u00bb ne vous affectent pas.",
+        "reaper": "Consid\u00e9r\u00e9 comme l\u2019un des mages les plus puissants de sa g\u00e9n\u00e9ration, Mir\u00efndrel s\u2019est illustr\u00e9 lors des deux derni\u00e8res grandes guerres contre les d\u00e9mons en d\u00e9ployant des stratag\u00e8mes particuli\u00e8rement ing\u00e9nieux. Il utilise le terrain qui l\u2019entoure pour pi\u00e9ger ses adversaires ou s\u2019offrir un avantage concurrentiel significatif.",
+        "reaper_power": "\u00ab Terraformage \u00bb (actif) : Lorsque cette comp\u00e9tence est activ\u00e9e, vous avez la possibilit\u00e9 de changer la couleur de n\u2019importe quelle case du plateau de jeu. Le changement de couleur est permanent.",
+        "thief": "Luni est une jeune Ombre aux faits d\u2019armes encore inconnus. Elle ma\u00eetrise aussi bien l\u2019art des runes que celui du combat rapproch\u00e9 et son agilit\u00e9 exceptionnelle fait d\u2019elle un adversaire redoutable. Apr\u00e8s avoir obtenu son dipl\u00f4me de la Zefo, elle s\u2019est engag\u00e9e dans la division des renseignements au service du roi des Ombres.",
+        "thief_power": "\u00ab Lame secr\u00e8te \u00bb (actif) : Lorsque cette comp\u00e9tence est activ\u00e9e, vous avez la possibilit\u00e9 de d\u00e9fausser une carte \u00ab Fou \u00bb pour faire reculer l\u2019adversaire de votre choix d\u2019une case de l\u2019une des deux couleurs du \u00ab Fou \u00bb d\u00e9fauss\u00e9."
     },
     "site": {
         "connection_button": "Se connecter",

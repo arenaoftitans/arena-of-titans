@@ -1,21 +1,89 @@
-#copy-invite-link {
-    margin-left: 5px;
-    width: 27px;
-}
+$left-width: 25%;
+$right-width: 25%;
+$door-width: 100% - $left-width - $right-width;
+$door-height: 85vh;
+$door-upper-margin: 100vh - $door-height;
+$door-arch-height: 25vh;
+$door-main-height: $door-height - $door-arch-height;
 
-#copy-invite-link:hover {
-    background-color: grey;
-}
 
-.selected-hero {
-    display: block;
-    margin: auto;
-    max-width: 150px;
-}
+div.create-game-container {
+    background: url('/#{$version}/assets/game/backgrounds/game-creation.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100vh;
 
-.slot-state-chooser {
-    background-color: #623629;
-    color: white;
-    margin: 0;
-    padding: 0;
+    .door {
+        height: $door-height;
+        left: $left-width;
+        margin-top: $door-upper-margin;
+        width: $door-width;
+    }
+
+    .door-arch {
+        height: $door-arch-height - 3vh;
+        padding-top: 3vh;
+    }
+
+    .door-main {
+        height: $door-main-height;
+
+        .bottom-door {
+            margin-top: 8vh;
+        }
+    }
+
+    .heroes-description-container {
+        padding: 3%;
+    }
+
+    .heroes-viewr-container {
+        height: 40vh;
+    }
+
+    .left-wall {
+        height: 100vh;
+        width: $left-width;
+    }
+
+    .right-wall {
+        width: $right-width;
+
+        .game-url-container {
+            margin-top: 25vh;
+        }
+
+        .slots-container {
+            height: 50vh;
+            margin-left: 15%;
+            margin-top: 4vh;
+        }
+    }
+
+    .splash-block {
+        color: white;
+        left: 43%;
+        position: absolute;
+        text-align: center;
+        top: 30vh;
+
+        .message {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 72px;
+            line-height: 72px;
+            text-shadow: rgba(0, 0, 0, 0.5) 0 0 15px;
+            text-transform: uppercase;
+        }
+
+        .fa-spinner {
+            display: inline-block;
+            font-size: 72px;
+            margin-top: 50px;
+            text-align: center;
+        }
+    }
+
+    .wall-part {
+        float: left;
+    }
 }

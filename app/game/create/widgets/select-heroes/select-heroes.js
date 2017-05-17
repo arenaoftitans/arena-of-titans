@@ -17,22 +17,22 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { bindable } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
+import { CssAnimator } from 'aurelia-animator-css';
 import { Game } from '../../../game';
 import { AssetSource } from '../../../../services/assets';
-import { Wait } from '../../../services/utils';
-import { browsers } from '../../../../services/browser-sniffer';
 
 
+@inject(CssAnimator)
 export class AotSelectHeroesCustomElement {
-    @bindable done = null;
-    @bindable data = null;
+    @bindable selectedHero = null;
+    // Referenced in the template.
+    heroImage;
 
-    constructor() {
+    constructor(animator) {
+        this._animator = animator;
+
         this.assetSource = AssetSource;
-        this.currentHeroIndex = 0;
-        this.direction = null;
-
         this.heroes = [];
         for (let hero of Game.heroes) {
             this.heroes.push({
@@ -53,147 +53,73 @@ export class AotSelectHeroesCustomElement {
     }
 
     bind() {
-        if (this.data !== null && this.data.hero) {
-            this.currentHeroIndex = Game.heroes.indexOf(this.data.hero);
-        } else if (this.data !== null) {
-            this.data.hero = this.currentHero.name;
-        }
+        this._updateDisplayedHeroFromSelected();
 
-        let waitForCarousel = Wait.forId('heroes-carousel');
+        // Listen to keyup event to change hero with keyboard.
+        this._keyupEventListener = event => {
+            // code doesn't exist on IE, we need to use key.
+            let keyCode = event.code || event.key;
 
-        waitForCarousel.then(heroesCarousel => {
-            this.heroesCarousel = heroesCarousel;
-            this.setHeroImage(
-                this.heroesCarousel.children[0],
-                this.currentHero.previous.previous.name);
-            this.setHeroImage(this.heroesCarousel.children[1], this.currentHero.previous.name);
-            this.setHeroImage(this.heroesCarousel.children[2], this.currentHero.name);
-            this.setHeroImage(this.heroesCarousel.children[3], this.currentHero.next.name);
-            this.setHeroImage(this.heroesCarousel.children[4], this.currentHero.next.next.name);
-        });
-
-        let waitForSelectForm = Wait.forId('select-heroes-form');
-        let waitForPlate = Wait.forId('select-heroes-plate');
-        let waitForBg = Wait.forId('select-heroes-bg');
-        let waitAll = Promise.all([waitForSelectForm, waitForPlate, waitForBg]);
-        let resize = () => {
-            waitAll.then(elts => this.resize(elts, 2));
+            // The player must validate the game over popup
+            if (keyCode === 'ArrowRight') {
+                this.viewNextHero();
+            } else if (keyCode === 'ArrowLeft') {
+                this.viewPreviousHero();
+            }
         };
-        addEventListener('resize', resize);
-        resize();
+        window.addEventListener('keyup', this._keyupEventListener);
     }
 
-    resize(elts, iter) {
-        let selectForm = elts[0];
-        let saveDiv = selectForm.getElementsByTagName('div')[1];
-        let selectedHero = selectForm.getElementsByClassName('main-pos')[0];
-        let arrows = browsers.htmlCollection2Array(selectForm.getElementsByClassName('arrow'));
-        let plate = elts[1];
-        let plateBoundingClientRect = plate.getBoundingClientRect();
-        let bg = elts[2];
-
-        if (selectedHero.naturalWidth === 0) {
-            setTimeout(() => this.resize(elts, iter), 500);
-            return;
-        }
-
-        // On some screen, if we attempt to center the caroussel, we go outside the plate.
-        let centerInPlateValue = plateBoundingClientRect.top +
-                plateBoundingClientRect.height / 2 -
-                selectForm.getBoundingClientRect().height / 2;
-        selectForm.style.top = Math.max(centerInPlateValue, plateBoundingClientRect.top + 10) +
-                'px';
-        selectForm.style.left = plate.getBoundingClientRect().left + 'px';
-        selectForm.style.width = plate.getBoundingClientRect().width + 'px';
-
-        let heightDiff = saveDiv.getBoundingClientRect().bottom -
-                bg.getBoundingClientRect().bottom;
-        if (heightDiff > 0) {
-            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
-        } else {
-            bg.style.height = '';
-        }
-
-        for (let arrow of arrows) {
-            arrow.style.height = selectedHero.getBoundingClientRect().height + 'px';
-        }
-
-        if (iter > 0) {
-            setTimeout(() => {
-                iter--;
-                this.resize(elts, iter);
-            }, 6);
-        }
-    }
-
-    setHeroImage(element, name) {
-        element.src = AssetSource.forHero(name);
-        element.alt = name;
-    }
-
-    updateHeroesDisplay() {
-        if (this.data !== null) {
-            this.data.hero = this.currentHero.name;
-        }
-
-        if (this.direction === 'left') {
-            this.heroesCarousel.children[0].className = 'hero-img left-pos';
-            this.heroesCarousel.children[1].className = 'hero-img main-pos';
-            this.heroesCarousel.children[2].className = 'hero-img right-pos';
-            this.heroesCarousel.children[3].className = 'hero-img hidden';
-            let newImage = document.createElement('img');
-            this.setHeroImage(newImage, this.currentHero.previous.previous.name);
-            newImage.className = 'hero-img hidden';
-            this.heroesCarousel.removeChild(this.heroesCarousel.children[4]);
-            this.heroesCarousel.insertBefore(newImage, this.heroesCarousel.children[0]);
-        } else if (this.direction === 'right') {
-            this.heroesCarousel.children[1].className = 'hero-img hidden';
-            this.heroesCarousel.children[2].className = 'hero-img left-pos';
-            this.heroesCarousel.children[3].className = 'hero-img main-pos';
-            this.heroesCarousel.children[4].className = 'hero-img right-pos';
-            let newImage = document.createElement('img');
-            this.setHeroImage(newImage, this.currentHero.next.next.name);
-            newImage.className = 'hero-img hidden';
-            this.heroesCarousel.appendChild(newImage);
-            this.heroesCarousel.removeChild(this.heroesCarousel.children[0]);
+    /**
+     * Update the _displayedHero property used to navigate between heroes from the selectedHero
+     * property.
+     *
+     * This must be done on component initialization and each time the selectedHero property is
+     * changed outside this component so the navigation is correct.
+     */
+    _updateDisplayedHeroFromSelected() {
+        for (let hero of this.heroes) {
+            if (hero.name === this.selectedHero) {
+                this._displayedHero = hero;
+                break;
+            }
         }
     }
 
     viewNextHero() {
-        this.direction = 'right';
-        if (this.hasNextHero) {
-            this.currentHeroIndex++;
-        } else {
-            this.currentHeroIndex = 0;
-        }
-
-        this.updateHeroesDisplay();
+        this._displayedHero = this._displayedHero.next;
+        this.selectedHero = this._displayedHero.name;
     }
 
-    get hasNextHero() {
-        return this.currentHeroIndex < this.heroes.length - 1;
+    /**
+     * When we change the hero, we use the animator to add the .change-hero class to animate the
+     * transition between hero images. We reduce the opacity of the image, change the image and
+     * increase the opacity agin. This is done with the aurelia-animator-css plugin. According
+     * to the documentation of the plugin, the heroImage element will have the following classes
+     * (each class is removed before the next one is added):
+     * - the .change-hero-add class to animate the addition of the class, we must fade out to
+     *   change the image of the hero.
+     * - the .change-hero class when we change the image.
+     * - the .change-hero-remove class to animate the removal of the class, we must fade in to
+     *   display the image of the new hero.
+     */
+    _animateHero() {
+        return this._animator.addClass(this.heroImage, 'change-hero').then(() => {
+            return this._animator.removeClass(this.heroImage, 'change-hero');
+        });
     }
 
     viewPreviousHero() {
-        this.direction = 'left';
-        if (this.hasPreviousHero) {
-            this.currentHeroIndex--;
-        } else {
-            this.currentHeroIndex = this.heroes.length - 1;
-        }
-
-        this.updateHeroesDisplay();
+        this._displayedHero = this._displayedHero.previous;
+        this.selectedHero = this._displayedHero.name;
     }
 
-    get hasPreviousHero() {
-        return this.currentHeroIndex > 0;
+    selectedHeroChanged() {
+        this._animateHero();
+        this._updateDisplayedHeroFromSelected();
     }
 
-    get currentHero() {
-        return this.heroes[this.currentHeroIndex];
-    }
-
-    save() {
-        this.done(this.data);
+    unbind() {
+        window.removeEventListener('keyup', this._keyupEventListener);
     }
 }

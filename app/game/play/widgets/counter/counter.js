@@ -167,7 +167,7 @@ export class AotCounterCustomElement {
                 this.countDownClock();
             }
 
-            if (this.timeLeft <= 0 && !this._config.test.debug) {
+            if (this.timeLeft <= 0) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
                 this._api.pass();
@@ -264,7 +264,7 @@ export class AotCounterCustomElement {
         this.timerIntervalForSpecialAction = setInterval(() => {
             this.countDownClockForSpecialAction();
 
-            if (this.timeLeftForSpecialAction <= 0 && !this._config.test.debug) {
+            if (this.timeLeftForSpecialAction <= 0) {
                 clearInterval(this.timerIntervalForSpecialAction);
                 this._api.cancelSpecialAction(this.specialActionName);
             }

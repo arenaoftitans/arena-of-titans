@@ -21,8 +21,7 @@ import { Create } from '../../../../app/game/create/create';
 import { Wait } from '../../../../app/game/services/utils';
 import {
     ApiStub,
-    ObserverLocatorStub,
-    ObserverLocatorStubResults,
+    BindingEngineSubscriptionsStub,
     RouterStub,
     StorageStub,
     HistoryStub,
@@ -35,7 +34,7 @@ describe('game/create', () => {
     let sut;
     let mockedRouter;
     let mockedApi;
-    let mockedobserverLocator;
+    let mockedBes;
     let mockedStorage;
     let mockedConfig;
     let mockedHistory;
@@ -46,167 +45,128 @@ describe('game/create', () => {
         mockedRouter = new RouterStub();
         mockedApi = new ApiStub();
         mockedStorage = new StorageStub();
-        mockedobserverLocator = new ObserverLocatorStub();
+        mockedBes = new BindingEngineSubscriptionsStub();
         mockedHistory = new HistoryStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
         mockedEa = new EventAggregatorStub();
-        mockedConfig = {
-            test: {
-                debug: false,
-            },
-        };
+        mockedConfig = {};
         sut = new Create(
             mockedRouter,
             mockedApi,
             mockedStorage,
             mockedConfig,
-            mockedobserverLocator,
+            mockedBes,
             mockedHistory,
             mockedEa,
             mockedEas
         );
     });
 
-    it('should register api callbacks on activation', () => {
+    it('should activate', () => {
         spyOn(mockedEas, 'subscribe');
         spyOn(mockedEa, 'subscribe');
+        spyOn(sut, 'init');
+        spyOn(sut, '_joinGame');
 
-        sut.activate();
+        sut.activate({id: 'game_id'});
 
+        expect(sut.gameId).toBe('game_id');
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(mockedEas.subscribe).toHaveBeenCalled();
+        expect(sut.init).toHaveBeenCalled();
+        expect(sut.gameId).toBe('game_id');
+        expect(sut._joinGame).toHaveBeenCalled();
     });
 
     it('should deregister api callbacks on deactivation', () => {
         spyOn(mockedEas, 'dispose');
-        spyOn(sut, '_unregisterMyNameObserver');
+        spyOn(mockedBes, 'dispose');
 
         sut.deactivate();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
-        expect(sut._unregisterMyNameObserver).toHaveBeenCalled();
+        expect(mockedBes.dispose).toHaveBeenCalled();
     });
 
     it('should reset with init method', () => {
-        let observerLocatorStubResults = new ObserverLocatorStubResults();
-        spyOn(sut, 'initPlayerInfoDefered');
         spyOn(sut, '_registerEvents');
         spyOn(mockedApi, 'init');
         spyOn(Wait, 'flushCache');
-        spyOn(mockedobserverLocator, 'getObserver').and.returnValue(observerLocatorStubResults);
-        spyOn(observerLocatorStubResults, 'subscribe');
+        spyOn(sut, 'initPlayerInfos');
         spyOn(mockedHistory, 'init');
-        spyOn(sut, '_unregisterMyNameObserver');
+        spyOn(mockedBes, 'subscribe');
 
         sut.init({id: 'game_id'});
 
-        expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
         expect(sut._registerEvents).toHaveBeenCalled();
         expect(mockedApi.init).toHaveBeenCalled();
         expect(Wait.flushCache).toHaveBeenCalled();
-        expect(mockedobserverLocator.getObserver).toHaveBeenCalledWith({}, 'name');
-        expect(observerLocatorStubResults.subscribe).toHaveBeenCalled();
-        expect(sut._unregisterMyNameObserver).toHaveBeenCalled();
         expect(mockedHistory.init).toHaveBeenCalled();
+        expect(sut.initPlayerInfos);
+        expect(mockedBes.subscribe)
+            .toHaveBeenCalledWith(sut.playerInfos, 'name', jasmine.any(Function));
+        expect(mockedBes.subscribe)
+            .toHaveBeenCalledWith(sut.playerInfos, 'hero', jasmine.any(Function));
     });
 
-    it('should not ask for the name if it knows the player name', () => {
-        spyOn(mockedApi, 'initializeGame');
-        spyOn(sut, '_joinGame');
+    it('should initialize player infos', () => {
+        spyOn(mockedStorage, 'loadPlayerInfos').and.returnValue({});
 
-        mockedApi._me = {
-            name: 'Player 1',
-        };
-        sut.activate({id: 'game_id'});
-        sut.playerInfoDefered.resolve();
-
-        return sut.playerInfoDefered.promise.then(() => {
-            expect(mockedApi.initializeGame).not.toHaveBeenCalled();
-        }, () => fail('Unwanted code branch'));
-    });
-
-    it('should ask the player name when joining a game', () => {
-        spyOn(mockedApi, 'joinGame');
-        spyOn(mockedStorage, 'loadPlayerInfos');
-        spyOn(mockedStorage, 'savePlayerInfos');
-        spyOn(mockedStorage, 'retrievePlayerId');
-
-        sut.activate({id: 'game_id'});
-        sut.playerInfoDefered.resolve({
-            name: 'Tester',
-            hero: 'daemon',
-        });
+        sut.initPlayerInfos();
 
         expect(mockedStorage.loadPlayerInfos).toHaveBeenCalled();
-        expect(mockedStorage.retrievePlayerId).toHaveBeenCalled();
-        return sut.playerInfoDefered.promise.then(() => {
-            expect(mockedApi.joinGame).toHaveBeenCalledWith({
-                gameId: 'game_id',
-                name: 'Tester',
-                hero: 'daemon',
-            });
+        expect(sut.playerInfos.name.length).toBeGreaterThan(0);
+        expect(sut.playerInfos.hero.length).toBeGreaterThan(0);
+    });
+
+    it('should clear player id when reconnecting to the game and the slot was freed', () => {
+        let joinGame = new Promise((resolve, reject) => reject(new Error()));
+        spyOn(mockedApi, 'joinGame').and.returnValue(joinGame);
+        // Since we have a nested call to _joinGame, we need to use a state of the storage to
+        // avoid an infinite recursion.
+        let storageCleared = false;
+        spyOn(mockedStorage, 'retrievePlayerId').and.callFake(() => {
+            if (!storageCleared) {
+                return 'player_id';
+            }
+
+            return null;
+        });
+        spyOn(mockedStorage, 'clearPlayerId').and.callFake(() => {
+            storageCleared = true;
+        });
+        spyOn(sut._logger, 'warn');
+        sut.gameId = 'game_id';
+
+        return sut._joinGame().then(() => {
+            expect(mockedApi.joinGame)
+                .toHaveBeenCalledWith({gameId: 'game_id', playerId: 'player_id'});
+            expect(sut._logger.warn).toHaveBeenCalledWith('Failed to join the game');
+            expect(mockedStorage.clearPlayerId).toHaveBeenCalledWith('game_id');
         }, () => fail('Unwanted code branch'));
     });
 
-    it('should ask the player name when reconnecting to a freed slot', () => {
-        spyOn(sut, '_askName');
+    it('should join the game from an id', () => {
         spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
+        spyOn(mockedApi, 'joinGame').and.returnValue(new Promise(resolve => resolve()));
+        sut.playerInfos = {};
+        sut.gameId = 'game_id';
 
-        sut.activate({id: 'game_id'});
-        mockedApi._reconnectDefered.reject(new Error());
-
-        return mockedApi._reconnectDefered.promise.then(
-            () => fail('Unwanted code branch'),
-            () => {
-                expect(sut._askName).toHaveBeenCalledWith('game_id');
-            });
-    });
-
-    it('should join the game from a cookie', () => {
-        spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
-        spyOn(sut, '_askName');
-        spyOn(mockedApi, 'joinGame').and.returnValue(new Promise(resolve => {}));
-
-        sut.activate({id: 'game_id'});
-
-        expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
-        expect(sut._askName).not.toHaveBeenCalled();
-        expect(mockedApi.joinGame).toHaveBeenCalledWith({
-            gameId: 'game_id',
-            playerId: 'player_id',
-        });
+        return sut._joinGame().then(() => {
+            expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
+            expect(mockedApi.joinGame)
+                .toHaveBeenCalledWith({gameId: 'game_id', playerId: 'player_id'});
+        }, () => fail('Unwanted code branch'));
     });
 
     it('should navigate to initialize the game if no id param', () => {
         spyOn(mockedApi, 'initializeGame');
-        let data = {
-            name: 'Tester',
-            hero: 'daemon',
-        };
 
         sut.activate();
-        sut.playerInfoDefered.resolve(data);
 
-        return sut.playerInfoDefered.promise.then(() => {
-            expect(mockedApi.initializeGame).toHaveBeenCalledWith('Tester', 'daemon');
-        }, () => fail('Unwanted code branch'));
-    });
-
-    it('should edit name', () => {
-        spyOn(mockedApi, 'updateMe');
-        spyOn(sut, 'initPlayerInfoDefered').and.callThrough();
-        let data = {
-            name: 'Tester',
-            hero: 'daemon',
-        };
-
-        sut.editMe();
-        sut.playerInfoDefered.resolve(data);
-
-        expect(sut.initPlayerInfoDefered).toHaveBeenCalled();
-        return sut.playerInfoDefered.promise.then(() => {
-            expect(mockedApi.updateMe).toHaveBeenCalledWith('Tester', 'daemon');
-        }, () => fail('Unwanted code branch'));
+        expect(mockedApi.initializeGame)
+            .toHaveBeenCalledWith(jasmine.any(String), jasmine.any(String));
+        expect(sut.gameId).toBeUndefined();
     });
 
     it('should navigate to {version}/create/{id} after game initialization', () => {
@@ -227,9 +187,6 @@ describe('game/create', () => {
 
     it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {  // eslint-disable-line
         mockedConfig = {
-            test: {
-                debug: false,
-            },
             version: 42,
         };
         sut = new Create(
@@ -237,7 +194,7 @@ describe('game/create', () => {
             mockedApi,
             mockedStorage,
             mockedConfig,
-            mockedobserverLocator,
+            mockedBes,
             mockedHistory,
             mockedEa,
             mockedEas
@@ -322,6 +279,7 @@ describe('game/create', () => {
 
     it('should navigate to play/{id} after the game creation', () => {
         spyOn(mockedRouter, 'navigateToRoute');
+        sut.creating = true;
 
         sut.activate({id: 'the_game_id'});
         mockedEas.publish('aot:api:create_game');
@@ -333,14 +291,6 @@ describe('game/create', () => {
                 version: 'latest',
             }
         );
-    });
-
-    it('should create debug game when config.test.debug is true', () => {
-        spyOn(mockedApi, 'createGameDebug');
-        mockedConfig.test.debug = true;
-
-        sut.activate();
-
-        expect(mockedApi.createGameDebug).toHaveBeenCalled();
+        expect(sut.gameId).toBe('the_game_id');
     });
 });

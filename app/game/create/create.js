@@ -17,17 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, ObserverLocator } from 'aurelia-framework';
+import * as LogManager from 'aurelia-logging';
+import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 import { Game } from '../game';
 import { Api } from '../services/api';
+import {
+    BindingEngineSubscriptions,
+    EventAggregatorSubscriptions,
+    Wait,
+    randomInt,
+    selectRandomElement,
+} from '../services/utils';
 import { AssetSource } from '../../services/assets';
-import { Wait, randomInt, EventAggregatorSubscriptions } from '../services/utils';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import Config from '../../services/configuration';
-import Clipboard from 'clipboard';
+import DEFAULT_NAMES from './default-names';
 
 
 @inject(
@@ -35,34 +42,33 @@ import Clipboard from 'clipboard';
     Api,
     Storage,
     Config,
-    ObserverLocator,
+    BindingEngineSubscriptions,
     History,
     EventAggregator,
     EventAggregatorSubscriptions
 )
 export class Create {
-    CHOOSABLE_SLOTS_STATES = ['OPEN', 'AI', 'CLOSED']
-
     _router;
     _api;
-    _initGameCb;
-    _gameInitializedCb;
     _gameUrl = '';
     _config;
-    _observerLocator;
-    _myNameObserverCb;
+    _bes;
+    _playerInfosChanged;
     _history;
 
-    constructor(router, api, storage, config, observerLocator, history, ea, eas) {
+    constructor(router, api, storage, config, bindingEngineSubscription, history, ea, eas) {
         this._router = router;
         this._api = api;
         this._storage = storage;
         this._config = config;
-        this._observerLocator = observerLocator;
+        this._bes = bindingEngineSubscription;
         this._history = history;
         this._ea = ea;
         this._eas = eas;
         this.assetSource = AssetSource;
+        this._logger = LogManager.getLogger('aot:create');
+
+        this.initPlayerInfos();
 
         // We preload the board: it is big and can take a while to load on bad connections. So if
         // a player reaches the create game page, we consider he/she will play. So it makes sense
@@ -75,18 +81,17 @@ export class Create {
         this._gameUrl = window.location.href;
         this.init(params);
 
-        if (this._config.test.debug) {
-            if (!params.id) {
-                this._api.createGameDebug();
-            } else {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
-            }
-        } else if (!params.id) {
-            this.playerInfoDefered.promise.then(data => {
-                this._api.initializeGame(data.name, data.hero);
-            });
+        if (!params.id) {
+            this.creating = true;
+            this._api.initializeGame(this.playerInfos.name, this.playerInfos.hero);
+        } else if (this.creating) {
+            // We just created the game, no need to send a joinGame request.
+            // However, we need to save the game id.
+            this.gameId = params.id;
+            this.creating = false;
         } else {
-            this._joinGame(params.id);
+            this.gameId = params.id;
+            this._joinGame();
         }
     }
 
@@ -106,55 +111,44 @@ export class Create {
         }
 
         Wait.flushCache();
-        this.initPlayerInfoDefered();
-        this.playerInfo = this._storage.loadPlayerInfos();
-        this.editing = false;
         this._registerEvents(params);
-
-        // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
-        // a constructor' warnings when launching tests with Firefox.
-        Wait.forId('copy-invite-link').then(() => {
-            new Clipboard('#copy-invite-link'); // eslint-disable-line
-        }).catch(() => {});
-
-        this._unregisterMyNameObserver();
-        this._myNameObserverCb = () => {
-            if (!!!this.me.name) {
-                return;
-            }
-
-            let waitForPlate = Wait.forId('create-game-plate');
-            let waitForMe = Wait.forId('create-game-me');
-            let waitForGateLeft = Wait.forId('create-game-gate-left');
-            let waitForSlots = Wait.forId('create-game-slots');
-            let waitForBg = Wait.forId('create-game-bg');
-            let waitAll = Promise.all(
-                    [waitForPlate, waitForMe, waitForGateLeft, waitForSlots, waitForBg]);
-
-            waitAll.then(elts => this.resize(elts));
-            addEventListener('resize', () => {
-                waitAll.then(elts => this.resize(elts));
-            });
-        };
-
-        this._observerLocator.getObserver(this._api.me, 'name')
-            .subscribe(this._myNameObserverCb);
+        this._registerObservers();
     }
 
-    _unregisterMyNameObserver() {
-        if (this._myNameObserverCb) {
-            this._observerLocator.getObserver(this._api.me, 'name')
-                .unsubscribe(this._myNameObserverCb);
-            this._myNameObserverCb = null;
+    initPlayerInfos() {
+        this.playerInfos = this._storage.loadPlayerInfos();
+        if (!this.playerInfos.name) {
+            this.playerInfos.name = selectRandomElement(DEFAULT_NAMES);
+        }
+        if (!this.playerInfos.hero) {
+            this.playerInfos.hero = selectRandomElement(Game.heroes);
+        }
+        this.selectedHero = this.playerInfos.hero;
+        this._playerInfosChanged();
+    }
+
+    _playerInfosChanged() {
+        this._storage.savePlayerInfos(this.playerInfos);
+
+        if (this.gameId && this.playerInfos.name && this.playerInfos.hero) {
+            this._api.updateMe(this.playerInfos.name, this.playerInfos.hero);
         }
     }
 
-    initPlayerInfoDefered() {
-        this.playerInfoDefered = {};
-        this.playerInfoDefered.promise = new Promise((resolve, reject) => {
-            this.playerInfoDefered.resolve = resolve;
-        });
-        this.playerInfoDefered.promise.then(data => this._storage.savePlayerInfos(data));
+    _disposeObservers() {
+        this._bes.dispose();
+    }
+
+    _registerObservers() {
+        let cb = () => {
+            this._playerInfosChanged();
+        };
+        this._bes.subscribe(this.playerInfos, 'name', cb);
+        this._bes.subscribe(this.playerInfos, 'hero', cb);
+        let selectedHeroChanged = () => {
+            this.playerInfos.hero = this.selectedHero;
+        };
+        this._bes.subscribe(this, 'selectedHero', selectedHeroChanged);
     }
 
     _registerEvents(params) {
@@ -186,72 +180,30 @@ export class Create {
     _autoAddAi() {
         // auto set the 2nd slot to an AI so the player can start the game immediatly.
         let openedSlots = this.slots.filter(slot => slot.state === 'OPEN');
-        if (!this._config.test.debug && this.me.is_game_master && openedSlots.length === 7) {
+        if (this.me.is_game_master && openedSlots.length === 7) {
             let slot = this.slots[1];
             slot.state = 'AI';
             this.updateSlot(slot);
         }
     }
 
-    resize(elts) {
-        let plate = elts[0];
-        let plateBoundingClientRect = plate.getBoundingClientRect();
-        let me = elts[1];
-        let name = me.getElementsByTagName('p')[0];
-        let shareLink = me.getElementsByTagName('div')[0];
-        let gateLeft = elts[2];
-        let gateLeftBoundingClientRect = gateLeft.getBoundingClientRect();
-        let slots = elts[3];
-        let bg = elts[4];
-
-        let plateWidth = plateBoundingClientRect.width + 'px';
-        name.style.maxWidth = plateWidth;
-        // Share link is only present for the game master.
-        if (shareLink) {
-            shareLink.style.maxWidth = plateWidth;
-        }
-
-        me.style.top = plateBoundingClientRect.top + 25 + 'px';
-        me.style.left = plateBoundingClientRect.left +
-            plateBoundingClientRect.width / 2 -
-            me.getBoundingClientRect().width / 2 +
-            'px';
-
-        let gateLeftWidth = gateLeftBoundingClientRect.width + 'px';
-        slots.style.top = gateLeftBoundingClientRect.top + 'px';
-        slots.style.maxWidth = gateLeftWidth;
-        slots.style.left = gateLeftBoundingClientRect.left +
-            gateLeftBoundingClientRect.width / 2 -
-            slots.getBoundingClientRect().width / 2 +
-            'px';
-
-        let heightDiff = me.getBoundingClientRect().bottom - bg.getBoundingClientRect().bottom;
-        if (heightDiff > 0) {
-            bg.style.height = bg.getBoundingClientRect().height + heightDiff + 'px';
-        } else {
-            bg.style.height = undefined;
-        }
-    }
-
-    _joinGame(gameId) {
-        let playerId = this._storage.retrievePlayerId(gameId);
-        if (playerId) {
-            this._api.joinGame({gameId: gameId, playerId: playerId}).then(() => {
-                this.playerInfo.name = this.me.name;
-                this.playerInfo.hero = this.me.hero;
-            }, () => this._askName(gameId));
-        } else {
-            this._askName(gameId);
-        }
-    }
-
-    _askName(gameId) {
-        this.playerInfoDefered.promise.then(data => {
-            this._api.joinGame({
-                gameId: gameId,
-                name: data.name,
-                hero: data.hero,
+    _joinGame() {
+        this.playerId = this._storage.retrievePlayerId(this.gameId);
+        if (this.playerId) {
+            return this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
+                this.playerInfos.name = this.me.name;
+                this.playerInfos.hero = this.me.hero;
+            }, () => {
+                this._logger.warn('Failed to join the game');
+                this._storage.clearPlayerId(this.gameId);
+                this._joinGame();
             });
+        }
+
+        return this._api.joinGame({
+            gameId: this.gameId,
+            name: this.playerInfos.name,
+            hero: this.playerInfos.hero,
         });
     }
 
@@ -263,26 +215,21 @@ export class Create {
         this._api.updateSlot(slot);
     }
 
-    editMe() {
-        this.initPlayerInfoDefered();
-        this.editing = true;
-        this.playerInfoDefered.promise.then(data => {
-            this.editing = false;
-            this._api.updateMe(data.name, data.hero);
-        });
-    }
-
     createGame() {
         this._api.createGame();
     }
 
     deactivate() {
         this._eas.dispose();
-        this._unregisterMyNameObserver();
+        this._disposeObservers();
     }
 
     get me() {
         return this._api.me;
+    }
+
+    get isGameMaster() {
+        return this.me.is_game_master;
     }
 
     get slots() {
@@ -314,9 +261,5 @@ export class Create {
         }
 
         return false;
-    }
-
-    get hasHero() {
-        return this.me.hero !== undefined;
     }
 }

@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject, transient } from 'aurelia-framework';
+import { inject, transient, BindingEngine } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { browsers } from '../../services/browser-sniffer';
 
@@ -30,6 +30,23 @@ import { browsers } from '../../services/browser-sniffer';
  */
 export function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+/**
+ * Choose and return a random element from the array. If the array is empty, it
+ * returns undefined.
+ *
+ * @param {Array} array - The array in which to choose the element.
+ * @returns {Object|undefined}
+ */
+export function selectRandomElement(array) {
+    if (array.length === 0) {
+        return undefined;
+    }
+
+    let index = randomInt(0, array.length - 1);
+    return array[index];
 }
 
 
@@ -194,5 +211,34 @@ export class EventAggregatorSubscriptions {
 
     publish(signal, message) {
         this._ea.publish(signal, message);
+    }
+}
+
+
+/**
+ * Utility object to manage (ie subscribe and dispose) group of BindingEngine subscriptions.
+ * You need to inject a new instance each time you use it. Otherwise all the subscriptions will
+ * be disposed of! To acheive this, we use the transient decorator so each item it is injected,
+ * a new instance is created.
+ */
+@transient()
+@inject(BindingEngine)
+export class BindingEngineSubscriptions {
+    constructor(bindingEngine) {
+        this._bindingEngine = bindingEngine;
+        this._subscriptions = [];
+    }
+
+    subscribe(object, property, fn) {
+        let subscription = this._bindingEngine.propertyObserver(object, property)
+            .subscribe(fn);
+        this._subscriptions.push(subscription);
+    }
+
+    dispose() {
+        while (this._subscriptions.length > 0) {
+            let subscription = this._subscriptions.shift();
+            subscription.dispose();
+        }
     }
 }

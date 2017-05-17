@@ -15,6 +15,7 @@
     "stylelint": "node scripts/stylelint.js",
     "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
     "translate": "python3 scripts/translate.py",
+    "default-names": "python3 scripts/default-names.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
   },
   "repository": {
@@ -23,6 +24,7 @@
   },
   "main": "gulpfile.js",
   "dependencies": {
+    "aurelia-animator-css": "1.0.2",
     "aurelia-binding": "1.2.1",
     "aurelia-bootstrapper": "2.1.1",
     "aurelia-dependency-injection": "1.3.1",
