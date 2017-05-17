@@ -29,7 +29,7 @@ export class Popover {
 
         this.type = null;
         this._popovers = [];
-        this._displayedPopoverDefered = null;
+        this._displayed = false;
 
         this._popoverReadyDefered = {};
         this._popoverReadyDefered.promise = new Promise(resolve => {
@@ -37,6 +37,10 @@ export class Popover {
         });
         this._eas.subscribe('aot:popover:ready', () => {
             this._popoverReadyDefered.resolve();
+        });
+        this._eas.subscribe('aot:popover:hidden', () => {
+            this._displayed = false;
+            this._displayNext();
         });
     }
 
@@ -59,18 +63,10 @@ export class Popover {
     }
 
     _displayNext() {
-        if (this._displayedPopoverDefered === null && this._popovers.length > 0) {
+        if (!this._displayed && this._popovers.length > 0) {
             let popover = this._popovers.shift();
-
-            this._displayedPopoverDefered = popover.defered;
-
             this._eas.publish('aot:popover:display', popover);
-        } else if (this._displayedPopoverDefered !== null) {
-            let cb = () => {
-                this._displayedPopoverDefered = null;
-                this._displayNext();
-            };
-            this._displayedPopoverDefered.promise.then(cb, cb);
+            this._displayed = true;
         }
     }
 }
@@ -91,7 +87,9 @@ export class AotPopoverCustomElement {
             this._display();
 
             let cb = () => this._hide();
-            message.defered.promise.then(cb, cb);
+            let emitHidden = () => this._eas.publish('aot:popover:hidden');
+            message.defered.promise.then(cb, cb)
+                .then(emitHidden, emitHidden);
         });
     }
 

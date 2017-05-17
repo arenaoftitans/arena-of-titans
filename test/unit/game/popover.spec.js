@@ -19,24 +19,27 @@
 
 import { Popover } from '../../../app/game/widgets/popover/popover';
 import {
+    CssAnimatorStub,
     EventAggregatorSubscriptionsStub,
 } from '../../../app/test-utils';
 
 
 describe('Popover', () => {
     describe('service', () => {
+        let mockedAnimator;
         let mockedEas;
         let sut;
 
         beforeEach(() => {
+            mockedAnimator = new CssAnimatorStub();
             mockedEas = new EventAggregatorSubscriptionsStub();
-            sut = new Popover(mockedEas);
+            sut = new Popover(mockedEas, mockedAnimator);
         });
 
         it('should initalize correctly', () => {
             expect(sut.type).toBeNull();
             expect(sut._popovers).toEqual([]);
-            expect(sut._popoverReadyDefered.promise).toEqual(jasmine.any(Promise));
+            expect(sut._displayed).toBe(false);
         });
 
         describe('display', () => {
@@ -81,42 +84,13 @@ describe('Popover', () => {
                 expect(mockedEas.publish).not.toHaveBeenCalled();
             });
 
-            it('should clean displayed defered on resolve', () => {
-                sut._displayedPopoverDefered = {};
-                sut._displayedPopoverDefered.promise = new Promise((resolve, reject) => {
-                    sut._displayedPopoverDefered.resolve = resolve;
-                    sut._displayedPopoverDefered.reject = reject;
-                });
-                let resolve = sut._displayedPopoverDefered.resolve;
-                spyOn(sut._displayedPopoverDefered.promise, 'then').and.callThrough();
+            it('should clean displayed defered on hide', () => {
+                spyOn(sut, '_displayNext');
 
-                sut._displayNext();
+                mockedEas.publish('aot:popover:hidden');
 
-                expect(sut._displayedPopoverDefered.promise.then).toHaveBeenCalled();
-                resolve();
-                return sut._displayedPopoverDefered.promise.then(() => {
-                    expect(sut._displayedPopoverDefered).toBeNull();
-                }, () => fail('Unwanted code branch'));
-            });
-
-            it('should clean displayed defered on reject', () => {
-                sut._displayedPopoverDefered = {};
-                sut._displayedPopoverDefered.promise = new Promise((resolve, reject) => {
-                    sut._displayedPopoverDefered.resolve = resolve;
-                    sut._displayedPopoverDefered.reject = reject;
-                });
-                let reject = sut._displayedPopoverDefered.reject;
-                spyOn(sut._displayedPopoverDefered.promise, 'then').and.callThrough();
-
-                sut._displayNext();
-
-                expect(sut._displayedPopoverDefered.promise.then).toHaveBeenCalled();
-                reject(new Error());
-                return sut._displayedPopoverDefered.promise.then(
-                    () => fail('Unwanted code branch'),
-                    () => {
-                        expect(sut._displayedPopoverDefered).toBeNull();
-                    });
+                expect(sut._displayNext).toHaveBeenCalled();
+                expect(sut._displayed).toBe(false);
             });
 
             it('should display next popup', () => {
@@ -140,9 +114,7 @@ describe('Popover', () => {
                     text: 'Hello',
                     defered: popover.defered,
                 });
-                expect(sut._displayedPopoverDefered.promise).toBe(popover.defered.promise);
-                expect(sut._displayedPopoverDefered.resolve).toBe(popover.defered.resolve);
-                expect(sut._displayedPopoverDefered.reject).toBe(popover.defered.reject);
+                expect(sut._displayed).toBe(true);
             });
         });
     });
