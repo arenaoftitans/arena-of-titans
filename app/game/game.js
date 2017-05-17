@@ -108,7 +108,7 @@ export class Game {
                 },
             };
             this._popup.display('error', popupData).then(() => {
-                if (/\/game\/create\/.+/.test(location.pathname)) {
+                if (/\/game\/.+\/create\/.+/.test(location.pathname)) {
                     location.reload();
                 }
             });
