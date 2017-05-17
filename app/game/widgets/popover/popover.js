@@ -18,6 +18,7 @@
  */
 
 import { inject } from 'aurelia-framework';
+import { CssAnimator } from 'aurelia-animator-css';
 import { EventAggregatorSubscriptions } from '../../services/utils';
 
 
@@ -75,14 +76,19 @@ export class Popover {
 }
 
 
-@inject(EventAggregatorSubscriptions)
+@inject(EventAggregatorSubscriptions, CssAnimator)
 export class AotPopoverCustomElement {
-    constructor(eas) {
+    // Referenced in the template.
+    popover;
+
+    constructor(eas, animator) {
         this._eas = eas;
+        this._animator = animator;
 
         this._eas.subscribe('aot:popover:display', message => {
             this.type = message.type;
             this.text = message.text;
+            this._display();
 
             let cb = () => this._hide();
             message.defered.promise.then(cb, cb);
@@ -93,9 +99,14 @@ export class AotPopoverCustomElement {
         this._eas.publish('aot:popover:ready');
     }
 
+    _display() {
+        return this._animator.addClass(this.popover, 'popover-display');
+    }
+
     _hide() {
-        this.type = null;
-        this.text = '';
+        return this._animator.removeClass(this.popover, 'popover-display').then(() => {
+            this.text = '';
+        });
     }
 
     unbind() {

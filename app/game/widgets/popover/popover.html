@@ -22,7 +22,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
     <require from="./popover.css"></require>
 
     <div class="popover-container popover-container-${type}"
-         if.bind="type !== null">
+         ref="popover">
         <div class="popover-content">
             ${text & t}
         </div>
