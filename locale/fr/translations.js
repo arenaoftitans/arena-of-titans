@@ -49,6 +49,7 @@ export default {
         "wizard_yellow": "Magicien jaune"
     },
     "game": {
+        "connection_lost": "Connexion avec le serveur perdue",
         "create": {
             "AI": "Ordinateur",
             "CLOSED": "Ferm\u00e9",
