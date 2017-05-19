@@ -1,6 +1,9 @@
 @import '../../../../style/players-colors';
 
 
+$blink-time: 1s;
+$square-opacity: 0.6;
+
 aot-board {
     .pawn-circle {
         stroke: #000;
@@ -18,7 +21,7 @@ aot-board {
 
     rect,
     path {
-        opacity: 0.6;
+        opacity: $square-opacity;
         stroke: #000;
         stroke-dasharray: none;
         stroke-miterlimit: 4;
@@ -47,13 +50,53 @@ aot-board {
     }
 
     .highlighted-square {
+        -moz-animation: blink $blink-time infinite;
+        -ms-animation: blink $blink-time infinite;
+        -o-animation: blink $blink-time infinite;
+        -webkit-animation: blink $blink-time infinite;
+        animation: blink $blink-time infinite;
         cursor: pointer;
-        fill: green !important;
+        stroke: white;
     }
 
     .pawn {
         stroke: #13110c;
         stroke-miterlimit: 10;
         stroke-width: 0.5px;
+    }
+
+    /* blink */
+    @keyframes blink {
+        0% { opacity: $square-opacity; }
+        50% { opacity: 1; }
+        100% { opacity: $square-opacity; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes blink {
+        0% { opacity: $square-opacity; }
+        50% { opacity: 1; }
+        100% { opacity: $square-opacity; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes blink {
+        0% { opacity: $square-opacity; }
+        50% { opacity: 1; }
+        100% { opacity: $square-opacity; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes blink {
+        0% { opacity: $square-opacity; }
+        50% { opacity: 1; }
+        100% { opacity: $square-opacity; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes blink {
+        0% { opacity: $square-opacity; }
+        50% { opacity: 1; }
+        100% { opacity: $square-opacity; }
     }
 }
