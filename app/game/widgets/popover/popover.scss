@@ -1,0 +1,134 @@
+/*
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@import '../../../style/variables';
+
+
+$animation-time: 0.2s;
+$border-width: 1px;
+
+aot-popover {
+    .popover-container {
+        align-items: center;
+        border: solid transparent;
+        border-radius: 0 0 4px 4px;
+        border-width: 0;
+        display: flex;
+        height: 0;
+        justify-content: center;
+        left: $play-secondary-width;
+        min-width: $play-full-min-width;
+        position: absolute;
+        top: 0;
+        width: $play-main-width;
+    }
+
+    .popover-container-danger {
+        background-color: #f2dede;
+        border-color: #ebccd1;
+        color: #a94442;
+    }
+
+    .popover-display {
+        border-width: $border-width;
+        height: $play-logo-height;
+    }
+
+    .popover-display-add {
+        -moz-animation: show $animation-time;
+        -ms-animation: show $animation-time;
+        -o-animation: show $animation-time;
+        -webkit-animation: show $animation-time;
+        animation: show $animation-time;
+        border-width: $border-width;
+        height: $play-logo-height;
+    }
+
+    .popover-display-remove {
+        -moz-animation: hide $animation-time;
+        -ms-animation: hide $animation-time;
+        -o-animation: hide $animation-time;
+        -webkit-animation: hide $animation-time;
+        animation: hide $animation-time;
+        border-width: $border-width;
+    }
+
+
+    /* show */
+    @keyframes show {
+        from { height: 0; }
+        to { height: $play-logo-height; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes show {
+        from { height: 0; }
+        to { height: $play-logo-height; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes show {
+        from { height: 0; }
+        to { height: $play-logo-height; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes show {
+        from { height: 0; }
+        to { height: $play-logo-height; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes show {
+        from { height: 0; }
+        to { height: $play-logo-height; }
+    }
+
+
+    /* hide */
+    @keyframes hide {
+        from { height: $play-logo-height; }
+        to { height: 0; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes hide {
+        from { height: $play-logo-height; }
+        to { height: 0; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes hide {
+        from { height: $play-logo-height; }
+        to { height: 0; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes hide {
+        from { height: $play-logo-height; }
+        to { height: 0; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes hide {
+        from { height: $play-logo-height; }
+        to { height: 0; }
+    }
+}
+

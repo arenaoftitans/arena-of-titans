@@ -49,6 +49,7 @@ export default {
         "wizard_yellow": "Yellow Wizard"
     },
     "game": {
+        "connection_lost": "Lost connection with the server",
         "create": {
             "AI": "Computer",
             "CLOSED": "Closed",

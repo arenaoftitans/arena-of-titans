@@ -17,13 +17,18 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventAggregatorStub, WebsocketSub } from '../../../../app/test-utils';
+import {
+    EventAggregatorStub,
+    PopoverStub,
+    WebsocketSub,
+} from '../../../../app/test-utils';
 import { Ws } from '../../../../app/game/services/ws';
 
 
 describe('services/ws', () => {
     let mockedConfig;
     let mockedEa;
+    let mockedPopover;
     let sut;
 
     beforeEach(() => {
@@ -35,7 +40,8 @@ describe('services/ws', () => {
             },
         };
         mockedEa = new EventAggregatorStub();
-        sut = new Ws(mockedConfig, mockedEa, WebsocketSub);
+        mockedPopover = new PopoverStub();
+        sut = new Ws(mockedConfig, mockedEa, mockedPopover, WebsocketSub);
     });
 
     it('should store messages to send after join game in proper array', () => {
@@ -82,11 +88,22 @@ describe('services/ws', () => {
         spyOn(sut, '_sendPending');
         sut._waitingOpen.push({msg: 'coucou'});
         sut._mustReconnect = true;
+        sut._closePopover = jasmine.createSpy();
 
         sut._ws.onopen();
 
         expect(sut._sendPending).toHaveBeenCalledWith([{msg: 'coucou'}]);
         expect(mockedEa.publish).toHaveBeenCalledWith('aot:ws:reconnected');
         expect(sut._mustReconnect).toBe(false);
+        expect(sut._closePopover).toHaveBeenCalled();
+    });
+
+    it('should handle onclose', () => {
+        spyOn(mockedPopover, 'display');
+
+        sut._ws.onclose();
+
+        expect(sut._mustReconnect).toBe(true);
+        expect(mockedPopover.display).toHaveBeenCalled();
     });
 });

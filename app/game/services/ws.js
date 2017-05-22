@@ -20,10 +20,11 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import Config from '../../services/configuration';
+import { Popover } from '../widgets/popover/popover';
 import ReconnectingWebSocket from 'reconnectingwebsocket';
 
 
-@inject(Config, EventAggregator)
+@inject(Config, EventAggregator, Popover)
 export class Ws {
     _mustReconnect = false;
     _ws;
@@ -32,7 +33,9 @@ export class Ws {
     // The messages stored in this array are sent as soon as we are connected.
     _waitingOpen = [];
 
-    constructor(config, ea, WebsocketSub) {
+    constructor(config, ea, popover, WebsocketSub) {
+        this.popover = popover;
+
         let api = config.api;
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
@@ -50,11 +53,13 @@ export class Ws {
 
             if (this._mustReconnect) {
                 this._mustReconnect = false;
+                this._closePopover();
                 ea.publish('aot:ws:reconnected');
             }
         };
         this._ws.onclose = () => {
             this._mustReconnect = true;
+            this._closePopover = this.popover.display('danger', 'game.connection_lost');
         };
     }
 

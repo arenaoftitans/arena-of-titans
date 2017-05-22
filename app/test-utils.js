@@ -151,6 +151,13 @@ export class PopupStub {
 }
 
 
+export class PopoverStub {
+    display(type, data) {
+        return () => {};
+    }
+}
+
+
 export class I18nStub {
     tr(key) {
         let translations = {
