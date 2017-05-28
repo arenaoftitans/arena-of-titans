@@ -24,15 +24,25 @@
 
         <div class="navbar row-block">
             <div class="column-left">
-                <a class="button" href="/rules" t="site.header_rules">Règles</a>
+                <a class="button" t="site.header_rules"
+                   click.delegate="showSubMenuContent()" >Règles</a>
                 <a class="button" href="/synopsis" t="site.header_synopsis">Synopsis</a>
+                <a class="button button-disabled" href="/synopsis" t="site.header_ranking">Classement</a>
+            </div>
+            <div class="column-center">
+                <a class="logo-shadow" href="/"></a>
             </div>
             <div class="column-right">
-                <a class="button button-disabled" t="site.header_news">Actualité</a>
-                <a class="button button-disabled" t="site.header_community">Communauté</a>
+                <a class="button button-disabled" t="site.header_news">Actualités</a>
+                <a class="button blue-button" t="site.header_play" href="/game/create/">Jouer !</a>
             </div>
         </div>
-
-        <a class="logo" href="/"></a>
+        <div class="submenu">
+            <div id="rules-submenu" show.bind="isSubMenuContentVisible">
+                <a class="button" href="/rules">Déplacements</a>
+                <a class="button" href="/synopsis">Héros</a>
+                <a class="button" href="/synopsis">Atouts</a>
+            </div>
+        </div>
     </header>
 </template>

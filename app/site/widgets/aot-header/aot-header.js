@@ -19,4 +19,8 @@
 
 
 export class AotHeaderCustomElement {
+    isSubMenuContentVisible = false;
+    showSubMenuContent() {
+        this.isSubMenuContentVisible = true;
+    }
 }

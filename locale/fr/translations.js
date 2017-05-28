@@ -134,6 +134,7 @@ export default {
         "connection_label": "Connexion",
         "header_community": "Communaut\u00e9",
         "header_news": "Actualit\u00e9s",
+        "header_play": "Jouer",
         "header_ranking": "Classement",
         "header_rules": "R\u00e8gles",
         "header_synopsis": "Synopsis",

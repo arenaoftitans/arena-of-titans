@@ -134,6 +134,7 @@ export default {
         "connection_label": "Connection",
         "header_community": "Community",
         "header_news": "News",
+        "header_play": "Play",
         "header_ranking": "Ranking",
         "header_rules": "Rules",
         "header_synopsis": "Synopsis",
