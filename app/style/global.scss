@@ -38,7 +38,7 @@ select {
 }
 
 .logo-shadow {
-    background: url(/assets/game/aot-logo-shadow.png) no-repeat;
+    background: url(/#{$version}/assets/game/aot-logo-shadow.png) no-repeat;
     background-position: 0 0;
     background-size: 100% 100%;
 }
