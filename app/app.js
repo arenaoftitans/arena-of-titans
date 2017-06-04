@@ -52,18 +52,6 @@ export class App {
                 nav: true,
                 title: 'Homepage',
             }, {
-                route: 'rules',
-                name: 'rules',
-                moduleId: 'site/routes/rules/rules',
-                nav: true,
-                title: 'Rules',
-            }, {
-                route: 'synopsis',
-                name: 'synopsis',
-                moduleId: 'site/routes/synopsis/synopsis',
-                nav: true,
-                title: 'Synopsis',
-            }, {
                 route: 'game',
                 name: 'game',
                 moduleId: 'game/game',
