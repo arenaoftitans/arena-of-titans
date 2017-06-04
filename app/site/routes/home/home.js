@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
+* Copyright (C) 2015-2017 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -17,23 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+export class Home {
 
-export class Site {
-    configureRouter(config, router) {
-        config.options.pushState = true;
-        config.map([
-            {
-                route: [''],
-                name: 'home',
-                moduleId: './routes/home/home',
-                nav: false,
-                title: 'Home',
-            },
-        ]);
-        config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'not-found';
-
-            return instruction;
-        });
-    }
 }
