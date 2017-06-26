@@ -47,22 +47,10 @@ export class App {
         config.map([
             {
                 route: '',
-                name: 'home',
-                moduleId: 'site/home',
+                name: 'site',
+                moduleId: 'site/site',
                 nav: true,
                 title: 'Homepage',
-            }, {
-                route: 'rules',
-                name: 'rules',
-                moduleId: 'site/routes/rules/rules',
-                nav: true,
-                title: 'Rules',
-            }, {
-                route: 'synopsis',
-                name: 'synopsis',
-                moduleId: 'site/routes/synopsis/synopsis',
-                nav: true,
-                title: 'Synopsis',
             }, {
                 route: 'game',
                 name: 'game',

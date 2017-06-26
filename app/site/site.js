@@ -18,5 +18,22 @@
 */
 
 
-export class Rules {
+export class Site {
+    configureRouter(config, router) {
+        config.options.pushState = true;
+        config.map([
+            {
+                route: [''],
+                name: 'home',
+                moduleId: './routes/home/home',
+                nav: false,
+                title: 'Home',
+            },
+        ]);
+        config.mapUnknownRoutes(instruction => {
+            instruction.moduleId = 'not-found';
+
+            return instruction;
+        });
+    }
 }
