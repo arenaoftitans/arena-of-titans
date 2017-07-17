@@ -3,6 +3,8 @@ image: node:8.1.4
 pipelines:
   default:
     - step:
+        caches:
+          - node
         script:
           - yarn
           - npm run --silent lint
