@@ -27,6 +27,8 @@ def main(type, version):
         print(config_file, "doesn't exit. Exiting", file=sys.stderr)
         sys.exit(1)
 
+    print(f'Note: loading config file {config_file}')
+
     config = toml.load(config_file)
     config['api']['path'] = config['api']['path'].format(version=version)
     config['version'] = version
