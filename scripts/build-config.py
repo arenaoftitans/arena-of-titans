@@ -18,6 +18,11 @@ APP_CONF_FILE = 'app/services/configuration.js'
 def main(type, version):
     config_file = CONF_FILE_TEMPLATE.format(type=type)
 
+    if type == 'dev' and not exists(config_file):
+        docker_config_file = CONF_FILE_TEMPLATE.format(type='docker')
+        print(f'Note: {config_file} not found, using {docker_config_file}')
+        config_file = docker_config_file
+
     if not exists(config_file):
         print(config_file, "doesn't exit. Exiting", file=sys.stderr)
         sys.exit(1)
