@@ -9,18 +9,19 @@ Setup
 
 - NodeJS (latest version, https://nodejs.org/en/)
 - Firefox and Chrome to launch unit tests
-- `Python 3.4+ <https://www.python.org/downloads/>`__ to build the configuration (please tick 'Add python.exe to Path' during install). If you  are on Windows, you will need to copy ``python.exe`` into ``python3.exe`` for the script to work.
+- `Python 3.6+ <https://www.python.org/downloads/>`__ to build the configuration (please tick 'Add python.exe to Path' during install). If you  are on Windows, you will need to copy ``python.exe`` into ``python3.exe`` for the script to work.
 
 You can now install the node dependencies. To do so, launch in the folder in which you cloned this repository:
 
-- Install node modules with yarn (recommanded) ``yarn`` or ``npm install``
+- Install node modules with yarn (recommended) ``yarn`` or ``npm install``
 
 Configuration
 -------------
 
 The configuration of the front end (used to choose on which host it must connect to the api and to enable the debug mode) is written in ``./config/application.js`` based on values from:
 
-- ``./config/config.dev.toml`` when building for development.
+- ``./config/config.docker.toml`` when building for development.
+- ``./config/config.dev.toml`` when building for development if this file exist.
 - ``./config/config.prod.toml`` when building for production. The values in this file are used to deploy the application on the server and thus are tracked by git. They must not be tampered with unless you know what you are doing.
 - ``./config/config.staging.toml`` when building for staging. The values in this file are used to deploy the application on the server and thus are tracked by git. They must not be tampered with unless you know what you are doing.
 - ``./config/config.testing.toml`` when buiding for testing. See the README of the API for more information on that.
@@ -34,6 +35,8 @@ To build the frontend for development and use the API from the staging server, c
 
 Use a local version of the API
 ++++++++++++++++++++++++++++++
+
+If you run the local API with docker and its default configuration, you can skip this section.
 
 Copy ``./config/config.staging.toml`` into ``./config/config.dev.toml``. Then, adapt the values in it. There are two cases (look at the README for the API to learn more about them):
 
