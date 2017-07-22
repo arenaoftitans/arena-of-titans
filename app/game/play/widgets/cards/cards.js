@@ -186,4 +186,8 @@ export class AotCardsCustomElement {
     get highlightPassButton() {
         return this.yourTurn && this.onLastLine;
     }
+
+    get canDiscard() {
+        return this.yourTurn && !this.specialActionInProgress;
+    }
 }
