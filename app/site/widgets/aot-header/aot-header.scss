@@ -25,7 +25,7 @@ aot-header {
     header {
         background: #020101;
         margin-bottom: 130px;
-        padding-top: 80px;
+        padding-top: 25px;
         position: relative;
     }
 
@@ -42,7 +42,7 @@ aot-header {
             height: #{$logo-size}px;
             left: calc(50% - #{$logo-size/2}px);
             position: absolute;
-            top: 10px;
+            top: -67px;
             width: #{$logo-size}px;
             z-index: 2;
 
