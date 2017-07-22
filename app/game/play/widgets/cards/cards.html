@@ -35,8 +35,9 @@
         <button class="grey-button"
                 click.delegate="pass()"
                 disabled.bind="!yourTurn">
-                <span if.bind="!onLastLine" t="game.play.pass">Pass</span>
-                <span if.bind="onLastLine" t="game.play.complete_turn">Complete turn</span>
+                <span if.bind="!onLastLine && !specialActionInProgress" t="game.play.pass">Pass</span>
+                <span if.bind="specialActionInProgress" t="game.play.pass_special_action">Pass action</span>
+                <span if.bind="onLastLine && !specialActionInProgress" t="game.play.complete_turn">Complete turn</span>
         </button>
         <button class="blue-button"
                 click.delegate="discard()"

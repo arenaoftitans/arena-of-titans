@@ -591,6 +591,20 @@ describe('services/api', () => {
             });
         });
 
+        it('should pass action', () => {
+            spyOn(mockedWs, 'send');
+
+            sut.passSpecialAction('assassination');
+
+            expect(mockedWs.send).toHaveBeenCalledWith({
+                rt: sut.requestTypes.special_action_play,
+                play_request: {
+                    special_action_name: 'assassination',
+                    cancel: true,
+                },
+            });
+        });
+
         it('should discard', () => {
             spyOn(mockedWs, 'send');
 

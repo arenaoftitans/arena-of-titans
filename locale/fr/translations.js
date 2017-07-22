@@ -78,6 +78,8 @@ export default {
             "no_action": "Il ne s'est rien pass\u00e9 pour l'instant",
             "pass": "Passer",
             "pass_confirm_message": "Es-tu s\u00fbr de vouloir passer ton tour ?",
+            "pass_special_action": "Passer l'action",
+            "pass_special_action_confirm_message": "Es-tu s\u00fbr de  vouloir passer l'action sp\u00e9ciale ?",
             "player_box_cards": "Derni\u00e8res cartes jou\u00e9es",
             "player_box_trumps": "Atouts actifs sur le joueur",
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
