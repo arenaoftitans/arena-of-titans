@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
+* Copyright (C) 2015-2017 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -17,16 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+export class Heroes {
 
-export class AotHeaderCustomElement {
-    isUniverseSubMenuContentVisible = false;
-    isRulesSubMenuContentVisible = false;
-    showRulesSubMenuContent() {
-        this.isUniverseSubMenuContentVisible = false;
-        this.isRulesSubMenuContentVisible = true;
-    }
-    showUniverseSubMenuContent() {
-        this.isRulesSubMenuContentVisible = false;
-        this.isUniverseSubMenuContentVisible = true;
-    }
 }
