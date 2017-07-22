@@ -20,6 +20,7 @@
 
 export class Site {
     configureRouter(config, router) {
+        config.baseUrl = 'site';
         config.options.pushState = true;
         config.map([
             {
@@ -28,6 +29,27 @@ export class Site {
                 moduleId: './routes/home/home',
                 nav: false,
                 title: 'Home',
+            },
+            {
+                route: ['/synopsis'],
+                name: 'synopsis',
+                moduleId: './routes/synopsis/synopsis',
+                nav: false,
+                title: 'Synopsis',
+            },
+            {
+                route: ['/heroes'],
+                name: 'heroes',
+                moduleId: './routes/heroes/heroes',
+                nav: false,
+                title: 'Heroes',
+            },
+            {
+                route: ['/trumps'],
+                name: 'trumps',
+                moduleId: './routes/trumps/trumps',
+                nav: false,
+                title: 'Trumps',
             },
         ]);
         config.mapUnknownRoutes(instruction => {

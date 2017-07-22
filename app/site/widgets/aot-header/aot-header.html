@@ -24,9 +24,8 @@
 
         <div class="navbar row-block">
             <div class="column-left">
-                <a class="button" t="site.header_rules"
-                   click.delegate="showSubMenuContent()" >Règles</a>
-                <a class="button" href="/" t="site.header_synopsis">Synopsis</a>
+                <a class="button" t="site.header_rules" click.delegate="showRulesSubMenuContent()" >Règles</a>
+                <a class="button" click.delegate="showUniverseSubMenuContent()">Univers</a>
                 <a class="button button-disabled" href="/" t="site.header_ranking">Classement</a>
             </div>
             <div class="column-center">
@@ -38,10 +37,14 @@
             </div>
         </div>
         <div class="submenu">
-            <div id="rules-submenu" show.bind="isSubMenuContentVisible">
+            <div id="rules-submenu" show.bind="isRulesSubMenuContentVisible">
                 <a class="button" href="/">Déplacements</a>
-                <a class="button" href="/">Héros</a>
-                <a class="button" href="/">Atouts</a>
+                <a class="button" href="/site/heroes">Héros</a>
+                <a class="button" href="/site/trumps">Atouts</a>
+            </div>
+            <div id="universe-submenu" show.bind="isUniverseSubMenuContentVisible">
+                <a class="button" href="/site/synopsis">Synopsis</a>
+                <a class="button" href="/site/heroes">Héros</a>
             </div>
         </div>
     </header>

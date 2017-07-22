@@ -47,6 +47,9 @@ export class App {
         config.map([
             {
                 route: '',
+                redirect: 'site',
+            }, {
+                route: 'site',
                 name: 'site',
                 moduleId: 'site/site',
                 nav: true,
