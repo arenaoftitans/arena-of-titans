@@ -89,6 +89,27 @@ describe('cards', () => {
         }, () => fail('Unwanted code branch'));
     });
 
+    it('should pass action', () => {
+        spyOn(mockedPopup, 'display').and.callThrough();
+        spyOn(mockedApi, 'passSpecialAction');
+        sut.specialActionInProgress = true;
+        sut.specialActionName = 'assassination';
+
+        sut.pass();
+
+        expect(mockedPopup.display).toHaveBeenCalledWith(
+            'confirm',
+            {
+                translate: {
+                    messages: { message: 'game.play.pass_special_action_confirm_message' },
+                },
+            }
+        );
+        return mockedPopup.popupPromise.then(() => {
+            expect(mockedApi.passSpecialAction).toHaveBeenCalledWith('assassination');
+        }, () => fail('Unwanted code branch'));
+    });
+
     it('should not pass on cancel', () => {
         let promise = Promise.reject(new Error());
         spyOn(mockedPopup, 'display').and.returnValue(promise);
@@ -182,17 +203,22 @@ describe('cards', () => {
         it('should notify special action', () => {
             sut.specialActionInProgress = false;
 
-            sut._notifySpecialAction();
+            sut._notifySpecialAction({
+                special_action_name: 'assassination',
+            });
 
             expect(sut.specialActionInProgress).toBe(true);
+            expect(sut.specialActionName).toBe('assassination');
         });
 
         it('should handle special action', () => {
             sut.specialActionInProgress = true;
+            sut.specialActionName = 'assassination';
 
             sut._handleSpecialActionPlayed();
 
             expect(sut.specialActionInProgress).toBe(false);
+            expect(sut.specialActionName).toBeNull();
         });
 
         it('should view possible movements for cards', () => {

@@ -491,6 +491,16 @@ export class Api {
         });
     }
 
+    passSpecialAction(name) {
+        this._ws.send({
+            rt: this.requestTypes.special_action_play,
+            play_request: {
+                cancel: true,
+                special_action_name: name,
+            },
+        });
+    }
+
     cancelSpecialAction(actionName) {
         this._ws.send({
             rt: this.requestTypes.special_action_play,

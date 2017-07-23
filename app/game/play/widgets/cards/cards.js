@@ -88,12 +88,14 @@ export class AotCardsCustomElement {
         return this._i18n.tr(`cards.${card.name.toLowerCase()}`);
     }
 
-    _notifySpecialAction() {
+    _notifySpecialAction(message) {
         this.specialActionInProgress = true;
+        this.specialActionName = message.special_action_name;
     }
 
     _handleSpecialActionPlayed() {
         this.specialActionInProgress = false;
+        this.specialActionName = null;
     }
 
     viewPossibleMovements(card) {
@@ -124,16 +126,22 @@ export class AotCardsCustomElement {
                 messages: {},
             },
         };
+        let popupCb = () => {
+            this._api.pass();
+            this.selectedCard = null;
+        };
 
-        if (this.onLastLine) {
+        if (this.specialActionInProgress) {
+            popupData.translate.messages.message = 'game.play.pass_special_action_confirm_message';
+            popupCb = () => {
+                this._api.passSpecialAction(this.specialActionName);
+            };
+        } else if (this.onLastLine) {
             popupData.translate.messages.message = 'game.play.complete_turn_confirm_message';
         } else {
             popupData.translate.messages.message = 'game.play.pass_confirm_message';
         }
-        this._popup.display('confirm', popupData).then(() => {
-            this._api.pass();
-            this.selectedCard = null;
-        }, () => {
+        this._popup.display('confirm', popupData).then(popupCb, () => {
             this._logger.debug('Player canceled pass turn.');
         });
     }
@@ -185,5 +193,9 @@ export class AotCardsCustomElement {
 
     get highlightPassButton() {
         return this.yourTurn && this.onLastLine;
+    }
+
+    get canDiscard() {
+        return this.yourTurn && !this.specialActionInProgress;
     }
 }

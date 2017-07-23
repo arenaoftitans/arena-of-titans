@@ -98,6 +98,9 @@ export class ApiStub {
     pass() {
     }
 
+    passSpecialAction() {
+    }
+
     discard() {
     }
 

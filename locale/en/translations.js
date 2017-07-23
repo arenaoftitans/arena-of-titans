@@ -78,6 +78,8 @@ export default {
             "no_action": "No action yet",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",
+            "pass_special_action": "Pass action",
+            "pass_special_action_confirm_message": "Are you sure you want to pass the special action?",
             "player_box_cards": "Last played cards",
             "player_box_trumps": "Trumps active on player",
             "select_trump_target": "Who should be the target of {{trumpname}}?",
