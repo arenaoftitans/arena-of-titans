@@ -30,7 +30,7 @@ export class AotUrlCopyCustomElement {
         this.assetSource = AssetSource;
     }
 
-    activate() {
+    attached() {
         // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
         // a constructor' warnings when launching tests with Firefox.
         Wait.forId('copy-invite-link').then(() => {
