@@ -54,6 +54,27 @@ export class AotTrumpCustomElement {
         this._logger = LogManager.getLogger('AotTrumps');
     }
 
+    attached() {
+        // Rewrite gradient ids to make them specific to this component.
+        let gradientIdTemplate = 'trump-gradient-{i}';
+        let i = 1;
+        let svg = this._element.getElementsByTagName('svg')[0];
+        let gradientId = gradientIdTemplate.replace('{i}', i);
+        let gradient = svg.getElementById(gradientId);
+
+        while (gradient !== null) {
+            let newId = `${gradientId}-${this.kind}-${this.index}`;
+            gradient.id = newId;
+            for (let svgElement of svg.querySelectorAll(`[style*="${gradientId}"]`)) {
+                svgElement.style.fill = `url(#${newId})`;
+            }
+
+            i++;
+            gradientId = gradientIdTemplate.replace('{i}', i);
+            gradient = svg.getElementById(gradientId);
+        }
+    }
+
     bind() {
         switch (this.kind) {
             case 'player':
