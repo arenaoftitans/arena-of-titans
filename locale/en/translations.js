@@ -167,6 +167,8 @@ export default {
     "trumps": {
         "assassination": "Assassination",
         "assassination_description": "Make an other player move back",
+        "blizzard": "Blizzard",
+        "blizzard_description": "Reduce the number of cards a player can play by 1.",
         "max_number_played_trumps": "You cannot play more trumps during this turn",
         "max_number_trumps": "This player cannot be the target of anymore trump during this turn",
         "reinforcements": "Reinforcements",
