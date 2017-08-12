@@ -196,7 +196,7 @@ export class AotCardsCustomElement {
     }
 
     get canDiscard() {
-        return this.yourTurn && !this.specialActionInProgress;
+        return this.yourTurn && !this.specialActionInProgress && this.selectedCard;
     }
 
     get canPlayCards() {
