@@ -167,6 +167,8 @@ export default {
     "trumps": {
         "assassination": "Assassinat",
         "assassination_description": "Permet de faire reculer un joueur d'une case",
+        "blizzard": "Blizzard",
+        "blizzard_description": "R\u00e9duis de 1 le nombre de cartes qu'un joueur peut jouer",
         "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
         "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
         "reinforcements": "Renforcements",

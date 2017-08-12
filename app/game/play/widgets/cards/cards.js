@@ -99,7 +99,7 @@ export class AotCardsCustomElement {
     }
 
     viewPossibleMovements(card) {
-        if (this.yourTurn && !this.specialActionInProgress) {
+        if (this.canPlayCards) {
             this.selectedCard = card;
             this._api.viewPossibleMovements({name: card.name, color: card.color});
         }
@@ -197,5 +197,11 @@ export class AotCardsCustomElement {
 
     get canDiscard() {
         return this.yourTurn && !this.specialActionInProgress;
+    }
+
+    get canPlayCards() {
+        return this.yourTurn &&
+            !this.specialActionInProgress &&
+            this._api.game.has_remaining_moves_to_play;
     }
 }

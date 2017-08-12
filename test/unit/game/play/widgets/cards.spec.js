@@ -49,6 +49,7 @@ describe('cards', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
         mockedApi._game.your_turn = true;
+        mockedApi._game.has_remaining_moves_to_play = true;
 
         sut.viewPossibleMovements(card);
 
@@ -60,6 +61,19 @@ describe('cards', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
         mockedApi._game.your_turn = false;
+        sut.selectedCard = null;
+
+        sut.viewPossibleMovements(card);
+
+        expect(sut.selectedCard).toBe(null);
+        expect(mockedApi.viewPossibleMovements).not.toHaveBeenCalledWith();
+    });
+
+    it('should not view possible movement if no move left', () => {
+        let card = {name: 'King', color: 'red'};
+        spyOn(mockedApi, 'viewPossibleMovements');
+        mockedApi._game.your_turn = true;
+        mockedApi._game.has_remaining_moves_to_play = false;
         sut.selectedCard = null;
 
         sut.viewPossibleMovements(card);
