@@ -25,7 +25,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link id="favicon" rel="shortcut icon" type="image/png" href="/assets/favicon.png">
-        <link rel="stylesheet" href="/latest/assets/fonts/fontawesome/font-awesome.min.css">
         <title>Arena of Titans</title>
 
         <meta name="author" content="Arena of Titans">
@@ -52,8 +51,38 @@
             .splash .fa-spinner {
                 text-align: center;
                 display: inline-block;
-                font-size: 72px;
+                font: normal normal normal 72px/1 FontAwesome;
                 margin-top: 50px;
+            }
+
+            .fa-spinner::before {
+                content: "\f110";
+            }
+
+            .fa-spin {
+                -webkit-animation: fa-spin 2s infinite linear;
+                animation: fa-spin 2s infinite linear
+            }
+
+            @-webkit-keyframes fa-spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg)
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg)
+                }
+            }
+            @keyframes fa-spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg)
+                }
+                100% {
+                    -webkit-transform: rotate(359deg);
+                    transform: rotate(359deg)
+                }
             }
         </style>
     </head>

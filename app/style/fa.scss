@@ -1,0 +1,48 @@
+/*
+ * Part of font awesome (http://fontawesome.io/) that we use.
+*/
+
+@font-face {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: normal;
+    src: url(/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.eot?v=4.7.0);
+    src: url('/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('/#{$version}/assets/fonts/fontawesome/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: auto;
+}
+
+.fa-refresh::before {
+    content: "\f021";
+}
+
+.fa-chevron-left::before {
+    content: "\f053";
+}
+
+.fa-chevron-right::before {
+    content: "\f054";
+}
+
+.fa-chevron-up::before {
+    content: "\f077";
+}
+
+.fa-chevron-down::before {
+    content: "\f078";
+}
+
+.fa-search-plus::before {
+    content: "\f00e";
+}
+
+.fa-search-minus::before {
+    content: "\f010";
+}
