@@ -28,6 +28,7 @@ import XHR from 'i18next-xhr-backend';
 import environment from './environment';
 import enTranslations from '../locale/en/translations';
 import frTranslations from '../locale/fr/translations';
+import RollbarAppender from './services/logging';
 
 
 export function configure(aurelia) {
@@ -79,6 +80,11 @@ export function configure(aurelia) {
             ).then(name => {
                 return aurelia.loader.loadModule(name).then(m => {
                     Logger.addAppender(new m.ConsoleAppender());
+                    if (window.Rollbar) {
+                        Logger.addAppender(new RollbarAppender());
+                    } else {
+                        console.warn('Rollbar is not defined');  // eslint-disable-line no-console
+                    }
                     Logger.setLevel(Logger.logLevel.warn);
                 });
             });

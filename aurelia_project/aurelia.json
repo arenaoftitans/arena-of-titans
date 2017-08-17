@@ -151,6 +151,7 @@
                 "prepend": [
                     "node_modules/bluebird/js/browser/bluebird.js",
                     "scripts/polyfills.js",
+                    "scripts/rollbar.js",
                     "node_modules/requirejs/require.js"
                 ],
                 "dependencies": [
