@@ -4,6 +4,7 @@
     "platform": {
         "id": "web",
         "displayName": "Web",
+        "baseDir": ".",
         "output": "scripts",
         "index": "index.html"
     },
@@ -26,8 +27,8 @@
         "source": ["app/**/*.js", "locale/**/*.js"]
     },
     "markupProcessor": {
-        "id": "none",
-        "displayName": "None",
+        "id": "maximum",
+        "displayName": "Maximun minification",
         "fileExtension": ".html",
         "source": "app/**/*.html"
     },
