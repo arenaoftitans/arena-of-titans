@@ -71,7 +71,7 @@ export class AotInfosCustomElement {
             let left = document.getElementById('player-trumps').getBoundingClientRect().width;
             if (this.type === 'affecting-trumps') {
                 left +=  document.getElementById('trumps-affecting-player')
-                                 .getBoundingClientRect().width;
+                    .getBoundingClientRect().width;
             }
 
             this.infosDiv.style.top = target.getBoundingClientRect().top -

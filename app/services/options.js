@@ -44,7 +44,7 @@ export class Options {
 
         for (let key of Object.keys(this)) {
             observerLocator.getObserver(this, key)
-                    .subscribe(() => this._storage.saveOptions(this));
+                .subscribe(() => this._storage.saveOptions(this));
         }
     }
 

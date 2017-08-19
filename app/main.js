@@ -75,8 +75,8 @@ export function configure(aurelia) {
         // Production logging is inspired by developmentLogging
         aurelia.use.preTask(() => {
             return aurelia.loader.normalize(
-                    'aurelia-logging-console',
-                    aurelia.bootstrapperName
+                'aurelia-logging-console',
+                aurelia.bootstrapperName
             ).then(name => {
                 return aurelia.loader.loadModule(name).then(m => {
                     Logger.addAppender(new m.ConsoleAppender());

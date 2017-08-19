@@ -285,7 +285,7 @@ describe('Popups', () => {
                     { p1: 'world' },
                     { pt1: 'test' }
                 );
-            // Since _translateObj is mocked, the params cannot contain pt1
+                // Since _translateObj is mocked, the params cannot contain pt1
                 expect(sut._translateObj).toHaveBeenCalledWith(
                     sut._displayedPopupData,
                     sut._displayedPopupData.translate.messages,

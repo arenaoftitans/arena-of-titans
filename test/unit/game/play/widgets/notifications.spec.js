@@ -24,8 +24,7 @@ import {
     I18nStub,
     EventAggregatorSubscriptionsStub,
     OptionsStub,
-}
-from '../../../../../app/test-utils';
+} from '../../../../../app/test-utils';
 
 
 describe('notifications', () => {
