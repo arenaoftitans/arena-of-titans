@@ -1,11 +1,7 @@
-$popup-full-screen-margin-top: -8px;
-
-
 aot-popup {
     .popup {
         background-color: #111;
         height: 100vh;
-        margin-top: $popup-full-screen-margin-top;
         opacity: 0.6;
         position: absolute;
         width: 100%;
@@ -14,7 +10,6 @@ aot-popup {
 
     .popup-container {
         height: 100vh;
-        margin-top: $popup-full-screen-margin-top;
         overflow: hidden;
         position: absolute;
         width: 100%;

@@ -17,14 +17,14 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-$play-full-height: 87vh;
-$play-main-height: 66vh;
-$play-secondary-height: 21vh;
 $play-logo-height: 8vh;
+$play-full-height: 100vh - $play-logo-height;
+$play-main-height: 0.75 * $play-full-height;
+$play-secondary-height: 0.25 * $play-full-height;
 $play-full-min-height: 320px;
-$play-main-min-height: 211px;
-$play-secondary-min-height: 93px;
+$play-main-min-height: 0.75 * $play-full-min-height;
+$play-secondary-min-height: 0.25 * $play-full-min-height;
 
 $play-main-width: 64%;
-$play-secondary-width: 18%;
+$play-secondary-width: (100% - $play-main-width) / 2;
 $play-full-min-width: 568px;
