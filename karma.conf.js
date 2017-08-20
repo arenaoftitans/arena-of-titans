@@ -44,6 +44,15 @@ if (browsers.length === 0) {
     browsers = ['Chrome', 'Firefox'];
 }
 
+let reporters = ['jasmine-diff', 'progress'];
+let transpiler;
+if (argv.coverage) {
+    transpiler = project.coverageTranspiler;
+    reporters.push('coverage');
+} else {
+    transpiler = project.transpiler;
+}
+
 module.exports = function (config) {
     config.set({
         basePath: '.',
@@ -51,10 +60,19 @@ module.exports = function (config) {
         files: files,
         exclude: [],
         preprocessors: {
-            [project.unitTestRunner.source]: [project.transpiler.id],
+            [project.unitTestRunner.source]: [transpiler.id],
         },
-        babelPreprocessor: {options: project.transpiler.options},
-        reporters: ['jasmine-diff', 'progress'],
+        babelPreprocessor: {options: transpiler.options},
+        coverageReporter: {
+            dir: project.paths.reports,
+            includeAllSources: true,
+            reporters: [
+                {type: 'cobertura', subdir: '.'},
+                {type: 'html', subdir: '.'},
+                {type: 'text'}
+            ]
+        },
+        reporters: reporters,
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,

@@ -10,6 +10,7 @@
 /scripts/*.map
 /app/environment.js
 /app/services/configuration.js
+/reports
 npm-debug.log
 .venv
 *.pyc

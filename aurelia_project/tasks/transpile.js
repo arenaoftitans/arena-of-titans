@@ -18,11 +18,18 @@ function configureEnvironment() {
 }
 
 function buildJavaScript() {
-  return gulp.src(project.transpiler.source)
+  let transpiler;
+  if (CLIOptions.hasFlag('coverage')) {
+      transpiler = project.coverageTranspiler;
+  } else {
+      transpiler = project.transpiler;
+  }
+
+  return gulp.src(transpiler.source)
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(changedInPlace({firstPass: true}))
     .pipe(sourcemaps.init())
-    .pipe(babel(project.transpiler.options))
+    .pipe(babel(transpiler.options))
     .pipe(build.bundle());
 }
 
