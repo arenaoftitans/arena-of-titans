@@ -24,6 +24,7 @@ import { DOM } from 'aurelia-pal';
 import { Popup } from '../../../widgets/popups/popup';
 import { Api } from '../../../services/api';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
+import { browsers } from '../../../../services/browser-sniffer';
 
 
 @inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions)
@@ -65,7 +66,7 @@ export class AotTrumpCustomElement {
         while (gradient !== null) {
             let newId = `${gradientId}-${this.kind}-${this.index}`;
             gradient.id = newId;
-            for (let svgElement of svg.querySelectorAll(`[style*="${gradientId}"]`)) {
+            for (let svgElement of this._getSvgElementsWithGradient(svg, gradientId)) {
                 svgElement.style.fill = `url(#${newId})`;
             }
 
@@ -73,6 +74,15 @@ export class AotTrumpCustomElement {
             gradientId = gradientIdTemplate.replace('{i}', i);
             gradient = svg.getElementById(gradientId);
         }
+    }
+
+    _getSvgElementsWithGradient(svg, gradientId) {
+        let elementsWithgradients = svg.querySelectorAll(`[style*="${gradientId}"]`);
+        if (browsers.msie || browsers.mac) {
+            elementsWithgradients = browsers.htmlCollection2Array(elementsWithgradients);
+        }
+
+        return elementsWithgradients;
     }
 
     bind() {
