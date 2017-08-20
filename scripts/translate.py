@@ -5,7 +5,7 @@ from urllib.request import urlopen
 
 
 CALC_CSV_EXPORT_ADDRESS = 'https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid={sheet_number}'
-SAVE_TRANSLATIONS_FILE = 'locale/{lang}/translations.js'
+SAVE_TRANSLATIONS_FILE = 'app/locale/{lang}/translations.js'
 PAGE_TO_SHEET_NB = {
     'actions': 985921915,
     'cards': 2131671933,

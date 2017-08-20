@@ -24,7 +24,7 @@
                 "transform-flow-strip-types"
             ]
         },
-        "source": ["app/**/*.js", "locale/**/*.js"]
+        "source": "app/**/*.js"
     },
     "markupProcessor": {
         "id": "maximum",

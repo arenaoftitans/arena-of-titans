@@ -27,8 +27,8 @@ import * as Logger from 'aurelia-logging';
 import RollbarAppender from 'au-rollbar';
 import XHR from 'i18next-xhr-backend';
 import environment from './environment';
-import enTranslations from '../locale/en/translations';
-import frTranslations from '../locale/fr/translations';
+import enTranslations from './locale/en/translations';
+import frTranslations from './locale/fr/translations';
 
 
 export function configure(aurelia) {
