@@ -66,6 +66,10 @@ export class AssetSource {
         return `/${this.version}/assets/game/heroes/${hero}.png`;
     }
 
+    static forHeroPower(hero) {
+        return `/${this.version}/assets/game/heroes/powers/${hero}-power.png`;
+    }
+
     static forMiscImage(kind) {
         switch (kind) {
             case 'clippy':
