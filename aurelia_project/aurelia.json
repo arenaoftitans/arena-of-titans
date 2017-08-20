@@ -94,9 +94,15 @@
                     "[**/main.js]",
                     "[**/services/*.js]",
                     "[**/widgets/aot-options/*.js]",
+                    "[**/widgets/heroes-viewer/*.js]",
+                    "[**/widgets/select-heroes/*.js]",
                     "**/app.html",
                     "**/widgets/aot-options/*.html",
+                    "[**/widgets/heroes-viewer/*.html]",
+                    "[**/widgets/select-heroes/*.html]",
                     "**/widgets/aot-options/*.css",
+                    "[**/widgets/heroes-viewer/*.css]",
+                    "[**/widgets/select-heroes/*.css]",
                     "**/style/*.css"
                 ]
             },

@@ -19,8 +19,8 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { CssAnimator } from 'aurelia-animator-css';
-import { Game } from '../../../game';
-import { AssetSource } from '../../../../services/assets';
+import { Game } from '../../game/game';
+import { AssetSource } from '../../services/assets';
 
 
 @inject(CssAnimator)
