@@ -17,6 +17,13 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { AssetSource } from '../../../services/assets';
+import { Game } from '../../../game/game';
+
 export class Heroes {
 
+    constructor() {
+        this.assetSource = AssetSource;
+        this.selectedHero = Game.heroes[0];
+    }
 }
