@@ -48,5 +48,31 @@
         }
     }
 
-    aureliaFailedToLoad();
+    function detectUnsupportedBrowsers() {
+        var ua = navigator.userAgent;
+        var msie = +((/msie (\d+)/.exec(ua.toLowerCase()) || [])[1]);
+        if (isNaN(msie)) {
+            msie = +((/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1]);
+        }
+        msie = !isNaN(msie);
+
+        if (msie) {
+            document.getElementsByTagName('body')[0].removeAttribute('aurelia-app');
+
+            var messagesContainer = document.querySelector('.application-load-errors');
+            messagesContainer.style.display = '';
+
+            var unsupportedBrowserContainer = document.querySelector('.unsupported-browser-error');
+            unsupportedBrowserContainer.style.display = '';
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // Only launch the part about aurelia failed to load on supported browsers.
+    if (!detectUnsupportedBrowsers()) {
+        aureliaFailedToLoad();
+    }
 })();
