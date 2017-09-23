@@ -15,6 +15,7 @@ PAGE_TO_SHEET_NB = {
     'game.visit': 1365540142,
     'global': 575822508,
     'heroes': 1362194548,
+    'powers': 724206052,
     'site': 0,
     'trumps': 195514419,
 }

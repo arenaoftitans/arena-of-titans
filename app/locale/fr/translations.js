@@ -130,6 +130,10 @@ export default {
         "thief": "Luni est une jeune Ombre aux faits d\u2019armes encore inconnus. Elle ma\u00eetrise aussi bien l\u2019art des runes que celui du combat rapproch\u00e9 et son agilit\u00e9 exceptionnelle fait d\u2019elle un adversaire redoutable. Apr\u00e8s avoir obtenu son dipl\u00f4me de la Zefo, elle s\u2019est engag\u00e9e dans la division des renseignements au service du roi des Ombres.",
         "thief_power": "\u00ab Lame secr\u00e8te \u00bb (actif) : Lorsque cette comp\u00e9tence est activ\u00e9e, vous avez la possibilit\u00e9 de d\u00e9fausser une carte \u00ab Fou \u00bb pour faire reculer l\u2019adversaire de votre choix d\u2019une case de l\u2019une des deux couleurs du \u00ab Fou \u00bb d\u00e9fauss\u00e9."
     },
+    "powers": {
+        "domination": "Domination",
+        "domination_description": "Les reines se d\u00e9placent de 3 cases au lieu de 2."
+    },
     "site": {
         "connection_button": "Se connecter",
         "connection_game": "Partie rapide",
