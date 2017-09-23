@@ -95,6 +95,10 @@ export class AotTrumpCustomElement {
                 this.svgClass = 'trump-affecting-player';
                 this.infosType = 'affecting-trumps';
                 break;
+            case 'power':
+                this.svgClass = 'power-trump';
+                this.infosType = 'trumps';
+                break;
             default:
                 this.svgClass = undefined;
                 break;

@@ -34,6 +34,10 @@ export class AotTrumpsCustomElement {
         this._i18n = i18n;
     }
 
+    get power() {
+        return this._api.me.power;
+    }
+
     get trumps() {
         return this._api.me.trumps;
     }
