@@ -34,7 +34,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
          viewBox="0 0 285 332"
          width="285"
          height="332">
-    <defs>
+    <defs if.bind="kind !== 'power'">
         <radialGradient id="trump-gradient-1"
                         cx="423.5"
                         cy="310.49969"
@@ -135,6 +135,109 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
             <stop offset="0.9283" style="stop-color:#7B7B7B" id="stop138" />
             <stop offset="0.9922" style="stop-color:#525252" id="stop140" />
             <stop offset="1" style="stop-color:#4D4D4D" id="stop142" />
+        </radialGradient>
+    </defs>
+
+    <defs if.bind="kind === 'power' && trump.passive">
+        <radialGradient id="trump-gradient-1"
+                        cx="423.5"
+                        cy="310.49969"
+                        r="210.7838"
+                        gradientTransform="matrix(0.7983,0,0,0.7698,49.4118,34.4204)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:#FFFFFF" />
+            <stop offset="0.2516" style="stop-color:#FDE3C5" />
+            <stop offset="0.4476" style="stop-color:#FBC78A" />
+            <stop offset="0.6259" style="stop-color:#F9B05B" />
+            <stop offset="0.7831" style="stop-color:#F8A03A" />
+            <stop offset="0.9131" style="stop-color:#F79725" />
+            <stop offset="1" style="stop-color:#F7931E" />
+        </radialGradient>
+
+        <linearGradient id="trump-gradient-2"
+                        gradientUnits="userSpaceOnUse"
+                        x1="301.8718"
+                        y1="188.6575"
+                        x2="245.60719"
+                        y2="132.39281">
+            <stop offset="4.000000e-02" style="stop-color:#FFFFFF"/>
+            <stop offset="0.4" style="stop-color:#FEF8A0"/>
+            <stop offset="0.69" style="stop-color:#FDF25C"/>
+            <stop offset="0.89" style="stop-color:#FCEF31"/>
+            <stop offset="1" style="stop-color:#FCEE21"/>
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-3"
+                        gradientUnits="userSpaceOnUse"
+                        x1="473.12869"
+                        y1="358.21609"
+                        x2="529.39282"
+                        y2="414.48019">
+            <stop offset="0.4" style="stop-color:#FEF8A0"/>
+            <stop offset="0.69" style="stop-color:#FDF25C"/>
+            <stop offset="0.89" style="stop-color:#FCEF31"/>
+            <stop offset="1" style="stop-color:#FCEE21"/>
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-4"
+                        gradientUnits="userSpaceOnUse"
+                        x1="473.12869"
+                        y1="358.21609"
+                        x2="529.39282"
+                        y2="414.48019">
+            <stop offset="4.000000e-02" style="stop-color:#FFFFFF"/>
+            <stop offset="0.4" style="stop-color:#FEF8A0"/>
+            <stop offset="0.69" style="stop-color:#FDF25C"/>
+            <stop offset="0.89" style="stop-color:#FCEF31"/>
+            <stop offset="1" style="stop-color:#FCEE21"/>
+        </linearGradient>
+
+        <linearGradient id="trump-gradient-5"
+                        gradientUnits="userSpaceOnUse"
+                        x1="292.93451"
+                        y1="353.10141"
+                        x2="254.54449"
+                        y2="419.59491">
+            <stop offset="4.000000e-02" style="stop-color:#FFFFFF"/>
+            <stop offset="0.4" style="stop-color:#FEF8A0"/>
+            <stop offset="0.69" style="stop-color:#FDF25C"/>
+            <stop offset="0.89" style="stop-color:#FCEF31"/>
+            <stop offset="1" style="stop-color:#FCEE21"/>
+        </linearGradient>
+
+        <radialGradient id="trump-gradient-6"
+                        cx="410.25769"
+                        cy="462.04691"
+                        r="71.985703"
+                        gradientTransform="matrix(0.9946,0,0,0.9575,-20.9525,-39.0395)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:#FFFFFF" />
+            <stop offset="4.358071e-02" style="stop-color:#FDE3C5" />
+            <stop offset="0.2516" style="stop-color:#FBC78A" />
+            <stop offset="0.4476" style="stop-color:#F9B05B" />
+            <stop offset="0.6259" style="stop-color:#F8A03A" />
+            <stop offset="0.7831" style="stop-color:#F79725" />
+            <stop offset="0.9131" style="stop-color:#F7931E" />
+            <stop offset="1" style="stop-color:#000000" />
+        </radialGradient>
+
+        <radialGradient id="trump-gradient-7"
+                        cx="422.5"
+                        cy="474.99979"
+                        r="55.6217"
+                        gradientTransform="matrix(0.7983,0,0,0.7924,49.4118,27.4081)"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="8.250000e-02" style="stop-color:#FFFFFF" />
+            <stop offset="0.3598" style="stop-color:#FFFFFD" />
+            <stop offset="0.4991" style="stop-color:#FFFEF5" />
+            <stop offset="0.6077" style="stop-color:#FFFDE8" />
+            <stop offset="0.7004" style="stop-color:#FEFCD5" />
+            <stop offset="0.783" style="stop-color:#FEFABD" />
+            <stop offset="0.8584" style="stop-color:#FEF89E" />
+            <stop offset="0.9283" style="stop-color:#FDF57B" />
+            <stop offset="0.9922" style="stop-color:#FDF252" />
+            <stop offset="1" style="stop-color:#FCEE24" />
+            <stop offset="1" style="stop-color:#FCEE21" />
         </radialGradient>
     </defs>
 
