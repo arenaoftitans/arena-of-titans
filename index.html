@@ -34,6 +34,10 @@
         <meta name="description" content="Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones ! Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !">
 
         <style>
+            .application-load-errors {
+                text-align: center;
+            }
+
             .splash {
                 text-align: center;
                 margin: 10% 0 0 0;
@@ -90,6 +94,23 @@
         <div class="splash">
             <div class="message">Arena of Titans</div>
             <i class="fa fa-spinner fa-spin"></i>
+        </div>
+
+        <div class="application-load-errors" style="display: none">
+            <div class="aurelia-load-errors" style="display: none">
+                <p>Il semblerait qu'Arena of Titans ne puisse pas se charger :-( Vérifier vorte connexion Internet et que votre navigateur est supporté.</p>
+                <p>It seems that Arena of Titans connat load :-( Please check your Internet connection and that your browser is supported.</p>
+            </div>
+
+            <div class="unsupported-browser-error" style="display: none">
+                <p>Ce navigateur est trop vieux et n'est pas supporté.</p>
+                <p>This browser is too old and is not supported.</p>
+            </div>
+
+            <div>
+                <p><strong>Navigateurs supportés :</strong> <a href="https://www.mozilla.org/fr/firefox/new/">Mozilla Firefox</a>, <a href="https://www.google.com/chrome/index.html">Google Chrome</a> et <a href="https://www.microsoft.com/fr-fr/windows/microsoft-edge">Microsoft Edge</a>.</p>
+                <p><strong>Supported browsers:</strong> <a href="https://www.mozilla.org/en/firefox/new/">Mozilla Firefox</a>, <a href="https://www.google.com/chrome/index.html">Google Chrome</a> and <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a>.</p>
+            </div>
         </div>
 
         <noscript>
