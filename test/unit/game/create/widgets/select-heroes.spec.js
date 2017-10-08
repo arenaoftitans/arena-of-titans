@@ -21,6 +21,9 @@ import {
     AotSelectHeroesCustomElement,
 } from '../../../../../app/game/create/widgets/select-heroes/select-heroes';
 import {
+    Game,
+} from '../../../../../app/game/game';
+import {
     CssAnimatorStub,
 } from '../../../../../app/test-utils';
 
@@ -44,27 +47,27 @@ describe('create/select-heroes', () => {
     });
 
     it('should update displayed hero on bind', () => {
-        sut.selectedHero = 'daemon';
+        sut.selectedHero = Game.heroes[0];
         expect(sut._displayedHero).toBeUndefined();
 
         sut.bind();
 
         expect(sut._displayedHero).toBeDefined();
-        expect(sut._displayedHero.name).toBe('daemon');
+        expect(sut._displayedHero.name).toBe(Game.heroes[0]);
     });
 
     it('should update displayed hero on selectedHero change', () => {
-        sut.selectedHero = 'daemon';
+        sut.selectedHero = Game.heroes[0];
         expect(sut._displayedHero).toBeUndefined();
 
         sut.selectedHeroChanged();
 
         expect(sut._displayedHero).toBeDefined();
-        expect(sut._displayedHero.name).toBe('daemon');
+        expect(sut._displayedHero.name).toBe(Game.heroes[0]);
     });
 
     it('should run the animation on selectedHero change', () => {
-        sut.selectedHero = 'daemon';
+        sut.selectedHero = Game.heroes[0];
         spyOn(sut, '_animateHero');
 
         sut.selectedHeroChanged();
