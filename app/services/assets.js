@@ -109,6 +109,10 @@ export class AssetSource {
         }
     }
 
+    static forPower(power) {
+        return `/${this.version}/assets/game/cards/powers/${ImageName.forTrump(power)}.png`;
+    }
+
     static forTrump(trump) {
         return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
     }

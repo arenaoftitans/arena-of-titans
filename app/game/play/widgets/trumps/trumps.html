@@ -24,6 +24,10 @@
     <require from="../trump/trump"></require>
 
 	<div id="gauge" class="centered-block">
+        <div class="hero-power">
+            <aot-trump trump.bind="power"
+                       kind="power"></aot-trump>
+        </div>
         <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero" cost.bind="selectedTrumpCost"></aot-trumps-gauge>
 	</div>
 

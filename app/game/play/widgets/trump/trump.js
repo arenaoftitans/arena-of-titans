@@ -95,6 +95,10 @@ export class AotTrumpCustomElement {
                 this.svgClass = 'trump-affecting-player';
                 this.infosType = 'affecting-trumps';
                 break;
+            case 'power':
+                this.svgClass = 'power-trump';
+                this.infosType = 'power';
+                break;
             default:
                 this.svgClass = undefined;
                 break;
@@ -130,11 +134,22 @@ export class AotTrumpCustomElement {
     }
 
     getTranslatedTrumpDescription() {
-        return this._i18n.tr(`trumps.${this.normalizeTrumpName()}_description`);
+        let ns = this._getTranslationNamespace();
+        return this._i18n.tr(`${ns}.${this.normalizeTrumpName()}_description`);
+    }
+
+    _getTranslationNamespace() {
+        switch (this.infosType) {
+            case 'power':
+                return 'powers';
+            default:
+                return 'trumps';
+        }
     }
 
     getTranslatedTrumpTitle() {
-        return this._i18n.tr(`trumps.${this.normalizeTrumpName()}`);
+        let ns = this._getTranslationNamespace();
+        return this._i18n.tr(`${ns}.${this.normalizeTrumpName()}`);
     }
 
     hideInfos() {

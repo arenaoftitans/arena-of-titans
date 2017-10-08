@@ -74,6 +74,7 @@ export class Api {
     init() {
         this._me = {
             trumps: [],
+            power: null,
         };
         this._game = {
             players: {
@@ -185,6 +186,7 @@ export class Api {
 
     _handleCreateGame(message) {
         this._createPlayers(message.players);
+        this._me.power = this._createPower(message.power);
         this._me.trumps = this._createTrumps(message.trumps);
         this._updateGame(message);
         this._initBoard();
@@ -209,6 +211,14 @@ export class Api {
                 this._game.players.squares.push({});
             }
         }
+    }
+
+    _createPower(power) {
+        if (power) {
+            power.img = AssetSource.forPower(power);
+        }
+
+        return power;
     }
 
     _createTrumps(trumps) {
@@ -309,6 +319,7 @@ export class Api {
 
     _handleReconnect(reconnectMessage) {
         this._createPlayers(reconnectMessage.players);
+        this._me.power = this._createPower(reconnectMessage.power);
         this._me.trumps = this._createTrumps(reconnectMessage.trumps);
         this._me.index = reconnectMessage.index;
         this._me.hero = this._game.players.heroes[this._me.index];
