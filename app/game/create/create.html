@@ -41,7 +41,8 @@
                 <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
             </div>
             <div class="heroes-description-container">
-                <p class="white-text">${'heroes.' + selectedHero & t}</p>
+                <p class="white-text centered-text">${'heroes.' + selectedHero & t}</p>
+                <p class="white-text">${'heroes.' + selectedHero + '_short_description' & t}</p>
                 <p class="white-text">${'heroes.' + selectedHero + '_power' & t}</p>
             </div>
         </div>
