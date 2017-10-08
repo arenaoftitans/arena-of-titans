@@ -18,8 +18,8 @@
  */
 
 import { bindable } from 'aurelia-framework';
-import { Game } from '../../../game';
-import { AssetSource } from '../../../../services/assets';
+import { Game } from '../../game/game';
+import { AssetSource } from '../../services/assets';
 
 
 const NB_HEROES_PER_LINE = 4;

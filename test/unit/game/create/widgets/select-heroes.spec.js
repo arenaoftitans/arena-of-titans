@@ -19,7 +19,7 @@
 
 import {
     AotSelectHeroesCustomElement,
-} from '../../../../../app/game/create/widgets/select-heroes/select-heroes';
+} from '../../../../../app/widgets/select-heroes/select-heroes';
 import {
     Game,
 } from '../../../../../app/game/game';
