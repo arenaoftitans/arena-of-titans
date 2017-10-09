@@ -19,13 +19,13 @@
 
 import {
     AotSelectHeroesCustomElement,
-} from '../../../../../app/widgets/select-heroes/select-heroes';
+} from '../../../app/widgets/select-heroes/select-heroes';
 import {
     Game,
-} from '../../../../../app/game/game';
+} from '../../../app/game/game';
 import {
     CssAnimatorStub,
-} from '../../../../../app/test-utils';
+} from '../../../app/test-utils';
 
 
 describe('create/select-heroes', () => {
