@@ -20,8 +20,8 @@
 import { AssetSource } from '../../../services/assets';
 import { Game } from '../../../game/game';
 
-export class Heroes {
 
+export class Heroes {
     constructor() {
         this.assetSource = AssetSource;
         this.selectedHero = Game.heroes[0];
