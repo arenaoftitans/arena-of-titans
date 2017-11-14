@@ -335,3 +335,10 @@ Update aurelia-cli
 
 #. Update files in ``aurelia_project/tasks`` based on the diff.
 #. Check that the build and test tasks are running correctly.
+
+Update Rollbar
+--------------
+
+#. Fetch the release from https://github.com/rollbar/rollbar.js/releases Look at the latest release and browse the files under ``dist``.
+#. Push the new rollbar script to static.arenaoftitans.com
+#. Update ``scripts/rollbar.js`` and set ``rollbarJsUrl`` to the new value
