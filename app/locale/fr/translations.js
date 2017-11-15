@@ -48,6 +48,9 @@ export default {
         "wizard_red": "Magicien rouge",
         "wizard_yellow": "Magicien jaune"
     },
+    "errors": {
+        "player_already_connected": "Tu es d\u00e9j\u00e0 connect\u00e9 avec ce navigateur."
+    },
     "game": {
         "connection_lost": "Connexion avec le serveur perdue",
         "create": {

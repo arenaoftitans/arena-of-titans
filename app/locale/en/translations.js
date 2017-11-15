@@ -48,6 +48,9 @@ export default {
         "wizard_red": "Red Wizard",
         "wizard_yellow": "Yellow Wizard"
     },
+    "errors": {
+        "player_already_connected": "You are already connected with this browser."
+    },
     "game": {
         "connection_lost": "Lost connection with the server",
         "create": {
