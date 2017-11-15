@@ -101,6 +101,7 @@ export class Game {
     activate() {
         this._eas.subscribe('aot:api:error', data => {
             let popupData = {
+                isFatal: data.isFatal,
                 translate: {
                     messages: {
                         message: data.message,

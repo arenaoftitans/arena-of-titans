@@ -388,7 +388,10 @@ export class Api {
 
     _handleErrors(message) {
         if (message.error_to_display) {
-            this._ea.publish('aot:api:error', {message: message.error_to_display});
+            this._ea.publish('aot:api:error', {
+                message: message.error_to_display,
+                isFatal: message.is_fatal,
+            });
         } else if (message.debug) {
             this._logger.debug(message.debug);
         } else {

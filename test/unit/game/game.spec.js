@@ -88,15 +88,21 @@ describe('the Game module', () => {
         });
 
         it('should display error popup on error', () => {
-            let message = {message: 'error'};
+            let message = {
+                isFatal: false,
+                message: 'error',
+            };
             spyOn(mockedPopup, 'display').and.returnValue(new Promise(resolve => {}));
 
             sut.activate();
             mockedEas.publish('aot:api:error', message);
 
             expect(mockedPopup.display).toHaveBeenCalledWith('error', {
+                isFatal: false,
                 translate: {
-                    messages: message,
+                    messages: {
+                        message: 'error',
+                    },
                 },
             });
         });
