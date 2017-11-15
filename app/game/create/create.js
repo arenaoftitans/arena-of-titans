@@ -120,7 +120,7 @@ export class Create {
         if (!this.playerInfos.name) {
             this.playerInfos.name = selectRandomElement(DEFAULT_NAMES);
         }
-        if (!this.playerInfos.hero) {
+        if (!this.playerInfos.hero || !Game.heroes.includes(this.playerInfos.hero)) {
             this.playerInfos.hero = selectRandomElement(Game.heroes);
         }
         this.selectedHero = this.playerInfos.hero;
