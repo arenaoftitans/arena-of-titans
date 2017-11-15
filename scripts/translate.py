@@ -9,6 +9,7 @@ SAVE_TRANSLATIONS_FILE = 'app/locale/{lang}/translations.js'
 PAGE_TO_SHEET_NB = {
     'actions': 985921915,
     'cards': 2131671933,
+    'errors': 807068577,
     'game': 1241014372,
     'game.create': 158417819,
     'game.play': 1072267331,

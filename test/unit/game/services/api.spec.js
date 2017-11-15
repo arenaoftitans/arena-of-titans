@@ -232,7 +232,7 @@ describe('services/api', () => {
     });
 
     it('should handle errors to display', () => {
-        let message = {error_to_display: 'error', rt: 'error2'};
+        let message = {error_to_display: 'error', rt: 'error2', is_fatal: false};
         spyOn(sut, '_handleErrors').and.callThrough();
         spyOn(sut._ea, 'publish');
 
@@ -241,7 +241,10 @@ describe('services/api', () => {
         expect(sut._handleErrors).toHaveBeenCalledWith(message);
         expect(sut._ea.publish).toHaveBeenCalledWith(
             'aot:api:error',
-            {message: message.error_to_display}
+            {
+                isFatal: false,
+                message: message.error_to_display,
+            }
         );
         expect(sut._ea.publish.calls.count()).toBe(1);
     });

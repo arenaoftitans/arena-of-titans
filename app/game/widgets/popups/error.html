@@ -23,6 +23,7 @@
         <p class="centered-text">${data.message}</p>
 
         <button class="blue-button"
+                if.bind="!data.isFatal"
                 click.delegate="ok()"
                 t="global.ok">OK</button>
     </div>
