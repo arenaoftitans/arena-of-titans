@@ -86,6 +86,13 @@ export class AotTrumpCustomElement {
     }
 
     bind() {
+        // Disable the trump is it doesn't exist. This is useful since we don't have all the
+        // powers implemented yet, therefore this.trump can be null.
+        // Since trump cannot change once the game is started, checking nullity eher is enought.
+        if (this.trump === null) {
+            this.disabled = true;
+        }
+
         switch (this.kind) {
             case 'player':
                 this.svgClass = 'player-trump';
@@ -120,6 +127,11 @@ export class AotTrumpCustomElement {
     }
 
     displayInfos(event) {
+        // Don't display infos for an unexisting trump (eg a power that is not implemented).
+        if (this.trump === null) {
+            return;
+        }
+
         this.infos = {
             title: this.getTranslatedTrumpTitle(),
             description: this.getTranslatedTrumpDescription(),
