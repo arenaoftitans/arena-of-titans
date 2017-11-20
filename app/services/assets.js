@@ -67,7 +67,7 @@ export class AssetSource {
     }
 
     static forHeroPower(hero) {
-        return `/${this.version}/assets/game/heroes/powers/${hero}-power.png`;
+        return `/${this.version}/assets/game/cards/powers/${hero}.png`;
     }
 
     static forMiscImage(kind) {
