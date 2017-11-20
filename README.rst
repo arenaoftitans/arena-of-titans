@@ -296,8 +296,8 @@ Associated translation to the ``'game.play.select_trump_target'`` to illustrate 
 Add a hero
 ==========
 
-#. Add the main image in ``asserts/game/heroes/<hero-name>.png`` (used in hero selection)
-#. Add the circled image in ``asserts/game/heroes/<hero-name>-circle.png`` (used in the game)
+#. Add the main image in ``assets/game/heroes/<hero-name>.png`` (used in hero selection)
+#. Add the circled image in ``assets/game/heroes/<hero-name>-circle.png`` (used in the game)
 #. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
 
 
