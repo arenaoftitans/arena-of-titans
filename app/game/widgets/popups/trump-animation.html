@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+-->
+<template>
+    <require from="./trump-animation.css"></require>
+
+    <h1 class="centered-text" if.bind="!data.htmlMessage">${data.message}</h1>
+    <h1 class="centered-text" if.bind="data.htmlMessage" innerhtml.bind="data.message"></h1>
+
+    <div class="smash-animation" if.bind="data.kind === 'smash'">
+        <img class="img-initiator-hero" alt="Your hero"
+            if.bind="data.initiatorHeroImg"
+            src.bind="data.initiatorHeroImg" />
+
+        <img class="img-targeted-hero" alt="Targeted hero"
+            if.bind="data.targetedHeroImg"
+            src.bind="data.targetedHeroImg" />
+
+        <div class="trump-container">
+            <img class="img-trump" alt="Trump played"
+                if.bind="data.trumpImg"
+                src.bind="data.trumpImg" />
+        </div>
+    </div>
+
+    <div class="powerup-animation" if.bind="data.kind === 'powerup'">
+        <div class="hero-container">
+            <img class="img-initiator-hero" alt="Your hero"
+                if.bind="data.initiatorHeroImg"
+                src.bind="data.initiatorHeroImg" />
+            <div class="powerup_particles_big"></div>
+            <div class="powerup_particles_small"></div>
+        </div>
+
+        <div class="trump-container">
+            <img class="img-trump img-trump-setup" alt="played"
+                ref="trumpImg"
+                if.bind="data.trumpImg"
+                src.bind="data.trumpImg" />
+        </div>
+    </div>
+</template>

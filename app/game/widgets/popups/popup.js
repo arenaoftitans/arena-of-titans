@@ -211,6 +211,9 @@ export class AotPopupCustomElement {
             case 'transition':
                 this.background = 'popup-transition';
                 break;
+            case 'trump-animation':
+                this.background = 'popup-trump-animation';
+                break;
             default:
                 this.background = 'default';
                 break;

@@ -51,18 +51,20 @@
 
         <div class="play-middle">
             <div id="board-bg">
-                <aot-player-box repeat.for="index of players.indexes"
-                                index.bind="index"
-                                players.bind="players"></aot-player-box>
-                <div id="board-container">
-                    <aot-board selected-card.two-way="selectedCard"
-                               pawn-clickable.bind="pawnClickable"
-                               on-pawn-clicked.bind="onPawnClicked"
-                               pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
-                               on-pawn-square-clicked.bind="onPawnSquareClicked"
-                               player-index.bind="me.index"></aot-board>
+                <div id="board-effect-bg" class="bgClass">
+                    <aot-player-box repeat.for="index of players.indexes"
+                                    index.bind="index"
+                                    players.bind="players"></aot-player-box>
+                    <div id="board-container">
+                        <aot-board selected-card.two-way="selectedCard"
+                                pawn-clickable.bind="pawnClickable"
+                                on-pawn-clicked.bind="onPawnClicked"
+                                pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
+                                on-pawn-square-clicked.bind="onPawnSquareClicked"
+                                player-index.bind="me.index"></aot-board>
 
                     <aot-board-controls></aot-board-controls>
+                    </div>
                 </div>
             </div>
 

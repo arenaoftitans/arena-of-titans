@@ -123,6 +123,42 @@ export class Game {
             this._tutorialInProgress = false;
         });
 
+        // Trump animation
+        this._eas.subscribe('aot:api:play_trump', message => {
+            let popupData = {
+                translate: {
+                    messages: {},
+                },
+            };
+
+            let hero1 = this._api.game.players.heroes[this._api.game.next_player];
+            popupData.initiatorHeroImg = AssetSource.forHero(hero1);
+            popupData.translate.messages.playerName =
+                this._api.game.players.names[this._currentPlayerIndex];
+            let trump1 = message.last_action.trump;
+            popupData.trumpImg = AssetSource.forTrump(trump1);
+            popupData.translate.messages.trumpName = message.last_action.trump.title;
+
+            if (message.last_action.target_index === this._api.me.index ) {
+                popupData.kind = 'powerup';
+            } else {
+                popupData.kind = 'smash';
+
+                let hero2 = this._api.game.players.heroes[message.last_action.target_index];
+                popupData.targetedHeroImg = AssetSource.forHero(hero2);
+                popupData.translate.messages.targetName =
+                    this._api.game.players.names[message.last_action.target_index];
+            }
+
+            let options = {
+                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+            };
+
+            this._popup.display('trump-animation', popupData, options).then(() => {
+                this._eas.publish('aot:game:trump-animation:done', message.trump);
+            });
+        });
+
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
             if (!this.canDisplayTransitionPopup(message)) {
                 // We update the current player index nonetheless. This way, after viewing or
