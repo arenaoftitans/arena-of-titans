@@ -41,7 +41,7 @@ if (Array.isArray(argv.b)) {
     browsers.push(argv.b);
 }
 if (browsers.length === 0) {
-    browsers = ['Chrome', 'Firefox'];
+    browsers = ['ChromeHeadless', 'FirefoxHeadless'];
 }
 
 let reporters = ['jasmine-diff', 'progress'];
@@ -78,6 +78,14 @@ module.exports = function (config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: browsers,
+        customLaunchers: {
+            'FirefoxHeadless': {
+                base: 'Firefox',
+                flags: [
+                    '--headless'
+                ],
+            }
+        },
         singleRun: false,
         // client.args must be a array of string.
         // Leave 'aurelia-root', project.paths.root in this order so we can find
