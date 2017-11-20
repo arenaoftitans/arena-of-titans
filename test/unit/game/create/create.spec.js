@@ -141,7 +141,7 @@ describe('game/create', () => {
         return sut._joinGame().then(() => {
             expect(mockedApi.joinGame)
                 .toHaveBeenCalledWith({gameId: 'game_id', playerId: 'player_id'});
-            expect(sut._logger.warn).toHaveBeenCalledWith('Failed to join the game');
+            expect(sut._logger.warn).toHaveBeenCalledWith('Failed to join the game', new Error());
             expect(mockedStorage.clearPlayerId).toHaveBeenCalledWith('game_id');
         }, () => fail('Unwanted code branch'));
     });
