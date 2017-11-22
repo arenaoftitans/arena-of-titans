@@ -23,6 +23,9 @@ import { Game } from '../../game/game';
 import { AssetSource } from '../../services/assets';
 
 
+const INPUT_NODE_NAMES = ['INPUT', 'TEXTAREA'];
+
+
 @inject(CssAnimator)
 export class AotSelectHeroesCustomElement {
     @bindable selectedHero = null;
@@ -57,6 +60,11 @@ export class AotSelectHeroesCustomElement {
 
         // Listen to keyup event to change hero with keyboard.
         this._keyupEventListener = event => {
+            // Don't change hero if the user is using arrow keys in an input/textarea.
+            if (INPUT_NODE_NAMES.includes(event.target.nodeName)) {
+                return;
+            }
+
             // code doesn't exist on IE, we need to use key.
             let keyCode = event.code || event.key;
 
