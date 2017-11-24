@@ -178,7 +178,12 @@
                 "prepend": [
                     "node_modules/bluebird/js/browser/bluebird.js",
                     "scripts/polyfills.js",
-                    "scripts/rollbar.js",
+                    {
+                        "name": "rollbar",
+                        "path": "./scripts/rollbar.js",
+                        "main": "rollbar",
+                        "env": "stage & prod"
+                    },
                     "scripts/browser.js",
                     "node_modules/requirejs/require.js"
                 ],
