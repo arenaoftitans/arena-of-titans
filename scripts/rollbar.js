@@ -4,7 +4,16 @@ var _rollbarConfig = {
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
-        environment: "ENVIRONMENT"
+        environment: "ENVIRONMENT",
+        client: {
+            javascript: {
+                source_map_enabled: true, //this is now true by default
+                code_version: "CODE_VERSION",
+                // Optionally have Rollbar guess which frames the error was thrown from
+                // when the browser does not provide line and column numbers.
+                guess_uncaught_frames: true,
+            },
+        },
     },
     rollbarJsUrl: 'https://static.arenaoftitans.com/js/rollbar.2.3.1.min.js',
 };
