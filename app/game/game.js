@@ -34,12 +34,12 @@ const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
     static heroes = [
-        'kharliass',
         'arline',
-        'razbrak',
-        'mirindrel',
-        'luni',
         'garez',
+        'kharliass',
+        'luni',
+        'mirindrel',
+        'razbrak',
         'ulya',
     ];
 
