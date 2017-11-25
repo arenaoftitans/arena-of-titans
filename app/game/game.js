@@ -39,6 +39,8 @@ export class Game {
         'razbrak',
         'mirindrel',
         'luni',
+        'garez',
+        'ulya',
     ];
 
     data = null;
