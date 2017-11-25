@@ -57,6 +57,11 @@
         "fileExtension": ".scss",
         "source": "app/**/*.scss"
     },
+    "templates": {
+        "id": "templates",
+        "displayName": "Templates",
+        "source": "templates/**/*"
+    },
     "editor": {
         "id": "vscode",
         "displayName": "Visual Studio Code"
