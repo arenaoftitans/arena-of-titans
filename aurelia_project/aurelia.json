@@ -57,6 +57,11 @@
         "fileExtension": ".scss",
         "source": "app/**/*.scss"
     },
+    "templates": {
+        "id": "templates",
+        "displayName": "Templates",
+        "source": "templates/**/*"
+    },
     "editor": {
         "id": "vscode",
         "displayName": "Visual Studio Code"
@@ -102,8 +107,8 @@
             ]
         },
         "options": {
-            "minify": "stage & prod",
-            "sourcemaps": "dev & stage & prod"
+            "minify": "staging & prod",
+            "sourcemaps": "dev & staging & prod"
         },
         "bundles": [
             {
@@ -182,7 +187,7 @@
                         "name": "rollbar",
                         "path": "./scripts/rollbar.js",
                         "main": "rollbar",
-                        "env": "stage & prod"
+                        "env": "staging & prod"
                     },
                     "scripts/browser.js",
                     "node_modules/requirejs/require.js"

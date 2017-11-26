@@ -3,15 +3,14 @@ import sourcemaps from 'gulp-sourcemaps';
 import sass from 'gulp-sass';
 import sassVariables from 'gulp-sass-variables';
 import project from '../aurelia.json';
-import {CLIOptions, build} from 'aurelia-cli';
+import {build} from 'aurelia-cli';
+import {getVersion} from './utils';
 
 export default function processCSS() {
-  let version = CLIOptions.getFlagValue('version') || 'latest';
-
   return gulp.src(project.cssProcessor.source)
     .pipe(sourcemaps.init())
     .pipe(sassVariables({
-      $version: version
+      $version: getVersion(),
     }))
     .pipe(sass().on('error', sass.logError))
     .pipe(build.bundle());

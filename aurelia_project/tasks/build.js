@@ -4,12 +4,14 @@ import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
 import copyFiles from './copy-files';
+import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
 
 let build = gulp.series(
   readProjectConfiguration,
   gulp.parallel(
+    renderTemplates,
     transpile,
     processMarkup,
     processCSS,
