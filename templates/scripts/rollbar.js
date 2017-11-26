@@ -1,14 +1,14 @@
 // From https://rollbar.com/docs/notifier/rollbar.js/
 var _rollbarConfig = {
-    accessToken: "POST_CLIENT_ITEM_ACCESS_TOKEN",
+    accessToken: "{{ rollbar.access_token }}",
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
-        environment: "ENVIRONMENT",
+        environment: "{{ env }}",
         client: {
             javascript: {
                 source_map_enabled: true, //this is now true by default
-                code_version: "CODE_VERSION",
+                code_version: "{{ version }}",
                 // Optionally have Rollbar guess which frames the error was thrown from
                 // when the browser does not provide line and column numbers.
                 guess_uncaught_frames: true,
