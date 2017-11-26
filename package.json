@@ -4,7 +4,7 @@
   "description": "Fight to death in the arena",
   "scripts": {
     "dev": "python3 scripts/build-config.py --type dev --version latest && au run --watch",
-    "buildprod": "au build --env prod",
+    "build": "au build",
     "builddev": "au build",
     "config": "python3 scripts/build-config.py",
     "clean": "rm -rf dist/*",
