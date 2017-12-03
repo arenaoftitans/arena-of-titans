@@ -107,8 +107,8 @@
             ]
         },
         "options": {
-            "minify": "staging & prod",
-            "sourcemaps": "dev & staging & prod"
+            "minify": "testing & staging & prod",
+            "sourcemaps": "dev & testing & staging & prod"
         },
         "bundles": [
             {
