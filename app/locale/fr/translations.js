@@ -96,7 +96,7 @@ export default {
             "notifications": "Les derni\u00e8res actions jou\u00e9es sont visibles ici",
             "propose": "Veux-tu voir le tutoriel ?",
             "title": "Tutoriel",
-            "trumps": "Tu peux \u00e9galement utiliser des atouts pour te renfrazbraker ou mettre des p\u00e9nalit\u00e9s \u00e0 d'autres joueurs."
+            "trumps": "Tu peux \u00e9galement utiliser des atouts pour te renforcer ou mettre des p\u00e9nalit\u00e9s \u00e0 d'autres joueurs."
         }
     },
     "global": {
@@ -129,7 +129,7 @@ export default {
         "garez_power": "\u00ab Chevauch\u00e9e Intr\u00e9pide \u00bb (passif) : Vos cartes \"Cavaliers\" peuvent avancer sur des cases de n'importe quelle couleur.",
         "garez_short_description": "Garez n\u2019appr\u00e9cie pas particuli\u00e8rement le combat. Ceux qui se trouvent sur sa route peuvent s\u2019attendre \u00e0 une mort aussi rapide qu\u2019impr\u00e9visible.",
         "kharliass": "Kharliass",
-        "kharliass_description": "Kharliass est un d\u00e9mon de classe majeure connue pour avoir sem\u00e9 la panique dans divers pays du monde des humains et razbrakhestr\u00e9 un certains nombres d\u2019\u00e9meutes particuli\u00e8rement sanglantes durant l\u2019Antiquit\u00e9. Elle plonge ses proies dans un \u00e9tat de confusion totale en rev\u00eatant leur propre apparence juste avant de les tuer.",
+        "kharliass_description": "Kharliass est un d\u00e9mon de classe majeure connue pour avoir sem\u00e9 la panique dans divers pays du monde des humains et orchestr\u00e9 un certains nombres d\u2019\u00e9meutes particuli\u00e8rement sanglantes durant l\u2019Antiquit\u00e9. Elle plonge ses proies dans un \u00e9tat de confusion totale en rev\u00eatant leur propre apparence juste avant de les tuer.",
         "kharliass_power": "\u00ab M\u00e9tamorphose\u00bb (actif) : Pendant 1 tour vous pouvez prendre l\u2019apparence d\u2019un de vos adversaires. Cette comp\u00e9tence est alors remplac\u00e9e par la comp\u00e9tence h\u00e9ros du joueur s\u00e9lectionn\u00e9 et son co\u00fbt d\u2019utilisation est nul.",
         "kharliass_short_description": "Kharliass est un d\u00e9mon de classe qui plonge ses proies dans un \u00e9tat de confusion totale en rev\u00eatant leur propre apparence juste avant de les tuer.",
         "luni": "Luni",
@@ -203,8 +203,8 @@ export default {
         "fortress_yellow_description": "Emp\u00eache le joueur de se d\u00e9placer sur les cases jaunes pendant deux tours.",
         "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
         "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
-        "reinfrazbrakements": "Renfrazbrakements",
-        "reinfrazbrakements_description": "Autorise le joueur \u00e0 jouer une carte d\u00e9placement suppl\u00e9mentaire",
+        "reinforcements": "Renforcements",
+        "reinforcements_description": "Autorise le joueur \u00e0 jouer une carte d\u00e9placement suppl\u00e9mentaire",
         "tower_black": "Tour Noire",
         "tower_black_description": "Emp\u00eache le joueur de se d\u00e9placer sur les cases noires",
         "tower_blue": "Tour Bleue",
