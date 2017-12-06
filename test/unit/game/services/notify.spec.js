@@ -19,11 +19,12 @@
 
 import { Wait } from '../../../../app/game/services/utils';
 import { Notify } from '../../../../app/game/services/notify';
-import { I18nStub } from '../../../../app/test-utils';
+import { I18nStub, EventAggregatorSubscriptionsStub } from '../../../../app/test-utils';
 
 
 describe('services/notify', () => {
     let mockedI18n;
+    let mockedEas;
     let mockedOptions;
     let sut;
     let link = document.createElement('link');
@@ -33,8 +34,9 @@ describe('services/notify', () => {
         spyOn(document, 'getElementById').and.returnValue(link);
 
         mockedI18n = new I18nStub();
+        mockedEas = new EventAggregatorSubscriptionsStub();
         mockedOptions = {};
-        sut = new Notify(mockedI18n, mockedOptions);
+        sut = new Notify(mockedI18n, mockedEas, mockedOptions);
     });
 
     it('should clearNotifications', () => {

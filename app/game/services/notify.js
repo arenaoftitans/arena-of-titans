@@ -22,17 +22,23 @@ import { I18N } from 'aurelia-i18n';
 import { Wait } from './utils';
 import { AssetSource } from '../../services/assets';
 import { Options } from '../../services/options';
+import { EventAggregatorSubscriptions } from '../services/utils';
 
 
 const PLAY_VOICE_TIMEOUT = 45000;
 
 
-@inject(I18N, Options)
+@inject(I18N, EventAggregatorSubscriptions, Options)
 export class Notify {
-    constructor(i18n, options) {
+    constructor(i18n, eas, options) {
         this._i18n = i18n;
+        this._eas = eas;
+        this._eas.subscribe('router:navigation:complete', () => {
+            // While navigation is not complete, document.title may be the default value in
+            // index.html
+            this._originalTitle = document.title;
+        });
         this._options = options;
-        this._originalTitle = document.title;
         this._head = document.head || (document.head = document.getElementsByTagName('head')[0]);
         this._originalFaviconHref = AssetSource.forMiscImage('favicon');
         this._notifyFavicon = AssetSource.forMiscImage('favicon-notify');
@@ -87,7 +93,9 @@ export class Notify {
     _swapTitle() {
         if (document.title === this._originalTitle) {
             document.title = this._i18n.tr('game.play.your_turn');
-        } else {
+        } else if (this._originalTitle) {
+            // originalTitle is not defined until at least one navigation is complete.
+            // This may occur after this function is called.
             document.title = this._originalTitle;
         }
     }
@@ -111,7 +119,11 @@ export class Notify {
     }
 
     clearNotifications() {
-        document.title = this._originalTitle;
+        // originalTitle is not defined until at least one navigation is complete.
+        // This may occur after this function is called.
+        if (this._originalTitle) {
+            document.title = this._originalTitle;
+        }
         this._createFavicon(this._originalFaviconHref);
     }
 }
