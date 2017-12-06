@@ -86,30 +86,33 @@ describe('services/notify', () => {
         });
 
         it('voice', () => {
-            sut._playVoice();
-
-            expect(Wait.forId).toHaveBeenCalledWith('notify-voice-player');
-            return Wait.forId('notify-voice-player').then(() => {
+            return sut._playVoice().then(() => {
+                expect(Wait.forId).toHaveBeenCalledWith('notify-voice-player');
                 expect(element.play).toHaveBeenCalled();
-            }, () => fail('Unwanted code branch'));
+            });
         });
 
         it('sound', () => {
-            sut._playYourTurnSound();
-
-            expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
-            return Wait.forId('notify-sound-player').then(() => {
+            return sut._playYourTurnSound().then(() => {
+                expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
                 expect(element.play).toHaveBeenCalled();
-            }, () => fail('Unwanted code branch'));
+            });
         });
 
         it('game over', () => {
-            sut.notifyGameOver();
-
-            expect(Wait.forId).toHaveBeenCalledWith('notify-game-over-player');
-            return Wait.forId('notify-game-over-player').then(() => {
+            return sut.notifyGameOver().then(() => {
+                expect(Wait.forId).toHaveBeenCalledWith('notify-game-over-player');
                 expect(element.play).toHaveBeenCalled();
-            }, () => fail('Unwanted code branch'));
+            });
+        });
+
+        it('should catch error in play function', () => {
+            element.play.and.throwError('cannot play');
+            spyOn(console, 'warn');
+
+            return sut.notifyGameOver().then(() => {
+                expect(console.warn.calls.count()).toBe(2);
+            });
         });
     });
 });

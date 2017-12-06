@@ -101,21 +101,35 @@ export class Notify {
     }
 
     _playYourTurnSound() {
-        if (this._options.sound) {
-            Wait.forId('notify-sound-player').then(element => element.play());
-        }
+        return this._playSoundFromId('notify-sound-player');
     }
 
     _playVoice() {
+        return this._playSoundFromId('notify-voice-player');
+    }
+
+    _playSoundFromId(id) {
         if (this._options.sound) {
-            Wait.forId('notify-voice-player').then(element => element.play());
+            return Wait.forId(id).then(element => {
+                try {
+                    element.play();
+                } catch (e) {
+                    /* eslint-disable no-console */
+                    // This problem is expected on some browsers.
+                    // So we just console.warn here and don't rely on the logger which may send
+                    // the error to Rollbar.
+                    console.warn('Your browser cannot play sounds');
+                    console.warn(e);
+                    /* eslint-enable */
+                }
+            });
         }
+
+        return Promise.resolve();
     }
 
     notifyGameOver() {
-        if (this._options.sound) {
-            Wait.forId('notify-game-over-player').then(element => element.play());
-        }
+        return this._playSoundFromId('notify-game-over-player');
     }
 
     clearNotifications() {
