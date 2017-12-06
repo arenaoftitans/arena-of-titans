@@ -101,21 +101,23 @@ export class Notify {
     }
 
     _playYourTurnSound() {
-        this._playSoundFromId('notify-sound-player');
+        return this._playSoundFromId('notify-sound-player');
     }
 
     _playVoice() {
-        this._playSoundFromId('notify-voice-player');
+        return this._playSoundFromId('notify-voice-player');
     }
 
     _playSoundFromId(id) {
         if (this._options.sound) {
-            Wait.forId(id).then(element => element.play());
+            return Wait.forId(id).then(element => element.play());
         }
+
+        return Promise.resolve();
     }
 
     notifyGameOver() {
-        this._playSoundFromId('notify-game-over-player');
+        return this._playSoundFromId('notify-game-over-player');
     }
 
     clearNotifications() {
