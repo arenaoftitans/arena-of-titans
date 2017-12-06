@@ -105,5 +105,14 @@ describe('services/notify', () => {
                 expect(element.play).toHaveBeenCalled();
             });
         });
+
+        it('should catch error in play function', () => {
+            element.play.and.throwError('cannot play');
+            spyOn(console, 'warn');
+
+            return sut.notifyGameOver().then(() => {
+                expect(console.warn.calls.count()).toBe(2);
+            });
+        });
     });
 });
