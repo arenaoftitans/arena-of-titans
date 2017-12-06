@@ -1,3 +1,4 @@
+import asyncio
 import csv
 import io
 import json
@@ -22,19 +23,26 @@ PAGE_TO_SHEET_NB = {
 }
 
 
-def main():
-    translations_per_pages = fetch_translations()
+async def main():
+    translations_per_pages = await fetch_translations()
     translations_per_langs = create_translation_all_languages(translations_per_pages)
     save(translations_per_langs)
 
 
-def fetch_translations():
+async def fetch_translations():
+    pendings = []
     translations = {}
     for page_name, sheet_number in PAGE_TO_SHEET_NB.items():
-        address = CALC_CSV_EXPORT_ADDRESS.format(sheet_number=sheet_number)
-        translations[page_name] = urlopen(address).read().decode('utf-8')
+        pendings.append(fetch_page(page_name, sheet_number, translations))
 
+    await asyncio.gather(*pendings)
     return translations
+
+
+async def fetch_page(page_name, sheet_number, translations):
+    address = CALC_CSV_EXPORT_ADDRESS.format(sheet_number=sheet_number)
+    data = await loop.run_in_executor(None, urlopen, address)
+    translations[page_name] = data.read().decode('utf-8')
 
 
 def create_translation_all_languages(translations_per_pages):
@@ -71,4 +79,5 @@ def save(translations_per_langs):
 
 
 if __name__ == '__main__':
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
