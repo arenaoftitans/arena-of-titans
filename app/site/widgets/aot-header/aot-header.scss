@@ -74,8 +74,7 @@ aot-header {
         font-size: 1.8vw;
     }
 
-    .navbar,
-    .submenu {
+    .navbar {
         padding-left: 5%;
     }
 
@@ -84,7 +83,12 @@ aot-header {
         height: 50px;
         line-height: 50px;
         position: absolute;
-        width: 95%;
+        width: 100%;
         z-index: 1;
+
+        & > .row-block {
+            padding-left: 5%;
+            padding-right:5%;
+        }
     }
 }
