@@ -19,19 +19,15 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 <template>
     <require from="./heroes-viewer.css"></require>
 
-    <div class="heroes-viewer-container centered-text">
-        <div class="row"
-             repeat.for="row of heroesRows">
-            <div class="inline"
-                 repeat.for="hero of row">
-                <img class="hero-img pointer ${hero === selectedHero ? 'selected' : ''}"
-                     if.bind="hero !==  'placeholder'"
-                     click.delegate="selectHero(hero)"
-                     src.bind="assetSource.forHero(hero)" />
-                <img class="hero-img not-allowed"
-                     if.bind="hero ===  'placeholder'"
-                     src.bind="assetSource.forHero(hero)" />
-            </div>
+    <div class="row" repeat.for="row of heroesRows">
+        <div repeat.for="hero of row">
+            <img class="hero-img pointer ${hero === selectedHero ? 'selected' : ''}"
+                    if.bind="hero !==  'placeholder'"
+                    click.delegate="selectHero(hero)"
+                    src.bind="assetSource.forHero(hero)" />
+            <img class="hero-img not-allowed"
+                    if.bind="hero ===  'placeholder'"
+                    src.bind="assetSource.forHero(hero)" />
         </div>
     </div>
 </template>
