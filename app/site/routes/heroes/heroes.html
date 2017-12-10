@@ -21,21 +21,27 @@
     <require from="./heroes.css"></require>
     <require from="../../../widgets/select-heroes/select-heroes"></require>
     <require from="../../../widgets/heroes-viewer/heroes-viewer"></require>
-    <div class="row-block bg-content">
+    <div class="container">
         <h1 t="site.heroes.title">Heroes</h1>
-        <div id="heroes-viewer-container">
-            <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
-            <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
-        </div>
-        <div id="heroes-selection-container">
-            <p id="hero-description">
-                ${'heroes.' + selectedHero & t}
-            </p>
-            <img class="power-img"
-                src.bind="assetSource.forHeroPower(selectedHero)" />
-            <p id="hero-power">
-                ${'heroes.' + selectedHero + '_power' & t}
-            </p>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div id="heroes-viewer-container">
+                    <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
+                    <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div id="heroes-selection-container">
+                    <p id="hero-description">
+                        ${'heroes.' + selectedHero & t}
+                    </p>
+                    <img class="power-img"
+                        src.bind="assetSource.forHeroPower(selectedHero)" />
+                    <p id="hero-power">
+                        ${'heroes.' + selectedHero + '_power' & t}
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
