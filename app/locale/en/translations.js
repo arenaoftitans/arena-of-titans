@@ -152,7 +152,9 @@ export default {
     },
     "powers": {
         "domination": "Domination",
-        "domination_description": "Queen can move from 3 squares instead of 2."
+        "domination_description": "Queen can move from 3 squares instead of 2.",
+        "inveterate_ride": "Inveterate Ride",
+        "inveterate_ride_description": "Knight can move on squares of any color"
     },
     "site": {
         "connection_button": "Connect",

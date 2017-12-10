@@ -152,7 +152,9 @@ export default {
     },
     "powers": {
         "domination": "Domination",
-        "domination_description": "Les reines se d\u00e9placent de 3 cases au lieu de 2."
+        "domination_description": "Les reines se d\u00e9placent de 3 cases au lieu de 2.",
+        "inveterate_ride": "Chevauch\u00e9e Intr\u00e9pide",
+        "inveterate_ride_description": "Les cavaliers peuvent se d\u00e9placer sur les cases de n'importe quelle couleur"
     },
     "site": {
         "connection_button": "Se connecter",
