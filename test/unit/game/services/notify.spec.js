@@ -111,7 +111,9 @@ describe('services/notify', () => {
             spyOn(console, 'warn');
 
             return sut.notifyGameOver().then(() => {
+                /* eslint-disable no-console */
                 expect(console.warn.calls.count()).toBe(2);
+                /* eslint-enable */
             });
         });
     });
