@@ -205,6 +205,8 @@ export default {
         "fortress_yellow_description": "Emp\u00eache le joueur de se d\u00e9placer sur les cases jaunes pendant deux tours.",
         "max_number_played_trumps": "Tu ne peux plus jouer d'atouts pendant ce tour",
         "max_number_trumps": "Ce joueur ne peut plus \u00eatre la cible de plus d'atouts pendant ce tour",
+        "ram": "B\u00e9lier",
+        "ram_description": "D\u00e9truit les tours et r\u00e9duit le temps d'effet des forteresses",
         "reinforcements": "Renforcements",
         "reinforcements_description": "Autorise le joueur \u00e0 jouer une carte d\u00e9placement suppl\u00e9mentaire",
         "tower_black": "Tour Noire",

@@ -205,6 +205,8 @@ export default {
         "fortress_yellow_description": "Prevent the player to move on yellow squares for two turns.",
         "max_number_played_trumps": "You cannot play more trumps during this turn",
         "max_number_trumps": "This player cannot be the target of anymore trump during this turn",
+        "ram": "Ram",
+        "ram_description": "Destroy towers and reduce duration for fortress",
         "reinforcements": "Reinforcements",
         "reinforcements_description": "Allow the player to play one more move.",
         "tower_black": "Black Tower",
