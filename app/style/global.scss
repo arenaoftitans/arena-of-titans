@@ -1,5 +1,6 @@
 @import 'button';
 @import 'fa';
+@import '../../node_modules/flexboxgrid/dist/flexboxgrid';
 
 body {
     background-image: url(/#{$version}/assets/backgrounds/background.jpg);
