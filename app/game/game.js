@@ -133,21 +133,22 @@ export class Game {
                 },
             };
 
-            let hero1 = this._api.game.players.heroes[this._api.game.next_player];
-            popupData.initiatorHeroImg = AssetSource.forHero(hero1);
+            let initiatorHero = this._api.game.players.heroes[message.player_index];
+            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
             popupData.translate.messages.playerName =
                 this._api.game.players.names[this._currentPlayerIndex];
             let trump1 = message.last_action.trump;
             popupData.trumpImg = AssetSource.forTrump(trump1);
             popupData.translate.messages.trumpName = message.last_action.trump.title;
 
-            if (message.last_action.target_index === this._api.me.index ) {
+            // Power-ups are when a trump is played on the initiator (ie player == target)
+            if (message.player_index === message.target_index) {
                 popupData.kind = 'powerup';
             } else {
                 popupData.kind = 'smash';
 
-                let hero2 = this._api.game.players.heroes[message.last_action.target_index];
-                popupData.targetedHeroImg = AssetSource.forHero(hero2);
+                let targetHero = this._api.game.players.heroes[message.target_index];
+                popupData.targetedHeroImg = AssetSource.forHero(targetHero);
                 popupData.translate.messages.targetName =
                     this._api.game.players.names[message.last_action.target_index];
             }
@@ -156,9 +157,7 @@ export class Game {
                 timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
             };
 
-            this._popup.display('trump-animation', popupData, options).then(() => {
-                this._eas.publish('aot:game:trump-animation:done', message.trump);
-            });
+            this._popup.display('trump-animation', popupData, options);
         });
 
         // Assassination animation
