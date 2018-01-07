@@ -156,9 +156,7 @@ export class Game {
                 timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
             };
 
-            this._popup.display('trump-animation', popupData, options).then(() => {
-                this._eas.publish('aot:game:trump-animation:done', message.trump);
-            });
+            this._popup.display('trump-animation', popupData, options);
         });
 
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
