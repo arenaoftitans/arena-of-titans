@@ -141,7 +141,8 @@ export class Game {
             popupData.trumpImg = AssetSource.forTrump(trump1);
             popupData.translate.messages.trumpName = message.last_action.trump.title;
 
-            if (message.last_action.target_index === this._api.me.index ) {
+            // Power-ups are when a trump is played on the initiator (ie player == target)
+            if (message.player_index === message.target_index) {
                 popupData.kind = 'powerup';
             } else {
                 popupData.kind = 'smash';
