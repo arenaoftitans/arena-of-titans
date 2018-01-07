@@ -26,6 +26,10 @@ const PRELOAD_CHUNK_SIZE = 5;
 export class AssetSource {
     static version = Config.version;
 
+    static forAnimation(data) {
+        return `/${this.version}/assets/game/animation/${ImageName.forAnimation(data)}.png`;
+    }
+
     static forBackground(kind) {
         switch (kind) {
             case 'board':
@@ -164,6 +168,13 @@ export class ImageClass {
 
 
 export class ImageName {
+    static forAnimation(data) {
+        let name = data.name.toLowerCase();
+        let color = data.color.toLocaleLowerCase();
+
+        return `${name}-${color}`;
+    }
+
     static forCard(card) {
         let name = card.name.toLowerCase();
         let color = card.color.toLocaleLowerCase();
