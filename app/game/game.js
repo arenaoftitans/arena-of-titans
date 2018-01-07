@@ -161,6 +161,39 @@ export class Game {
             });
         });
 
+        // Assassination animation
+        this._eas.subscribe('aot:api:special_action_play', message => {
+            let popupData = {
+                translate: {
+                    messages: {},
+                },
+            };
+
+            let initiatorHero = this._api.game.players.heroes[message.player_index];
+            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
+            popupData.translate.messages.playerName =
+                this._api.game.players.names[message.player_index];
+            popupData.assassinImg = AssetSource.forAnimation({
+                name: 'assassination',
+                color: message.new_square.color,
+            });
+
+            let targetHero = this._api.game.players.heroes[message.target_index];
+            popupData.targetedHeroImg = AssetSource.forHero(targetHero);
+            popupData.translate.messages.targetName =
+                    this._api.game.players.names[message.target_index];
+
+            let options = {
+                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+            };
+
+            this._popup.display('assassination-animation', popupData, options).then(() => {
+                this._eas.publish(
+                    'aot:game:assassin-animation:done',
+                    message.special_action_assassination);
+            });
+        });
+
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
             if (!this.canDisplayTransitionPopup(message)) {
                 // We update the current player index nonetheless. This way, after viewing or
