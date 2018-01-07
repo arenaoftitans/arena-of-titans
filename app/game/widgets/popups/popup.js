@@ -202,6 +202,9 @@ export class AotPopupCustomElement {
 
     _open() {
         switch (this.type) {
+            case 'assassination-animation':
+                this.background = 'popup-assassination-animation';
+                break;
             case 'game-over':
                 this.background = 'game-over';
                 break;

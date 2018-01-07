@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+-->
+<template>
+    <require from="./assassination-animation.css"></require>
+
+    <h1 class="centered-text" if.bind="!data.htmlMessage">${data.message}</h1>
+    <h1 class="centered-text" if.bind="data.htmlMessage" innerhtml.bind="data.message"></h1>
+
+    <div class="assassination-animation">
+        <img class="img-initiator-hero" alt="Your hero"
+            if.bind="data.initiatorHeroImg"
+            src.bind="data.initiatorHeroImg" />
+
+        <img class="img-targeted-hero-top" alt="Targeted hero top part"
+            if.bind="data.targetedHeroImg"
+            src.bind="data.targetedHeroImg" />
+
+        <img class="img-targeted-hero-bottom" alt="Targeted hero bottom part"
+            if.bind="data.targetedHeroImg"
+            src.bind="data.targetedHeroImg" />
+
+        <div class="assassin-container">
+            <img class="img-assassin" alt="Assassin played"
+                if.bind="data.assassinImg"
+                src.bind="data.assassinImg" />
+        </div>
+    </div>
+</template>

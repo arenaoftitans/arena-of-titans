@@ -1,0 +1,162 @@
+/*
+Copyright (C) 2017 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+aot-popup .popup-assassination-animation {
+    background-size: 100% 100%;
+    height: 20vh;
+    max-width: 100%;
+    min-height: 20vh;  /* Needed to override min-height from .popup-content */
+    position: relative;
+    width: 100%;
+
+    .assassination-animation {
+        .img-initiator-hero {
+            animation-duration: 0.6s;
+            animation-iteration-count: 1;
+            animation-name: fadeIn;
+            bottom: 10vh;
+            height: 30vh;
+            left: 22%;
+            position: absolute;
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .img-targeted-hero-top {
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-name: fadeIn_and_Cut_top;
+            bottom: 10vh;
+            clip-path: polygon(0 0, 100% 0, 100% 62%, 0 46%);
+            height: 30vh;
+            left: 64%;
+            position: absolute;
+
+            @keyframes fadeIn_and_Cut_top {
+                0% {
+                    opacity: 0;
+                }
+
+                70% {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0)
+                }
+
+                80% {
+                    transform: translate3d(100px, 14px, 0);
+                }
+
+                98%, 100% {
+                    transform: translate3d(0, 0, 0);
+                }
+            }
+        }
+
+        .img-targeted-hero-bottom {
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-name: fadeIn_and_Cut_bottom;
+            bottom: 10vh;
+            clip-path: polygon(0 100%, 100% 100%, 100% 62%, 0 46%);
+            height: 30vh;
+            left: 64%;
+            position: absolute;
+
+            @keyframes fadeIn_and_Cut_bottom {
+                0% {
+                    opacity: 0;
+                }
+
+                70% {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0)
+                }
+
+                80% {
+                    transform: translate3d(-100px, -14px, 0);
+                }
+
+                98%, 100% {
+                    transform: translate3d(0, 0, 0);
+                }
+            }
+        }
+
+        .img-assassin {
+            animation-duration: 0.7s;
+            animation-iteration-count: 1;
+            animation-name: Flip_and_Assassination;
+            backface-visibility: hidden;
+            bottom: 9vh;
+            height: 32vh;
+            left: 43%;
+            perspective: 800px;
+            position: absolute;
+            transform-style: preserve-3d;
+
+            @keyframes Flip_and_Assassination {
+                0% {
+                    transform: rotateY(180deg);
+                }
+
+                70% {
+                    transform: rotateY(0deg);
+                    transform: translate3d(0px,0px,0px) rotateX( 0deg );
+                }
+
+                71%, 79% {
+                    transform: translate3d(500px, 0px, 100px);
+                }
+                85% {
+                    transform: translate3d(0px, 0px, 0px);
+                }
+            }
+        }
+
+        h1 {
+            animation-delay: 0.5s;
+            animation-duration: 0.2s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+            animation-name: fadein;
+            left: 15%;
+            opacity: 0;
+            position: absolute;
+            top: 30%;
+
+            @keyframes fadein {
+                0% {
+                    opacity: 0;
+                }
+
+                100% {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
