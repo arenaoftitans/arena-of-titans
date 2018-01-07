@@ -133,7 +133,7 @@ export class Game {
                 },
             };
 
-            let initiatorHero = this._api.game.players.heroes[this._api.game.next_player];
+            let initiatorHero = this._api.game.players.heroes[message.player_index];
             popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
             popupData.translate.messages.playerName =
                 this._api.game.players.names[this._currentPlayerIndex];
@@ -146,7 +146,7 @@ export class Game {
             } else {
                 popupData.kind = 'smash';
 
-                let targetHero = this._api.game.players.heroes[message.last_action.target_index];
+                let targetHero = this._api.game.players.heroes[message.target_index];
                 popupData.targetedHeroImg = AssetSource.forHero(targetHero);
                 popupData.translate.messages.targetName =
                     this._api.game.players.names[message.last_action.target_index];
