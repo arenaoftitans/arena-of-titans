@@ -312,6 +312,7 @@ describe('services/api', () => {
                 player_name: 'Player 1',
                 trumps: [{
                     name: 'Reinforcements',
+                    color: null,
                 }],
             }, {
                 player_index: 1,
@@ -344,6 +345,7 @@ describe('services/api', () => {
         expect(sut._me.rank).toBe(-1);
         expect(sut._me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
+            color: null,
             img: '/latest/assets/game/cards/trumps/reinforcements.png',
         }]);
         expect(sut._me.elapsed_time).toBe(elapsedTime);
@@ -393,7 +395,8 @@ describe('services/api', () => {
                 name: 'Player 2',
             }],
             trumps: [{
-                name: 'Red Tower',
+                name: 'Tower',
+                color: 'Red',
                 description: 'Prevents a player to move on red squares.',
                 cost: 0,
                 duration: 1,
@@ -411,8 +414,9 @@ describe('services/api', () => {
             squares: [{}, {}],
         });
         expect(sut._me.trumps).toEqual([{
-            name: 'Red Tower',
-            img: '/latest/assets/game/cards/trumps/red-tower.png',
+            name: 'Tower',
+            color: 'Red',
+            img: '/latest/assets/game/cards/trumps/tower-red.png',
             description: 'Prevents a player to move on red squares.',
             cost: 0,
             duration: 1,
@@ -516,7 +520,8 @@ describe('services/api', () => {
                     ],
                     trumps: [
                         {
-                            name: 'Tower red',
+                            name: 'Tower',
+                            color: 'Red',
                         },
                     ],
                 },
@@ -534,7 +539,8 @@ describe('services/api', () => {
             });
             expect(sut._me.trumps).toEqual([
                 {
-                    name: 'Tower red',
+                    name: 'Tower',
+                    color: 'Red',
                     img: '/latest/assets/game/cards/trumps/tower-red.png',
                 },
             ]);
@@ -556,12 +562,13 @@ describe('services/api', () => {
         it('should play trump without target', () => {
             spyOn(mockedWs, 'send');
 
-            sut.playTrump({trumpName: 'Trump'});
+            sut.playTrump({trumpName: 'Trump', trumpColor: null});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play_trump,
                 play_request: {
                     name: 'Trump',
+                    color: null,
                     target_index: null,
                 },
             });
@@ -570,12 +577,13 @@ describe('services/api', () => {
         it('should play trump with a target', () => {
             spyOn(mockedWs, 'send');
 
-            sut.playTrump({trumpName: 'Trump', targetIndex: 0});
+            sut.playTrump({trumpName: 'Trump', trumpColor: null, targetIndex: 0});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play_trump,
                 play_request: {
                     name: 'Trump',
+                    color: null,
                     target_index: 0,
                 },
             });
