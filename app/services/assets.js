@@ -184,6 +184,11 @@ export class ImageName {
 
     static forTrump(trump) {
         let trumpName = trump.name.replace(' ', '-').toLowerCase();
-        return `${trumpName}`;
+        if (trump.color === null) {
+            return trumpName;
+        }
+
+        let trumpColor = trump.color.toLowerCase();
+        return `${trumpName}-${trumpColor}`;
     }
 }
