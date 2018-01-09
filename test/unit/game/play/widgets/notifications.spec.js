@@ -84,7 +84,8 @@ describe('notifications', () => {
             last_action: {
                 description: 'played_trump',
                 trump: {
-                    name: 'Tower Blue',
+                    name: 'Tower',
+                    color: 'Blue',
                     description: 'Block player.',
                 },
                 player_name: 'Player 1',

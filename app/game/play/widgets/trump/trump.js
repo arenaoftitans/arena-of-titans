@@ -142,7 +142,13 @@ export class AotTrumpCustomElement {
     }
 
     normalizeTrumpName() {
-        return this.trump.name.toLowerCase().replace(' ', '_');
+        let trumpName = this.trump.name.toLowerCase().replace(' ', '_');
+        if (this.trump.color === null) {
+            return trumpName;
+        }
+
+        let trumpColor = this.trump.color.toLowerCase();
+        return `${trumpName}_${trumpColor}`;
     }
 
     getTranslatedTrumpDescription() {
@@ -195,10 +201,17 @@ export class AotTrumpCustomElement {
                 },
             };
             this._popup.display('confirm', popupData).then(choice => {
-                this._api.playTrump({trumpName: this.trump.name, targetIndex: choice.index});
+                this._api.playTrump({
+                    trumpName: this.trump.name,
+                    trumpColor: this.trump.color,
+                    targetIndex: choice.index,
+                });
             }, () => this._logger.debug('Player canceled trump'));
         } else {
-            this._api.playTrump({trumpName: this.trump.name});
+            this._api.playTrump({
+                trumpName: this.trump.name,
+                trumpColor: this.trump.color,
+            });
         }
     }
 

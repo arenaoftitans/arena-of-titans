@@ -528,11 +528,12 @@ export class Api {
         });
     }
 
-    playTrump({trumpName, targetIndex}) {
+    playTrump({trumpName, trumpColor, targetIndex}) {
         this._ws.send({
             rt: this.requestTypes.play_trump,
             play_request: {
                 name: trumpName,
+                color: trumpColor,
                 target_index: targetIndex === undefined ? null : targetIndex,
             },
         });

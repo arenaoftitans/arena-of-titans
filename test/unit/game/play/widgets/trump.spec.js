@@ -61,7 +61,7 @@ describe('trump', () => {
         mockedApi._me = {
             index: 0,
         };
-        sut.trump = {name: 'Trump', must_target_player: true};
+        sut.trump = {name: 'Trump', color: null, must_target_player: true};
         sut.index = 0;
 
         sut.play();
@@ -96,6 +96,7 @@ describe('trump', () => {
         return defered.promise.then(() => {
             expect(mockedApi.playTrump).toHaveBeenCalledWith({
                 trumpName: 'Trump',
+                trumpColor: null,
                 targetIndex: 2,
             });
         }, () => fail('Unwanted code branch'));
@@ -108,13 +109,16 @@ describe('trump', () => {
             trumps_statuses: [true],
             your_turn: true,
         };
-        sut.trump = {name: 'Trump', must_target_player: false};
+        sut.trump = {name: 'Trump', color: null, must_target_player: false};
         sut.index = 0;
 
         sut.play();
 
         expect(mockedPopup.display).not.toHaveBeenCalled();
-        expect(mockedApi.playTrump).toHaveBeenCalledWith({trumpName: 'Trump'});
+        expect(mockedApi.playTrump).toHaveBeenCalledWith({
+            trumpName: 'Trump',
+            trumpColor: null,
+        });
     });
 
     it('should not play a trump if not your turn', () => {
