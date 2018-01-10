@@ -48,7 +48,7 @@ describe('Popups', () => {
 
         describe('display', () => {
             it('should prepare the popup to be displayed', () => {
-                spyOn(sut, '_closeAll');
+                spyOn(sut, '_closeAllWithoutTimeout');
                 spyOn(mockedEas, 'publish');
                 spyOn(sut, '_displayNext');
                 spyOn(sut._popupReadyDefered.promise, 'then');
@@ -57,7 +57,7 @@ describe('Popups', () => {
 
                 let ret = sut.display(type, data);
 
-                expect(sut._closeAll).not.toHaveBeenCalled();
+                expect(sut._closeAllWithoutTimeout).not.toHaveBeenCalled();
                 expect(mockedEas.publish).not.toHaveBeenCalled();
                 expect(sut._displayNext).not.toHaveBeenCalled();
                 expect(sut._popupReadyDefered.promise.then)
@@ -88,29 +88,55 @@ describe('Popups', () => {
             });
 
             it('should close all popups when displaying a new transition popup', () => {
-                spyOn(sut, '_closeAll');
+                spyOn(sut, '_closeAllWithoutTimeout');
                 let type = 'transition';
                 let data = {message: 'Hello'};
 
                 sut.display(type, data);
 
-                expect(sut._closeAll).toHaveBeenCalled();
+                expect(sut._closeAllWithoutTimeout).toHaveBeenCalled();
             });
         });
 
-        describe('_closeAll', () => {
-            it('should close all popups', () => {
+        describe('_closeAllWithoutTimeout', () => {
+            it('should close displayed popup if it does not have a timeout', () => {
                 spyOn(sut._logger, 'debug');
                 spyOn(sut._displayedPopupDefered, 'reject');
-                sut._displayedPopupData = {};
-                sut._popups.push({});
+                sut._displayedPopupData = {
+                    meta: {},
+                };
 
-                sut._closeAll();
+                sut._closeAllWithoutTimeout();
 
                 expect(sut._logger.debug).toHaveBeenCalled();
-                expect(sut._popups).toEqual([]);
                 expect(sut._displayedPopupDefered.reject).toHaveBeenCalledWith(jasmine.any(Error));
                 expect(sut._displayedPopupData).toBeNull();
+            });
+
+            it('should leave displayed popup opened if it has a timeout', () => {
+                spyOn(sut._logger, 'debug');
+                spyOn(sut._displayedPopupDefered, 'reject');
+                sut._displayedPopupData = {
+                    meta: {
+                        timeout: 20,
+                    },
+                };
+
+                sut._closeAllWithoutTimeout();
+
+                expect(sut._logger.debug).toHaveBeenCalled();
+                expect(sut._displayedPopupDefered.reject).not.toHaveBeenCalled();
+                expect(sut._displayedPopupData).not.toBeNull();
+            });
+
+            it('should purge the list of popups to display of popups without a timeout', () => {
+                spyOn(sut._logger, 'debug');
+                sut._popups.push({}, {timeout: 20});
+
+                sut._closeAllWithoutTimeout();
+
+                expect(sut._logger.debug).toHaveBeenCalled();
+                expect(sut._popups).toEqual([{timeout: 20}]);
             });
         });
 
@@ -195,7 +221,12 @@ describe('Popups', () => {
                 expect(sut._popups).toEqual([]);
                 expect(mockedEas.publish).toHaveBeenCalledWith('aot:popup:display', {
                     type: 'info',
-                    data: {message: 'Hello'},
+                    data: {
+                        message: 'Hello',
+                        meta: {
+                            timeout: 0,
+                        },
+                    },
                     defered: popup.defered,
                 });
                 expect(sut._displayedPopupDefered.promise).toBe(popup.defered.promise);
@@ -227,7 +258,12 @@ describe('Popups', () => {
                 expect(sut._popups).toEqual([]);
                 expect(mockedEas.publish).toHaveBeenCalledWith('aot:popup:display', {
                     type: 'info',
-                    data: {message: 'Hello'},
+                    data: {
+                        message: 'Hello',
+                        meta: {
+                            timeout: 20,
+                        },
+                    },
                     defered: popup.defered,
                 });
             });

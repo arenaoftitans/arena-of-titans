@@ -59,7 +59,7 @@ export class Popup {
 
     display(type, data, {timeout = 0} = {}) {
         if (type === 'transition') {
-            this._closeAll();
+            this._closeAllWithoutTimeout();
         }
 
         let popupDefered = {};
@@ -88,11 +88,13 @@ export class Popup {
         return popupDefered.promise;
     }
 
-    _closeAll() {
-        this._logger.debug('Closing all popups');
-        this._popups = [];
-        this._displayedPopupDefered.reject(new Error('Closed automatically'));
-        this._displayedPopupData = null;
+    _closeAllWithoutTimeout() {
+        this._logger.debug('Closing all popups that require user interaction');
+        this._popups = this._popups.filter(popup => popup.timeout);
+        if (this._displayedPopupData !== null && !this._displayedPopupData.meta.timeout) {
+            this._displayedPopupDefered.reject(new Error('Closed automatically'));
+            this._displayedPopupData = null;
+        }
     }
 
     _displayNext() {
@@ -101,6 +103,9 @@ export class Popup {
         if (this._displayedPopupDefered.promise === null && this._popups.length > 0) {
             let popup = this._popups.shift();
             this._displayedPopupData = popup.data;
+            this._displayedPopupData.meta = {
+                timeout: popup.timeout,
+            };
             this._translatePopup();
 
             if (popup.timeout) {
