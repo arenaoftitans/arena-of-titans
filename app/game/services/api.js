@@ -306,7 +306,7 @@ export class Api {
         switch (actionName.toLowerCase()) {
             case 'assassination':
                 this._movePlayer({
-                    playerIndex: message.player_index,
+                    playerIndex: message.target_index,
                     newSquare: message.new_square,
                 });
                 break;

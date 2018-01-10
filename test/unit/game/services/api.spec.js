@@ -662,7 +662,7 @@ describe('services/api', () => {
 
                 sut._handleSpecialActionPlayed({
                     special_action_name: 'Assassination',
-                    player_index: 0,
+                    target_index: 0,
                     new_square: {
                         x: 1,
                         y: 2,
