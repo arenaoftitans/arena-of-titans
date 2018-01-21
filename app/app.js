@@ -31,13 +31,13 @@ export class App {
     }
 
     bind() {
-        this.navigationSubcription = this._ea.subscribe('router:navigation:complete', () => {
+        this.navigationSubscription = this._ea.subscribe('router:navigation:complete', () => {
             window.scrollTo(0, 0);
         });
     }
 
     unbind() {
-        this.navigationSubcription.dispose();
+        this.navigationSubscription.dispose();
     }
 
     configureRouter(config, router) {
