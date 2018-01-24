@@ -10,7 +10,7 @@
     "clean": "rm -rf dist/*",
     "test": "au test --coverage",
     "tdd": "au test --watch",
-    "lint": "npm run jslint && npm run stylelint && npm run aureliatemplatelint",
+    "lint": "au lint",
     "jslint": "eslint app && eslint test",
     "stylelint": "node scripts/stylelint.js",
     "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
