@@ -13,7 +13,6 @@
     "lint": "au lint",
     "jslint": "eslint app && eslint test",
     "stylelint": "node scripts/stylelint.js",
-    "aureliatemplatelint": "node scripts/aurelia-template-lint.js",
     "translate": "python3 scripts/translate.py",
     "default-names": "python3 scripts/default-names.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
@@ -93,6 +92,7 @@
     "eslint": "4.5.0",
     "glob": "7.1.2",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-aurelia-template-lint": "0.9.1",
     "gulp-babel": "7.0.0",
     "gulp-changed-in-place": "2.2.0",
     "gulp-data": "^1.2.1",
