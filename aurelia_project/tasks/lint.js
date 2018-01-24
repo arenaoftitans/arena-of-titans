@@ -1,12 +1,29 @@
 import gulp from 'gulp';
 import aureliaTemplateLint from 'gulp-aurelia-template-lint';
+import gulpStyleLint from 'gulp-stylelint';
 
 let foundLintErrors = false;
 
 const main = gulp.series(
+    styleLint,
     templateLint,
     failOnErrors
 );
+
+function styleLint() {
+    return gulp.src('app/**/*.scss')
+        .pipe(gulpStyleLint({
+            reporters: [
+                { formatter: 'string', console: true },
+                { formatter: lintReport => {
+                    if (lintReport.some(fileReport => fileReport.errored)) {
+                        foundLintErrors = true;
+                    }
+                }},
+            ],
+            failAfterError: false,
+        }));
+}
 
 function templateLint() {
     function mustIgnoreError(error, file) {

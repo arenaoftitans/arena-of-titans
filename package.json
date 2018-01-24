@@ -12,7 +12,6 @@
     "tdd": "au test --watch",
     "lint": "au lint",
     "jslint": "eslint app && eslint test",
-    "stylelint": "node scripts/stylelint.js",
     "translate": "python3 scripts/translate.py",
     "default-names": "python3 scripts/default-names.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
@@ -104,6 +103,7 @@
     "gulp-sass": "3.1.0",
     "gulp-sass-variables": "1.1.1",
     "gulp-sourcemaps": "2.6.1",
+    "gulp-stylelint": "^6.0.0",
     "gulp-watch": "^4.3.11",
     "jasmine-core": "2.7.0",
     "jasmine-promises": "0.4.1",
