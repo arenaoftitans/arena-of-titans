@@ -1,14 +1,27 @@
 import gulp from 'gulp';
 import aureliaTemplateLint from 'gulp-aurelia-template-lint';
+import eslint from 'gulp-eslint';
 import gulpStyleLint from 'gulp-stylelint';
 
 let foundLintErrors = false;
 
 const main = gulp.series(
+    jsLint,
     styleLint,
     templateLint,
     failOnErrors
 );
+
+function jsLint() {
+    return gulp.src(['app/**/*.js', 'test/**/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.result(result => {
+            if (result.errorCount > 0) {
+                foundLintErrors = true;
+            }
+        }));
+}
 
 function styleLint() {
     return gulp.src('app/**/*.scss')

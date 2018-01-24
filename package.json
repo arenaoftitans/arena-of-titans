@@ -11,7 +11,6 @@
     "test": "au test --coverage",
     "tdd": "au test --watch",
     "lint": "au lint",
-    "jslint": "eslint app && eslint test",
     "translate": "python3 scripts/translate.py",
     "default-names": "python3 scripts/default-names.py",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
@@ -95,7 +94,7 @@
     "gulp-babel": "7.0.0",
     "gulp-changed-in-place": "2.2.0",
     "gulp-data": "^1.2.1",
-    "gulp-eslint": "4.0.0",
+    "gulp-eslint": "^4.0.2",
     "gulp-notify": "3.0.0",
     "gulp-nunjucks": "^3.0.0",
     "gulp-plumber": "1.1.0",
