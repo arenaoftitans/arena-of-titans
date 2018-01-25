@@ -79,6 +79,68 @@
         "id": "jasmine",
         "displayName": "Jasmine"
     },
+    "externalResources": {
+        "defaultNames": {
+            "source": "https://docs.google.com/spreadsheets/d/1Ees-A_yNQTfba7wH-flbrJunLMiTcTOUsbHqUTyOKm8/export?format=csv",
+            "dest": "app/game/create/default-names.js"
+        },
+        "translations": {
+            "source": [
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=985921915",
+                    "tab": "actions"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=2131671933",
+                    "tab": "cards"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=807068577",
+                    "tab": "errors"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1241014372",
+                    "tab": "game"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=158417819",
+                    "tab": "game.create"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1072267331",
+                    "tab": "game.play"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1365540142",
+                    "tab": "game.visit"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=575822508",
+                    "tab": "global"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1362194548",
+                    "tab": "heroes"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=724206052",
+                    "tab": "powers"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=0",
+                    "tab": "site"
+                },
+                {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195514419",
+                    "tab": "trumps"
+                }
+            ],
+            "dest": {
+                "fr": "app/locale/fr/translations.js",
+                "en": "app/locale/en/translations.js"
+            }
+        }
+    },
     "build": {
         "targets": [
             {
