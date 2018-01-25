@@ -11,7 +11,7 @@
     "test": "au test --coverage",
     "tdd": "au test --watch",
     "lint": "au lint",
-    "translate": "python3 scripts/translate.py",
+    "translate": "au update-external --kind translations",
     "default-names": "au update-external --kind default-names",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
   },

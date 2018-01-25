@@ -39,4 +39,44 @@ function updateDefaultNames() {
         .then(content => writeFile(resource.dest, content));
 }
 
+async function updateTranslations() {
+    const resource = project.externalResources.translations;
+    const targetLanguages = Object.keys(resource.dest);
+
+    const buildTranslations = rows => {
+        const translations = buildObjectWithKeys(targetLanguages);
+
+        for (let row of rows) {
+            for (let lang of targetLanguages) {
+                insertInto(translations[lang], row.msgid, row[lang]);
+            }
+        }
+
+        return translations;
+    };
+
+    const tabsData = await Promise.map(resource.source, src => request(src.url));
+    const nestedRows = tabsData
+        .map(data => parseCsv(data, { columns: true }))
+        .map(flattenArray)
+        .map((tabContent, index) => ({
+            tabContent,
+            tabName: resource.source[index].tab,
+        }))
+        .map(({ tabContent, tabName }) => {
+            return tabContent.map(row => {
+                row.msgid = `${tabName}.${row.msgid}`;
+                return row;
+            });
+        });
+    const rows = flattenArray(nestedRows);
+    const translations = buildTranslations(rows);
+    const translationsBlobsToSave = targetLanguages.map(lang => ({
+        data: dumpAsExportedData(translations[lang]),
+        file: resource.dest[lang],
+    }));
+
+    return Promise.map(translationsBlobsToSave, ({ file, data }) => writeFile(file, data));
+}
+
 export { main as default };
