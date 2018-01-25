@@ -1,3 +1,4 @@
+import stringify from 'json-stable-stringify';
 import {CLIOptions} from 'aurelia-cli';
 
 
@@ -9,7 +10,7 @@ export function buildObjectWithKeys(keys) {
 
 
 export function dumpAsExportedData(data) {
-    return 'export default ' + JSON.stringify(data, null, 4) + ';\n';
+    return 'export default ' + stringify(data, { space: 4 }) + ';\n';
 }
 
 
