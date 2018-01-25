@@ -12,7 +12,7 @@
     "tdd": "au test --watch",
     "lint": "au lint",
     "translate": "python3 scripts/translate.py",
-    "default-names": "python3 scripts/default-names.py",
+    "default-names": "au update-external --kind default-names",
     "sprites": "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/"
   },
   "repository": {
