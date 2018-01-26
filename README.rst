@@ -8,8 +8,7 @@ Setup
 =====
 
 - NodeJS (latest version, https://nodejs.org/en/)
-- Firefox and Chrome to launch unit tests
-- `Python 3.6+ <https://www.python.org/downloads/>`__ to build the configuration (please tick 'Add python.exe to Path' during install). If you  are on Windows, you will need to copy ``python.exe`` into ``python3.exe`` for the script to work.
+- Firefox, Chrome or PhantomJS to launch unit tests
 
 You can now install the node dependencies. To do so, launch in the folder in which you cloned this repository:
 
@@ -18,62 +17,42 @@ You can now install the node dependencies. To do so, launch in the folder in whi
 Configuration
 -------------
 
-The configuration of the front end (used to choose on which host it must connect to the api and to enable the debug mode) is written in ``./config/application.js`` based on values from:
+We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.json`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. The file used by the application is written in ``./app/environment.js`` during the transpile step.
 
-- ``./config/config.docker.toml`` when building for development.
-- ``./config/config.dev.toml`` when building for development if this file exist.
-- ``./config/config.prod.toml`` when building for production. The values in this file are used to deploy the application on the server and thus are tracked by git. They must not be tampered with unless you know what you are doing.
-- ``./config/config.staging.toml`` when building for staging. The values in this file are used to deploy the application on the server and thus are tracked by git. They must not be tampered with unless you know what you are doing.
-- ``./config/config.testing.toml`` when buiding for testing. See the README of the API for more information on that.
+You can override the host and port of the api to use for any environment as well as provide a `Rollbar <https://rollbar.com>`__ access token by creating a ``.env`` file at the root of the project. Put in it only the lines you need. A full ``.env`` file will look like:
+
+.. code::
+
+    API_HOST=newhost
+    API_PORT=8080
+    ROLLBAR_ACCESS_TOKEN=token
+
+The list of assets to preload is also generated during the transpile step. It is only done once.
 
 Use the API from staging when developing the frontend
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-This allows you to develop the frontend without running an API locally. This is specially useful if you develop only on the frontend (eg you are a designer) and don't want to bother with the API.
+This allows you to develop the frontend without running an API locally (which is the default for the ``dev`` environment). This is specially useful if you develop only on the frontend (eg you are a designer) and don't want to bother with the API.
 
-To build the frontend for development and use the API from the staging server, copy ``./config/config.staging.toml`` into ``./config/config.dev.toml``.
+To build the frontend for development and use the API from the staging server, create a ``.env`` file at the root of the project with this content:
 
-Use a local version of the API
-++++++++++++++++++++++++++++++
+.. code::
 
-If you run the local API with docker and its default configuration, you can skip this section.
-
-Copy ``./config/config.staging.toml`` into ``./config/config.dev.toml``. Then, adapt the values in it. There are two cases (look at the README for the API to learn more about them):
-
-#. Launch the API and make it directly accessible. In this case, you want to update the values below in the ``api`` section (the given values suppose that you are using the default values for the API):
-
-   .. code:: ini
-
-      host = '127.0.0.1'
-      path = ''
-      port = 9000
-
-#. Run the API behind a proxy. In this case, you want to the values of host, port and path to match your proxy configuration. For instance:
-
-   .. code:: ini
-
-      host = 'api.aot'
-      path = '/ws/{version}'
+    API_HOST=devapi.arenaoftitans.com
+    API_PORT=80
 
 
 Usage
 =====
 
-- To launch the development server, use ``npm run dev``. This will compile the app for development in memory, launch a webserver, watch for any changes and reload your page once the changes are taken into account. If you get an error like ``python3 not found``, check that:
-
-  - When you installed Python, you added it to the PATH
-  - Copy your ``python.exe`` from your Python install directory into ``python3.exe``
-
-- To launch tests on time, use ``npm run test`` You can choose the browsers on which the tests will be executed with the ``-b BROWSER`` option. For intance: ``npm run test -- -b Chrome`` or ``npm run test -- -b Chrome -b Firefox``. Default browsers are Firefox and Chrome. You can view the list of available browsers in `karma's documentation <http://karma-runner.github.io/1.0/config/browsers.html>`__.
+- To launch the development server, use ``npm run dev``. This will compile the app for development in memory, launch a webserver, watch for any changes and reload your page once the changes are taken into account.
+- To launch tests on time, use ``npm run test`` You can choose the browsers on which the tests will be executed with the ``-b BROWSER`` option. For instance: ``npm run test -- -b Chrome`` or ``npm run test -- -b Chrome -b Firefox``. Default browsers are Firefox and Chrome. You can view the list of available browsers in `karma's documentation <http://karma-runner.github.io/1.0/config/browsers.html>`__.
 - To launch tests automatically when a modification is done, use ``npm run tdd`` You can choose the browsers on which the tests will be executed. See above.
-- To build all the files as in dev, use ``npm run builddev``
-- To build the files for prod, use ``npm run buildprod``
-- To build the config like in dev, use ``npm run config -- --type dev --version latest`` You can adapt the build type and the version if needed.
+- To build the files for an environment, use ``npm run build -- --env ENV``. You can also specify the version to use with ``--version VERSION``. For instance to build for production: ``npm run build -- --version latest --env prod``
 - To clean the build folder, use ``npm run clean``
-- To lint the JS and SCSS files, use ``npm run lint`` This is equivalent to running ``npm run jslint && npm run stylelint``
-- To lint only the JS files, use ``npm run jslint``
-- To lint only the SCSS files, use ``npm run stylelint``
+- To lint the JS, SCSS and template files, use ``npm run lint``.
 - To update the translations, use ``npm run translate``.
+- To update the default names, use ``npm run default-names``.
 - To update the sprites of the cards, use ``npm run sprites``. **Check that in the url( statements no quotes are used!**
 
 

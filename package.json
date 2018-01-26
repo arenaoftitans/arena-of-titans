@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "au run --watch",
     "build": "au build",
-    "builddev": "au build",
     "clean": "rm -rf dist/*",
     "test": "au test --coverage",
     "tdd": "au test --watch",
