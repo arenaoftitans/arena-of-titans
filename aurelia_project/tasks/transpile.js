@@ -5,13 +5,21 @@ import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import notify from 'gulp-notify';
 import rename from 'gulp-rename';
+import transform from 'gulp-transform';
 import project from '../aurelia.json';
 import {CLIOptions, build} from 'aurelia-cli';
+import {getVersion, dumpAsExportedData} from './utils';
 
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
 
   return gulp.src(`aurelia_project/environments/${env}.json`)
+    .pipe(transform('utf8', content => {
+      const data = JSON.parse(content);
+      data.version = getVersion();
+
+      return dumpAsExportedData(data);
+    }))
     .pipe(changedInPlace({firstPass: true}))
     .pipe(rename('environment.js'))
     .pipe(gulp.dest(project.paths.root));
