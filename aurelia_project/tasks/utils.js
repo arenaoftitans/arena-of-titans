@@ -1,4 +1,6 @@
+import dotenv from 'dotenv';
 import stringify from 'json-stable-stringify';
+import logger from 'loggy';
 import {CLIOptions} from 'aurelia-cli';
 
 
@@ -62,6 +64,17 @@ export function getTemplatesVariables() {
         rollbar: getRollbar(),
         version: getVersion(),
     };
+}
+
+
+export function loadEnvVariables() {
+    const ALLOWED_VARIABLES = ['API_HOST', 'API_PORT', 'ROLLBAR_ACCESS_TOKEN'];
+    dotenv.load();
+    const overrides = Object.keys(process.env)
+        .filter(variableName => ALLOWED_VARIABLES.includes(variableName));
+    if (overrides.length > 0) {
+        logger.info(`Using overridden values for ${overrides}`);
+    }
 }
 
 
