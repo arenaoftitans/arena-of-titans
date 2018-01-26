@@ -39,22 +39,14 @@ function getObjectAtPath(obj, path) {
 
 
 export function getRollbar() {
-    const configPath = CLIOptions.getFlagValue('rollbar');
-    const env = CLIOptions.getEnvironment();
-
-    if (!configPath) {
-        console.warn('Rollbar configuration was not supplied.');
+    if (!process.env.ROLLBAR_ACCESS_TOKEN) {
+        logger.warn('Rollbar token was not supplied.');
         return {};
     }
 
-    const rollbar = require(configPath);
-    const envConfiguration = rollbar[env];
-    if (!envConfiguration) {
-        console.warn(`Rollbar is not available for ${env}`);
-        return {};
-    }
-
-    return envConfiguration.front;
+    return {
+        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    };
 }
 
 

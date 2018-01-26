@@ -1,6 +1,6 @@
 // From https://rollbar.com/docs/notifier/rollbar.js/
 var _rollbarConfig = {
-    accessToken: "{{ rollbar.access_token }}",
+    accessToken: "{{ rollbar.accessToken }}",
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
