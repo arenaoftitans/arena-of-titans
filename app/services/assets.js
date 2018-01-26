@@ -17,14 +17,15 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Config from './configuration';
+import environment from '../environment';
+import assetsList from '../assets-list';
 
 
 const PRELOAD_DELAY = 1000;
 const PRELOAD_CHUNK_SIZE = 5;
 
 export class AssetSource {
-    static version = Config.version;
+    static version = environment.version;
 
     static forAnimation(data) {
         return `/${this.version}/assets/game/animation/${ImageName.forAnimation(data)}.png`;
@@ -126,14 +127,14 @@ export class AssetSource {
     }
 
     static preloadImages(kind) {
-        if (!(kind in Config.images)) {
+        if (!(kind in assetsList)) {
             throw new Error(`No such kind of images to preload: ${kind}`);
         }
         // Don't try to preload images when testing the application.
         if (window.jasmine) {
             return;
         }
-        let imagesToPreload = Config.images[kind];
+        let imagesToPreload = assetsList[kind];
         let imagesChunkToPreload = [];
         let startIndex = 0;
         while (startIndex < imagesToPreload.length) {
