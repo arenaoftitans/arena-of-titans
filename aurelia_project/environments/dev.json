@@ -1,0 +1,10 @@
+{
+    "api": {
+        "host": "localhost",
+        "path": "/ws/",
+        "port": 8181,
+        "tls_port": 443
+    },
+    "debug": true,
+    "testing": true
+}

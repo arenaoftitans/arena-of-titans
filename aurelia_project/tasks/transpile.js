@@ -11,7 +11,7 @@ import {CLIOptions, build} from 'aurelia-cli';
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
 
-  return gulp.src(`aurelia_project/environments/${env}.js`)
+  return gulp.src(`aurelia_project/environments/${env}.json`)
     .pipe(changedInPlace({firstPass: true}))
     .pipe(rename('environment.js'))
     .pipe(gulp.dest(project.paths.root));
