@@ -30,7 +30,7 @@ describe('counter', () => {
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotCounterCustomElement(mockedApi, {}, mockedEas);
+        sut = new AotCounterCustomElement(mockedApi, mockedEas);
     });
 
     it('should init on your turn', () => {
