@@ -19,5 +19,4 @@ lint:
 
 tests:
   script:
-   - cp config/test-cfg.js app/services/configuration.js
    - npm run test -- -b  PhantomJS
