@@ -15,6 +15,10 @@ import {getVersion, dumpAsExportedData} from './utils';
 
 const glob = util.promisify(stdGlob);
 const writeFile = util.promisify(fs.writeFile);
+// We create the assets list with Promise, therefore we cannot rely on standard
+// gulp changes detection. So to prevent an infinite loop with the list being rebuild
+// on each changes, we use this variable.
+let hasCreatedAssetsToPreload = false;
 
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
@@ -35,6 +39,11 @@ function configureEnvironment() {
 }
 
 function createPreloadAssetsList() {
+  if (hasCreatedAssetsToPreload) {
+      return Promise.resolve();
+  }
+
+  hasCreatedAssetsToPreload = true;
   return glob('assets/game/**/*', { nodir: true })
     .then(assetsList => ({ game: assetsList}))
     .then(dumpAsExportedData)
