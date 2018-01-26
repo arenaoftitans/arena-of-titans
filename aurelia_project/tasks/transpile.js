@@ -1,3 +1,6 @@
+import fs from 'fs';
+import util from 'util';
+import stdGlob from 'glob';
 import gulp from 'gulp';
 import changedInPlace from 'gulp-changed-in-place';
 import plumber from 'gulp-plumber';
@@ -9,6 +12,9 @@ import transform from 'gulp-transform';
 import project from '../aurelia.json';
 import {CLIOptions, build} from 'aurelia-cli';
 import {getVersion, dumpAsExportedData} from './utils';
+
+const glob = util.promisify(stdGlob);
+const writeFile = util.promisify(fs.writeFile);
 
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
@@ -26,6 +32,13 @@ function configureEnvironment() {
     .pipe(changedInPlace({firstPass: true}))
     .pipe(rename('environment.js'))
     .pipe(gulp.dest(project.paths.root));
+}
+
+function createPreloadAssetsList() {
+  return glob('assets/game/**/*', { nodir: true })
+    .then(assetsList => ({ game: assetsList}))
+    .then(dumpAsExportedData)
+    .then(data => writeFile('app/assets-list.js', data));
 }
 
 function buildJavaScript() {
@@ -46,5 +59,6 @@ function buildJavaScript() {
 
 export default gulp.series(
   configureEnvironment,
+  createPreloadAssetsList,
   buildJavaScript
 );

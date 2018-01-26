@@ -179,6 +179,7 @@
                     "[**/locale/**/*.js]",
                     "[**/app.js]",
                     "[**/environment.js]",
+                    "[**/app/assets-list.js]",
                     "[**/main.js]",
                     "[**/services/*.js]",
                     "[**/widgets/aot-options/*.js]",
