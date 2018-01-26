@@ -17,6 +17,9 @@ function configureEnvironment() {
     .pipe(transform('utf8', content => {
       const data = JSON.parse(content);
       data.version = getVersion();
+      data.api.host = process.env.API_HOST || data.api.host;
+      data.api.port = process.env.API_PORT || data.api.port;
+      data.api.port = parseInt(data.api.port, 10);
 
       return dumpAsExportedData(data);
     }))
