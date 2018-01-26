@@ -36,7 +36,6 @@ describe('game/create', () => {
     let mockedApi;
     let mockedBes;
     let mockedStorage;
-    let mockedConfig;
     let mockedHistory;
     let mockedEas;
     let mockedEa;
@@ -49,12 +48,10 @@ describe('game/create', () => {
         mockedHistory = new HistoryStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
         mockedEa = new EventAggregatorStub();
-        mockedConfig = {};
         sut = new Create(
             mockedRouter,
             mockedApi,
             mockedStorage,
-            mockedConfig,
             mockedBes,
             mockedHistory,
             mockedEa,
@@ -186,14 +183,10 @@ describe('game/create', () => {
     });
 
     it('should navigate to {version}/create/{id} after game initialization with actual version in config', () => {  // eslint-disable-line
-        mockedConfig = {
-            version: 42,
-        };
         sut = new Create(
             mockedRouter,
             mockedApi,
             mockedStorage,
-            mockedConfig,
             mockedBes,
             mockedHistory,
             mockedEa,
@@ -209,7 +202,7 @@ describe('game/create', () => {
             'create',
             {
                 id: gameInitializedData.game_id,
-                version: 42,
+                version: 'latest',
             }
         );
     });
