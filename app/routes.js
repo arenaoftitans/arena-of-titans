@@ -66,6 +66,7 @@ export { NOT_FOUND };
 
 function configureSiteRoutes(routesConfig) {
     for (let routeConfig of routesConfig) {
+        routeConfig.name = `site-${routeConfig.name}`;
         routeConfig.nav = false;
         routeConfig.layoutViewModel = 'site/layout';
     }
@@ -73,6 +74,7 @@ function configureSiteRoutes(routesConfig) {
 
 function configureGameRoutes(routesConfig) {
     for (let routeConfig of routesConfig) {
+        routeConfig.name = routeConfig.name ? `game-${routeConfig.name}` : undefined;
         routeConfig.nav = false;
         routeConfig.layoutViewModel = 'game/layout';
     }
