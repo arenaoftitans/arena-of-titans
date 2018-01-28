@@ -152,12 +152,12 @@ export class Create {
         this._eas.dispose();
         this._eas.subscribe('aot:api:game_initialized', data => {
             if (!params.id) {
-                this._router.navigateToRoute('create', this._getNavParams(data.game_id));
+                this._router.navigateToRoute('game-create', this._getNavParams(data.game_id));
             }
         });
         this._eas.subscribe('aot:api:create_game', () => {
             if (params.id) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute('game-play', this._getNavParams(params.id));
             }
         });
         this._eas.subscribe('aot:api:game_initialized', () => {
@@ -168,7 +168,7 @@ export class Create {
         // create page after a game was created.
         let subscription = this._ea.subscribe('aot:api:play', () => {
             if (/game\/.*\/create\/.+/.test(location.href)) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute('game-play', this._getNavParams(params.id));
             }
             subscription.dispose();
         });

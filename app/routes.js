@@ -40,7 +40,7 @@ configureSiteRoutes([NOT_FOUND]);
 const GAME_ROUTES = [
     {
         route: ['/game', '/game/play', '/game/:version', '/game/:version/play'],
-        redirect: 'create',
+        redirect: '/game/create',
     },
     {
         route: ['/game/create', '/game/:version/create', '/game/:version/create/:id'],
