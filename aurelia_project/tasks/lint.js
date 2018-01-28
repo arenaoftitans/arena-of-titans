@@ -3,6 +3,9 @@ import aureliaTemplateLint from 'gulp-aurelia-template-lint';
 import eslint from 'gulp-eslint';
 import gulpStyleLint from 'gulp-stylelint';
 
+// We rely on a global boolean and process.exit to exit the task in error
+// in case of lint errors. We need to do this because lint tasks either exit
+// with a 0 status code or they display a stacktrace in case of lint errors.
 let foundLintErrors = false;
 
 const main = gulp.series(
