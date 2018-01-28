@@ -19,25 +19,31 @@
 
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter/counter';
 import { Wait } from '../../../../../app/game/services/utils';
-import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../../app/test-utils';
+import {
+    ApiStub,
+    EventAggregatorSubscriptionsStub,
+    StateStub,
+} from '../../../../../app/test-utils';
 
 
 describe('counter', () => {
     let mockedApi;
     let mockedEas;
+    let mockedState;
     let sut;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotCounterCustomElement(mockedApi, mockedEas);
+        mockedState = new StateStub();
+        sut = new AotCounterCustomElement(mockedApi, mockedEas, mockedState);
     });
 
     it('should init on your turn', () => {
         spyOn(sut, 'countDownClock');
 
-        mockedApi.game.your_turn = true;
-        mockedApi.game.game_over = false;
+        mockedState.game.your_turn = true;
+        mockedState.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
         return Wait.forId('counter').then(() => {
@@ -50,8 +56,8 @@ describe('counter', () => {
         spyOn(window, 'clearInterval');
 
         sut.startTime = (new Date()).getTime();
-        mockedApi.game.your_turn = false;
-        mockedApi.game.game_over = false;
+        mockedState.game.your_turn = false;
+        mockedState.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
         return Wait.forId('counter').then(() => {
@@ -65,8 +71,8 @@ describe('counter', () => {
         spyOn(sut, 'start');
         spyOn(window, 'clearInterval');
 
-        mockedApi.game.your_turn = true;
-        mockedApi.game.game_over = true;
+        mockedState.game.your_turn = true;
+        mockedState.game.game_over = true;
         mockedApi.play();
 
         return Wait.forId('counter').then(() => {

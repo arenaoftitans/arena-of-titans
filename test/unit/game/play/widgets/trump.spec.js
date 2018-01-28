@@ -23,6 +23,7 @@ import {
     EventAggregatorSubscriptionsStub,
     PopupStub,
     I18nStub,
+    StateStub,
 } from '../../../../../app/test-utils';
 
 
@@ -33,13 +34,22 @@ describe('trump', () => {
     let mockedPopup;
     let element;
     let mockedEas;
+    let mockedState;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedPopup = new PopupStub();
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotTrumpCustomElement(mockedApi, mockedPopup, mockedI18n, element, mockedEas);
+        mockedState = new StateStub();
+        sut = new AotTrumpCustomElement(
+            mockedApi,
+            mockedPopup,
+            mockedI18n,
+            element,
+            mockedEas,
+            mockedState
+        );
         sut.kind = 'player';
     });
 
@@ -50,7 +60,7 @@ describe('trump', () => {
         });
         spyOn(mockedPopup, 'display').and.returnValue(defered.promise);
         spyOn(mockedApi, 'playTrump');
-        mockedApi._game = {
+        mockedState._game = {
             players: {
                 names: ['Player 1', null, 'Player 2'],
                 indexes: [0, null, 2],
@@ -58,7 +68,7 @@ describe('trump', () => {
             trumps_statuses: [true],
             your_turn: true,
         };
-        mockedApi._me = {
+        mockedState._me = {
             index: 0,
         };
         sut.trump = {name: 'Trump', color: null, must_target_player: true};
@@ -105,7 +115,7 @@ describe('trump', () => {
     it('should play trump without a target directly', () => {
         spyOn(mockedPopup, 'display');
         spyOn(mockedApi, 'playTrump');
-        mockedApi._game = {
+        mockedState._game = {
             trumps_statuses: [true],
             your_turn: true,
         };
@@ -153,13 +163,13 @@ describe('trump', () => {
 
     describe('should get the correct list of targets', () => {
         it('for player 0', () => {
-            mockedApi._game = {
+            mockedState._game = {
                 players: {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
                     names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
                 },
             };
-            mockedApi._me = {
+            mockedState._me = {
                 index: 0,
             };
 
@@ -176,13 +186,13 @@ describe('trump', () => {
         });
 
         it('for other player', () => {
-            mockedApi._game = {
+            mockedState._game = {
                 players: {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
                     names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
                 },
             };
-            mockedApi._me = {
+            mockedState._me = {
                 index: 1,
             };
 

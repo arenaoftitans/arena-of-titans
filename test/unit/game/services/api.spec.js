@@ -18,6 +18,7 @@
 */
 
 import { Api } from '../../../../app/game/services/api';
+import { State } from '../../../../app/game/services/state';
 import { EventAggregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
 
 
@@ -26,6 +27,7 @@ describe('services/api', () => {
     let mockedWs;
     let mockedNotify;
     let mockedEa;
+    let mockedState;
     let sut;
     let rt;
 
@@ -34,7 +36,8 @@ describe('services/api', () => {
         mockedWs = new WsStub();
         mockedNotify = new NotifyStub();
         mockedEa = new EventAggregatorStub();
-        sut = new Api(mockedWs, mockedStorage, mockedNotify, mockedEa);
+        mockedState = new State();
+        sut = new Api(mockedWs, mockedState, mockedStorage, mockedNotify, mockedEa);
         rt = sut.requestTypes;
     });
 
@@ -66,6 +69,7 @@ describe('services/api', () => {
         };
         spyOn(sut, '_handleGameInitialized').and.callThrough();
         spyOn(mockedStorage, 'savePlayerId');
+        spyOn(mockedState, 'initializeGame');
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
@@ -73,11 +77,7 @@ describe('services/api', () => {
             gameInitializedMessage.game_id,
             gameInitializedMessage.player_id
         );
-        expect(sut.me.index).toBe(gameInitializedMessage.index);
-        expect(sut.me.is_game_master).toBe(gameInitializedMessage.is_game_master);
-        expect(sut.me.id).toBe(gameInitializedMessage.player_id);
-        expect(sut.game.id).toBe(gameInitializedMessage.game_id);
-        expect(sut.game.slots).toBe(gameInitializedMessage.slots);
+        expect(mockedState.initializeGame).toHaveBeenCalledWith(gameInitializedMessage);
     });
 
     it('should handle slot updated', () => {
@@ -90,45 +90,41 @@ describe('services/api', () => {
             },
         };
         spyOn(sut, '_handleSlotUpdated').and.callThrough();
-        sut._game.slots = [];
+        mockedState.game.slots = [];
 
-        expect(sut._game.slots.length).toBe(0);
+        expect(mockedState.game.slots.length).toBe(0);
         sut._handleMessage(slotUpdatedMessage);
         expect(sut._handleSlotUpdated).toHaveBeenCalledWith(slotUpdatedMessage);
-        expect(sut._game.slots.length).toBe(1);
-        expect(sut._game.slots[0]).toBe(slotUpdatedMessage.slot);
-        expect(sut._game.slots[0].name).toBe('');
+        expect(mockedState.game.slots.length).toBe(1);
+        expect(mockedState.game.slots[0]).toBe(slotUpdatedMessage.slot);
+        expect(mockedState.game.slots[0].name).toBe('');
 
         slotUpdatedMessage.slot.name = 'Player 1';
         slotUpdatedMessage.slot.state = 'TAKEN';
         sut._handleMessage(slotUpdatedMessage);
-        expect(sut._game.slots.length).toBe(1);
-        expect(sut._game.slots[0].name).toBe('Player 1');
-        expect(sut._game.slots[0].state).toBe('TAKEN');
-        expect(sut._game.slots[0].index).toBe(0);
+        expect(mockedState.game.slots.length).toBe(1);
+        expect(mockedState.game.slots[0].name).toBe('Player 1');
+        expect(mockedState.game.slots[0].state).toBe('TAKEN');
+        expect(mockedState.game.slots[0].index).toBe(0);
     });
 
     it('should update name', () => {
         spyOn(mockedWs, 'send');
-
-        sut._me = {
+        mockedState._me = {
             name: 'Player 1',
             index: 0,
             hero: 'daemon',
         };
-        sut._game = {
+        mockedState._game = {
             slots: [{
                 index: 0,
                 player_name: 'Player 1',
                 state: 'TAKEN',
             }],
         };
+
         sut.updateMe('New Name', 'reaper');
 
-        expect(sut.me.hero).toBe('reaper');
-        expect(sut.me.name).toBe('New Name');
-        expect(sut.game.slots[0].hero).toBe('reaper');
-        expect(sut.game.slots[0].player_name).toBe('New Name');
         expect(mockedWs.send).toHaveBeenCalledWith({
             rt: sut.requestTypes.slot_updated,
             slot: {
@@ -166,29 +162,6 @@ describe('services/api', () => {
             player_id: 'player_id',
             hero: 'daemon',
         });
-    });
-
-    it('should create players with null descriptions', () => {
-        sut._createPlayers([
-            {
-                hero: 'daemon',
-                index: 0,
-                name: 'Player 1',
-                square: {x: 1, y: 2},
-            },
-            null,
-            {
-                hero: 'orc',
-                index: 2,
-                name: 'Player 2',
-                square: null,
-            },
-        ]);
-
-        expect(sut._game.players.heroes).toEqual(['daemon', null, 'orc']);
-        expect(sut._game.players.indexes).toEqual([0, null, 2]);
-        expect(sut._game.players.names).toEqual(['Player 1', null, 'Player 2']);
-        expect(sut._game.players.squares).toEqual([{x: 1, y: 2}, {}, {}]);
     });
 
     describe('joinGame', () => {
@@ -259,7 +232,7 @@ describe('services/api', () => {
     it('should create the game', () => {
         spyOn(mockedWs, 'send');
 
-        sut._game = {
+        mockedState._game = {
             slots: [
                 {
                     index: 0,
@@ -293,59 +266,6 @@ describe('services/api', () => {
         });
     });
 
-    it('should update the game', () => {
-        let elapsedTime = 12;
-        let message = {
-            your_turn: true,
-            on_last_line: false,
-            has_won: false,
-            rank: -1,
-            next_player: 0,
-            active_trumps: [{
-                player_index: 0,
-                player_name: 'Player 1',
-                trumps: [{
-                    name: 'Reinforcements',
-                    color: null,
-                }],
-            }, {
-                player_index: 1,
-                player_name: 'Player 2',
-                trumps: [],
-            }],
-            hand: [{
-                name: 'King',
-                color: 'RED',
-            }],
-            elapsed_time: elapsedTime,
-        };
-        sut._me.index = 0;
-
-        sut._updateGame(message);
-
-        expect(sut._game.your_turn).toBe(true);
-        expect(sut._game.next_player).toBe(0);
-        expect(sut._game.active_trumps.length).toBe(2);
-        expect(sut._game.active_trumps[0]).toBe(message.active_trumps[0]);
-        expect(sut._game.active_trumps[1]).toBe(message.active_trumps[1]);
-        expect(sut._me.hand).toEqual([
-            {
-                name: 'King',
-                color: 'RED',
-                img: 'sprite-movement-king-red',
-            },
-        ]);
-        expect(sut._me.has_won).toBe(false);
-        expect(sut._me.rank).toBe(-1);
-        expect(sut._me.affecting_trumps).toEqual([{
-            name: 'Reinforcements',
-            color: null,
-            img: '/latest/assets/game/cards/trumps/reinforcements.png',
-        }]);
-        expect(sut._me.elapsed_time).toBe(elapsedTime);
-        expect(sut._me.on_last_line).toBe(false);
-    });
-
     it('should handle player played', () => {
         let message = {
             game_over: false,
@@ -355,8 +275,6 @@ describe('services/api', () => {
 
         sut._handleGameOverMessage(message);
 
-        expect(sut._game.game_over).toBe(false);
-        expect(sut._game.winners.length).toBe(0);
         expect(mockedNotify.notifyGameOver).not.toHaveBeenCalled();
     });
 
@@ -370,52 +288,8 @@ describe('services/api', () => {
 
         sut._handleGameOverMessage(message);
 
-        expect(sut._game.game_over).toBe(true);
-        expect(sut._game.winners.length).toBe(2);
         expect(sut._gameOverDefered.resolve).toHaveBeenCalledWith(message.winners);
         expect(mockedNotify.notifyGameOver).toHaveBeenCalled();
-    });
-
-    it('should handle game created data', () => {
-        let message = {
-            rt: sut.requestTypes.create_game,
-            players: [{
-                hero: 'daemon',
-                index: 0,
-                name: 'Player 1',
-            }, {
-                hero: 'reaper',
-                index: 1,
-                name: 'Player 2',
-            }],
-            trumps: [{
-                name: 'Tower',
-                color: 'Red',
-                description: 'Prevents a player to move on red squares.',
-                cost: 0,
-                duration: 1,
-                must_target_player: true,
-            }],
-        };
-        spyOn(sut, '_updateGame');
-        sut._handleMessage(message);
-
-        expect(sut._updateGame).toHaveBeenCalledWith(message);
-        expect(sut._game.players).toEqual({
-            heroes: ['daemon', 'reaper'],
-            indexes: [0, 1],
-            names: ['Player 1', 'Player 2'],
-            squares: [{}, {}],
-        });
-        expect(sut._me.trumps).toEqual([{
-            name: 'Tower',
-            color: 'Red',
-            img: '/latest/assets/game/cards/trumps/tower-red.png',
-            description: 'Prevents a player to move on red squares.',
-            cost: 0,
-            duration: 1,
-            must_target_player: true,
-        }]);
     });
 
     describe('game', () => {
@@ -454,14 +328,14 @@ describe('services/api', () => {
                 rt: sut.requestTypes.play,
                 your_turn: true,
             };
-            spyOn(sut, '_updateGame');
+            spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
             spyOn(mockedNotify, 'notifyYourTurn');
-            sut._game.your_turn = true;
+            mockedState.game.your_turn = true;
 
             sut._handleMessage(message);
 
-            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedState.updateAfterPlay).toHaveBeenCalledWith(message);
             expect(mockedNotify.clearNotifications).not.toHaveBeenCalled();
             expect(mockedNotify.notifyYourTurn).toHaveBeenCalled();
         });
@@ -471,14 +345,14 @@ describe('services/api', () => {
                 rt: sut.requestTypes.play,
                 your_turn: false,
             };
-            spyOn(sut, '_updateGame');
+            spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
             spyOn(mockedNotify, 'notifyYourTurn');
-            sut._game.your_turn = false;
+            mockedState.game.your_turn = false;
 
             sut._handleMessage(message);
 
-            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedState.updateAfterPlay).toHaveBeenCalledWith(message);
             expect(mockedNotify.clearNotifications).toHaveBeenCalled();
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
@@ -488,15 +362,15 @@ describe('services/api', () => {
                 rt: sut.requestTypes.play,
                 your_turn: true,
             };
-            spyOn(sut, '_updateGame');
+            spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
             spyOn(mockedNotify, 'notifyYourTurn');
-            sut._game.your_turn = true;
-            sut._game.was_your_turn = true;
+            mockedState.game.your_turn = true;
+            mockedState.game.was_your_turn = true;
 
             sut._handleMessage(message);
 
-            expect(sut._updateGame).toHaveBeenCalledWith(message);
+            expect(mockedState.updateAfterPlay).toHaveBeenCalledWith(message);
             expect(mockedNotify.clearNotifications).toHaveBeenCalled();
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
@@ -504,6 +378,12 @@ describe('services/api', () => {
         it('should reconnect', () => {
             let message = {
                 rt: sut.requestTypes.play,
+                hand: [
+                    {
+                        name: 'King',
+                        color: 'Red',
+                    },
+                ],
                 reconnect: {
                     players: [
                         {
@@ -520,24 +400,11 @@ describe('services/api', () => {
                     ],
                 },
             };
-            spyOn(sut, '_updateGame');
+            spyOn(mockedState, 'updateAfterPlay');
 
             sut._handleMessage(message);
 
-            expect(sut._updateGame).toHaveBeenCalled();
-            expect(sut._game.players).toEqual({
-                indexes: [0],
-                names: [undefined],
-                squares: [{x: 0, y: 0}],
-                heroes: ['daemon'],
-            });
-            expect(sut._me.trumps).toEqual([
-                {
-                    name: 'Tower',
-                    color: 'Red',
-                    img: '/latest/assets/game/cards/trumps/tower-red.png',
-                },
-            ]);
+            expect(mockedState.updateAfterPlay).toHaveBeenCalledWith(message);
         });
 
         it('should ask name when reconnecting to a freed slot', () => {

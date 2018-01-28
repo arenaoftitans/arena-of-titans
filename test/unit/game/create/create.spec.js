@@ -27,6 +27,7 @@ import {
     HistoryStub,
     EventAggregatorSubscriptionsStub,
     EventAggregatorStub,
+    StateStub,
 } from '../../../../app/test-utils';
 
 
@@ -39,6 +40,7 @@ describe('game/create', () => {
     let mockedHistory;
     let mockedEas;
     let mockedEa;
+    let mockedState;
 
     beforeEach(() => {
         mockedRouter = new RouterStub();
@@ -48,9 +50,11 @@ describe('game/create', () => {
         mockedHistory = new HistoryStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
         mockedEa = new EventAggregatorStub();
+        mockedState = new StateStub();
         sut = new Create(
             mockedRouter,
             mockedApi,
+            mockedState,
             mockedStorage,
             mockedBes,
             mockedHistory,
@@ -186,6 +190,7 @@ describe('game/create', () => {
         sut = new Create(
             mockedRouter,
             mockedApi,
+            mockedState,
             mockedStorage,
             mockedBes,
             mockedHistory,
@@ -207,14 +212,14 @@ describe('game/create', () => {
         );
     });
 
-    it('should set the 2nd slot to AI after game initilization', () => {
+    it('should set the 2nd slot to AI after game initialization', () => {
         spyOn(mockedApi, 'updateSlot');
 
-        mockedApi._me = {
+        mockedState._me = {
             name: 'Player 1',
             is_game_master: true,
         };
-        mockedApi._game = {
+        mockedState._game = {
             slots: [
                 {
                     state: 'TAKEN',
@@ -222,7 +227,7 @@ describe('game/create', () => {
             ],
         };
         for (let i = 1; i < 8; i++) {
-            mockedApi._game.slots.push({
+            mockedState._game.slots.push({
                 state: 'OPEN',
             });
         }

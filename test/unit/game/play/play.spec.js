@@ -22,6 +22,7 @@ import {
     ApiStub,
     EventAggregatorSubscriptionsStub,
     PopupStub,
+    StateStub,
 } from '../../../../app/test-utils';
 
 
@@ -30,12 +31,14 @@ describe('play', () => {
     let mockedApi;
     let mockedPopup;
     let mockedEas;
+    let mockedState;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Play(mockedApi, mockedPopup, mockedEas);
+        mockedState = new StateStub();
+        sut = new Play(mockedApi, mockedPopup, mockedEas, mockedState);
     });
 
     it('should register api callbacks on activation', () => {
@@ -65,7 +68,7 @@ describe('play', () => {
 
     it('should not ask to join the game if a name is supplied', () => {
         spyOn(mockedApi, 'joinGame');
-        mockedApi._me = {name: 'Player 1'};
+        mockedState._me = {name: 'Player 1'};
 
         sut.activate({id: 'game_id'});
 
@@ -107,8 +110,8 @@ describe('play', () => {
                 special_action_name: 'assassination',
             };
             spyOn(sut._api, 'viewPossibleActions');
-            sut._api.game.your_turn = true;
-            sut._api.me.index = 0;
+            mockedState.game.your_turn = true;
+            mockedState.me.index = 0;
 
             sut._handleSpecialActionNotify(action);
 
