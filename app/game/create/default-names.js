@@ -1,5 +1,5 @@
 export default [
-    "A\u00e9rie",
+    "Aérie",
     "Anomen",
     "Aurelia",
     "Brendan",

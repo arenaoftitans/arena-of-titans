@@ -211,10 +211,7 @@ This is only useful if you don't use ``npm run tdd`` during development.
 Translations
 ============
 
-The translations are generated from `this google doc <https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/edit#gid=1072267331>`__. Each sheet correspond to a part of the application: site (for all the pages of the site), game (for gobal game traductions), game/create, game/play, global (for global translations), cards (for the translations of names and descriptions of the cards), trumps (for the translations of the names and descriptions of the trumps). To update the JSON in the frontend, use either:
-
-- `npm run translate`
-- `python3 scripts/translate.py`
+The translations are generated from `this google doc <https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/edit#gid=1072267331>`__. Each sheet correspond to a part of the application: site (for all the pages of the site), game (for gobal game traductions), game/create, game/play, global (for global translations), cards (for the translations of names and descriptions of the cards), trumps (for the translations of the names and descriptions of the trumps). To update the JSON in the frontend, use either: ``npm run translate``
 
 The translations are performed in the browser by the `aurelia-i18n <https://github.com/aurelia/i18n>`__ plugin.
 
