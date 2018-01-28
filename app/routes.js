@@ -4,28 +4,28 @@ const SITE_ROUTES = [
         name: 'home',
         moduleId: './site/routes/home/home',
         nav: false,
-        title: 'Home',
+        title: 'site.page_title.home',
     },
     {
         route: '/synopsis',
         name: 'synopsis',
         moduleId: './site/routes/synopsis/synopsis',
         nav: false,
-        title: 'Synopsis',
+        title: 'site.page_title.synopsis',
     },
     {
         route: '/heroes',
         name: 'heroes',
         moduleId: './site/routes/heroes/heroes',
         nav: false,
-        title: 'Heroes',
+        title: 'site.page_title.heroes',
     },
     {
         route: '/trumps',
         name: 'trumps',
         moduleId: './site/routes/trumps/trumps',
         nav: false,
-        title: 'Trumps',
+        title: 'site.page_title.trumps',
     },
 ];
 configureSiteRoutes(SITE_ROUTES);
@@ -33,7 +33,7 @@ configureSiteRoutes(SITE_ROUTES);
 const NOT_FOUND = {
     name: 'not-found',
     moduleId: './site/routes/not-found/not-found',
-    title: 'Page not Found',
+    title: 'site.page_title.not_found',
 };
 configureSiteRoutes([NOT_FOUND]);
 
@@ -47,14 +47,14 @@ const GAME_ROUTES = [
         name: 'create',
         moduleId: './game/create/create',
         nav: false,
-        title: 'Create game',
+        title: 'site.page_title.create_game',
     },
     {
         route: ':version/play/:id',
         name: 'play',
         moduleId: './game/play/play',
         nav: false,
-        title: 'Play',
+        title: 'site.page_title.play_game',
     },
 ];
 configureGameRoutes(GAME_ROUTES);

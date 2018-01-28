@@ -23,6 +23,8 @@ Promise.config({  // eslint-disable-line no-unused-vars
     warnings: false,
 });
 
+import { AppRouter } from 'aurelia-router';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import * as Logger from 'aurelia-logging';
 import RollbarAppender from 'au-rollbar';
 import XHR from 'i18next-xhr-backend';
@@ -56,7 +58,7 @@ export function configure(aurelia) {
                 }
             }
 
-            instance.setup({
+            return instance.setup({
                 backend: {
                     loadPath: '{{lng}}',
                     parse: (data) => data,
@@ -66,6 +68,14 @@ export function configure(aurelia) {
                 attributes: ['t', 'i18n'],
                 fallbackLng: 'en',
                 debug: false,
+            }).then(() => {
+                const router = aurelia.container.get(AppRouter);
+                router.transformTitle = title => instance.tr(title);
+
+                const eventAggregator = aurelia.container.get(EventAggregator);
+                eventAggregator.subscribe('i18n:locale:changed', () => {
+                    router.updateTitle();
+                });
             });
         });
 
