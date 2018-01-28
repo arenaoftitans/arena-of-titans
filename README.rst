@@ -218,6 +218,11 @@ To translate something:
 
 See `the plugin page on github <https://github.com/aurelia/i18n>`__ for the full documentation.
 
+Translate routes titles
+-----------------------
+
+Put the id of the translation (eg ``site.page_title.home``) in the title property of the route definition.
+
 Translate text in a popup
 -------------------------
 
