@@ -61,36 +61,6 @@ export class Game {
         AssetSource.preloadImages('game');
     }
 
-    configureRouter(config, router) {
-        router.baseUrl = 'game';
-        config.options.pushState = true;
-        config.map([
-            {
-                route: ['', 'play', ':version', ':version/play'],
-                redirect: 'create',
-            },
-            {
-                route: ['create', ':version/create', ':version/create/:id'],
-                name: 'create',
-                moduleId: './create/create',
-                nav: false,
-                title: 'Create game',
-            },
-            {
-                route: ':version/play/:id',
-                name: 'play',
-                moduleId: './play/play',
-                nav: false,
-                title: 'Play',
-            },
-        ]);
-        config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'not-found';
-
-            return instruction;
-        });
-    }
-
     activate() {
         this._eas.subscribe('aot:api:error', data => {
             let popupData = {
