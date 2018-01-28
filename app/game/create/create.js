@@ -30,6 +30,7 @@ import {
     selectRandomElement,
 } from '../services/utils';
 import { AssetSource } from '../../services/assets';
+import { State } from '../services/state';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
 import environment from '../../environment';
@@ -39,6 +40,7 @@ import DEFAULT_NAMES from './default-names';
 @inject(
     Router,
     Api,
+    State,
     Storage,
     BindingEngineSubscriptions,
     History,
@@ -54,9 +56,10 @@ export class Create {
     _playerInfosChanged;
     _history;
 
-    constructor(router, api, storage, bindingEngineSubscription, history, ea, eas) {
+    constructor(router, api, state, storage, bindingEngineSubscription, history, ea, eas) {
         this._router = router;
         this._api = api;
+        this._state = state;
         this._storage = storage;
         this._bes = bindingEngineSubscription;
         this._history = history;
@@ -102,7 +105,7 @@ export class Create {
     init(params) {
         // Services must only be initialized on first activation: when we create a new game or
         // join a different game.
-        if (!params.id || (params.id && params.id !== this._api.game.id)) {
+        if (!params.id || (params.id && params.id !== this._state.game.id)) {
             this._api.init();
             this._history.init();
         }
@@ -222,7 +225,7 @@ export class Create {
     }
 
     get me() {
-        return this._api.me;
+        return this._state.me;
     }
 
     get isGameMaster() {
@@ -232,8 +235,8 @@ export class Create {
     get slots() {
         // If we pass directly the slots array, Aurelia won't update the view when a slot is
         // updated.
-        if (this._api.game.slots) {
-            return this._api.game.slots.map(slot => {
+        if (this._state.game.slots) {
+            return this._state.game.slots.map(slot => {
                 return slot;
             });
         }

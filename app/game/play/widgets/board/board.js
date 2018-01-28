@@ -25,6 +25,7 @@ import {
     EventAggregatorSubscriptions,
     Wait,
 } from '../../../services/utils';
+import { State } from '../../../services/state';
 
 
 const ZOOM_STEP = 0.4;
@@ -36,7 +37,7 @@ const MOVE_STEP = 10;
 export { MAX_ZOOM, MIN_ZOOM, MOVE_STEP, ZOOM_STEP };
 
 
-@inject(Api, DOM.Element, EventAggregatorSubscriptions)
+@inject(Api, DOM.Element, EventAggregatorSubscriptions, State)
 export class AotBoardCustomElement {
     @bindable selectedCard = null;
     @bindable playerIndex = null;
@@ -50,10 +51,11 @@ export class AotBoardCustomElement {
     possibleSquares = [];
     _selectedPawnIndex = -1;
 
-    constructor(api, element, eas) {
+    constructor(api, element, eas, state) {
         this._element = element;
         this._api = api;
         this._eas = eas;
+        this._state = state;
         this.assetSource = AssetSource;
 
         this._eas.subscribe('aot:api:view_possible_squares', data => {
@@ -186,7 +188,7 @@ export class AotBoardCustomElement {
 
     zoomTo(value, { fixPawn = false } = {}) {
         let originalPawnPosition;
-        let pawnId = `player${this._api.me.index}`;
+        let pawnId = `player${this._state.me.index}`;
         let pawn = document.getElementById(pawnId);
         if (fixPawn && this._board) {
             originalPawnPosition = pawn.getBoundingClientRect();
@@ -261,7 +263,7 @@ export class AotBoardCustomElement {
 
     showPlayerName(index, event) {
         this.infos = {
-            title: this._api.game.players.names[index],
+            title: this._state.game.players.names[index],
             event: event,
             visible: true,
         };
@@ -285,7 +287,7 @@ export class AotBoardCustomElement {
     }
 
     get playerIndexes() {
-        return this._api.game.players.indexes;
+        return this._state.game.players.indexes;
     }
 
     get isPawnClickable() {

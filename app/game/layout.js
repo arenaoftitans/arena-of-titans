@@ -20,7 +20,7 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { History } from './services/history';
-import { Api } from './services/api';
+import { State } from './services/state';
 import { AssetSource } from '../services/assets';
 import { Options } from '../services/options';
 import { EventAggregatorSubscriptions } from './services/utils';
@@ -30,7 +30,7 @@ import { Popup } from './widgets/popups/popup';
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
-@inject(History, Api, Options, Popup, EventAggregatorSubscriptions)
+@inject(History, State, Options, Popup, EventAggregatorSubscriptions)
 export class Layout {
     static MAX_NUMBER_PLAYERS = 8;
 
@@ -42,8 +42,8 @@ export class Layout {
         reject: null,
     };
 
-    constructor(history, api, options, popup, eas) {
-        this._api = api;
+    constructor(history, state, options, popup, eas) {
+        this._state = state;
         this._options = options;
         this._popup = popup;
         this._eas = eas;
@@ -94,10 +94,10 @@ export class Layout {
                 },
             };
 
-            let initiatorHero = this._api.game.players.heroes[message.player_index];
+            let initiatorHero = this._state.game.players.heroes[message.player_index];
             popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
             popupData.translate.messages.playerName =
-                this._api.game.players.names[this._currentPlayerIndex];
+                this._state.game.players.names[this._currentPlayerIndex];
             let trump1 = message.last_action.trump;
             popupData.trumpImg = AssetSource.forTrump(trump1);
             popupData.translate.messages.trumpName = message.last_action.trump.title;
@@ -108,10 +108,10 @@ export class Layout {
             } else {
                 popupData.kind = 'smash';
 
-                let targetHero = this._api.game.players.heroes[message.target_index];
+                let targetHero = this._state.game.players.heroes[message.target_index];
                 popupData.targetedHeroImg = AssetSource.forHero(targetHero);
                 popupData.translate.messages.targetName =
-                    this._api.game.players.names[message.last_action.target_index];
+                    this._state.game.players.names[message.last_action.target_index];
             }
 
             let options = {
@@ -129,19 +129,19 @@ export class Layout {
                 },
             };
 
-            let initiatorHero = this._api.game.players.heroes[message.player_index];
+            let initiatorHero = this._state.game.players.heroes[message.player_index];
             popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
             popupData.translate.messages.playerName =
-                this._api.game.players.names[message.player_index];
+                this._state.game.players.names[message.player_index];
             popupData.assassinImg = AssetSource.forAnimation({
                 name: 'assassination',
                 color: message.new_square.color,
             });
 
-            let targetHero = this._api.game.players.heroes[message.target_index];
+            let targetHero = this._state.game.players.heroes[message.target_index];
             popupData.targetedHeroImg = AssetSource.forHero(targetHero);
             popupData.translate.messages.targetName =
-                    this._api.game.players.names[message.target_index];
+                    this._state.game.players.names[message.target_index];
 
             let options = {
                 timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
@@ -159,30 +159,30 @@ export class Layout {
                 // We update the current player index nonetheless. This way, after viewing or
                 // skiping the tutorial and playing a card, the player won't see the transition
                 // popup display "it's your turn".
-                this._currentPlayerIndex = this._api.game.next_player;
-                this._currentNbTurns = this._api.game.nb_turns;
+                this._currentPlayerIndex = this._state.game.next_player;
+                this._currentNbTurns = this._state.game.nb_turns;
                 return;
             }
 
-            if (this._api.game.next_player !== this._currentPlayerIndex ||
-                    this._currentNbTurns !== this._api.game.nb_turns) {
-                this._currentPlayerIndex = this._api.game.next_player;
-                this._currentNbTurns = this._api.game.nb_turns;
+            if (this._state.game.next_player !== this._currentPlayerIndex ||
+                    this._currentNbTurns !== this._state.game.nb_turns) {
+                this._currentPlayerIndex = this._state.game.next_player;
+                this._currentNbTurns = this._state.game.nb_turns;
                 let popupData = {
                     translate: {
                         messages: {},
                     },
                 };
-                if (this._currentPlayerIndex !== this._api.me.index) {
+                if (this._currentPlayerIndex !== this._state.me.index) {
                     popupData.translate.messages.message = 'game.play.whose_turn_message';
                     popupData.htmlMessage = true;
                 } else {
                     popupData.translate.messages.message = 'game.play.your_turn';
                 }
-                let hero = this._api.game.players.heroes[this._api.game.next_player];
+                let hero = this._state.game.players.heroes[this._state.game.next_player];
                 popupData.img = AssetSource.forChestHero(hero);
                 popupData.translate.params = {
-                    playerName: this._api.game.players.names[this._currentPlayerIndex],
+                    playerName: this._state.game.players.names[this._currentPlayerIndex],
                 };
 
                 let options = {
@@ -199,7 +199,7 @@ export class Layout {
             this._options.proposeGuidedVisit;
         return !tutorialPopupDisplayed &&
             !this._tutorialInProgress &&
-            !this._api.game.game_over;
+            !this._state.game.game_over;
     }
 
     deactivate() {

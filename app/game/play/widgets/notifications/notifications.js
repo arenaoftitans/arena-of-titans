@@ -28,13 +28,14 @@ import {
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
 import { Popup } from '../../../widgets/popups/popup';
+import { State } from '../../../services/state';
 
 
 const GUIDED_VISIT_DISPLAY_TIME = 5000;
 const GUIDED_VISIT_BLINK_TIME = 500;
 
 
-@inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions)
+@inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, State)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
@@ -58,12 +59,13 @@ export class AotNotificationsCustomElement {
     _tutorialInProgress;
 
 
-    constructor(api, i18n, options, popup, eas) {
+    constructor(api, i18n, options, popup, eas, state) {
         this._api = api;
         this._i18n = i18n;
         this._options = options;
         this._popup = popup;
         this._eas = eas;
+        this._state = state;
         this._tutorialInProgress = false;
 
         this._eas.subscribe('i18n:locale:changed', () => {
@@ -281,7 +283,7 @@ export class AotNotificationsCustomElement {
     }
 
     get game()  {
-        return this._api.game;
+        return this._state.game;
     }
 
     get tutorialInProgress() {
