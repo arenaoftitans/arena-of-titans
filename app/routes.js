@@ -50,7 +50,7 @@ const GAME_ROUTES = [
         title: 'site.page_title.create_game',
     },
     {
-        route: ':version/play/:id',
+        route: '/game/:version/play/:id',
         name: 'play',
         moduleId: './game/play/play',
         nav: false,
