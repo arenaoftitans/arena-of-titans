@@ -19,7 +19,9 @@
 
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import routes from 'routes';
+import routes,
+{ NOT_FOUND as notFoundRoute }
+    from './routes';
 
 
 @inject(EventAggregator)
@@ -46,10 +48,8 @@ export class App {
         config.title = 'Arena of Titans';
         config.options.pushState = true;
         config.map(routes);
-        config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'site/routes/not-found/not-found';
-
-            return instruction;
+        config.mapUnknownRoutes(() => {
+            return notFoundRoute;
         });
     }
 }

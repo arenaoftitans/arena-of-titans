@@ -30,6 +30,13 @@ const SITE_ROUTES = [
 ];
 configureSiteRoutes(SITE_ROUTES);
 
+const NOT_FOUND = {
+    name: 'not-found',
+    moduleId: './site/routes/not-found/not-found',
+    title: 'Page not Found',
+};
+configureSiteRoutes([NOT_FOUND]);
+
 const GAME_ROUTES = [
     {
         route: ['/game', '/game/play', '/game/:version', '/game/:version/play'],
@@ -55,6 +62,7 @@ configureGameRoutes(GAME_ROUTES);
 const ROUTES = SITE_ROUTES.concat(GAME_ROUTES);
 
 export default ROUTES;
+export { NOT_FOUND };
 
 function configureSiteRoutes(routesConfig) {
     for (let routeConfig of routesConfig) {
