@@ -28,24 +28,6 @@ aot-popup {
         width: 80%;
         z-index: 901;
 
-        &.default {
-            background: url(/#{$version}/assets/game/backgrounds/popup.png) no-repeat;
-            background-size: 100% 100%;
-        }
-
-        &.game-over {
-            background: url(/#{$version}/assets/game/backgrounds/popup-game-over.png) no-repeat;
-            background-size: 100% 100%;
-
-            .x-margin {
-                margin-left: 46%;
-            }
-
-            .x-margin ol {
-                padding-top: 10%;
-            }
-        }
-
         button {
             margin-right: 1%;
             margin-top: 1em;
@@ -62,6 +44,24 @@ aot-popup {
         .x-margin {
             margin-left: 11%;
             margin-right: 11%;
+        }
+
+        &.default {
+            background: url(/#{$version}/assets/game/backgrounds/popup.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        &.game-over {
+            background: url(/#{$version}/assets/game/backgrounds/popup-game-over.png) no-repeat;
+            background-size: 100% 100%;
+
+            .x-margin {
+                margin-left: 46%;
+            }
+
+            .x-margin ol {
+                padding-top: 10%;
+            }
         }
     }
 }
