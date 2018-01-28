@@ -20,15 +20,15 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { AssetSource, ImageClass } from '../../services/assets';
 import { Notify } from './notify';
+import { State } from './state';
 import { Storage } from '../../services/storage';
 import { Wait } from './utils';
 import { Ws } from './ws';
 import environment from '../../environment';
 
 
-@inject(Ws, Storage, Notify, EventAggregator)
+@inject(Ws, State, Storage, Notify, EventAggregator)
 export class Api {
     // Keep in sync with test-utils.
     requestTypes = {
@@ -50,12 +50,11 @@ export class Api {
     _gameOverDefered = {};
     _storage;
     _ws;
-    _me;
-    _game;
     _logger;
     _gameId;
 
-    constructor(ws, storage, notify, ea) {
+    constructor(ws, state, storage, notify, ea) {
+        this._state = state;
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
@@ -69,17 +68,7 @@ export class Api {
     }
 
     init() {
-        this._me = {
-            trumps: [],
-            power: null,
-        };
-        this._game = {
-            players: {
-                names: [],
-                squares: [],
-                indexes: [],
-            },
-        };
+        this._state.reset();
 
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
@@ -156,99 +145,22 @@ export class Api {
     _handleGameInitialized(message) {
         this._storage.savePlayerId(message.game_id, message.player_id);
 
-        this._me.index = message.index;
-        if (this._me.index === -1) {
+        if (message.index === -1) {
             this._reconnectDefered.reject();
             return;
         } else {  // eslint-disable-line no-else-return
             this._reconnectDefered.resolve(message);
         }
-        this._me.is_game_master = message.is_game_master;
-        this._me.id = message.player_id;
-        this._me.hero = message.slots[this._me.index].hero;
-        this._me.name = message.slots[this._me.index].player_name;
-
-        this._game.id = message.game_id;
-        this._game.slots = message.slots;
+        this._state.initializeGame(message);
     }
 
     _handleSlotUpdated(message) {
-        let slot = message.slot;
-        if (slot.index in this._game.slots) {
-            this._game.slots[slot.index] = slot;
-        } else {
-            this._game.slots.push(slot);
-        }
+        this._state.updateSlot(message);
     }
 
     _handleCreateGame(message) {
-        this._createPlayers(message.players);
-        this._me.power = this._createPower(message.power);
-        this._me.trumps = this._createTrumps(message.trumps);
-        this._updateGame(message);
+        this._state.createGame(message);
         this._initBoard();
-    }
-
-    _createPlayers(players) {
-        this._game.players = {
-            heroes: [],
-            indexes: [],
-            names: [],
-            squares: [],
-        };
-
-        for (let player of players) {
-            this._game.players.heroes.push(player ? player.hero : null);
-            this._game.players.indexes.push(player ? player.index : null);
-            this._game.players.names.push(player ? player.name : null);
-
-            if (player && player.square) {
-                this._game.players.squares.push(player.square);
-            } else {
-                this._game.players.squares.push({});
-            }
-        }
-    }
-
-    _createPower(power) {
-        if (power) {
-            power.img = AssetSource.forPower(power);
-        }
-
-        return power;
-    }
-
-    _createTrumps(trumps) {
-        return trumps.map(trump => {
-            trump.img = AssetSource.forTrump(trump);
-            return trump;
-        });
-    }
-
-    _updateGame(message) {
-        this._game.was_your_turn = this._game.your_turn;
-        this._game.your_turn = message.your_turn;
-        this._game.next_player = message.next_player;
-        this._game.has_remaining_moves_to_play = message.has_remaining_moves_to_play;
-        // This value may be undefined on game creation. In this case, there were 0 turn.
-        this._game.nb_turns = message.nb_turns || 0;
-        this._me.hand = message.hand.map(card => {
-            card.img = ImageClass.forCard(card);
-            return card;
-        });
-        this._me.has_won = message.has_won;
-        this._me.on_last_line = message.on_last_line;
-        this._me.rank = message.rank;
-        this._me.elapsed_time = message.elapsed_time;
-        this._updateAffectingTrumps(message.active_trumps);
-        this._game.trumps_statuses = message.trumps_statuses;
-        this._game.gauge_value = message.gauge_value;
-        this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
-    }
-
-    _updateAffectingTrumps(activeTrumps) {
-        this._game.active_trumps = activeTrumps;
-        this._me.affecting_trumps = this._createTrumps(activeTrumps[this._me.index].trumps);
     }
 
     _handlePlay(message) {
@@ -256,9 +168,9 @@ export class Api {
             this._handleReconnect(message.reconnect);
         }
 
-        this._updateGame(message);
+        this._state.updateAfterPlay(message);
 
-        if (this._game.your_turn && !this._game.was_your_turn) {
+        if (this._state.game.your_turn && !this._state.game.was_your_turn) {
             this._notify.notifyYourTurn();
         } else {
             this._notify.clearNotifications();
@@ -270,14 +182,11 @@ export class Api {
             playerIndex: message.player_index,
             newSquare: message.new_square,
         });
-        this._game.trumps_statuses = message.trumps_statuses;
+        this._state.updateAfterPlayerPlayed(message);
         this._handleGameOverMessage(message);
     }
 
     _handleGameOverMessage(message) {
-        this._game.game_over = message.game_over;
-        this._game.winners = message.winners;
-
         if (message.game_over) {
             this._gameOverDefered.resolve(message.winners);
             this._notify.notifyGameOver();
@@ -285,12 +194,7 @@ export class Api {
     }
 
     _handlePlayTrump(message) {
-        this._game.trumps_statuses = message.trumps_statuses;
-        if (Number.isInteger(message.gauge_value)) {
-            this._game.gauge_value = message.gauge_value;
-            this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
-        }
-        this._updateAffectingTrumps(message.active_trumps);
+        this._state.updateAfterTrumpPlayed(message);
     }
 
     _handleSpecialActionPlayed(message) {
@@ -315,12 +219,7 @@ export class Api {
     }
 
     _handleReconnect(reconnectMessage) {
-        this._createPlayers(reconnectMessage.players);
-        this._me.power = this._createPower(reconnectMessage.power);
-        this._me.trumps = this._createTrumps(reconnectMessage.trumps);
-        this._me.index = reconnectMessage.index;
-        this._me.hero = this._game.players.heroes[this._me.index];
-        this._me.name = this._game.players.names[this._me.index];
+        this._state.reconnect(reconnectMessage);
 
         this._initBoard();
         this._reconnectDefered.resolve(reconnectMessage);
@@ -334,7 +233,7 @@ export class Api {
 
         waitForBoard.then(() => {
             this._rotateBoard();
-            this._game.players.squares.forEach((square, index) => {
+            this._state.players.squares.forEach((square, index) => {
                 if (square && Object.keys(square).length > 0) {
                     this._movePlayer({playerIndex: index, newSquare: square});
                 }
@@ -369,7 +268,7 @@ export class Api {
     _rotateBoard() {
         let boardLayer = document.getElementById('boardLayer');
         let pawnLayer = document.getElementById('pawnLayer');
-        let angle = 45 * this._me.index;
+        let angle = 45 * this._state.me.index;
         let transformBoardLayer = boardLayer.getAttribute('transform');
         let transformPawnLayer = pawnLayer.getAttribute('transform');
 
@@ -405,11 +304,9 @@ export class Api {
     }
 
     updateMe(name, hero) {
-        this.me.name = name;
-        this.me.hero = hero;
-        let slot = this._game.slots[this.me.index];
-        slot.player_name = name;
-        slot.hero = hero;
+        this._state.updateMe(name, hero);
+
+        let slot = this._state.game.slots[this._state.me.index];
         this.updateSlot(slot);
     }
 
@@ -444,7 +341,7 @@ export class Api {
     }
 
     createGame() {
-        let players = this._game.slots.map(slot => {
+        let players = this._state.game.slots.map(slot => {
             return {
                 name: slot.player_name,
                 index: slot.index,
@@ -562,13 +459,5 @@ export class Api {
 
     get onGameOverDefered() {
         return this._gameOverDefered.promise;
-    }
-
-    get me() {
-        return this._me;
-    }
-
-    get game() {
-        return this._game;
     }
 }
