@@ -5,6 +5,15 @@
         "port": 80,
         "tls_port": 443
     },
+    "heroes": [
+        "arline",
+        "garez",
+        "kharliass",
+        "luni",
+        "mirindrel",
+        "razbrak",
+        "ulya"
+    ],
     "debug": true,
     "testing": false
 }

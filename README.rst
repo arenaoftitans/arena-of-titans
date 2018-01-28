@@ -274,7 +274,7 @@ Add a hero
 
 #. Add the main image in ``assets/game/heroes/<hero-name>.png`` (used in hero selection)
 #. Add the circled image in ``assets/game/heroes/<hero-name>-circle.png`` (used in the game)
-#. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
+#. Add the name of the hero in the array named ``heroes`` in all the environment files in ``aurelia_project/environments``
 #. Add the image of its power under ``assets/game/cards/powers`` as :
 
    - The normalized name of the power (see existing files in this folder for examples).

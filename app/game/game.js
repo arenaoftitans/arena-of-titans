@@ -33,15 +33,6 @@ const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 @inject(History, Api, Options, Popup, EventAggregatorSubscriptions)
 export class Game {
     static MAX_NUMBER_PLAYERS = 8;
-    static heroes = [
-        'arline',
-        'garez',
-        'kharliass',
-        'luni',
-        'mirindrel',
-        'razbrak',
-        'ulya',
-    ];
 
     data = null;
     type = null;

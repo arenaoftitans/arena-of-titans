@@ -19,7 +19,7 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { CssAnimator } from 'aurelia-animator-css';
-import { Game } from '../../game/game';
+import environment from '../../environment';
 import { AssetSource } from '../../services/assets';
 
 
@@ -37,7 +37,7 @@ export class AotSelectHeroesCustomElement {
 
         this.assetSource = AssetSource;
         this.heroes = [];
-        for (let hero of Game.heroes) {
+        for (let hero of environment.heroes) {
             this.heroes.push({
                 name: hero,
                 next: null,
