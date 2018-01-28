@@ -21,7 +21,6 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
 import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
-import Config from '../../../../services/configuration';
 
 
 // In milliseconds to ease calculations.
@@ -37,13 +36,12 @@ const COUNTER_WIDTH = 300;
 const COUNTER_HEIGHT = 300;
 
 
-@inject(Api, Config, EventAggregatorSubscriptions)
+@inject(Api, EventAggregatorSubscriptions)
 export class AotCounterCustomElement {
     _api;
 
-    constructor(api, config, eas) {
+    constructor(api, eas) {
         this._api = api;
-        this._config = config;
         this._eas = eas;
         this._paused = false;
         this._currentNbTurns = 0;

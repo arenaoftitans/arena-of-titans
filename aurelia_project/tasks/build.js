@@ -7,6 +7,9 @@ import copyFiles from './copy-files';
 import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
+import {loadEnvVariables} from './utils';
+
+loadEnvVariables();
 
 let build = gulp.series(
   readProjectConfiguration,

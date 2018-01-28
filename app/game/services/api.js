@@ -26,10 +26,9 @@ import { Storage } from '../../services/storage';
 import { Wait } from './utils';
 import { Ws } from './ws';
 import environment from '../../environment';
-import Config from '../../services/configuration';
 
 
-@inject(Ws, Storage, Config, Notify, EventAggregator)
+@inject(Ws, Storage, Notify, EventAggregator)
 export class Api {
     // Keep in sync with test-utils.
     requestTypes = {
@@ -53,17 +52,15 @@ export class Api {
     _ws;
     _me;
     _game;
-    _config;
     _logger;
     _gameId;
 
-    constructor(ws, storage, config, notify, ea) {
+    constructor(ws, storage, notify, ea) {
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage((message) => {
             this._handleMessage(message);
         });
-        this._config = config;
         this._notify = notify;
         this._ea = ea;
         this._logger = LogManager.getLogger('AoTApi');

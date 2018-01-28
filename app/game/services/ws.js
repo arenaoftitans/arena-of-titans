@@ -19,12 +19,12 @@
 
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import Config from '../../services/configuration';
+import environment from '../../environment';
 import { Popover } from '../widgets/popover/popover';
 import ReconnectingWebSocket from 'reconnectingwebsocket';
 
 
-@inject(Config, EventAggregator, Popover)
+@inject(environment, EventAggregator, Popover)
 export class Ws {
     _mustReconnect = false;
     _ws;
@@ -33,18 +33,19 @@ export class Ws {
     // The messages stored in this array are sent as soon as we are connected.
     _waitingOpen = [];
 
-    constructor(config, ea, popover, WebsocketSub) {
+    constructor(env, ea, popover, WebsocketSub) {
         this.popover = popover;
 
-        let api = config.api;
+        let api = env.api;
         let isHttps = location.protocol === 'https:';
         let wsScheme = isHttps ? 'wss' : 'ws';
         let port = isHttps ? api.tls_port : api.port;
         let path = api.path ? api.path : '';
+        let wsUri = `${wsScheme}://${api.host}:${port}${path}${env.version}`;
 
-        // If ReconnectingWebSocket we are in unit tests.
+        // If ReconnectingWebSocket is not defined we are in unit tests.
         if (ReconnectingWebSocket) {
-            this._ws = new ReconnectingWebSocket(`${wsScheme}://${api.host}:${port}${path}`);
+            this._ws = new ReconnectingWebSocket(wsUri);
         } else {
             this._ws = new WebsocketSub();
         }

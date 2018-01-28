@@ -33,7 +33,7 @@ import {
 import { AssetSource } from '../../services/assets';
 import { Storage } from '../../services/storage';
 import { History } from '../services/history';
-import Config from '../../services/configuration';
+import environment from '../../environment';
 import DEFAULT_NAMES from './default-names';
 
 
@@ -41,7 +41,6 @@ import DEFAULT_NAMES from './default-names';
     Router,
     Api,
     Storage,
-    Config,
     BindingEngineSubscriptions,
     History,
     EventAggregator,
@@ -56,11 +55,10 @@ export class Create {
     _playerInfosChanged;
     _history;
 
-    constructor(router, api, storage, config, bindingEngineSubscription, history, ea, eas) {
+    constructor(router, api, storage, bindingEngineSubscription, history, ea, eas) {
         this._router = router;
         this._api = api;
         this._storage = storage;
-        this._config = config;
         this._bes = bindingEngineSubscription;
         this._history = history;
         this._ea = ea;
@@ -98,7 +96,7 @@ export class Create {
     _getNavParams(gameId) {
         return {
             id: gameId,
-            version: this._config.version ? this._config.version : 'latest',
+            version: environment.version,
         };
     }
 

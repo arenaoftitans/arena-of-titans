@@ -13,11 +13,6 @@
       "type": "string"
     },
     {
-        "name": "rollbar",
-        "description": "Path the rollbar configuration file",
-        "type": "string"
-    },
-    {
       "name": "watch",
       "description": "Watches source files for changes and refreshes the bundles automatically.",
       "type": "boolean"

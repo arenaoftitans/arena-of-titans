@@ -24,7 +24,6 @@ import { EventAggregatorStub, NotifyStub, StorageStub, WsStub } from '../../../.
 describe('services/api', () => {
     let mockedStorage;
     let mockedWs;
-    let mockedConfig;
     let mockedNotify;
     let mockedEa;
     let sut;
@@ -33,14 +32,9 @@ describe('services/api', () => {
     beforeEach(() => {
         mockedStorage = new StorageStub();
         mockedWs = new WsStub();
-        mockedConfig = {
-            test: {
-                debug: false,
-            },
-        };
         mockedNotify = new NotifyStub();
         mockedEa = new EventAggregatorStub();
-        sut = new Api(mockedWs, mockedStorage, mockedConfig, mockedNotify, mockedEa);
+        sut = new Api(mockedWs, mockedStorage, mockedNotify, mockedEa);
         rt = sut.requestTypes;
     });
 
