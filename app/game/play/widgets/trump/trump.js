@@ -23,11 +23,12 @@ import { I18N } from 'aurelia-i18n';
 import { DOM } from 'aurelia-pal';
 import { Popup } from '../../../widgets/popups/popup';
 import { Api } from '../../../services/api';
+import { State } from '../../../services/state';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
 import { browsers } from '../../../../services/browser-sniffer';
 
 
-@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions)
+@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, State)
 export class AotTrumpCustomElement {
     _api;
     _logger;
@@ -44,12 +45,13 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api, popup, i18n, element, eas) {
+    constructor(api, popup, i18n, element, eas, state) {
         this._api = api;
         this._popup = popup;
         this._i18n = i18n;
         this._element = element;
         this._eas = eas;
+        this._state = state;
         this.disabled = false;
 
         this._logger = LogManager.getLogger('AotTrumps');
@@ -233,22 +235,22 @@ export class AotTrumpCustomElement {
     }
 
     get yourTurn() {
-        return this._api.game.your_turn;
+        return this._state.game.your_turn;
     }
 
     get trumpsStatuses() {
-        return this._api.game.trumps_statuses;
+        return this._state.game.trumps_statuses;
     }
 
     get playerNames() {
-        return this._api.game.players.names;
+        return this._state.game.players.names;
     }
 
     get playerIndexes() {
-        return this._api.game.players.indexes;
+        return this._state.game.players.indexes;
     }
 
     get myIndex() {
-        return this._api.me.index;
+        return this._state.me.index;
     }
 }

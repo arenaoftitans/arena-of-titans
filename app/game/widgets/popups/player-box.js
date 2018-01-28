@@ -20,17 +20,17 @@
 import { inject } from 'aurelia-framework';
 import { AssetSource } from '../../../services/assets';
 import { History } from '../../services/history';
-import { Api } from '../../services/api';
+import { State } from '../../services/state';
 
 
-@inject(History, Api)
+@inject(History, State)
 export class AotPlayerBoxInfosCustomElement {
     _history;
-    _api;
+    _state;
 
-    constructor(history, api) {
+    constructor(history, state) {
         this._history = history;
-        this._api = api;
+        this._state = state;
     }
 
     activate(model) {
@@ -56,7 +56,7 @@ export class AotPlayerBoxInfosCustomElement {
     }
 
     get activeTrumps() {
-        let trumps = this._api.game.active_trumps[this.data.playerIndex].trumps;
+        let trumps = this._state.game.active_trumps[this.data.playerIndex].trumps;
         let images = [];
         for (let trump of trumps) {
             images.push(AssetSource.forTrump(trump));

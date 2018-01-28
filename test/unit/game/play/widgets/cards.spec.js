@@ -25,6 +25,7 @@ import {
     EventAggregatorSubscriptionsStub,
     ObserverLocatorStub,
     ObserverLocatorStubResults,
+    StateStub,
 } from '../../../../../app/test-utils';
 
 
@@ -35,6 +36,7 @@ describe('cards', () => {
     let mockedI18n;
     let mockedEas;
     let mockedOl;
+    let mockedState;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
@@ -42,14 +44,22 @@ describe('cards', () => {
         mockedI18n = new I18nStub();
         mockedOl = new ObserverLocatorStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotCardsCustomElement(mockedApi, mockedPopup, mockedI18n, mockedOl, mockedEas);
+        mockedState = new StateStub();
+        sut = new AotCardsCustomElement(
+            mockedApi,
+            mockedPopup,
+            mockedI18n,
+            mockedOl,
+            mockedEas,
+            mockedState
+        );
     });
 
     it('should view possible movements', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
-        mockedApi._game.your_turn = true;
-        mockedApi._game.has_remaining_moves_to_play = true;
+        mockedState._game.your_turn = true;
+        mockedState._game.has_remaining_moves_to_play = true;
 
         sut.viewPossibleMovements(card);
 
@@ -60,7 +70,7 @@ describe('cards', () => {
     it('should not view possible movement if not your turn', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
-        mockedApi._game.your_turn = false;
+        mockedState._game.your_turn = false;
         sut.selectedCard = null;
 
         sut.viewPossibleMovements(card);
@@ -72,8 +82,8 @@ describe('cards', () => {
     it('should not view possible movement if no move left', () => {
         let card = {name: 'King', color: 'red'};
         spyOn(mockedApi, 'viewPossibleMovements');
-        mockedApi._game.your_turn = true;
-        mockedApi._game.has_remaining_moves_to_play = false;
+        mockedState._game.your_turn = true;
+        mockedState._game.has_remaining_moves_to_play = false;
         sut.selectedCard = null;
 
         sut.viewPossibleMovements(card);

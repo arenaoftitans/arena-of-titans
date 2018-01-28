@@ -19,34 +19,34 @@
 
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { Api } from '../../../services/api';
+import { State } from '../../../services/state';
 
 
-@inject(Api, I18N)
+@inject(State, I18N)
 export class AotTrumpsCustomElement {
-    _api;
+    _state;
     _game;
     _i18n;
     affectingInfos = {};
 
-    constructor(api, i18n) {
-        this._api = api;
+    constructor(state, i18n) {
+        this._state = state;
         this._i18n = i18n;
     }
 
     get power() {
-        return this._api.me.power;
+        return this._state.me.power;
     }
 
     get trumps() {
-        return this._api.me.trumps;
+        return this._state.me.trumps;
     }
 
     get affectingTrumps() {
-        return this._api.me.affecting_trumps;
+        return this._state.me.affecting_trumps;
     }
 
     get me() {
-        return this._api.me;
+        return this._state.me;
     }
 }

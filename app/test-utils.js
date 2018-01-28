@@ -39,10 +39,6 @@ export class RouterStub {
 
 
 export class ApiStub {
-    _game = {
-        slots: [],
-    };
-    _me = {};
     _gameOverDefered = {};
     _reconnectDefered = {};
 
@@ -57,11 +53,6 @@ export class ApiStub {
     }
 
     initializeGame(data) {
-        this._game.slots.push({
-            index: 0,
-            player_name: 'Player 1',
-            state: 'TAKEN',
-        });
     }
 
     init() {
@@ -121,15 +112,6 @@ export class ApiStub {
         };
     }
 
-    get me() {
-        return this._me;
-    }
-
-
-    get game() {
-        return this._game;
-    }
-
     get onGameOverDefered() {
         return this._gameOverDefered.promise;
     }
@@ -139,6 +121,46 @@ export class ApiStub {
     }
 
     createGameDebug() {
+    }
+}
+
+
+export class StateStub {
+    _game = {
+        slots: [],
+    };
+    _me = {};
+
+    createGame() {
+    }
+
+    initializeGame() {
+    }
+
+    reconnect() {
+    }
+
+    reset() {
+    }
+
+    updateAfterPlay() {
+    }
+
+    updateAfterTrumpPlayed() {
+    }
+
+    updateMe() {
+    }
+
+    updateSlot() {
+    }
+
+    get game() {
+        return this._game;
+    }
+
+    get me() {
+        return this._me;
     }
 }
 

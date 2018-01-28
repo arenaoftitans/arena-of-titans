@@ -23,6 +23,7 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { Blink, Elements, EventAggregatorSubscriptions } from '../../../services/utils';
 import { Popup } from '../../../widgets/popups/popup';
+import { State } from '../../../services/state';
 
 
 const BUTTON_BLINK_TIME = 1000;
@@ -30,7 +31,7 @@ const MAX_BUTTON_BLINK_TIME = 90000;
 const BUTTON_BLINK_CLASS = 'blink-container';
 
 
-@inject(Api, Popup, I18N, ObserverLocator, EventAggregatorSubscriptions)
+@inject(Api, Popup, I18N, ObserverLocator, EventAggregatorSubscriptions, State)
 export class AotCardsCustomElement {
     @bindable selectedCard;
     _api;
@@ -40,12 +41,13 @@ export class AotCardsCustomElement {
     infos = {};
     specialActionInProgress = false;
 
-    constructor(api, popup, i18n, ol, eas) {
+    constructor(api, popup, i18n, ol, eas, state) {
         this._api = api;
         this._popup = popup;
         this._i18n = i18n;
         this._ol = ol;
         this._eas = eas;
+        this._state = state;
         this._logger = LogManager.getLogger('AotCards');
 
         let blinker;
@@ -172,23 +174,23 @@ export class AotCardsCustomElement {
     }
 
     get yourTurn() {
-        return this._api.game.your_turn;
+        return this._state.game.your_turn;
     }
 
     get onLastLine() {
-        return this._api.me.on_last_line;
+        return this._state.me.on_last_line;
     }
 
     get hand() {
-        return this._api.me.hand;
+        return this._state.me.hand;
     }
 
     get hasWon() {
-        return this._api.me.has_won;
+        return this._state.me.has_won;
     }
 
     get rank() {
-        return this._api.me.rank;
+        return this._state.me.rank;
     }
 
     get highlightPassButton() {
@@ -202,6 +204,6 @@ export class AotCardsCustomElement {
     get canPlayCards() {
         return this.yourTurn &&
             !this.specialActionInProgress &&
-            this._api.game.has_remaining_moves_to_play;
+            this._state.game.has_remaining_moves_to_play;
     }
 }

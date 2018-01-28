@@ -23,9 +23,10 @@ import { Api } from '../services/api';
 import { AssetSource } from '../../services/assets';
 import { EventAggregatorSubscriptions } from '../services/utils';
 import { Popup } from '../widgets/popups/popup';
+import { State } from '../services/state';
 
 
-@inject(Api, Popup, EventAggregatorSubscriptions)
+@inject(Api, Popup, EventAggregatorSubscriptions, State)
 export class Play {
     // Used to keep the selected card in the cards interface in sync with the card used in
     // board.js to play a move.
@@ -36,9 +37,11 @@ export class Play {
     pawnsForcedNotClickable = [];
     _game;
     _api;
+    _state;
 
-    constructor(api, popup, eas) {
+    constructor(api, popup, eas, state) {
         this._api = api;
+        this._state = state;
         this._popup = popup;
         this._eas = eas;
         this.assetSource = AssetSource;
@@ -139,18 +142,18 @@ export class Play {
     }
 
     get me() {
-        return this._api.me;
+        return this._state.me;
     }
 
     get game() {
-        return this._api.game;
+        return this._state.game;
     }
 
     get myName() {
-        return this._api.me.name;
+        return this._state.me.name;
     }
 
     get players() {
-        return this._api.game.players;
+        return this._state.game.players;
     }
 }

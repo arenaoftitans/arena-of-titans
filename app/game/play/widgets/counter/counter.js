@@ -21,6 +21,7 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../../../services/api';
 import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
+import { State } from '../../../services/state';
 
 
 // In milliseconds to ease calculations.
@@ -36,13 +37,14 @@ const COUNTER_WIDTH = 300;
 const COUNTER_HEIGHT = 300;
 
 
-@inject(Api, EventAggregatorSubscriptions)
+@inject(Api, EventAggregatorSubscriptions, State)
 export class AotCounterCustomElement {
     _api;
 
-    constructor(api, eas) {
+    constructor(api, eas, state) {
         this._api = api;
         this._eas = eas;
+        this._state = state;
         this._paused = false;
         this._currentNbTurns = 0;
         this.tutorialInProgress = false;
@@ -99,7 +101,7 @@ export class AotCounterCustomElement {
     }
 
     _canStart() {
-        return this._api.game.your_turn && !this._api.game.game_over && this.startTime === null;
+        return this._state.game.your_turn && !this._state.game.game_over && this.startTime === null;
     }
 
     unbind() {
@@ -111,10 +113,10 @@ export class AotCounterCustomElement {
             this.specialActionInProgress = false;
             this.resume();
         } else {
-            if (this._currentNbTurns !== this._api.game.nb_turns && this.startTime !== null) {
+            if (this._currentNbTurns !== this._state.game.nb_turns && this.startTime !== null) {
                 this.startTime = null;
             }
-            this._currentNbTurns = this._api.game.nb_turns;
+            this._currentNbTurns = this._state.game.nb_turns;
 
             this.init();
         }
@@ -127,12 +129,12 @@ export class AotCounterCustomElement {
     }
 
     init() {
-        if (this._api.game.your_turn && !this._api.game.game_over && this.startTime === null) {
+        if (this._state.game.your_turn && !this._state.game.game_over && this.startTime === null) {
             this._paused = false;
             this.specialActionInProgress = false;
             this.waitForCounter.then(canvas => {
                 this.canvas = canvas;
-                let elapsedTime = this._api.me.elapsed_time || 0;
+                let elapsedTime = this._state.me.elapsed_time || 0;
                 this.maxTime = TIME_FOR_TURN - elapsedTime;
                 // Round max time to upper second
                 this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
@@ -140,7 +142,7 @@ export class AotCounterCustomElement {
                 // Draw the counter.
                 this.countDownClock();
             });
-        } else if (!this._api.game.your_turn) {
+        } else if (!this._state.game.your_turn) {
             clearInterval(this.timerInterval);
             this.startTime = null;
         }
@@ -334,6 +336,6 @@ export class AotCounterCustomElement {
     }
 
     get displayCounter() {
-        return this._api.game.your_turn && !this._api.game.game_over;
+        return this._state.game.your_turn && !this._state.game.game_over;
     }
 }
