@@ -213,11 +213,11 @@
                     }
                 ],
                 "source": [
-                    "[**/game/game.js]",
+                    "[**/game/layout.js]",
                     "[**/game/services/*.js]",
                     "[**/game/widgets/**/*.js]",
                     "**/game/**/*.{css,html}",
-                    "**/game/game.{css,html}",
+                    "**/game/layout.{css,html}",
                     "**/game/widgets/**/*.{css,html}"
                 ]
             },

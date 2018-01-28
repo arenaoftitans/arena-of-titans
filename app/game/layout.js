@@ -31,7 +31,7 @@ const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
 @inject(History, Api, Options, Popup, EventAggregatorSubscriptions)
-export class Game {
+export class Layout {
     static MAX_NUMBER_PLAYERS = 8;
 
     data = null;

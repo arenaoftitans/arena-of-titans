@@ -17,10 +17,9 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Game } from '../../../app/game/game';
+import { Layout } from '../../../app/game/layout';
 import {
     ApiStub,
-    RouterStub,
     HistoryStub,
     EventAggregatorSubscriptionsStub,
     PopupStub,
@@ -41,13 +40,13 @@ describe('the Game module', () => {
         mockedOptions = {};
         mockedPopup = new PopupStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Game(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
+        sut = new Layout(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Game(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
+        sut = new Layout(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
 
         expect(mockedHistory.init).toHaveBeenCalled();
     });
@@ -58,23 +57,6 @@ describe('the Game module', () => {
         sut.deactivate();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
-    });
-
-    describe('router', () => {
-        let mockedRouter;
-
-        beforeEach(() => {
-            mockedRouter = new RouterStub();
-            sut.configureRouter(mockedRouter, mockedRouter);
-        });
-
-        it('should have a baseUrl', () => {
-            expect(mockedRouter.baseUrl).toBe('game');
-        });
-
-        it('should be configured as pushState', () => {
-            expect(mockedRouter.options.pushState).toBe(true);
-        });
     });
 
     describe('errors', () => {

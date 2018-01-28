@@ -18,5 +18,5 @@
 */
 
 
-export class Site {
+export class Layout {
 }
