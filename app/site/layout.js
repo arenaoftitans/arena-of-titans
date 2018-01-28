@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2017 by Arena of Titans Contributors.
+* Copyright (C) 2015-2016 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -17,13 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import environment from '../../../environment';
-import { AssetSource } from '../../../services/assets';
 
-
-export class Heroes {
-    constructor() {
-        this.assetSource = AssetSource;
-        this.selectedHero = environment.heroes[0];
-    }
+export class Layout {
 }

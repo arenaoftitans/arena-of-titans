@@ -19,6 +19,9 @@
 
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import routes,
+{ NOT_FOUND as notFoundRoute }
+    from './routes';
 
 
 @inject(EventAggregator)
@@ -44,28 +47,9 @@ export class App {
         this.router = router;
         config.title = 'Arena of Titans';
         config.options.pushState = true;
-        config.map([
-            {
-                route: '',
-                redirect: 'site',
-            }, {
-                route: 'site',
-                name: 'site',
-                moduleId: 'site/site',
-                nav: true,
-                title: 'Homepage',
-            }, {
-                route: 'game',
-                name: 'game',
-                moduleId: 'game/game',
-                nav: true,
-                title: 'Game',
-            },
-        ]);
-        config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'site/routes/not-found/not-found';
-
-            return instruction;
+        config.map(routes);
+        config.mapUnknownRoutes(() => {
+            return notFoundRoute;
         });
     }
 }

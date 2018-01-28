@@ -24,7 +24,7 @@
     <require from="./widgets/slot/slot"></require>
     <require from="./widgets/url-copy/url-copy"></require>
 
-    <div class="create-game-container"
+    <div slot="main" class="create-game-container"
          if.bind="creating">
         <div class="splash-block">
             <div class="message">loading</div>
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="create-game-container"
+    <div slot="main" class="create-game-container"
          if.bind="!creating">
         <div class="left-wall wall-part">
             <div class="heroes-viewr-container">

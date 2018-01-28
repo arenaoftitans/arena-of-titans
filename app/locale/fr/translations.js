@@ -175,6 +175,15 @@ export default {
             "slider3": "Version Bêta disponible !",
             "tutorial": "<strong>Tutoriel</strong>"
         },
+        "page_title": {
+            "create_game": "Créer une partie",
+            "heroes": "Héros",
+            "home": "Accueil",
+            "not_found": "Page introuvable",
+            "play_game": "Jouer",
+            "synopsis": "Synopsis",
+            "trumps": "Atouts"
+        },
         "rules": {
             "heroes": "<h2>Héros</h2>\n                <p>En plus des pouvoirs offerts par les Titans, chaque héros possède une compétence unique (il faut bien qu’ils soient forts à défaut d’être beaux). Cette compétence peut être « passive » c'est-à-dire agir en continu dans l’Arène ou « activable » une fois ta jauge d’exploration suffisamment remplie.</p>",
             "moves": "<h2>Déplacements</h2>\n                <p>Comme expliqué dans la présentation générale des règles (oui c’est mieux de lire dans l’ordre), l’Arène est divisée en plusieurs zones. Chaque couleur correspond à une zone contrôlée par une famille. Pour la traverser il faut donc avoir l’approbation d’un des membres de cette famille. Et pour avoir l'approbation, il faut avoir de la chance !\nJe sens que je t’ai perdu alors je vais résumer : tu as une main de cartes aléatoires, donc pour avancer, tu cliques sur une carte puis sur la case où tu veux te déplacer. A chaque tour tu peux jouer jusqu’à deux cartes Déplacement. A toi d’optimiser tes déplacements pour prendre l’avantage !\n                </p>\n                <img src=\"/latest/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",

@@ -175,6 +175,15 @@ export default {
             "slider3": "Beta Version is available !",
             "tutorial": "<strong>Tutorial</strong>"
         },
+        "page_title": {
+            "create_game": "Create Game",
+            "heroes": "Heroes",
+            "home": "Home",
+            "not_found": "Not Found",
+            "play_game": "Play",
+            "synopsis": "Synopsis",
+            "trumps": "Trumps"
+        },
         "rules": {
             "heroes": "<h2>Heroes</h2>\n                <p>As it is never enough, each hero has got a special skill (being ugly, strength is all that's left). This skill can be \"passive\" (working all the time as a bonus generally), or \"active\" (need to activate it make it work) once your exploration gauge is full.</p>",
             "moves": "<h2>Moves</h2>\n                <p>As explained before (yeah you should read in the order we wrote), the Arena is divided in several areas. Each color refers to a family, so areas are under the control of families depending on their color. To cross it, you will need the approval of a family member. And to get this approval, you need luck!\nOkay I think I lost you there, let me wrap it up: you start with a random hand of cards, so, to advance, you click on a card and then on the tile you want to move to. You can use up to 2 movement cards by turn. So you need to figure how to optimize your moves on your own to get the upper hand!\n                </p>\n                <img src=\"/latest/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",

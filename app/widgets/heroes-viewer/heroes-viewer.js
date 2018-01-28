@@ -18,7 +18,7 @@
  */
 
 import { bindable } from 'aurelia-framework';
-import { Game } from '../../game/game';
+import environment from '../../environment';
 import { AssetSource } from '../../services/assets';
 
 
@@ -32,8 +32,8 @@ export class AotHeroesViewerCustomElement {
         this.heroesRows = [[], []];
         let line = this.heroesRows[0];
 
-        for (let i = 0; i < Game.heroes.length; i++) {
-            let hero = Game.heroes[i];
+        for (let i = 0; i < environment.heroes.length; i++) {
+            let hero = environment.heroes[i];
             line.push(hero);
 
             // Index start at 0, so if i === 3, we have NB_HEROES_PER_LINE.

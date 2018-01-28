@@ -31,17 +31,8 @@ const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
 @inject(History, Api, Options, Popup, EventAggregatorSubscriptions)
-export class Game {
+export class Layout {
     static MAX_NUMBER_PLAYERS = 8;
-    static heroes = [
-        'arline',
-        'garez',
-        'kharliass',
-        'luni',
-        'mirindrel',
-        'razbrak',
-        'ulya',
-    ];
 
     data = null;
     type = null;
@@ -68,36 +59,6 @@ export class Game {
         history.init();
 
         AssetSource.preloadImages('game');
-    }
-
-    configureRouter(config, router) {
-        router.baseUrl = 'game';
-        config.options.pushState = true;
-        config.map([
-            {
-                route: ['', 'play', ':version', ':version/play'],
-                redirect: 'create',
-            },
-            {
-                route: ['create', ':version/create', ':version/create/:id'],
-                name: 'create',
-                moduleId: './create/create',
-                nav: false,
-                title: 'Create game',
-            },
-            {
-                route: ':version/play/:id',
-                name: 'play',
-                moduleId: './play/play',
-                nav: false,
-                title: 'Play',
-            },
-        ]);
-        config.mapUnknownRoutes(instruction => {
-            instruction.moduleId = 'not-found';
-
-            return instruction;
-        });
     }
 
     activate() {

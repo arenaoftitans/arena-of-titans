@@ -174,7 +174,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'create',
+            'game-create',
             {
                 id: gameInitializedData.game_id,
                 version: 'latest',
@@ -199,7 +199,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'create',
+            'game-create',
             {
                 id: gameInitializedData.game_id,
                 version: 'latest',
@@ -278,7 +278,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:create_game');
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'play',
+            'game-play',
             {
                 id: 'the_game_id',
                 version: 'latest',

@@ -21,7 +21,6 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
-import { Game } from '../game';
 import { Api } from '../services/api';
 import {
     BindingEngineSubscriptions,
@@ -118,8 +117,8 @@ export class Create {
         if (!this.playerInfos.name) {
             this.playerInfos.name = selectRandomElement(DEFAULT_NAMES);
         }
-        if (!this.playerInfos.hero || !Game.heroes.includes(this.playerInfos.hero)) {
-            this.playerInfos.hero = selectRandomElement(Game.heroes);
+        if (!this.playerInfos.hero || !environment.heroes.includes(this.playerInfos.hero)) {
+            this.playerInfos.hero = selectRandomElement(environment.heroes);
         }
         this.selectedHero = this.playerInfos.hero;
         this._playerInfosChanged();
@@ -153,12 +152,12 @@ export class Create {
         this._eas.dispose();
         this._eas.subscribe('aot:api:game_initialized', data => {
             if (!params.id) {
-                this._router.navigateToRoute('create', this._getNavParams(data.game_id));
+                this._router.navigateToRoute('game-create', this._getNavParams(data.game_id));
             }
         });
         this._eas.subscribe('aot:api:create_game', () => {
             if (params.id) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute('game-play', this._getNavParams(params.id));
             }
         });
         this._eas.subscribe('aot:api:game_initialized', () => {
@@ -169,7 +168,7 @@ export class Create {
         // create page after a game was created.
         let subscription = this._ea.subscribe('aot:api:play', () => {
             if (/game\/.*\/create\/.+/.test(location.href)) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute('game-play', this._getNavParams(params.id));
             }
             subscription.dispose();
         });
@@ -208,7 +207,7 @@ export class Create {
     updateSlot(slot) {
         if (slot.state === 'AI') {
             slot.player_name = `AI ${slot.index}`;
-            slot.hero = Game.heroes[randomInt(0, Game.heroes.length - 1)];
+            slot.hero = environment.heroes[randomInt(0, environment.heroes.length - 1)];
         }
         this._api.updateSlot(slot);
     }

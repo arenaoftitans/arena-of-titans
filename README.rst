@@ -218,6 +218,11 @@ To translate something:
 
 See `the plugin page on github <https://github.com/aurelia/i18n>`__ for the full documentation.
 
+Translate routes titles
+-----------------------
+
+Put the id of the translation (eg ``site.page_title.home``) in the title property of the route definition.
+
 Translate text in a popup
 -------------------------
 
@@ -274,7 +279,7 @@ Add a hero
 
 #. Add the main image in ``assets/game/heroes/<hero-name>.png`` (used in hero selection)
 #. Add the circled image in ``assets/game/heroes/<hero-name>-circle.png`` (used in the game)
-#. Add the name of the hero in the static array named ``heroes`` in ``app/game/game.js``
+#. Add the name of the hero in the array named ``heroes`` in all the environment files in ``aurelia_project/environments``
 #. Add the image of its power under ``assets/game/cards/powers`` as :
 
    - The normalized name of the power (see existing files in this folder for examples).

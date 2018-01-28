@@ -18,13 +18,15 @@
 -->
 
 <template>
-    <require from="./site.css"></require>
+    <require from="./layout.css"></require>
     <require from="./widgets/aot-header/aot-header"></require>
     <require from="./widgets/aot-home-slider/aot-home-slider"></require>
     <require from="./widgets/aot-footer/aot-footer"></require>
 
     <aot-home-slider></aot-home-slider>
     <aot-header></aot-header>
-    <router-view></router-view>
+
+    <slot name="main"></slot>
+
     <aot-footer></aot-footer>
 </template>

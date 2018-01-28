@@ -18,8 +18,8 @@
  */
 
 import { bindable, inject } from 'aurelia-framework';
+import environment from '../../../../environment';
 import { Api } from '../../../services/api';
-import { Game } from '../../../game';
 import { randomInt } from '../../../services/utils';
 
 
@@ -39,7 +39,7 @@ export class AotSlotCustomElement {
     updateSlot() {
         if (this.player.state === 'AI') {
             this.player.player_name = `AI ${this.player.index}`;
-            this.player.hero = Game.heroes[randomInt(0, Game.heroes.length - 1)];
+            this.player.hero = environment.heroes[randomInt(0, environment.heroes.length - 1)];
         }
         this._api.updateSlot(this.player);
     }
