@@ -5,10 +5,6 @@
 body {
     background-image: url(/#{$version}/assets/backgrounds/background.jpg);
     font-family: 'Berkshire Swash', cursive;
-}
-
-
-body {
     margin: 0;
 }
 
@@ -104,7 +100,7 @@ select {
 }
 
 .centered-text-timer {
-    font-family: 'Old English Text MT';
+    font-family: 'Old English Text MT', sans-serif;
     text-align: center;
     top: -150px;
 }

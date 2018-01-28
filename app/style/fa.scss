@@ -12,7 +12,7 @@
 
 .fa {
     display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
+    font: normal normal normal 14px/1 FontAwesome; /* stylelint-disable font-family-no-missing-generic-family-keyword */
     font-size: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
