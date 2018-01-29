@@ -30,7 +30,10 @@
 
     <div class="popup" if.bind="type !== null">
     </div>
-    <div class="popup-container" tabindex="0" if.bind="type !== null">
+    <div class="popup-container"
+         tabindex="0"
+         ref="container"
+         if.bind="type !== null">
         <div class="popup-content popup-${type} ${background}">
             <compose view-model="./${type}"
                      model.one-way="popupModel">

@@ -18,10 +18,10 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
+import { inject, BindingEngine } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { DOM } from 'aurelia-pal';
-import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
+import { EventAggregatorSubscriptions } from '../../services/utils';
 
 
 @inject(I18N, EventAggregatorSubscriptions)
@@ -173,7 +173,7 @@ export class Popup {
 }
 
 
-@inject(DOM.Element, EventAggregatorSubscriptions)
+@inject(DOM.Element, BindingEngine, EventAggregatorSubscriptions)
 export class AotPopupCustomElement {
     data = null;
     type = null;
@@ -182,9 +182,13 @@ export class AotPopupCustomElement {
 
     background = '';
 
-    constructor(element, eas) {
+    constructor(element, bindingEngine, eas) {
+        this._bindingEngine = bindingEngine;
         this._element = element;
         this._eas = eas;
+        // This will contain the reference to the container element.
+        this.container = null;
+        this._focusSubscription = null;
 
         this._eas.subscribe('aot:popup:display', message => {
             this.type = message.type;
@@ -227,10 +231,27 @@ export class AotPopupCustomElement {
                 break;
         }
 
-        Wait.forClass('popup-container', {
-            element: this._element,
-            fresh: true,
-        }).then(elements => elements[0].focus());
+        this._focusOnPopup();
+    }
+
+    _focusOnPopup() {
+        // Since the container is only displayed if type is not null, this.container may be null
+        // the first time we enter this function
+        // (the time the variable is correctly bound to the element).
+        // So we wait for it to change so we can correctly focus on the popup.
+        if (this.container === null) {
+            this._focusSubscription =
+                this._bindingEngine.propertyObserver(this, 'container').subscribe(() => {
+                    this._focusOnPopup();
+                });
+            return;
+        }
+
+        this.container.focus();
+        if (this._focusSubscription) {
+            this._focusSubscription.dispose();
+            this._focusSubscription = null;
+        }
     }
 
     _close() {
