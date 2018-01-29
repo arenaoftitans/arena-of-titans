@@ -20,6 +20,7 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Animations } from './animations';
 import { Notify } from './notify';
 import { State } from './state';
 import { Storage } from '../../services/storage';
@@ -28,7 +29,7 @@ import { Ws } from './ws';
 import environment from '../../environment';
 
 
-@inject(Ws, State, Storage, Notify, EventAggregator)
+@inject(Ws, State, Storage, Notify, EventAggregator, Animations)
 export class Api {
     // Keep in sync with test-utils.
     requestTypes = {
@@ -53,7 +54,7 @@ export class Api {
     _logger;
     _gameId;
 
-    constructor(ws, state, storage, notify, ea) {
+    constructor(ws, state, storage, notify, ea, animations) {
         this._state = state;
         this._storage = storage;
         this._ws = ws;
@@ -62,6 +63,7 @@ export class Api {
         });
         this._notify = notify;
         this._ea = ea;
+        this._animations = animations;
         this._logger = LogManager.getLogger('AoTApi');
 
         this.init();
@@ -69,6 +71,7 @@ export class Api {
 
     init() {
         this._state.reset();
+        this._animations.enable();
 
         this._gameOverDefered.promise = new Promise(resolve => {
             this._gameOverDefered.resolve = resolve;
