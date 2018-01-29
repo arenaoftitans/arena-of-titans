@@ -20,7 +20,6 @@
 import * as LogManager from 'aurelia-logging';
 import { inject, BindingEngine } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { DOM } from 'aurelia-pal';
 import { EventAggregatorSubscriptions } from '../../services/utils';
 
 
@@ -173,7 +172,7 @@ export class Popup {
 }
 
 
-@inject(DOM.Element, BindingEngine, EventAggregatorSubscriptions)
+@inject(BindingEngine, EventAggregatorSubscriptions)
 export class AotPopupCustomElement {
     data = null;
     type = null;
@@ -182,9 +181,8 @@ export class AotPopupCustomElement {
 
     background = '';
 
-    constructor(element, bindingEngine, eas) {
+    constructor(bindingEngine, eas) {
         this._bindingEngine = bindingEngine;
-        this._element = element;
         this._eas = eas;
         // This will contain the reference to the container element.
         this.container = null;
