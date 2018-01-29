@@ -17,7 +17,7 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Layout } from '../../../app/game/layout';
+import { Layout } from '../../../app/game/game';
 import {
     HistoryStub,
 } from '../../../app/test-utils';

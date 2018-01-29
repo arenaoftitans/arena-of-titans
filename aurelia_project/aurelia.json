@@ -206,11 +206,12 @@
                     }
                 ],
                 "source": [
-                    "[**/game/layout.js]",
+                    "[**/game/game.js]",
+                    "[**/game/routes.js]",
                     "[**/game/services/*.js]",
                     "[**/game/widgets/**/*.js]",
                     "**/game/**/*.{css,html}",
-                    "**/game/layout.{css,html}",
+                    "**/game/game.{css,html}",
                     "**/game/widgets/**/*.{css,html}"
                 ]
             },

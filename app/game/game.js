@@ -20,6 +20,7 @@
 import { inject } from 'aurelia-framework';
 import { History } from './services/history';
 import { AssetSource } from '../services/assets';
+import routes from './routes';
 
 
 @inject(History)
@@ -32,5 +33,11 @@ export class Layout {
         history.init();
 
         AssetSource.preloadImages('game');
+    }
+
+    configureRouter(config, router) {
+        router.baseUrl = '/game';
+        config.options.pushState = true;
+        config.map(routes);
     }
 }
