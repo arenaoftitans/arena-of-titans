@@ -47,6 +47,15 @@ export class AnimationsStub {
 }
 
 
+export class ErrorsReporterStub {
+    enable() {
+    }
+
+    disable() {
+    }
+}
+
+
 export class ApiStub {
     _gameOverDefered = {};
     _reconnectDefered = {};
