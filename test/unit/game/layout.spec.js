@@ -17,20 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { inject } from 'aurelia-framework';
-import { History } from './services/history';
-import { AssetSource } from '../services/assets';
+import { Layout } from '../../../app/game/layout';
+import {
+    HistoryStub,
+} from '../../../app/test-utils';
 
 
-@inject(History)
-export class Layout {
-    constructor(history) {
-        // Init history here: if the page is reloaded on the game page, the history may not be
-        // setup until the player click on the player box. This may result in some actions not
-        // being displayed. For instance, create a game, refresh, play a card. Without the line
-        // below, it will not appear in the player box.
-        history.init();
+describe('the Game Layout module', () => {
+    let mockedHistory;
 
-        AssetSource.preloadImages('game');
-    }
-}
+    beforeEach(() => {
+        mockedHistory = new HistoryStub();
+    });
+
+    it('should init the history', () => {
+        spyOn(mockedHistory, 'init');
+
+        const sut = new Layout(mockedHistory);  // eslint-disable-line
+
+        expect(mockedHistory.init).toHaveBeenCalled();
+    });
+});
