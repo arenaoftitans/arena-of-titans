@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
+* Copyright (C) 2015-2018 by Arena of Titans Contributors.
 *
 * This file is part of Arena of Titans.
 *
@@ -17,111 +17,40 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
-import { History } from './services/history';
-import { State } from './services/state';
-import { AssetSource } from '../services/assets';
-import { Options } from '../services/options';
-import { EventAggregatorSubscriptions } from './services/utils';
-import { Popup } from './widgets/popups/popup';
+import { AssetSource } from '../../services/assets';
+import { Options } from '../../services/options';
+import { EventAggregatorSubscriptions } from './utils';
+import { Popup } from '../widgets/popups/popup';
+import { State } from './state';
 
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
 
-@inject(History, State, Options, Popup, EventAggregatorSubscriptions)
-export class Layout {
-    static MAX_NUMBER_PLAYERS = 8;
-
-    data = null;
-    type = null;
-    popupDefered = {
-        promise: null,
-        resolve: null,
-        reject: null,
-    };
-
-    constructor(history, state, options, popup, eas) {
-        this._state = state;
+@inject(Options, Popup, EventAggregatorSubscriptions, State)
+export class Animations {
+    constructor(options, popup, eas, state) {
         this._options = options;
         this._popup = popup;
         this._eas = eas;
+        this._state = state;
 
-        this._logger = LogManager.getLogger('AotGame');
         this._currentPlayerIndex = null;
         this._tutorialInProgress = false;
-
-        // Init history here: if the page is reloaded on the game page, the history may not be
-        // setup until the player click on the player box. This may result in some actions not
-        // being displayed. For instance, create a game, refresh, play a card. Without the line
-        // below, it will not appear in the player box.
-        history.init();
-
-        AssetSource.preloadImages('game');
     }
 
-    activate() {
-        this._eas.subscribe('aot:api:error', data => {
-            let popupData = {
-                isFatal: data.isFatal,
-                translate: {
-                    messages: {
-                        message: data.message,
-                    },
-                },
-            };
-            this._popup.display('error', popupData).then(() => {
-                if (/\/game\/.+\/create\/.+/.test(location.pathname)) {
-                    location.reload();
-                }
-            });
-        });
+    enable() {
+        // We disable just to be sure there are no listeners registered.
+        // If we don't, we may register them twice.
+        this.disable();
 
-        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
-            this._tutorialInProgress = true;
-        });
+        this._enableTrumpAnimation();
+        this._enableSpecialActionAnimation();
+        this._enableTransitionAnimation();
+    }
 
-        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
-            this._tutorialInProgress = false;
-        });
-
-        // Trump animation
-        this._eas.subscribe('aot:api:play_trump', message => {
-            let popupData = {
-                translate: {
-                    messages: {},
-                },
-            };
-
-            let initiatorHero = this._state.game.players.heroes[message.player_index];
-            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
-            popupData.translate.messages.playerName =
-                this._state.game.players.names[this._currentPlayerIndex];
-            let trump1 = message.last_action.trump;
-            popupData.trumpImg = AssetSource.forTrump(trump1);
-            popupData.translate.messages.trumpName = message.last_action.trump.title;
-
-            // Power-ups are when a trump is played on the initiator (ie player == target)
-            if (message.player_index === message.target_index) {
-                popupData.kind = 'powerup';
-            } else {
-                popupData.kind = 'smash';
-
-                let targetHero = this._state.game.players.heroes[message.target_index];
-                popupData.targetedHeroImg = AssetSource.forHero(targetHero);
-                popupData.translate.messages.targetName =
-                    this._state.game.players.names[message.last_action.target_index];
-            }
-
-            let options = {
-                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
-            };
-
-            this._popup.display('trump-animation', popupData, options);
-        });
-
-        // Assassination animation
+    _enableSpecialActionAnimation() {
         this._eas.subscribe('aot:api:special_action_play', message => {
             let popupData = {
                 translate: {
@@ -153,11 +82,21 @@ export class Layout {
                     message.special_action_assassination);
             });
         });
+    }
+
+    _enableTransitionAnimation() {
+        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
+            this._tutorialInProgress = true;
+        });
+
+        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
+            this._tutorialInProgress = false;
+        });
 
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
-            if (!this.canDisplayTransitionPopup(message)) {
+            if (!this._canDisplayTransitionPopup(message)) {
                 // We update the current player index nonetheless. This way, after viewing or
-                // skiping the tutorial and playing a card, the player won't see the transition
+                // skipping the tutorial and playing a card, the player won't see the transition
                 // popup display "it's your turn".
                 this._currentPlayerIndex = this._state.game.next_player;
                 this._currentNbTurns = this._state.game.nb_turns;
@@ -193,7 +132,43 @@ export class Layout {
         });
     }
 
-    canDisplayTransitionPopup(message) {
+    _enableTrumpAnimation() {
+        this._eas.subscribe('aot:api:play_trump', message => {
+            let popupData = {
+                translate: {
+                    messages: {},
+                },
+            };
+
+            let initiatorHero = this._state.game.players.heroes[message.player_index];
+            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
+            popupData.translate.messages.playerName =
+                this._state.game.players.names[this._currentPlayerIndex];
+            let trump1 = message.last_action.trump;
+            popupData.trumpImg = AssetSource.forTrump(trump1);
+            popupData.translate.messages.trumpName = message.last_action.trump.title;
+
+            // Power-ups are when a trump is played on the initiator (ie player == target)
+            if (message.player_index === message.target_index) {
+                popupData.kind = 'powerup';
+            } else {
+                popupData.kind = 'smash';
+
+                let targetHero = this._state.game.players.heroes[message.target_index];
+                popupData.targetedHeroImg = AssetSource.forHero(targetHero);
+                popupData.translate.messages.targetName =
+                    this._state.game.players.names[message.last_action.target_index];
+            }
+
+            let options = {
+                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+            };
+
+            this._popup.display('trump-animation', popupData, options);
+        });
+    }
+
+    _canDisplayTransitionPopup(message) {
         // We are displaying the tutorial, don't display the transition popup.
         let tutorialPopupDisplayed = message.rt === 'CREATE_GAME' &&
             this._options.proposeGuidedVisit;
@@ -202,7 +177,7 @@ export class Layout {
             !this._state.game.game_over;
     }
 
-    deactivate() {
+    disable() {
         this._eas.dispose();
     }
 }

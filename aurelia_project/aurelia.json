@@ -183,16 +183,9 @@
                     "[**/app/assets-list.js]",
                     "[**/main.js]",
                     "[**/services/*.js]",
-                    "[**/widgets/aot-options/*.js]",
-                    "[**/widgets/heroes-viewer/*.js]",
-                    "[**/widgets/select-heroes/*.js]",
+                    "[**/app/widgets/**/*.js]",
                     "**/app.html",
-                    "**/widgets/aot-options/*.html",
-                    "[**/widgets/heroes-viewer/*.html]",
-                    "[**/widgets/select-heroes/*.html]",
-                    "**/widgets/aot-options/*.css",
-                    "[**/widgets/heroes-viewer/*.css]",
-                    "[**/widgets/select-heroes/*.css]",
+                    "**/app/widgets/**/*.{html,css}",
                     "**/style/*.css"
                 ]
             },
@@ -213,11 +206,12 @@
                     }
                 ],
                 "source": [
-                    "[**/game/layout.js]",
+                    "[**/game/game.js]",
+                    "[**/game/routes.js]",
                     "[**/game/services/*.js]",
                     "[**/game/widgets/**/*.js]",
                     "**/game/**/*.{css,html}",
-                    "**/game/layout.{css,html}",
+                    "**/game/game.{css,html}",
                     "**/game/widgets/**/*.{css,html}"
                 ]
             },

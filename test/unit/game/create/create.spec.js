@@ -178,7 +178,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'game-create',
+            'create',
             {
                 id: gameInitializedData.game_id,
                 version: 'latest',
@@ -204,7 +204,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:game_initialized', gameInitializedData);
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'game-create',
+            'create',
             {
                 id: gameInitializedData.game_id,
                 version: 'latest',
@@ -212,7 +212,7 @@ describe('game/create', () => {
         );
     });
 
-    it('should set the 2nd slot to AI after game initialization', () => {
+    it('should set the 2nd slot to AI after game initilization', () => {
         spyOn(mockedApi, 'updateSlot');
 
         mockedState._me = {
@@ -244,11 +244,11 @@ describe('game/create', () => {
     it('should not set the 2nd slot to AI if player changed a slot', () => {
         spyOn(mockedApi, 'updateSlot');
 
-        mockedApi._me = {
+        mockedState._me = {
             name: 'Player 1',
             is_game_master: true,
         };
-        mockedApi._game = {
+        mockedState._game = {
             slots: [
                 {
                     state: 'TAKEN',
@@ -256,11 +256,11 @@ describe('game/create', () => {
             ],
         };
         for (let i = 1; i < 8; i++) {
-            mockedApi._game.slots.push({
+            mockedState._game.slots.push({
                 state: 'OPEN',
             });
         }
-        mockedApi._game.slots[3].state = 'TAKEN';
+        mockedState._game.slots[3].state = 'TAKEN';
 
         sut._autoAddAi();
 
@@ -283,7 +283,7 @@ describe('game/create', () => {
         mockedEas.publish('aot:api:create_game');
 
         expect(mockedRouter.navigateToRoute).toHaveBeenCalledWith(
-            'game-play',
+            'play',
             {
                 id: 'the_game_id',
                 version: 'latest',

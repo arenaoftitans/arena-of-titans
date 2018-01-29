@@ -38,6 +38,24 @@ export class RouterStub {
 }
 
 
+export class AnimationsStub {
+    enable() {
+    }
+
+    disable() {
+    }
+}
+
+
+export class ErrorsReporterStub {
+    enable() {
+    }
+
+    disable() {
+    }
+}
+
+
 export class ApiStub {
     _gameOverDefered = {};
     _reconnectDefered = {};

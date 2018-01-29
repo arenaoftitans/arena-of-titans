@@ -18,21 +18,20 @@
 */
 
 import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
+import { inject, BindingEngine } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { I18N } from 'aurelia-i18n';
-import { DOM } from 'aurelia-pal';
-import { EventAggregatorSubscriptions, Wait } from '../../services/utils';
 
 
-@inject(I18N, EventAggregatorSubscriptions)
+@inject(I18N, EventAggregator)
 export class Popup {
     _popups;
     _displayedPopupDefered;
     _displayedPopupData;
 
-    constructor(i18n, eas) {
+    constructor(i18n, ea) {
         this._i18n = i18n;
-        this._eas = eas;
+        this._ea = ea;
 
         this._logger = LogManager.getLogger('AoTPopup');
         this._popups = [];
@@ -49,10 +48,10 @@ export class Popup {
         this._popupReadyDefered.promise = new Promise(resolve => {
             this._popupReadyDefered.resolve = resolve;
         });
-        this._eas.subscribe('aot:popup:ready', () => {
+        this._ea.subscribe('aot:popup:ready', () => {
             this._popupReadyDefered.resolve();
         });
-        this._eas.subscribe('i18n:locale:changed', () => {
+        this._ea.subscribe('i18n:locale:changed', () => {
             this._translatePopup();
         });
     }
@@ -69,7 +68,7 @@ export class Popup {
         });
 
         let startCounter = () => {
-            this._eas.publish('aot:game:counter_start');
+            this._ea.publish('aot:game:counter_start');
         };
         popupDefered.promise.then(startCounter, startCounter);
 
@@ -118,7 +117,7 @@ export class Popup {
                 popup.defered.promise.then(cancelCloseTimeout, cancelCloseTimeout);
             }
 
-            this._eas.publish('aot:popup:display', {
+            this._ea.publish('aot:popup:display', {
                 type: popup.type,
                 data: popup.data,
                 defered: popup.defered,
@@ -173,7 +172,7 @@ export class Popup {
 }
 
 
-@inject(DOM.Element, EventAggregatorSubscriptions)
+@inject(BindingEngine, EventAggregator)
 export class AotPopupCustomElement {
     data = null;
     type = null;
@@ -182,11 +181,14 @@ export class AotPopupCustomElement {
 
     background = '';
 
-    constructor(element, eas) {
-        this._element = element;
-        this._eas = eas;
+    constructor(bindingEngine, ea) {
+        this._bindingEngine = bindingEngine;
+        this._ea = ea;
+        // This will contain the reference to the container element.
+        this.container = null;
+        this._focusSubscription = null;
 
-        this._eas.subscribe('aot:popup:display', message => {
+        this._eaSubscription = this._ea.subscribe('aot:popup:display', message => {
             this.type = message.type;
             this.popupModel.data = message.data;
             this.popupModel.defered = message.defered;
@@ -202,7 +204,7 @@ export class AotPopupCustomElement {
     }
 
     attached() {
-        this._eas.publish('aot:popup:ready');
+        this._ea.publish('aot:popup:ready');
     }
 
     _open() {
@@ -227,10 +229,27 @@ export class AotPopupCustomElement {
                 break;
         }
 
-        Wait.forClass('popup-container', {
-            element: this._element,
-            fresh: true,
-        }).then(elements => elements[0].focus());
+        this._focusOnPopup();
+    }
+
+    _focusOnPopup() {
+        // Since the container is only displayed if type is not null, this.container may be null
+        // the first time we enter this function
+        // (the time the variable is correctly bound to the element).
+        // So we wait for it to change so we can correctly focus on the popup.
+        if (this.container === null) {
+            this._focusSubscription =
+                this._bindingEngine.propertyObserver(this, 'container').subscribe(() => {
+                    this._focusOnPopup();
+                });
+            return;
+        }
+
+        this.container.focus();
+        if (this._focusSubscription) {
+            this._focusSubscription.dispose();
+            this._focusSubscription = null;
+        }
     }
 
     _close() {
@@ -254,6 +273,6 @@ export class AotPopupCustomElement {
 
     unbind() {
         window.removeEventListener('keyup', this._keyupEventListener);
-        this._eas.dispose();
+        this._eaSubscription.dispose();
     }
 }

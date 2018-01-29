@@ -19,7 +19,14 @@
 
 import { Api } from '../../../../app/game/services/api';
 import { State } from '../../../../app/game/services/state';
-import { EventAggregatorStub, NotifyStub, StorageStub, WsStub } from '../../../../app/test-utils';
+import {
+    AnimationsStub,
+    ErrorsReporterStub,
+    EventAggregatorStub,
+    NotifyStub,
+    StorageStub,
+    WsStub,
+} from '../../../../app/test-utils';
 
 
 describe('services/api', () => {
@@ -28,6 +35,8 @@ describe('services/api', () => {
     let mockedNotify;
     let mockedEa;
     let mockedState;
+    let mockedAnimations;
+    let mockedErrorsReporter;
     let sut;
     let rt;
 
@@ -37,8 +46,30 @@ describe('services/api', () => {
         mockedNotify = new NotifyStub();
         mockedEa = new EventAggregatorStub();
         mockedState = new State();
-        sut = new Api(mockedWs, mockedState, mockedStorage, mockedNotify, mockedEa);
+        mockedAnimations = new AnimationsStub();
+        mockedErrorsReporter = new ErrorsReporterStub();
+        sut = new Api(
+            mockedWs,
+            mockedState,
+            mockedStorage,
+            mockedNotify,
+            mockedEa,
+            mockedAnimations,
+            mockedErrorsReporter
+        );
         rt = sut.requestTypes;
+    });
+
+    it('should initialize as expected', () => {
+        spyOn(mockedAnimations, 'enable');
+        spyOn(mockedErrorsReporter, 'enable');
+        spyOn(mockedState, 'reset');
+
+        sut.init();
+
+        expect(mockedAnimations.enable).toHaveBeenCalled();
+        expect(mockedErrorsReporter.enable).toHaveBeenCalled();
+        expect(mockedState.reset).toHaveBeenCalled();
     });
 
     it('should send game data to ws on initialize game', () => {

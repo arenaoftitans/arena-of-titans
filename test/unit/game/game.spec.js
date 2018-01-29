@@ -17,76 +17,24 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Layout } from '../../../app/game/layout';
+import { Layout } from '../../../app/game/game';
 import {
-    ApiStub,
     HistoryStub,
-    EventAggregatorSubscriptionsStub,
-    PopupStub,
 } from '../../../app/test-utils';
 
 
-describe('the Game module', () => {
+describe('the Game Layout module', () => {
     let mockedHistory;
-    let mockedApi;
-    let mockedOptions;
-    let mockedPopup;
-    let mockedEas;
-    let sut;
 
     beforeEach(() => {
         mockedHistory = new HistoryStub();
-        mockedApi = new ApiStub();
-        mockedOptions = {};
-        mockedPopup = new PopupStub();
-        mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new Layout(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
     });
 
     it('should init the history', () => {
         spyOn(mockedHistory, 'init');
 
-        sut = new Layout(mockedHistory, mockedApi, mockedOptions, mockedPopup, mockedEas);
+        const sut = new Layout(mockedHistory);  // eslint-disable-line
 
         expect(mockedHistory.init).toHaveBeenCalled();
-    });
-
-    it('should dispose subscription on deactivate', () => {
-        spyOn(mockedEas, 'dispose');
-
-        sut.deactivate();
-
-        expect(mockedEas.dispose).toHaveBeenCalled();
-    });
-
-    describe('errors', () => {
-        it('should register error callback', () => {
-            spyOn(mockedEas, 'subscribe');
-
-            sut.activate();
-
-            expect(mockedEas.subscribe).toHaveBeenCalled();
-            expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:error');
-        });
-
-        it('should display error popup on error', () => {
-            let message = {
-                isFatal: false,
-                message: 'error',
-            };
-            spyOn(mockedPopup, 'display').and.returnValue(new Promise(resolve => {}));
-
-            sut.activate();
-            mockedEas.publish('aot:api:error', message);
-
-            expect(mockedPopup.display).toHaveBeenCalledWith('error', {
-                isFatal: false,
-                translate: {
-                    messages: {
-                        message: 'error',
-                    },
-                },
-            });
-        });
     });
 });

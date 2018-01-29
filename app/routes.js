@@ -39,25 +39,11 @@ configureSiteRoutes([NOT_FOUND]);
 
 const GAME_ROUTES = [
     {
-        route: ['/game', '/game/play', '/game/:version', '/game/:version/play'],
-        redirect: '/game/create',
-    },
-    {
-        route: ['/game/create', '/game/:version/create', '/game/:version/create/:id'],
-        name: 'create',
-        moduleId: './game/create/create',
-        nav: false,
-        title: 'site.page_title.create_game',
-    },
-    {
-        route: '/game/:version/play/:id',
-        name: 'play',
-        moduleId: './game/play/play',
-        nav: false,
-        title: 'site.page_title.play_game',
+        route: 'game',
+        name: 'game',
+        moduleId: 'game/game',
     },
 ];
-configureGameRoutes(GAME_ROUTES);
 
 const ROUTES = SITE_ROUTES.concat(GAME_ROUTES);
 
@@ -69,13 +55,5 @@ function configureSiteRoutes(routesConfig) {
         routeConfig.name = `site-${routeConfig.name}`;
         routeConfig.nav = false;
         routeConfig.layoutViewModel = 'site/layout';
-    }
-}
-
-function configureGameRoutes(routesConfig) {
-    for (let routeConfig of routesConfig) {
-        routeConfig.name = routeConfig.name ? `game-${routeConfig.name}` : undefined;
-        routeConfig.nav = false;
-        routeConfig.layoutViewModel = 'game/layout';
     }
 }
