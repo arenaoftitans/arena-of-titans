@@ -147,7 +147,8 @@
                 "id": "web",
                 "displayName": "Web",
                 "output": "dist",
-                "useAbsolutePath": true
+                "useAbsolutePath": true,
+                "index": "index.html"
             }
         ],
         "loader": {
@@ -170,7 +171,8 @@
         },
         "options": {
             "minify": "testing & staging & prod",
-            "sourcemaps": "dev & testing & staging & prod"
+            "sourcemaps": "dev & testing & staging & prod",
+            "rev": "testing & staging & prod"
         },
         "bundles": [
             {
