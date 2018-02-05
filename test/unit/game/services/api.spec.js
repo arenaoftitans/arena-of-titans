@@ -99,14 +99,17 @@ describe('services/api', () => {
             }],
         };
         spyOn(sut, '_handleGameInitialized').and.callThrough();
-        spyOn(mockedStorage, 'savePlayerId');
+        spyOn(mockedStorage, 'saveGameData');
         spyOn(mockedState, 'initializeGame');
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
-        expect(mockedStorage.savePlayerId).toHaveBeenCalledWith(
+        expect(mockedStorage.saveGameData).toHaveBeenCalledWith(
             gameInitializedMessage.game_id,
-            gameInitializedMessage.player_id
+            {
+                apiVersion: undefined,
+                playerId: gameInitializedMessage.player_id,
+            }
         );
         expect(mockedState.initializeGame).toHaveBeenCalledWith(gameInitializedMessage);
     });

@@ -149,7 +149,10 @@ export class Api {
     }
 
     _handleGameInitialized(message) {
-        this._storage.savePlayerId(message.game_id, message.player_id);
+        this._storage.saveGameData(message.game_id, {
+            playerId: message.player_id,
+            apiVersion: message.api_version,
+        });
 
         if (message.index === -1) {
             this._reconnectDefered.reject();

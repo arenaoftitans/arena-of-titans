@@ -195,7 +195,7 @@ export class Create {
                 this.playerInfos.hero = this.me.hero;
             }, error => {
                 this._logger.warn('Failed to join the game', error);
-                this._storage.clearPlayerId(this.gameId);
+                this._storage.clearGameData(this.gameId);
                 this._joinGame();
             });
         }
