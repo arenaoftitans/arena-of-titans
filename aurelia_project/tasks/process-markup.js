@@ -19,7 +19,8 @@ export default function processMarkup() {
         minifyCSS: true,
         minifyJS: true,
         removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true
+        removeStyleLinkTypeAttributes: true,
+        ignoreCustomFragments: [/\${.*?}/g] // ignore interpolation expressions
     }))
     .pipe(build.bundle());
 }
