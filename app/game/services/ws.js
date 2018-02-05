@@ -41,7 +41,7 @@ export class Ws {
         let wsScheme = isHttps ? 'wss' : 'ws';
         let port = isHttps ? api.tls_port : api.port;
         let path = api.path ? api.path : '';
-        let wsUri = `${wsScheme}://${api.host}:${port}${path}${env.version}`;
+        let wsUri = `${wsScheme}://${api.host}:${port}${path}${api.version}`;
 
         // If ReconnectingWebSocket is not defined we are in unit tests.
         if (ReconnectingWebSocket) {

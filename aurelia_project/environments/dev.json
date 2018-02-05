@@ -3,7 +3,8 @@
         "host": "localhost",
         "path": "/ws/",
         "port": 8181,
-        "tls_port": 443
+        "tls_port": 443,
+        "version": "latest"
     },
     "heroes": [
         "arline",

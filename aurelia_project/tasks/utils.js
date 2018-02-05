@@ -60,7 +60,7 @@ export function getTemplatesVariables() {
 
 
 export function loadEnvVariables() {
-    const ALLOWED_VARIABLES = ['API_HOST', 'API_PORT', 'ROLLBAR_ACCESS_TOKEN'];
+    const ALLOWED_VARIABLES = ['API_HOST', 'API_PORT', 'API_VERSION', 'ROLLBAR_ACCESS_TOKEN'];
     dotenv.load();
     const overrides = Object.keys(process.env)
         .filter(variableName => ALLOWED_VARIABLES.includes(variableName));

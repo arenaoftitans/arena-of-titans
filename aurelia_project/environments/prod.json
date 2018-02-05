@@ -3,7 +3,8 @@
         "host": "api.arenaoftitans.com",
         "path": "/ws/",
         "port": 80,
-        "tls_port": 443
+        "tls_port": 443,
+        "version": "latest"
     },
     "heroes": [
         "arline",

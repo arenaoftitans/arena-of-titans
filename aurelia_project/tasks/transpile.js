@@ -30,6 +30,7 @@ function configureEnvironment() {
       data.api.host = process.env.API_HOST || data.api.host;
       data.api.port = process.env.API_PORT || data.api.port;
       data.api.port = parseInt(data.api.port, 10);
+      data.api.version = process.env.API_VERSION || data.api.version;
 
       return dumpAsExportedData(data);
     }))
