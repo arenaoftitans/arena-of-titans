@@ -25,7 +25,7 @@ const KEEP_PLAYER_ID_DURATION = 7 * 24 * 60 * 60 * 1000;
 export class Storage {
     _expiresKey = 'expires';
 
-    savePlayerId(gameId, playerId) {
+    saveGameData(gameId, gameData) {
         for (let key of Object.keys(localStorage)) {
             if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY) {
                 let data = localStorage.getItem(key);
@@ -49,11 +49,12 @@ export class Storage {
             }
         }
 
-        let data = {
-            playerId: playerId,
-            date: Date.now(),
-        };
-        localStorage.setItem(gameId, JSON.stringify(data));
+        // We don't want to update the data if it is already present.
+        // This is mostly to prevent a user defined value in the cache.
+        if (localStorage.getItem(gameId) === null) {
+            gameData.date = Date.now();
+            localStorage.setItem(gameId, JSON.stringify(gameData));
+        }
     }
 
     retrievePlayerId(gameId) {
@@ -63,7 +64,7 @@ export class Storage {
         return data === null ? data : data.playerId;
     }
 
-    clearPlayerId(gameId) {
+    clearGameData(gameId) {
         localStorage.removeItem(gameId);
     }
 

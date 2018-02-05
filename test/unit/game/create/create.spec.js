@@ -133,7 +133,7 @@ describe('game/create', () => {
 
             return null;
         });
-        spyOn(mockedStorage, 'clearPlayerId').and.callFake(() => {
+        spyOn(mockedStorage, 'clearGameData').and.callFake(() => {
             storageCleared = true;
         });
         spyOn(sut._logger, 'warn');
@@ -143,7 +143,7 @@ describe('game/create', () => {
             expect(mockedApi.joinGame)
                 .toHaveBeenCalledWith({gameId: 'game_id', playerId: 'player_id'});
             expect(sut._logger.warn).toHaveBeenCalledWith('Failed to join the game', new Error());
-            expect(mockedStorage.clearPlayerId).toHaveBeenCalledWith('game_id');
+            expect(mockedStorage.clearGameData).toHaveBeenCalledWith('game_id');
         }, () => fail('Unwanted code branch'));
     });
 

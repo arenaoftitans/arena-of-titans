@@ -219,13 +219,13 @@ export class I18nStub {
 
 
 export class StorageStub {
-    savePlayerId() {
+    saveGameData() {
     }
 
     retrievePlayerId() {
     }
 
-    clearPlayerId() {
+    clearGameData() {
     }
 
     saveOptions() {
