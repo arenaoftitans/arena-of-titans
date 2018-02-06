@@ -616,9 +616,9 @@ aurelia-bootstrapper@2.2.0:
     aurelia-templating-resources "^1.0.0"
     aurelia-templating-router "^1.0.0"
 
-aurelia-cli@0.32.0:
+"aurelia-cli@https://github.com/Jenselme/cli.git#fix/sort-bundle-prevent-hash-changes":
   version "0.32.0"
-  resolved "https://registry.yarnpkg.com/aurelia-cli/-/aurelia-cli-0.32.0.tgz#f9453166e7e7568744296a973520ea3896fc9d11"
+  resolved "https://github.com/Jenselme/cli.git#77697b1100d641cb4311111093e101defef4a92a"
   dependencies:
     aurelia-dependency-injection "^1.0.0"
     aurelia-logging "^1.2.0"
