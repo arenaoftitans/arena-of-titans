@@ -129,14 +129,17 @@ export class AssetSource {
     }
 
     static preloadImages(kind) {
-        if (!(kind in assetsList)) {
-            throw new Error(`No such kind of images to preload: ${kind}`);
-        }
         // Don't try to preload images when testing the application.
         if (window.jasmine) {
             return;
         }
-        let imagesToPreload = assetsList[kind];
+        let imagesToPreload = [];
+        for (let imgSrc in assetsList) {
+            if (imgSrc.match(new RegExp(`^${kind}/`))) {
+                imagesToPreload.push(this._mapToRealPath(imgSrc));
+            }
+        }
+
         let imagesChunkToPreload = [];
         let startIndex = 0;
         while (startIndex < imagesToPreload.length) {
