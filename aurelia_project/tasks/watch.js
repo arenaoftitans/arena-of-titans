@@ -8,12 +8,14 @@ import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
 import copyFiles from './copy-files';
+import buildAssets from './build-assets';
 
 const debounceWaitTime = 100;
 let isBuilding = false;
 let pendingRefreshPaths = [];
 let watchCallback = () => { };
 let watches = [
+  { name: 'assets', callback: buildAssets, source: project.assets.source },
   { name: 'transpile', callback: transpile, source: project.transpiler.source },
   { name: 'markup', callback: processMarkup, source: project.markupProcessor.source },
   { name: 'CSS', callback: processCSS, source: project.cssProcessor.source }
