@@ -57,7 +57,7 @@ header {
 
 
 .play-left {
-    background: url(/#{$version}/assets/game/backgrounds/gauge.jpg);
+    background: url(/assets/game/backgrounds/gauge.jpg);
     background-size: 100% 100%;
     display: block;
     float: left;
@@ -99,7 +99,7 @@ header {
 
 
 #board-bg {
-    background: url(/#{$version}/assets/game/backgrounds/board.jpg);
+    background: url(/assets/game/backgrounds/board.jpg);
     background-size: 100% 100%;
     height: $play-main-height - 2vh; /* Compensate for padding-top & padding-bottom */
     min-height: $play-main-min-height;
@@ -122,7 +122,7 @@ header {
 
 #cards-container {
     align-items: center;
-    background: url(/#{$version}/assets/game/backgrounds/cards.jpg);
+    background: url(/assets/game/backgrounds/cards.jpg);
     background-size: 100% 100%;
     display: flex;
     height: $play-secondary-height;
@@ -148,7 +148,7 @@ header {
 }
 
 #notifications {
-    background: url(/#{$version}/assets/game/backgrounds/infos.jpg);
+    background: url(/assets/game/backgrounds/infos.jpg);
     background-size: 100% 100%;
     height: $play-main-height;
     min-height: $play-main-min-height;
@@ -166,7 +166,7 @@ header {
 
 #counter-countainer {
     align-items: center;
-    background-image: url(/#{$version}/assets/game/backgrounds/stopwatch.jpg);
+    background-image: url(/assets/game/backgrounds/stopwatch.jpg);
     background-size: 100% 100%;
     display: flex;
     height: $play-secondary-height;
