@@ -30,7 +30,7 @@ describe('services/notify', () => {
     let link = document.createElement('link');
 
     beforeEach(() => {
-        link.href = '/latest/asset/favicon.png';
+        link.href = '/dist/asset/favicon.png';
         spyOn(document, 'getElementById').and.returnValue(link);
 
         mockedI18n = new I18nStub();
@@ -57,7 +57,10 @@ describe('services/notify', () => {
         sut._swapFavicon();
 
         expect(document.getElementById).toHaveBeenCalledWith('favicon');
-        expect(sut._createFavicon).toHaveBeenCalledWith('/latest/assets/favicon-notify.png', link);
+        expect(sut._createFavicon).toHaveBeenCalledWith(
+            jasmine.stringMatching(/\/dist\/assets\/favicon-notify.*\.png/),
+            link
+        );
     });
 
     it('should not play sound if sounds are disabled', () => {

@@ -56,6 +56,7 @@ describe('State', () => {
             }],
             elapsed_time: elapsedTime,
         };
+        let imgMatcher = /\/dist\/assets\/game\/cards\/trumps\/reinforcements-.*\.png/;
         sut.me.index = 0;
 
         sut.updateAfterPlay(message);
@@ -77,7 +78,7 @@ describe('State', () => {
         expect(sut.me.affecting_trumps).toEqual([{
             name: 'Reinforcements',
             color: null,
-            img: '/latest/assets/game/cards/trumps/reinforcements.png',
+            img: jasmine.stringMatching(imgMatcher),
         }]);
         expect(sut.me.elapsed_time).toBe(elapsedTime);
         expect(sut.me.on_last_line).toBe(false);
@@ -203,7 +204,7 @@ describe('State', () => {
         expect(sut.me.trumps).toEqual([{
             name: 'Tower',
             color: 'Red',
-            img: '/latest/assets/game/cards/trumps/tower-red.png',
+            img: jasmine.stringMatching(/\/dist\/assets\/game\/cards\/trumps\/tower-red-.*\.png/),
             description: 'Prevents a player to move on red squares.',
             cost: 0,
             duration: 1,

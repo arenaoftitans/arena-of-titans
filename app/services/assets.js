@@ -17,7 +17,6 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import environment from '../environment';
 import assetsList from '../assets-list';
 
 
@@ -25,68 +24,71 @@ const PRELOAD_DELAY = 1000;
 const PRELOAD_CHUNK_SIZE = 5;
 
 export class AssetSource {
-    static version = environment.version;
+    static _mapToRealPath(path) {
+        path = `/assets/${path}`;
+        return assetsList[path];
+    }
 
     static forAnimation(data) {
-        return `/${this.version}/assets/game/animation/${ImageName.forAnimation(data)}.png`;
+        return this._mapToRealPath(`game/animation/${ImageName.forAnimation(data)}.png`);
     }
 
     static forBackground(kind) {
         switch (kind) {
             case 'board':
-                return `/${this.version}/assets/game/backgrounds/board.png`;
+                return this._mapToRealPath('game/backgrounds/board.png');
             case 'board-outline':
-                return `/${this.version}/assets/game/backgrounds/board-outline.png`;
+                return this._mapToRealPath('game/backgrounds/board-outline.png');
             case 'create-game':
-                return `/${this.version}/assets/game/backgrounds/game-creation.jpg`;
+                return this._mapToRealPath('game/backgrounds/game-creation.jpg');
             case 'heroes-selection':
-                return `/${this.version}/assets/game/backgrounds/heroes-selection.png`;
+                return this._mapToRealPath('game/backgrounds/heroes-selection.png');
             default:
                 throw new Error(`No such background: ${kind}`);
         }
     }
 
     static forCard(card) {
-        return `/${this.version}/assets/game/cards/movement/${ImageName.forCard(card)}.png`;
+        return this._mapToRealPath(`game/cards/movement/${ImageName.forCard(card)}.png`);
     }
 
     static forChestHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}-chest.png`;
+        return this._mapToRealPath(`game/heroes/${hero}-chest.png`);
     }
 
     static forCircledHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}-circle.png`;
+        return this._mapToRealPath(`game/heroes/${hero}-circle.png`);
     }
 
     static forGame(kind) {
         switch (kind) {
             case 'logo':
-                return `/${this.version}/assets/game/aot-logo.png`;
+                return this._mapToRealPath('game/aot-logo.png');
             default:
                 throw new Error(`No such image for game: ${kind}`);
         }
     }
 
     static forHero(hero) {
-        return `/${this.version}/assets/game/heroes/${hero}.png`;
+        return this._mapToRealPath(`game/heroes/${hero}.png`);
     }
 
     static forHeroPower(hero) {
-        return `/${this.version}/assets/game/cards/powers/${hero}.png`;
+        return this._mapToRealPath(`game/cards/powers/${hero}.png`);
     }
 
     static forMiscImage(kind) {
         switch (kind) {
             case 'clippy':
-                return `/${this.version}/assets/game/misc/clippy.svg`;
+                return this._mapToRealPath('game/misc/clippy.svg');
             case 'arrow-left':
-                return `/${this.version}/assets/game/misc/arrow-left.png`;
+                return this._mapToRealPath('game/misc/arrow-left.png');
             case 'arrow-right':
-                return `/${this.version}/assets/game/misc/arrow-right.png`;
+                return this._mapToRealPath('game/misc/arrow-right.png');
             case 'favicon':
-                return `/${this.version}/assets/favicon.png`;
+                return this._mapToRealPath('favicon.png');
             case 'favicon-notify':
-                return `/${this.version}/assets/favicon-notify.png`;
+                return this._mapToRealPath('favicon-notify.png');
             default:
                 throw new Error(`No such misc image: ${kind}`);
         }
@@ -95,11 +97,11 @@ export class AssetSource {
     static forGlobalImage(kind) {
         switch (kind) {
             case 'french-flag':
-                return `/${this.version}/assets/components/french.png`;
+                return this._mapToRealPath('components/french.png');
             case 'english-flag':
-                return `/${this.version}/assets/components/english.png`;
+                return this._mapToRealPath('components/english.png');
             case 'gear':
-                return `/${this.version}/assets/components/gear.png`;
+                return this._mapToRealPath('components/gear.png');
             default:
                 throw new Error(`No such global image: ${kind}`);
         }
@@ -108,22 +110,22 @@ export class AssetSource {
     static forSound(kind, format) {
         switch (kind) {
             case 'your-turn':
-                return `/${this.version}/assets/sounds/game/your-turn-sound.${format}`;
+                return this._mapToRealPath(`sounds/game/your-turn-sound.${format}`);
             case 'your-turn-voice':
-                return `/${this.version}/assets/sounds/game/your-turn-voice.${format}`;
+                return this._mapToRealPath(`sounds/game/your-turn-voice.${format}`);
             case 'game-over':
-                return `/${this.version}/assets/sounds/game/game-over.${format}`;
+                return this._mapToRealPath(`sounds/game/game-over.${format}`);
             default:
                 throw new Error(`No such sound: ${kind}`);
         }
     }
 
     static forPower(power) {
-        return `/${this.version}/assets/game/cards/powers/${ImageName.forTrump(power)}.png`;
+        return this._mapToRealPath(`game/cards/powers/${ImageName.forTrump(power)}.png`);
     }
 
     static forTrump(trump) {
-        return `/${this.version}/assets/game/cards/trumps/${ImageName.forTrump(trump)}.png`;
+        return this._mapToRealPath(`game/cards/trumps/${ImageName.forTrump(trump)}.png`);
     }
 
     static preloadImages(kind) {
@@ -155,7 +157,7 @@ export class AssetSource {
     static _preloadImages(images) {
         for (let src of images) {
             let img = new Image();
-            img.src = `//${location.host}/${this.version}/${src}`;
+            img.src = `//${location.host}${src}`;
         }
     }
 }
