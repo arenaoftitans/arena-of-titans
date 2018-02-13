@@ -3,8 +3,8 @@
   "version": "0.5.0",
   "description": "Fight to death in the arena",
   "scripts": {
-    "dev": "au run --watch",
-    "build": "au build",
+    "dev": "npm run clean && au run --watch",
+    "build": "npm run clean && au build",
     "clean": "rm -rf dist/*",
     "test": "au test --coverage",
     "tdd": "au test --watch",
