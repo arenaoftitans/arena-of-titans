@@ -4,6 +4,7 @@ import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
 import copyFiles from './copy-files';
+import buildAssets from './build-assets';
 import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
@@ -13,6 +14,7 @@ loadEnvVariables();
 
 let build = gulp.series(
   readProjectConfiguration,
+  buildAssets,
   gulp.parallel(
     renderTemplates,
     transpile,
