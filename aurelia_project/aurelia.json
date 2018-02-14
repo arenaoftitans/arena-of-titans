@@ -182,6 +182,11 @@
             "sourcemaps": "dev & testing & staging & prod",
             "rev": "testing & staging & prod"
         },
+        "copyFiles": {
+            "index.html": "dist/",
+            "scripts/tracking.js": "dist/",
+            "node_modules/intl/dist/Intl.js": "dist/"
+        },
         "bundles": [
             {
                 "name": "common-bundle.js",
