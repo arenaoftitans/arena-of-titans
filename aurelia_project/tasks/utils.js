@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
 import stringify from 'json-stable-stringify';
+import gulp from 'gulp';
+import transform from 'gulp-transform';
 import logger from 'loggy';
 import {CLIOptions} from 'aurelia-cli';
+import project from '../aurelia.json';
 
 
 export function buildObjectWithKeys(keys) {
@@ -18,6 +21,15 @@ export function dumpAsExportedData(data) {
 
 export function flattenArray(array) {
     return array.reduce((acc, current) => acc.concat(current), []);
+}
+
+
+export function getManifest() {
+    const manifestPath = `${project.assets.manifest.output}/${project.assets.manifest.name}`;
+    const manifest = gulp.src(manifestPath)
+        .pipe(transform('utf-8', content => content.replace('export default ', '')))
+        .pipe(transform('utf-8', content => content.replace(';', '')));
+    return manifest;
 }
 
 
