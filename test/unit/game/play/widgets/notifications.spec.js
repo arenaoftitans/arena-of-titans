@@ -64,6 +64,7 @@ describe('notifications', () => {
                 player_name: 'Player 1',
             },
         };
+        let imgMatcher = /\/dist\/assets\/game\/cards\/movement\/king-red-.*\.png/;
 
         mockedEas.publish('aot:api:player_played', message);
 
@@ -75,7 +76,7 @@ describe('notifications', () => {
             });
         expect(sut.lastAction.description).toBe('translated');
         expect(sut.lastAction.card).toEqual(message.last_action.card);
-        expect(sut.lastAction.img).toBe('/latest/assets/game/cards/movement/king-red.png');
+        expect(sut.lastAction.img).toMatch(imgMatcher);
     });
 
     it('should update last action when a trump is played', () => {
@@ -92,6 +93,7 @@ describe('notifications', () => {
                 target_name: 'Player 2',
             },
         };
+        let imgMatcher = /\/dist\/assets\/game\/cards\/trumps\/tower-blue-.*\.png/;
 
         mockedEas.publish('aot:api:play_trump', message);
 
@@ -105,7 +107,7 @@ describe('notifications', () => {
         expect(mockedI18n.tr).toHaveBeenCalledWith('trumps.tower_blue_description');
         expect(sut.lastAction.trump.description).toBe('translated');
         expect(sut.lastAction.trump).toEqual(message.last_action.trump);
-        expect(sut.lastAction.img).toBe('/latest/assets/game/cards/trumps/tower-blue.png');
+        expect(sut.lastAction.img).toMatch(imgMatcher);
     });
 
     it('should dispose subscriptions', () => {

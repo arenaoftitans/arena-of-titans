@@ -79,6 +79,14 @@
         "id": "jasmine",
         "displayName": "Jasmine"
     },
+    "assets": {
+        "manifest": {
+            "name": "assets-list.js",
+            "output": "app"
+        },
+        "output": "dist/assets",
+        "source": "assets/**/*"
+    },
     "externalResources": {
         "defaultNames": {
             "source": "https://docs.google.com/spreadsheets/d/1Ees-A_yNQTfba7wH-flbrJunLMiTcTOUsbHqUTyOKm8/export?format=csv",
