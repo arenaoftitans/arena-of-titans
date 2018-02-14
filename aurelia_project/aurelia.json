@@ -154,7 +154,7 @@
             {
                 "id": "web",
                 "displayName": "Web",
-                "output": "dist",
+                "output": "dist/scripts",
                 "useAbsolutePath": true,
                 "index": "index.html"
             }
