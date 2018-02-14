@@ -178,6 +178,7 @@
             ]
         },
         "options": {
+            "manifest": "testing & staging & prod",
             "minify": "testing & staging & prod",
             "sourcemaps": "dev & testing & staging & prod",
             "rev": "testing & staging & prod"
