@@ -13,10 +13,15 @@ cache:
   paths:
     - node_modules/
 
+stages:
+  - checks
+
 lint:
+  stage: checks
   script:
     - npm run --silent lint
 
 tests:
+  stage: checks
   script:
    - npm run test -- -b  PhantomJS
