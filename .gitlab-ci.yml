@@ -7,7 +7,7 @@ before_script:
   # To prevent TypeError: log.gauge.isEnabled is not a function
   # See: https://github.com/npm/npmlog/issues/48
   - rm -rf node_modules/npm
-  - yarn
+  - yarn || echo "yarn not found, this is expected if we are on the deploy steps"
 
 cache:
   paths:
@@ -15,13 +15,49 @@ cache:
 
 stages:
   - checks
+  - build
+  - deploy
 
 lint:
   stage: checks
   script:
     - npm run --silent lint
+  except:
+    - triggers
 
 tests:
   stage: checks
   script:
    - npm run test -- -b  PhantomJS
+  except:
+    - triggers
+
+build:
+  stage: build
+  variables:
+    ENV: staging
+    API_VERSION: latest
+    VERSION: $CI_COMMIT_REF_SLUG
+  artifacts:
+    paths:
+      - dist
+    expire_in: 1 week
+  script:
+    - npm run build -- --env $ENV --version $VERSION
+  except:
+    - tags
+
+deploy in staging:
+  stage: deploy
+  image: registry.gitlab.com/arenaoftitans/aot-infra:latest
+  environment:
+    name: staging
+    url: https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html
+  script:
+    - git clone --branch feat/ansible https://gitlab.com/arenaoftitans/aot-infra.git
+    - cd aot-infra
+    - VERSION=$CI_COMMIT_REF_SLUG ENV=staging ./dk-run.sh deployfront
+  when: manual
+  except:
+    - tags
+    - triggers
