@@ -15,8 +15,8 @@ loadEnvVariables();
 let build = gulp.series(
   readProjectConfiguration,
   buildAssets,
+  renderTemplates,
   gulp.parallel(
-    renderTemplates,
     transpile,
     processMarkup,
     processCSS,
