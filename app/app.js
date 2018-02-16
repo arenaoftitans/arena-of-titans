@@ -47,9 +47,15 @@ export class App {
         this.router = router;
         config.title = 'Arena of Titans';
         config.options.pushState = true;
+        config.options.root = this.findRouterRoot();
         config.map(routes);
         config.mapUnknownRoutes(() => {
             return notFoundRoute;
         });
+    }
+
+    findRouterRoot() {
+        const customRoot = location.href.match(/(\/index-.+\.html)/);
+        return customRoot === null ? '/' : customRoot[1];
     }
 }
