@@ -19,11 +19,11 @@ let build = gulp.series(
   gulp.parallel(
     transpile,
     processMarkup,
-    processCSS,
-    copyFiles
+    processCSS
   ),
   writeBundles,
-  writeManifest
+  writeManifest,
+  copyFiles
 );
 
 let main;

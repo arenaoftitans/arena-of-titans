@@ -9,3 +9,4 @@
 /reports
 npm-debug.log
 /.env
+/aurelia_project/environments/testing.json
