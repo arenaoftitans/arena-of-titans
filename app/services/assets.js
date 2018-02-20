@@ -110,11 +110,11 @@ export class AssetSource {
     static forSound(kind, format) {
         switch (kind) {
             case 'your-turn':
-                return this._mapToRealPath(`sounds/game/your-turn-sound.${format}`);
+                return this._mapToRealPath(`game/sounds/your-turn-sound.${format}`);
             case 'your-turn-voice':
-                return this._mapToRealPath(`sounds/game/your-turn-voice.${format}`);
+                return this._mapToRealPath(`game/sounds/your-turn-voice.${format}`);
             case 'game-over':
-                return this._mapToRealPath(`sounds/game/game-over.${format}`);
+                return this._mapToRealPath(`game/sounds/game-over.${format}`);
             default:
                 throw new Error(`No such sound: ${kind}`);
         }
