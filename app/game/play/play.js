@@ -63,13 +63,13 @@ export class Play {
             this._resetPawns();
         });
 
-        this._api.onReconnectDefered.then(message => {
+        this._api.onReconnectDeferred.then(message => {
             if (message.special_action_name) {
                 this._handleSpecialActionNotify(message);
             }
         });
 
-        this._api.onGameOverDefered.then(winners => {
+        this._api.onGameOverDeferred.then(winners => {
             return this._popup.display('game-over', {message: winners});
         }).then(location => this._navigateWithRefresh(location));
     }

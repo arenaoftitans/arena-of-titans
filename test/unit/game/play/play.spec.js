@@ -77,11 +77,11 @@ describe('play', () => {
 
     it('should display the game over popup on game over', () => {
         spyOn(mockedPopup, 'display');
-        mockedApi._gameOverDefered.resolve(['Player 1', 'Player 2']);
+        mockedApi._gameOverDeferred.resolve(['Player 1', 'Player 2']);
 
         sut.activate();
 
-        return mockedApi.onGameOverDefered.then(() => {
+        return mockedApi.onGameOverDeferred.then(() => {
             expect(mockedPopup.display).toHaveBeenCalledWith(
                 'game-over',
                 {message: ['Player 1', 'Player 2']});

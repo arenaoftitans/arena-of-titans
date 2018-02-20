@@ -61,10 +61,10 @@ describe('services/history', () => {
                 null,
             ],
         };
-        mockedApi._reconnectDefered.promise = new Promise(resolve => {
-            mockedApi._reconnectDefered.resolve = resolve;
+        mockedApi._reconnectDeferred.promise = new Promise(resolve => {
+            mockedApi._reconnectDeferred.resolve = resolve;
         });
-        mockedApi._reconnectDefered.resolve(message);
+        mockedApi._reconnectDeferred.resolve(message);
 
         return sut.init().then(() => {
             expect(mockedEas.dispose).toHaveBeenCalled();

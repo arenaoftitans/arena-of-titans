@@ -120,11 +120,11 @@ describe('notifications', () => {
 
     describe('guided visit', () => {
         it('cancel', () => {
-            let popupDefered = {};
-            popupDefered.promise = new Promise((resolve, reject) => {
-                popupDefered.reject = reject;
+            let popupDeferred = {};
+            popupDeferred.promise = new Promise((resolve, reject) => {
+                popupDeferred.reject = reject;
             });
-            spyOn(mockedPopup, 'display').and.returnValue(popupDefered.promise);
+            spyOn(mockedPopup, 'display').and.returnValue(popupDeferred.promise);
             mockedOptions.proposeGuidedVisit = true;
 
             sut.bind();
@@ -137,8 +137,8 @@ describe('notifications', () => {
                     },
                 }
             );
-            popupDefered.reject(new Error());
-            return popupDefered.promise.then(() => fail('Unwanted code branch'), () => {
+            popupDeferred.reject(new Error());
+            return popupDeferred.promise.then(() => fail('Unwanted code branch'), () => {
                 expect(mockedOptions.proposeGuidedVisit).toBe(false);
             }, () => fail('Unwanted code branch'));
         });
@@ -153,11 +153,11 @@ describe('notifications', () => {
         });
 
         it('start', () => {
-            let popupDefered = {};
-            popupDefered.promise = new Promise((resolve, reject) => {
-                popupDefered.resolve = resolve;
+            let popupDeferred = {};
+            popupDeferred.promise = new Promise((resolve, reject) => {
+                popupDeferred.resolve = resolve;
             });
-            spyOn(mockedPopup, 'display').and.returnValue(popupDefered.promise);
+            spyOn(mockedPopup, 'display').and.returnValue(popupDeferred.promise);
             spyOn(mockedEas, 'publish');
             spyOn(sut, '_startGuidedVisit').and.callThrough();
             spyOn(sut, '_displayNextVisitText');
@@ -173,8 +173,8 @@ describe('notifications', () => {
                     },
                 }
             );
-            popupDefered.resolve();
-            return popupDefered.promise.then(() => {
+            popupDeferred.resolve();
+            return popupDeferred.promise.then(() => {
                 expect(sut._startGuidedVisit).toHaveBeenCalled();
                 expect(sut._tutorialInProgress).toBe(true);
                 expect(mockedEas.publish)

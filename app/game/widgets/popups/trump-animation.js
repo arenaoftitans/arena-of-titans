@@ -21,6 +21,6 @@
 export class AotTrumpAnimationCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 }

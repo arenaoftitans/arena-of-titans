@@ -64,9 +64,9 @@ export class Wait {
             return Wait.idPromises[id];
         }
 
-        let defered = {};
-        defered.promise = new Promise((resolve) => {
-            defered.resolve = resolve;
+        let deferred = {};
+        deferred.promise = new Promise((resolve) => {
+            deferred.resolve = resolve;
         });
 
         (function wait() {
@@ -74,15 +74,15 @@ export class Wait {
             // If jasmine is defined, we are running this in a unit test and must resolve the
             // promise.
             if (element !== null || window.jasmine) {
-                defered.resolve(element);
+                deferred.resolve(element);
             } else {
                 setTimeout(wait, 500);
             }
         })();
 
-        Wait.idPromises[id] = defered.promise;
+        Wait.idPromises[id] = deferred.promise;
 
-        return defered.promise;
+        return deferred.promise;
     }
 
     static forClass(className, {element = document, fresh = false} = {}) {
@@ -90,9 +90,9 @@ export class Wait {
             return Wait.classPromises[className];
         }
 
-        let defered = {};
-        defered.promise = new Promise(resolve => {
-            defered.resolve = resolve;
+        let deferred = {};
+        deferred.promise = new Promise(resolve => {
+            deferred.resolve = resolve;
         });
 
         (function wait() {
@@ -100,17 +100,17 @@ export class Wait {
             // If jasmine is defined, we are running this in a unit test and must resolve the
             // promise.
             if (elementsWithClasses.length > 0 || window.jasmine) {
-                defered.resolve(elementsWithClasses);
+                deferred.resolve(elementsWithClasses);
             } else {
                 setTimeout(wait, 50);
             }
         })();
 
         if (!fresh) {
-            Wait.classPromises[className] = defered.promise;
+            Wait.classPromises[className] = deferred.promise;
         }
 
-        return defered.promise;
+        return deferred.promise;
     }
 }
 

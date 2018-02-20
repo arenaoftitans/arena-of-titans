@@ -57,16 +57,16 @@ export class ErrorsReporterStub {
 
 
 export class ApiStub {
-    _gameOverDefered = {};
-    _reconnectDefered = {};
+    _gameOverDeferred = {};
+    _reconnectDeferred = {};
 
     constructor() {
-        this._gameOverDefered.promise = new Promise(resolve => {
-            this._gameOverDefered.resolve = resolve;
+        this._gameOverDeferred.promise = new Promise(resolve => {
+            this._gameOverDeferred.resolve = resolve;
         });
-        this._reconnectDefered.promise = new Promise((resolve, reject) => {
-            this._reconnectDefered.resolve = resolve;
-            this._reconnectDefered.reject = reject;
+        this._reconnectDeferred.promise = new Promise((resolve, reject) => {
+            this._reconnectDeferred.resolve = resolve;
+            this._reconnectDeferred.reject = reject;
         });
     }
 
@@ -80,7 +80,7 @@ export class ApiStub {
     }
 
     joinGame() {
-        return this._reconnectDefered.promise;
+        return this._reconnectDeferred.promise;
     }
 
     createGame() {
@@ -130,12 +130,12 @@ export class ApiStub {
         };
     }
 
-    get onGameOverDefered() {
-        return this._gameOverDefered.promise;
+    get onGameOverDeferred() {
+        return this._gameOverDeferred.promise;
     }
 
-    get onReconnectDefered() {
-        return this._reconnectDefered.promise;
+    get onReconnectDeferred() {
+        return this._reconnectDeferred.promise;
     }
 
     createGameDebug() {
@@ -266,7 +266,7 @@ export class WsStub {
     onmessage(cb) {
     }
 
-    sendDefered() {
+    sendDeferred() {
     }
 }
 

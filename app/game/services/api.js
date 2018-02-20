@@ -48,8 +48,8 @@ export class Api {
         special_action_view_possible_actions: 'SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS',
     };
     _ea;
-    _reconnectDefered = {};
-    _gameOverDefered = {};
+    _reconnectDeferred = {};
+    _gameOverDeferred = {};
     _storage;
     _ws;
     _logger;
@@ -76,10 +76,10 @@ export class Api {
         this._animations.enable();
         this._errorsReporter.enable();
 
-        this._gameOverDefered.promise = new Promise(resolve => {
-            this._gameOverDefered.resolve = resolve;
+        this._gameOverDeferred.promise = new Promise(resolve => {
+            this._gameOverDeferred.resolve = resolve;
         });
-        this._createReconnectDefered();
+        this._createReconnectDeferred();
 
         this._ea.subscribe('aot:ws:reconnected', () => {
             this._handleWsReconnected();
@@ -93,18 +93,18 @@ export class Api {
             return;
         }
 
-        this._createReconnectDefered();
+        this._createReconnectDeferred();
         // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
         // if we call it with undefined it crashes.
         this.joinGame({gameId: this._gameId}).then(() => {
-            this._ws.sendDefered();
+            this._ws.sendDeferred();
         });
     }
 
-    _createReconnectDefered() {
-        this._reconnectDefered.promise = new Promise((resolve, reject) => {
-            this._reconnectDefered.resolve = resolve;
-            this._reconnectDefered.reject = reject;
+    _createReconnectDeferred() {
+        this._reconnectDeferred.promise = new Promise((resolve, reject) => {
+            this._reconnectDeferred.resolve = resolve;
+            this._reconnectDeferred.reject = reject;
         });
     }
 
@@ -155,10 +155,10 @@ export class Api {
         });
 
         if (message.index === -1) {
-            this._reconnectDefered.reject();
+            this._reconnectDeferred.reject();
             return;
         } else {  // eslint-disable-line no-else-return
-            this._reconnectDefered.resolve(message);
+            this._reconnectDeferred.resolve(message);
         }
         this._state.initializeGame(message);
     }
@@ -197,7 +197,7 @@ export class Api {
 
     _handleGameOverMessage(message) {
         if (message.game_over) {
-            this._gameOverDefered.resolve(message.winners);
+            this._gameOverDeferred.resolve(message.winners);
             this._notify.notifyGameOver();
         }
     }
@@ -231,7 +231,7 @@ export class Api {
         this._state.reconnect(reconnectMessage);
 
         this._initBoard();
-        this._reconnectDefered.resolve(reconnectMessage);
+        this._reconnectDeferred.resolve(reconnectMessage);
         this._handleGameOverMessage(reconnectMessage);
     }
 
@@ -346,7 +346,7 @@ export class Api {
             hero: hero,
         });
 
-        return this.onReconnectDefered;
+        return this.onReconnectDeferred;
     }
 
     createGame() {
@@ -462,11 +462,11 @@ export class Api {
         });
     }
 
-    get onReconnectDefered() {
-        return this._reconnectDefered.promise;
+    get onReconnectDeferred() {
+        return this._reconnectDeferred.promise;
     }
 
-    get onGameOverDefered() {
-        return this._gameOverDefered.promise;
+    get onGameOverDeferred() {
+        return this._gameOverDeferred.promise;
     }
 }

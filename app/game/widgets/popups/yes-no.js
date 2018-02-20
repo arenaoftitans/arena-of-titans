@@ -21,14 +21,14 @@
 export class AotYesNoCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 
     yes() {
-        this.defered.resolve();
+        this.deferred.resolve();
     }
 
     no() {
-        this.defered.reject();
+        this.deferred.reject();
     }
 }

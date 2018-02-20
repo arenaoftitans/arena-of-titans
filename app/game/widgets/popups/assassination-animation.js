@@ -21,6 +21,6 @@
 export class AotAssassinationAnimationCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 }

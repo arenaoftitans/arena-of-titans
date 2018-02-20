@@ -21,17 +21,17 @@
 export class AotConfirmCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 
     ok() {
         if (this.data.choices && this.data.selectedChoice === undefined) {
             return;
         }
-        this.defered.resolve(this.data.selectedChoice);
+        this.deferred.resolve(this.data.selectedChoice);
     }
 
     cancel() {
-        this.defered.reject();
+        this.deferred.reject();
     }
 }

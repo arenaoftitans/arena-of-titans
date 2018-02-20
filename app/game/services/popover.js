@@ -30,12 +30,12 @@ export class Popover {
         this._popovers = [];
         this._displayed = false;
 
-        this._popoverReadyDefered = {};
-        this._popoverReadyDefered.promise = new Promise(resolve => {
-            this._popoverReadyDefered.resolve = resolve;
+        this._popoverReadyDeferred = {};
+        this._popoverReadyDeferred.promise = new Promise(resolve => {
+            this._popoverReadyDeferred.resolve = resolve;
         });
         this._eas.subscribe('aot:popover:ready', () => {
-            this._popoverReadyDefered.resolve();
+            this._popoverReadyDeferred.resolve();
         });
         this._eas.subscribe('aot:popover:hidden', () => {
             this._displayed = false;
@@ -44,21 +44,21 @@ export class Popover {
     }
 
     display(type, text) {
-        let defered = {};
-        defered.promise = new Promise(resolve => (defered.resolve = resolve));
+        let deferred = {};
+        deferred.promise = new Promise(resolve => (deferred.resolve = resolve));
 
         this._popovers.push({
-            defered,
+            deferred,
             type,
             text,
         });
         // Since services are instanciated first, we need to wait for aot-popover to be attached
         // before trying to display a popover.
-        this._popoverReadyDefered.promise.then(() => {
+        this._popoverReadyDeferred.promise.then(() => {
             this._displayNext();
         });
 
-        return defered.resolve;
+        return deferred.resolve;
     }
 
     _displayNext() {

@@ -38,7 +38,7 @@ export class AotPopoverCustomElement {
 
             let cb = () => this._hide();
             let emitHidden = () => this._eas.publish('aot:popover:hidden');
-            message.defered.promise.then(cb, cb)
+            message.deferred.promise.then(cb, cb)
                 .then(emitHidden, emitHidden);
         });
     }

@@ -54,11 +54,11 @@ describe('trump', () => {
     });
 
     it('should play trump with a target after a popup', () => {
-        let defered = {};
-        defered.promise = new Promise(resolve => {
-            defered.resolve = resolve;
+        let deferred = {};
+        deferred.promise = new Promise(resolve => {
+            deferred.resolve = resolve;
         });
-        spyOn(mockedPopup, 'display').and.returnValue(defered.promise);
+        spyOn(mockedPopup, 'display').and.returnValue(deferred.promise);
         spyOn(mockedApi, 'playTrump');
         mockedState._game = {
             players: {
@@ -99,11 +99,11 @@ describe('trump', () => {
                 },
             }
         );
-        defered.resolve({
+        deferred.resolve({
             name: 'Player 2',
             index: 2,
         });
-        return defered.promise.then(() => {
+        return deferred.promise.then(() => {
             expect(mockedApi.playTrump).toHaveBeenCalledWith({
                 trumpName: 'Trump',
                 trumpColor: null,

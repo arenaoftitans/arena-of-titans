@@ -21,10 +21,10 @@
 export class AotGameOverCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 
     ok(location) {
-        this.defered.resolve(location);
+        this.deferred.resolve(location);
     }
 }

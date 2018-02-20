@@ -21,10 +21,10 @@
 export class AotErrorCustomElement {
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 
     ok() {
-        this.defered.resolve();
+        this.deferred.resolve();
     }
 }

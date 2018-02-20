@@ -41,7 +41,7 @@ export class History {
         // Map each players to his/her two last played cards.
         this._history = {};
 
-        return this._api.onReconnectDefered.then(message => {
+        return this._api.onReconnectDeferred.then(message => {
             let history = message.history;
             if (history) {
                 for (let playerHistory of history) {

@@ -71,7 +71,7 @@ export class Ws {
         }
     }
 
-    sendDefered() {
+    sendDeferred() {
         this._sendPending(this._waitingGameJoined);
     }
 

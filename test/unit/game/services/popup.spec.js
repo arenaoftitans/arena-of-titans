@@ -37,12 +37,12 @@ describe('Popups service', () => {
 
     it('should initialize correctly', () => {
         expect(sut._popups).toEqual([]);
-        expect(sut._displayedPopupDefered.promise).toBeNull();
+        expect(sut._displayedPopupDeferred.promise).toBeNull();
         expect(sut._displayedPopupData).toBeNull();
-        expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
-        expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
-        expect(sut._popupReadyDefered.promise).toEqual(jasmine.any(Promise));
-        expect(sut._popupReadyDefered.resolve).toEqual(jasmine.any(Function));
+        expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
+        expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
+        expect(sut._popupReadyDeferred.promise).toEqual(jasmine.any(Promise));
+        expect(sut._popupReadyDeferred.resolve).toEqual(jasmine.any(Function));
     });
 
     describe('display', () => {
@@ -50,7 +50,7 @@ describe('Popups service', () => {
             spyOn(sut, '_closeAllWithoutTimeout');
             spyOn(mockedEas, 'publish');
             spyOn(sut, '_displayNext');
-            spyOn(sut._popupReadyDefered.promise, 'then');
+            spyOn(sut._popupReadyDeferred.promise, 'then');
             let type = 'info';
             let data = {message: 'Hello'};
 
@@ -59,13 +59,13 @@ describe('Popups service', () => {
             expect(sut._closeAllWithoutTimeout).not.toHaveBeenCalled();
             expect(mockedEas.publish).not.toHaveBeenCalled();
             expect(sut._displayNext).not.toHaveBeenCalled();
-            expect(sut._popupReadyDefered.promise.then)
+            expect(sut._popupReadyDeferred.promise.then)
                 .toHaveBeenCalledWith(jasmine.any(Function));
             expect(sut._popups.length).toBe(1);
             let popup = sut._popups[0];
             expect(popup.type).toBe(type);
             expect(popup.data).toBe(data);
-            expect(popup.defered).toBeDefined();
+            expect(popup.deferred).toBeDefined();
             expect(popup.timeout).toBe(0);
 
             expect(ret).toEqual(jasmine.any(Promise));
@@ -78,8 +78,8 @@ describe('Popups service', () => {
 
             sut.display(type, data);
 
-            sut._popupReadyDefered.resolve();
-            return sut._popupReadyDefered.promise.then(() => {
+            sut._popupReadyDeferred.resolve();
+            return sut._popupReadyDeferred.promise.then(() => {
                 expect(sut._displayNext).toHaveBeenCalled();
             }, () => {
                 fail('Unwanted code branch');
@@ -100,7 +100,7 @@ describe('Popups service', () => {
     describe('_closeAllWithoutTimeout', () => {
         it('should close displayed popup if it does not have a timeout', () => {
             spyOn(sut._logger, 'debug');
-            spyOn(sut._displayedPopupDefered, 'reject');
+            spyOn(sut._displayedPopupDeferred, 'reject');
             sut._displayedPopupData = {
                 meta: {},
             };
@@ -108,13 +108,13 @@ describe('Popups service', () => {
             sut._closeAllWithoutTimeout();
 
             expect(sut._logger.debug).toHaveBeenCalled();
-            expect(sut._displayedPopupDefered.reject).toHaveBeenCalledWith(jasmine.any(Error));
+            expect(sut._displayedPopupDeferred.reject).toHaveBeenCalledWith(jasmine.any(Error));
             expect(sut._displayedPopupData).toBeNull();
         });
 
         it('should leave displayed popup opened if it has a timeout', () => {
             spyOn(sut._logger, 'debug');
-            spyOn(sut._displayedPopupDefered, 'reject');
+            spyOn(sut._displayedPopupDeferred, 'reject');
             sut._displayedPopupData = {
                 meta: {
                     timeout: 20,
@@ -124,7 +124,7 @@ describe('Popups service', () => {
             sut._closeAllWithoutTimeout();
 
             expect(sut._logger.debug).toHaveBeenCalled();
-            expect(sut._displayedPopupDefered.reject).not.toHaveBeenCalled();
+            expect(sut._displayedPopupDeferred.reject).not.toHaveBeenCalled();
             expect(sut._displayedPopupData).not.toBeNull();
         });
 
@@ -148,53 +148,53 @@ describe('Popups service', () => {
             expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
-        it('should clean displayed defered on resolve', () => {
-            sut._displayedPopupDefered.promise = new Promise((resolve, reject) => {
-                sut._displayedPopupDefered.resolve = resolve;
-                sut._displayedPopupDefered.reject = reject;
+        it('should clean displayed deferred on resolve', () => {
+            sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
+                sut._displayedPopupDeferred.resolve = resolve;
+                sut._displayedPopupDeferred.reject = reject;
             });
-            let resolve = sut._displayedPopupDefered.resolve;
-            let reject = sut._displayedPopupDefered.reject;
+            let resolve = sut._displayedPopupDeferred.resolve;
+            let reject = sut._displayedPopupDeferred.reject;
             sut._displayedPopupData = {};
-            spyOn(sut._displayedPopupDefered.promise, 'then').and.callThrough();
+            spyOn(sut._displayedPopupDeferred.promise, 'then').and.callThrough();
 
             sut._displayNext();
 
-            expect(sut._displayedPopupDefered.promise.then).toHaveBeenCalled();
+            expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
             resolve();
-            return sut._displayedPopupDefered.promise.then(() => {
-                expect(sut._displayedPopupDefered.promise).toBeNull();
-                expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
-                expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
-                expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
-                expect(sut._displayedPopupDefered.reject).not.toBe(reject);
+            return sut._displayedPopupDeferred.promise.then(() => {
+                expect(sut._displayedPopupDeferred.promise).toBeNull();
+                expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
+                expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
+                expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
+                expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
                 expect(sut._displayedPopupData).toBeNull();
             }, () => fail('Unwanted code branch'));
         });
 
-        it('should clean displayed defered on reject', () => {
-            sut._displayedPopupDefered.promise = new Promise((resolve, reject) => {
-                sut._displayedPopupDefered.resolve = resolve;
-                sut._displayedPopupDefered.reject = reject;
+        it('should clean displayed deferred on reject', () => {
+            sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
+                sut._displayedPopupDeferred.resolve = resolve;
+                sut._displayedPopupDeferred.reject = reject;
             });
-            let resolve = sut._displayedPopupDefered.resolve;
-            let reject = sut._displayedPopupDefered.reject;
+            let resolve = sut._displayedPopupDeferred.resolve;
+            let reject = sut._displayedPopupDeferred.reject;
             sut._displayedPopupData = {};
-            spyOn(sut._displayedPopupDefered.promise, 'then').and.callThrough();
+            spyOn(sut._displayedPopupDeferred.promise, 'then').and.callThrough();
 
             sut._displayNext();
 
-            expect(sut._displayedPopupDefered.promise.then).toHaveBeenCalled();
+            expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
             reject(new Error());
 
-            return sut._displayedPopupDefered.promise.then(
+            return sut._displayedPopupDeferred.promise.then(
                 () => fail('Unwanted code branch'),
                 () => {
-                    expect(sut._displayedPopupDefered.promise).toBeNull();
-                    expect(sut._displayedPopupDefered.resolve).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDefered.resolve).not.toBe(resolve);
-                    expect(sut._displayedPopupDefered.reject).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDefered.reject).not.toBe(reject);
+                    expect(sut._displayedPopupDeferred.promise).toBeNull();
+                    expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
+                    expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
+                    expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
+                    expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
                     expect(sut._displayedPopupData).toBeNull();
                 });
         });
@@ -204,7 +204,7 @@ describe('Popups service', () => {
                 type: 'info',
                 data: {message: 'Hello'},
                 timeout: 0,
-                defered: {
+                deferred: {
                     promise: jasmine.createSpy(),
                     reject: jasmine.createSpy(),
                     resolve: jasmine.createSpy(),
@@ -226,11 +226,11 @@ describe('Popups service', () => {
                         timeout: 0,
                     },
                 },
-                defered: popup.defered,
+                deferred: popup.deferred,
             });
-            expect(sut._displayedPopupDefered.promise).toBe(popup.defered.promise);
-            expect(sut._displayedPopupDefered.resolve).toBe(popup.defered.resolve);
-            expect(sut._displayedPopupDefered.reject).toBe(popup.defered.reject);
+            expect(sut._displayedPopupDeferred.promise).toBe(popup.deferred.promise);
+            expect(sut._displayedPopupDeferred.resolve).toBe(popup.deferred.resolve);
+            expect(sut._displayedPopupDeferred.reject).toBe(popup.deferred.reject);
         });
 
         it('should setup timeout if a timeout is specified', () => {
@@ -238,7 +238,7 @@ describe('Popups service', () => {
                 type: 'info',
                 data: {message: 'Hello'},
                 timeout: 20,
-                defered: {
+                deferred: {
                     promise: new Promise(() => {}),
                     reject: jasmine.createSpy(),
                     resolve: jasmine.createSpy(),
@@ -247,12 +247,12 @@ describe('Popups service', () => {
             sut._popups.push(popup);
             spyOn(mockedEas, 'publish');
             spyOn(window, 'setTimeout');
-            spyOn(popup.defered.promise, 'then');
+            spyOn(popup.deferred.promise, 'then');
 
             sut._displayNext();
 
             expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 20);
-            expect(popup.defered.promise.then)
+            expect(popup.deferred.promise.then)
                 .toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Function));
             expect(sut._popups).toEqual([]);
             expect(mockedEas.publish).toHaveBeenCalledWith('aot:popup:display', {
@@ -263,7 +263,7 @@ describe('Popups service', () => {
                         timeout: 20,
                     },
                 },
-                defered: popup.defered,
+                deferred: popup.deferred,
             });
         });
     });

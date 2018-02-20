@@ -76,7 +76,7 @@ export class AotCounterCustomElement {
             this._handleSpecialActionNotify(message);
         });
 
-        this._api.onReconnectDefered.then(message => {
+        this._api.onReconnectDeferred.then(message => {
             if (message.special_action_name) {
                 this._handleSpecialActionNotify(message);
                 this.initSpecialActionCounter(message.special_action_elapsed_time);

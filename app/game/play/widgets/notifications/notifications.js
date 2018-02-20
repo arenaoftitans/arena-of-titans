@@ -78,7 +78,7 @@ export class AotNotificationsCustomElement {
             }
         });
 
-        this._api.onReconnectDefered.then(message => {
+        this._api.onReconnectDeferred.then(message => {
             this._updateLastAction(message);
             if (message.special_action_name) {
                 this._notifySpecialAction(message);

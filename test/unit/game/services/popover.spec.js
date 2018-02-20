@@ -40,7 +40,7 @@ describe('Popover service', () => {
 
     describe('display', () => {
         it('should prepare the popover to be displayed', () => {
-            spyOn(sut._popoverReadyDefered.promise, 'then');
+            spyOn(sut._popoverReadyDeferred.promise, 'then');
             let type = 'info';
             let text = 'Hello';
 
@@ -48,10 +48,10 @@ describe('Popover service', () => {
 
             expect(sut._popovers.length).toBe(1);
             let popover = sut._popovers[0];
-            expect(popover.defered.promise).toEqual(jasmine.any(Promise));
+            expect(popover.deferred.promise).toEqual(jasmine.any(Promise));
             expect(popover.type).toBe(type);
             expect(popover.text).toBe(text);
-            expect(sut._popoverReadyDefered.promise.then).toHaveBeenCalled();
+            expect(sut._popoverReadyDeferred.promise.then).toHaveBeenCalled();
             expect(ret).toEqual(jasmine.any(Function));
         });
 
@@ -62,8 +62,8 @@ describe('Popover service', () => {
 
             sut.display(type, text);
 
-            sut._popoverReadyDefered.resolve();
-            return sut._popoverReadyDefered.promise.then(() => {
+            sut._popoverReadyDeferred.resolve();
+            return sut._popoverReadyDeferred.promise.then(() => {
                 expect(sut._displayNext).toHaveBeenCalled();
             }, () => {
                 fail('Unwanted code branch');
@@ -80,7 +80,7 @@ describe('Popover service', () => {
             expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
-        it('should clean displayed defered on hide', () => {
+        it('should clean displayed deferred on hide', () => {
             spyOn(sut, '_displayNext');
 
             mockedEas.publish('aot:popover:hidden');
@@ -93,7 +93,7 @@ describe('Popover service', () => {
             let popover = {
                 type: 'danger',
                 text: 'Hello',
-                defered: {
+                deferred: {
                     promise: jasmine.createSpy(),
                     reject: jasmine.createSpy(),
                     resolve: jasmine.createSpy(),
@@ -108,7 +108,7 @@ describe('Popover service', () => {
             expect(mockedEas.publish).toHaveBeenCalledWith('aot:popover:display', {
                 type: 'danger',
                 text: 'Hello',
-                defered: popover.defered,
+                deferred: popover.deferred,
             });
             expect(sut._displayed).toBe(true);
         });

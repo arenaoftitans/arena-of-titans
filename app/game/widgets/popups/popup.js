@@ -25,7 +25,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 export class AotPopupCustomElement {
     data = null;
     type = null;
-    defered = null;
+    deferred = null;
     popupModel = {};
 
     background = '';
@@ -40,11 +40,11 @@ export class AotPopupCustomElement {
         this._eaSubscription = this._ea.subscribe('aot:popup:display', message => {
             this.type = message.type;
             this.popupModel.data = message.data;
-            this.popupModel.defered = message.defered;
+            this.popupModel.deferred = message.deferred;
 
             this._open();
 
-            message.defered.promise.then(() => {
+            message.deferred.promise.then(() => {
                 this._close();
             }, () => {
                 this._close();
@@ -114,7 +114,7 @@ export class AotPopupCustomElement {
 
             // The player must validate the game over popup
             if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
-                this.popupModel.defered.reject();
+                this.popupModel.deferred.reject();
             }
         };
         window.addEventListener('keyup', this._keyupEventListener);

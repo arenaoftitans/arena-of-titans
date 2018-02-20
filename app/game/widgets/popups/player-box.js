@@ -35,11 +35,11 @@ export class AotPlayerBoxInfosCustomElement {
 
     activate(model) {
         this.data = model.data;
-        this.defered = model.defered;
+        this.deferred = model.deferred;
     }
 
     close() {
-        this.defered.resolve();
+        this.deferred.resolve();
     }
 
     get heroSource() {

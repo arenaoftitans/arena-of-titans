@@ -317,12 +317,12 @@ describe('services/api', () => {
             game_over: true,
             winners: ['Player 1', 'Player 2'],
         };
-        spyOn(sut._gameOverDefered, 'resolve');
+        spyOn(sut._gameOverDeferred, 'resolve');
         spyOn(mockedNotify, 'notifyGameOver');
 
         sut._handleGameOverMessage(message);
 
-        expect(sut._gameOverDefered.resolve).toHaveBeenCalledWith(message.winners);
+        expect(sut._gameOverDeferred.resolve).toHaveBeenCalledWith(message.winners);
         expect(mockedNotify.notifyGameOver).toHaveBeenCalled();
     });
 
@@ -442,7 +442,7 @@ describe('services/api', () => {
         });
 
         it('should ask name when reconnecting to a freed slot', () => {
-            spyOn(sut._reconnectDefered, 'reject');
+            spyOn(sut._reconnectDeferred, 'reject');
 
             let message = {
                 rt: sut.requestTypes.game_initialized,
@@ -451,7 +451,7 @@ describe('services/api', () => {
 
             sut._handleMessage(message);
 
-            expect(sut._reconnectDefered.reject).toHaveBeenCalled();
+            expect(sut._reconnectDeferred.reject).toHaveBeenCalled();
         });
 
         it('should play trump without target', () => {
@@ -602,27 +602,27 @@ describe('services/api', () => {
 
         describe('WS reconnected', () => {
             it('should join the game if game was created', () => {
-                sut._reconnectDefered = {};
+                sut._reconnectDeferred = {};
                 sut._gameId = 'game_id';
                 let promise = new Promise(resolve => resolve());
                 spyOn(sut, 'joinGame').and.returnValue(promise);
-                spyOn(sut._ws, 'sendDefered');
+                spyOn(sut._ws, 'sendDeferred');
 
                 sut._handleWsReconnected();
 
-                expect(sut._reconnectDefered.promise).toEqual(jasmine.any(Promise));
+                expect(sut._reconnectDeferred.promise).toEqual(jasmine.any(Promise));
                 return promise.then(() => {
-                    expect(sut._ws.sendDefered).toHaveBeenCalled();
+                    expect(sut._ws.sendDeferred).toHaveBeenCalled();
                 }, () => fail('Unwanted code branch'));
             });
 
             it('should not join the game if it has not been created', () => {
-                spyOn(sut, '_createReconnectDefered');
+                spyOn(sut, '_createReconnectDeferred');
                 spyOn(sut, 'joinGame');
 
                 sut._handleWsReconnected();
 
-                expect(sut._createReconnectDefered).not.toHaveBeenCalled();
+                expect(sut._createReconnectDeferred).not.toHaveBeenCalled();
                 expect(sut.joinGame).not.toHaveBeenCalled();
             });
         });

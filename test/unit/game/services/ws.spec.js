@@ -58,12 +58,12 @@ describe('services/ws', () => {
         expect(sut._waitingOpen.length).toBe(1);
     });
 
-    it('should send defered message', () => {
+    it('should send deferred message', () => {
         sut._waitingGameJoined.push({msg: 'coucou'});
         sut._waitingGameJoined.push({msg: 'salut'});
         spyOn(sut, 'send');
 
-        sut.sendDefered();
+        sut.sendDeferred();
 
         let firstCallArgs = sut.send.calls.all()[0].args[0];
         expect(firstCallArgs).toEqual({msg: 'coucou'});
