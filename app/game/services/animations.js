@@ -21,7 +21,7 @@ import { inject } from 'aurelia-framework';
 import { AssetSource } from '../../services/assets';
 import { Options } from '../../services/options';
 import { EventAggregatorSubscriptions } from './utils';
-import { Popup } from '../widgets/popups/popup';
+import { Popup } from '../services/popup';
 import { State } from './state';
 
 

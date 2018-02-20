@@ -21,7 +21,7 @@ import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { Api } from '../services/api';
 import { EventAggregatorSubscriptions } from '../services/utils';
-import { Popup } from '../widgets/popups/popup';
+import { Popup } from '../services/popup';
 import { State } from '../services/state';
 
 

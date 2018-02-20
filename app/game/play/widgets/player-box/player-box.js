@@ -18,7 +18,7 @@
 */
 
 import { bindable, inject } from 'aurelia-framework';
-import { Popup } from '../../../widgets/popups/popup';
+import { Popup } from '../../../services/popup';
 
 
 @inject(Popup)

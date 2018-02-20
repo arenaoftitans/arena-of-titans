@@ -22,7 +22,7 @@ import { bindable, inject, ObserverLocator } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { Blink, Elements, EventAggregatorSubscriptions } from '../../../services/utils';
-import { Popup } from '../../../widgets/popups/popup';
+import { Popup } from '../../../services/popup';
 import { State } from '../../../services/state';
 
 
