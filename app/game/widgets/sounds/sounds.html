@@ -1,5 +1,5 @@
 <!--
-# Copyright (C) 2015-2016 by Arena of Titans Contributors.
+# Copyright (C) 2015-2018 by Arena of Titans Contributors.
 #
 # This file is part of Arena of Titans.
 #
@@ -18,13 +18,8 @@
 -->
 
 <template>
-    <require from="./widgets/popups/popup"></require>
-    <require from="./widgets/popover/popover"></require>
-    <require from="./widgets/sounds/sounds"></require>
+    <require from="../sound/sound"></require>
 
-    <aot-popup></aot-popup>
-    <aot-popover></aot-popover>
-    <aot-sounds></aot-sounds>
-
-    <router-view></router-view>
+    <aot-sound sound.bind="sound"
+        repeat.for="sound of sounds"></aot-sound>
 </template>
