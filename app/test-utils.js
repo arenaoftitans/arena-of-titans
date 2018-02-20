@@ -201,6 +201,12 @@ export class PopoverStub {
 }
 
 
+export class SoundsStub {
+    play(sound) {
+    }
+}
+
+
 export class I18nStub {
     tr(key) {
         let translations = {

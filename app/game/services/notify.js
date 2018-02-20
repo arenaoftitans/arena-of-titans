@@ -19,18 +19,17 @@
 
 import { inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { Wait } from './utils';
 import { AssetSource } from '../../services/assets';
-import { Options } from '../../services/options';
+import { Sounds } from './sounds';
 import { EventAggregatorSubscriptions } from '../services/utils';
 
 
 const PLAY_VOICE_TIMEOUT = 45000;
 
 
-@inject(I18N, EventAggregatorSubscriptions, Options)
+@inject(I18N, EventAggregatorSubscriptions, Sounds)
 export class Notify {
-    constructor(i18n, eas, options) {
+    constructor(i18n, eas, sounds) {
         this._i18n = i18n;
         this._eas = eas;
         this._eas.subscribe('router:navigation:complete', () => {
@@ -38,7 +37,7 @@ export class Notify {
             // index.html
             this._originalTitle = document.title;
         });
-        this._options = options;
+        this._sounds = sounds;
         this._head = document.head || (document.head = document.getElementsByTagName('head')[0]);
         this._originalFaviconHref = AssetSource.forMiscImage('favicon');
         this._notifyFavicon = AssetSource.forMiscImage('favicon-notify');
@@ -101,35 +100,15 @@ export class Notify {
     }
 
     _playYourTurnSound() {
-        return this._playSoundFromId('notify-sound-player');
+        this._sounds.play('your-turn');
     }
 
     _playVoice() {
-        return this._playSoundFromId('notify-voice-player');
-    }
-
-    _playSoundFromId(id) {
-        if (this._options.sound) {
-            return Wait.forId(id).then(element => {
-                try {
-                    element.play();
-                } catch (e) {
-                    /* eslint-disable no-console */
-                    // This problem is expected on some browsers.
-                    // So we just console.warn here and don't rely on the logger which may send
-                    // the error to Rollbar.
-                    console.warn('Your browser cannot play sounds');
-                    console.warn(e);
-                    /* eslint-enable */
-                }
-            });
-        }
-
-        return Promise.resolve();
+        this._sounds.play('your-turn-voice');
     }
 
     notifyGameOver() {
-        return this._playSoundFromId('notify-game-over-player');
+        this._sounds.play('game-over');
     }
 
     clearNotifications() {

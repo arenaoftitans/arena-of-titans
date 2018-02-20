@@ -17,15 +17,18 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Wait } from '../../../../app/game/services/utils';
 import { Notify } from '../../../../app/game/services/notify';
-import { I18nStub, EventAggregatorSubscriptionsStub } from '../../../../app/test-utils';
+import {
+    I18nStub,
+    EventAggregatorSubscriptionsStub,
+    SoundsStub,
+} from '../../../../app/test-utils';
 
 
 describe('services/notify', () => {
     let mockedI18n;
     let mockedEas;
-    let mockedOptions;
+    let mockedSounds;
     let sut;
     let link = document.createElement('link');
 
@@ -35,8 +38,8 @@ describe('services/notify', () => {
 
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
-        mockedOptions = {};
-        sut = new Notify(mockedI18n, mockedEas, mockedOptions);
+        mockedSounds = new SoundsStub();
+        sut = new Notify(mockedI18n, mockedEas, mockedSounds);
     });
 
     it('should clearNotifications', () => {
@@ -63,61 +66,27 @@ describe('services/notify', () => {
         );
     });
 
-    it('should not play sound if sounds are disabled', () => {
-        mockedOptions.sound = false;
-        spyOn(Wait, 'forId');
-
-        sut._playYourTurnSound();
-        sut._playVoice();
-        sut.notifyGameOver();
-
-        expect(Wait.forId).not.toHaveBeenCalled();
-    });
-
-    describe('should play sound if sounds are enabled', () => {
-        let element;
-        let promise;
-
+    describe('should play sound', () => {
         beforeEach(() => {
-            mockedOptions.sound = true;
-            element = {
-                play: () => {},
-            };
-            spyOn(element, 'play');
-            promise = new Promise(resolve => resolve(element));
-            spyOn(Wait, 'forId').and.returnValue(promise);
+            spyOn(mockedSounds, 'play');
         });
 
-        it('voice', () => {
-            return sut._playVoice().then(() => {
-                expect(Wait.forId).toHaveBeenCalledWith('notify-voice-player');
-                expect(element.play).toHaveBeenCalled();
-            });
+        it('should play your-turn-voice', () => {
+            sut._playVoice();
+
+            expect(mockedSounds.play).toHaveBeenCalledWith('your-turn-voice');
         });
 
-        it('sound', () => {
-            return sut._playYourTurnSound().then(() => {
-                expect(Wait.forId).toHaveBeenCalledWith('notify-sound-player');
-                expect(element.play).toHaveBeenCalled();
-            });
+        it('should play your-turn', () => {
+            sut._playYourTurnSound();
+
+            expect(mockedSounds.play).toHaveBeenCalledWith('your-turn');
         });
 
-        it('game over', () => {
-            return sut.notifyGameOver().then(() => {
-                expect(Wait.forId).toHaveBeenCalledWith('notify-game-over-player');
-                expect(element.play).toHaveBeenCalled();
-            });
-        });
+        it('should play game-over', () => {
+            sut.notifyGameOver();
 
-        it('should catch error in play function', () => {
-            element.play.and.throwError('cannot play');
-            spyOn(console, 'warn');
-
-            return sut.notifyGameOver().then(() => {
-                /* eslint-disable no-console */
-                expect(console.warn.calls.count()).toBe(2);
-                /* eslint-enable */
-            });
+            expect(mockedSounds.play).toHaveBeenCalledWith('game-over');
         });
     });
 });
