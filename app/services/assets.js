@@ -135,8 +135,8 @@ export class AssetSource {
         }
         let imagesToPreload = [];
         for (let imgSrc in assetsList) {
-            if (imgSrc.match(new RegExp(`^${kind}/`))) {
-                imagesToPreload.push(this._mapToRealPath(imgSrc));
+            if (imgSrc.includes(kind) && !imgSrc.includes('sounds')) {
+                imagesToPreload.push(assetsList[imgSrc]);
             }
         }
 
