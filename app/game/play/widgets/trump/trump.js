@@ -21,7 +21,7 @@ import * as LogManager from 'aurelia-logging';
 import { bindable, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { DOM } from 'aurelia-pal';
-import { Popup } from '../../../widgets/popups/popup';
+import { Popup } from '../../../services/popup';
 import { Api } from '../../../services/api';
 import { State } from '../../../services/state';
 import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';

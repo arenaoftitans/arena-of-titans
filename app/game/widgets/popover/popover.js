@@ -22,56 +22,6 @@ import { CssAnimator } from 'aurelia-animator-css';
 import { EventAggregatorSubscriptions } from '../../services/utils';
 
 
-@inject(EventAggregatorSubscriptions)
-export class Popover {
-    constructor(eas) {
-        this._eas = eas;
-
-        this.type = null;
-        this._popovers = [];
-        this._displayed = false;
-
-        this._popoverReadyDefered = {};
-        this._popoverReadyDefered.promise = new Promise(resolve => {
-            this._popoverReadyDefered.resolve = resolve;
-        });
-        this._eas.subscribe('aot:popover:ready', () => {
-            this._popoverReadyDefered.resolve();
-        });
-        this._eas.subscribe('aot:popover:hidden', () => {
-            this._displayed = false;
-            this._displayNext();
-        });
-    }
-
-    display(type, text) {
-        let defered = {};
-        defered.promise = new Promise(resolve => (defered.resolve = resolve));
-
-        this._popovers.push({
-            defered,
-            type,
-            text,
-        });
-        // Since services are instanciated first, we need to wait for aot-popover to be attached
-        // before trying to display a popover.
-        this._popoverReadyDefered.promise.then(() => {
-            this._displayNext();
-        });
-
-        return defered.resolve;
-    }
-
-    _displayNext() {
-        if (!this._displayed && this._popovers.length > 0) {
-            let popover = this._popovers.shift();
-            this._eas.publish('aot:popover:display', popover);
-            this._displayed = true;
-        }
-    }
-}
-
-
 @inject(EventAggregatorSubscriptions, CssAnimator)
 export class AotPopoverCustomElement {
     // Referenced in the template.

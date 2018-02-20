@@ -27,7 +27,7 @@ import {
     EventAggregatorSubscriptions,
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
-import { Popup } from '../../../widgets/popups/popup';
+import { Popup } from '../../../services/popup';
 import { State } from '../../../services/state';
 
 

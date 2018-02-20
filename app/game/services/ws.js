@@ -20,7 +20,7 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import environment from '../../environment';
-import { Popover } from '../widgets/popover/popover';
+import { Popover } from './popover';
 import ReconnectingWebSocket from 'reconnectingwebsocket';
 
 

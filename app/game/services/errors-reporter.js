@@ -19,7 +19,7 @@
 
 import { inject } from 'aurelia-framework';
 import { EventAggregatorSubscriptions } from './utils';
-import { Popup } from '../widgets/popups/popup';
+import { Popup } from '../services/popup';
 
 
 @inject(EventAggregatorSubscriptions, Popup)
