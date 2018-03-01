@@ -54,8 +54,8 @@ deploy in staging:
     name: staging
     url: https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html
   script:
-    - git clone --branch feat/ansible https://gitlab.com/arenaoftitans/aot-infra.git
-    - cd aot-infra
+    - git clone --branch feat/ansible https://gitlab.com/arenaoftitans/aot-infra.git /opt/aot-infra
+    - cd /opt/aot-infra
     - VERSION=$CI_COMMIT_REF_SLUG ENV=staging ./dk-run.sh deployfront
   when: manual
   except:
