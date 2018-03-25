@@ -119,7 +119,7 @@ export default {
     },
     "heroes": {
         "arline": "Arline",
-        "arline_description": "Chasseuse hors paire, Arline est une arlinee issue d’une famille modeste de forgerons. Elle a apprit à manier l’arc dès son plus jeune âge et s’est bâtie une solide réputation d’archère d’élite même parmi les hautes castes de la société arlineique. Ceux qui l’ont sous-estimée ne sont plus en mesure de le regretter.",
+        "arline_description": "Chasseuse hors paire, Arline est une Elfe issue d’une famille modeste de forgerons. Elle a apprit à manier l’arc dès son plus jeune âge et s’est bâtie une solide réputation d’archère d’élite même parmi les hautes castes de la société elfique. Ceux qui l’ont sous-estimée ne sont plus en mesure de le regretter.",
         "arline_power": "« Brume Nocturne» (actif) : Lorsque vous déclenchez cette compétence, vous disparaissez du plateau de jeu et vos adversaires ne peuvent plus vous cibler pendant 1 tour.",
         "arline_short_description": "Arline s’est bâtie une solide réputation d’archère d’élite même parmi les hautes castes de la société arlineique. Ceux qui l’ont sous-estimée ne sont plus en mesure de le regretter.",
         "djor": "Djör",
@@ -144,11 +144,11 @@ export default {
         "mirindrel_short_description": "Mirïndrel  est considéré comme l’un des mages les plus puissants de sa génération. Il utilise le terrain pour piéger ses adversaires ou s’offrir un avantage concurrentiel significatif.",
         "razbrak": "Razbrak",
         "razbrak_description": "Razbrak est le frère cadet du chef du clan Akta-Ross. Expert en maniement des armes, il affectionne en particulier la hache dont il se sert pour décapiter ses ennemis. Sous ses airs de brute sauvage et sanguinaire se cache un véritable artiste : il collectionne les crânes de ses victimes afin de les sculpter et d’en faire de magnifiques bougeoirs.",
-        "razbrak_power": "« Force de la Nature » (passif) : Les atouts « Tour » ne vous affectent pas.",
+        "razbrak_power": "« Force de la Nature » (passif) : Les atouts « Tour » et « Forteresse » ne vous affectent pas.",
         "razbrak_short_description": "Razbrak est un expert en maniement d’armes et affectionne particulièrement la hache. Il collectionne les cranes de ses victimes afin de les sculpter.",
         "title": "Héros",
         "ulya": "Ulya",
-        "ulya_description": "Ulya fait partie des Yrilles, les chevaucheuses d’élite aux ordres de la reine aranéenne. Accompagnée de son Arakoss Vénisse, Ulya s’est distinguée par de nombreux exploits en tournoi et en terrassant un dragon des sables. Les tatouages qui couvrent le corps de l’aranéenne illustrent ses prouesses au combat. Le duo ne connaît à ce jour aucune défaite.",
+        "ulya_description": "Ulya fait partie des Yrilles, les chevaucheuses d’élite aux ordres de la reine aranéenne. Accompagnée de son Arakoss Vénisse, Ulya s’est distinguée par de nombreux exploits en tournoi et en terrassant un dragon des sables. Les tatouages qui couvrent son corps illustrent ses prouesses au combat. Le duo ne connaît à ce jour aucune défaite.",
         "ulya_power": "« Domination » (passif) : Lorsque vous jouez une carte « Dame » vous pouvez vous déplacer de 3 cases au lieu de 2.",
         "ulya_short_description": "Ulya et son Arakoss Vénisse font partie de l’élite de la société Aranéenne. Leurs prouesses sont légendaires et le duo ne connaît à ce jour aucune défaite."
     },
@@ -186,6 +186,7 @@ export default {
         "header_founders_3": "YuPi l’Imposteur",
         "header_founders_4": "Apenett Tarondel",
         "header_founders_5": "Aurelion",
+        "header_moves": "Déplacements",
         "header_news": "Actualités",
         "header_people": "Peuples",
         "header_play": "Jouer",
@@ -193,10 +194,46 @@ export default {
         "header_rules": "Règles",
         "header_synopsis": "Synopsis",
         "homepage": {
+            "block2": {
+                "p1": "Dans l'Arène, tous les coups sont permis !",
+                "p2": "Allie toi avec les autres joueurs contre le Héros le plus avancé,",
+                "p3": "Pour mieux les trahir par la suite !",
+                "title": "Défie tes futurs Ex-Amis"
+            },
+            "block3": {
+                "p1": "Il suffit de traverser l'Arène pour gagner !",
+                "p2": "Simple non ?",
+                "p3": "C'était sans compter les Atouts...",
+                "p4": "Les Titans octroient à chaque Héros 4 Atouts.",
+                "p5": "De quoi faire du sale à tes adversaires !",
+                "title": "Un gameplay unique"
+            },
+            "block4": {
+                "p1": "Chaque Héros possède un Pouvoir Spécifique",
+                "p2": "A toi d'en faire bonne usage !",
+                "p3": "Rappelle toi : un Grand Pouvoir implique...",
+                "p4": "De grandes représailles sur la Dernière Ligne !",
+                "title": "Déchaine ton Pouvoir"
+            },
+            "block5": {
+                "p1": "Se déplacer dans l'Arène c'est bien.",
+                "p2": "Optimiser son chemin c'est mieux !",
+                "p3": "Mais attention...",
+                "p4": "Plus tu prends de l'avance,",
+                "p5": "Plus tu as des chances de devenir la cible des autres Héros !",
+                "title": "Adapte ta Stratégie"
+            },
             "families": "Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !",
             "heroes": "Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !",
-            "pitch": "Oserez-vous entrer dans l'Arène des Titans ?             Créez votre parcours à l’aide de vos cartes Déplacement,               Utilisez celles de vos adversaires pour les devancer,                Bloquez-les à l’aide de vos Atouts,                 Arrivez en premier…                 Et Survivez !             ",
-            "slider1": "Un gameplay unique",
+            "pitch": {
+                "p1": "Créé ton parcours à l’aide de tes cartes Déplacement,",
+                "p2": "Utilise celles de tes adversaires pour les devancer,    ",
+                "p3": "Bloque-les avec tes Atouts,      ",
+                "p4": "Arrive en premier…       ",
+                "p5": "Et Survis !",
+                "title": "Oseras-tu entrer dans l' Arène ?"
+            },
+            "slider1": "",
             "slider2": "Défiez jusqu'à 7 de vos amis",
             "slider3": "Version Bêta disponible !",
             "tutorial": "<strong>Tutoriel</strong>"

@@ -80,12 +80,17 @@
 .bg-content {
     background-image: url(/assets/backgrounds/content.png);
     background-size: 100% 100%;
+    font-family: 'Roboto Condensed', sans-serif;
     margin-top: 2%;
     overflow: auto;
-    padding-bottom: 2%;
+    padding: 15%;
 }
 
 
 .bg-content-padding {
     padding: 2.3%;
+}
+
+.header {
+    font-family: 'Kingthings Petrock Regular', cursive;
 }
