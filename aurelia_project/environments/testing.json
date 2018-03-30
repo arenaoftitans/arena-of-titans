@@ -1,0 +1,20 @@
+{
+    "api": {
+        "host": "api.aot.testing",
+        "path": "/ws/",
+        "port": 80,
+        "tls_port": 443,
+        "version": "latest"
+    },
+    "heroes": [
+        "arline",
+        "garez",
+        "kharliass",
+        "luni",
+        "mirindrel",
+        "razbrak",
+        "ulya"
+    ],
+    "debug": true,
+    "testing": false
+}
