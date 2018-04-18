@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import aureliaTemplateLint from 'gulp-aurelia-template-lint';
 import eslint from 'gulp-eslint';
 import gulpStyleLint from 'gulp-stylelint';
+import path from 'path';
 
 // We rely on a global boolean and process.exit to exit the task in error
 // in case of lint errors. We need to do this because lint tasks either exit
@@ -43,7 +44,7 @@ function styleLint() {
 
 function templateLint() {
     function mustIgnoreError(error, file) {
-        if (file === '/app/game/play/widgets/trump/trump.html' &&
+        if (file.endsWith(path.join('app', 'game', 'play', 'widgets', 'trump', 'trump.html')) &&
                 error.message.startsWith('duplicated id:')) {
             return true;
         }
