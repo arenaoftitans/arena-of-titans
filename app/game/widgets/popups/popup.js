@@ -113,7 +113,11 @@ export class AotPopupCustomElement {
             keyCode = keyCode.toLowerCase();
 
             // The player must validate the game over popup
-            if ((keyCode === 'escape' || keyCode === 'esc') && this.type !== 'game-over') {
+            // From https://rollbar.com/jenselme/arena-of-titans/items/37/?item_page=0&#instances,
+            // keyupEventListener can be called before popupModel.deferred is defined.
+            if ((keyCode === 'escape' || keyCode === 'esc')
+                    && this.type !== 'game-over'
+                    && this.popupModel.deferred) {
                 this.popupModel.deferred.reject();
             }
         };
