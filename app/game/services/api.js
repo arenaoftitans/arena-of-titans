@@ -54,6 +54,7 @@ export class Api {
     _ws;
     _logger;
     _gameId;
+    _mustInitBoard;
 
     constructor(ws, state, storage, notify, ea, animations, errorsReporter) {
         this._state = state;
@@ -67,6 +68,7 @@ export class Api {
         this._animations = animations;
         this._errorsReporter = errorsReporter;
         this._logger = LogManager.getLogger('AoTApi');
+        this._mustInitBoard = true;
 
         this.init();
     }
@@ -236,6 +238,12 @@ export class Api {
     }
 
     _initBoard() {
+        if (!this._mustInitBoard) {
+            return;
+        }
+
+        this._mustInitBoard = false;
+
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
         let waitForBoard = Wait.forId('player0');
