@@ -255,7 +255,7 @@ export class AotBoardCustomElement {
         } else if (this.possibleSquares.length > 0 &&
                 this.possibleSquares.indexOf(squareId) > -1 &&
                 this._selectedPawnIndex > -1 &&
-                this.onPawnClicked) {
+                this.onPawnSquareClicked) {
             this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
             this._selectedPawnIndex = -1;
             this._resetPossibleSquares();
@@ -277,7 +277,7 @@ export class AotBoardCustomElement {
     }
 
     pawnClicked(index) {
-        if (this.isClickable(index)) {
+        if (this.isClickable(index) && this.onPawnClicked) {
             this._selectedPawnIndex = index;
             this.onPawnClicked(index);
         }
