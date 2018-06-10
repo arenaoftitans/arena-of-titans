@@ -39,7 +39,18 @@ export class AotSoundCustomElement {
         });
 
         try {
-            this.audio.play();
+            const promise = this.audio.play();
+            if (promise && promise.then) {
+                promise.then(null, e => {
+                    /* eslint-disable no-console */
+                    // This problem is expected on some browsers.
+                    // So we just console.warn here and don't rely on the logger which may send
+                    // the error to Rollbar.
+                    console.warn('Your browser cannot play sounds');
+                    console.warn(e);
+                    /* eslint-enable */
+                });
+            }
         } catch (e) {
             /* eslint-disable no-console */
             // This problem is expected on some browsers.
