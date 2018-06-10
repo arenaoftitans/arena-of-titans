@@ -151,6 +151,7 @@ export class Api {
     }
 
     _handleGameInitialized(message) {
+        this._gameId = message.game_id;
         this._storage.saveGameData(message.game_id, {
             playerId: message.player_id,
             apiVersion: message.api_version,
