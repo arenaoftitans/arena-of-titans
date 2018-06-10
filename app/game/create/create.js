@@ -53,7 +53,6 @@ export class Create {
     _gameUrl = '';
     _config;
     _bes;
-    _playerInfosChanged;
     _history;
 
     constructor(router, api, state, storage, bindingEngineSubscription, history, ea, eas) {
@@ -204,6 +203,8 @@ export class Create {
             gameId: this.gameId,
             name: this.playerInfos.name,
             hero: this.playerInfos.hero,
+        }).then(null, error => {
+            this._logger.warn('Failed to join the game', error);
         });
     }
 
