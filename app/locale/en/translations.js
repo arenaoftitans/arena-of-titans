@@ -152,6 +152,26 @@ export default {
         "ulya_power": "\n\"Domination\" (passive): When you play a \"Queen\" card you can move 3 spaces instead of 2.",
         "ulya_short_description": "Ulya and her Arakoss Veniss belong to the top of the Aranean society. Their feats are legendaries and so far, the duo has never been defeated."
     },
+    "people": {
+        "header_1": "Orcs",
+        "header_2": "Araneans",
+        "header_3": "Shadows",
+        "header_4": "Centaurs",
+        "header_5": "Demons",
+        "header_6": "Dwarves",
+        "header_7": "Elfves",
+        "header_8": "Dwelves",
+        "story": {
+            "p1": "\nOrcs form a proud and independent people and only mix with other peoples on very rare occasions. Measuring two and a half meters and weighing more than one hundred kilos on average, genetics made Orcs born warriors. However, they are distinguished from other peoples by a very particular characteristic: Orcs are unable to use the art of runes and are immune to magic attacks.",
+            "p2": "In spite of their humanoid appearance, Araneans are among the strangest creatures of the Mirror. The Aranean society is based on a strict hierarchy at the top of which is the queen and the Yrilles also known as Tarantulas Riders. Only certain Aranean women are able to ride the Arakoss females, these formidable arachnids which can reach the size of a small elephant.",
+            "p3": "\nShadows are the reincarnation of human beings in the Mirror. After death, each human is reincarnated into an 8-year-old child on the other side, and forgets everything about his previous life. Educated at the SETA (Shadows Education and Training Area), Shadows learn the basics of melee combat, as well as runes, from an early age, to finally specialize in what suits them best. They are polyvalent warriors who can control magic as well as excel in close combat.",
+            "p4": "\nCentaurs live in tribes and are a nomadic rather than sedentary people. They move at each new season and the movements of the hordes are spread over several leagues. Of a peaceful nature, centaurs prefer to party than to fight and rarely take positions in conflicts that do not directly impact them.",
+            "p5": "\r\nDemons are beings that can change their appearance according to their will. Each demon has a first form that corresponds to the physical form for which it consumes no energy. Demons also have the opportunity to remain in spirit form; they can not then directly influence the matter. Each demon has a seal on his chest indicating his lack of heart. The seal has imprisonment runes whose level reflects the power of the demon. Like Shadows, Demons have the power to travel to the world of humans.",
+            "p6": "\nThe dwarven people is one of the oldest peoples of the Mirror. Residents of the icy lands of Nifelheim, Dwarves have become experts in engineering and are often asked by other peoples for their expertise in runic machine design. Dwarven cities are built on the mountainsides or inside mountains. Their architecture, combined with the harsh climate, make them particularly difficult fortresses to storm.",
+            "p7": "\nThe southern Mirror is home to the Elves, creatures as fascinating as they are difficult to define. Some Elves are perfectly capable of integrating with other peoples, but a large majority prefer to stay in the vast forests that hide their cities from the views and knowledge of all. Elves have greater physical strength than Shadows and unrivaled mastery of runes in the Mirror.",
+            "p8": "\nDwelves are a people cousin of Elves and Dwarves. Small in size, Dwelves have an extraordinary agility that often allows them to speed up their opponent. Dwelven mages are known for their invocations of runic spirits that prove to be ultra-powerful weapons on a battlefield. Dwelves love to travel and it is common to find them living temporarily in the middle of another people. The majority of Mirror cards are the result of their epic traveling."
+        }
+    },
     "powers": {
         "domination": "Domination",
         "domination_description": "Queen can move from 3 squares instead of 2.",

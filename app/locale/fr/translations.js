@@ -152,6 +152,26 @@ export default {
         "ulya_power": "« Domination » (passif) : Lorsque vous jouez une carte « Dame » vous pouvez vous déplacer de 3 cases au lieu de 2.",
         "ulya_short_description": "Ulya et son Arakoss Vénisse font partie de l’élite de la société Aranéenne. Leurs prouesses sont légendaires et le duo ne connaît à ce jour aucune défaite."
     },
+    "people": {
+        "header_1": "Orcs",
+        "header_2": "Aranéennes",
+        "header_3": "Ombres",
+        "header_4": "Centaures",
+        "header_5": "Démons",
+        "header_6": "Nains",
+        "header_7": "Elfes",
+        "header_8": "Elvains",
+        "story": {
+            "p1": "Les Orcs forment un peuple fier et indépendant et ne se mélangent qu’à de très rares occasions avec les autres peuples. Mesurant en moyenne dans les deux mètres trente et pesant plus de cent kilos, la génétique a fait des Orcs des guerriers nés. Ils se distinguent néanmoins des autres peuples par une caractéristique bien particulière : les Orcs sont incapables d’utiliser l’art des runes et sont immunisés contre les attaques magiques.",
+            "p2": "Malgré leur apparence humanoïde, les aranéennes font partie des créatures les plus étranges du Miroir. La société aranéenne repose sur une hiérarchie stricte en haut de laquelle se situe la reine et les Yrilles aussi connues sous le nom de chevaucheuses de mygales. Seules certaines femmes aranéennes sont capables de monter les femelles Arakoss, ces redoutables arachnides pouvant atteindre la taille d’un petit éléphant.",
+            "p3": "Les Ombres sont la réincarnation des êtres humains dans le Miroir. Après la mort, chaque humain se réincarne en un enfant de 8 ans de l’autre côté, et oublie tout de sa précédente vie. Eduqués à la ZEFO ( Zone d'Entrainement et de Formation des Ombres), les Ombres apprennent les bases du combat au corps à corps, ainsi que les runes dès leur plus jeune âge, pour enfin se spécialiser dans ce qui leur correspond le mieux. Ce sont donc des êtres polyvalents, qui peuvent tout aussi bien maîtriser la magie qu’exceller dans le combat rapproché. ",
+            "p4": "Les Centaures vivent en tribus et sont un peuple davantage nomade que sédentaire. Ils se déplacent à chaque nouvelle saison et les mouvements des hordes s’entendent sur plusieurs lieues. D’un naturel pacifique, les centaures préfèrent faire la fête aux combats et prennent rarement position lors de conflits qui ne les impactent pas directement. ",
+            "p5": "Les démons sont des êtres capables de modifier leur apparence selon leur volonté. Chaque démon possède une forme première qui correspond à la forme physique pour laquelle il ne consomme aucune énergie. Les démons ont également la possibilité de demeurer sous forme d’esprit ; ils ne peuvent alors pas influer directement sur la matière. Chaque démon possède un sceau sur la poitrine indiquant son absence de cœur. Le sceau comporte des runes emprisonnement dont le niveau reflète la puissance du démon. Comme les Ombres, les Démons ont le pouvoir de se rendre dans le monde des humains.",
+            "p6": "Le peuple des nains est l’un des plus vieux peuples du Miroir. Habitants des terres glacés de Nifelheim, les nains sont devenus des experts en ingénierie et sont souvent sollicités par les autres peuples pour leur savoir faire en conception de machines runiques. Les cités naines sont construites à flanc des montagnes ou à l’intérieur de ces dernières. Leur architecture associée au climat rigoureux en fait des forteresses particulièrement difficiles à prendre d’assaut.",
+            "p7": "Le sud du Miroir abrite les Elfes, des créatures aussi fascinantes que difficiles à cerner. Certains Elfes sont parfaitement capables de s’intégrer au milieu d’autres peuples mais une grande majorité préfère rester dans les vastes forêts qui dissimulent leurs villes aux vues et sues de tous. Les Elfes possèdent une force physique supérieure à celle des Ombres et une maîtrise des runes sans égale dans le Miroir.",
+            "p8": "Les Elvains sont un peuple cousin de celui des Elfes et des Nains. De petites tailles, les Elvains possèdent une agilité hors norme qui leur permet souvent de prendre de vitesse leur adversaire. Les mages Elvains sont réputés pour leurs invocations d’esprits runiques qui s’avèrent des armes ultra puissantes sur un champ de bataille. Les Elvains aiment voyager et il est fréquent d’en trouver vivant temporairement au milieu d’un autre peuple. La majorité des cartes du Miroir est le fruit de retranscription de leurs épopées."
+        }
+    },
     "powers": {
         "domination": "Domination",
         "domination_description": "Les reines se déplacent de 3 cases au lieu de 2.",

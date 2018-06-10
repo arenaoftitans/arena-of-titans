@@ -131,6 +131,10 @@
                     "tab": "heroes"
                 },
                 {
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195089995",
+                    "tab": "people"
+                },
+                {
                     "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=724206052",
                     "tab": "powers"
                 },
