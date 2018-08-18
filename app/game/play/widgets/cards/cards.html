@@ -33,14 +33,14 @@
     </div>
     <div id="cards-actions" if.bind="!hasWon">
         <button class="grey-button"
-                click.delegate="pass()"
+                click.trigger="pass()"
                 disabled.bind="!yourTurn">
                 <span if.bind="!onLastLine && !specialActionInProgress" t="game.play.pass">Pass</span>
                 <span if.bind="specialActionInProgress" t="game.play.pass_special_action">Pass action</span>
                 <span if.bind="onLastLine && !specialActionInProgress" t="game.play.complete_turn">Complete turn</span>
         </button>
         <button class="blue-button"
-                click.delegate="discard()"
+                click.trigger="discard()"
                 disabled.bind="!canDiscard"
                 t="game.play.discard">Discard</button>
     </div>
