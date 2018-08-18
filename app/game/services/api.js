@@ -451,8 +451,9 @@ export class Api {
         });
     }
 
-    pass() {
+    pass({ auto } = { auto: false }) {
         this._ws.send({
+            auto,
             rt: this.requestTypes.play,
             play_request: {
                 pass: true,

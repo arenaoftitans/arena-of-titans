@@ -176,7 +176,7 @@ export class AotCounterCustomElement {
             if (this.timeLeft <= 0) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
-                this._api.pass();
+                this._api.pass({ auto: true });
             }
         }, COUNTER_REFRESH_TIME);
     }

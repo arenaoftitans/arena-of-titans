@@ -491,6 +491,7 @@ describe('services/api', () => {
 
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.play,
+                auto: false,
                 play_request: {
                     pass: true,
                 },
