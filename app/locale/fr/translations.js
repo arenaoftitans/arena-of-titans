@@ -134,7 +134,7 @@ export default {
         "kharliass_short_description": "Kharliass est un démon de classe qui plonge ses proies dans un état de confusion totale en revêtant leur propre apparence juste avant de les tuer.",
         "luni": "Luni",
         "luni_description": "Luni est une jeune Ombre aux faits d’armes encore inconnus. Elle maîtrise aussi bien l’art des runes que celui du combat rapproché et son agilité exceptionnelle fait d’elle un adversaire redoutable. Après avoir obtenu son diplôme de la Zefo, elle s’est engagée dans la division des renseignements au service du roi des Ombres.",
-        "luni_power": "« Lame secrète » (actif) : Lorsque cette compétence est activée, vous avez la possibilité de défausser une carte « Fou » pour faire reculer l’adversaire de votre choix d’une case de l’une des deux couleurs du « Fou » défaussé.",
+        "luni_power": "« Lame secrète » (actif) :  transforme vos cartes « Fou » en cartes « Assassin »",
         "luni_short_description": "Luni est une jeune Ombre aux faits d’armes encore inconnus. Sa maîtrise de l’art des runes et son agilité exceptionnelle font d’elle un adversaire redoutable.",
         "mirindrel": "Mirïndrel",
         "mirindrel_description": "Considéré comme l’un des mages les plus puissants de sa génération, Mirïndrel s’est illustré lors des deux dernières grandes guerres contre les démons en déployant des stratagèmes particulièrement ingénieux. Il utilise le terrain qui l’entoure pour piéger ses adversaires ou s’offrir un avantage concurrentiel significatif.",
@@ -153,15 +153,35 @@ export default {
     "powers": {
         "domination": "Domination",
         "domination_description": "Les reines se déplacent de 3 cases au lieu de 2.",
+        "force_of_nature": "Force de la nature",
+        "force_of_nature_description": "Ni les tours ni les forteresses ne vous affectent.",
         "inveterate_ride": "Chevauchée Intrépide",
-        "inveterate_ride_description": "Les cavaliers peuvent se déplacer sur les cases de n'importe quelle couleur"
+        "inveterate_ride_description": "Les cavaliers peuvent se déplacer sur les cases de n'importe quelle couleur",
+        "secret_blade": "Lame secrète",
+        "secret_blade_description": "Transforme vos Fous en Assassins"
     },
     "site": {
         "connection_button": "Se connecter",
         "connection_game": "Partie rapide",
         "connection_label": "Connexion",
+        "founders": {
+            "story": {
+                "p1": "Un masque blanc en papier, un costume et un chapeau noir. On n’en sait pas beaucoup plus sur cet étrange personnage qui aurait été désigné par les Titans pour rassembler une équipe d’architectes hors du commun et bâtir l’Arène. De nombreuses rumeurs courent sur M.A.D., certains affirment l’avoir aperçu dans le Monde des humains et d’autres dans le Miroir. On pense qu’il s’agit d’un Ombre ayant le pouvoir de traverser les Mondes mais il pourrait également n’appartenir à aucuns peuples connus…",
+                "p2": "Disciple du grand architecte nain Djör, c’est le premier architecte trouvé par M.A.D. pour construire l’arène. Bien que disposant d’un sens du beau contestable, les bâtiments qu’il construit traversent les années. Enfin, on suppose, il n’avait jamais rien construit avant sans son maître. Certains racontent que ce dernier l’a fait exilé du royaume des nains car une de ses erreurs de calcul a failli faire s’ébouler le château du roi Rognïr. D’autres qu’il faisait de l’ombre à son maître. Une seule chose est sûr : il élève des Pythons qui, d’après les rumeurs, sont capables de manger des éléphants.",
+                "p3": "Venu des profondeurs des abysses, ce démon paresseux a pu s’hisser dans la hiérarchie pour atteindre la position d'architecte fondateur. Comment a-t-il fait? Ses méthodes pour y arriver sont, à ce jour, assez obscures, mais certains disent qu’il a graissé la patte d’un Titan, alors que d’autres pensent qu’il est arrivé à un moment où les Titans n'avaient pas le luxe de pouvoir faire les difficiles… En tout cas, une chose est sûre, son rang de démon très inférieur, couplé aux rumeurs sur son escalade sociale, lui ont valu le surnom de l’Imposteur.",
+                "p4": "D’origine incertaine, mais d’apparence humaine, Apenett a longtemps parcouru le monde pour accroître ses pouvoirs magiques. Le Sorcier vit désormais reclus dans sa tour. Paranoïaque, il a entouré son repère de pièges. Cependant, avec son grand âge, sa mémoire n'est plus ce qu'elle était et il lui arrive - lors de ses très rares excursions - de déclencher ses propres mécanismes malveillants. Il devient très bougon lorsque cela lui arrive et rejette toujours le blâme sur son jardinier.",
+                "p5": "En cherchant la perfection de son âme, le paladin Aurelion a voulu extérioriser ses désirs à l’aide d’un puissant rituel. Malheureusement l’incantation tourna mal et au lieu d’enfermer ses pulsions il leur donna une conscience propre. Depuis, ces étranges esprits chuchotent à l’oreille du guerrier le poussant parfois jusqu’au bord de la folie. C’est sans doute cette particularité qui intéressa M.A.D. et le conduisit à aller chercher Aurelion dans les falaises où celui-ci s’était retranché. Seul l’art et la recherche du beau arrivent encore à calmer l’esprit du paladin et c’est ainsi qu’il se vit proposer le rôle de Grand Décorateur de l’arène."
+            }
+        },
         "header_community": "Communauté",
+        "header_founders": "Fondateurs",
+        "header_founders_1": "M.A.D.",
+        "header_founders_2": "Huitus Le Grand",
+        "header_founders_3": "YuPi l’Imposteur",
+        "header_founders_4": "Apenett Tarondel",
+        "header_founders_5": "Aurelion",
         "header_news": "Actualités",
+        "header_people": "Peuples",
         "header_play": "Jouer",
         "header_ranking": "Classement",
         "header_rules": "Règles",
@@ -169,7 +189,7 @@ export default {
         "homepage": {
             "families": "Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !",
             "heroes": "Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !",
-            "pitch": "<strong>Oserez-vous entrer dans l'Arène des Titans ?</strong><br>                 Créez votre parcours à l’aide de vos cartes Déplacement,<br>                 Utilisez celles de vos adversaires pour les devancer,<br>                 Bloquez-les à l’aide de vos Atouts,<br>                 Arrivez en premier…<br>                 Et Survivez !             ",
+            "pitch": "Oserez-vous entrer dans l'Arène des Titans ?             Créez votre parcours à l’aide de vos cartes Déplacement,               Utilisez celles de vos adversaires pour les devancer,                Bloquez-les à l’aide de vos Atouts,                 Arrivez en premier…                 Et Survivez !             ",
             "slider1": "Un gameplay unique",
             "slider2": "Défiez jusqu'à 7 de vos amis",
             "slider3": "Version Bêta disponible !",
@@ -177,6 +197,7 @@ export default {
         },
         "page_title": {
             "create_game": "Créer une partie",
+            "founders": "Fondateurs",
             "heroes": "Héros",
             "home": "Accueil",
             "not_found": "Page introuvable",
@@ -191,12 +212,18 @@ export default {
             "trumps": "<h2>Atouts</h2>\n                <p>On le sait, les Titans possèdent un sens de l’humour bien à eux. Pour rajouter un peu de piment à l’affrontement dans l’Arène, ils ont décidé d’octroyer des pouvoirs supplémentaires à chacun des participants. Les atouts te permettent de bloquer tes adversaires ou d’améliorer tes propres déplacements. Il n’appartient qu’à toi de t’acharner sur une personne en particulier ou au contraire de distribuer généreusement les malus à tous tes ennemis. Tu peux aussi t'allier à d'autres concurrents pour stopper un ennemi particulièrement avancé, pour ensuite les poignarder dans leur dos... Les plus malins savent quoi faire héhé...\n\nPour pouvoir utiliser tes atouts tu auras besoin d’acquérir des points d’exploration. A chaque zone de l’arène que tu traverseras tu obtiens 1 point d’exploration. Plus ta jauge d’exploration sera remplie et plus tu pourras utiliser des sorts dévastateurs !</p>\n                <img src=\"/latest/assets/rules/trumps.png\"\n                     alt=\"The trumps\" />"
         },
         "slide": {
-            "arline": "Nul ne peut arrêter ce qui est invisible",
-            "razbrak": "Plus facile d'être premier lorsqu'il ne reste plus d'adversaires"
+            "centaur": "FINISSONS-EN RAPIDEMENT, LE BANQUET M'ATTEND !",
+            "elf": "ESSAYEZ DONC DE STOPPER CE QUI EST INVISIBLE !",
+            "orc": "PLUS FACILE D ETRE PREMIER LORSQU'IL NE RESTE PLUS D'ADVERSAIRES HEHE..."
         },
         "synopsis": {
-            "pitch": "<h1>Synopsis</h1>\n                <p class=\"big-column-center\">Au commencement de tout, lorsque le monde n’était que néant, quatre êtres émergèrent de la matrice originelle que les arlinees nomment Aöctra : l’essence de toutes les essences. Ces créatures furent appelées les Titans. Deux femmes et deux hommes qui avaient pour noms Thézalia, Noya, Daïlum, et Kranth.</p>",
-            "story": "<p>Les Titans créèrent les continents et les mers, les montagnes et les forêts. Ils donnèrent ensuite la vie aux sept peuples que sont les Ombres, les arlinees, les razbraks, les Nains, les Arannéens, les garezes  et les Elvains. Ils furent rejoins plus tard par les Démons qui constituèrent le huitième peuple.</p>\n                    <p>Les peuples commencèrent à se battre pour obtenir le pouvoir de gouverner les différents territoires, et avant de disparaître, les Titans créèrent une immense arène afin de les départager.  Chaque Titan créa une famille à son effigie et lui assigna le contrôle de plusieurs zones de l’Arène.</p>\n                    <p>Depuis ce jour, chaque peuple envoie ses meilleurs combattants relever le défi de l’Arène des Titans : en utilisant l’influence des quatre familles et les pouvoirs octroyés par les Titans, les participants doivent réussir à traverser l’Arène…avant les autres concurrents !</p>\n                    <p>Le pouvoir ultime se mérite.</p>"
+            "story": {
+                "p1": "Au commencement de tout, lorsque le monde n’était que néant, quatre êtres émergèrent de la matrice originelle que les Elfes nomment Aöctra : l’essence de toutes les essences. Ces créatures furent appelées les Titans. Deux femmes et deux hommes qui avaient pour noms Thézalia, Noya, Daïlum, et Kranth.",
+                "p2": "Les Titans créèrent les continents et les mers, les montagnes et les forêts. Ils donnèrent ensuite la vie aux sept peuples que sont les Ombres, les Elfes, les Orcs, les Nains, les Arannéens, les Centaures et les Elvains. Ils furent rejoins plus tard par les Démons qui constituèrent le huitième peuple.",
+                "p3": "Les peuples commencèrent à se battre pour obtenir le pouvoir de gouverner les différents territoires, et avant de disparaître, les Titans créèrent une immense arène afin de les départager. Chaque Titan créa une famille à son effigie et lui assigna le contrôle de plusieurs zones de l’Arène.",
+                "p4": "Depuis ce jour, chaque peuple envoie ses meilleurs combattants relever le défi de l’Arène des Titans : en utilisant l’influence des quatre familles et les pouvoirs octroyés par les Titans, les participants doivent réussir à traverser l’Arène…avant les autres concurrents !",
+                "p5": "Le pouvoir ultime se mérite"
+            }
         }
     },
     "trumps": {

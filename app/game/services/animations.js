@@ -20,6 +20,7 @@
 import { inject } from 'aurelia-framework';
 import { AssetSource } from '../../services/assets';
 import { Options } from '../../services/options';
+import { REQUEST_TYPES } from '../constants';
 import { EventAggregatorSubscriptions } from './utils';
 import { Popup } from '../services/popup';
 import { State } from './state';
@@ -133,7 +134,8 @@ export class Animations {
     }
 
     _enableTrumpAnimation() {
-        this._eas.subscribe('aot:api:play_trump', message => {
+        const trumpMessageIds = ['aot:api:play_trump', 'aot:api:trump_has_no_effect'];
+        this._eas.subscribeMultiple(trumpMessageIds, message => {
             let popupData = {
                 translate: {
                     messages: {},
@@ -149,7 +151,9 @@ export class Animations {
             popupData.translate.messages.trumpName = message.last_action.trump.title;
 
             // Power-ups are when a trump is played on the initiator (ie player == target)
-            if (message.player_index === message.target_index) {
+            if (message.rt === REQUEST_TYPES.trumpHasNoEffect) {
+                popupData.kind = 'failed';
+            } else if (message.player_index === message.target_index) {
                 popupData.kind = 'powerup';
             } else {
                 popupData.kind = 'smash';

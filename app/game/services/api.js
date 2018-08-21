@@ -119,6 +119,9 @@ export class Api {
             case REQUEST_TYPES.playTrump:
                 this._handlePlayTrump(message);
                 break;
+            case REQUEST_TYPES.trumpHasNoEffect:
+                this._handlePlayTrump(message);
+                break;
             case REQUEST_TYPES.specialActionNotify:
                 // Nothing to do beside calling callbacks
                 break;
