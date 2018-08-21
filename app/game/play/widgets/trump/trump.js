@@ -144,7 +144,7 @@ export class AotTrumpCustomElement {
     }
 
     normalizeTrumpName() {
-        let trumpName = this.trump.name.toLowerCase().replace(' ', '_');
+        let trumpName = this.trump.name.toLowerCase().replace(/ /g, '_');
         if (this.trump.color === null) {
             return trumpName;
         }
