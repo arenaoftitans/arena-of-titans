@@ -113,20 +113,6 @@ export class ApiStub {
     updateSlot() {
     }
 
-    get requestTypes() {
-        return {
-            init_game: 'INIT_GAME',
-            game_initialized: 'GAME_INITIALIZED',
-            add_slot: 'ADD_SLOT',
-            slot_updated: 'SLOT_UPDATED',
-            create_game: 'CREATE_GAME',
-            view: 'VIEW_POSSIBLE_SQUARES',
-            play: 'PLAY',
-            play_trump: 'PLAY_TRUMP',
-            player_played: 'PLAYER_PLAYED',
-        };
-    }
-
     get onGameOverDeferred() {
         return this._gameOverDeferred.promise;
     }

@@ -222,6 +222,7 @@
                     }
                 ],
                 "source": [
+                    "[**/game/constants.js]",
                     "[**/game/game.js]",
                     "[**/game/routes.js]",
                     "[**/game/services/*.js]",

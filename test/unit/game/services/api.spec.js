@@ -19,6 +19,7 @@
 
 import { Api } from '../../../../app/game/services/api';
 import { State } from '../../../../app/game/services/state';
+import { REQUEST_TYPES } from '../../../../app/game/constants';
 import {
     AnimationsStub,
     ErrorsReporterStub,
@@ -38,7 +39,6 @@ describe('services/api', () => {
     let mockedAnimations;
     let mockedErrorsReporter;
     let sut;
-    let rt;
 
     beforeEach(() => {
         mockedStorage = new StorageStub();
@@ -57,7 +57,6 @@ describe('services/api', () => {
             mockedAnimations,
             mockedErrorsReporter
         );
-        rt = sut.requestTypes;
     });
 
     it('should initialize as expected', () => {
@@ -76,7 +75,7 @@ describe('services/api', () => {
         let gameData = {
             player_name: 'Tester',
             hero: 'daemon',
-            rt: rt.init_game,
+            rt: REQUEST_TYPES.initGame,
         };
         spyOn(mockedWs, 'send');
 
@@ -87,7 +86,7 @@ describe('services/api', () => {
 
     it('should handle game initialized', () => {
         let gameInitializedMessage = {
-            rt: sut.requestTypes.game_initialized,
+            rt: REQUEST_TYPES.gameInitialized,
             index: 0,
             is_game_master: true,
             player_id: 'player_id',
@@ -116,7 +115,7 @@ describe('services/api', () => {
 
     it('should handle slot updated', () => {
         let slotUpdatedMessage = {
-            rt: sut.requestTypes.slot_updated,
+            rt: REQUEST_TYPES.slotUpdated,
             slot: {
                 index: 0,
                 name: '',
@@ -160,7 +159,7 @@ describe('services/api', () => {
         sut.updateMe('New Name', 'reaper');
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: sut.requestTypes.slot_updated,
+            rt: REQUEST_TYPES.slotUpdated,
             slot: {
                 hero: 'reaper',
                 index: 0,
@@ -176,7 +175,7 @@ describe('services/api', () => {
         sut.joinGame({gameId: 'the_game_id', name: 'Player 2', hero: 'daemon'});
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: sut.requestTypes.init_game,
+            rt: REQUEST_TYPES.initGame,
             player_name: 'Player 2',
             game_id: 'the_game_id',
             player_id: undefined,
@@ -190,7 +189,7 @@ describe('services/api', () => {
         sut.joinGame({gameId: 'the_game_id', playerId: 'player_id', hero: 'daemon'});
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: sut.requestTypes.init_game,
+            rt: REQUEST_TYPES.initGame,
             player_name: undefined,
             game_id: 'the_game_id',
             player_id: 'player_id',
@@ -207,7 +206,7 @@ describe('services/api', () => {
 
             expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith('game_id');
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.init_game,
+                rt: REQUEST_TYPES.initGame,
                 player_name: undefined,
                 game_id: 'game_id',
                 player_id: 'player_id',
@@ -283,7 +282,7 @@ describe('services/api', () => {
         sut.createGame();
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: sut.requestTypes.create_game,
+            rt: REQUEST_TYPES.createGame,
             debug: true,
             create_game_request: [
                 {
@@ -333,7 +332,7 @@ describe('services/api', () => {
             sut.viewPossibleMovements({name: 'King', color: 'red'});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.view,
+                rt: REQUEST_TYPES.view,
                 play_request: {
                     card_name: 'King',
                     card_color: 'red',
@@ -347,7 +346,7 @@ describe('services/api', () => {
             sut.play({cardName: 'King', cardColor: 'red', x: '0', y: '0'});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 play_request: {
                     card_name: 'King',
                     card_color: 'red',
@@ -359,7 +358,7 @@ describe('services/api', () => {
 
         it('should handle play and your turn', () => {
             let message = {
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 your_turn: true,
             };
             spyOn(mockedState, 'updateAfterPlay');
@@ -376,7 +375,7 @@ describe('services/api', () => {
 
         it('should handle play and not your turn', () => {
             let message = {
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 your_turn: false,
             };
             spyOn(mockedState, 'updateAfterPlay');
@@ -393,7 +392,7 @@ describe('services/api', () => {
 
         it('should handle play and your turn and was not your turn', () => {
             let message = {
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 your_turn: true,
             };
             spyOn(mockedState, 'updateAfterPlay');
@@ -411,7 +410,7 @@ describe('services/api', () => {
 
         it('should reconnect', () => {
             let message = {
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 hand: [
                     {
                         name: 'King',
@@ -445,7 +444,7 @@ describe('services/api', () => {
             spyOn(sut._reconnectDeferred, 'reject');
 
             let message = {
-                rt: sut.requestTypes.game_initialized,
+                rt: REQUEST_TYPES.gameInitialized,
                 index: -1,
             };
 
@@ -460,7 +459,7 @@ describe('services/api', () => {
             sut.playTrump({trumpName: 'Trump', trumpColor: null});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.play_trump,
+                rt: REQUEST_TYPES.playTrump,
                 play_request: {
                     name: 'Trump',
                     color: null,
@@ -475,7 +474,7 @@ describe('services/api', () => {
             sut.playTrump({trumpName: 'Trump', trumpColor: null, targetIndex: 0});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.play_trump,
+                rt: REQUEST_TYPES.playTrump,
                 play_request: {
                     name: 'Trump',
                     color: null,
@@ -490,7 +489,7 @@ describe('services/api', () => {
             sut.pass();
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 auto: false,
                 play_request: {
                     pass: true,
@@ -504,7 +503,7 @@ describe('services/api', () => {
             sut.passSpecialAction('assassination');
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.special_action_play,
+                rt: REQUEST_TYPES.specialActionPlay,
                 play_request: {
                     auto: false,
                     special_action_name: 'assassination',
@@ -519,7 +518,7 @@ describe('services/api', () => {
             sut.discard({cardName: 'King', cardColor: 'red'});
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: sut.requestTypes.play,
+                rt: REQUEST_TYPES.play,
                 play_request: {
                     discard: true,
                     card_name: 'King',
@@ -538,7 +537,7 @@ describe('services/api', () => {
                 });
 
                 expect(sut._ws.send).toHaveBeenCalledWith({
-                    rt: sut.requestTypes.special_action_view_possible_actions,
+                    rt: REQUEST_TYPES.specialActionViewPossibleActions,
                     play_request: {
                         special_action_name: 'assassination',
                         target_index: 0,
