@@ -98,9 +98,6 @@ export class ApiStub {
     playSpecialAction() {
     }
 
-    cancelSpecialAction() {
-    }
-
     playTrump() {
     }
 

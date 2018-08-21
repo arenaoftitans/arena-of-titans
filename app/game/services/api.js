@@ -418,24 +418,13 @@ export class Api {
         });
     }
 
-    passSpecialAction(name) {
+    passSpecialAction(name, { auto } = { auto: false }) {
         this._ws.send({
             rt: this.requestTypes.special_action_play,
             play_request: {
+                auto,
                 cancel: true,
                 special_action_name: name,
-            },
-        });
-    }
-
-    cancelSpecialAction(actionName) {
-        this._ws.send({
-            rt: this.requestTypes.special_action_play,
-            play_request: {
-                special_action_name: actionName,
-                cancel: true,
-                // We must send and non null index for the API to comply with the request.
-                target_index: -1,
             },
         });
     }

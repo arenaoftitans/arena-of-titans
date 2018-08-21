@@ -272,7 +272,7 @@ export class AotCounterCustomElement {
 
             if (this.timeLeftForSpecialAction <= 0) {
                 clearInterval(this.timerIntervalForSpecialAction);
-                this._api.cancelSpecialAction(this.specialActionName);
+                this._api.passSpecialAction(this.specialActionName, { auto: true });
             }
         }, COUNTER_REFRESH_TIME);
     }

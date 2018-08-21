@@ -506,6 +506,7 @@ describe('services/api', () => {
             expect(mockedWs.send).toHaveBeenCalledWith({
                 rt: sut.requestTypes.special_action_play,
                 play_request: {
+                    auto: false,
                     special_action_name: 'assassination',
                     cancel: true,
                 },
@@ -583,21 +584,6 @@ describe('services/api', () => {
                 });
 
                 expect(sut._movePlayer).not.toHaveBeenCalled();
-            });
-
-            it('should cancel special action', () => {
-                spyOn(sut._ws, 'send');
-
-                sut.cancelSpecialAction('assassination');
-
-                expect(sut._ws.send).toHaveBeenCalledWith({
-                    rt: sut.requestTypes.special_action_play,
-                    play_request: {
-                        special_action_name: 'assassination',
-                        cancel: true,
-                        target_index: -1,
-                    },
-                });
             });
         });
 
