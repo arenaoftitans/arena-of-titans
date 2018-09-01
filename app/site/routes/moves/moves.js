@@ -21,9 +21,9 @@ import environment from '../../../environment';
 import { AssetSource } from '../../../services/assets';
 
 
-export class Heroes {
+export class Moves {
     constructor() {
         this.assetSource = AssetSource;
-        this.selectedHero = environment.heroes[0];
+        this.selectedCard = environment.cards[0];
     }
 }

@@ -1,0 +1,142 @@
+/*
+Copyright (C) 2016 by Arena of Titans Contributors.
+
+This file is part of Arena of Titans.
+
+Arena of Titans is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Arena of Titans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+$card-img-height: 35vh;
+$change-card-opacity: 0.4;
+$fade-time: 0.2s;
+
+aot-select-cards {
+    .card-img {
+        background: #333;
+        display: inline-block;
+        height: $card-img-height;
+        margin-top: 1%;
+        opacity: 1;
+        overflow: hidden;
+    }
+
+    .arrow {
+        cursor: pointer;
+        height: $card-img-height;
+        max-width: 20px !important;
+    }
+
+    .arrow-left {
+        margin-right: 20%;
+    }
+
+    .arrow-right {
+        margin-left: 20%;
+    }
+
+    .cards-carousel {
+        display: inline;
+        height: 100%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .select-card-container {
+        padding-top: 2.5vh;
+    }
+
+    .change-card {
+        opacity: $change-card-opacity;
+    }
+
+    .change-card-remove {
+        -moz-animation: fadeIn $fade-time;
+        -ms-animation: fadeIn $fade-time;
+        -o-animation: fadeIn $fade-time;
+        -webkit-animation: fadeIn $fade-time;
+        animation: fadeIn $fade-time;
+        opacity: $change-card-opacity;
+    }
+
+    .change-card-add {
+        -moz-animation: fadeOut $fade-time;
+        -ms-animation: fadeOut $fade-time;
+        -o-animation: fadeOut $fade-time;
+        -webkit-animation: fadeOut $fade-time;
+        animation: fadeOut $fade-time;
+    }
+
+
+    /* fadeIn */
+    @keyframes fadeIn {
+        from { opacity: $change-card-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadeIn {
+        from { opacity: $change-card-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadeIn {
+        from { opacity: $change-card-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadeIn {
+        from { opacity: $change-card-opacity; }
+        to { opacity: 1; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadeIn {
+        from { opacity: $change-card-opacity; }
+        to { opacity: 1; }
+    }
+
+
+    /* fadeOut */
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-card-opacity; }
+    }
+
+    /* Firefox < 16 */
+    @-moz-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-card-opacity; }
+    }
+
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-card-opacity; }
+    }
+
+    /* Internet Explorer */
+    @-ms-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-card-opacity; }
+    }
+
+    /* Opera < 12.1 */
+    @-o-keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: $change-card-opacity; }
+    }
+}

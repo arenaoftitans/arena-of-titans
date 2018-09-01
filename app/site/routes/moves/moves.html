@@ -18,13 +18,23 @@
 -->
 
 <template>
+    <require from="../../../widgets/select-cards/select-cards"></require>
+    <require from="../../../widgets/cards-viewer/cards-viewer"></require>
 
-    <div slot="main" class="container">
-        <h1 t="site.moves.title">Moves</h1>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-            </div>
-            <div class="col-xs-12 col-sm-6">
+    <div slot="main" class="row-block bg-content">
+        <div slot="main" class="container">
+            <h1 class="header" t="site.header_moves">Moves</h1>
+            <div class="centered-block-site">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="cards-viewer-container">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="cards-selection-container">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

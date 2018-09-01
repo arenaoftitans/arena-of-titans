@@ -29,6 +29,8 @@
         "aot-cards",
         "aot-select-heroes",
         "aot-heroes-viewer",
+        "aot-select-cards",
+        "aot-cards-viewer",
         "aot-transition",
         "aot-url-copy",
         "aot-notifications"
