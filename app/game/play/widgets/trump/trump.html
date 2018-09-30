@@ -25,7 +25,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
                infos.bind="infos"></aot-infos>
 
     <svg version="1.1"
-         class="${svgClass} ${(yourTurn && trumpsStatuses[index] && !disabled) || trump.passive ? 'active-trump' : 'inactive-trump'} ${trump.passive ? 'passive-trump' : ''}"
+         class="${svgClass} ${(yourTurn && canBePlayed && !disabled) || trump.passive ? 'active-trump' : 'inactive-trump'} ${trump.passive ? 'passive-trump' : ''}"
          mouseover.delegate="displayInfos($event)"
          mouseout.delegate="hideInfos()"
          click.delegate="play()"

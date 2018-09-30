@@ -26,6 +26,7 @@
 	<div id="gauge" class="centered-block">
         <div class="hero-power">
             <aot-trump trump.bind="power"
+                       can-be-played.bind="canPowerBePlayed"
                        kind="power"></aot-trump>
         </div>
         <aot-trumps-gauge if.bind="me.hero" hero.bind="me.hero" cost.bind="selectedTrumpCost"></aot-trumps-gauge>
@@ -35,7 +36,6 @@
         <div>
             <aot-trump repeat.for="trump of affectingTrumps"
                        trump.bind="trump"
-                       index.bind="$index"
                        kind="affecting"></aot-trump>
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div>
             <aot-trump repeat.for="trump of trumps"
                        trump.bind="trump"
-                       index.bind="$index"
+                       can-be-played.bind="trumpsStatuses[$index]"
                        kind="player"></aot-trump>
         </div>
     </div>

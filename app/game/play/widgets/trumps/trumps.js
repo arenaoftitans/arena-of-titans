@@ -49,4 +49,12 @@ export class AotTrumpsCustomElement {
     get me() {
         return this._state.me;
     }
+
+    get trumpsStatuses() {
+        return this._state.game.trumps_statuses;
+    }
+
+    get canPowerBePlayed() {
+        return this._state.game.can_power_be_played;
+    }
 }
