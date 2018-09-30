@@ -157,6 +157,8 @@ export default {
         "force_of_nature_description": "Ni les tours ni les forteresses ne vous affectent.",
         "inveterate_ride": "Chevauchée Intrépide",
         "inveterate_ride_description": "Les cavaliers peuvent se déplacer sur les cases de n'importe quelle couleur",
+        "night_mist": "Brume Nocturne",
+        "night_mist_description": "Disparaissez pour ne pas pouvoir être ciblé.",
         "secret_blade": "Lame secrète",
         "secret_blade_description": "Transforme vos Fous en Assassins"
     },
