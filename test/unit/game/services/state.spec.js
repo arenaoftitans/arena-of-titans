@@ -17,16 +17,14 @@
 // * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 // */
 
-import { ApiStub } from '../../../../app/test-utils';
 import { State } from '../../../../app/game/services/state';
+import { REQUEST_TYPES } from '../../../../app/game/constants';
 
 
 describe('State', () => {
-    let mockedApi;
     let sut;
 
     beforeEach(() => {
-        mockedApi = new ApiStub();
         sut = new State();
     });
 
@@ -131,7 +129,7 @@ describe('State', () => {
 
     it('should handle game initialized', () => {
         let gameInitializedMessage = {
-            rt: mockedApi.requestTypes.game_initialized,
+            rt: REQUEST_TYPES.gameInitialized,
             index: 0,
             is_game_master: true,
             player_id: 'player_id',
@@ -154,7 +152,7 @@ describe('State', () => {
 
     it('should handle game created data', () => {
         let message = {
-            rt: mockedApi.requestTypes.create_game,
+            rt: REQUEST_TYPES.createGame,
             players: [{
                 hero: 'daemon',
                 index: 0,
@@ -181,7 +179,7 @@ describe('State', () => {
             }],
         };
         sut.initializeGame({
-            rt: mockedApi.requestTypes.game_initialized,
+            rt: REQUEST_TYPES.gameInitialized,
             index: 0,
             is_game_master: true,
             player_id: 'player_id',

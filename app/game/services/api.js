@@ -27,26 +27,12 @@ import { State } from './state';
 import { Storage } from '../../services/storage';
 import { Wait } from './utils';
 import { Ws } from './ws';
+import { REQUEST_TYPES } from '../constants';
 import environment from '../../environment';
 
 
 @inject(Ws, State, Storage, Notify, EventAggregator, Animations, ErrorsReporter)
 export class Api {
-    // Keep in sync with test-utils.
-    requestTypes = {
-        init_game: 'INIT_GAME',
-        game_initialized: 'GAME_INITIALIZED',
-        add_slot: 'ADD_SLOT',
-        slot_updated: 'SLOT_UPDATED',
-        create_game: 'CREATE_GAME',
-        view: 'VIEW_POSSIBLE_SQUARES',
-        play: 'PLAY',
-        play_trump: 'PLAY_TRUMP',
-        player_played: 'PLAYER_PLAYED',
-        special_action_notify: 'SPECIAL_ACTION_NOTIFY',
-        special_action_play: 'SPECIAL_ACTION_PLAY',
-        special_action_view_possible_actions: 'SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS',
-    };
     _ea;
     _reconnectDeferred = {};
     _gameOverDeferred = {};
@@ -112,34 +98,37 @@ export class Api {
 
     _handleMessage(message) {
         switch (message.rt) {
-            case this.requestTypes.game_initialized:
+            case REQUEST_TYPES.gameInitialized:
                 this._handleGameInitialized(message);
                 break;
-            case this.requestTypes.slot_updated:
+            case REQUEST_TYPES.slotUpdated:
                 this._handleSlotUpdated(message);
                 break;
-            case this.requestTypes.create_game:
+            case REQUEST_TYPES.createGame:
                 this._handleCreateGame(message);
                 break;
-            case this.requestTypes.view:
+            case REQUEST_TYPES.view:
                 // Nothing to do beside calling callbacks
                 break;
-            case this.requestTypes.play:
+            case REQUEST_TYPES.play:
                 this._handlePlay(message);
                 break;
-            case this.requestTypes.player_played:
+            case REQUEST_TYPES.playerPlayed:
                 this._handlePlayerPlayed(message);
                 break;
-            case this.requestTypes.play_trump:
+            case REQUEST_TYPES.playTrump:
                 this._handlePlayTrump(message);
                 break;
-            case this.requestTypes.special_action_notify:
+            case REQUEST_TYPES.trumpHasNoEffect:
+                this._handlePlayTrump(message);
+                break;
+            case REQUEST_TYPES.specialActionNotify:
                 // Nothing to do beside calling callbacks
                 break;
-            case this.requestTypes.special_action_view_possible_actions:
+            case REQUEST_TYPES.specialActionViewPossibleActions:
                 // Nothing to do beside calling callbacks
                 break;
-            case this.requestTypes.special_action_play:
+            case REQUEST_TYPES.specialActionPlay:
                 this._handleSpecialActionPlayed(message);
                 break;
             default:
@@ -315,7 +304,7 @@ export class Api {
 
     initializeGame(name, hero) {
         this._ws.send({
-            rt: this.requestTypes.init_game,
+            rt: REQUEST_TYPES.initGame,
             player_name: name,
             hero: hero,
         });
@@ -330,7 +319,7 @@ export class Api {
 
     updateSlot(slot) {
         this._ws.send({
-            rt: this.requestTypes.slot_updated,
+            rt: REQUEST_TYPES.slotUpdated,
             slot: slot,
         });
     }
@@ -348,7 +337,7 @@ export class Api {
         }
 
         this._ws.send({
-            rt: this.requestTypes.init_game,
+            rt: REQUEST_TYPES.initGame,
             player_name: name,
             game_id: this._gameId,
             player_id: playerId,
@@ -368,7 +357,7 @@ export class Api {
         });
 
         this._ws.send({
-            rt: this.requestTypes.create_game,
+            rt: REQUEST_TYPES.createGame,
             debug: environment.debug,
             create_game_request: players,
         });
@@ -376,7 +365,7 @@ export class Api {
 
     viewPossibleMovements({name: name, color: color}) {
         this._ws.send({
-            rt: this.requestTypes.view,
+            rt: REQUEST_TYPES.view,
             play_request: {
                 card_name: name,
                 card_color: color,
@@ -386,7 +375,7 @@ export class Api {
 
     viewPossibleActions({name, targetIndex}) {
         this._ws.send({
-            rt: this.requestTypes.special_action_view_possible_actions,
+            rt: REQUEST_TYPES.specialActionViewPossibleActions,
             play_request: {
                 special_action_name: name,
                 target_index: targetIndex,
@@ -396,7 +385,7 @@ export class Api {
 
     play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
         this._ws.send({
-            rt: this.requestTypes.play,
+            rt: REQUEST_TYPES.play,
             play_request: {
                 card_name: cardName,
                 card_color: cardColor,
@@ -408,7 +397,7 @@ export class Api {
 
     playSpecialAction({x, y, name, targetIndex}) {
         this._ws.send({
-            rt: this.requestTypes.special_action_play,
+            rt: REQUEST_TYPES.specialActionPlay,
             play_request: {
                 special_action_name: name,
                 x: parseInt(x, 10),
@@ -420,7 +409,7 @@ export class Api {
 
     passSpecialAction(name, { auto } = { auto: false }) {
         this._ws.send({
-            rt: this.requestTypes.special_action_play,
+            rt: REQUEST_TYPES.specialActionPlay,
             play_request: {
                 auto,
                 cancel: true,
@@ -431,7 +420,7 @@ export class Api {
 
     playTrump({trumpName, trumpColor, targetIndex}) {
         this._ws.send({
-            rt: this.requestTypes.play_trump,
+            rt: REQUEST_TYPES.playTrump,
             play_request: {
                 name: trumpName,
                 color: trumpColor,
@@ -443,7 +432,7 @@ export class Api {
     pass({ auto } = { auto: false }) {
         this._ws.send({
             auto,
-            rt: this.requestTypes.play,
+            rt: REQUEST_TYPES.play,
             play_request: {
                 pass: true,
             },
@@ -452,7 +441,7 @@ export class Api {
 
     discard({cardName: cardName, cardColor: cardColor}) {
         this._ws.send({
-            rt: this.requestTypes.play,
+            rt: REQUEST_TYPES.play,
             play_request: {
                 discard: true,
                 card_name: cardName,

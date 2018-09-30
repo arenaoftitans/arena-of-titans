@@ -39,6 +39,22 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
+    <div class="failed-animation" if.bind="data.kind === 'failed'">
+        <img class="img-initiator-hero" alt="Your hero"
+            if.bind="data.initiatorHeroImg"
+            src.bind="data.initiatorHeroImg" />
+
+        <img class="img-targeted-hero" alt="Targeted hero"
+            if.bind="data.targetedHeroImg"
+            src.bind="data.targetedHeroImg" />
+
+        <div class="trump-container">
+            <img class="img-trump" alt="Trump played"
+                if.bind="data.trumpImg"
+                src.bind="data.trumpImg" />
+        </div>
+    </div>
+
     <div class="powerup-animation" if.bind="data.kind === 'powerup'">
         <div class="hero-container">
             <img class="img-initiator-hero" alt="Your hero"

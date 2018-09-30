@@ -25,6 +25,103 @@ aot-popup .popup-trump-animation {
     position: relative;
     width: 100%;
 
+    .failed-animation{
+        .img-initiator-hero {
+            animation-duration: 0.6s;
+            animation-iteration-count: 1;
+            animation-name: fadeIn;
+            bottom: 10vh;
+            height: 30vh;
+            left: 22%;
+            position: absolute;
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .img-targeted-hero {
+            animation-duration: 0.6s;
+            animation-iteration-count: 1;
+            animation-name: fadeIn;
+            bottom: 10vh;
+            height: 30vh;
+            left: 64%;
+            position: absolute;
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .img-trump {
+            animation-duration: 0.5s;
+            animation-iteration-count: 1;
+            animation-name: vanish;
+            backface-visibility: hidden;
+            bottom: 9vh;
+            height: 32vh;
+            left: 43%;
+            opacity: 0;
+            perspective: 800px;
+            position: absolute;
+            transform-style: preserve-3d;
+
+            @keyframes vanish {
+                0% {
+                    display: block;
+                    opacity: 1;
+                    transform: rotateX(90deg);
+                }
+                50% {
+                    display: block;
+                    opacity: 0.5;
+                    transform: rotateX(0deg);
+                }
+                100% {
+                    display: none;
+                    opacity: 0;
+                    transform: rotateX(90deg);
+                }
+            }
+        }
+
+        h1 {
+            animation-delay: 0.5s;
+            animation-duration: 0.2s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+            animation-name: fadein;
+            left: 15%;
+            opacity: 0;
+            position: absolute;
+            top: 30%;
+
+            @keyframes fadein {
+                0% {
+                    opacity: 0;
+                }
+
+
+                100% {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
     .smash-animation{
         .img-initiator-hero {
             animation-duration: 0.6s;
