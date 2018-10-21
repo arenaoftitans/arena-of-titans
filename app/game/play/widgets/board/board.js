@@ -57,6 +57,8 @@ export class AotBoardCustomElement {
         this._eas = eas;
         this._state = state;
         this.assetSource = AssetSource;
+        // Will be populated by ref.
+        this.pawnLayer = null;
 
         this._eas.subscribe('aot:api:view_possible_squares', data => {
             this._highlightPossibleSquares(data.possible_squares);
@@ -66,6 +68,12 @@ export class AotBoardCustomElement {
             if (message.possible_squares) {
                 this._highlightPossibleSquares(message.possible_squares);
             }
+        });
+        this._eas.subscribe('aot:api:hide_player', playerIndex => {
+            this.hidePlayer(playerIndex);
+        });
+        this._eas.subscribe('aot:api:show_player', playerIndex => {
+            this.showPlayer(playerIndex);
         });
 
         this._eas.subscribe('aot:board:controls:zoom', data => {
@@ -268,6 +276,20 @@ export class AotBoardCustomElement {
             event: event,
             visible: true,
         };
+    }
+
+    hidePlayer(playerIndex) {
+        const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
+        if (playerContainer) {
+            playerContainer.classList.add('hidden');
+        }
+    }
+
+    showPlayer(playerIndex) {
+        const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
+        if (playerContainer) {
+            playerContainer.classList.remove('hidden');
+        }
     }
 
     hidePlayerName() {

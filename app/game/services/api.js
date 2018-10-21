@@ -170,6 +170,7 @@ export class Api {
         }
 
         this._state.updateAfterPlay(message);
+        this._handleTrumpSideEffect(message.active_trumps);
 
         if (this._state.game.your_turn && !this._state.game.was_your_turn) {
             this._notify.notifyYourTurn();
@@ -196,6 +197,45 @@ export class Api {
 
     _handlePlayTrump(message) {
         this._state.updateAfterTrumpPlayed(message);
+        this._handleTrumpSideEffect(message.active_trumps);
+    }
+
+    /**
+     * The idea is to hide the pawn of the player that has "night mist" among its active trumps
+     * and to show the others. To do that, we loop an all active trumps, look which players
+     * have "night mist" and hide/show the pawns.
+     * @param {array} activeTrumps
+     */
+    _handleTrumpSideEffect(activeTrumps) {
+        const keepNightMistForPlayers = [];
+
+        for (let playerActiveTrumps of activeTrumps) {
+            if (!playerActiveTrumps) {
+                continue;
+            }
+
+            const playerIndex = playerActiveTrumps.player_index;
+            for (let trump of playerActiveTrumps.trumps) {
+                switch (trump.name.toLowerCase()) {
+                    case 'night mist':
+                        if (playerIndex !== this._state.me.index) {
+                            keepNightMistForPlayers.push(playerIndex);
+                            Wait.forId('board')
+                                .then(() => this._ea.publish('aot:api:hide_player', playerIndex));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        for (let playerIndex of this._state.game.players.indexes) {
+            if (!keepNightMistForPlayers.includes(playerIndex) &&
+                    playerIndex !== this._state.me.index) {
+                this._ea.publish('aot:api:show_player', playerIndex);
+            }
+        }
     }
 
     _handleSpecialActionPlayed(message) {

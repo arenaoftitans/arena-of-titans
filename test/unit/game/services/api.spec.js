@@ -20,6 +20,7 @@
 import { Api } from '../../../../app/game/services/api';
 import { State } from '../../../../app/game/services/state';
 import { REQUEST_TYPES } from '../../../../app/game/constants';
+import { Wait } from '../../../../app/game/services/utils';
 import {
     AnimationsStub,
     ErrorsReporterStub,
@@ -360,6 +361,7 @@ describe('services/api', () => {
             let message = {
                 rt: REQUEST_TYPES.play,
                 your_turn: true,
+                active_trumps: [],
             };
             spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
@@ -377,6 +379,7 @@ describe('services/api', () => {
             let message = {
                 rt: REQUEST_TYPES.play,
                 your_turn: false,
+                active_trumps: [],
             };
             spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
@@ -394,6 +397,7 @@ describe('services/api', () => {
             let message = {
                 rt: REQUEST_TYPES.play,
                 your_turn: true,
+                active_trumps: [],
             };
             spyOn(mockedState, 'updateAfterPlay');
             spyOn(mockedNotify, 'clearNotifications');
@@ -408,9 +412,85 @@ describe('services/api', () => {
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
 
+        it('should enable trump side effect', () => {
+            let message = {
+                rt: REQUEST_TYPES.play,
+                your_turn: true,
+                hand: [],
+                active_trumps: [{
+                    player_index: 0,
+                    trumps: [],
+                }, {
+                    player_index: 1,
+                    trumps: [{ name: 'Night mist' }],
+                }],
+            };
+            mockedState._me.index = 0;
+            mockedState.game.players.indexes = [0, 1];
+            spyOn(mockedEa, 'publish');
+
+            sut._handleMessage(message);
+
+            return Wait.forId('board').then(() => {
+                expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:hide_player', 1);
+                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:show_player', 1);
+            }).catch(() => fail('Unreachable branch'));
+        });
+
+        it('should not enable trump side effect for self', () => {
+            let message = {
+                rt: REQUEST_TYPES.play,
+                your_turn: true,
+                hand: [],
+                active_trumps: [{
+                    player_index: 0,
+                    trumps: [],
+                }, {
+                    player_index: 1,
+                    trumps: [{ name: 'Night mist', color: null }],
+                }],
+            };
+            mockedState._me.index = 1;
+            mockedState.game.players.indexes = [0, 1];
+            spyOn(mockedEa, 'publish');
+
+            sut._handleMessage(message);
+
+            return Wait.forId('board').then(() => {
+                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:hide_player', 1);
+                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:show_player', 1);
+            }).catch(() => fail('Unreachable branch'));
+        });
+
+        it('should show player', () => {
+            let message = {
+                rt: REQUEST_TYPES.play,
+                your_turn: true,
+                hand: [],
+                active_trumps: [{
+                    player_index: 0,
+                    trumps: [],
+                }, {
+                    player_index: 1,
+                    trumps: [],
+                }],
+            };
+            mockedState._me.index = 0;
+            mockedState.game.players.indexes = [0, 1];
+            spyOn(mockedEa, 'publish');
+
+            sut._handleMessage(message);
+
+            return Wait.forId('board').then(() => {
+                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:hide_player', 1);
+                expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:show_player', 1);
+            }).catch(() => fail('Unreachable branch'));
+        });
+
         it('should reconnect', () => {
             let message = {
                 rt: REQUEST_TYPES.play,
+                active_trumps: [],
                 hand: [
                     {
                         name: 'King',
