@@ -125,6 +125,11 @@ export class AssetSource {
     }
 
     static forTrump(trump) {
+        // Affecting trumps can be power. We rely on their 'passive' property to detect them.
+        if ('passive' in trump) {
+            return AssetSource.forPower(trump);
+        }
+
         return this._mapToRealPath(`game/cards/trumps/${ImageName.forTrump(trump)}.png`);
     }
 

@@ -157,6 +157,8 @@ export default {
         "force_of_nature_description": "Neither Towers nor Forterresses can affect you.",
         "inveterate_ride": "Inveterate Ride",
         "inveterate_ride_description": "Knight can move on squares of any color",
+        "night_mist": "Night Mist",
+        "night_mist_description": "Disappear from the board so you cannot be targeted by other players.",
         "secret_blade": "Secret Blade",
         "secret_blade_description": "transform Bishops into Assassins"
     },

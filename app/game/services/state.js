@@ -66,6 +66,11 @@ export class State {
 
     _createTrumps(trumps) {
         return trumps.map(trump => {
+            // Affecting trumps can be power. We rely on their 'passive' property to detect them.
+            if ('passive' in trump) {
+                return this._createPower(trump);
+            }
+
             trump.img = AssetSource.forTrump(trump);
             return trump;
         });
@@ -134,17 +139,20 @@ export class State {
         this._me.elapsed_time = message.elapsed_time;
         this._updateAffectingTrumps(message.active_trumps);
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.can_power_be_played = message.can_power_be_played;
         this._game.gauge_value = message.gauge_value;
         this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
     }
 
     updateAfterPlayerPlayed(message) {
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.can_power_be_played = message.can_power_be_played;
         this._handleGameOverMessage(message);
     }
 
     updateAfterTrumpPlayed(message) {
         this._game.trumps_statuses = message.trumps_statuses;
+        this._game.can_power_be_played = message.can_power_be_played;
         if (Number.isInteger(message.gauge_value)) {
             this._game.gauge_value = message.gauge_value;
             this._logger.debug(`Gauge value: ${this._game.gauge_value}`);

@@ -28,6 +28,9 @@ import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils
 import { browsers } from '../../../../services/browser-sniffer';
 
 
+const PLAYABLE_TRUMP_KINDS = ['player', 'power'];
+
+
 @inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, State)
 export class AotTrumpCustomElement {
     _api;
@@ -39,7 +42,7 @@ export class AotTrumpCustomElement {
      * some browsers (eg FireFox), all the trumps have the same image because the pattern id is
      * duplicated.
      */
-    @bindable index;
+    @bindable canBePlayed;
     /**
      * Used to know the proper class on the SVG ('player' or 'affecting')
      */
@@ -181,9 +184,10 @@ export class AotTrumpCustomElement {
 
     play() {
         if (!this.yourTurn ||
-                !this.trumpsStatuses[this.index] ||
+                !this.canBePlayed ||
                 this.disabled ||
-                this.kind !== 'player') {
+                !PLAYABLE_TRUMP_KINDS.includes(this.kind) ||
+                (this.kind === 'power' && this.trump.passive)) {
             return;
         } else if (this.trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
@@ -236,10 +240,6 @@ export class AotTrumpCustomElement {
 
     get yourTurn() {
         return this._state.game.your_turn;
-    }
-
-    get trumpsStatuses() {
-        return this._state.game.trumps_statuses;
     }
 
     get playerNames() {
