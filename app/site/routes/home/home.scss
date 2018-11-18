@@ -1,0 +1,108 @@
+.block1 {
+    background-image: linear-gradient(transparent, black);
+    background-size: 100% 100%;
+    border-bottom: wheat solid 1px;
+    height: 450px;
+    width: 100%;
+}
+
+.block2 {
+    background-attachment: fixed;
+    background-image: url('/assets/backgrounds/araneenne-desert.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 450px;
+    width: 100%;
+}
+
+.block3 {
+    background-color: black;
+    border-bottom: wheat solid 1px;
+    border-top: wheat solid 1px;
+    height: 500px;
+    width: 100%;
+}
+
+.block4 {
+    background-attachment: fixed;
+    background-image: url('/assets/backgrounds/elvain-land-3.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+    width: 100%;
+}
+
+.block5 {
+    background-color: black;
+    border-bottom: wheat solid 1px;
+    border-top: wheat solid 1px;
+    height: 500px;
+    width: 100%;
+}
+
+.homepage-text{
+    color: #FFF;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 30px;
+    margin: 0 0 15px 0;
+}
+
+.homepage-title{
+    color: #FFF;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 40px;
+    margin: 0 0 15px 0;
+    padding-bottom: 2%;
+    padding-top: 5%;
+    text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+}
+
+.homepage-column-center {
+    margin: auto;
+    text-align: center;
+    width: 60%;
+}
+
+.homepage-column-center-2 {
+    margin-left: auto;
+    margin-right:auto;
+    text-align: center;
+    width: 60%;
+}
+
+.homepage-column-left {
+    margin-left: 1%;
+    text-align: center;
+    width: 60%;
+}
+
+.homepage-column-right {
+    margin-left: 48%;
+    text-align: center;
+    width: 50%;
+}
+
+.ombre-wanted{
+    background-image: url('/assets/backgrounds/ombre-wanted.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    float: left;
+    height: 460px;
+    margin: 40px 15px 15px 140px;
+    width: 460px;
+}
+
+.trumps-and-powers{
+    background-image: url('/assets/backgrounds/trumps-and-powers.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    float: left;
+    height: 80%;
+    margin: 70px 15px 15px 0;
+    width: 800px;
+}

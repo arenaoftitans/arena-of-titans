@@ -18,17 +18,48 @@
 -->
 
 <template>
-    <div slot="main" class="row-block bg-content">
-        <h1>Home</h1>
+    <require from="./home.css"></require>
+
+    <div slot="main">
+
         <div class="block1">
-            <div class="centered-block-site">
-                <p t="site.homepage.pitch"></p>
-            </div>
+            <div class="homepage-title homepage-column-center" t="site.homepage.pitch.title"></div>
+            <div class="homepage-text homepage-column-center" t="site.homepage.pitch.p1"></div>
+            <div class="homepage-text homepage-column-center" t="site.homepage.pitch.p2"></div>
+            <div class="homepage-text homepage-column-center" t="site.homepage.pitch.p3"></div>
+            <div class="homepage-text homepage-column-center" t="site.homepage.pitch.p4"></div>
+            <div class="homepage-text homepage-column-center" t="site.homepage.pitch.p5"></div>
         </div>
         <div class="block2">
-            <div class="centered-block-site">
-                    <p t="site.homepage.heroes"></p>
-            </div>
+            <div class="homepage-title homepage-column-left" t="site.homepage.block2.title"></div>
+            <div class="homepage-text homepage-column-left" t="site.homepage.block2.p1"></div>
+            <div class="homepage-text homepage-column-left" t="site.homepage.block2.p2"></div>
+            <div class="homepage-text homepage-column-left" t="site.homepage.block2.p3"></div>
+        </div>
+        <div class="block3">
+            <div class="trumps-and-powers"></div>
+            <div class="homepage-title homepage-column-right" t="site.homepage.block3.title"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block3.p1"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block3.p2"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block3.p3"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block3.p4"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block3.p5"></div>
+        </div>
+        <div class="block4">
+            <div class="homepage-title homepage-column-center-2" t="site.homepage.block4.title"></div>
+            <div class="homepage-text homepage-column-center-2" t="site.homepage.block4.p1"></div>
+            <div class="homepage-text homepage-column-center-2" t="site.homepage.block4.p2"></div>
+            <div class="homepage-text homepage-column-center-2" t="site.homepage.block4.p3"></div>
+            <div class="homepage-text homepage-column-center-2" t="site.homepage.block4.p4"></div>
+        </div>
+        <div class="block5">
+            <div class="ombre-wanted"></div>
+            <div class="homepage-title homepage-column-right" t="site.homepage.block5.title"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block5.p1"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block5.p2"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block5.p3"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block5.p4"></div>
+            <div class="homepage-text homepage-column-right" t="site.homepage.block5.p5"></div>
         </div>
     </div>
 </template>
