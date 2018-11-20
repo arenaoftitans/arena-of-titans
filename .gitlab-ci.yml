@@ -56,7 +56,7 @@ deploy in staging:
   script:
     - git clone https://gitlab.com/arenaoftitans/aot-infra.git /opt/aot-infra
     - cd /opt/aot-infra
-    - VERSION=$CI_COMMIT_REF_SLUG ENV=staging ./dk-run.sh deployfront
+    - VERSION=$CI_COMMIT_REF_SLUG STAGE=staging ./dk-run.sh deployfront
     - echo "Deployed to https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html"
   when: manual
   except:
