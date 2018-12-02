@@ -22,6 +22,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 $animation-time: 0.2s;
 $border-width: 1px;
+$popover-height: 8vh;
 
 aot-popover {
     .popover-container {
@@ -47,7 +48,8 @@ aot-popover {
 
     .popover-display {
         border-width: $border-width;
-        height: $play-logo-height;
+        height: $popover-height;
+        z-index: 10;
     }
 
     .popover-display-add {
@@ -57,7 +59,7 @@ aot-popover {
         -webkit-animation: show $animation-time;
         animation: show $animation-time;
         border-width: $border-width;
-        height: $play-logo-height;
+        height: $popover-height;
     }
 
     .popover-display-remove {
@@ -73,61 +75,61 @@ aot-popover {
     /* show */
     @keyframes show {
         from { height: 0; }
-        to { height: $play-logo-height; }
+        to { height: $popover-height; }
     }
 
     /* Firefox < 16 */
     @-moz-keyframes show {
         from { height: 0; }
-        to { height: $play-logo-height; }
+        to { height: $popover-height; }
     }
 
     /* Safari, Chrome and Opera > 12.1 */
     @-webkit-keyframes show {
         from { height: 0; }
-        to { height: $play-logo-height; }
+        to { height: $popover-height; }
     }
 
     /* Internet Explorer */
     @-ms-keyframes show {
         from { height: 0; }
-        to { height: $play-logo-height; }
+        to { height: $popover-height; }
     }
 
     /* Opera < 12.1 */
     @-o-keyframes show {
         from { height: 0; }
-        to { height: $play-logo-height; }
+        to { height: $popover-height; }
     }
 
 
     /* hide */
     @keyframes hide {
-        from { height: $play-logo-height; }
+        from { height: $popover-height; }
         to { height: 0; }
     }
 
     /* Firefox < 16 */
     @-moz-keyframes hide {
-        from { height: $play-logo-height; }
+        from { height: $popover-height; }
         to { height: 0; }
     }
 
     /* Safari, Chrome and Opera > 12.1 */
     @-webkit-keyframes hide {
-        from { height: $play-logo-height; }
+        from { height: $popover-height; }
         to { height: 0; }
     }
 
     /* Internet Explorer */
     @-ms-keyframes hide {
-        from { height: $play-logo-height; }
+        from { height: $popover-height; }
         to { height: 0; }
     }
 
     /* Opera < 12.1 */
     @-o-keyframes hide {
-        from { height: $play-logo-height; }
+        from { height: $popover-height; }
         to { height: 0; }
     }
 }
