@@ -20,18 +20,44 @@
 import * as LogManager from 'aurelia-logging';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Popup } from './popup';
 import { AssetSource, ImageClass } from '../../services/assets';
-import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from '../constants';
+import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE, COLOR_CHOICES } from '../constants';
 
 
-@inject(EventAggregator)
+@inject(EventAggregator, Popup)
 export class State {
-    constructor(ea) {
+    constructor(ea, popup) {
         this._logger = LogManager.getLogger('AoTState');
 
         ea.subscribe('aot:trump:wish_to_play', trump => {
             if (trump.trumpName === 'Terraforming') {
                 this._board.mode = BOARD_SELECT_SQUARE_MODE;
+                ea.publish('aot:state:set_board_mode', this._board.mode);
+                popup.display('infos', {
+                    translate: {
+                        messages: {
+                            title: 'game.play.board_select_square',
+                        },
+                    },
+                });
+                const subscription = ea.subscribe('aot:board:selected_square', square => {
+                    popup.display('confirm', {
+                        choices: COLOR_CHOICES,
+                        translate: {
+                            messages: {
+                                title: 'game.play.board_select_square_color',
+                            },
+                        },
+                    }).then(chosenColor => {
+                        this._board.mode = BOARD_MOVE_MODE;
+                        ea.publish('aot:state:set_board_mode', this._board.mode);
+                        square.color = chosenColor.name;
+                        trump.square = square;
+                        ea.publish('aot:trump:play', trump);
+                        subscription.dispose();
+                    });
+                });
             } else {
                 ea.publish('aot:trump:play', trump);
             }

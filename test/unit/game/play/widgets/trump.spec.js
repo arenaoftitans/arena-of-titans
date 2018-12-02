@@ -59,7 +59,7 @@ describe('trump', () => {
             deferred.resolve = resolve;
         });
         spyOn(mockedPopup, 'display').and.returnValue(deferred.promise);
-        spyOn(mockedApi, 'playTrump');
+        spyOn(mockedEas, 'publish');
         mockedState._game = {
             players: {
                 names: ['Player 1', null, 'Player 2'],
@@ -103,7 +103,7 @@ describe('trump', () => {
             index: 2,
         });
         return deferred.promise.then(() => {
-            expect(mockedApi.playTrump).toHaveBeenCalledWith({
+            expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
                 trumpName: 'Trump',
                 trumpColor: null,
                 targetIndex: 2,
@@ -113,7 +113,7 @@ describe('trump', () => {
 
     it('should play trump without a target directly', () => {
         spyOn(mockedPopup, 'display');
-        spyOn(mockedApi, 'playTrump');
+        spyOn(mockedEas, 'publish');
         mockedState._game = {
             your_turn: true,
         };
@@ -123,21 +123,21 @@ describe('trump', () => {
         sut.play();
 
         expect(mockedPopup.display).not.toHaveBeenCalled();
-        expect(mockedApi.playTrump).toHaveBeenCalledWith({
+        expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
             trumpName: 'Trump',
             trumpColor: null,
         });
     });
 
     it('should not play a trump if not your turn', () => {
-        spyOn(mockedApi, 'playTrump');
+        spyOn(mockedEas, 'publish');
         mockedApi._game = {
             your_turn: false,
         };
 
         sut.play({name: 'Trump'});
 
-        expect(mockedApi.playTrump).not.toHaveBeenCalled();
+        expect(mockedEas.publish).not.toHaveBeenCalled();
     });
 
     it('should dispose subscriptions', () => {

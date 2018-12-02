@@ -28,6 +28,7 @@ import {
     Wait,
 } from '../../../services/utils';
 import { State } from '../../../services/state';
+import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from '../../../constants';
 
 
 const ZOOM_STEP = 0.4;
@@ -60,8 +61,11 @@ export class AotBoardCustomElement {
         this._state = state;
         this._logger = LogManager.getLogger('AoTBoard');
         this.assetSource = AssetSource;
+        this._logger = LogManager.getLogger('aot:board');
         // Will be populated by ref.
         this.pawnLayer = null;
+        // Will be populated by ref.
+        this.squaresLayer = null;
         // Sync animations
         if (sync) {
             sync('square-blink');
@@ -73,6 +77,7 @@ export class AotBoardCustomElement {
             this._highlightPossibleSquares(data.possible_squares);
         });
         this._eas.subscribe('aot:api:player_played', () => this._resetPossibleSquares());
+        this._eas.subscribe('aot:api:play_trump', message => this._updateSquare(message.square));
         this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
             if (message.possible_squares) {
                 this._highlightPossibleSquares(message.possible_squares);
@@ -89,9 +94,11 @@ export class AotBoardCustomElement {
             if (data.direction !== null) {
                 this.zoom(data.direction);
             } else {
-                this.zoomTo(parseFloat(data.value, 10), data);
+                this.zoomTo(parseFloat(data.value), data);
             }
         });
+
+        this._eas.subscribe('aot:state:set_board_mode', newMode => this.setMode(newMode));
 
         this._eas.subscribe('aot:board:controls:move', data => {
             this.moveBoard(data.deltaX, data.deltaY);
@@ -257,7 +264,41 @@ export class AotBoardCustomElement {
         this.possibleSquares = [];
     }
 
-    moveTo(squareId, x, y) {
+    _updateSquare(square) {
+        if (!square) {
+            return;
+        }
+
+        this._logger.debug(`Updating square with ${JSON.stringify(square)}`);
+        const squareElement = this.squaresLayer.querySelector(`#square-${square.x}-${square.y}`);
+        let classToRemove = null;
+        for (let klass of squareElement.classList) {
+            if (klass.endsWith('-square')) {
+                classToRemove = klass;
+                break;
+            }
+        }
+
+        squareElement.classList.remove(classToRemove);
+        squareElement.classList.add(`${square.color}-square`);
+    }
+
+    handleSquareClicked(squareId, x, y) {
+        this._logger.debug(`${squareId} was clicked in mode: ${this._state.board.mode}`);
+        x = parseInt(x, 10);
+        y = parseInt(y, 10);
+        switch (this._state.board.mode) {
+            case BOARD_SELECT_SQUARE_MODE:
+                this._eas.publish('aot:board:selected_square', {x, y});
+                break;
+            case BOARD_MOVE_MODE:
+            default:
+                this._moveTo(squareId, x, y);
+                break;
+        }
+    }
+
+    _moveTo(squareId, x, y) {
         if (this.possibleSquares.length > 0 &&
                 this.possibleSquares.includes(squareId) &&
                 this.selectedCard) {
@@ -270,12 +311,30 @@ export class AotBoardCustomElement {
             this._resetPossibleSquares();
             this.selectedCard = null;
         } else if (this.possibleSquares.length > 0 &&
-                this.possibleSquares.indexOf(squareId) > -1 &&
+                this.possibleSquares.includes(squareId) &&
                 this._selectedPawnIndex > -1 &&
                 this.onPawnSquareClicked) {
             this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
             this._selectedPawnIndex = -1;
             this._resetPossibleSquares();
+        }
+    }
+
+    setMode(newMode) {
+        this._logger.debug(`Switched board to ${newMode}`);
+        const squares = this.squaresLayer.querySelectorAll('.square');
+        switch (newMode) {
+            case BOARD_SELECT_SQUARE_MODE:
+                for (let i = 0; i < squares.length; i++) {
+                    squares[i].classList.add('selectable-square');
+                }
+                break;
+            case BOARD_MOVE_MODE:
+            default:
+                for (let i = 0; i < squares.length; i++) {
+                    squares[i].classList.remove('selectable-square');
+                }
+                break;
         }
     }
 

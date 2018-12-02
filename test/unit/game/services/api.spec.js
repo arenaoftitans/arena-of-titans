@@ -46,7 +46,7 @@ describe('services/api', () => {
         mockedWs = new WsStub();
         mockedNotify = new NotifyStub();
         mockedEa = new EventAggregatorStub();
-        mockedState = new State();
+        mockedState = new State(mockedEa);
         mockedAnimations = new AnimationsStub();
         mockedErrorsReporter = new ErrorsReporterStub();
         sut = new Api(
@@ -544,6 +544,7 @@ describe('services/api', () => {
                     name: 'Trump',
                     color: null,
                     target_index: null,
+                    square: undefined,
                 },
             });
         });
@@ -559,6 +560,7 @@ describe('services/api', () => {
                     name: 'Trump',
                     color: null,
                     target_index: 0,
+                    square: undefined,
                 },
             });
         });

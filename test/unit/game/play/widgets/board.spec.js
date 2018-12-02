@@ -18,6 +18,7 @@
 */
 
 import { AotBoardCustomElement } from '../../../../../app/game/play/widgets/board/board';
+import { StateStub } from '../../../../../app/test-utils';
 import { ApiStub, EventAggregatorSubscriptionsStub } from '../../../../../app/test-utils';
 
 
@@ -26,12 +27,14 @@ describe('board', () => {
     let mockedApi;
     let element;
     let mockedEas;
+    let mockedState;
 
     beforeEach(() => {
         mockedApi = new ApiStub();
         element = {};
         mockedEas = new EventAggregatorSubscriptionsStub();
-        sut = new AotBoardCustomElement(mockedApi, element, mockedEas);
+        mockedState = new StateStub();
+        sut = new AotBoardCustomElement(mockedApi, element, mockedEas, mockedState);
     });
 
     it('should register callbacks', () => {
@@ -43,6 +46,8 @@ describe('board', () => {
         expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:view_possible_squares');
         expect(mockedEas.subscribe.calls.argsFor(1)[0]).toBe('aot:api:player_played');
         expect(mockedEas.subscribe.calls.argsFor(2)[0])
+            .toBe('aot:api:play_trump');
+        expect(mockedEas.subscribe.calls.argsFor(3)[0])
             .toBe('aot:api:special_action_view_possible_actions');
     });
 
@@ -79,7 +84,7 @@ describe('board', () => {
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
-        sut.moveTo('square-0-0', 0, 0);
+        sut.handleSquareClicked('square-0-0', 0, 0);
 
         expect(mockedApi.play).toHaveBeenCalledWith({
             cardName: 'King',
@@ -96,7 +101,7 @@ describe('board', () => {
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
-        sut.moveTo('square-1-0', 0, 0);
+        sut.handleSquareClicked('square-1-0', 0, 0);
 
         expect(mockedApi.play).not.toHaveBeenCalled();
     });
@@ -105,7 +110,7 @@ describe('board', () => {
         spyOn(mockedApi, 'play');
         sut.selectedCard = {name: 'King', color: 'red'};
 
-        sut.moveTo('square-1-0', 0, 0);
+        sut.handleSquareClicked('square-1-0', 0, 0);
 
         expect(mockedApi.play).not.toHaveBeenCalled();
     });
@@ -115,7 +120,7 @@ describe('board', () => {
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = null;
 
-        sut.moveTo('square-0-0', 0, 0);
+        sut.handleSquareClicked('square-0-0', 0, 0);
 
         expect(mockedApi.play).not.toHaveBeenCalled();
     });
@@ -163,7 +168,7 @@ describe('board', () => {
             sut.onPawnSquareClicked = () => {};
             spyOn(sut, 'onPawnSquareClicked');
 
-            sut.moveTo('square-0-0', 0, 0);
+            sut.handleSquareClicked('square-0-0', 0, 0);
 
             expect(sut.onPawnSquareClicked).toHaveBeenCalledWith('square-0-0', 0, 0, 0);
             expect(sut.possibleSquares).toEqual([]);

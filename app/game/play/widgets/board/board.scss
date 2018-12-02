@@ -53,6 +53,18 @@ aot-board {
         animation: square-blink $square-blink-time infinite;
         cursor: pointer;
         stroke: white;
+
+        &:hover {
+            animation-play-state: paused;
+            opacity: 1 !important;
+        }
+    }
+
+    .selectable-square {
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
     }
 
     .pawn {

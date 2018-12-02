@@ -17,15 +17,18 @@
 // * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 // */
 
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { State } from '../../../../app/game/services/state';
 import { REQUEST_TYPES } from '../../../../app/game/constants';
 
 
 describe('State', () => {
+    let mockedEa;
     let sut;
 
     beforeEach(() => {
-        sut = new State();
+        mockedEa = new EventAggregator();
+        sut = new State(mockedEa);
     });
 
     it('should update the game', () => {

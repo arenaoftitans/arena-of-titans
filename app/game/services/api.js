@@ -459,10 +459,11 @@ export class Api {
         });
     }
 
-    playTrump({trumpName, trumpColor, targetIndex}) {
+    playTrump({trumpName, trumpColor, targetIndex, square}) {
         this._ws.send({
             rt: REQUEST_TYPES.playTrump,
             play_request: {
+                square,
                 name: trumpName,
                 color: trumpColor,
                 target_index: targetIndex === undefined ? null : targetIndex,
