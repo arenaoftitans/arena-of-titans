@@ -74,10 +74,9 @@ export class AotInfosCustomElement {
                     .getBoundingClientRect().width;
             }
 
-            this.infosDiv.style.top = target.getBoundingClientRect().top -
-                this.height -
-                target.getBoundingClientRect().height +
-                'px';
+            this.infosDiv.style.top = target.getBoundingClientRect().top
+                - this.height / 2
+                + 'px';
             this.infosDiv.style.left = `${left}px`;
         } else if (this.type === 'cards') {
             let targetBoundingClientRect = target.getBoundingClientRect();
