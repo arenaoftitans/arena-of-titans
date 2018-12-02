@@ -72,6 +72,7 @@ export class Api {
         this._ea.subscribe('aot:ws:reconnected', () => {
             this._handleWsReconnected();
         });
+        this._ea.subscribe('aot:trump:play', trump => this.playTrump(trump));
     }
 
     _handleWsReconnected() {

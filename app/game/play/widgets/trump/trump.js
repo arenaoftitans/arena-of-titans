@@ -207,14 +207,14 @@ export class AotTrumpCustomElement {
                 },
             };
             this._popup.display('confirm', popupData).then(choice => {
-                this._api.playTrump({
+                this._eas.publish('aot:trump:wish_to_play', {
                     trumpName: this.trump.name,
                     trumpColor: this.trump.color,
                     targetIndex: choice.index,
                 });
             }, () => this._logger.debug('Player canceled trump'));
         } else {
-            this._api.playTrump({
+            this._eas.publish('aot:trump:wish_to_play', {
                 trumpName: this.trump.name,
                 trumpColor: this.trump.color,
             });

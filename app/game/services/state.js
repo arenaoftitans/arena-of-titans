@@ -18,12 +18,24 @@
 */
 
 import * as LogManager from 'aurelia-logging';
+import { inject } from 'aurelia-framework';
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { AssetSource, ImageClass } from '../../services/assets';
+import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from '../constants';
 
 
+@inject(EventAggregator)
 export class State {
-    constructor() {
+    constructor(ea) {
         this._logger = LogManager.getLogger('AoTState');
+
+        ea.subscribe('aot:trump:wish_to_play', trump => {
+            if (trump.trumpName === 'Terraforming') {
+                this._board.mode = BOARD_SELECT_SQUARE_MODE;
+            } else {
+                ea.publish('aot:trump:play', trump);
+            }
+        });
 
         this.reset();
     }
@@ -115,6 +127,9 @@ export class State {
                 indexes: [],
             },
         };
+        this._board = {
+            mode: BOARD_MOVE_MODE,
+        };
     }
 
     _updateAffectingTrumps(activeTrumps) {
@@ -176,6 +191,10 @@ export class State {
         } else {
             this._game.slots.push(slot);
         }
+    }
+
+    get board() {
+        return this._board;
     }
 
     get me() {

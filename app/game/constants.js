@@ -32,3 +32,6 @@ export const REQUEST_TYPES = {
     specialActionPlay: 'SPECIAL_ACTION_PLAY',
     specialActionViewPossibleActions: 'SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS',
 };
+
+export const BOARD_MOVE_MODE = 'move_mode';
+export const BOARD_SELECT_SQUARE_MODE = 'select_square_mode';
