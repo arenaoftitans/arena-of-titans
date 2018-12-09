@@ -1,7 +1,7 @@
 @import '../../../../style/players-colors';
 
 
-$blink-time: 1s;
+$square-blink-time: 1s;
 $square-opacity: 0.6;
 
 aot-board {
@@ -50,11 +50,11 @@ aot-board {
     }
 
     .highlighted-square {
-        -moz-animation: blink $blink-time infinite;
-        -ms-animation: blink $blink-time infinite;
-        -o-animation: blink $blink-time infinite;
-        -webkit-animation: blink $blink-time infinite;
-        animation: blink $blink-time infinite;
+        -moz-animation: square-blink $square-blink-time infinite;
+        -ms-animation: square-blink $square-blink-time infinite;
+        -o-animation: square-blink $square-blink-time infinite;
+        -webkit-animation: square-blink $square-blink-time infinite;
+        animation: square-blink $square-blink-time infinite;
         cursor: pointer;
         stroke: white;
     }
@@ -65,36 +65,36 @@ aot-board {
         stroke-width: 0.5px;
     }
 
-    /* blink */
-    @keyframes blink {
+    /* square-blink */
+    @keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }
     }
 
     /* Firefox < 16 */
-    @-moz-keyframes blink {
+    @-moz-keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }
     }
 
     /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes blink {
+    @-webkit-keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }
     }
 
     /* Internet Explorer */
-    @-ms-keyframes blink {
+    @-ms-keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }
     }
 
     /* Opera < 12.1 */
-    @-o-keyframes blink {
+    @-o-keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }

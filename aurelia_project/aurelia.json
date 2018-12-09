@@ -248,6 +248,13 @@
             },
             {
                 "name": "game-play-bundle.js",
+                "dependencies": [
+                    {
+                        "name": "css-animation-sync",
+                        "path": "../node_modules/css-animation-sync/dist",
+                        "main": "sync"
+                    }
+                ],
                 "source": [
                     "[**/game/play/**/*.js]",
                     "**/game/play/**/*.{css,html}"
