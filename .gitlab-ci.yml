@@ -27,8 +27,13 @@ lint:
 
 tests:
   stage: checks
+  before_script:
+    - apt-get -qq update
+    - apt-get -qq install -y firefox-esr
+    - firefox --version
   script:
-   - npm run test -- -b  PhantomJS
+  # We don't use chromium too because it is a bit harder to setup and won't bring much value here.
+   - npm run test -- -b FirefoxHeadless
   except:
     - triggers
 
