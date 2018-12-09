@@ -61,6 +61,8 @@ export class AotBoardCustomElement {
         this._state = state;
         this._logger = LogManager.getLogger('AoTBoard');
         this.assetSource = AssetSource;
+        // Map squares to its color if the color changed from the default.
+        this.squaresToColors = {};
         this._logger = LogManager.getLogger('aot:board');
         // Will be populated by ref.
         this.pawnLayer = null;
@@ -270,17 +272,11 @@ export class AotBoardCustomElement {
         }
 
         this._logger.debug(`Updating square with ${JSON.stringify(square)}`);
-        const squareElement = this.squaresLayer.querySelector(`#square-${square.x}-${square.y}`);
-        let classToRemove = null;
-        for (let klass of squareElement.classList) {
-            if (klass.endsWith('-square')) {
-                classToRemove = klass;
-                break;
-            }
-        }
-
-        squareElement.classList.remove(classToRemove);
-        squareElement.classList.add(`${square.color}-square`);
+        const squareId = `square-${square.x}-${square.y}`;
+        this.squaresToColors = {
+            ...this.squaresToColors,
+            [squareId]: square.color,
+        };
     }
 
     handleSquareClicked(squareId, x, y) {
@@ -326,13 +322,13 @@ export class AotBoardCustomElement {
         switch (newMode) {
             case BOARD_SELECT_SQUARE_MODE:
                 for (let i = 0; i < squares.length; i++) {
-                    squares[i].classList.add('selectable-square');
+                    squares[i].classList.add('selectable');
                 }
                 break;
             case BOARD_MOVE_MODE:
             default:
                 for (let i = 0; i < squares.length; i++) {
-                    squares[i].classList.remove('selectable-square');
+                    squares[i].classList.remove('selectable');
                 }
                 break;
         }
