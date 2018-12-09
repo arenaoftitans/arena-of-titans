@@ -50,10 +50,6 @@ aot-board {
     }
 
     .highlighted-square {
-        -moz-animation: square-blink $square-blink-time infinite;
-        -ms-animation: square-blink $square-blink-time infinite;
-        -o-animation: square-blink $square-blink-time infinite;
-        -webkit-animation: square-blink $square-blink-time infinite;
         animation: square-blink $square-blink-time infinite;
         cursor: pointer;
         stroke: white;
@@ -67,34 +63,6 @@ aot-board {
 
     /* square-blink */
     @keyframes square-blink {
-        0% { opacity: $square-opacity; }
-        50% { opacity: 1; }
-        100% { opacity: $square-opacity; }
-    }
-
-    /* Firefox < 16 */
-    @-moz-keyframes square-blink {
-        0% { opacity: $square-opacity; }
-        50% { opacity: 1; }
-        100% { opacity: $square-opacity; }
-    }
-
-    /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes square-blink {
-        0% { opacity: $square-opacity; }
-        50% { opacity: 1; }
-        100% { opacity: $square-opacity; }
-    }
-
-    /* Internet Explorer */
-    @-ms-keyframes square-blink {
-        0% { opacity: $square-opacity; }
-        50% { opacity: 1; }
-        100% { opacity: $square-opacity; }
-    }
-
-    /* Opera < 12.1 */
-    @-o-keyframes square-blink {
         0% { opacity: $square-opacity; }
         50% { opacity: 1; }
         100% { opacity: $square-opacity; }

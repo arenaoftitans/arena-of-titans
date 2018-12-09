@@ -53,20 +53,12 @@ aot-popover {
     }
 
     .popover-display-add {
-        -moz-animation: show $animation-time;
-        -ms-animation: show $animation-time;
-        -o-animation: show $animation-time;
-        -webkit-animation: show $animation-time;
         animation: show $animation-time;
         border-width: $border-width;
         height: $popover-height;
     }
 
     .popover-display-remove {
-        -moz-animation: hide $animation-time;
-        -ms-animation: hide $animation-time;
-        -o-animation: hide $animation-time;
-        -webkit-animation: hide $animation-time;
         animation: hide $animation-time;
         border-width: $border-width;
     }
@@ -78,59 +70,9 @@ aot-popover {
         to { height: $popover-height; }
     }
 
-    /* Firefox < 16 */
-    @-moz-keyframes show {
-        from { height: 0; }
-        to { height: $popover-height; }
-    }
-
-    /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes show {
-        from { height: 0; }
-        to { height: $popover-height; }
-    }
-
-    /* Internet Explorer */
-    @-ms-keyframes show {
-        from { height: 0; }
-        to { height: $popover-height; }
-    }
-
-    /* Opera < 12.1 */
-    @-o-keyframes show {
-        from { height: 0; }
-        to { height: $popover-height; }
-    }
-
-
     /* hide */
     @keyframes hide {
         from { height: $popover-height; }
         to { height: 0; }
     }
-
-    /* Firefox < 16 */
-    @-moz-keyframes hide {
-        from { height: $popover-height; }
-        to { height: 0; }
-    }
-
-    /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes hide {
-        from { height: $popover-height; }
-        to { height: 0; }
-    }
-
-    /* Internet Explorer */
-    @-ms-keyframes hide {
-        from { height: $popover-height; }
-        to { height: 0; }
-    }
-
-    /* Opera < 12.1 */
-    @-o-keyframes hide {
-        from { height: $popover-height; }
-        to { height: 0; }
-    }
 }
-
