@@ -62,19 +62,11 @@ aot-select-heroes {
     }
 
     .change-hero-remove {
-        -moz-animation: fadeIn $fade-time;
-        -ms-animation: fadeIn $fade-time;
-        -o-animation: fadeIn $fade-time;
-        -webkit-animation: fadeIn $fade-time;
         animation: fadeIn $fade-time;
         opacity: $change-hero-opacity;
     }
 
     .change-hero-add {
-        -moz-animation: fadeOut $fade-time;
-        -ms-animation: fadeOut $fade-time;
-        -o-animation: fadeOut $fade-time;
-        -webkit-animation: fadeOut $fade-time;
         animation: fadeOut $fade-time;
     }
 
@@ -85,57 +77,8 @@ aot-select-heroes {
         to { opacity: 1; }
     }
 
-    /* Firefox < 16 */
-    @-moz-keyframes fadeIn {
-        from { opacity: $change-hero-opacity; }
-        to { opacity: 1; }
-    }
-
-    /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes fadeIn {
-        from { opacity: $change-hero-opacity; }
-        to { opacity: 1; }
-    }
-
-    /* Internet Explorer */
-    @-ms-keyframes fadeIn {
-        from { opacity: $change-hero-opacity; }
-        to { opacity: 1; }
-    }
-
-    /* Opera < 12.1 */
-    @-o-keyframes fadeIn {
-        from { opacity: $change-hero-opacity; }
-        to { opacity: 1; }
-    }
-
-
     /* fadeOut */
     @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-hero-opacity; }
-    }
-
-    /* Firefox < 16 */
-    @-moz-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-hero-opacity; }
-    }
-
-    /* Safari, Chrome and Opera > 12.1 */
-    @-webkit-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-hero-opacity; }
-    }
-
-    /* Internet Explorer */
-    @-ms-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-hero-opacity; }
-    }
-
-    /* Opera < 12.1 */
-    @-o-keyframes fadeOut {
         from { opacity: 1; }
         to { opacity: $change-hero-opacity; }
     }

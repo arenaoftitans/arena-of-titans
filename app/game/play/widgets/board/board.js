@@ -17,8 +17,10 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as LogManager from 'aurelia-logging';
 import { bindable, inject } from 'aurelia-framework';
 import { DOM } from 'aurelia-pal';
+import sync from 'css-animation-sync';
 import { Api } from '../../../services/api';
 import { AssetSource } from '../../../../services/assets';
 import {
@@ -56,9 +58,16 @@ export class AotBoardCustomElement {
         this._api = api;
         this._eas = eas;
         this._state = state;
+        this._logger = LogManager.getLogger('AoTBoard');
         this.assetSource = AssetSource;
         // Will be populated by ref.
         this.pawnLayer = null;
+        // Sync animations
+        if (sync) {
+            sync('square-blink');
+        } else {
+            this._logger.warn('sync function is not defined. Animations can be not sync properly');
+        }
 
         this._eas.subscribe('aot:api:view_possible_squares', data => {
             this._highlightPossibleSquares(data.possible_squares);

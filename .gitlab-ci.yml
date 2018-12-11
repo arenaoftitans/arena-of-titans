@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: node:8
+image: node:10
 
 before_script:
   # To prevent TypeError: log.gauge.isEnabled is not a function
@@ -27,13 +27,12 @@ lint:
 
 tests:
   stage: checks
-  before_script:
+  script:
     - apt-get -qq update
     - apt-get -qq install -y firefox-esr
     - firefox --version
-  script:
-  # We don't use chromium too because it is a bit harder to setup and won't bring much value here.
-   - npm run test -- -b FirefoxHeadless
+    # We don't use chromium too because it is a bit harder to setup and won't bring much value here.
+    - npm run test -- -b FirefoxHeadless
   except:
     - triggers
 
