@@ -78,7 +78,9 @@ export class AotBoardCustomElement {
         this._eas.subscribe('aot:api:view_possible_squares', data => {
             this._highlightPossibleSquares(data.possible_squares);
         });
-        this._eas.subscribe('aot:api:player_played', () => this._resetPossibleSquares());
+        this._eas.subscribeMultiple(
+            ['aot:api:player_played', 'aot:api:play'], () => this._resetPossibleSquares()
+        );
         this._eas.subscribe('aot:api:play_trump', message => this._updateSquare(message.square));
         this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
             if (message.possible_squares) {

@@ -45,9 +45,10 @@ describe('board', () => {
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:view_possible_squares');
         expect(mockedEas.subscribe.calls.argsFor(1)[0]).toBe('aot:api:player_played');
-        expect(mockedEas.subscribe.calls.argsFor(2)[0])
-            .toBe('aot:api:play_trump');
+        expect(mockedEas.subscribe.calls.argsFor(2)[0]).toBe('aot:api:play');
         expect(mockedEas.subscribe.calls.argsFor(3)[0])
+            .toBe('aot:api:play_trump');
+        expect(mockedEas.subscribe.calls.argsFor(4)[0])
             .toBe('aot:api:special_action_view_possible_actions');
     });
 
