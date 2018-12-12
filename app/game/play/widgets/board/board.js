@@ -277,6 +277,7 @@ export class AotBoardCustomElement {
             ...this.squaresToColors,
             [squareId]: square.color,
         };
+        this._eas.publish('aot:board:squares_updated');
     }
 
     handleSquareClicked(squareId, x, y) {
