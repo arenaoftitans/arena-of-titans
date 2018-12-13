@@ -71,6 +71,8 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
+            "board_select_square": "Cliquez sur la case que vous voulez changer",
+            "board_select_square_color": "Choisissez la nouvelle couleur de la case",
             "cancel_special_action": "Ne pas jouer l'action",
             "complete_turn": "Terminer le tour",
             "complete_turn_confirm_message": "Êtes-vous sûr de vouloir terminer le tour ?",
@@ -160,7 +162,9 @@ export default {
         "night_mist": "Brume Nocturne",
         "night_mist_description": "Disparaissez pour ne pas pouvoir être ciblé.",
         "secret_blade": "Lame secrète",
-        "secret_blade_description": "Transforme vos Fous en Assassins"
+        "secret_blade_description": "Transforme vos Fous en Assassins",
+        "terraforming": "Terraformage",
+        "terraforming_description": "Change la couleur d'une case"
     },
     "site": {
         "connection_button": "Se connecter",

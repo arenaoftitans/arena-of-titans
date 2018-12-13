@@ -74,6 +74,12 @@ export class AotCardsCustomElement {
         this._eas.subscribe('aot:api:play', () => {
             this._handleSpecialActionPlayed();
         });
+
+        this._eas.subscribe('aot:board:squares_updated', () => {
+            if (this.selectedCard) {
+                this.viewPossibleMovements(this.selectedCard);
+            }
+        });
     }
 
     unbind() {

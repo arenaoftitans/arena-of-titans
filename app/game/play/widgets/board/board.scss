@@ -29,30 +29,46 @@ aot-board {
         stroke-width: 2.24024391;
     }
 
-    .red-square {
-        fill: red;
-    }
+    .square {
+        &.red {
+            fill: red;
+        }
 
-    .yellow-square {
-        fill: yellow;
-    }
+        &.yellow {
+            fill: yellow;
+        }
 
-    .black-square {
-        fill: black;
-    }
+        &.black {
+            fill: black;
+        }
 
-    .blue-square {
-        fill: blue;
+        &.blue {
+            fill: blue;
+        }
+
+        &.highlighted {
+            animation: square-blink $square-blink-time infinite;
+            cursor: pointer;
+            stroke: white;
+
+            &:hover {
+                animation-play-state: paused;
+                opacity: 1 !important;
+            }
+        }
+
+        &.selectable {
+            cursor: pointer;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 1;
+            }
+        }
     }
 
     .last-line-square {
         opacity: 1;
-    }
-
-    .highlighted-square {
-        animation: square-blink $square-blink-time infinite;
-        cursor: pointer;
-        stroke: white;
     }
 
     .pawn {

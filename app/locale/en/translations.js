@@ -71,6 +71,8 @@ export default {
         "game_over": "Game Over",
         "play": {
             "back_home_popup_title": "What do you want to do?",
+            "board_select_square": "Please click on the square to want to change",
+            "board_select_square_color": "Choose the new color of the square",
             "cancel_special_action": "Skip special action",
             "complete_turn": "Complete the turn",
             "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
@@ -160,7 +162,9 @@ export default {
         "night_mist": "Night Mist",
         "night_mist_description": "Disappear from the board so you cannot be targeted by other players.",
         "secret_blade": "Secret Blade",
-        "secret_blade_description": "transform Bishops into Assassins"
+        "secret_blade_description": "transform Bishops into Assassins",
+        "terraforming": "Terraforming",
+        "terraforming_description": "Change the color of a square"
     },
     "site": {
         "connection_button": "Connect",

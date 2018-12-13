@@ -210,7 +210,7 @@ export class AotNotificationsCustomElement {
         switch (index) {
             case 1:  // last line
                 elements = Elements.forClass('last-line-square');
-                blinkClass = 'highlighted-square';
+                blinkClass = 'highlighted';
                 break;
             case 2:  // Cards
                 elements = Elements.forClass('card', 'cards-img-container');

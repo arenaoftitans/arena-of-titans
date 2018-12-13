@@ -131,6 +131,7 @@ export class StateStub {
         slots: [],
     };
     _me = {};
+    _board = {};
 
     createGame() {
     }
@@ -154,6 +155,10 @@ export class StateStub {
     }
 
     updateSlot() {
+    }
+
+    get board() {
+        return this._board;
     }
 
     get game() {
