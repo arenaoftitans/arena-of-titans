@@ -2,7 +2,7 @@
 
 #home-slider {
     transition: transform 1s;
-    width: 300%;
+    width: 304%;
 
     .slide {
         background-size: contain;
@@ -13,28 +13,38 @@
         width: 33.333%;
 
         .slide-caption {
-            background: rgba(black, 0.8);
-            color: white;
+            background: rgba(black, 0.7);
+            color: whitesmoke;
+            font-family: 'Roboto Condensed', sans-serif;
             padding: 20px;
             position: absolute;
             top: 40%;
+            width: 58%;
 
-            @include fluid {
-                font-size: 30px;
+            @include media-sm {
+                font-size: 20px;
+            }
+
+            @include media-md {
+                font-size: 25px;
+            }
+
+            @include media-lg {
+                font-size: 40px;
             }
         }
     }
 
-    .slide-elfe {
-        background-image: url('/assets/homepage/home-slider/elfe_slide.png');
+    .slide-elf {
+        background-image: url('/assets/homepage/home-slider/slider-elf.jpg');
     }
 
     .slide-orc {
-        background-image: url('/assets/homepage/home-slider/orc_slide.png');
+        background-image: url('/assets/homepage/home-slider/slider-orc.jpg');
+    }
 
-        .slide-caption {
-            right: 0;
-        }
+    .slide-centaur {
+        background-image: url('/assets/homepage/home-slider/slider-centaur.jpg');
     }
 }
 

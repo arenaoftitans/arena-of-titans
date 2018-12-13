@@ -1,17 +1,10 @@
 const SITE_ROUTES = [
     {
-        route: '',
-        name: 'home',
-        moduleId: './site/routes/home/home',
+        route: '/founders',
+        name: 'founders',
+        moduleId: './site/routes/founders/founders',
         nav: false,
-        title: 'site.page_title.home',
-    },
-    {
-        route: '/synopsis',
-        name: 'synopsis',
-        moduleId: './site/routes/synopsis/synopsis',
-        nav: false,
-        title: 'site.page_title.synopsis',
+        title: 'site.page_title.founders',
     },
     {
         route: '/heroes',
@@ -19,6 +12,34 @@ const SITE_ROUTES = [
         moduleId: './site/routes/heroes/heroes',
         nav: false,
         title: 'site.page_title.heroes',
+    },
+    {
+        route: '',
+        name: 'home',
+        moduleId: './site/routes/home/home',
+        nav: false,
+        title: 'site.page_title.home',
+    },
+    {
+        route: '/moves',
+        name: 'moves',
+        moduleId: './site/routes/moves/moves',
+        nav: false,
+        title: 'site.page_title.moves',
+    },
+    {
+        route: '/people',
+        name: 'people',
+        moduleId: './site/routes/people/people',
+        nav: false,
+        title: 'site.page_title.people',
+    },
+    {
+        route: '/synopsis',
+        name: 'synopsis',
+        moduleId: './site/routes/synopsis/synopsis',
+        nav: false,
+        title: 'site.page_title.synopsis',
     },
     {
         route: '/trumps',

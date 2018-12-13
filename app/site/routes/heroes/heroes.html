@@ -22,25 +22,29 @@
     <require from="../../../widgets/select-heroes/select-heroes"></require>
     <require from="../../../widgets/heroes-viewer/heroes-viewer"></require>
 
-    <div slot="main" class="container">
-        <h1 t="site.heroes.title">Heroes</h1>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <div id="heroes-viewer-container">
-                    <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
-                    <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <div id="heroes-selection-container">
-                    <p id="hero-description">
-                        ${'heroes.' + selectedHero & t}
-                    </p>
-                    <img class="power-img"
-                        src.bind="assetSource.forHeroPower(selectedHero)" />
-                    <p id="hero-power">
-                        ${'heroes.' + selectedHero + '_power' & t}
-                    </p>
+    <div slot="main" class="row-block bg-content">
+        <div slot="main" class="container">
+            <h1 class="header" t="site.heroes.title">Heroes</h1>
+            <div class="centered-block-site">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="heroes-viewer-container">
+                            <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
+                            <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div id="heroes-selection-container">
+                            <p id="hero-description">
+                                ${'heroes.' + selectedHero & t}
+                            </p>
+                            <img class="power-img"
+                                src.bind="assetSource.forHeroPower(selectedHero)" />
+                            <p id="hero-power">
+                                ${'heroes.' + selectedHero + '_power' & t}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
