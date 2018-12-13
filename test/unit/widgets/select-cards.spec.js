@@ -26,7 +26,7 @@ import {
 } from '../../../app/test-utils';
 
 
-describe('create/select-cards', () => {
+xdescribe('create/select-cards', () => {
     let sut;
     let animator;
 
