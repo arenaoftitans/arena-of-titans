@@ -26,7 +26,6 @@ aot-select-heroes {
     .hero-img {
         background: #333;
         display: inline-block;
-        height: $hero-img-height;
         margin-top: 1%;
         opacity: 1;
         overflow: hidden;
@@ -34,7 +33,6 @@ aot-select-heroes {
 
     .arrow {
         cursor: pointer;
-        height: $hero-img-height;
         max-width: 20px !important;
     }
 
@@ -81,5 +79,15 @@ aot-select-heroes {
     @keyframes fadeOut {
         from { opacity: 1; }
         to { opacity: $change-hero-opacity; }
+    }
+}
+
+.create-game-container aot-select-heroes {
+    .arrow {
+        height: $hero-img-height;
+    }
+
+    .hero-img {
+        height: $hero-img-height;
     }
 }
