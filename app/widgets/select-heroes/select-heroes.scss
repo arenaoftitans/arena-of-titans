@@ -91,3 +91,15 @@ aot-select-heroes {
         height: $hero-img-height;
     }
 }
+
+.heroes-container aot-select-heroes {
+    .hero-img {
+        width: 100%;
+    }
+
+    .select-hero {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+}
