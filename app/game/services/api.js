@@ -69,10 +69,18 @@ export class Api {
         });
         this._createReconnectDeferred();
 
-        this._ea.subscribe('aot:ws:reconnected', () => {
+        if (this._reconnectSubscription) {
+            this._reconnectSubscription.dispose();
+        }
+        this._reconnectSubscription = this._ea.subscribe('aot:ws:reconnected', () => {
             this._handleWsReconnected();
         });
-        this._ea.subscribe('aot:trump:play', trump => this.playTrump(trump));
+        if (this._playTrumpSubscription) {
+            this._playTrumpSubscription.dispose();
+        }
+        this._playTrumpSubscription = this._ea.subscribe(
+            'aot:trump:play', trump => this.playTrump(trump)
+        );
     }
 
     _handleWsReconnected() {
