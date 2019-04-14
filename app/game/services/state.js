@@ -174,6 +174,9 @@ export class State {
             card.img = ImageClass.forCard(card);
             return card;
         });
+        if (message.power) {
+            this._me.power = this._createPower(message.power);
+        }
         this._me.has_won = message.has_won;
         this._me.on_last_line = message.on_last_line;
         this._me.rank = message.rank;
@@ -194,6 +197,9 @@ export class State {
     updateAfterTrumpPlayed(message) {
         this._game.trumps_statuses = message.trumps_statuses;
         this._game.can_power_be_played = message.can_power_be_played;
+        if (message.power) {
+            this._me.power = this._createPower(message.power);
+        }
         if (Number.isInteger(message.gauge_value)) {
             this._game.gauge_value = message.gauge_value;
             this._logger.debug(`Gauge value: ${this._game.gauge_value}`);
