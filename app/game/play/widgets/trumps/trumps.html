@@ -25,7 +25,17 @@
 
 	<div id="gauge" class="centered-block">
         <div class="hero-power">
-            <aot-trump trump.bind="power"
+            <!--
+                We use one trump component for passive powers and another for active ones.
+                This is meant to prevent gradient display issues on FireFox when metamorphosis
+                is played to steal a passive trump.
+            -->
+            <aot-trump if.bind="!power.passive"
+                       trump.bind="power"
+                       can-be-played.bind="canPowerBePlayed"
+                       kind="power"></aot-trump>
+            <aot-trump if.bind="power.passive"
+                       trump.bind="power"
                        can-be-played.bind="canPowerBePlayed"
                        kind="power"></aot-trump>
         </div>
