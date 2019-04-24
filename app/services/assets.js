@@ -126,7 +126,7 @@ export class AssetSource {
 
     static forTrump(trump) {
         // Affecting trumps can be power. We rely on their 'passive' property to detect them.
-        if ('passive' in trump) {
+        if ('passive' in trump || trump.is_power) {
             return AssetSource.forPower(trump);
         }
 
