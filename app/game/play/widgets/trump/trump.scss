@@ -18,9 +18,11 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
 aot-trump {
+    svg {
+        width: 100%;
+    }
+
     .power-trump {
-        display: block;
-        margin: 1.5vh auto;
         max-height: 12vh;
         max-width: 60%;
         min-width: 42px;
@@ -28,9 +30,6 @@ aot-trump {
     }
 
     .player-trump {
-        display: block;
-        margin-left: 30%;
-        margin-top: 2.5vh;
         max-height: 12vh;
         max-width: 60%;
         min-width: 42px;
@@ -38,10 +37,6 @@ aot-trump {
     }
 
     .trump-affecting-player {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 1vh;
         max-height: 10.5vh;
         max-width: 40%;
         min-width: 32px;

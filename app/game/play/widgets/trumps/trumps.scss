@@ -17,39 +17,65 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+@import '../../../../style/variables';
+
 
 aot-trumps {
-    #trumps-affecting-player {
-        display: block;
-        float: left;
-        width: 50%;
+    $trumps-container-height: $play-full-height - $play-left-column-header-height;
+    $trumps-power-height: 12vh;
+
+    .trumps-container {
+        height: $trumps-container-height;
+        overflow: hidden;
+        position: relative;
+
+        aot-trumps-gauge {
+            bottom: 0;
+            height: $trumps-container-height - $trumps-power-height;
+            left: 0;
+            position: absolute;
+            width: 100%;
+
+            svg {
+                height: $trumps-container-height - $trumps-power-height - 2 * 1vh;
+                margin-top: 1vh;
+            }
+        }
     }
 
-    #player-trumps {
-        display: block;
-        float: right;
-        margin-top: -10vh;
-        width: 50%;
+    .hero-power-container {
+        height: $trumps-power-height;
+        text-align: center;
+        width: 100%;
     }
 
-    #player-trumps div,
-    #trumps-affecting-player div {
-        position: absolute;
-        width: 50%;
-        z-index: 100;
+    .player-trumps-container {
+        z-index: 1;
     }
 
-    #affecting-trumps-element-infos {
-        z-index: 500;
-    }
+    .trumps-columns-container {
+        display: flex;
 
-    .affecting-trumps-icon {
-        margin-bottom: 2.5vh;
-    }
+        .column {
+            flex-grow: 1;
+            flex-shrink: 0;
+            height: $trumps-container-height - $trumps-power-height;
+            text-align: center;
+        }
 
-    .trump-icon {
-        max-width: 60px;
-        min-width: 42px;
-        width: 60%;
+        .column-left {
+            flex-basis: 40%;
+            order: 1;
+        }
+
+        .column-center {
+            flex-basis: 10%;
+            order: 2;
+        }
+
+        .column-right {
+            flex-basis: 40%;
+            order: 3;
+        }
     }
 }

@@ -25,11 +25,9 @@
 }
 
 .player-name {
-    margin-bottom: 0;
-}
-
-#trumps-container {
-    position: relative;
+    height: $play-left-column-header-height;
+    line-height: $play-left-column-header-height;
+    margin: 0;
 }
 
 .play-middle {
