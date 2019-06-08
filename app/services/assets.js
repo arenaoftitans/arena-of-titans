@@ -35,10 +35,12 @@ export class AssetSource {
 
     static forBackground(kind) {
         switch (kind) {
-            case 'board':
-                return this._mapToRealPath('game/backgrounds/board.png');
-            case 'board-outline':
-                return this._mapToRealPath('game/backgrounds/board-outline.png');
+            case 'ocean':
+                return this._mapToRealPath('game/backgrounds/ocean.jpeg');
+            case 'clouds':
+                return this._mapToRealPath('game/backgrounds/clouds.png');
+            case 'island':
+                return this._mapToRealPath('game/backgrounds/island.png');
             case 'create-game':
                 return this._mapToRealPath('game/backgrounds/game-creation.jpg');
             case 'heroes-selection':
@@ -118,6 +120,10 @@ export class AssetSource {
             default:
                 throw new Error(`No such sound: ${kind}`);
         }
+    }
+
+    static forPawn(hero) {
+        return this._mapToRealPath(`game/heroes/${hero}-pawn.png`);
     }
 
     static forPower(power) {

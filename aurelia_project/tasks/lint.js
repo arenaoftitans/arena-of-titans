@@ -48,6 +48,10 @@ function templateLint() {
                 error.message.startsWith('duplicated id:')) {
             return true;
         }
+        if (file.endsWith(path.join('app', 'game', 'play', 'widgets', 'board', 'board.html'))
+            && error.message.startsWith('illegal characters detected in id:')) {
+                return true;
+            }
 
         return false;
     }

@@ -285,10 +285,9 @@ export class Api {
 
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
-        let waitForBoard = Wait.forId('player0');
+        let waitForBoard = Wait.forId('player0Container');
 
         waitForBoard.then(() => {
-            this._rotateBoard();
             this._state.players.squares.forEach((square, index) => {
                 if (square && Object.keys(square).length > 0) {
                     this._movePlayer({playerIndex: index, newSquare: square});
@@ -302,40 +301,22 @@ export class Api {
     }
 
     _movePlayer({playerIndex: playerIndex, newSquare: newSquare}) {
-        let pawnId = `player${playerIndex}`;
+        let pawnId = `player${playerIndex}Container`;
         let pawn = document.getElementById(pawnId);
-        let pawnContainer = document.getElementById(`${pawnId}Container`);
         let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
-        let boundingBox = square.getBBox();
-        let transform = square.getAttribute('transform') || '';
+        // Squares position depends on a `transform="matrix()"` attribute. We need to parse it to
+        // place the pawns correctly.
+        const transform = square.getAttribute('transform');
+        const transformElements = /(\d+\.\d+) (\d+\.\d+)\)$/.exec(transform);
+        const xTransform = parseFloat(transformElements[1]);
+        const yTransform = parseFloat(transformElements[2]);
+        const xSquare = parseFloat(square.getAttribute('x'));
+        const ySquare = parseFloat(square.getAttribute('y'));
 
-        pawnContainer.setAttribute('transform', transform);
-        pawn.setAttribute('height', boundingBox.height);
-        pawn.setAttribute('width', boundingBox.width);
-        pawn.setAttribute('x', boundingBox.x);
-
-        if (square.tagName === 'rect') {
-            pawn.setAttribute('y', boundingBox.y);
-        } else {
-            pawn.setAttribute('y', boundingBox.y + 0.25 * boundingBox.height);
-        }
-    }
-
-    _rotateBoard() {
-        let boardLayer = document.getElementById('boardLayer');
-        let pawnLayer = document.getElementById('pawnLayer');
-        let angle = 45 * this._state.me.index;
-        let transformBoardLayer = boardLayer.getAttribute('transform');
-        let transformPawnLayer = pawnLayer.getAttribute('transform');
-
-        boardLayer.setAttribute(
-            'transform',
-            `${transformBoardLayer} rotate(${angle} 990 990)`
-        );
-        pawnLayer.setAttribute(
-            'transform',
-            `${transformPawnLayer} rotate(${angle} 990 990)`
-        );
+        pawn.setAttribute('height', square.getAttribute('height'));
+        pawn.setAttribute('width', square.getAttribute('width'));
+        pawn.setAttribute('x', xTransform + xSquare);
+        pawn.setAttribute('y', yTransform + ySquare);
     }
 
     _handleErrors(message) {
