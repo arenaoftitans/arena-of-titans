@@ -5,47 +5,7 @@ $square-blink-time: 1s;
 $square-opacity: 0.6;
 
 aot-board {
-    .pawn-circle {
-        stroke: #000;
-        stroke-miterlimit: 10;
-        stroke-width: 9;
-    }
-
-
-    @for $i from 0 to length($players-colors) {
-        #player#{$i} .pawn-circle,
-        path.arrival-#{$i} {
-            fill: nth($players-colors, $i + 1);
-        }
-    }
-
-    rect,
-    path {
-        opacity: $square-opacity;
-        stroke: #000;
-        stroke-dasharray: none;
-        stroke-miterlimit: 4;
-        stroke-opacity: 1;
-        stroke-width: 2.24024391;
-    }
-
     .square {
-        &.red {
-            fill: red;
-        }
-
-        &.yellow {
-            fill: yellow;
-        }
-
-        &.black {
-            fill: black;
-        }
-
-        &.blue {
-            fill: blue;
-        }
-
         &.highlighted {
             animation: square-blink $square-blink-time infinite;
             cursor: pointer;
@@ -65,10 +25,6 @@ aot-board {
                 opacity: 1;
             }
         }
-    }
-
-    .last-line-square {
-        opacity: 1;
     }
 
     .pawn {
