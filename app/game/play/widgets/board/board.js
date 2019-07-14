@@ -388,4 +388,8 @@ export class AotBoardCustomElement {
 
         return results;
     }
+
+    get heroes() {
+        return this._state.game.players.heroes;
+    }
 }

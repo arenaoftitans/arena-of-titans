@@ -3443,38 +3443,38 @@
                  xlink:href="#forest-symbol"/>
         </g>
         <g id="pawns" ref="pawnLayer">
-            <image class="${playerIndexes.indexOf(0) === -1 ? 'hidden' : ''} ${isPawnClickable[0] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(0)" height="300" id="player0Container"
-                   mousein.delegate="showPlayerName(0, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('ulya')"/>
-            <image class="${playerIndexes.indexOf(1) === -1 ? 'hidden' : ''} ${isPawnClickable[1] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(1)" height="300" id="player1Container"
-                   mousein.delegate="showPlayerName(1, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('arline')"/>
-            <image class="${playerIndexes.indexOf(2) === -1 ? 'hidden' : ''} ${isPawnClickable[2] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(2)" height="300" id="player2Container"
-                   mousein.delegate="showPlayerName(2, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('djor')"/>
-            <image class="${playerIndexes.indexOf(3) === -1 ? 'hidden' : ''} ${isPawnClickable[3] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(3)" height="300" id="player3Container"
-                   mousein.delegate="showPlayerName(3, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('garez')"/>
-            <image class="${playerIndexes.indexOf(4) === -1 ? 'hidden' : ''} ${isPawnClickable[4] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(4)" height="300" id="player4Container"
-                   mousein.delegate="showPlayerName(4, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('mirindrel')"/>
-            <image class="${playerIndexes.indexOf(5) === -1 ? 'hidden' : ''} ${isPawnClickable[5] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(5)" height="300" id="player5Container"
-                   mousein.delegate="showPlayerName(5, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('kharliass')"/>
-            <image class="${playerIndexes.indexOf(6) === -1 ? 'hidden' : ''} ${isPawnClickable[6] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(6)" height="300" id="player6Container"
-                   mousein.delegate="showPlayerName(6, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('razbrak')"/>
-            <image class="${playerIndexes.indexOf(7) === -1 ? 'hidden' : ''} ${isPawnClickable[7] ? 'pointer' : ''}"
-                   click.delegate="pawnClicked(7)" height="300" id="player7Container"
-                   mousein.delegate="showPlayerName(7, $event)" mouseout.delegate="hidePlayerName()" width="300"
-                   xlink:href.bind="assetSource.forPawn('luni')"/>
+            <image class="${isPawnClickable[0] ? 'pointer' : ''}" click.delegate="pawnClicked(0)" height="300"
+                   id="player0Container" if.bind="playerIndexes.includes(0)"
+                   mousein.delegate="showPlayerName(0, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[0])"/>
+            <image class="${isPawnClickable[1] ? 'pointer' : ''}" click.delegate="pawnClicked(1)" height="300"
+                   id="player1Container" if.bind="playerIndexes.includes(1)"
+                   mousein.delegate="showPlayerName(1, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[1])"/>
+            <image class="${isPawnClickable[2] ? 'pointer' : ''}" click.delegate="pawnClicked(2)" height="300"
+                   id="player2Container" if.bind="playerIndexes.includes(2)"
+                   mousein.delegate="showPlayerName(2, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[2])"/>
+            <image class="${isPawnClickable[3] ? 'pointer' : ''}" click.delegate="pawnClicked(3)" height="300"
+                   id="player3Container" if.bind="playerIndexes.includes(3)"
+                   mousein.delegate="showPlayerName(3, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[3])"/>
+            <image class="${isPawnClickable[4] ? 'pointer' : ''}" click.delegate="pawnClicked(4)" height="300"
+                   id="player4Container" if.bind="playerIndexes.includes(4)"
+                   mousein.delegate="showPlayerName(4, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[4])"/>
+            <image class="${isPawnClickable[5] ? 'pointer' : ''}" click.delegate="pawnClicked(5)" height="300"
+                   id="player5Container" if.bind="playerIndexes.includes(5)"
+                   mousein.delegate="showPlayerName(5, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[5])"/>
+            <image class="${isPawnClickable[6] ? 'pointer' : ''}" click.delegate="pawnClicked(6)" height="300"
+                   id="player6Container" if.bind="playerIndexes.includes(6)"
+                   mousein.delegate="showPlayerName(6, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[6])"/>
+            <image class="${isPawnClickable[7] ? 'pointer' : ''}" click.delegate="pawnClicked(7)" height="300"
+                   id="player7Container" if.bind="playerIndexes.includes(7)"
+                   mousein.delegate="showPlayerName(7, $event)"
+                   mouseout.delegate="hidePlayerName()" width="300" xlink:href.bind="assetSource.forPawn(heroes[7])"/>
         </g>
     </svg>
 </template>
