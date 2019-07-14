@@ -1,10 +1,15 @@
-@import '../../../../style/players-colors';
+@import '../../../../style/variables';
 
 
 $square-blink-time: 1s;
 $square-opacity: 0.6;
 
 aot-board {
+    & > svg {
+        height: $play-main-height - 2vh;
+        width: 100%;
+    }
+
     .square {
         &.highlighted {
             animation: square-blink $square-blink-time infinite;

@@ -307,7 +307,7 @@ export class Api {
         // Squares position depends on a `transform="translate()"` attribute. We need to parse it to
         // place the pawns correctly.
         const transform = square.getAttribute('transform');
-        const transformElements = /^[a-z]+\((\d+\.?\d*) (\d+\.?\d*)/.exec(transform);
+        const transformElements = /^[a-z]+\((\d+\.?\d*)[ ,](\d+\.?\d*)/.exec(transform);
         const xTransform = transformElements[1];
         const yTransform = transformElements[2];
 

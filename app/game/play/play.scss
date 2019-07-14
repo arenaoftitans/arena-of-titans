@@ -59,11 +59,6 @@
     text-align: center;
 }
 
-#board {
-    height: $play-main-height - 3vh;
-    min-height: $play-main-min-height - 10px;
-}
-
 #cards-container {
     align-items: center;
     background: url(/assets/game/backgrounds/cards.jpg);
