@@ -304,19 +304,17 @@ export class Api {
         let pawnId = `player${playerIndex}Container`;
         let pawn = document.getElementById(pawnId);
         let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
-        // Squares position depends on a `transform="matrix()"` attribute. We need to parse it to
+        // Squares position depends on a `transform="translate()"` attribute. We need to parse it to
         // place the pawns correctly.
         const transform = square.getAttribute('transform');
-        const transformElements = /(\d+\.\d+) (\d+\.\d+)\)$/.exec(transform);
-        const xTransform = parseFloat(transformElements[1]);
-        const yTransform = parseFloat(transformElements[2]);
-        const xSquare = parseFloat(square.getAttribute('x'));
-        const ySquare = parseFloat(square.getAttribute('y'));
+        const transformElements = /^[a-z]+\((\d+\.?\d*) (\d+\.?\d*)/.exec(transform);
+        const xTransform = transformElements[1];
+        const yTransform = transformElements[2];
 
         pawn.setAttribute('height', square.getAttribute('height'));
         pawn.setAttribute('width', square.getAttribute('width'));
-        pawn.setAttribute('x', xTransform + xSquare);
-        pawn.setAttribute('y', yTransform + ySquare);
+        pawn.setAttribute('x', xTransform);
+        pawn.setAttribute('y', yTransform);
     }
 
     _handleErrors(message) {
