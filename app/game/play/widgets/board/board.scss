@@ -9,11 +9,11 @@ aot-board {
         &.highlighted {
             animation: square-blink $square-blink-time infinite;
             cursor: pointer;
-            stroke: white;
+            opacity: $square-opacity;
 
             &:hover {
                 animation-play-state: paused;
-                opacity: 1 !important;
+                opacity: $square-opacity !important;
             }
         }
 
