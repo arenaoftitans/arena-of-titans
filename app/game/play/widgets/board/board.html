@@ -4555,507 +4555,602 @@
                    xlink:href.bind="assetSource.forBackground('clouds')"/>
         </g>
         <g id="squares" ref="squaresLayer" transform="translate(-70.8)">
-            <use class="square ${possibleSquares.includes('square-15-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-1', '15', '1')" data-type="mountain-temple"
-                 height="49.540001" id="square-15-1" transform="translate(873,96.7)" width="42" x="0" y="0"
-                 xlink:href="#mountain-temple-symbol"/>
+            <use class="square arrival-square ${possibleSquares.includes('square-15-1') ? 'highlighted' : ''}"
+                 click.delegate="handleSquareClicked('square-15-1', '15', '1', {isArrivalSquare: true})"
+                 data-type="mountain-temple" height="49.540001" id="square-15-1" transform="translate(873,96.7)"
+                 width="42"
+                 x="0" y="0" xlink:href="#mountain-temple-symbol"/>
             <use class="square ${possibleSquares.includes('square-16-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-1', '16', '1')" data-type="mountain" height="43.400002"
-                 id="square-16-1" transform="translate(918.5,101.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-1', '16', '1', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-16-1" transform="translate(918.5,101.7)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-16-1'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-3', '16', '3')" data-type="desert" height="45.540001"
-                 id="square-16-3" transform="translate(918.5,189.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-3', '16', '3', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-16-3" transform="translate(918.5,189.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-3'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-2', '16', '2')" data-type="water" height="47.529999"
-                 id="square-16-2" transform="translate(918.5,142.1)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
-            <use class="square ${possibleSquares.includes('square-15-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-2', '15', '2')" data-type="water-temple"
-                 height="57.959999"
-                 id="square-15-2" transform="translate(873,132.4)" width="42" x="0" y="0"
-                 xlink:href="#water-temple-symbol"/>
-            <use class="square ${possibleSquares.includes('square-15-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-3', '15', '3')" data-type="desert-temple"
-                 height="51.080002"
-                 id="square-15-3" transform="translate(873,184.8)" width="42" x="0" y="0"
-                 xlink:href="#desert-temple-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-2', '16', '2', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-16-2" transform="translate(918.5,142.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-2'] || '#water-symbol'}"/>
+            <use class="square arrival-square ${possibleSquares.includes('square-15-2') ? 'highlighted' : ''}"
+                 click.delegate="handleSquareClicked('square-15-2', '15', '2', {isArrivalSquare: true})"
+                 data-type="water-temple" height="57.959999" id="square-15-2" transform="translate(873,132.4)"
+                 width="42"
+                 x="0" y="0" xlink:href="#water-temple-symbol"/>
+            <use class="square arrival-square ${possibleSquares.includes('square-15-3') ? 'highlighted' : ''}"
+                 click.delegate="handleSquareClicked('square-15-3', '15', '3', {isArrivalSquare: true})"
+                 data-type="desert-temple" height="51.080002" id="square-15-3" transform="translate(873,184.8)"
+                 width="42"
+                 x="0" y="0" xlink:href="#desert-temple-symbol"/>
             <use class="square ${possibleSquares.includes('square-19-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-3', '19', '3')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-19-3" transform="translate(1054.5,184.1)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-3', '19', '3', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-19-3"
+                 transform="translate(1054.5,184.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-19-3'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-2', '18', '2')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-18-2" transform="translate(1010.3,141.3)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-2', '18', '2', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-18-2"
+                 transform="translate(1010.3,141.3)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-2'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-4', '16', '4')" data-name="forest-symbol safe-jen"
-                 data-type="forest" height="50" id="square-16-4" transform="translate(918.5,229.6)" width="41" x="0"
-                 y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-4', '16', '4', {isArrivalSquare: false})"
+                 data-name="forest-symbol safe-jen" data-type="forest" height="50" id="square-16-4"
+                 transform="translate(918.5,229.6)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-4'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-20-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-20-5', '20', '5')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-20-5" transform="translate(1102.2,276.3)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
-            <use class="square ${possibleSquares.includes('square-15-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-4', '15', '4')" data-type="forest-temple_1_"
-                 height="54.759998" id="square-15-4" transform="translate(873,225.6)" width="42" x="0" y="0"
-                 xlink:href="#forest-temple-symbol_1_"/>
+                 click.delegate="handleSquareClicked('square-20-5', '20', '5', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-20-5"
+                 transform="translate(1102.2,276.3)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-20-5'] || '#forest-symbol'}"/>
+            <use class="square arrival-square ${possibleSquares.includes('square-15-4') ? 'highlighted' : ''}"
+                 click.delegate="handleSquareClicked('square-15-4', '15', '4', {isArrivalSquare: true})"
+                 data-type="forest-temple_1_" height="54.759998" id="square-15-4" transform="translate(873,225.6)"
+                 width="42" x="0" y="0" xlink:href="#forest-temple-symbol_1_"/>
             <use class="square ${possibleSquares.includes('square-20-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-20-4', '20', '4')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-20-4" transform="translate(1100.4,228.9)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-20-4', '20', '4', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-20-4"
+                 transform="translate(1100.4,228.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-20-4'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-20-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-20-6', '20', '6')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-20-6" transform="translate(1100.5,317.4)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-20-6', '20', '6', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-20-6"
+                 transform="translate(1100.5,317.4)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-20-6'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-7', '17', '7')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-17-7" transform="translate(963.6,364.2)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-7', '17', '7', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-17-7"
+                 transform="translate(963.6,364.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-17-7'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-8', '18', '8')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-18-8" transform="translate(1008.6,411.5)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-8', '18', '8', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-18-8"
+                 transform="translate(1008.6,411.5)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-8'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-7', '10', '7')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-10-7" transform="translate(647.9,362.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-7', '10', '7', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-10-7"
+                 transform="translate(647.9,362.7)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-10-7'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-4', '11', '4')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-11-4" transform="translate(694.4,231.6)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-4', '11', '4', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-11-4"
+                 transform="translate(694.4,231.6)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-11-4'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-3', '10', '3')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-10-3" transform="translate(648.3,186.8)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-3', '10', '3', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-10-3"
+                 transform="translate(648.3,186.8)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-10-3'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-2', '9', '2')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-9-2" transform="translate(603.6,140.3)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-2', '9', '2', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-9-2"
+                 transform="translate(603.6,140.3)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-9-2'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-8-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-8-2', '8', '2')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-8-2" transform="translate(558.3,140.3)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-8-2', '8', '2', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-8-2"
+                 transform="translate(558.3,140.3)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-8-2'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-1', '5', '1')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-5-1" transform="translate(425.5,91.8)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-1', '5', '1', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-5-1"
+                 transform="translate(425.5,91.8)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-5-1'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-3', '3', '3')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-3-3" transform="translate(334.5,185.9)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-3', '3', '3', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-3-3"
+                 transform="translate(334.5,185.9)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-3-3'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-4', '4', '4')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-4-4" transform="translate(377.8,230.9)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-4', '4', '4', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-4-4"
+                 transform="translate(377.8,230.9)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-4-4'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-1-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-1-6', '1', '6')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-1-6" transform="translate(241.5,318.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-1-6', '1', '6', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-1-6"
+                 transform="translate(241.5,318.7)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-1-6'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-1-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-1-7', '1', '7')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-1-7" transform="translate(241.6,365.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-1-7', '1', '7', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-1-7"
+                 transform="translate(241.6,365.7)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-1-7'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-8', '2', '8')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-2-8" transform="translate(287.3,410.8)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-8', '2', '8', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-2-8"
+                 transform="translate(287.3,410.8)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-2-8'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-9', '3', '9')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-3-9" transform="translate(333.6,456.1)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-9', '3', '9', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-3-9"
+                 transform="translate(333.6,456.1)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-3-9'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-7', '5', '7')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-5-7" transform="translate(423.6,366.3)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-7', '5', '7', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-5-7"
+                 transform="translate(423.6,366.3)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-5-7'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-1-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-1-5', '1', '5')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-1-5" transform="translate(241.5,272.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-1-5', '1', '5', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-1-5"
+                 transform="translate(241.5,272.7)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-1-5'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-7', '6', '7')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-6-7" transform="translate(469.5,367.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-7', '6', '7', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-6-7"
+                 transform="translate(469.5,367.7)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-6-7'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-5', '11', '5')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-11-5" transform="translate(693.6,276)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-5', '11', '5', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-11-5"
+                 transform="translate(693.6,276)"
+                 width="41" x="0" y="0" xlink:href="${squaresToColors['square-11-5'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-6', '11', '6')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-11-6" transform="translate(693.7,320.7)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-6', '11', '6', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-11-6"
+                 transform="translate(693.7,320.7)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-11-6'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-2', '17', '2')" data-type="desert" height="45.540001"
-                 id="square-17-2" transform="translate(963.6,145.1)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-2', '17', '2', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-17-2" transform="translate(963.6,145.1)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-17-2'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-19-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-4', '19', '4')" data-type="desert" height="45.540001"
-                 id="square-19-4" transform="translate(1054.5,233.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-4', '19', '4', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-19-4" transform="translate(1054.5,233.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-19-4'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-19-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-5', '19', '5')" data-type="desert" height="45.540001"
-                 id="square-19-5" transform="translate(1055.3,280.4)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-5', '19', '5', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-19-5" transform="translate(1055.3,280.4)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-19-5'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-19-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-6', '19', '6')" data-type="desert" height="45.540001"
-                 id="square-19-6" transform="translate(1054.5,322.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-6', '19', '6', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-19-6" transform="translate(1054.5,322.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-19-6'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-7', '18', '7')" data-type="desert" height="45.540001"
-                 id="square-18-7" transform="translate(1008.6,367.8)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-7', '18', '7', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-18-7" transform="translate(1008.6,367.8)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-7'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-8', '17', '8')" data-type="desert" height="45.540001"
-                 id="square-17-8" transform="translate(963.5,415.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-8', '17', '8', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-17-8" transform="translate(963.5,415.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-17-8'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-9', '11', '9')" data-type="desert" height="45.540001"
-                 id="square-11-9" transform="translate(693.5,458.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-9', '11', '9', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-11-9" transform="translate(693.5,458.6)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-11-9'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-14-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-14-8', '14', '8')" data-type="desert" height="45.540001"
-                 id="square-14-8" transform="translate(827.6,413.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-14-8', '14', '8', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-14-8" transform="translate(827.6,413.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-14-8'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-13-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-13-7', '13', '7')" data-type="desert" height="45.540001"
-                 id="square-13-7" transform="translate(785.3,372.4)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-13-7', '13', '7', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-13-7" transform="translate(785.3,372.4)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-13-7'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-7', '12', '7')" data-type="desert" height="45.540001"
-                 id="square-12-7" transform="translate(738.6,372.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-7', '12', '7', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-12-7" transform="translate(738.6,372.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-12-7'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-6', '9', '6')" data-type="desert" height="45.540001"
-                 id="square-9-6" transform="translate(603,322.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-6', '9', '6', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-9-6" transform="translate(603,322.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-6'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-4', '9', '4')" data-type="desert" height="45.540001"
-                 id="square-9-4" transform="translate(602.7,232.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-4', '9', '4', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-9-4" transform="translate(602.7,232.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-4'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-2', '10', '2')" data-type="desert" height="45.540001"
-                 id="square-10-2" transform="translate(647.9,143.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-2', '10', '2', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-10-2" transform="translate(647.9,143.6)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-10-2'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-1', '9', '1')" data-type="desert" height="45.540001"
-                 id="square-9-1" transform="translate(602.7,98.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-1', '9', '1', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-9-1" transform="translate(602.7,98.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-1'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-8-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-8-4', '8', '4')" data-type="desert" height="45.540001"
-                 id="square-8-4" transform="translate(557.8,230.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-8-4', '8', '4', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-8-4" transform="translate(557.8,230.6)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-8-4'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-7-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-7-3', '7', '3')" data-type="desert" height="45.540001"
-                 id="square-7-3" transform="translate(512.8,187.9)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-7-3', '7', '3', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-7-3" transform="translate(512.8,187.9)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-7-3'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-2', '6', '2')" data-type="desert" height="45.540001"
-                 id="square-6-2" transform="translate(468.1,143.1)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-2', '6', '2', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-6-2" transform="translate(468.1,143.1)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-6-2'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-2', '5', '2')" data-type="desert" height="45.540001"
-                 id="square-5-2" transform="translate(422.9,142.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-2', '5', '2', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-5-2" transform="translate(422.9,142.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-5-2'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-4', '3', '4')" data-type="desert" height="45.540001"
-                 id="square-3-4" transform="translate(333.5,235)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-4', '3', '4', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-3-4" transform="translate(333.5,235)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-4'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-5', '3', '5')" data-type="desert" height="45.540001"
-                 id="square-3-5" transform="translate(333.5,278.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-5', '3', '5', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-3-5" transform="translate(333.5,278.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-5'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-6', '3', '6')" data-type="desert" height="45.540001"
-                 id="square-3-6" transform="translate(333.5,321.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-6', '3', '6', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-3-6" transform="translate(333.5,321.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-6'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-8', '5', '8')" data-type="desert" height="45.540001"
-                 id="square-5-8" transform="translate(423,413.9)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-8', '5', '8', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-5-8" transform="translate(423,413.9)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-5-8'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-8', '6', '8')" data-type="desert" height="45.540001"
-                 id="square-6-8" transform="translate(470,412)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-8', '6', '8', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-6-8" transform="translate(470,412)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-6-8'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-5', '9', '5')" data-type="desert" height="45.540001"
-                 id="square-9-5" transform="translate(602.7,276.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-5', '9', '5', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-9-5" transform="translate(602.7,276.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-5'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-4', '17', '4')" data-type="mountain" height="43.400002"
-                 id="square-17-4" transform="translate(963.4,236)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-4', '17', '4', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-17-4" transform="translate(963.4,236)"
+                 width="40.900002"
+                 x="0" y="0" xlink:href="${squaresToColors['square-17-4'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-5', '17', '5')" data-type="mountain" height="43.400002"
-                 id="square-17-5" transform="translate(962.6,279.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-5', '17', '5', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-17-5" transform="translate(962.6,279.7)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-17-5'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-6', '17', '6')" data-type="mountain" height="43.400002"
-                 id="square-17-6" transform="translate(962.6,322.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-6', '17', '6', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-17-6" transform="translate(962.6,322.2)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-17-6'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-3', '18', '3')" data-type="mountain" height="43.400002"
-                 id="square-18-3" transform="translate(1008.5,190.8)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-3', '18', '3', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-18-3" transform="translate(1008.5,190.8)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-18-3'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-20-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-20-7', '20', '7')" data-type="mountain" height="43.400002"
-                 id="square-20-7" transform="translate(1100.3,374.5)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-20-7', '20', '7', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-20-7" transform="translate(1100.3,374.5)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-20-7'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-19-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-8', '19', '8')" data-type="mountain" height="43.400002"
-                 id="square-19-8" transform="translate(1055.3,419)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-8', '19', '8', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-19-8" transform="translate(1055.3,419)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-19-8'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-9', '18', '9')" data-type="mountain" height="43.400002"
-                 id="square-18-9" transform="translate(1010.7,459.8)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-9', '18', '9', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-18-9" transform="translate(1010.7,459.8)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-18-9'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-7', '16', '7')" data-type="mountain" height="43.400002"
-                 id="square-16-7" transform="translate(918.5,370.1)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-7', '16', '7', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-16-7" transform="translate(918.5,370.1)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-16-7'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-13-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-13-8', '13', '8')" data-type="mountain" height="43.400002"
-                 id="square-13-8" transform="translate(784.3,415.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-13-8', '13', '8', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-13-8" transform="translate(784.3,415.6)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-13-8'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-8', '12', '8')" data-type="mountain" height="43.400002"
-                 id="square-12-8" transform="translate(738.7,418.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-8', '12', '8', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-12-8" transform="translate(738.7,418.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-12-8'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-7', '11', '7')" data-type="mountain" height="43.400002"
-                 id="square-11-7" transform="translate(694.3,371.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-7', '11', '7', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-11-7" transform="translate(694.3,371.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-11-7'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-4', '10', '4')" data-type="mountain" height="43.400002"
-                 id="square-10-4" transform="translate(647.8,235.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-4', '10', '4', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-10-4" transform="translate(647.8,235.6)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-10-4'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-5', '10', '5')" data-type="mountain" height="43.400002"
-                 id="square-10-5" transform="translate(647.9,277.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-5', '10', '5', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-10-5" transform="translate(647.9,277.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-10-5'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-6', '10', '6')" data-type="mountain" height="43.400002"
-                 id="square-10-6" transform="translate(647.7,322.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-6', '10', '6', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-10-6" transform="translate(647.7,322.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-10-6'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-3', '9', '3')" data-type="mountain" height="43.400002"
-                 id="square-9-3" transform="translate(601.8,187.8)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-3', '9', '3', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-9-3" transform="translate(601.8,187.8)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-3'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-8-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-8-3', '8', '3')" data-type="mountain" height="43.400002"
-                 id="square-8-3" transform="translate(558.3,187.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-8-3', '8', '3', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-8-3" transform="translate(558.3,187.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-8-3'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-1', '4', '1')" data-type="mountain" height="43.400002"
-                 id="square-4-1" transform="translate(379.7,96.5)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-1', '4', '1', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-4-1" transform="translate(379.7,96.5)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-1'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-2', '3', '2')" data-type="mountain" height="43.400002"
-                 id="square-3-2" transform="translate(333.9,143.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-2', '3', '2', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-3-2" transform="translate(333.9,143.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-2'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-8', '3', '8')" data-type="mountain" height="43.400002"
-                 id="square-3-8" transform="translate(332.1,414.6)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-8', '3', '8', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-3-8" transform="translate(332.1,414.6)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-8'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-3', '2', '3')" data-type="mountain" height="43.400002"
-                 id="square-2-3" transform="translate(290.3,189)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-3', '2', '3', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-2-3" transform="translate(290.3,189)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-2-3'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-1-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-1-4', '1', '4')" data-type="mountain" height="43.400002"
-                 id="square-1-4" transform="translate(241.4,234.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-1-4', '1', '4', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-1-4" transform="translate(241.4,234.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-1-4'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-4', '5', '4')" data-type="mountain" height="43.400002"
-                 id="square-5-4" transform="translate(423.6,238.5)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-4', '5', '4', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-5-4" transform="translate(423.6,238.5)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-5-4'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-5', '4', '5')" data-type="mountain" height="43.400002"
-                 id="square-4-5" transform="translate(378.7,284.7)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-5', '4', '5', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-4-5" transform="translate(378.7,284.7)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-5'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-6', '4', '6')" data-type="mountain" height="43.400002"
-                 id="square-4-6" transform="translate(378.8,324.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-6', '4', '6', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-4-6" transform="translate(378.8,324.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-6'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-7', '4', '7')" data-type="mountain" height="43.400002"
-                 id="square-4-7" transform="translate(379.7,368.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-7', '4', '7', {isArrivalSquare: false})"
+                 data-type="mountain"
+                 height="43.400002" id="square-4-7" transform="translate(379.7,368.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-7'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-13-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-13-9', '13', '9')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-13-9" transform="translate(784.4,452.9)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-13-9', '13', '9', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-13-9"
+                 transform="translate(784.4,452.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-13-9'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-9', '12', '9')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-12-9" transform="translate(739.6,452.6)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-9', '12', '9', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-12-9"
+                 transform="translate(739.6,452.6)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-12-9'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-8', '11', '8')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-11-8" transform="translate(693.6,407.5)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-8', '11', '8', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-11-8"
+                 transform="translate(693.6,407.5)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-11-8'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-10', '12', '10')" data-type="desert" height="45.540001"
-                 id="square-12-10" transform="translate(737.8,499.5)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-10', '12', '10', {isArrivalSquare: false})"
+                 data-type="desert" height="45.540001" id="square-12-10" transform="translate(737.8,499.5)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-12-10'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-9', '6', '9')" data-type="water" height="47.529999"
-                 id="square-6-9" transform="translate(468.2,457.7)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-9', '6', '9', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-6-9" transform="translate(468.2,457.7)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-6-9'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-9', '5', '9')" data-type="water" height="47.529999"
-                 id="square-5-9" transform="translate(423.1,459.2)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-9', '5', '9', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-5-9" transform="translate(423.1,459.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-5-9'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-8', '4', '8')" data-type="water" height="47.529999"
-                 id="square-4-8" transform="translate(378.7,412.5)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-8', '4', '8', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-4-8" transform="translate(378.7,412.5)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-8'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-3-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-3-7', '3', '7')" data-type="water" height="47.529999"
-                 id="square-3-7" transform="translate(333.6,367.9)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-3-7', '3', '7', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-3-7" transform="translate(333.6,367.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-3-7'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-6', '2', '6')" data-type="water" height="47.529999"
-                 id="square-2-6" transform="translate(287.9,321.2)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-6', '2', '6', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-2-6" transform="translate(287.9,321.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-2-6'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-5', '2', '5')" data-type="water" height="47.529999"
-                 id="square-2-5" transform="translate(287.3,276.5)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-5', '2', '5', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-2-5" transform="translate(287.3,276.5)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-2-5'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-4', '2', '4')" data-type="water" height="47.529999"
-                 id="square-2-4" transform="translate(287.4,231.2)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-4', '2', '4', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-2-4" transform="translate(287.4,231.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-2-4'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-2', '4', '2')" data-type="water" height="47.529999"
-                 id="square-4-2" transform="translate(378.6,141.5)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-2', '4', '2', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-4-2" transform="translate(378.6,141.5)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-2'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-3', '5', '3')" data-type="water" height="47.529999"
-                 id="square-5-3" transform="translate(423,187.2)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-3', '5', '3', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-5-3" transform="translate(423,187.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-5-3'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-3', '6', '3')" data-type="water" height="47.529999"
-                 id="square-6-3" transform="translate(468.7,185.2)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-3', '6', '3', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-6-3" transform="translate(468.7,185.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-6-3'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-7-2') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-7-2', '7', '2')" data-type="water" height="47.529999"
-                 id="square-7-2" transform="translate(513.4,140.9)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-7-2', '7', '2', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-7-2" transform="translate(513.4,140.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-7-2'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-8-1') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-8-1', '8', '1')" data-type="water" height="47.529999"
-                 id="square-8-1" transform="translate(557.9,98.1)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-8-1', '8', '1', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-8-1" transform="translate(557.9,98.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-8-1'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-11-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-11-3', '11', '3')" data-type="water" height="47.529999"
-                 id="square-11-3" transform="translate(693.8,188.1)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-11-3', '11', '3', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-11-3" transform="translate(693.8,188.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-11-3'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-6', '12', '6')" data-type="water" height="47.529999"
-                 id="square-12-6" transform="translate(741.4,323.9)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-6', '12', '6', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-12-6" transform="translate(741.4,323.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-12-6'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-5', '12', '5')" data-type="water" height="47.529999"
-                 id="square-12-5" transform="translate(739.6,277.8)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-5', '12', '5', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-12-5" transform="translate(739.6,277.8)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-12-5'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-12-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-12-4', '12', '4')" data-type="water" height="47.529999"
-                 id="square-12-4" transform="translate(737.9,234.1)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-12-4', '12', '4', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-12-4" transform="translate(737.9,234.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-12-4'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-9-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-9-7', '9', '7')" data-type="water" height="47.529999"
-                 id="square-9-7" transform="translate(603,365.7)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-9-7', '9', '7', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-9-7" transform="translate(603,365.7)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-9-7'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-10-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-10-8', '10', '8')" data-type="water" height="47.529999"
-                 id="square-10-8" transform="translate(647.9,409.1)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-10-8', '10', '8', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-10-8" transform="translate(647.9,409.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-10-8'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-13-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-13-10', '13', '10')" data-type="water" height="47.529999"
-                 id="square-13-10" transform="translate(785.3,499.2)" width="41" x="0" y="0"
-                 xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-13-10', '13', '10', {isArrivalSquare: false})"
+                 data-type="water" height="47.529999" id="square-13-10" transform="translate(785.3,499.2)" width="41"
+                 x="0"
+                 y="0" xlink:href="${squaresToColors['square-13-10'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-14-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-14-9', '14', '9')" data-type="water" height="47.529999"
-                 id="square-14-9" transform="translate(828.2,457.6)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-14-9', '14', '9', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-14-9" transform="translate(828.2,457.6)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-14-9'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-15-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-8', '15', '8')" data-type="water" height="47.529999"
-                 id="square-15-8" transform="translate(873,410.6)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-15-8', '15', '8', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-15-8" transform="translate(873,410.6)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-15-8'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-8') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-8', '16', '8')" data-type="water" height="47.529999"
-                 id="square-16-8" transform="translate(919,411.4)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-8', '16', '8', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-16-8" transform="translate(919,411.4)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-8'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-9', '17', '9')" data-type="water" height="47.529999"
-                 id="square-17-9" transform="translate(963.6,455.9)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-9', '17', '9', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-17-9" transform="translate(963.6,455.9)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-17-9'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-19-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-19-7', '19', '7')" data-type="water" height="47.529999"
-                 id="square-19-7" transform="translate(1053.6,367.7)" width="41" x="0" y="0"
-                 xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-19-7', '19', '7', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-19-7" transform="translate(1053.6,367.7)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-19-7'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-5') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-5', '18', '5')" data-type="water" height="47.529999"
-                 id="square-18-5" transform="translate(1008.6,277.3)" width="41" x="0" y="0"
-                 xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-5', '18', '5', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-18-5" transform="translate(1008.6,277.3)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-5'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-6') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-6', '18', '6')" data-type="water" height="47.529999"
-                 id="square-18-6" transform="translate(1008.6,320.2)" width="41" x="0" y="0"
-                 xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-6', '18', '6', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-18-6" transform="translate(1008.6,320.2)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-6'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-3', '17', '3')" data-type="water" height="47.529999"
-                 id="square-17-3" transform="translate(963.6,187.4)" width="41" x="0" y="0" xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-3', '17', '3', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-17-3" transform="translate(963.6,187.4)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-17-3'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-18-4') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-18-4', '18', '4')" data-type="water" height="47.529999"
-                 id="square-18-4" transform="translate(1008.6,233.1)" width="41" x="0" y="0"
-                 xlink:href="#water-symbol"/>
+                 click.delegate="handleSquareClicked('square-18-4', '18', '4', {isArrivalSquare: false})"
+                 data-type="water"
+                 height="47.529999" id="square-18-4" transform="translate(1008.6,233.1)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-18-4'] || '#water-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-9', '4', '9')" data-type="desert" height="45.540001"
-                 id="square-4-9" transform="translate(378.5,459.2)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-9', '4', '9', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-4-9" transform="translate(378.5,459.2)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-9'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-10', '4', '10')" data-name="forest-symbol"
-                 data-type="forest"
-                 height="50" id="square-4-10" transform="translate(377.9,497.8)" width="41" x="0" y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-10', '4', '10', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-4-10"
+                 transform="translate(377.9,497.8)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-10'] || '#forest-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-4-3') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-4-3', '4', '3')" data-type="desert" height="45.540001"
-                 id="square-4-3" transform="translate(378.5,187.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-4-3', '4', '3', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-4-3" transform="translate(378.5,187.3)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-4-3'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-2-7') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-2-7', '2', '7')" data-type="desert" height="45.540001"
-                 id="square-2-7" transform="translate(287.2,368)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-2-7', '2', '7', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-2-7" transform="translate(287.2,368)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-2-7'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-9', '16', '9')" data-type="desert" height="45.540001"
-                 id="square-16-9" transform="translate(918.4,456.1)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-9', '16', '9', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-16-9" transform="translate(918.4,456.1)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-9'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-17-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-17-10', '17', '10')" data-type="mountain"
-                 height="43.400002"
-                 id="square-17-10" transform="translate(964.6,501.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-17-10', '17', '10', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-17-10" transform="translate(964.6,501.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-17-10'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-6-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-6-10', '6', '10')" data-type="mountain" height="43.400002"
-                 id="square-6-10" transform="translate(470.4,504.3)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-6-10', '6', '10', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-6-10" transform="translate(470.4,504.3)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-6-10'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-5-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-5-10', '5', '10')" data-type="mountain" height="43.400002"
-                 id="square-5-10" transform="translate(424.6,503.8)" width="40.900002" x="0" y="0"
-                 xlink:href="#mountain-symbol"/>
+                 click.delegate="handleSquareClicked('square-5-10', '5', '10', {isArrivalSquare: false})"
+                 data-type="mountain" height="43.400002" id="square-5-10" transform="translate(424.6,503.8)"
+                 width="40.900002" x="0" y="0" xlink:href="${squaresToColors['square-5-10'] || '#mountain-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-15-9') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-15-9', '15', '9')" data-type="desert" height="45.540001"
-                 id="square-15-9" transform="translate(872.9,457.1)" width="40.900002" x="0" y="0"
-                 xlink:href="#desert-symbol"/>
+                 click.delegate="handleSquareClicked('square-15-9', '15', '9', {isArrivalSquare: false})"
+                 data-type="desert"
+                 height="45.540001" id="square-15-9" transform="translate(872.9,457.1)" width="40.900002" x="0" y="0"
+                 xlink:href="${squaresToColors['square-15-9'] || '#desert-symbol'}"/>
             <use class="square ${possibleSquares.includes('square-16-10') ? 'highlighted' : ''}"
-                 click.delegate="handleSquareClicked('square-16-10', '16', '10')" data-name="forest-symbol"
-                 data-type="forest" height="50" id="square-16-10" transform="translate(918.9,497.3)" width="41" x="0"
-                 y="0"
-                 xlink:href="#forest-symbol"/>
+                 click.delegate="handleSquareClicked('square-16-10', '16', '10', {isArrivalSquare: false})"
+                 data-name="forest-symbol" data-type="forest" height="50" id="square-16-10"
+                 transform="translate(918.9,497.3)" width="41" x="0" y="0"
+                 xlink:href="${squaresToColors['square-16-10'] || '#forest-symbol'}"/>
         </g>
         <g id="pawns" ref="pawnLayer" transform="translate(-70.8)">
             <image class="${isPawnClickable[0] ? 'pointer' : ''}" click.delegate="pawnClicked(0)" height="300"

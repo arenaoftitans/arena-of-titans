@@ -43,6 +43,13 @@ export class AotBoardCustomElement {
     possibleSquares = [];
     _selectedPawnIndex = -1;
 
+    squaresColorsToTypes = {
+        black: '#mountain-symbol',
+        blue: '#water-symbol',
+        yellow: '#desert-symbol',
+        red: '#forest-symbol',
+    };
+
     constructor(api, eas, state) {
         this._api = api;
         this._eas = eas;
@@ -108,18 +115,21 @@ export class AotBoardCustomElement {
         const squareId = `square-${square.x}-${square.y}`;
         this.squaresToColors = {
             ...this.squaresToColors,
-            [squareId]: square.color,
+            [squareId]: this.squaresColorsToTypes[square.color],
         };
         this._eas.publish('aot:board:squares_updated');
     }
 
-    handleSquareClicked(squareId, x, y) {
+    handleSquareClicked(squareId, x, y, {isArrivalSquare}) {
         this._logger.debug(`${squareId} was clicked in mode: ${this._state.board.mode}`);
         x = parseInt(x, 10);
         y = parseInt(y, 10);
         switch (this._state.board.mode) {
             case BOARD_SELECT_SQUARE_MODE:
-                this._eas.publish('aot:board:selected_square', {x, y});
+                // We can't change the color of arrival squares.
+                if (!isArrivalSquare) {
+                    this._eas.publish('aot:board:selected_square', {x, y});
+                }
                 break;
             case BOARD_MOVE_MODE:
             default:

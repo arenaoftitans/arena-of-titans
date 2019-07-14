@@ -27,6 +27,11 @@ aot-board {
 
             &:hover {
                 cursor: pointer;
+                opacity: $square-opacity;
+            }
+
+            &.arrival-square {
+                cursor: default;
                 opacity: 1;
             }
         }
