@@ -21,13 +21,12 @@
     <require from="./notifications.css"></require>
 
     <p class="centered-important margin-0"
-       if.bind="!tutorialInProgress"
        t="[html]game.play.whose_turn_message"
        t-params.bind="{playerName: currentPlayerName}">
         It's the turn of
     </p>
 
-    <div if.bind="!tutorialInProgress && !specialActionInProgress">
+    <div if.bind="!specialActionInProgress">
         <p if.bind="lastAction.description">
             ${lastAction.description}
             <span><br></span>
@@ -64,17 +63,6 @@
             <p>
                 ${lastAction.specialAction.description}
             </p>
-        </div>
-    </div>
-
-    <p class="centered-important margin-0"
-       if.bind="tutorialInProgress">
-        <strong class="blue-text" t="game.visit.title"></strong>
-    </p>
-
-    <div if.bind="tutorialInProgress">
-        <div>
-            <p>${guidedVisitText}</p>
         </div>
     </div>
 

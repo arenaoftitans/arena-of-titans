@@ -22,8 +22,6 @@ import { I18N } from 'aurelia-i18n';
 import { Api } from '../../../services/api';
 import { AssetSource, ImageName } from '../../../../services/assets';
 import {
-    Blink,
-    Elements,
     EventAggregatorSubscriptions,
 } from '../../../services/utils';
 import { Options } from '../../../../services/options';
@@ -31,23 +29,10 @@ import { Popup } from '../../../services/popup';
 import { State } from '../../../services/state';
 
 
-const GUIDED_VISIT_DISPLAY_TIME = 5000;
-const GUIDED_VISIT_BLINK_TIME = 500;
-
-
 @inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, State)
 export class AotNotificationsCustomElement {
     @bindable players = {};
     @bindable currentPlayerIndex = 0;
-    guidedVisitText;
-    guidedVisitTextIndex = 0;
-    guidedVisitTexts = [
-        'game.visit.intro',
-        'game.visit.goal',
-        'game.visit.cards',
-        'game.visit.trumps',
-        'game.visit.notifications',
-    ];
     specialActionInProgress = false;
     specialActionText;
     _specialActionName;
@@ -56,8 +41,6 @@ export class AotNotificationsCustomElement {
     _i18n;
     _ea;
     _lastActionMessageFromApi;
-    _tutorialInProgress;
-
 
     constructor(api, i18n, options, popup, eas, state) {
         this._api = api;
@@ -66,7 +49,6 @@ export class AotNotificationsCustomElement {
         this._popup = popup;
         this._eas = eas;
         this._state = state;
-        this._tutorialInProgress = false;
 
         this._eas.subscribe('i18n:locale:changed', () => {
             if (this._lastActionMessageFromApi) {
@@ -107,24 +89,6 @@ export class AotNotificationsCustomElement {
         this._eas.subscribe('aot:api:special_action_play', message => {
             this._handleSpecialActionPlayed(message);
         });
-    }
-
-    bind() {
-        let popupData = {
-            translate: {
-                messages: {
-                    title: 'game.visit.propose',
-                },
-            },
-        };
-        if (this._options.proposeGuidedVisit) {
-            this._popup.display('yes-no', popupData).then(
-                () => this._startGuidedVisit(),
-                () => {
-                    this._options.proposeGuidedVisit = false;
-                }
-            );
-        }
     }
 
     unbind() {
@@ -179,63 +143,6 @@ export class AotNotificationsCustomElement {
         }
     }
 
-    _startGuidedVisit() {
-        this._eas.publish('aot:notifications:start_guided_visit');
-        this._tutorialInProgress = true;
-        this._displayNextVisitText();
-    }
-
-    _displayNextVisitText() {
-        let textId = this.guidedVisitTexts[this.guidedVisitTextIndex];
-        this.guidedVisitText = this._i18n.tr(textId);
-        this._highlightVisitElements(this.guidedVisitTextIndex);
-        this.guidedVisitTextIndex++;
-
-        if (this.guidedVisitTextIndex < this.guidedVisitTexts.length) {
-            setTimeout(() => this._displayNextVisitText(), GUIDED_VISIT_DISPLAY_TIME);
-        } else {
-            setTimeout(() => {
-                this.guidedVisitText = '';
-                this._eas.publish('aot:notifications:end_guided_visit');
-                this._tutorialInProgress = false;
-                this._options.proposeGuidedVisit = false;
-            }, GUIDED_VISIT_DISPLAY_TIME);
-        }
-    }
-
-    _highlightVisitElements(index) {
-        let elements;
-        let blinkClass;
-
-        switch (index) {
-            case 1:  // last line
-                elements = Elements.forClass('last-line-square');
-                blinkClass = 'highlighted';
-                break;
-            case 2:  // Cards
-                elements = Elements.forClass('card', 'cards-img-container');
-                blinkClass = 'blink-img';
-                break;
-            case 3:  // Trumps
-                elements = Elements.forClass('player-trump', 'player-trumps');
-                blinkClass = 'blink-img';
-                break;
-            case 4:  // Notfications
-                elements = [document.getElementById('notifications')];
-                blinkClass = 'blink-container';
-                break;
-            default:
-                elements = null;
-                break;
-        }
-
-        if (elements) {
-            let blinker = new Blink(
-                elements, GUIDED_VISIT_DISPLAY_TIME, GUIDED_VISIT_BLINK_TIME, blinkClass);
-            blinker.blink();
-        }
-    }
-
     _handleSpecialActionPlayed(message) {
         this.specialActionInProgress = false;
         this._specialActionName = undefined;
@@ -284,9 +191,5 @@ export class AotNotificationsCustomElement {
 
     get game()  {
         return this._state.game;
-    }
-
-    get tutorialInProgress() {
-        return this._tutorialInProgress;
     }
 }

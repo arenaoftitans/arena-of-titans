@@ -36,8 +36,6 @@ export class Options {
         }
 
         this.sound = this.sound === undefined ? true : this.sound;
-        this.proposeGuidedVisit =
-            this.proposeGuidedVisit === undefined ? true : this.proposeGuidedVisit;
         this.proposeInGameHelp =
                 this.proposeInGameHelp === undefined ? true : this.proposeInGameHelp;
         this.inGameHelpSeen = this.inGameHelpSeen || [];

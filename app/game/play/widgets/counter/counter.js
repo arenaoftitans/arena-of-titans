@@ -47,7 +47,6 @@ export class AotCounterCustomElement {
         this._state = state;
         this._paused = false;
         this._currentNbTurns = 0;
-        this.tutorialInProgress = false;
         this.specialActionInProgress = false;
         this._pausedDuration = 0;
         this._logger = LogManager.getLogger('AotCounterCustomElement');
@@ -83,18 +82,6 @@ export class AotCounterCustomElement {
             }
         });
 
-        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
-            this.tutorialInProgress = true;
-            this.pause();
-        });
-        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
-            this.tutorialInProgress = false;
-            if (this._canStart()) {
-                this.start();
-            } else {
-                this.resume();
-            }
-        });
         this._eas.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
             this.initSpecialActionCounter();
         });

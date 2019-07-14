@@ -38,7 +38,6 @@ export class Animations {
         this._state = state;
 
         this._currentPlayerIndex = null;
-        this._tutorialInProgress = false;
     }
 
     enable() {
@@ -86,14 +85,6 @@ export class Animations {
     }
 
     _enableTransitionAnimation() {
-        this._eas.subscribe('aot:notifications:start_guided_visit', () => {
-            this._tutorialInProgress = true;
-        });
-
-        this._eas.subscribe('aot:notifications:end_guided_visit', () => {
-            this._tutorialInProgress = false;
-        });
-
         this._eas.subscribeMultiple(['aot:api:create_game', 'aot:api:play'], message => {
             if (!this._canDisplayTransitionPopup(message)) {
                 // We update the current player index nonetheless. This way, after viewing or
@@ -173,12 +164,7 @@ export class Animations {
     }
 
     _canDisplayTransitionPopup(message) {
-        // We are displaying the tutorial, don't display the transition popup.
-        let tutorialPopupDisplayed = message.rt === 'CREATE_GAME' &&
-            this._options.proposeGuidedVisit;
-        return !tutorialPopupDisplayed &&
-            !this._tutorialInProgress &&
-            !this._state.game.game_over;
+        return !this._state.game.game_over;
     }
 
     disable() {
