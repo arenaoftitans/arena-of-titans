@@ -19,6 +19,7 @@
 
 import { bindable, inject } from 'aurelia-framework';
 import { Popup } from '../../../services/popup';
+import {AssetSource} from '../../../../services/assets';
 
 
 @inject(Popup)
@@ -27,12 +28,12 @@ export class AotPlayerBoxCustomElement {
     @bindable players;
 
     constructor(popup) {
+        this.assetSource = AssetSource;
         this._popup = popup;
     }
 
     bind() {
         this.playerBoxIndex = `player-box-${this.index}`;
-        this.playerBoxCircleIndex = `player-box-circle-${this.index}`;
     }
 
     viewPlayerInfos() {
@@ -52,5 +53,9 @@ export class AotPlayerBoxCustomElement {
         }
 
         return '';
+    }
+
+    get hero() {
+        return this.players.heroes[this.index];
     }
 }
