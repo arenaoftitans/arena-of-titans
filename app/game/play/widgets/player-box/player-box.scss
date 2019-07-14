@@ -17,8 +17,11 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-@import '../../../../style/players-colors';
 @import '../../../../style/media-queries';
+
+
+$player-box-height: 25px;
+$player-box-inter-spacing: 2.5vh;
 
 
 aot-player-box {
@@ -27,7 +30,7 @@ aot-player-box {
         border: medium solid white;
         border-radius: 10px;
         cursor: pointer;
-        height: 25px;
+        height: $player-box-height;
         min-width: 90px;
         padding-right: 0.5em;
         position: absolute;
@@ -49,51 +52,11 @@ aot-player-box {
         vertical-align: top;
     }
 
-    @for $i from 0 to length($players-colors) {
+    @for $i from 0 to 8 {
         .player-box-#{$i} {
-            @if $i < 4 {
-                right: 5%;
-            } @else {  /* stylelint-disable-line */
-                left: 5%;
-            }
-
-            @if $i == 0 or $i == 7 {
-                bottom: 10%;
-            } @else if $i == 1 or $i == 6 {  /* stylelint-disable-line */
-                bottom: 16%;
-
-                @include medium-height {
-                    bottom: 18.5%;
-                }
-
-                @include small-height {
-                    bottom: 21%;
-                }
-
-                @include tiny-height {
-                    bottom: 24%;
-                }
-            } @else if $i == 2 or $i == 5 {  /* stylelint-disable-line */
-                top: 10%;
-            } @else {  /* stylelint-disable-line */
-                top: 16%;
-
-                @include medium-height {
-                    top: 18.5%;
-                }
-
-                @include small-height {
-                    top: 21%;
-                }
-
-                @include tiny-height {
-                    top: 24%;
-                }
-            }
-        }
-
-        .player-box-circle-#{$i} {
-            background-color: nth($players-colors, $i + 1);
+            left: 1%;
+            // Add 1 for spacing because we want it for 1st element too.
+            top: calc(#{$i + 1} * #{$player-box-inter-spacing} + #{$i} * #{$player-box-height});
         }
     }
 }

@@ -1,59 +1,24 @@
-@import '../../../../style/players-colors';
+@import '../../../../style/variables';
 
 
 $square-blink-time: 1s;
 $square-opacity: 0.6;
 
 aot-board {
-    .pawn-circle {
-        stroke: #000;
-        stroke-miterlimit: 10;
-        stroke-width: 9;
-    }
-
-
-    @for $i from 0 to length($players-colors) {
-        #player#{$i} .pawn-circle,
-        path.arrival-#{$i} {
-            fill: nth($players-colors, $i + 1);
-        }
-    }
-
-    rect,
-    path {
-        opacity: $square-opacity;
-        stroke: #000;
-        stroke-dasharray: none;
-        stroke-miterlimit: 4;
-        stroke-opacity: 1;
-        stroke-width: 2.24024391;
+    & > svg {
+        height: $play-main-height - 2vh;
+        width: 100%;
     }
 
     .square {
-        &.red {
-            fill: red;
-        }
-
-        &.yellow {
-            fill: yellow;
-        }
-
-        &.black {
-            fill: black;
-        }
-
-        &.blue {
-            fill: blue;
-        }
-
         &.highlighted {
             animation: square-blink $square-blink-time infinite;
             cursor: pointer;
-            stroke: white;
+            opacity: $square-opacity;
 
             &:hover {
                 animation-play-state: paused;
-                opacity: 1 !important;
+                opacity: $square-opacity !important;
             }
         }
 
@@ -62,13 +27,14 @@ aot-board {
 
             &:hover {
                 cursor: pointer;
+                opacity: $square-opacity;
+            }
+
+            &.arrival-square {
+                cursor: default;
                 opacity: 1;
             }
         }
-    }
-
-    .last-line-square {
-        opacity: 1;
     }
 
     .pawn {

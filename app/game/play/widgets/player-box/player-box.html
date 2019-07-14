@@ -21,7 +21,8 @@
     <require from="./player-box.css"></require>
 
     <div class="player-box ${playerBoxIndex}" click.delegate="viewPlayerInfos()" if.bind="index !== null">
-        <div class="player-box-circle ${playerBoxCircleIndex}">
+        <div class="player-box-circle">
+            <img src.bind="assetSource.forCircledHero(hero)" width="100%" alt="Thumbnail of the player's hero" />
         </div>
         <p class="player-box-text">${playerName}</p>
     </div>

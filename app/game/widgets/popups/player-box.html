@@ -35,6 +35,7 @@
             <img repeat.for="card of lastPlayedCards"
                  src.bind="card"
                  class="card" />
+            <p if.bind="lastPlayedCards.length === 0" class="centered-text" t="None"></p>
         </div>
 
         <div class="margin-top-0">
@@ -43,6 +44,7 @@
             <img repeat.for="trump of activeTrumps"
                  src.bind="trump"
                  class="trump" />
+            <p if.bind="activeTrumps.length === 0" class="centered-text no-active-trump" t="None"></p>
         </div>
     </div>
 </template>
