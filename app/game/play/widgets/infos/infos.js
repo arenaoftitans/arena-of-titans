@@ -32,7 +32,6 @@ export class AotInfosCustomElement {
     element = null;
     height
     timeout;
-    waitForElement;
     width;
 
     constructor(element) {
