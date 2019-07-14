@@ -177,9 +177,9 @@ export class Create {
     }
 
     _autoAddAi() {
-        // auto set the 2nd slot to an AI so the player can start the game immediatly.
-        let openedSlots = this.slots.filter(slot => slot.state === 'OPEN');
-        if (this.me.is_game_master && openedSlots.length === 7) {
+        // auto set the 2nd slot to an AI so the player can start the game immediately.
+        let takenSlots = this.slots.filter(slot => slot.state === 'TAKEN');
+        if (this.me.is_game_master && takenSlots.length === 1) {
             let slot = this.slots[1];
             slot.state = 'AI';
             this.updateSlot(slot);
