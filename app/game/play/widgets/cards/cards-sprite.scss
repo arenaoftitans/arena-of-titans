@@ -1,4 +1,4 @@
-/* glue: 0.11.1 hash: 7eb82fe5fc */
+/* glue: 0.13 hash: f0aa73f882 */
 .sprite-movement-wizard-yellow,
 .sprite-movement-wizard-red,
 .sprite-movement-wizard-blue,
@@ -199,7 +199,7 @@
     width: 69px;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 1), screen and (min--moz-device-pixel-ratio: 1), screen and (-o-min-device-pixel-ratio: 100/100), screen and (min-device-pixel-ratio: 1), screen and (min-resolution: 1dppx) {
+@media screen and (-webkit-min-device-pixel-ratio: 1.0), screen and (min--moz-device-pixel-ratio: 1.0), screen and (-o-min-device-pixel-ratio: 100/100), screen and (min-device-pixel-ratio: 1.0), screen and (min-resolution: 1.0dppx) {
     .sprite-movement-wizard-yellow,
     .sprite-movement-wizard-red,
     .sprite-movement-wizard-blue,
@@ -229,6 +229,8 @@
     .sprite-movement-assassin-blue,
     .sprite-movement-assassin-black {
         background-image: url(/assets/game/sprites/cards.png);
+        -webkit-background-size: 483px 400px;
+        -moz-background-size: 483px 400px;
         background-size: 483px 400px;
     }
 }
