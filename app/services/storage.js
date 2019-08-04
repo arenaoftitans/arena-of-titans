@@ -29,18 +29,7 @@ export class Storage {
         for (let key of Object.keys(localStorage)) {
             if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY) {
                 let data = localStorage.getItem(key);
-                // Convert old keys to new format with the date.
-                // TODO: remove this part after some time.
-                try {
-                    // If we can parse the JSON, then the value is in the new format.
-                    data = JSON.parse(data);
-                } catch (e) {
-                    data = {
-                        playerId: playerId,
-                        date: Date.now(),
-                    };
-                    localStorage.setItem(key, JSON.stringify(data));
-                }
+                data = JSON.parse(data);
 
                 // Remove old keys.
                 if ((Date.now() - data.date) > KEEP_PLAYER_ID_DURATION) {

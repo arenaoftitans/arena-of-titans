@@ -18,23 +18,19 @@
  */
 
 import { bindable } from 'aurelia-framework';
-import Clipboard from 'clipboard';
-import { Wait } from '../../../services/utils';
 import { AssetSource } from '../../../../services/assets';
 
 
 export class AotUrlCopyCustomElement {
     @bindable url;
+    inviteLink = null; // Populated by ref.
 
     constructor() {
         this.assetSource = AssetSource;
     }
 
-    attached() {
-        // Catch is there to prevent 'cUnhandled rejection TypeError: _clipboard2.default is not
-        // a constructor' warnings when launching tests with Firefox.
-        Wait.forId('copy-invite-link').then(() => {
-            new Clipboard('#copy-invite-link'); // eslint-disable-line
-        }).catch(() => {});
+    copyUrl() {
+        this.inviteLink.select();
+        document.execCommand('copy');
     }
 }

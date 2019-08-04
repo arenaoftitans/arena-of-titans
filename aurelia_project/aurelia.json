@@ -13,34 +13,38 @@
         "displayName": "Babel",
         "fileExtension": ".js",
         "options": {
-            "presets": [
-                "es2015",
-                "stage-1"
-            ],
             "plugins": [
-                "transform-es2015-modules-amd",
-                "syntax-flow",
-                "transform-decorators-legacy",
-                "transform-flow-strip-types"
+                "@babel/plugin-transform-modules-amd",
+                ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                ["@babel/plugin-proposal-class-properties", { "loose": true }]
+            ],
+            "presets": [
+                ["@babel/preset-env", {
+                    "loose": true,
+                    "modules": "commonjs"
+                }]
             ]
         },
-        "source": "app/**/*.js"
+        "source": [
+            "app/**/*.js"
+        ]
     },
     "coverageTranspiler": {
         "id": "babel",
         "displayName": "Babel with coverage",
         "fileExtension": ".js",
         "options": {
-            "presets": [
-                "es2015",
-                "stage-1"
-            ],
             "plugins": [
-                "transform-es2015-modules-amd",
-                "syntax-flow",
-                "transform-decorators-legacy",
-                "transform-flow-strip-types",
+                "@babel/plugin-transform-modules-amd",
+                ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                ["@babel/plugin-proposal-class-properties", { "loose": true }],
                 "istanbul"
+            ],
+            "presets": [
+                ["@babel/preset-env", {
+                    "loose": true,
+                    "modules": "commonjs"
+                }]
             ]
         },
         "source": "app/**/*.js"
@@ -234,13 +238,7 @@
             },
             {
                 "name": "game-create-bundle.js",
-                "dependencies": [
-                    {
-                        "name": "clipboard",
-                        "path": "../node_modules/clipboard/dist",
-                        "main": "clipboard"
-                    }
-                ],
+                "dependencies": [],
                 "source": [
                     "[**/game/create/**/*.js]",
                     "**/game/create/**/*.{css,html}"

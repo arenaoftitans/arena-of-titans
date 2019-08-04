@@ -4,9 +4,9 @@
   var locationPathname = global.location.pathname;
   var root = 'src';
   karma.config.args.forEach(function(value, index) {
-      if (value === 'aurelia-root') {
-          root = karma.config.args[index + 1];
-      }
+    if (value === 'aurelia-root') {
+      root = karma.config.args[index + 1];
+    }
   });
 
   if (!karma || !requirejs) {
@@ -32,6 +32,12 @@
       normalized.push(parts[i])
     }
 
+    // Use case of testing source code. RequireJS doesn't add .js extension to files asked via sibling selector
+    // If normalized path doesn't include some type of extension, add the .js to it
+    if (normalized.length > 0 && normalized[normalized.length - 1].indexOf('.') < 0) {
+      normalized[normalized.length - 1] = normalized[normalized.length - 1] + '.js'
+    }
+
     return normalized.join('/')
   }
 
@@ -55,16 +61,19 @@
     var originalDefine = global.define;
     global.define = function(name, deps, m) {
       if (typeof name === 'string') {
+        // alias from module "/base/root/name" to module "name"
         originalDefine('/base/' + root + '/' + name, [name], function (result) { return result; });
       }
 
+      // normal module define("name")
       return originalDefine(name, deps, m);
-    }
+    };
+    global.define.amd = originalDefine.amd;
   }
 
   function requireTests() {
     var TEST_REGEXP = /(spec)\.js$/i;
-    var allTestFiles = ['/base/test/unit/setup.js'];
+    var allTestFiles = [];
 
     Object.keys(window.__karma__.files).forEach(function(file) {
       if (TEST_REGEXP.test(file)) {
@@ -72,7 +81,9 @@
       }
     });
 
-    require(allTestFiles, window.__karma__.start);
+    require(['/base/test/unit/setup.js'], function() {
+      require(allTestFiles, window.__karma__.start);
+    });
   }
 
   karma.loaded = function() {}; // make it async
