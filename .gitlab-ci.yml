@@ -4,9 +4,6 @@
 image: node:10
 
 before_script:
-  # To prevent TypeError: log.gauge.isEnabled is not a function
-  # See: https://github.com/npm/npmlog/issues/48
-  - rm -rf node_modules/npm
   - yarn || echo "yarn not found, this is expected if we are on the deploy steps"
 
 cache:
