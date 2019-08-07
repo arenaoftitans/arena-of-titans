@@ -36,22 +36,22 @@ describe('board', () => {
     });
 
     it('should register callbacks', () => {
-        spyOn(mockedEas, 'subscribe');
+        jest.spyOn(mockedEas, 'subscribe');
 
         sut = new AotBoardCustomElement(mockedApi, mockedEas);
 
         expect(mockedEas.subscribe).toHaveBeenCalled();
-        expect(mockedEas.subscribe.calls.argsFor(0)[0]).toBe('aot:api:view_possible_squares');
-        expect(mockedEas.subscribe.calls.argsFor(1)[0]).toBe('aot:api:player_played');
-        expect(mockedEas.subscribe.calls.argsFor(2)[0]).toBe('aot:api:play');
-        expect(mockedEas.subscribe.calls.argsFor(3)[0])
+        expect(mockedEas.subscribe.mock.calls[0][0]).toBe('aot:api:view_possible_squares');
+        expect(mockedEas.subscribe.mock.calls[1][0]).toBe('aot:api:player_played');
+        expect(mockedEas.subscribe.mock.calls[2][0]).toBe('aot:api:play');
+        expect(mockedEas.subscribe.mock.calls[3][0])
             .toBe('aot:api:play_trump');
-        expect(mockedEas.subscribe.calls.argsFor(4)[0])
+        expect(mockedEas.subscribe.mock.calls[4][0])
             .toBe('aot:api:special_action_view_possible_actions');
     });
 
     it('should dispose of subscriptions', () => {
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.unbind();
 
@@ -79,7 +79,7 @@ describe('board', () => {
     });
 
     it('should move to on possible square', () => {
-        spyOn(mockedApi, 'play');
+        jest.spyOn(mockedApi, 'play');
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
@@ -96,7 +96,7 @@ describe('board', () => {
     });
 
     it('should only move on possible square', () => {
-        spyOn(mockedApi, 'play');
+        jest.spyOn(mockedApi, 'play');
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = {name: 'King', color: 'red'};
 
@@ -106,7 +106,7 @@ describe('board', () => {
     });
 
     it('should not move if no possible squares', () => {
-        spyOn(mockedApi, 'play');
+        jest.spyOn(mockedApi, 'play');
         sut.selectedCard = {name: 'King', color: 'red'};
 
         sut.handleSquareClicked('square-1-0', 0, 0, {isArrivalSquare: false});
@@ -115,7 +115,7 @@ describe('board', () => {
     });
 
     it('should not move if no selected card', () => {
-        spyOn(mockedApi, 'play');
+        jest.spyOn(mockedApi, 'play');
         sut.possibleSquares = ['square-0-0'];
         sut.selectedCard = null;
 
@@ -133,7 +133,7 @@ describe('board', () => {
 
     describe('pawn clicked', () => {
         it('should not do anything if pawnClickabel is false', () => {
-            spyOn(sut, 'onPawnClicked');
+            sut.onPawnClicked = jest.fn();
 
             sut.pawnClicked();
 
@@ -141,7 +141,7 @@ describe('board', () => {
         });
 
         it('should not do anything if index is excluded from clickable list', () => {
-            spyOn(sut, 'onPawnClicked');
+            sut.onPawnClicked = jest.fn();
             sut.pawnClickable = true;
             sut.pawnsForcedNotClickable = [0];
 
@@ -151,7 +151,7 @@ describe('board', () => {
         });
 
         it('should call cb if pawnClickabel is true', () => {
-            spyOn(sut, 'onPawnClicked');
+            sut.onPawnClicked = jest.fn();
             sut.pawnClickable = true;
 
             sut.pawnClicked(0);
@@ -160,12 +160,12 @@ describe('board', () => {
         });
 
         it('should move to if possible squares and pawn', () => {
-            spyOn(mockedApi, 'playSpecialAction');
+            jest.spyOn(mockedApi, 'playSpecialAction');
             sut.possibleSquares = ['square-0-0'];
             sut._selectedPawnIndex = 0;
             sut._actionName = 'action';
             sut.onPawnSquareClicked = () => {};
-            spyOn(sut, 'onPawnSquareClicked');
+            sut.onPawnSquareClicked = jest.fn();
 
             sut.handleSquareClicked('square-0-0', 0, 0, {isArrivalSquare: false});
 

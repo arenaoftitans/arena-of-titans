@@ -25,5 +25,11 @@ module.exports = {
             'stylelint "app/**/*.scss"',
             'eslint "app/**/*.js" "test/**/*.js"'
         ),
+        test: {
+            default: series(
+                rimraf('test/coverage-jest'),
+                'jest',
+            ),
+        },
     },
 };

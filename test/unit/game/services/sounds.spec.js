@@ -34,7 +34,7 @@ describe('sounds service', () => {
 
     describe('initialization', () => {
         it('should resolve deferred once sound element is ready', () => {
-            spyOn(sut._soundDeferred, 'resolve');
+            jest.spyOn(sut._soundDeferred, 'resolve');
             mockedEa.publish('aot:sound:ready');
 
             expect(sut._soundDeferred.resolve).toHaveBeenCalled();
@@ -43,7 +43,7 @@ describe('sounds service', () => {
 
     describe('sound ready', () => {
         beforeEach(() => {
-            spyOn(mockedEa, 'publish');
+            jest.spyOn(mockedEa, 'publish');
             sut._soundDeferred.resolve();
 
             return sut._soundDeferred.promise;

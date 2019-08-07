@@ -18,23 +18,13 @@
 */
 
 import 'aurelia-polyfills';
-import { initialize } from 'aurelia-pal-browser';
+import {Options} from 'aurelia-loader-nodejs';
+import {globalize} from 'aurelia-pal-nodejs';
+import path from 'path';
 
-initialize();
+Options.relativeToDir = path.join(__dirname, 'unit');
+globalize();
 
+global.navigator = { userAgent: 'Jest test runner' };
 
-function values(obj) {
-    let vals = [];
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
-            vals.push(obj[key]);
-        }
-    }
-    return vals;
-}
-
-
-if (typeof Object.values !== 'function') {
-    Object.values = values;
-}
-
+global.window.IS_TESTING = true;

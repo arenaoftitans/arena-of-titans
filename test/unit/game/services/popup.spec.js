@@ -39,18 +39,18 @@ describe('Popups service', () => {
         expect(sut._popups).toEqual([]);
         expect(sut._displayedPopupDeferred.promise).toBeNull();
         expect(sut._displayedPopupData).toBeNull();
-        expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
-        expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
-        expect(sut._popupReadyDeferred.promise).toEqual(jasmine.any(Promise));
-        expect(sut._popupReadyDeferred.resolve).toEqual(jasmine.any(Function));
+        expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
+        expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
+        expect(sut._popupReadyDeferred.promise).toEqual(expect.any(Promise));
+        expect(sut._popupReadyDeferred.resolve).toEqual(expect.any(Function));
     });
 
     describe('display', () => {
         it('should prepare the popup to be displayed', () => {
-            spyOn(sut, '_closeAllWithoutTimeout');
-            spyOn(mockedEas, 'publish');
-            spyOn(sut, '_displayNext');
-            spyOn(sut._popupReadyDeferred.promise, 'then');
+            jest.spyOn(sut, '_closeAllWithoutTimeout');
+            jest.spyOn(mockedEas, 'publish');
+            jest.spyOn(sut, '_displayNext');
+            jest.spyOn(sut._popupReadyDeferred.promise, 'then');
             let type = 'info';
             let data = {message: 'Hello'};
 
@@ -60,7 +60,7 @@ describe('Popups service', () => {
             expect(mockedEas.publish).not.toHaveBeenCalled();
             expect(sut._displayNext).not.toHaveBeenCalled();
             expect(sut._popupReadyDeferred.promise.then)
-                .toHaveBeenCalledWith(jasmine.any(Function));
+                .toHaveBeenCalledWith(expect.any(Function));
             expect(sut._popups.length).toBe(1);
             let popup = sut._popups[0];
             expect(popup.type).toBe(type);
@@ -68,26 +68,23 @@ describe('Popups service', () => {
             expect(popup.deferred).toBeDefined();
             expect(popup.timeout).toBe(0);
 
-            expect(ret).toEqual(jasmine.any(Promise));
+            expect(ret).toEqual(expect.any(Promise));
         });
 
-        it('should call _displayNext once popups are ready', () => {
-            spyOn(sut, '_displayNext');
+        it('should call _displayNext once popups are ready', async() => {
+            jest.spyOn(sut, '_displayNext');
             let type = 'info';
             let data = {message: 'Hello'};
 
             sut.display(type, data);
 
             sut._popupReadyDeferred.resolve();
-            return sut._popupReadyDeferred.promise.then(() => {
-                expect(sut._displayNext).toHaveBeenCalled();
-            }, () => {
-                fail('Unwanted code branch');
-            });
+            await sut._popupReadyDeferred.promise;
+            expect(sut._displayNext).toHaveBeenCalled();
         });
 
         it('should close all popups when displaying a new transition popup', () => {
-            spyOn(sut, '_closeAllWithoutTimeout');
+            jest.spyOn(sut, '_closeAllWithoutTimeout');
             let type = 'transition';
             let data = {message: 'Hello'};
 
@@ -99,8 +96,8 @@ describe('Popups service', () => {
 
     describe('_closeAllWithoutTimeout', () => {
         it('should close displayed popup if it does not have a timeout', () => {
-            spyOn(sut._logger, 'debug');
-            spyOn(sut._displayedPopupDeferred, 'reject');
+            jest.spyOn(sut._logger, 'debug');
+            jest.spyOn(sut._displayedPopupDeferred, 'reject');
             sut._displayedPopupData = {
                 meta: {},
             };
@@ -108,13 +105,13 @@ describe('Popups service', () => {
             sut._closeAllWithoutTimeout();
 
             expect(sut._logger.debug).toHaveBeenCalled();
-            expect(sut._displayedPopupDeferred.reject).toHaveBeenCalledWith(jasmine.any(Error));
+            expect(sut._displayedPopupDeferred.reject).toHaveBeenCalledWith(expect.any(Error));
             expect(sut._displayedPopupData).toBeNull();
         });
 
         it('should leave displayed popup opened if it has a timeout', () => {
-            spyOn(sut._logger, 'debug');
-            spyOn(sut._displayedPopupDeferred, 'reject');
+            jest.spyOn(sut._logger, 'debug');
+            jest.spyOn(sut._displayedPopupDeferred, 'reject');
             sut._displayedPopupData = {
                 meta: {
                     timeout: 20,
@@ -129,7 +126,7 @@ describe('Popups service', () => {
         });
 
         it('should purge the list of popups to display of popups without a timeout', () => {
-            spyOn(sut._logger, 'debug');
+            jest.spyOn(sut._logger, 'debug');
             sut._popups.push({}, {timeout: 20});
 
             sut._closeAllWithoutTimeout();
@@ -141,14 +138,14 @@ describe('Popups service', () => {
 
     describe('_displayNext', () => {
         it('should do nothing if no popups', () => {
-            spyOn(mockedEas, 'publish');
+            jest.spyOn(mockedEas, 'publish');
 
             sut._displayNext();
 
             expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
-        it('should clean displayed deferred on resolve', () => {
+        it('should clean displayed deferred on resolve', async() => {
             sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
                 sut._displayedPopupDeferred.resolve = resolve;
                 sut._displayedPopupDeferred.reject = reject;
@@ -156,23 +153,22 @@ describe('Popups service', () => {
             let resolve = sut._displayedPopupDeferred.resolve;
             let reject = sut._displayedPopupDeferred.reject;
             sut._displayedPopupData = {};
-            spyOn(sut._displayedPopupDeferred.promise, 'then').and.callThrough();
+            jest.spyOn(sut._displayedPopupDeferred.promise, 'then');
 
             sut._displayNext();
 
             expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
             resolve();
-            return sut._displayedPopupDeferred.promise.then(() => {
-                expect(sut._displayedPopupDeferred.promise).toBeNull();
-                expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
-                expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
-                expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
-                expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
-                expect(sut._displayedPopupData).toBeNull();
-            }, () => fail('Unwanted code branch'));
+            await sut._displayedPopupDeferred.promise;
+            expect(sut._displayedPopupDeferred.promise).toBeNull();
+            expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
+            expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
+            expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
+            expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
+            expect(sut._displayedPopupData).toBeNull();
         });
 
-        it('should clean displayed deferred on reject', () => {
+        it('should clean displayed deferred on reject', async() => {
             sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
                 sut._displayedPopupDeferred.resolve = resolve;
                 sut._displayedPopupDeferred.reject = reject;
@@ -180,23 +176,20 @@ describe('Popups service', () => {
             let resolve = sut._displayedPopupDeferred.resolve;
             let reject = sut._displayedPopupDeferred.reject;
             sut._displayedPopupData = {};
-            spyOn(sut._displayedPopupDeferred.promise, 'then').and.callThrough();
+            jest.spyOn(sut._displayedPopupDeferred.promise, 'then');
 
             sut._displayNext();
 
             expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
             reject(new Error());
 
-            return sut._displayedPopupDeferred.promise.then(
-                () => fail('Unwanted code branch'),
-                () => {
-                    expect(sut._displayedPopupDeferred.promise).toBeNull();
-                    expect(sut._displayedPopupDeferred.resolve).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
-                    expect(sut._displayedPopupDeferred.reject).toEqual(jasmine.any(Function));
-                    expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
-                    expect(sut._displayedPopupData).toBeNull();
-                });
+            await expect(sut._displayedPopupDeferred.promise).rejects.toThrow();
+            expect(sut._displayedPopupDeferred.promise).toBeNull();
+            expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
+            expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
+            expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
+            expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
+            expect(sut._displayedPopupData).toBeNull();
         });
 
         it('should display next popup', () => {
@@ -205,14 +198,14 @@ describe('Popups service', () => {
                 data: {message: 'Hello'},
                 timeout: 0,
                 deferred: {
-                    promise: jasmine.createSpy(),
-                    reject: jasmine.createSpy(),
-                    resolve: jasmine.createSpy(),
+                    promise: jest.fn(),
+                    reject: jest.fn(),
+                    resolve: jest.fn(),
                 },
             };
             sut._popups.push(popup);
-            spyOn(mockedEas, 'publish');
-            spyOn(window, 'setTimeout');
+            jest.spyOn(mockedEas, 'publish');
+            jest.spyOn(window, 'setTimeout');
 
             sut._displayNext();
 
@@ -234,26 +227,27 @@ describe('Popups service', () => {
         });
 
         it('should setup timeout if a timeout is specified', () => {
+            jest.useFakeTimers();
+
             let popup = {
                 type: 'info',
                 data: {message: 'Hello'},
                 timeout: 20,
                 deferred: {
                     promise: new Promise(() => {}),
-                    reject: jasmine.createSpy(),
-                    resolve: jasmine.createSpy(),
+                    reject: jest.fn(),
+                    resolve: jest.fn(),
                 },
             };
             sut._popups.push(popup);
-            spyOn(mockedEas, 'publish');
-            spyOn(window, 'setTimeout');
-            spyOn(popup.deferred.promise, 'then');
+            jest.spyOn(mockedEas, 'publish');
+            jest.spyOn(popup.deferred.promise, 'then');
 
             sut._displayNext();
 
-            expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 20);
+            expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 20);
             expect(popup.deferred.promise.then)
-                .toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Function));
+                .toHaveBeenCalledWith(expect.any(Function), expect.any(Function));
             expect(sut._popups).toEqual([]);
             expect(mockedEas.publish).toHaveBeenCalledWith('aot:popup:display', {
                 type: 'info',
@@ -270,7 +264,7 @@ describe('Popups service', () => {
 
     describe('_translatePopup', () => {
         it('should not do anything if there is no popup', () => {
-            spyOn(sut, '_translateObj');
+            jest.spyOn(sut, '_translateObj');
 
             sut._translatePopup();
 
@@ -279,7 +273,7 @@ describe('Popups service', () => {
 
         it('should not do anything if there is nothing to translate', () => {
             sut._displayedPopupData = {};
-            spyOn(sut, '_translateObj');
+            jest.spyOn(sut, '_translateObj');
 
             sut._translatePopup();
 
@@ -291,7 +285,7 @@ describe('Popups service', () => {
                 translate: {
                 },
             };
-            spyOn(sut, '_translateObj');
+            jest.spyOn(sut, '_translateObj').mockImplementation(() => {});
 
             sut._translatePopup();
 
@@ -312,16 +306,18 @@ describe('Popups service', () => {
                     },
                 },
             };
-            spyOn(sut, '_translateObj');
+            jest.spyOn(sut, '_translateObj').mockImplementation(() => {});
 
             sut._translatePopup();
 
-            expect(sut._translateObj).toHaveBeenCalledWith(
+            expect(sut._translateObj).toHaveBeenNthCalledWith(
+                1,
                 { p1: 'world' },
                 { pt1: 'test' }
             );
             // Since _translateObj is mocked, the params cannot contain pt1
-            expect(sut._translateObj).toHaveBeenCalledWith(
+            expect(sut._translateObj).toHaveBeenNthCalledWith(
+                2,
                 sut._displayedPopupData,
                 sut._displayedPopupData.translate.messages,
                 { p1: 'world' }

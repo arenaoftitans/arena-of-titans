@@ -18,7 +18,6 @@
 */
 
 import { AotCounterCustomElement } from '../../../../../app/game/play/widgets/counter/counter';
-import { Wait } from '../../../../../app/game/services/utils';
 import {
     ApiStub,
     EventAggregatorSubscriptionsStub,
@@ -40,50 +39,47 @@ describe('counter', () => {
     });
 
     it('should init on your turn', () => {
-        spyOn(sut, 'countDownClock');
+        jest.spyOn(sut, 'countDownClock');
+        sut.counterCanvas = document.createElement('div');
 
         mockedState.game.your_turn = true;
         mockedState.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
-        return Wait.forId('counter').then(() => {
-            expect(sut.countDownClock).toHaveBeenCalled();
-        }, () => fail('Unwanted code branch'));
+        expect(sut.countDownClock).toHaveBeenCalled();
     });
 
     it('shouldn\'t start but reset when not your turn', () => {
-        spyOn(sut, 'start');
-        spyOn(window, 'clearInterval');
+        jest.useFakeTimers();
+        jest.spyOn(sut, 'start');
 
         sut.startTime = (new Date()).getTime();
         mockedState.game.your_turn = false;
         mockedState.game.game_over = false;
         mockedEas.publish('aot:api:play');
 
-        return Wait.forId('counter').then(() => {
-            expect(sut.start).not.toHaveBeenCalled();
-            expect(window.clearInterval).toHaveBeenCalled();
-            expect(sut.startTime).toBe(null);
-        }, () => fail('Unwanted code branch'));
+        jest.runAllTimers();
+
+        expect(sut.start).not.toHaveBeenCalled();
+        expect(clearInterval).toHaveBeenCalled();
+        expect(sut.startTime).toBe(null);
     });
 
-    it('shouldn\'t start on game over', () => {
-        spyOn(sut, 'start');
-        spyOn(window, 'clearInterval');
+    it('should not start on game over', async() => {
+        jest.spyOn(sut, 'start');
+        jest.spyOn(window, 'clearInterval');
 
         mockedState.game.your_turn = true;
         mockedState.game.game_over = true;
         mockedApi.play();
 
-        return Wait.forId('counter').then(() => {
-            expect(sut.start).not.toHaveBeenCalled();
-        }, () => fail('Unwanted code branch'));
+        expect(sut.start).not.toHaveBeenCalled();
     });
 
     it('should handle play request while special action in progress', () => {
         sut.specialActionInProgress = true;
         sut._paused = true;
-        spyOn(sut, 'init');
+        jest.spyOn(sut, 'init');
 
         sut._handlePlayRequest();
 
@@ -93,7 +89,7 @@ describe('counter', () => {
     });
 
     it('should handle play request', () => {
-        spyOn(sut, 'init');
+        jest.spyOn(sut, 'init');
 
         sut._handlePlayRequest();
 
@@ -101,18 +97,18 @@ describe('counter', () => {
     });
 
     it('should handle special action notify', () => {
-        spyOn(sut, 'initSpecialActionCounter');
+        jest.spyOn(sut, 'startSpecialActionCounter');
 
         sut._handleSpecialActionNotify({special_action_name: 'action'});
 
         expect(sut.specialActionName).toBe('action');
         expect(sut._paused).toBe(true);
         expect(sut.specialActionInProgress).toBe(true);
-        expect(sut.initSpecialActionCounter).not.toHaveBeenCalledWith();
+        expect(sut.startSpecialActionCounter).not.toHaveBeenCalledWith();
     });
 
     it('should dispose subscriptions', () => {
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.unbind();
 

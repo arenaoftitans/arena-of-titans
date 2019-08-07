@@ -29,8 +29,8 @@ describe('sound', () => {
     beforeEach(() => {
         mockedEa = new EventAggregatorStub();
         mockedAudio = {
-            play: jasmine.createSpy(),
-            addEventListener: jasmine.createSpy(),
+            play: jest.fn(),
+            addEventListener: jest.fn(),
         };
         sut = new AotSoundCustomElement(mockedEa);
         sut.audio = mockedAudio;
@@ -42,14 +42,14 @@ describe('sound', () => {
             sut.bind();
 
             expect(mockedAudio.addEventListener)
-                .toHaveBeenCalledWith('ended', jasmine.any(Function));
+                .toHaveBeenCalledWith('ended', expect.any(Function));
         });
 
         it('should register proper callback on ended event', () => {
-            spyOn(mockedEa, 'publish');
+            jest.spyOn(mockedEa, 'publish');
             sut.bind();
 
-            const callback = mockedAudio.addEventListener.calls.mostRecent().args[1];
+            const callback = mockedAudio.addEventListener.mock.calls.slice(-1)[0][1];
             callback();
 
             expect(mockedEa.publish).toHaveBeenCalledWith('aot:sound:ended', 'a-sound');
@@ -64,13 +64,13 @@ describe('sound', () => {
         });
 
         it('should handle exceptions', () => {
-            mockedAudio.play.and.throwError('cannot play');
-            spyOn(console, 'warn');
+            mockedAudio.play.mockImplementation(() => { throw new Error('cannot play'); });
+            jest.spyOn(console, 'warn').mockImplementation(() => {});
 
             sut.bind();
 
             /* eslint-disable no-console */
-            expect(console.warn.calls.count()).toBe(2);
+            expect(console.warn.mock.calls.length).toBe(2);
             /* eslint-enable */
         });
     });

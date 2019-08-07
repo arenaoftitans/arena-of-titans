@@ -18,18 +18,15 @@ stages:
 lint:
   stage: checks
   script:
-    - npm run --silent lint
+    - yarn run --silent lint
   except:
     - triggers
 
 tests:
   stage: checks
   script:
-    - apt-get -qq update
-    - apt-get -qq install -y firefox-esr
-    - firefox --version
-    # We don't use chromium too because it is a bit harder to setup and won't bring much value here.
-    - npm run test -- -b FirefoxHeadless
+    - yarn run build
+    - yarn run test --coverage
   except:
     - triggers
 
@@ -44,7 +41,7 @@ build:
       - dist
     expire_in: 1 week
   script:
-    - npm run build -- --env $ENV --version $VERSION
+    - au build --env $ENV --version $VERSION
   except:
     - tags
 

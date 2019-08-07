@@ -169,6 +169,10 @@ export class AssetSource {
     }
 
     static _preloadImages(images) {
+        if (window.IS_TESTING) {
+            return;
+        }
+
         for (let src of images) {
             let img = new Image();
             img.src = `//${location.host}${src}`;

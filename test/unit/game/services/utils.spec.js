@@ -33,6 +33,10 @@ import {
 
 
 describe('services/utils', () => {
+    beforeEach(() => {
+        jest.resetAllMocks();
+    });
+
     describe('selectRandomElement', () => {
         it('should return undefined for empty array', () => {
             expect(selectRandomElement([])).toBeUndefined();
@@ -52,8 +56,8 @@ describe('services/utils', () => {
 
     describe('Elements', () => {
         it('forClass without container', () => {
-            spyOn(document, 'getElementById');
-            spyOn(document, 'getElementsByClassName');
+            jest.spyOn(document, 'getElementById');
+            jest.spyOn(document, 'getElementsByClassName');
 
             Elements.forClass('my-class');
 
@@ -65,9 +69,9 @@ describe('services/utils', () => {
             let container = {
                 getElementsByClassName: () => {},
             };
-            spyOn(document, 'getElementById').and.returnValue(container);
-            spyOn(document, 'getElementsByClassName');
-            spyOn(container, 'getElementsByClassName');
+            jest.spyOn(document, 'getElementById').mockReturnValue(container);
+            jest.spyOn(document, 'getElementsByClassName');
+            jest.spyOn(container, 'getElementsByClassName');
 
             Elements.forClass('my-class', 'my-id');
 
@@ -77,7 +81,7 @@ describe('services/utils', () => {
         });
 
         it('forClass on msie', () => {
-            spyOn(browsers, 'htmlCollection2Array');
+            jest.spyOn(browsers, 'htmlCollection2Array').mockImplementation(() => {});
             browsers.msie = true;
 
             Elements.forClass('my-class');
@@ -88,7 +92,7 @@ describe('services/utils', () => {
         });
 
         it('forClass on safari', () => {
-            spyOn(browsers, 'htmlCollection2Array');
+            jest.spyOn(browsers, 'htmlCollection2Array');
             browsers.mac = true;
 
             Elements.forClass('my-class');
@@ -109,7 +113,7 @@ describe('services/utils', () => {
         });
 
         it('should subscribe', () => {
-            spyOn(mockedEa, 'subscribe');
+            jest.spyOn(mockedEa, 'subscribe');
             let fn = () => {};
 
             sut.subscribe('signal', fn);
@@ -120,7 +124,7 @@ describe('services/utils', () => {
 
         it('should dispose', () => {
             let subscription = {
-                dispose: jasmine.createSpy('dispose'),
+                dispose: jest.fn(),
             };
             sut._subscriptions = [subscription];
 
@@ -148,7 +152,7 @@ describe('services/utils', () => {
         });
 
         it('should subscribe', () => {
-            spyOn(mockedBindingEngine, 'propertyObserver').and.callThrough();
+            jest.spyOn(mockedBindingEngine, 'propertyObserver');
             let fn = () => {};
             let object = {};
 
@@ -161,7 +165,7 @@ describe('services/utils', () => {
 
         it('should dispose', () => {
             let subscription = {
-                dispose: jasmine.createSpy('dispose'),
+                dispose: jest.fn(),
             };
             sut._subscriptions = [subscription];
 
@@ -198,11 +202,11 @@ describe('services/utils', () => {
             let className = 'my-class';
 
             it('should create new promise', () => {
-                spyOn(document, 'getElementsByClassName').and.returnValue([]);
+                jest.spyOn(document, 'getElementsByClassName').mockReturnValue([]);
 
                 let promise = Wait.forClass(className);
 
-                expect(promise).toEqual(jasmine.any(Promise));
+                expect(promise).toEqual(expect.any(Promise));
                 expect(document.getElementsByClassName).toHaveBeenCalledWith(className);
                 expect(Wait.classPromises[className]).toBe(promise);
             });
@@ -226,13 +230,12 @@ describe('services/utils', () => {
             });
 
             it('should search from element if passed', () => {
-                spyOn(document, 'getElementsByClassName');
-                let spy = jasmine.createSpy('getElementsByClassName').and.returnValue([]);
+                jest.spyOn(document, 'getElementsByClassName').mockImplementation(() => []);
                 let element = {
-                    getElementsByClassName: spy,
+                    getElementsByClassName: jest.fn(),
                 };
 
-                let promise = Wait.forClass(className, {element: element});
+                let promise = Wait.forClass(className, {element});
 
                 expect(promise.then).toBeDefined();
                 expect(document.getElementsByClassName).not.toHaveBeenCalled();
@@ -245,11 +248,11 @@ describe('services/utils', () => {
             let idName = 'my-id';
 
             it('should create new promise', () => {
-                spyOn(document, 'getElementById').and.returnValue([]);
+                jest.spyOn(document, 'getElementById').mockReturnValue([]);
 
                 let promise = Wait.forId(idName);
 
-                expect(promise).toEqual(jasmine.any(Promise));
+                expect(promise).toEqual(expect.any(Promise));
                 expect(document.getElementById).toHaveBeenCalledWith(idName);
                 expect(Wait.idPromises[idName]).toBe(promise);
             });

@@ -97,9 +97,7 @@ export class Wait {
 
         (function wait() {
             let elementsWithClasses = element.getElementsByClassName(className);
-            // If jasmine is defined, we are running this in a unit test and must resolve the
-            // promise.
-            if (elementsWithClasses.length > 0 || window.jasmine) {
+            if (window.IS_TESTING || elementsWithClasses.length > 0) {
                 deferred.resolve(elementsWithClasses);
             } else {
                 setTimeout(wait, 50);

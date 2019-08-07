@@ -20,7 +20,6 @@
 import { Api } from '../../../../app/game/services/api';
 import { State } from '../../../../app/game/services/state';
 import { REQUEST_TYPES } from '../../../../app/game/constants';
-import { Wait } from '../../../../app/game/services/utils';
 import {
     AnimationsStub,
     ErrorsReporterStub,
@@ -61,9 +60,9 @@ describe('services/api', () => {
     });
 
     it('should initialize as expected', () => {
-        spyOn(mockedAnimations, 'enable');
-        spyOn(mockedErrorsReporter, 'enable');
-        spyOn(mockedState, 'reset');
+        jest.spyOn(mockedAnimations, 'enable');
+        jest.spyOn(mockedErrorsReporter, 'enable');
+        jest.spyOn(mockedState, 'reset');
 
         sut.init();
 
@@ -78,7 +77,7 @@ describe('services/api', () => {
             hero: 'daemon',
             rt: REQUEST_TYPES.initGame,
         };
-        spyOn(mockedWs, 'send');
+        jest.spyOn(mockedWs, 'send');
 
         sut.initializeGame('Tester', 'daemon');
 
@@ -98,9 +97,9 @@ describe('services/api', () => {
                 state: 'TAKEN',
             }],
         };
-        spyOn(sut, '_handleGameInitialized').and.callThrough();
-        spyOn(mockedStorage, 'saveGameData');
-        spyOn(mockedState, 'initializeGame');
+        jest.spyOn(sut, '_handleGameInitialized');
+        jest.spyOn(mockedStorage, 'saveGameData');
+        jest.spyOn(mockedState, 'initializeGame');
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
@@ -123,7 +122,7 @@ describe('services/api', () => {
                 state: 'OPEN',
             },
         };
-        spyOn(sut, '_handleSlotUpdated').and.callThrough();
+        jest.spyOn(sut, '_handleSlotUpdated');
         mockedState.game.slots = [];
 
         expect(mockedState.game.slots.length).toBe(0);
@@ -143,7 +142,7 @@ describe('services/api', () => {
     });
 
     it('should update name', () => {
-        spyOn(mockedWs, 'send');
+        jest.spyOn(mockedWs, 'send');
         mockedState._me = {
             name: 'Player 1',
             index: 0,
@@ -171,7 +170,7 @@ describe('services/api', () => {
     });
 
     it('should send game data when joining game', () => {
-        spyOn(mockedWs, 'send');
+        jest.spyOn(mockedWs, 'send');
 
         sut.joinGame({gameId: 'the_game_id', name: 'Player 2', hero: 'daemon'});
 
@@ -185,7 +184,7 @@ describe('services/api', () => {
     });
 
     it('should send game data when joining game with a game id', () => {
-        spyOn(mockedWs, 'send');
+        jest.spyOn(mockedWs, 'send');
 
         sut.joinGame({gameId: 'the_game_id', playerId: 'player_id', hero: 'daemon'});
 
@@ -200,8 +199,8 @@ describe('services/api', () => {
 
     describe('joinGame', () => {
         it('should fetch the game id if neither name nor playerId is defined', () => {
-            spyOn(mockedStorage, 'retrievePlayerId').and.returnValue('player_id');
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedStorage, 'retrievePlayerId').mockReturnValue('player_id');
+            jest.spyOn(mockedWs, 'send');
 
             sut.joinGame({gameId: 'game_id'});
 
@@ -216,7 +215,7 @@ describe('services/api', () => {
         });
 
         it('should not fetch the if playerId is defined', () => {
-            spyOn(mockedStorage, 'retrievePlayerId');
+            jest.spyOn(mockedStorage, 'retrievePlayerId');
 
             sut.joinGame({gameId: 'game_id', playerId: 'player_id'});
 
@@ -224,7 +223,7 @@ describe('services/api', () => {
         });
 
         it('should not fetch the if name is defined', () => {
-            spyOn(mockedStorage, 'retrievePlayerId');
+            jest.spyOn(mockedStorage, 'retrievePlayerId');
 
             sut.joinGame({gameId: 'game_id', name: 'Player 1'});
 
@@ -234,8 +233,8 @@ describe('services/api', () => {
 
     it('should handle errors to display', () => {
         let message = {error_to_display: 'error', rt: 'error2', is_fatal: false};
-        spyOn(sut, '_handleErrors').and.callThrough();
-        spyOn(sut._ea, 'publish');
+        jest.spyOn(sut, '_handleErrors');
+        jest.spyOn(sut._ea, 'publish');
 
         sut._handleMessage(message);
 
@@ -247,14 +246,14 @@ describe('services/api', () => {
                 message: message.error_to_display,
             }
         );
-        expect(sut._ea.publish.calls.count()).toBe(1);
+        expect(sut._ea.publish.mock.calls.length).toBe(1);
     });
 
     it('should handle errors to log', () => {
         let message = {error: 'error'};
-        spyOn(sut, '_handleErrors').and.callThrough();
-        spyOn(sut._logger, 'error');
-        spyOn(sut._ea, 'publish');
+        jest.spyOn(sut, '_handleErrors');
+        jest.spyOn(sut._logger, 'error');
+        jest.spyOn(sut._ea, 'publish');
 
         sut._handleMessage(message);
 
@@ -264,7 +263,7 @@ describe('services/api', () => {
     });
 
     it('should create the game', () => {
-        spyOn(mockedWs, 'send');
+        jest.spyOn(mockedWs, 'send');
 
         mockedState._game = {
             slots: [
@@ -305,7 +304,7 @@ describe('services/api', () => {
             game_over: false,
             winners: [],
         };
-        spyOn(mockedNotify, 'notifyGameOver');
+        jest.spyOn(mockedNotify, 'notifyGameOver');
 
         sut._handleGameOverMessage(message);
 
@@ -317,8 +316,8 @@ describe('services/api', () => {
             game_over: true,
             winners: ['Player 1', 'Player 2'],
         };
-        spyOn(sut._gameOverDeferred, 'resolve');
-        spyOn(mockedNotify, 'notifyGameOver');
+        jest.spyOn(sut._gameOverDeferred, 'resolve');
+        jest.spyOn(mockedNotify, 'notifyGameOver');
 
         sut._handleGameOverMessage(message);
 
@@ -328,7 +327,7 @@ describe('services/api', () => {
 
     describe('game', () => {
         it('should view possible movements', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.viewPossibleMovements({name: 'King', color: 'red'});
 
@@ -342,7 +341,7 @@ describe('services/api', () => {
         });
 
         it('should play', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.play({cardName: 'King', cardColor: 'red', x: '0', y: '0'});
 
@@ -363,9 +362,9 @@ describe('services/api', () => {
                 your_turn: true,
                 active_trumps: [],
             };
-            spyOn(mockedState, 'updateAfterPlay');
-            spyOn(mockedNotify, 'clearNotifications');
-            spyOn(mockedNotify, 'notifyYourTurn');
+            jest.spyOn(mockedState, 'updateAfterPlay').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'clearNotifications').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'notifyYourTurn').mockImplementation(() => {});
             mockedState.game.your_turn = true;
 
             sut._handleMessage(message);
@@ -381,9 +380,9 @@ describe('services/api', () => {
                 your_turn: false,
                 active_trumps: [],
             };
-            spyOn(mockedState, 'updateAfterPlay');
-            spyOn(mockedNotify, 'clearNotifications');
-            spyOn(mockedNotify, 'notifyYourTurn');
+            jest.spyOn(mockedState, 'updateAfterPlay').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'clearNotifications').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'notifyYourTurn').mockImplementation(() => {});
             mockedState.game.your_turn = false;
 
             sut._handleMessage(message);
@@ -399,9 +398,9 @@ describe('services/api', () => {
                 your_turn: true,
                 active_trumps: [],
             };
-            spyOn(mockedState, 'updateAfterPlay');
-            spyOn(mockedNotify, 'clearNotifications');
-            spyOn(mockedNotify, 'notifyYourTurn');
+            jest.spyOn(mockedState, 'updateAfterPlay').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'clearNotifications').mockImplementation(() => {});
+            jest.spyOn(mockedNotify, 'notifyYourTurn').mockImplementation(() => {});
             mockedState.game.your_turn = true;
             mockedState.game.was_your_turn = true;
 
@@ -410,81 +409,6 @@ describe('services/api', () => {
             expect(mockedState.updateAfterPlay).toHaveBeenCalledWith(message);
             expect(mockedNotify.clearNotifications).toHaveBeenCalled();
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
-        });
-
-        it('should enable trump side effect', () => {
-            let message = {
-                rt: REQUEST_TYPES.play,
-                your_turn: true,
-                hand: [],
-                active_trumps: [{
-                    player_index: 0,
-                    trumps: [],
-                }, {
-                    player_index: 1,
-                    trumps: [{ name: 'Night mist' }],
-                }],
-            };
-            mockedState._me.index = 0;
-            mockedState.game.players.indexes = [0, 1];
-            spyOn(mockedEa, 'publish');
-
-            sut._handleMessage(message);
-
-            return Wait.forId('board').then(() => {
-                expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:hide_player', 1);
-                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:show_player', 1);
-            }).catch(() => fail('Unreachable branch'));
-        });
-
-        it('should not enable trump side effect for self', () => {
-            let message = {
-                rt: REQUEST_TYPES.play,
-                your_turn: true,
-                hand: [],
-                active_trumps: [{
-                    player_index: 0,
-                    trumps: [],
-                }, {
-                    player_index: 1,
-                    trumps: [{ name: 'Night mist', color: null }],
-                }],
-            };
-            mockedState._me.index = 1;
-            mockedState.game.players.indexes = [0, 1];
-            spyOn(mockedEa, 'publish');
-
-            sut._handleMessage(message);
-
-            return Wait.forId('board').then(() => {
-                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:hide_player', 1);
-                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:show_player', 1);
-            }).catch(() => fail('Unreachable branch'));
-        });
-
-        it('should show player', () => {
-            let message = {
-                rt: REQUEST_TYPES.play,
-                your_turn: true,
-                hand: [],
-                active_trumps: [{
-                    player_index: 0,
-                    trumps: [],
-                }, {
-                    player_index: 1,
-                    trumps: [],
-                }],
-            };
-            mockedState._me.index = 0;
-            mockedState.game.players.indexes = [0, 1];
-            spyOn(mockedEa, 'publish');
-
-            sut._handleMessage(message);
-
-            return Wait.forId('board').then(() => {
-                expect(mockedEa.publish).not.toHaveBeenCalledWith('aot:api:hide_player', 1);
-                expect(mockedEa.publish).toHaveBeenCalledWith('aot:api:show_player', 1);
-            }).catch(() => fail('Unreachable branch'));
         });
 
         it('should reconnect', () => {
@@ -513,7 +437,7 @@ describe('services/api', () => {
                     ],
                 },
             };
-            spyOn(mockedState, 'updateAfterPlay');
+            jest.spyOn(mockedState, 'updateAfterPlay').mockImplementation(() => {});
 
             sut._handleMessage(message);
 
@@ -521,7 +445,7 @@ describe('services/api', () => {
         });
 
         it('should ask name when reconnecting to a freed slot', () => {
-            spyOn(sut._reconnectDeferred, 'reject');
+            jest.spyOn(sut._reconnectDeferred, 'reject');
 
             let message = {
                 rt: REQUEST_TYPES.gameInitialized,
@@ -534,7 +458,7 @@ describe('services/api', () => {
         });
 
         it('should play trump without target', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.playTrump({trumpName: 'Trump', trumpColor: null});
 
@@ -550,7 +474,7 @@ describe('services/api', () => {
         });
 
         it('should play trump with a target', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.playTrump({trumpName: 'Trump', trumpColor: null, targetIndex: 0});
 
@@ -566,7 +490,7 @@ describe('services/api', () => {
         });
 
         it('should pass', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.pass();
 
@@ -580,7 +504,7 @@ describe('services/api', () => {
         });
 
         it('should pass action', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.passSpecialAction('assassination');
 
@@ -595,7 +519,7 @@ describe('services/api', () => {
         });
 
         it('should discard', () => {
-            spyOn(mockedWs, 'send');
+            jest.spyOn(mockedWs, 'send');
 
             sut.discard({cardName: 'King', cardColor: 'red'});
 
@@ -611,7 +535,7 @@ describe('services/api', () => {
 
         describe('special actions', () => {
             it('should display possible actions for assassinate', () => {
-                spyOn(sut._ws, 'send');
+                jest.spyOn(sut._ws, 'send');
 
                 sut.viewPossibleActions({
                     name: 'assassination',
@@ -628,7 +552,7 @@ describe('services/api', () => {
             });
 
             it('should handle special action played for invalid action', () => {
-                spyOn(sut._logger, 'error');
+                jest.spyOn(sut._logger, 'error');
 
                 sut._handleSpecialActionPlayed({special_action_name: 'action'});
 
@@ -636,7 +560,7 @@ describe('services/api', () => {
             });
 
             it('should handle special action played for assassination', () => {
-                spyOn(sut, '_movePlayer');
+                jest.spyOn(sut, '_movePlayer').mockImplementation(() => {});
 
                 sut._handleSpecialActionPlayed({
                     special_action_name: 'Assassination',
@@ -657,7 +581,7 @@ describe('services/api', () => {
             });
 
             it('should handle special action played when canceled', () => {
-                spyOn(sut, '_movePlayer');
+                jest.spyOn(sut, '_movePlayer');
 
                 sut._handleSpecialActionPlayed({
                     special_action_name: null,
@@ -669,24 +593,23 @@ describe('services/api', () => {
         });
 
         describe('WS reconnected', () => {
-            it('should join the game if game was created', () => {
+            it('should join the game if game was created', async() => {
                 sut._reconnectDeferred = {};
                 sut._gameId = 'game_id';
                 let promise = new Promise(resolve => resolve());
-                spyOn(sut, 'joinGame').and.returnValue(promise);
-                spyOn(sut._ws, 'sendDeferred');
+                jest.spyOn(sut, 'joinGame').mockReturnValue(promise);
+                jest.spyOn(sut._ws, 'sendDeferred');
 
                 sut._handleWsReconnected();
 
-                expect(sut._reconnectDeferred.promise).toEqual(jasmine.any(Promise));
-                return promise.then(() => {
-                    expect(sut._ws.sendDeferred).toHaveBeenCalled();
-                }, () => fail('Unwanted code branch'));
+                expect(sut._reconnectDeferred.promise).toEqual(expect.any(Promise));
+                await promise;
+                expect(sut._ws.sendDeferred).toHaveBeenCalled();
             });
 
             it('should not join the game if it has not been created', () => {
-                spyOn(sut, '_createReconnectDeferred');
-                spyOn(sut, 'joinGame');
+                jest.spyOn(sut, '_createReconnectDeferred');
+                jest.spyOn(sut, 'joinGame');
 
                 sut._handleWsReconnected();
 

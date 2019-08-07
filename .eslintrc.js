@@ -14,11 +14,11 @@ module.exports = {
         // Node.js global variables and Node.js-specific rules
         "node": true,
         "es6": true,
-        "jasmine": true,
+        "jest": true,
     },
     "plugins": [
         "babel",
-        "jasmine"
+        "jest"
     ],
     "rules": {
         "linebreak-style": [

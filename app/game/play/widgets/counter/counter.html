@@ -21,14 +21,14 @@
     <require from="./counter.css"></require>
 
     <div id="counter-countainer">
-        <canvas id="counter"
+        <canvas ref="counterCanvas"
             if.bind="!specialActionInProgress"
-            class="centered-block ${displayCounter ? '' : 'hidden'}"
+            class="counter centered-block ${displayCounter ? '' : 'hidden'}"
             width="300"
             height="300"></canvas>
-        <canvas id="counter-special-action"
+        <canvas ref="specialActionCounterCanvas"
             if.bind="specialActionInProgress"
-            class="centered-block ${displayCounter ? '' : 'hidden'}"
+            class="counter centered-block ${displayCounter ? '' : 'hidden'}"
             width="300"
             height="300"></canvas>
     </div>

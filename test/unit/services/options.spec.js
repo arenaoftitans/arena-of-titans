@@ -35,8 +35,8 @@ describe('app/services/options', () => {
     });
 
     it('construct from empty storage', () => {
-        spyOn(mockedStorage, 'loadOptions').and.returnValue({});
-        spyOn(mockedObserver, 'getObserver').and.callThrough();
+        jest.spyOn(mockedStorage, 'loadOptions').mockReturnValue({});
+        jest.spyOn(mockedObserver, 'getObserver');
 
         sut = new Options(mockedStorage, mockedObserver);
 
@@ -45,11 +45,11 @@ describe('app/services/options', () => {
     });
 
     it('construct from storage', () => {
-        spyOn(mockedStorage, 'loadOptions').and.returnValue({
+        jest.spyOn(mockedStorage, 'loadOptions').mockReturnValue({
             sound: false,
             test: 789,
         });
-        spyOn(mockedObserver, 'getObserver').and.callThrough();
+        jest.spyOn(mockedObserver, 'getObserver');
 
         sut = new Options(mockedStorage, mockedObserver);
 
@@ -61,7 +61,7 @@ describe('app/services/options', () => {
     });
 
     it('should update the inGameHelpSeen array', () => {
-        spyOn(mockedStorage, 'saveOptions');
+        jest.spyOn(mockedStorage, 'saveOptions');
         sut.inGameHelpSeen = [];
 
         sut.markInGameOptionSeen('assassination');
@@ -71,7 +71,7 @@ describe('app/services/options', () => {
     });
 
     it('should not readd it to the inGameHelpSeen array', () => {
-        spyOn(mockedStorage, 'saveOptions');
+        jest.spyOn(mockedStorage, 'saveOptions');
         sut.inGameHelpSeen = [ASSASSIN_IN_GAME_HELP];
 
         sut.markInGameOptionSeen('assassination');
@@ -81,7 +81,7 @@ describe('app/services/options', () => {
     });
 
     it('should not add undefined to the inGameHelpSeen array', () => {
-        spyOn(mockedStorage, 'saveOptions');
+        jest.spyOn(mockedStorage, 'saveOptions');
         sut.inGameHelpSeen = [];
 
         sut.markInGameOptionSeen('wrong_action');

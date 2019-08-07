@@ -40,7 +40,7 @@ describe('Popover service', () => {
 
     describe('display', () => {
         it('should prepare the popover to be displayed', () => {
-            spyOn(sut._popoverReadyDeferred.promise, 'then');
+            jest.spyOn(sut._popoverReadyDeferred.promise, 'then');
             let type = 'info';
             let text = 'Hello';
 
@@ -48,32 +48,29 @@ describe('Popover service', () => {
 
             expect(sut._popovers.length).toBe(1);
             let popover = sut._popovers[0];
-            expect(popover.deferred.promise).toEqual(jasmine.any(Promise));
+            expect(popover.deferred.promise).toEqual(expect.any(Promise));
             expect(popover.type).toBe(type);
             expect(popover.text).toBe(text);
             expect(sut._popoverReadyDeferred.promise.then).toHaveBeenCalled();
-            expect(ret).toEqual(jasmine.any(Function));
+            expect(ret).toEqual(expect.any(Function));
         });
 
-        it('should call _displayNext once popups are ready', () => {
-            spyOn(sut, '_displayNext');
+        it('should call _displayNext once popups are ready', async() => {
+            jest.spyOn(sut, '_displayNext');
             let type = 'info';
             let text = 'Hello';
 
             sut.display(type, text);
 
             sut._popoverReadyDeferred.resolve();
-            return sut._popoverReadyDeferred.promise.then(() => {
-                expect(sut._displayNext).toHaveBeenCalled();
-            }, () => {
-                fail('Unwanted code branch');
-            });
+            await sut._popoverReadyDeferred.promise;
+            expect(sut._displayNext).toHaveBeenCalled();
         });
     });
 
     describe('_displayNext', () => {
         it('should do nothing if no popups', () => {
-            spyOn(mockedEas, 'publish');
+            jest.spyOn(mockedEas, 'publish');
 
             sut._displayNext();
 
@@ -81,7 +78,7 @@ describe('Popover service', () => {
         });
 
         it('should clean displayed deferred on hide', () => {
-            spyOn(sut, '_displayNext');
+            jest.spyOn(sut, '_displayNext');
 
             mockedEas.publish('aot:popover:hidden');
 
@@ -94,13 +91,13 @@ describe('Popover service', () => {
                 type: 'danger',
                 text: 'Hello',
                 deferred: {
-                    promise: jasmine.createSpy(),
-                    reject: jasmine.createSpy(),
-                    resolve: jasmine.createSpy(),
+                    promise: jest.fn(),
+                    reject: jest.fn(),
+                    resolve: jest.fn(),
                 },
             };
             sut._popovers.push(popover);
-            spyOn(mockedEas, 'publish');
+            jest.spyOn(mockedEas, 'publish');
 
             sut._displayNext();
 

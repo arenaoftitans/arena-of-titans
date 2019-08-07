@@ -51,7 +51,7 @@ describe('notifications', () => {
     });
 
     it('should update last action on player played', () => {
-        spyOn(mockedI18n, 'tr').and.returnValue('translated');
+        jest.spyOn(mockedI18n, 'tr').mockReturnValue('translated');
         let message = {
             player_index: 0,
             last_action: {
@@ -80,7 +80,7 @@ describe('notifications', () => {
     });
 
     it('should update last action when a trump is played', () => {
-        spyOn(mockedI18n, 'tr').and.returnValue('translated');
+        jest.spyOn(mockedI18n, 'tr').mockReturnValue('translated');
         let message = {
             last_action: {
                 description: 'played_trump',
@@ -111,7 +111,7 @@ describe('notifications', () => {
     });
 
     it('should dispose subscriptions', () => {
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.unbind();
 
@@ -121,10 +121,10 @@ describe('notifications', () => {
     describe('special action', () => {
         it('should notify special actions without popup', () => {
             sut.specialActionInProgress = false;
-            spyOn(sut, '_translateSpecialActionText');
-            spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(false);
-            spyOn(mockedEas, 'publish');
-            spyOn(mockedPopup, 'display');
+            jest.spyOn(sut, '_translateSpecialActionText');
+            jest.spyOn(mockedOptions, 'mustViewInGameHelp').mockReturnValue(false);
+            jest.spyOn(mockedEas, 'publish');
+            jest.spyOn(mockedPopup, 'display');
 
             sut._notifySpecialAction({special_action_name: 'action'});
 
@@ -137,13 +137,13 @@ describe('notifications', () => {
             expect(mockedPopup.display).not.toHaveBeenCalled();
         });
 
-        it('should notify special actions with popup', () => {
+        it('should notify special actions with popup', async() => {
             sut.specialActionInProgress = false;
-            spyOn(sut, '_translateSpecialActionText');
-            spyOn(mockedOptions, 'mustViewInGameHelp').and.returnValue(true);
-            spyOn(mockedEas, 'publish');
+            jest.spyOn(sut, '_translateSpecialActionText');
+            jest.spyOn(mockedOptions, 'mustViewInGameHelp').mockReturnValue(true);
+            jest.spyOn(mockedEas, 'publish');
             let promise = new Promise(resolve => resolve());
-            spyOn(mockedPopup, 'display').and.returnValue(promise);
+            jest.spyOn(mockedPopup, 'display').mockReturnValue(promise);
 
             sut._notifySpecialAction({special_action_name: 'action'});
 
@@ -152,16 +152,15 @@ describe('notifications', () => {
             expect(sut._translateSpecialActionText).toHaveBeenCalled();
             expect(mockedOptions.mustViewInGameHelp).toHaveBeenCalledWith('action');
             expect(mockedPopup.display).toHaveBeenCalled();
-            promise.then(() => {
-                expect(mockedEas.publish)
-                    .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
-            }, () => fail('Unwanted code branch'));
+            await promise;
+            expect(mockedEas.publish)
+                .toHaveBeenCalledWith('aot:notifications:special_action_in_game_help_seen');
         });
 
         it('should handle special action played message', () => {
             sut.specialActionInProgress = true;
             sut._specialActionName = 'toto';
-            spyOn(sut, '_updateLastAction');
+            jest.spyOn(sut, '_updateLastAction');
 
             sut._handleSpecialActionPlayed({special_action_name: 'action'});
 

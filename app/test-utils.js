@@ -238,15 +238,6 @@ export class StorageStub {
 }
 
 
-export class LocalStorageStub {
-    setItem() {
-    }
-
-    getItem() {
-    }
-}
-
-
 export class WsStub {
     send(data) {
     }
@@ -312,7 +303,7 @@ export class EventAggregatorStub {
 
 export class BindingEngineStub {
     propertyObserver(object, property) {
-        this.propertyObserverObj = jasmine.createSpyObj('propertyObserver', ['subscribe']);
+        this.propertyObserverObj = {subscribe: jest.fn()};
         return this.propertyObserverObj;
     }
 }

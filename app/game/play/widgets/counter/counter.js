@@ -40,6 +40,9 @@ const COUNTER_HEIGHT = 300;
 @inject(Api, EventAggregatorSubscriptions, State)
 export class AotCounterCustomElement {
     _api;
+    // Filled by ref.
+    counterCanvas = null;
+    specialActionCounterCanvas = null;
 
     constructor(api, eas, state) {
         this._api = api;
@@ -52,14 +55,10 @@ export class AotCounterCustomElement {
         this._logger = LogManager.getLogger('AotCounterCustomElement');
         this.startTime = null;
         this.timerInterval = null;
-        this.canvas = null;
-        this.specialActionCanvas = null;
         this.timeLeft = TIME_FOR_TURN;
         this.angle = 0;
-        this.waitForCounter = Wait.forId('counter');
         this.waitForSpecialActionCounter = Wait.forId('counter-special-action');
 
-        this.init();
         this._eas.subscribe('aot:api:play', () => {
             clearInterval(this.timerIntervalForSpecialAction);
             this._handlePlayRequest();
@@ -78,13 +77,17 @@ export class AotCounterCustomElement {
         this._api.onReconnectDeferred.then(message => {
             if (message.special_action_name) {
                 this._handleSpecialActionNotify(message);
-                this.initSpecialActionCounter(message.special_action_elapsed_time);
+                this.startSpecialActionCounter(message.special_action_elapsed_time);
             }
         });
 
         this._eas.subscribe('aot:notifications:special_action_in_game_help_seen', () => {
-            this.initSpecialActionCounter();
+            this.startSpecialActionCounter();
         });
+    }
+
+    attached() {
+        this.init();
     }
 
     _canStart() {
@@ -116,30 +119,26 @@ export class AotCounterCustomElement {
     }
 
     init() {
-        if (this._state.game.your_turn && !this._state.game.game_over && this.startTime === null) {
+        if (this.counterCanvas === null) {
+            this._logger.debug('Counter canvas is not in the DOM yet. Init was called too soon.');
+        } else if (
+            this._state.game.your_turn
+            && !this._state.game.game_over
+            && this.startTime === null
+        ) {
             this._paused = false;
             this.specialActionInProgress = false;
-            this.waitForCounter.then(canvas => {
-                this.canvas = canvas;
-                let elapsedTime = this._state.me.elapsed_time || 0;
-                this.maxTime = TIME_FOR_TURN - elapsedTime;
-                // Round max time to upper second
-                this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
-                this._pausedDuration = 0;
-                // Draw the counter.
-                this.countDownClock();
-            });
+            let elapsedTime = this._state.me.elapsed_time || 0;
+            this.maxTime = TIME_FOR_TURN - elapsedTime;
+            // Round max time to upper second
+            this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
+            this._pausedDuration = 0;
+            // Draw the counter.
+            this.countDownClock();
         } else if (!this._state.game.your_turn) {
             clearInterval(this.timerInterval);
             this.startTime = null;
         }
-    }
-
-    initSpecialActionCounter(elapsedTime = 0) {
-        this.waitForSpecialActionCounter.then(canvas => {
-            this.specialActionCanvas = canvas;
-            this.startSpecialActionCounter(elapsedTime);
-        });
     }
 
     pause() {
@@ -187,8 +186,8 @@ export class AotCounterCustomElement {
             this.angle -= 0.0001;
         }
 
-        if (this.canvas && this.canvas.getContext) {
-            let ctx = this.canvas.getContext('2d');
+        if (this.counterCanvas && this.counterCanvas.getContext) {
+            let ctx = this.counterCanvas.getContext('2d');
 
             // Clear canvas before re-drawing
             ctx.clearRect(0, 0, COUNTER_WIDTH, COUNTER_HEIGHT);
@@ -205,8 +204,10 @@ export class AotCounterCustomElement {
             // Clock face ring
             ctx.beginPath();
             ctx.globalAlpha = 1;
+            /* eslint-disable */
             ctx.arc(COUNTER_X, COUNTER_Y, COUNTER_RADIUS + 0.1, - 1.57, - 1.57 + this.angle, false);
             ctx.arc(COUNTER_X, COUNTER_Y, 105, - 1.57 + this.angle, Math.PI * 2 - 1.57, true);
+            /* eslint-enable */
             ctx.fillStyle = this.colourChanger();
             ctx.fill();
             ctx.closePath();
@@ -266,8 +267,8 @@ export class AotCounterCustomElement {
 
     countDownClockForSpecialAction() {
         this.timeLeftForSpecialAction -= COUNTER_REFRESH_TIME;
-        if (this.specialActionCanvas && this.specialActionCanvas.getContext) {
-            let ctx = this.specialActionCanvas.getContext('2d');
+        if (this.specialActionCounterCanvas && this.specialActionCounterCanvas.getContext) {
+            let ctx = this.specialActionCounterCanvas.getContext('2d');
 
             // Clear canvas before re-drawing
             ctx.clearRect(0, 0, COUNTER_WIDTH, COUNTER_HEIGHT);

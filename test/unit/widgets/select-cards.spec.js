@@ -66,7 +66,7 @@ xdescribe('create/select-cards', () => {
 
     it('should run the animation on selectedCard change', () => {
         sut.selectedCard = environment.cards[0];
-        spyOn(sut, '_animateCard');
+        jest.spyOn(sut, '_animateCard');
 
         sut.selectedCardChanged();
 
