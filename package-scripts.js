@@ -6,14 +6,6 @@ module.exports = {
         default: 'nps',
         clean: rimraf('dist'),
         build: {
-            dev: series(
-                rimraf('dist'),
-                'au run --watch',
-            ),
-            prod: series(
-                rimraf('dist'),
-                'au build',
-            ),
             sprites: 'glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/',
         },
         update: {
@@ -25,11 +17,5 @@ module.exports = {
             'stylelint "app/**/*.scss"',
             'eslint "app/**/*.js" "test/**/*.js"'
         ),
-        test: {
-            default: series(
-                rimraf('test/coverage-jest'),
-                'jest',
-            ),
-        },
     },
 };

@@ -4,9 +4,11 @@
     "description": "Fight to death in the arena",
     "scripts": {
         "build": "au build",
+        "dev": "au run --watch",
         "lint": "nps lint",
-        "start": "au run --watch",
-        "test": "au test"
+        "start": "au run",
+        "test": "au test",
+        "translate": "nps translations"
     },
     "repository": {
         "type": "git",

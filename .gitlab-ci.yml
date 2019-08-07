@@ -41,7 +41,7 @@ build:
       - dist
     expire_in: 1 week
   script:
-    - au build --env $ENV --version $VERSION
+    - yarn run build --env $ENV --version $VERSION
   except:
     - tags
 

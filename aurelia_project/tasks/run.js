@@ -5,6 +5,7 @@ import {CLIOptions} from 'aurelia-cli';
 import project from '../aurelia.json';
 import build from './build';
 import watch from './watch';
+import {cleanDist} from './utils';
 
 let serve = gulp.series(
   build,
@@ -41,15 +42,15 @@ function reload() {
   browserSync.reload();
 }
 
-let run;
+const steps = [
+    cleanDist,
+    serve,
+];
 
 if (CLIOptions.hasFlag('watch')) {
-  run = gulp.series(
-    serve,
-    done => { watch(reload); done(); }
-  );
-} else {
-  run = serve;
+  steps.push(done => { watch(reload); done(); });
 }
+
+const run = gulp.series(...steps);
 
 export default run;
