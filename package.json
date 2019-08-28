@@ -5,6 +5,7 @@
     "scripts": {
         "build": "au build",
         "dev": "au run --watch",
+        "clean": "nps clean",
         "lint": "nps lint",
         "start": "au run",
         "test": "au test",
