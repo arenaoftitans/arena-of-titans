@@ -1,4 +1,5 @@
 import gulp from 'gulp';
+import logger from 'loggy';
 import {CLIOptions, build as buildCLI} from 'aurelia-cli';
 import transpile from './transpile';
 import processMarkup from './process-markup';
@@ -8,7 +9,7 @@ import buildAssets, {writeManifest} from './build-assets';
 import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
-import {cleanDist, loadEnvVariables} from './utils';
+import {cleanDist, getVersion, loadEnvVariables} from './utils';
 
 loadEnvVariables();
 
@@ -38,6 +39,8 @@ if (CLIOptions.taskName() === 'build' && CLIOptions.hasFlag('watch')) {
 const main = gulp.series(...steps);
 
 function readProjectConfiguration() {
+  logger.info(`Using environment: ${CLIOptions.getEnvironment()}`);
+  logger.info(`Using verison: ${getVersion()}`);
   return buildCLI.src(project);
 }
 
