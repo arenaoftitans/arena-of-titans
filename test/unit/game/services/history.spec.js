@@ -32,20 +32,20 @@ describe('services/history', () => {
     });
 
     it('init', () => {
-        spyOn(mockedEas, 'subscribe');
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'subscribe');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.init();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
         expect(mockedEas.subscribe).toHaveBeenCalled();
-        expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
+        expect(mockedEas.subscribe.mock.calls.slice(-1)[0][0]).toBe('aot:api:player_played');
     });
 
-    it('init with null', () => {
-        spyOn(mockedEas, 'subscribe');
-        spyOn(mockedEas, 'dispose');
-        spyOn(sut, '_addEntry');
+    it('init with null', async() => {
+        jest.spyOn(mockedEas, 'subscribe');
+        jest.spyOn(mockedEas, 'dispose');
+        jest.spyOn(sut, '_addEntry');
         let message = {
             history: [
                 [
@@ -66,24 +66,24 @@ describe('services/history', () => {
         });
         mockedApi._reconnectDeferred.resolve(message);
 
-        return sut.init().then(() => {
-            expect(mockedEas.dispose).toHaveBeenCalled();
-            expect(mockedEas.subscribe).toHaveBeenCalled();
-            expect(mockedEas.subscribe.calls.mostRecent().args[0]).toBe('aot:api:player_played');
-            expect(sut._addEntry).toHaveBeenCalledWith({
-                card: 'card 1',
-                player_index: 0,
-            });
-            expect(sut._addEntry).toHaveBeenCalledWith({
-                card: 'card 2',
-                player_index: 0,
-            });
-        }, () => fail('Unwanted code branch'));
+        await sut.init();
+
+        expect(mockedEas.dispose).toHaveBeenCalled();
+        expect(mockedEas.subscribe).toHaveBeenCalled();
+        expect(mockedEas.subscribe.mock.calls.slice(-1)[0][0]).toBe('aot:api:player_played');
+        expect(sut._addEntry).toHaveBeenCalledWith({
+            card: 'card 1',
+            player_index: 0,
+        });
+        expect(sut._addEntry).toHaveBeenCalledWith({
+            card: 'card 2',
+            player_index: 0,
+        });
     });
 
     describe('getLastPlayedCards', () => {
         it('should return an empty array if history doesn\'t exists for player', () => {
-            expect(sut.getLastPlayedCards(0)).toEqual(jasmine.any(Array));
+            expect(sut.getLastPlayedCards(0)).toEqual(expect.any(Array));
             expect(sut.getLastPlayedCards(0).length).toBe(0);
         });
 

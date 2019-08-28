@@ -27,14 +27,14 @@ describe('sounds', () => {
 
     beforeEach(() => {
         mockedEas = new EventAggregatorSubscriptionsStub();
-        spyOn(mockedEas, 'subscribe').and.callThrough();
+        jest.spyOn(mockedEas, 'subscribe');
         sut = new AotSoundsCustomElement(mockedEas);
     });
 
     describe('initialization', () => {
         it('should listen for play sound events', () => {
             expect(mockedEas.subscribe)
-                .toHaveBeenCalledWith('aot:sound:play', jasmine.any(Function));
+                .toHaveBeenCalledWith('aot:sound:play', expect.any(Function));
         });
 
         it('should push to the sound list on sound play events', () => {
@@ -46,7 +46,7 @@ describe('sounds', () => {
 
         it('should listen for play ended events', () => {
             expect(mockedEas.subscribe)
-                .toHaveBeenCalledWith('aot:sound:ended', jasmine.any(Function));
+                .toHaveBeenCalledWith('aot:sound:ended', expect.any(Function));
         });
 
         it('should remove sound on ended event', () => {

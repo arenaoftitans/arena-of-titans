@@ -8,7 +8,7 @@ import buildAssets, {writeManifest} from './build-assets';
 import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
-import {loadEnvVariables} from './utils';
+import {cleanDist, loadEnvVariables} from './utils';
 
 loadEnvVariables();
 
@@ -26,16 +26,16 @@ let build = gulp.series(
   copyFiles
 );
 
-let main;
+let steps = [
+    cleanDist,
+    build,
+];
 
 if (CLIOptions.taskName() === 'build' && CLIOptions.hasFlag('watch')) {
-  main = gulp.series(
-    build,
-    (done) => { watch(); done(); }
-  );
-} else {
-  main = build;
+    steps.push((done) => { watch(); done(); });
 }
+
+const main = gulp.series(...steps);
 
 function readProjectConfiguration() {
   return buildCLI.src(project);

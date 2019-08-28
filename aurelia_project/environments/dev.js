@@ -1,8 +1,8 @@
-{
+export default {
     "api": {
-        "host": "devapi.arenaoftitans.com",
+        "host": "localhost",
         "path": "/ws/",
-        "port": 80,
+        "port": 8180,
         "tls_port": 443,
         "version": "latest"
     },
@@ -17,5 +17,5 @@
         "ulya"
     ],
     "debug": true,
-    "testing": false
+    "testing": true
 }

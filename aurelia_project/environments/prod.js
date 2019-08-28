@@ -1,6 +1,6 @@
-{
+export default {
     "api": {
-        "host": "api.aot.testing",
+        "host": "api.arenaoftitans.com",
         "path": "/ws/",
         "port": 80,
         "tls_port": 443,
@@ -16,6 +16,6 @@
         "razbrak",
         "ulya"
     ],
-    "debug": true,
+    "debug": false,
     "testing": false
 }

@@ -31,7 +31,7 @@ describe('the Game Layout module', () => {
     });
 
     it('should init the history', () => {
-        spyOn(mockedHistory, 'init');
+        jest.spyOn(mockedHistory, 'init');
 
         const sut = new Layout(mockedHistory);  // eslint-disable-line
 

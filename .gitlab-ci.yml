@@ -4,9 +4,6 @@
 image: node:10
 
 before_script:
-  # To prevent TypeError: log.gauge.isEnabled is not a function
-  # See: https://github.com/npm/npmlog/issues/48
-  - rm -rf node_modules/npm
   - yarn || echo "yarn not found, this is expected if we are on the deploy steps"
 
 cache:
@@ -21,18 +18,15 @@ stages:
 lint:
   stage: checks
   script:
-    - npm run --silent lint
+    - yarn run --silent lint
   except:
     - triggers
 
 tests:
   stage: checks
   script:
-    - apt-get -qq update
-    - apt-get -qq install -y firefox-esr
-    - firefox --version
-    # We don't use chromium too because it is a bit harder to setup and won't bring much value here.
-    - npm run test -- -b FirefoxHeadless
+    - yarn run build
+    - yarn run test --coverage
   except:
     - triggers
 
@@ -47,7 +41,7 @@ build:
       - dist
     expire_in: 1 week
   script:
-    - npm run build -- --env $ENV --version $VERSION
+    - yarn run build --env $ENV --version $VERSION
   except:
     - tags
 

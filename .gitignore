@@ -1,7 +1,6 @@
 /index.html
 /node_modules
 /dist
-/coverage
 /public
 /scripts/rollbar.js
 /app/environment.js
@@ -10,3 +9,4 @@
 npm-debug.log
 yarn-error.log
 /.env
+/test/coverage-jest

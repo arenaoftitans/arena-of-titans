@@ -47,7 +47,7 @@ describe('test-utils', () => {
         });
 
         it('should call callbacks on publish', () => {
-            let fn = jasmine.createSpy('testFn');
+            let fn = jest.fn();
             sut.cbs.signal = [fn];
 
             sut.publish('signal', 'message');
@@ -66,7 +66,7 @@ describe('test-utils', () => {
         it('should subscribe multiple', () => {
             let fn = () => {};
             let signals = ['signal1', 'signal2'];
-            spyOn(sut, 'subscribe');
+            jest.spyOn(sut, 'subscribe');
 
             sut.subscribeMultiple(signals, fn);
 

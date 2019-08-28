@@ -34,7 +34,7 @@ describe('services/notify', () => {
 
     beforeEach(() => {
         link.href = '/dist/asset/favicon.png';
-        spyOn(document, 'getElementById').and.returnValue(link);
+        jest.spyOn(document, 'getElementById').mockReturnValue(link);
 
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
@@ -46,7 +46,7 @@ describe('services/notify', () => {
         sut._originalTitle = 'originalTitle';
         sut._originalFaviconHref = '/original/favicon.png';
         expect(document.title).not.toBe(sut._originalTitle);
-        spyOn(sut, '_createFavicon');
+        jest.spyOn(sut, '_createFavicon').mockImplementation(() => {});
 
         sut.clearNotifications();
 
@@ -55,20 +55,20 @@ describe('services/notify', () => {
     });
 
     it('should swap favicon', () => {
-        spyOn(sut, '_createFavicon');
+        jest.spyOn(sut, '_createFavicon').mockImplementation(() => {});
 
         sut._swapFavicon();
 
         expect(document.getElementById).toHaveBeenCalledWith('favicon');
         expect(sut._createFavicon).toHaveBeenCalledWith(
-            jasmine.stringMatching(/\/dist\/assets\/favicon-notify.*\.png/),
+            expect.stringMatching(/\/dist\/assets\/favicon-notify.*\.png/),
             link
         );
     });
 
     describe('should play sound', () => {
         beforeEach(() => {
-            spyOn(mockedSounds, 'play');
+            jest.spyOn(mockedSounds, 'play');
         });
 
         it('should play your-turn-voice', () => {

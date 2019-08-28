@@ -4,7 +4,7 @@ const ROUTES = [
         redirect: 'create',
     },
     {
-        route: ['/create', '/:version/create', '/:version/create/:id'],
+        route: ['/:version/create/:id', '/:version/create', '/create'],
         name: 'create',
         moduleId: './create/create',
         nav: false,

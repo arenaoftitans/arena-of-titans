@@ -18,22 +18,13 @@
  */
 
 import { Storage } from '../../../app/services/storage';
-import { LocalStorageStub } from '../../../app/test-utils';
 
 
 describe('app/services/storage', () => {
     let sut;
 
     beforeEach(() => {
-        // By default on FireFox, localStorage is read only. Make writable to replace it with mock.
-        // On PhatomJS this doesn't work, don't do anything.
-        if (navigator.userAgent.indexOf('PhantomJS') === -1) {
-            Object.defineProperty(window, 'localStorage', {
-                writable: true,
-                configurable: true,
-            });
-            window.localStorage = new LocalStorageStub();
-        }
+        localStorage.clear();
         sut = new Storage();
     });
 
@@ -42,15 +33,11 @@ describe('app/services/storage', () => {
             toSave: 'toto',
             _notToSave: 'test',
         };
-        spyOn(window.localStorage, 'setItem');
 
         sut.saveOptions(options);
 
-        expect(window.localStorage.setItem).toHaveBeenCalledWith(
-            'options',
-            JSON.stringify({
-                toSave: 'toto',
-            })
-        );
+        expect(localStorage.getItem('options')).toEqual(JSON.stringify({
+            toSave: 'toto',
+        }));
     });
 });

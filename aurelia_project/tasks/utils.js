@@ -4,6 +4,7 @@ import gulp from 'gulp';
 import transform from 'gulp-transform';
 import logger from 'loggy';
 import {CLIOptions} from 'aurelia-cli';
+import rimraf from 'rimraf';
 import project from '../aurelia.json';
 
 
@@ -87,4 +88,9 @@ export function insertInto(obj, path, value) {
     const insertKey = insertPath.pop();
     obj = getObjectAtPath(obj, insertPath);
     obj[insertKey] = value;
+}
+
+
+export function cleanDist(done) {
+    rimraf('dist', done);
 }

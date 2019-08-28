@@ -53,13 +53,13 @@ describe('trump', () => {
         sut.kind = 'player';
     });
 
-    it('should play trump with a target after a popup', () => {
+    it('should play trump with a target after a popup', async() => {
         let deferred = {};
         deferred.promise = new Promise(resolve => {
             deferred.resolve = resolve;
         });
-        spyOn(mockedPopup, 'display').and.returnValue(deferred.promise);
-        spyOn(mockedEas, 'publish');
+        jest.spyOn(mockedPopup, 'display').mockReturnValue(deferred.promise);
+        jest.spyOn(mockedEas, 'publish');
         mockedState._game = {
             players: {
                 names: ['Player 1', null, 'Player 2'],
@@ -102,18 +102,17 @@ describe('trump', () => {
             name: 'Player 2',
             index: 2,
         });
-        return deferred.promise.then(() => {
-            expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
-                trumpName: 'Trump',
-                trumpColor: null,
-                targetIndex: 2,
-            });
-        }, () => fail('Unwanted code branch'));
+        await deferred.promise;
+        expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
+            trumpName: 'Trump',
+            trumpColor: null,
+            targetIndex: 2,
+        });
     });
 
     it('should play trump without a target directly', () => {
-        spyOn(mockedPopup, 'display');
-        spyOn(mockedEas, 'publish');
+        jest.spyOn(mockedPopup, 'display');
+        jest.spyOn(mockedEas, 'publish');
         mockedState._game = {
             your_turn: true,
         };
@@ -130,7 +129,7 @@ describe('trump', () => {
     });
 
     it('should not play a trump if not your turn', () => {
-        spyOn(mockedEas, 'publish');
+        jest.spyOn(mockedEas, 'publish');
         mockedApi._game = {
             your_turn: false,
         };
@@ -141,7 +140,7 @@ describe('trump', () => {
     });
 
     it('should dispose subscriptions', () => {
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.unbind();
 
@@ -149,8 +148,8 @@ describe('trump', () => {
     });
 
     it('should not play trump if kind is different than player', () => {
-        spyOn(mockedApi, 'playTrump');
-        spyOn(mockedPopup, 'display');
+        jest.spyOn(mockedApi, 'playTrump');
+        jest.spyOn(mockedPopup, 'display');
         sut.kind = 'affecting';
 
         sut.play();

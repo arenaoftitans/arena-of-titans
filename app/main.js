@@ -17,12 +17,6 @@
 * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Promise polyfill for IE11
-Promise.config({  // eslint-disable-line no-unused-vars
-    longStackTraces: false,
-    warnings: false,
-});
-
 import { AppRouter } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import * as Logger from 'aurelia-logging';

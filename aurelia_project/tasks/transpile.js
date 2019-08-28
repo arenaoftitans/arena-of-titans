@@ -13,16 +13,17 @@ import {getVersion, dumpAsExportedData} from './utils';
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
 
-  return gulp.src(`aurelia_project/environments/${env}.json`)
-    .pipe(transform('utf8', content => {
-      const data = JSON.parse(content);
-      data.version = getVersion();
-      data.api.host = process.env.API_HOST || data.api.host;
-      data.api.port = process.env.API_PORT || data.api.port;
-      data.api.port = parseInt(data.api.port, 10);
-      data.api.version = process.env.API_VERSION || data.api.version;
+  const environment = require(`../environments/${env}.js`).default;
 
-      return dumpAsExportedData(data);
+  return gulp.src(`aurelia_project/environments/${env}.js`)
+    .pipe(transform('utf8', () => {
+      environment.version = getVersion();
+      environment.api.host = process.env.API_HOST || environment.api.host;
+      environment.api.port = process.env.API_PORT || environment.api.port;
+      environment.api.port = parseInt(environment.api.port, 10);
+      environment.api.version = process.env.API_VERSION || environment.api.version;
+
+      return dumpAsExportedData(environment);
     }))
     .pipe(changedInPlace({firstPass: true}))
     .pipe(rename('environment.js'))

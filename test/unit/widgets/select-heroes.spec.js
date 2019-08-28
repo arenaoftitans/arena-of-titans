@@ -66,7 +66,7 @@ describe('create/select-heroes', () => {
 
     it('should run the animation on selectedHero change', () => {
         sut.selectedHero = environment.heroes[0];
-        spyOn(sut, '_animateHero');
+        jest.spyOn(sut, '_animateHero');
 
         sut.selectedHeroChanged();
 

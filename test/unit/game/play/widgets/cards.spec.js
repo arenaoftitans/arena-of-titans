@@ -57,7 +57,7 @@ describe('cards', () => {
 
     it('should view possible movements', () => {
         let card = {name: 'King', color: 'red'};
-        spyOn(mockedApi, 'viewPossibleMovements');
+        jest.spyOn(mockedApi, 'viewPossibleMovements');
         mockedState._game.your_turn = true;
         mockedState._game.has_remaining_moves_to_play = true;
 
@@ -69,7 +69,7 @@ describe('cards', () => {
 
     it('should not view possible movement if not your turn', () => {
         let card = {name: 'King', color: 'red'};
-        spyOn(mockedApi, 'viewPossibleMovements');
+        jest.spyOn(mockedApi, 'viewPossibleMovements');
         mockedState._game.your_turn = false;
         sut.selectedCard = null;
 
@@ -81,7 +81,7 @@ describe('cards', () => {
 
     it('should not view possible movement if no move left', () => {
         let card = {name: 'King', color: 'red'};
-        spyOn(mockedApi, 'viewPossibleMovements');
+        jest.spyOn(mockedApi, 'viewPossibleMovements');
         mockedState._game.your_turn = true;
         mockedState._game.has_remaining_moves_to_play = false;
         sut.selectedCard = null;
@@ -92,9 +92,9 @@ describe('cards', () => {
         expect(mockedApi.viewPossibleMovements).not.toHaveBeenCalledWith();
     });
 
-    it('should pass', () => {
-        spyOn(mockedPopup, 'display').and.callThrough();
-        spyOn(mockedApi, 'pass');
+    it('should pass', async() => {
+        jest.spyOn(mockedPopup, 'display');
+        jest.spyOn(mockedApi, 'pass');
         sut.selectedCard = {name: 'King', color: 'red'};
 
         sut.pass();
@@ -107,15 +107,15 @@ describe('cards', () => {
                 },
             }
         );
-        return mockedPopup.popupPromise.then(() => {
-            expect(sut.selectedCard).toBe(null);
-            expect(mockedApi.pass).toHaveBeenCalled();
-        }, () => fail('Unwanted code branch'));
+        await mockedPopup.popupPromise;
+
+        expect(sut.selectedCard).toBe(null);
+        expect(mockedApi.pass).toHaveBeenCalled();
     });
 
-    it('should pass action', () => {
-        spyOn(mockedPopup, 'display').and.callThrough();
-        spyOn(mockedApi, 'passSpecialAction');
+    it('should pass action', async() => {
+        jest.spyOn(mockedPopup, 'display');
+        jest.spyOn(mockedApi, 'passSpecialAction');
         sut.specialActionInProgress = true;
         sut.specialActionName = 'assassination';
 
@@ -129,15 +129,14 @@ describe('cards', () => {
                 },
             }
         );
-        return mockedPopup.popupPromise.then(() => {
-            expect(mockedApi.passSpecialAction).toHaveBeenCalledWith('assassination');
-        }, () => fail('Unwanted code branch'));
+        await mockedPopup.popupPromise;
+        expect(mockedApi.passSpecialAction).toHaveBeenCalledWith('assassination');
     });
 
-    it('should not pass on cancel', () => {
+    it('should not pass on cancel', async() => {
         let promise = Promise.reject(new Error());
-        spyOn(mockedPopup, 'display').and.returnValue(promise);
-        spyOn(mockedApi, 'pass');
+        jest.spyOn(mockedPopup, 'display').mockReturnValue(promise);
+        jest.spyOn(mockedApi, 'pass');
 
         sut.pass();
 
@@ -150,14 +149,13 @@ describe('cards', () => {
             }
         );
 
-        return promise.then(() => fail('Unwanted code branch'), () => {
-            expect(mockedApi.pass).not.toHaveBeenCalled();
-        }, () => fail('Unwanted code branch'));
+        await expect(promise).rejects.toThrow();
+        expect(mockedApi.pass).not.toHaveBeenCalled();
     });
 
-    it('should discard a card', () => {
-        spyOn(mockedApi, 'discard');
-        spyOn(mockedPopup, 'display').and.callThrough();
+    it('should discard a card', async() => {
+        jest.spyOn(mockedApi, 'discard');
+        jest.spyOn(mockedPopup, 'display');
         sut.selectedCard = {
             name: 'King',
             color: 'red',
@@ -175,18 +173,17 @@ describe('cards', () => {
             }
         );
 
-        return mockedPopup.popupPromise.then(() => {
-            expect(mockedApi.discard).toHaveBeenCalledWith({
-                cardName: 'King',
-                cardColor: 'red',
-            });
-            expect(sut.selectedCard).toBe(null);
-        }, () => fail('Unwanted code branch'));
+        await mockedPopup.popupPromise;
+        expect(mockedApi.discard).toHaveBeenCalledWith({
+            cardName: 'King',
+            cardColor: 'red',
+        });
+        expect(sut.selectedCard).toBe(null);
     });
 
     it('should display a popup if no card is selected', () => {
-        spyOn(mockedApi, 'discard');
-        spyOn(mockedPopup, 'display');
+        jest.spyOn(mockedApi, 'discard');
+        jest.spyOn(mockedPopup, 'display');
 
         sut.discard();
 
@@ -204,7 +201,7 @@ describe('cards', () => {
 
     describe('special action', () => {
         it('should register callbacks', () => {
-            spyOn(mockedEas, 'subscribe');
+            jest.spyOn(mockedEas, 'subscribe');
 
             sut =
                 new AotCardsCustomElement(mockedApi, mockedPopup, mockedI18n, mockedOl, mockedEas);
@@ -214,9 +211,9 @@ describe('cards', () => {
 
         it('should dispose subscriptions', () => {
             let observerLocatorStubResults = new ObserverLocatorStubResults();
-            spyOn(mockedOl, 'getObserver').and.returnValue(observerLocatorStubResults);
-            spyOn(observerLocatorStubResults, 'unsubscribe');
-            spyOn(mockedEas, 'dispose');
+            jest.spyOn(mockedOl, 'getObserver').mockReturnValue(observerLocatorStubResults);
+            jest.spyOn(observerLocatorStubResults, 'unsubscribe');
+            jest.spyOn(mockedEas, 'dispose');
 
             sut.unbind();
 
@@ -247,7 +244,7 @@ describe('cards', () => {
 
         it('should view possible movements for cards', () => {
             sut.specialActionInProgress = true;
-            spyOn(mockedApi, 'viewPossibleMovements');
+            jest.spyOn(mockedApi, 'viewPossibleMovements');
 
             sut.viewPossibleMovements();
 

@@ -61,20 +61,20 @@ describe('services/ws', () => {
     it('should send deferred message', () => {
         sut._waitingGameJoined.push({msg: 'coucou'});
         sut._waitingGameJoined.push({msg: 'salut'});
-        spyOn(sut, 'send');
+        jest.spyOn(sut, 'send').mockImplementation(() => {});
 
         sut.sendDeferred();
 
-        let firstCallArgs = sut.send.calls.all()[0].args[0];
+        let firstCallArgs = sut.send.mock.calls[0][0];
         expect(firstCallArgs).toEqual({msg: 'coucou'});
-        let secondCallArgs = sut.send.calls.all()[1].args[0];
+        let secondCallArgs = sut.send.mock.calls[1][0];
         expect(secondCallArgs).toEqual({msg: 'salut'});
         expect(sut._waitingGameJoined.length).toBe(0);
     });
 
     it('should send waiting open on open', () => {
-        spyOn(mockedEa, 'publish');
-        spyOn(sut, '_sendPending');
+        jest.spyOn(mockedEa, 'publish').mockImplementation(() => {});
+        jest.spyOn(sut, '_sendPending').mockImplementation(() => {});
         sut._waitingOpen.push({msg: 'coucou'});
 
         sut._ws.onopen();
@@ -84,11 +84,11 @@ describe('services/ws', () => {
     });
 
     it('should handle reconnect', () => {
-        spyOn(mockedEa, 'publish');
-        spyOn(sut, '_sendPending');
+        jest.spyOn(mockedEa, 'publish').mockImplementation(() => {});
+        jest.spyOn(sut, '_sendPending').mockImplementation(() => {});
         sut._waitingOpen.push({msg: 'coucou'});
         sut._mustReconnect = true;
-        sut._closePopover = jasmine.createSpy();
+        sut._closePopover = jest.fn();
 
         sut._ws.onopen();
 
@@ -99,7 +99,7 @@ describe('services/ws', () => {
     });
 
     it('should handle onclose', () => {
-        spyOn(mockedPopover, 'display');
+        jest.spyOn(mockedPopover, 'display').mockImplementation(() => {});
 
         sut._ws.onclose();
 

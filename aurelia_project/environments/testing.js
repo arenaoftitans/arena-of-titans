@@ -1,8 +1,8 @@
-{
+export default {
     "api": {
-        "host": "localhost",
+        "host": "api.aot.testing",
         "path": "/ws/",
-        "port": 8180,
+        "port": 80,
         "tls_port": 443,
         "version": "latest"
     },
@@ -17,5 +17,5 @@
         "ulya"
     ],
     "debug": true,
-    "testing": true
+    "testing": false
 }

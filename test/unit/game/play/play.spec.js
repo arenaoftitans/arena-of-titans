@@ -42,7 +42,7 @@ describe('play', () => {
     });
 
     it('should register api callbacks on activation', () => {
-        spyOn(mockedEas, 'subscribe');
+        jest.spyOn(mockedEas, 'subscribe');
 
         sut.activate();
 
@@ -50,7 +50,7 @@ describe('play', () => {
     });
 
     it('should deregister api callbacks on deactivation', () => {
-        spyOn(mockedEas, 'dispose');
+        jest.spyOn(mockedEas, 'dispose');
 
         sut.deactivate();
 
@@ -58,7 +58,7 @@ describe('play', () => {
     });
 
     it('should ask to join game in no name', () => {
-        spyOn(mockedApi, 'joinGame');
+        jest.spyOn(mockedApi, 'joinGame');
         mockedApi._me = {};
 
         sut.activate({id: 'game_id'});
@@ -67,7 +67,7 @@ describe('play', () => {
     });
 
     it('should not ask to join the game if a name is supplied', () => {
-        spyOn(mockedApi, 'joinGame');
+        jest.spyOn(mockedApi, 'joinGame');
         mockedState._me = {name: 'Player 1'};
 
         sut.activate({id: 'game_id'});
@@ -75,22 +75,23 @@ describe('play', () => {
         expect(mockedApi.joinGame).not.toHaveBeenCalled();
     });
 
-    it('should display the game over popup on game over', () => {
-        spyOn(mockedPopup, 'display');
+    it('should display the game over popup on game over', async() => {
+        jest.spyOn(mockedPopup, 'display');
         mockedApi._gameOverDeferred.resolve(['Player 1', 'Player 2']);
 
         sut.activate();
 
-        return mockedApi.onGameOverDeferred.then(() => {
-            expect(mockedPopup.display).toHaveBeenCalledWith(
-                'game-over',
-                {message: ['Player 1', 'Player 2']});
-        }, () => fail('Unwanted code branch'));
+        await mockedApi.onGameOverDeferred;
+
+        expect(mockedPopup.display).toHaveBeenCalledWith(
+            'game-over',
+            {message: ['Player 1', 'Player 2']},
+        );
     });
 
     describe('special actions', () => {
         it('should log error for unknown action', () => {
-            spyOn(sut._logger, 'error');
+            jest.spyOn(sut._logger, 'error');
             let action = {
                 special_action_name: 'toto',
             };
@@ -109,14 +110,14 @@ describe('play', () => {
             let action = {
                 special_action_name: 'assassination',
             };
-            spyOn(sut._api, 'viewPossibleActions');
+            jest.spyOn(sut._api, 'viewPossibleActions');
             mockedState.game.your_turn = true;
             mockedState.me.index = 0;
 
             sut._handleSpecialActionNotify(action);
 
             expect(sut.pawnClickable).toBe(true);
-            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            expect(sut.onPawnClicked).toEqual(expect.any(Function));
             sut.onPawnClicked(0);
             expect(sut._api.viewPossibleActions).toHaveBeenCalledWith({
                 name: 'assassination',
@@ -134,12 +135,12 @@ describe('play', () => {
                 special_action_name: 'Assassination',
             });
 
-            expect(sut.onPawnSquareClicked).toEqual(jasmine.any(Function));
+            expect(sut.onPawnSquareClicked).toEqual(expect.any(Function));
             expect(sut.pawnClickable).toBe(true);
-            expect(sut.onPawnClicked).toEqual(jasmine.any(Function));
+            expect(sut.onPawnClicked).toEqual(expect.any(Function));
             expect(sut.pawnsForcedNotClickable).toEqual([0]);
 
-            spyOn(mockedApi, 'playSpecialAction');
+            jest.spyOn(mockedApi, 'playSpecialAction');
 
             sut.onPawnSquareClicked('square-0-0', 0, 0, 0);
 
