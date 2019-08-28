@@ -54,7 +54,8 @@ deploy in staging:
   script:
     - git clone https://gitlab.com/arenaoftitans/aot-infra.git /opt/aot-infra
     - cd /opt/aot-infra
-    - VERSION=$CI_COMMIT_REF_SLUG STAGE=staging ./dk-run.sh deployfront
+    - mv /builds/arenaoftitans/arena-of-titans ./front
+    - ansible-playbook -i environments/staging front.yml -e version=$CI_COMMIT_REF_SLUG
     - echo "Deployed to https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html"
   when: manual
   except:
