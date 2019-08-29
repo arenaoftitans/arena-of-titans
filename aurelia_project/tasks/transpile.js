@@ -8,7 +8,7 @@ import rename from 'gulp-rename';
 import transform from 'gulp-transform';
 import project from '../aurelia.json';
 import {CLIOptions, build} from 'aurelia-cli';
-import {getVersion, dumpAsExportedData} from './utils';
+import {getApiVersion, getVersion, dumpAsExportedData} from './utils';
 
 function configureEnvironment() {
   let env = CLIOptions.getEnvironment();
@@ -21,7 +21,7 @@ function configureEnvironment() {
       environment.api.host = process.env.API_HOST || environment.api.host;
       environment.api.port = process.env.API_PORT || environment.api.port;
       environment.api.port = parseInt(environment.api.port, 10);
-      environment.api.version = process.env.API_VERSION || environment.api.version;
+      environment.api.version = process.env.API_VERSION || getApiVersion();
 
       return dumpAsExportedData(environment);
     }))

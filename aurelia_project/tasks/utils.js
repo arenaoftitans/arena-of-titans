@@ -39,6 +39,11 @@ export function getVersion() {
 }
 
 
+export function getApiVersion() {
+    return CLIOptions.getFlagValue('api-version') || 'latest';
+}
+
+
 function getObjectAtPath(obj, path) {
     for (let pathElement of path) {
         if (!(pathElement in obj)) {

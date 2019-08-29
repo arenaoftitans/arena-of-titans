@@ -9,7 +9,7 @@ import buildAssets, {writeManifest} from './build-assets';
 import renderTemplates from './render-templates';
 import watch from './watch';
 import project from '../aurelia.json';
-import {cleanDist, getVersion, loadEnvVariables} from './utils';
+import {cleanDist, getApiVersion, getVersion, loadEnvVariables} from './utils';
 
 loadEnvVariables();
 
@@ -40,7 +40,8 @@ const main = gulp.series(...steps);
 
 function readProjectConfiguration() {
   logger.info(`Using environment: ${CLIOptions.getEnvironment()}`);
-  logger.info(`Using verison: ${getVersion()}`);
+  logger.info(`Using version: ${getVersion()}`);
+  logger.info(`Using API version: ${getApiVersion()}`);
   return buildCLI.src(project);
 }
 
