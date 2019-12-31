@@ -100,7 +100,7 @@
         "vinyl-fs": "^3.0.3"
     },
     "engines": {
-        "node": ">=10.14.0"
+        "node": ">=12.14.0"
     },
     "keywords": [
         "game",
