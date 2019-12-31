@@ -5,7 +5,7 @@ var path = require('path');
 
 @inject(Project, CLIOptions, UI)
 export default class ElementGenerator {
-  constructor(project, options, ui) { 
+  constructor(project, options, ui) {
     this.project = project;
     this.options = options;
     this.ui = ui;
@@ -36,7 +36,7 @@ export default class ElementGenerator {
   }
 
   generateJSSource(className) {
-    return `export class ${className} {     
+    return `export class ${className} {
   constructor() {
     this.message = 'Hello world';
   }

@@ -1,0 +1,55 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+    -   repo: https://github.com/pre-commit/pre-commit-hooks
+        rev: v2.4.0
+        hooks:
+            -   id: trailing-whitespace
+            -   id: end-of-file-fixer
+            -   id: check-yaml
+            -   id: check-added-large-files
+            -   id: check-byte-order-marker
+            -   id: check-case-conflict
+            -   id: check-executables-have-shebangs
+            -   id: check-json
+            -   id: pretty-format-json
+                args: [--indent, '    ', --autofix]
+            -   id: check-merge-conflict
+            -   id: check-symlinks
+            -   id: check-toml
+            -   id: check-xml
+            -   id: check-xml
+            -   id: debug-statements
+            -   id: detect-private-key
+            -   id: mixed-line-ending
+            -   id: name-tests-test
+    -   repo: local
+        hooks:
+            -   id: eslint
+                name: eslint
+                files: '^app'
+                entry: ./node_modules/.bin/eslint
+                language: node
+                types: [javascript]
+            -   id: stylelint
+                name: stylelint
+                files: '^app'
+                entry: ./node_modules/.bin/stylelint
+                language: node
+                types: [scss]
+            -   id: aulint
+                name: aulint
+                files: '^app'
+                entry: ./node_modules/.bin/au
+                args: [lint]
+                language: system
+                types: [html]
+                pass_filenames: false
+            -   id: test
+                name: test
+                entry: npm
+                args: [run, test]
+                pass_filenames: false
+                language: system
+                types: [javascript]
+                stages: [push]

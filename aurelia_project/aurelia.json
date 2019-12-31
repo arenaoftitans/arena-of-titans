@@ -1,124 +1,4 @@
 {
-    "name": "arena-of-titans",
-    "type": "project:application",
-    "platform": {
-        "id": "web",
-        "displayName": "Web",
-        "baseDir": ".",
-        "output": "scripts",
-        "index": "index.html"
-    },
-    "transpiler": {
-        "id": "babel",
-        "displayName": "Babel",
-        "fileExtension": ".js",
-        "options": {
-            "plugins": [
-                "@babel/plugin-transform-modules-amd",
-                ["@babel/plugin-proposal-decorators", { "legacy": true }],
-                ["@babel/plugin-proposal-class-properties", { "loose": true }]
-            ],
-            "presets": [
-                ["@babel/preset-env", {
-                    "loose": true,
-                    "modules": "commonjs"
-                }]
-            ]
-        },
-        "source": [
-            "app/**/*.js"
-        ]
-    },
-    "coverageTranspiler": {
-        "id": "babel",
-        "displayName": "Babel with coverage",
-        "fileExtension": ".js",
-        "options": {
-            "plugins": [
-                "@babel/plugin-transform-modules-amd",
-                ["@babel/plugin-proposal-decorators", { "legacy": true }],
-                ["@babel/plugin-proposal-class-properties", { "loose": true }],
-                "istanbul"
-            ],
-            "presets": [
-                ["@babel/preset-env", {
-                    "loose": true,
-                    "modules": "commonjs"
-                }]
-            ]
-        },
-        "source": "app/**/*.js"
-    },
-    "markupProcessor": {
-        "id": "maximum",
-        "displayName": "Maximun minification",
-        "fileExtension": ".html",
-        "source": "app/**/*.html"
-    },
-    "cssProcessor": {
-        "id": "sass",
-        "displayName": "Sass",
-        "fileExtension": ".scss",
-        "source": "app/**/*.scss"
-    },
-    "templates": {
-        "id": "templates",
-        "displayName": "Templates",
-        "source": "templates/**/*"
-    },
-    "editor": {
-        "id": "vscode",
-        "displayName": "Visual Studio Code"
-    },
-    "unitTestRunner": {
-        "id": "karma",
-        "displayName": "Karma",
-        "source": "test/unit/**/*.js"
-    },
-    "paths": {
-        "reports": "reports",
-        "root": "app"
-    },
-    "testFramework": {
-        "id": "jest",
-        "displayName": "Jest",
-        "config": {
-            "moduleNameMapper": {
-                "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
-            },
-            "modulePaths": [
-                "<rootDir>/app",
-                "<rootDir>/node_modules"
-            ],
-            "moduleFileExtensions": [
-                "js",
-                "json"
-            ],
-            "transform": {
-                "^.+\\.(css|less|sass|scss|styl|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "jest-transform-stub",
-                "^.+\\.js$": "babel-jest"
-            },
-            "testRegex": "\\.spec\\.js$",
-            "setupFiles": [
-                "<rootDir>/test/jest-pretest.js",
-                "jest-localstorage-mock"
-            ],
-            "testEnvironment": "node",
-            "collectCoverageFrom": [
-                "app/**/*.js",
-                "!**/*.spec.js",
-                "!**/node_modules/**",
-                "!**/test/**"
-            ],
-            "coverageDirectory": "<rootDir>/test/coverage-jest",
-            "coverageReporters": [
-                "json",
-                "lcov",
-                "text",
-                "html"
-            ]
-        }
-    },
     "assets": {
         "manifest": {
             "name": "assets-list.js",
@@ -127,107 +7,7 @@
         "output": "dist/assets",
         "source": "assets/**/*"
     },
-    "externalResources": {
-        "defaultNames": {
-            "source": "https://docs.google.com/spreadsheets/d/1Ees-A_yNQTfba7wH-flbrJunLMiTcTOUsbHqUTyOKm8/export?format=csv",
-            "dest": "app/game/create/default-names.js"
-        },
-        "translations": {
-            "source": [
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=985921915",
-                    "tab": "actions"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=2131671933",
-                    "tab": "cards"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=807068577",
-                    "tab": "errors"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1241014372",
-                    "tab": "game"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=158417819",
-                    "tab": "game.create"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1072267331",
-                    "tab": "game.play"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=575822508",
-                    "tab": "global"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1362194548",
-                    "tab": "site.heroes"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195089995",
-                    "tab": "site.people"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=724206052",
-                    "tab": "powers"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=0",
-                    "tab": "site"
-                },
-                {
-                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195514419",
-                    "tab": "trumps"
-                }
-            ],
-            "dest": {
-                "fr": "app/locale/fr/translations.js",
-                "en": "app/locale/en/translations.js"
-            }
-        }
-    },
     "build": {
-        "targets": [
-            {
-                "id": "web",
-                "displayName": "Web",
-                "output": "dist/scripts",
-                "useAbsolutePath": true,
-                "index": "index.html"
-            }
-        ],
-        "loader": {
-            "type": "require",
-            "configTarget": "bootstrap-bundle.js",
-            "includeBundleMetadataInConfig": "auto",
-            "config": {
-                "waitSeconds": 60
-            },
-            "plugins": [
-                {
-                    "name": "text",
-                    "extensions": [
-                        ".html",
-                        ".css"
-                    ],
-                    "stub": true
-                }
-            ]
-        },
-        "options": {
-            "manifest": "testing & staging & prod",
-            "minify": "testing & staging & prod",
-            "sourcemaps": "dev & testing & staging & prod",
-            "rev": "testing & staging & prod"
-        },
-        "copyFiles": {
-            "index.html": "dist/",
-            "scripts/tracking.js": "dist/",
-            "node_modules/intl/dist/Intl.js": "dist/"
-        },
         "bundles": [
             {
                 "name": "common-bundle.js",
@@ -253,14 +33,14 @@
                 ]
             },
             {
-                "name": "game-common-bundle.js",
                 "dependencies": [
                     {
+                        "main": "reconnecting-websocket",
                         "name": "reconnectingwebsocket",
-                        "path": "../node_modules/reconnectingwebsocket",
-                        "main": "reconnecting-websocket"
+                        "path": "../node_modules/reconnectingwebsocket"
                     }
                 ],
+                "name": "game-common-bundle.js",
                 "source": [
                     "[**/game/constants.js]",
                     "[**/game/game.js]",
@@ -273,30 +53,28 @@
                 ]
             },
             {
-                "name": "game-create-bundle.js",
                 "dependencies": [],
+                "name": "game-create-bundle.js",
                 "source": [
                     "[**/game/create/**/*.js]",
                     "**/game/create/**/*.{css,html}"
                 ]
             },
             {
-                "name": "game-play-bundle.js",
                 "dependencies": [
                     {
+                        "main": "sync",
                         "name": "css-animation-sync",
-                        "path": "../node_modules/css-animation-sync/dist",
-                        "main": "sync"
+                        "path": "../node_modules/css-animation-sync/dist"
                     }
                 ],
+                "name": "game-play-bundle.js",
                 "source": [
                     "[**/game/play/**/*.js]",
                     "**/game/play/**/*.{css,html}"
                 ]
             },
             {
-                "name": "vendor-bundle.js",
-                "prepend": [],
                 "dependencies": [
                     "aurelia-animator-css",
                     "aurelia-binding",
@@ -307,9 +85,9 @@
                     "aurelia-history",
                     "aurelia-history-browser",
                     {
+                        "main": "aurelia-i18n",
                         "name": "aurelia-i18n",
-                        "path": "../node_modules/aurelia-i18n/dist/amd",
-                        "main": "aurelia-i18n"
+                        "path": "../node_modules/aurelia-i18n/dist/amd"
                     },
                     "aurelia-loader",
                     "aurelia-loader-default",
@@ -320,9 +98,9 @@
                     "aurelia-pal-browser",
                     "aurelia-path",
                     {
+                        "main": "index",
                         "name": "aurelia-piwik",
-                        "path": "../node_modules/aurelia-piwik/dist/amd",
-                        "main": "index"
+                        "path": "../node_modules/aurelia-piwik/dist/amd"
                     },
                     "aurelia-polyfills",
                     "aurelia-route-recognizer",
@@ -333,47 +111,49 @@
                     "au-rollbar",
                     "text",
                     {
+                        "main": "aurelia-templating-resources",
                         "name": "aurelia-templating-resources",
-                        "path": "../node_modules/aurelia-templating-resources/dist/amd",
-                        "main": "aurelia-templating-resources"
+                        "path": "../node_modules/aurelia-templating-resources/dist/amd"
                     },
                     {
+                        "main": "aurelia-templating-router",
                         "name": "aurelia-templating-router",
-                        "path": "../node_modules/aurelia-templating-router/dist/amd",
-                        "main": "aurelia-templating-router"
+                        "path": "../node_modules/aurelia-templating-router/dist/amd"
                     },
                     {
-                        "name": "aurelia-testing",
-                        "path": "../node_modules/aurelia-testing/dist/amd",
+                        "env": "dev",
                         "main": "aurelia-testing",
-                        "env": "dev"
+                        "name": "aurelia-testing",
+                        "path": "../node_modules/aurelia-testing/dist/amd"
                     },
                     {
+                        "main": "i18next",
                         "name": "i18next",
-                        "path": "../node_modules/i18next/dist/cjs",
-                        "main": "i18next"
+                        "path": "../node_modules/i18next/dist/cjs"
                     },
                     {
+                        "main": "i18nextXHRBackend",
                         "name": "i18next-xhr-backend",
-                        "path": "../node_modules/i18next-xhr-backend/dist/cjs",
-                        "main": "i18nextXHRBackend"
+                        "path": "../node_modules/i18next-xhr-backend/dist/cjs"
                     }
-                ]
+                ],
+                "name": "vendor-bundle.js",
+                "prepend": []
             },
             {
+                "dependencies": [],
                 "name": "bootstrap-bundle.js",
                 "prepend": [
                     "scripts/polyfills.js",
                     {
-                        "name": "rollbar",
-                        "path": "./scripts/rollbar.js",
+                        "env": "staging & prod",
                         "main": "rollbar",
-                        "env": "staging & prod"
+                        "name": "rollbar",
+                        "path": "./scripts/rollbar.js"
                     },
                     "scripts/browser.js",
                     "node_modules/requirejs/require.js"
-                ],
-                "dependencies": []
+                ]
             },
             {
                 "name": "test-utils-bundle.js",
@@ -381,6 +161,252 @@
                     "[**/test-utils.js]"
                 ]
             }
+        ],
+        "copyFiles": {
+            "index.html": "dist/",
+            "node_modules/intl/dist/Intl.js": "dist/",
+            "scripts/tracking.js": "dist/"
+        },
+        "loader": {
+            "config": {
+                "waitSeconds": 60
+            },
+            "configTarget": "bootstrap-bundle.js",
+            "includeBundleMetadataInConfig": "auto",
+            "plugins": [
+                {
+                    "extensions": [
+                        ".html",
+                        ".css"
+                    ],
+                    "name": "text",
+                    "stub": true
+                }
+            ],
+            "type": "require"
+        },
+        "options": {
+            "manifest": "testing & staging & prod",
+            "minify": "testing & staging & prod",
+            "rev": "testing & staging & prod",
+            "sourcemaps": "dev & testing & staging & prod"
+        },
+        "targets": [
+            {
+                "displayName": "Web",
+                "id": "web",
+                "index": "index.html",
+                "output": "dist/scripts",
+                "useAbsolutePath": true
+            }
         ]
+    },
+    "coverageTranspiler": {
+        "displayName": "Babel with coverage",
+        "fileExtension": ".js",
+        "id": "babel",
+        "options": {
+            "plugins": [
+                "@babel/plugin-transform-modules-amd",
+                [
+                    "@babel/plugin-proposal-decorators",
+                    {
+                        "legacy": true
+                    }
+                ],
+                [
+                    "@babel/plugin-proposal-class-properties",
+                    {
+                        "loose": true
+                    }
+                ],
+                "istanbul"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "loose": true,
+                        "modules": "commonjs"
+                    }
+                ]
+            ]
+        },
+        "source": "app/**/*.js"
+    },
+    "cssProcessor": {
+        "displayName": "Sass",
+        "fileExtension": ".scss",
+        "id": "sass",
+        "source": "app/**/*.scss"
+    },
+    "editor": {
+        "displayName": "Visual Studio Code",
+        "id": "vscode"
+    },
+    "externalResources": {
+        "defaultNames": {
+            "dest": "app/game/create/default-names.js",
+            "source": "https://docs.google.com/spreadsheets/d/1Ees-A_yNQTfba7wH-flbrJunLMiTcTOUsbHqUTyOKm8/export?format=csv"
+        },
+        "translations": {
+            "dest": {
+                "en": "app/locale/en/translations.js",
+                "fr": "app/locale/fr/translations.js"
+            },
+            "source": [
+                {
+                    "tab": "actions",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=985921915"
+                },
+                {
+                    "tab": "cards",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=2131671933"
+                },
+                {
+                    "tab": "errors",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=807068577"
+                },
+                {
+                    "tab": "game",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1241014372"
+                },
+                {
+                    "tab": "game.create",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=158417819"
+                },
+                {
+                    "tab": "game.play",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1072267331"
+                },
+                {
+                    "tab": "global",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=575822508"
+                },
+                {
+                    "tab": "site.heroes",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=1362194548"
+                },
+                {
+                    "tab": "site.people",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195089995"
+                },
+                {
+                    "tab": "powers",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=724206052"
+                },
+                {
+                    "tab": "site",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=0"
+                },
+                {
+                    "tab": "trumps",
+                    "url": "https://docs.google.com/spreadsheets/d/1YWBqm7OUVshYZhVrKiCnbuYBUcPlLtB0dR7rqpWbevU/export?format=csv&gid=195514419"
+                }
+            ]
+        }
+    },
+    "markupProcessor": {
+        "displayName": "Maximun minification",
+        "fileExtension": ".html",
+        "id": "maximum",
+        "source": "app/**/*.html"
+    },
+    "name": "arena-of-titans",
+    "paths": {
+        "reports": "reports",
+        "root": "app"
+    },
+    "platform": {
+        "baseDir": ".",
+        "displayName": "Web",
+        "id": "web",
+        "index": "index.html",
+        "output": "scripts"
+    },
+    "templates": {
+        "displayName": "Templates",
+        "id": "templates",
+        "source": "templates/**/*"
+    },
+    "testFramework": {
+        "config": {
+            "collectCoverageFrom": [
+                "app/**/*.js",
+                "!**/*.spec.js",
+                "!**/node_modules/**",
+                "!**/test/**"
+            ],
+            "coverageDirectory": "<rootDir>/test/coverage-jest",
+            "coverageReporters": [
+                "json",
+                "lcov",
+                "text",
+                "html"
+            ],
+            "moduleFileExtensions": [
+                "js",
+                "json"
+            ],
+            "moduleNameMapper": {
+                "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
+            },
+            "modulePaths": [
+                "<rootDir>/app",
+                "<rootDir>/node_modules"
+            ],
+            "setupFiles": [
+                "<rootDir>/test/jest-pretest.js",
+                "jest-localstorage-mock"
+            ],
+            "testEnvironment": "node",
+            "testRegex": "\\.spec\\.js$",
+            "transform": {
+                "^.+\\.(css|less|sass|scss|styl|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "jest-transform-stub",
+                "^.+\\.js$": "babel-jest"
+            }
+        },
+        "displayName": "Jest",
+        "id": "jest"
+    },
+    "transpiler": {
+        "displayName": "Babel",
+        "fileExtension": ".js",
+        "id": "babel",
+        "options": {
+            "plugins": [
+                "@babel/plugin-transform-modules-amd",
+                [
+                    "@babel/plugin-proposal-decorators",
+                    {
+                        "legacy": true
+                    }
+                ],
+                [
+                    "@babel/plugin-proposal-class-properties",
+                    {
+                        "loose": true
+                    }
+                ]
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "loose": true,
+                        "modules": "commonjs"
+                    }
+                ]
+            ]
+        },
+        "source": [
+            "app/**/*.js"
+        ]
+    },
+    "type": "project:application",
+    "unitTestRunner": {
+        "displayName": "Karma",
+        "id": "karma",
+        "source": "test/unit/**/*.js"
     }
 }

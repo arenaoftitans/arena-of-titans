@@ -1,40 +1,49 @@
 {
-  "extends": "stylelint-config-recommended-scss",
-  "defaultSeverity": "error",
-  "plugins": [
-    "stylelint-order"
-  ],
-  "rules": {
-    "indentation": 4,
-    "max-empty-lines": 2,
-    "media-feature-name-no-unknown": [true, {
-       "ignoreMediaFeatureNames": ["min--moz-device-pixel-ratio", "min-device-pixel-ratio"]
-    }],
-    "selector-type-no-unknown": [ true, {
-      "ignoreTypes": [
-        "aot-header",
-        "aot-footer",
-        "aot-connect",
-        "aot-player-box-infos",
-        "aot-popup",
-        "aot-popover",
-        "aot-counter",
-        "aot-player-box",
-        "aot-trumps",
-        "aot-trump",
-        "aot-infos",
-        "aot-board",
-        "aot-trumps-gauge",
-        "aot-cards",
-        "aot-select-heroes",
-        "aot-heroes-viewer",
-        "aot-select-cards",
-        "aot-cards-viewer",
-        "aot-transition",
-        "aot-url-copy",
-        "aot-notifications"
-      ]
-    }],
-    "order/properties-alphabetical-order": true
-  }
+    "defaultSeverity": "error",
+    "extends": "stylelint-config-recommended-scss",
+    "plugins": [
+        "stylelint-order"
+    ],
+    "rules": {
+        "indentation": 4,
+        "max-empty-lines": 2,
+        "media-feature-name-no-unknown": [
+            true,
+            {
+                "ignoreMediaFeatureNames": [
+                    "min--moz-device-pixel-ratio",
+                    "min-device-pixel-ratio"
+                ]
+            }
+        ],
+        "order/properties-alphabetical-order": true,
+        "selector-type-no-unknown": [
+            true,
+            {
+                "ignoreTypes": [
+                    "aot-header",
+                    "aot-footer",
+                    "aot-connect",
+                    "aot-player-box-infos",
+                    "aot-popup",
+                    "aot-popover",
+                    "aot-counter",
+                    "aot-player-box",
+                    "aot-trumps",
+                    "aot-trump",
+                    "aot-infos",
+                    "aot-board",
+                    "aot-trumps-gauge",
+                    "aot-cards",
+                    "aot-select-heroes",
+                    "aot-heroes-viewer",
+                    "aot-select-cards",
+                    "aot-cards-viewer",
+                    "aot-transition",
+                    "aot-url-copy",
+                    "aot-notifications"
+                ]
+            }
+        ]
+    }
 }

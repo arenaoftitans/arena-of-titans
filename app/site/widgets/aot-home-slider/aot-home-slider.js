@@ -51,4 +51,3 @@ export class AotHomeSliderCustomElement {
         }, AUTOMATIC_SLIDING_PERIOD);
     }
 }
-

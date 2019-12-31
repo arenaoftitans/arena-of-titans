@@ -1,4 +1,4 @@
 {
-  "name": "task",
-  "description": "Creates a task and places it in the project tasks folder."
+    "description": "Creates a task and places it in the project tasks folder.",
+    "name": "task"
 }

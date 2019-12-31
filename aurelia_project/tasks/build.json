@@ -1,26 +1,26 @@
 {
-  "name": "build",
-  "description": "Builds and processes all application assets.",
-  "flags": [
-    {
-      "name": "api-version",
-      "description": "Sets the version of the API to use",
-      "type": "string"
-    },
-    {
-      "name": "version",
-      "description": "Sets the version of the application",
-      "type": "string"
-    },
-    {
-      "name": "env",
-      "description": "Sets the build environment.",
-      "type": "string"
-    },
-    {
-      "name": "watch",
-      "description": "Watches source files for changes and refreshes the bundles automatically.",
-      "type": "boolean"
-    }
-  ]
+    "description": "Builds and processes all application assets.",
+    "flags": [
+        {
+            "description": "Sets the version of the API to use",
+            "name": "api-version",
+            "type": "string"
+        },
+        {
+            "description": "Sets the version of the application",
+            "name": "version",
+            "type": "string"
+        },
+        {
+            "description": "Sets the build environment.",
+            "name": "env",
+            "type": "string"
+        },
+        {
+            "description": "Watches source files for changes and refreshes the bundles automatically.",
+            "name": "watch",
+            "type": "boolean"
+        }
+    ],
+    "name": "build"
 }

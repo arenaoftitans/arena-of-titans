@@ -155,29 +155,7 @@ git hooks allow you to launch a script before or after a git command. They are v
 
 In the case you don't want to launch the hooks, append the ``--no-verify`` option to the git command you want to use.
 
-pre-commit
-++++++++++
-
-.. code:: bash
-
-   #!/usr/bin/env bash
-
-   set -e
-
-   npm run lint
-
-pre-push
-++++++++
-
-This is only useful if you don't use ``npm run tdd`` during development.
-
-.. code:: bash
-
-   #!/usr/bin/env bash
-
-   set -e
-
-   npm run test
+This project uses `pre-commit <https://pre-commit.com/>`__ to handle git hooks automatically. To install the hooks, run ``pre-commit install`` and ``pre-commit install --hook-type pre-push``.
 
 Translations
 ============

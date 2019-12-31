@@ -1,20 +1,5 @@
 {
-    "name": "arena-of-titans",
-    "version": "0.5.0",
-    "description": "Fight to death in the arena",
-    "scripts": {
-        "build": "au build",
-        "dev": "au run --watch",
-        "clean": "nps clean",
-        "lint": "nps lint",
-        "start": "au run",
-        "test": "au test",
-        "translate": "nps translations"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://gitlab.com/arenaoftitans/arena-of-titans"
-    },
+    "author": "Arena of Titans Team",
     "dependencies": {
         "au-rollbar": "^0.1.2",
         "aurelia-animator-css": "^1.0.4",
@@ -32,6 +17,7 @@
         "requirejs": "^2.3.6",
         "text": "requirejs/text#latest"
     },
+    "description": "Fight to death in the arena",
     "devDependencies": {
         "@babel/core": "^7.4.0",
         "@babel/plugin-proposal-class-properties": "^7.4.0",
@@ -108,6 +94,20 @@
         "titans",
         "arena"
     ],
-    "author": "Arena of Titans Team",
-    "license": "AGPL-3.0"
+    "license": "AGPL-3.0",
+    "name": "arena-of-titans",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/arenaoftitans/arena-of-titans"
+    },
+    "scripts": {
+        "build": "au build",
+        "clean": "nps clean",
+        "dev": "au run --watch",
+        "lint": "nps lint",
+        "start": "au run",
+        "test": "au test",
+        "translate": "nps translations"
+    },
+    "version": "0.5.0"
 }

@@ -1,21 +1,21 @@
 {
-    "name": "test",
     "description": "Runs Jest and reports the results.",
     "flags": [
         {
-            "name": "watch",
             "description": "Watches test files for changes and re-runs the tests automatically.",
+            "name": "watch",
             "type": "boolean"
         },
         {
-            "name": "test-path-pattern",
             "description": "Run only tests matching this pattern",
+            "name": "test-path-pattern",
             "type": "string"
         },
         {
-            "name": "coverage",
             "description": "Collect coverage",
+            "name": "coverage",
             "type": "boolean"
         }
-    ]
+    ],
+    "name": "test"
 }

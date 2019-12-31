@@ -1,11 +1,11 @@
 {
-    "name": "fetch",
     "description": "Fetch external resources.",
     "flags": [
         {
-            "name": "kind",
             "description": "The kind of resources to fetch",
+            "name": "kind",
             "type": "string"
         }
-    ]
+    ],
+    "name": "fetch"
 }
