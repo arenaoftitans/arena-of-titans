@@ -17,7 +17,6 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 $card-img-height: 35vh;
 $change-card-opacity: 0.4;
 $fade-time: 0.2s;
@@ -78,65 +77,103 @@ aot-select-cards {
         animation: fadeOut $fade-time;
     }
 
-
     /* fadeIn */
     @keyframes fadeIn {
-        from { opacity: $change-card-opacity; }
-        to { opacity: 1; }
+        from {
+            opacity: $change-card-opacity;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     /* Firefox < 16 */
     @-moz-keyframes fadeIn {
-        from { opacity: $change-card-opacity; }
-        to { opacity: 1; }
+        from {
+            opacity: $change-card-opacity;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     /* Safari, Chrome and Opera > 12.1 */
     @-webkit-keyframes fadeIn {
-        from { opacity: $change-card-opacity; }
-        to { opacity: 1; }
+        from {
+            opacity: $change-card-opacity;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     /* Internet Explorer */
     @-ms-keyframes fadeIn {
-        from { opacity: $change-card-opacity; }
-        to { opacity: 1; }
+        from {
+            opacity: $change-card-opacity;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     /* Opera < 12.1 */
     @-o-keyframes fadeIn {
-        from { opacity: $change-card-opacity; }
-        to { opacity: 1; }
+        from {
+            opacity: $change-card-opacity;
+        }
+        to {
+            opacity: 1;
+        }
     }
-
 
     /* fadeOut */
     @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-card-opacity; }
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: $change-card-opacity;
+        }
     }
 
     /* Firefox < 16 */
     @-moz-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-card-opacity; }
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: $change-card-opacity;
+        }
     }
 
     /* Safari, Chrome and Opera > 12.1 */
     @-webkit-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-card-opacity; }
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: $change-card-opacity;
+        }
     }
 
     /* Internet Explorer */
     @-ms-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-card-opacity; }
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: $change-card-opacity;
+        }
     }
 
     /* Opera < 12.1 */
     @-o-keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: $change-card-opacity; }
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: $change-card-opacity;
+        }
     }
 }

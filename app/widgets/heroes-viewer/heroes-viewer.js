@@ -17,10 +17,9 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { bindable } from 'aurelia-framework';
-import environment from '../../environment';
-import { AssetSource } from '../../services/assets';
-
+import { bindable } from "aurelia-framework";
+import environment from "../../environment";
+import { AssetSource } from "../../services/assets";
 
 const NB_HEROES_PER_LINE = 4;
 
@@ -43,7 +42,7 @@ export class AotHeroesViewerCustomElement {
         }
 
         while (line.length < NB_HEROES_PER_LINE) {
-            line.push('placeholder');
+            line.push("placeholder");
         }
     }
 

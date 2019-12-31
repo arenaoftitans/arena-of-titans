@@ -1,26 +1,25 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 export class RouterStub {
     options = {};
-    baseUrl = '';
+    baseUrl = "";
 
     configure(handler) {
         handler(this);
@@ -30,31 +29,22 @@ export class RouterStub {
         this.routes = routes;
     }
 
-    navigateToRoute(route, params) {
-    }
+    navigateToRoute(route, params) {}
 
-    mapUnknownRoutes() {
-    }
+    mapUnknownRoutes() {}
 }
-
 
 export class AnimationsStub {
-    enable() {
-    }
+    enable() {}
 
-    disable() {
-    }
+    disable() {}
 }
-
 
 export class ErrorsReporterStub {
-    enable() {
-    }
+    enable() {}
 
-    disable() {
-    }
+    disable() {}
 }
-
 
 export class ApiStub {
     _gameOverDeferred = {};
@@ -70,48 +60,35 @@ export class ApiStub {
         });
     }
 
-    initializeGame(data) {
-    }
+    initializeGame(data) {}
 
-    init() {
-    }
+    init() {}
 
-    updateMe() {
-    }
+    updateMe() {}
 
     joinGame() {
         return this._reconnectDeferred.promise;
     }
 
-    createGame() {
-    }
+    createGame() {}
 
-    viewPossibleMovements() {
-    }
+    viewPossibleMovements() {}
 
-    viewPossibleActions() {
-    }
+    viewPossibleActions() {}
 
-    play() {
-    }
+    play() {}
 
-    playSpecialAction() {
-    }
+    playSpecialAction() {}
 
-    playTrump() {
-    }
+    playTrump() {}
 
-    pass() {
-    }
+    pass() {}
 
-    passSpecialAction() {
-    }
+    passSpecialAction() {}
 
-    discard() {
-    }
+    discard() {}
 
-    updateSlot() {
-    }
+    updateSlot() {}
 
     get onGameOverDeferred() {
         return this._gameOverDeferred.promise;
@@ -121,10 +98,8 @@ export class ApiStub {
         return this._reconnectDeferred.promise;
     }
 
-    createGameDebug() {
-    }
+    createGameDebug() {}
 }
-
 
 export class StateStub {
     _game = {
@@ -133,29 +108,21 @@ export class StateStub {
     _me = {};
     _board = {};
 
-    createGame() {
-    }
+    createGame() {}
 
-    initializeGame() {
-    }
+    initializeGame() {}
 
-    reconnect() {
-    }
+    reconnect() {}
 
-    reset() {
-    }
+    reset() {}
 
-    updateAfterPlay() {
-    }
+    updateAfterPlay() {}
 
-    updateAfterTrumpPlayed() {
-    }
+    updateAfterTrumpPlayed() {}
 
-    updateMe() {
-    }
+    updateMe() {}
 
-    updateSlot() {
-    }
+    updateSlot() {}
 
     get board() {
         return this._board;
@@ -170,17 +137,15 @@ export class StateStub {
     }
 }
 
-
 export class PopupStub {
     display(type, data) {
         this.popupPromise = new Promise((resolve, reject) => {
-            resolve({name: 'Tester', hero: 'daemon'});
+            resolve({ name: "Tester", hero: "daemon" });
         });
 
         return this.popupPromise;
     }
 }
-
 
 export class PopoverStub {
     display(type, data) {
@@ -188,67 +153,53 @@ export class PopoverStub {
     }
 }
 
-
 export class SoundsStub {
-    play(sound) {
-    }
+    play(sound) {}
 }
-
 
 export class I18nStub {
     tr(key) {
         let translations = {
-            'game.play.select_trump_target': 'Who should be the target of Trump?',
-            'game.play.pass_confirm_message': 'Are you sure you want to pass your turn?',
-            'game.play.discard_no_selected_card': 'You must select a card',
-            'tower_blue_description': 'played',
-            'tower_blue': 'played',
-            'cards.king_red': 'played',
-            'cards.king': 'played',
+            "game.play.select_trump_target": "Who should be the target of Trump?",
+            "game.play.pass_confirm_message": "Are you sure you want to pass your turn?",
+            "game.play.discard_no_selected_card": "You must select a card",
+            tower_blue_description: "played",
+            tower_blue: "played",
+            "cards.king_red": "played",
+            "cards.king": "played",
         };
 
         return key in translations ? translations[key] : key;
     }
 }
 
-
 export class StorageStub {
-    saveGameData() {
-    }
+    saveGameData() {}
 
-    retrievePlayerId() {
-    }
+    retrievePlayerId() {}
 
-    clearGameData() {
-    }
+    clearGameData() {}
 
-    saveOptions() {
-    }
+    saveOptions() {}
 
     loadOptions() {
         return {};
     }
 
     loadPlayerInfos() {
-        return {name: '', hero: ''};
+        return { name: "", hero: "" };
     }
 
-    savePlayerInfos() {
-    }
+    savePlayerInfos() {}
 }
-
 
 export class WsStub {
-    send(data) {
-    }
+    send(data) {}
 
-    onmessage(cb) {
-    }
+    onmessage(cb) {}
 
-    sendDeferred() {
-    }
+    sendDeferred() {}
 }
-
 
 export class ObserverLocatorStub {
     getObserver() {
@@ -256,27 +207,19 @@ export class ObserverLocatorStub {
     }
 }
 
-
 export class ObserverLocatorStubResults {
-    subscribe() {
-    }
+    subscribe() {}
 
-    unsubscribe() {
-    }
+    unsubscribe() {}
 }
-
 
 export class NotifyStub {
-    clearNotifications() {
-    }
+    clearNotifications() {}
 
-    notifyYourTurn() {
-    }
+    notifyYourTurn() {}
 
-    notifyGameOver() {
-    }
+    notifyGameOver() {}
 }
-
 
 export class EventAggregatorStub {
     constructor() {
@@ -300,14 +243,12 @@ export class EventAggregatorStub {
     }
 }
 
-
 export class BindingEngineStub {
     propertyObserver(object, property) {
-        this.propertyObserverObj = {subscribe: jest.fn()};
+        this.propertyObserverObj = { subscribe: jest.fn() };
         return this.propertyObserverObj;
     }
 }
-
 
 export class EventAggregatorSubscriptionsStub {
     constructor() {
@@ -324,44 +265,32 @@ export class EventAggregatorSubscriptionsStub {
         }
     }
 
-    dispose() {
-    }
+    dispose() {}
 
     publish(signal, message) {
         this.ea.publish(signal, message);
     }
 }
 
-
 export class BindingEngineSubscriptionsStub {
-    subscribe(object, property, fn) {
-    }
+    subscribe(object, property, fn) {}
 
-    dispose() {
-    }
+    dispose() {}
 }
-
 
 export class HistoryStub {
-    init() {
-    }
+    init() {}
 }
-
 
 export class WebsocketSub {
-    send() {
-    }
+    send() {}
 }
-
 
 export class OptionsStub {
-    mustViewInGameHelp() {
-    }
+    mustViewInGameHelp() {}
 
-    markInGameOptionSeen() {
-    }
+    markInGameOptionSeen() {}
 }
-
 
 export class CssAnimatorStub {
     addClass() {

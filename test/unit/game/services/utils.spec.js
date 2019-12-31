@@ -24,78 +24,74 @@ import {
     Elements,
     EventAggregatorSubscriptions,
     Wait,
-} from '../../../../app/game/services/utils';
-import { browsers } from '../../../../app/services/browser-sniffer';
-import {
-    BindingEngineStub,
-    EventAggregatorStub,
-} from '../../../../app/test-utils';
+} from "../../../../app/game/services/utils";
+import { browsers } from "../../../../app/services/browser-sniffer";
+import { BindingEngineStub, EventAggregatorStub } from "../../../../app/test-utils";
 
-
-describe('services/utils', () => {
+describe("services/utils", () => {
     beforeEach(() => {
         jest.resetAllMocks();
     });
 
-    describe('selectRandomElement', () => {
-        it('should return undefined for empty array', () => {
+    describe("selectRandomElement", () => {
+        it("should return undefined for empty array", () => {
             expect(selectRandomElement([])).toBeUndefined();
         });
 
-        it('should return an item for a non empty arry', () => {
-            expect(selectRandomElement(['toto'])).toBe('toto');
+        it("should return an item for a non empty arry", () => {
+            expect(selectRandomElement(["toto"])).toBe("toto");
         });
     });
 
-    describe('randomInt', () => {
-        it('should return correct value if min === max', () => {
+    describe("randomInt", () => {
+        it("should return correct value if min === max", () => {
             expect(randomInt(0, 0)).toBe(0);
             expect(randomInt(10, 10)).toBe(10);
         });
     });
 
-    describe('Elements', () => {
-        it('forClass without container', () => {
-            jest.spyOn(document, 'getElementById');
-            jest.spyOn(document, 'getElementsByClassName');
+    describe("Elements", () => {
+        it("forClass without container", () => {
+            jest.spyOn(document, "getElementById");
+            jest.spyOn(document, "getElementsByClassName");
 
-            Elements.forClass('my-class');
+            Elements.forClass("my-class");
 
             expect(document.getElementById).not.toHaveBeenCalled();
-            expect(document.getElementsByClassName).toHaveBeenCalledWith('my-class');
+            expect(document.getElementsByClassName).toHaveBeenCalledWith("my-class");
         });
 
-        it('forClass with container', () => {
+        it("forClass with container", () => {
             let container = {
                 getElementsByClassName: () => {},
             };
-            jest.spyOn(document, 'getElementById').mockReturnValue(container);
-            jest.spyOn(document, 'getElementsByClassName');
-            jest.spyOn(container, 'getElementsByClassName');
+            jest.spyOn(document, "getElementById").mockReturnValue(container);
+            jest.spyOn(document, "getElementsByClassName");
+            jest.spyOn(container, "getElementsByClassName");
 
-            Elements.forClass('my-class', 'my-id');
+            Elements.forClass("my-class", "my-id");
 
-            expect(document.getElementById).toHaveBeenCalledWith('my-id');
+            expect(document.getElementById).toHaveBeenCalledWith("my-id");
             expect(document.getElementsByClassName).not.toHaveBeenCalled();
-            expect(container.getElementsByClassName).toHaveBeenCalledWith('my-class');
+            expect(container.getElementsByClassName).toHaveBeenCalledWith("my-class");
         });
 
-        it('forClass on msie', () => {
-            jest.spyOn(browsers, 'htmlCollection2Array').mockImplementation(() => {});
+        it("forClass on msie", () => {
+            jest.spyOn(browsers, "htmlCollection2Array").mockImplementation(() => {});
             browsers.msie = true;
 
-            Elements.forClass('my-class');
+            Elements.forClass("my-class");
 
             expect(browsers.htmlCollection2Array).toHaveBeenCalled();
 
             browsers.msie = false;
         });
 
-        it('forClass on safari', () => {
-            jest.spyOn(browsers, 'htmlCollection2Array');
+        it("forClass on safari", () => {
+            jest.spyOn(browsers, "htmlCollection2Array");
             browsers.mac = true;
 
-            Elements.forClass('my-class');
+            Elements.forClass("my-class");
 
             expect(browsers.htmlCollection2Array).toHaveBeenCalled();
 
@@ -103,7 +99,7 @@ describe('services/utils', () => {
         });
     });
 
-    describe('EventAggregatorSubscriptions', () => {
+    describe("EventAggregatorSubscriptions", () => {
         let mockedEa;
         let sut;
 
@@ -112,22 +108,21 @@ describe('services/utils', () => {
             sut = new EventAggregatorSubscriptions(mockedEa);
         });
 
-        it('should subscribe', () => {
-            jest.spyOn(mockedEa, 'subscribe');
+        it("should subscribe", () => {
+            jest.spyOn(mockedEa, "subscribe");
             let fn = () => {};
 
-            sut.subscribe('signal', fn);
+            sut.subscribe("signal", fn);
 
-            expect(mockedEa.subscribe).toHaveBeenCalledWith('signal', fn);
+            expect(mockedEa.subscribe).toHaveBeenCalledWith("signal", fn);
             expect(sut._subscriptions.length).toBe(1);
         });
 
-        it('should dispose', () => {
+        it("should dispose", () => {
             let subscription = {
                 dispose: jest.fn(),
             };
             sut._subscriptions = [subscription];
-
 
             sut.dispose();
 
@@ -135,14 +130,14 @@ describe('services/utils', () => {
             expect(sut._subscriptions.length).toBe(0);
         });
 
-        it('should dispose empty', () => {
+        it("should dispose empty", () => {
             sut.dispose();
 
             expect(sut._subscriptions.length).toBe(0);
         });
     });
 
-    describe('BindingEngineSubscriptions', () => {
+    describe("BindingEngineSubscriptions", () => {
         let mockedBindingEngine;
         let sut;
 
@@ -151,24 +146,23 @@ describe('services/utils', () => {
             sut = new BindingEngineSubscriptions(mockedBindingEngine);
         });
 
-        it('should subscribe', () => {
-            jest.spyOn(mockedBindingEngine, 'propertyObserver');
+        it("should subscribe", () => {
+            jest.spyOn(mockedBindingEngine, "propertyObserver");
             let fn = () => {};
             let object = {};
 
-            sut.subscribe(object, 'property', fn);
+            sut.subscribe(object, "property", fn);
 
-            expect(mockedBindingEngine.propertyObserver).toHaveBeenCalledWith(object, 'property');
+            expect(mockedBindingEngine.propertyObserver).toHaveBeenCalledWith(object, "property");
             expect(mockedBindingEngine.propertyObserverObj.subscribe).toHaveBeenCalledWith(fn);
             expect(sut._subscriptions.length).toBe(1);
         });
 
-        it('should dispose', () => {
+        it("should dispose", () => {
             let subscription = {
                 dispose: jest.fn(),
             };
             sut._subscriptions = [subscription];
-
 
             sut.dispose();
 
@@ -176,19 +170,19 @@ describe('services/utils', () => {
             expect(sut._subscriptions.length).toBe(0);
         });
 
-        it('should dispose empty', () => {
+        it("should dispose empty", () => {
             sut.dispose();
 
             expect(sut._subscriptions.length).toBe(0);
         });
     });
 
-    describe('Wait', () => {
+    describe("Wait", () => {
         beforeEach(() => {
             Wait.flushCache();
         });
 
-        it('should flush cache', () => {
+        it("should flush cache", () => {
             Wait.idPromises.toto = null;
             Wait.classPromises.toto = null;
 
@@ -198,11 +192,11 @@ describe('services/utils', () => {
             expect(Wait.classPromises).toEqual({});
         });
 
-        describe('forClass', () => {
-            let className = 'my-class';
+        describe("forClass", () => {
+            let className = "my-class";
 
-            it('should create new promise', () => {
-                jest.spyOn(document, 'getElementsByClassName').mockReturnValue([]);
+            it("should create new promise", () => {
+                jest.spyOn(document, "getElementsByClassName").mockReturnValue([]);
 
                 let promise = Wait.forClass(className);
 
@@ -211,7 +205,7 @@ describe('services/utils', () => {
                 expect(Wait.classPromises[className]).toBe(promise);
             });
 
-            it('should serve from cache if present', () => {
+            it("should serve from cache if present", () => {
                 let promise = new Promise(() => {});
                 Wait.classPromises[className] = promise;
 
@@ -220,22 +214,22 @@ describe('services/utils', () => {
                 expect(returnedPromise).toBe(promise);
             });
 
-            it('should return new promise if fresh is true', () => {
+            it("should return new promise if fresh is true", () => {
                 let promise = new Promise(() => {});
                 Wait.classPromises[className] = promise;
 
-                let returnedPromise = Wait.forClass(className, {fresh: true});
+                let returnedPromise = Wait.forClass(className, { fresh: true });
 
                 expect(returnedPromise).not.toBe(promise);
             });
 
-            it('should search from element if passed', () => {
-                jest.spyOn(document, 'getElementsByClassName').mockImplementation(() => []);
+            it("should search from element if passed", () => {
+                jest.spyOn(document, "getElementsByClassName").mockImplementation(() => []);
                 let element = {
                     getElementsByClassName: jest.fn(),
                 };
 
-                let promise = Wait.forClass(className, {element});
+                let promise = Wait.forClass(className, { element });
 
                 expect(promise.then).toBeDefined();
                 expect(document.getElementsByClassName).not.toHaveBeenCalled();
@@ -244,11 +238,11 @@ describe('services/utils', () => {
             });
         });
 
-        describe('forId', () => {
-            let idName = 'my-id';
+        describe("forId", () => {
+            let idName = "my-id";
 
-            it('should create new promise', () => {
-                jest.spyOn(document, 'getElementById').mockReturnValue([]);
+            it("should create new promise", () => {
+                jest.spyOn(document, "getElementById").mockReturnValue([]);
 
                 let promise = Wait.forId(idName);
 
@@ -257,7 +251,7 @@ describe('services/utils', () => {
                 expect(Wait.idPromises[idName]).toBe(promise);
             });
 
-            it('should serve from cache if present', () => {
+            it("should serve from cache if present", () => {
                 let promise = new Promise(() => {});
                 Wait.idPromises[idName] = promise;
 

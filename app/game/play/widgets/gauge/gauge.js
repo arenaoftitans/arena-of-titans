@@ -1,27 +1,26 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { bindable, inject, ObserverLocator } from 'aurelia-framework';
-import { AssetSource } from '../../../../services/assets';
-import { EventAggregatorSubscriptions, Wait } from '../../../services/utils';
-import { State } from '../../../services/state';
-
+import { bindable, inject, ObserverLocator } from "aurelia-framework";
+import { AssetSource } from "../../../../services/assets";
+import { EventAggregatorSubscriptions, Wait } from "../../../services/utils";
+import { State } from "../../../services/state";
 
 const MAX_VALUE = 40;
 const MIN_HEIGHT = 100;
@@ -45,13 +44,13 @@ export class AotTrumpsGaugeCustomElement {
     }
 
     bind() {
-        Wait.forId('gauge-svg').then(gaugeSvg => {
+        Wait.forId("gauge-svg").then(gaugeSvg => {
             // Reapply style on bind so it is correct on FireFox.
             for (let i = 0; i < gaugeSvg.childNodes.length; i++) {
                 let element = gaugeSvg.childNodes.item(i);
                 if (element.style) {
                     let fillStyle = element.style.fill;
-                    element.style.fill = '';
+                    element.style.fill = "";
                     element.style.fill = fillStyle;
                 }
             }
@@ -62,11 +61,11 @@ export class AotTrumpsGaugeCustomElement {
                     this._fill(newValue, oldValue);
                 }
             };
-            this._observerLocator.getObserver(this, 'value').subscribe(this._valueObserverCb);
-            this._eas.subscribe('aot:trump:mouseover', trump => {
-                this.heightForCost = trump.cost / MAX_VALUE * MAX_DELTA;
+            this._observerLocator.getObserver(this, "value").subscribe(this._valueObserverCb);
+            this._eas.subscribe("aot:trump:mouseover", trump => {
+                this.heightForCost = (trump.cost / MAX_VALUE) * MAX_DELTA;
             });
-            this._eas.subscribe('aot:trump:mouseout', () => {
+            this._eas.subscribe("aot:trump:mouseout", () => {
                 this.heightForCost = 0;
             });
         });
@@ -75,7 +74,7 @@ export class AotTrumpsGaugeCustomElement {
     }
 
     unbind() {
-        this._observerLocator.getObserver(this, 'value').unsubscribe(this._valueObserverCb);
+        this._observerLocator.getObserver(this, "value").unsubscribe(this._valueObserverCb);
         this._eas.dispose();
     }
 

@@ -17,17 +17,16 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AotTrumpCustomElement } from '../../../../../app/game/play/widgets/trump/trump';
+import { AotTrumpCustomElement } from "../../../../../app/game/play/widgets/trump/trump";
 import {
     ApiStub,
     EventAggregatorSubscriptionsStub,
     PopupStub,
     I18nStub,
     StateStub,
-} from '../../../../../app/test-utils';
+} from "../../../../../app/test-utils";
 
-
-describe('trump', () => {
+describe("trump", () => {
     let sut;
     let mockedI18n;
     let mockedApi;
@@ -48,21 +47,21 @@ describe('trump', () => {
             mockedI18n,
             element,
             mockedEas,
-            mockedState
+            mockedState,
         );
-        sut.kind = 'player';
+        sut.kind = "player";
     });
 
-    it('should play trump with a target after a popup', async() => {
+    it("should play trump with a target after a popup", async () => {
         let deferred = {};
         deferred.promise = new Promise(resolve => {
             deferred.resolve = resolve;
         });
-        jest.spyOn(mockedPopup, 'display').mockReturnValue(deferred.promise);
-        jest.spyOn(mockedEas, 'publish');
+        jest.spyOn(mockedPopup, "display").mockReturnValue(deferred.promise);
+        jest.spyOn(mockedEas, "publish");
         mockedState._game = {
             players: {
-                names: ['Player 1', null, 'Player 2'],
+                names: ["Player 1", null, "Player 2"],
                 indexes: [0, null, 2],
             },
             your_turn: true,
@@ -70,87 +69,86 @@ describe('trump', () => {
         mockedState._me = {
             index: 0,
         };
-        sut.trump = {name: 'Trump', color: null, must_target_player: true};
+        sut.trump = { name: "Trump", color: null, must_target_player: true };
         sut.canBePlayed = true;
 
         sut.play();
 
-        expect(mockedPopup.display).toHaveBeenCalledWith(
-            'confirm',
-            {
-                choices: [{
-                    name: 'Player 2',
-                    index: 2,
-                }],
-                translate: {
-                    messages: {
-                        title: 'trumps.trump',
-                        description: 'trumps.trump_description',
-                        message: 'game.play.select_trump_target',
-                    },
-                    paramsToTranslate: {
-                        trumpname: 'trumps.trump',
-                    },
-                },
-                selectedChoice: {
-                    name: 'Player 2',
+        expect(mockedPopup.display).toHaveBeenCalledWith("confirm", {
+            choices: [
+                {
+                    name: "Player 2",
                     index: 2,
                 },
-            }
-        );
+            ],
+            translate: {
+                messages: {
+                    title: "trumps.trump",
+                    description: "trumps.trump_description",
+                    message: "game.play.select_trump_target",
+                },
+                paramsToTranslate: {
+                    trumpname: "trumps.trump",
+                },
+            },
+            selectedChoice: {
+                name: "Player 2",
+                index: 2,
+            },
+        });
         deferred.resolve({
-            name: 'Player 2',
+            name: "Player 2",
             index: 2,
         });
         await deferred.promise;
-        expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
-            trumpName: 'Trump',
+        expect(mockedEas.publish).toHaveBeenCalledWith("aot:trump:wish_to_play", {
+            trumpName: "Trump",
             trumpColor: null,
             targetIndex: 2,
         });
     });
 
-    it('should play trump without a target directly', () => {
-        jest.spyOn(mockedPopup, 'display');
-        jest.spyOn(mockedEas, 'publish');
+    it("should play trump without a target directly", () => {
+        jest.spyOn(mockedPopup, "display");
+        jest.spyOn(mockedEas, "publish");
         mockedState._game = {
             your_turn: true,
         };
-        sut.trump = {name: 'Trump', color: null, must_target_player: false};
+        sut.trump = { name: "Trump", color: null, must_target_player: false };
         sut.canBePlayed = true;
 
         sut.play();
 
         expect(mockedPopup.display).not.toHaveBeenCalled();
-        expect(mockedEas.publish).toHaveBeenCalledWith('aot:trump:wish_to_play', {
-            trumpName: 'Trump',
+        expect(mockedEas.publish).toHaveBeenCalledWith("aot:trump:wish_to_play", {
+            trumpName: "Trump",
             trumpColor: null,
         });
     });
 
-    it('should not play a trump if not your turn', () => {
-        jest.spyOn(mockedEas, 'publish');
+    it("should not play a trump if not your turn", () => {
+        jest.spyOn(mockedEas, "publish");
         mockedApi._game = {
             your_turn: false,
         };
 
-        sut.play({name: 'Trump'});
+        sut.play({ name: "Trump" });
 
         expect(mockedEas.publish).not.toHaveBeenCalled();
     });
 
-    it('should dispose subscriptions', () => {
-        jest.spyOn(mockedEas, 'dispose');
+    it("should dispose subscriptions", () => {
+        jest.spyOn(mockedEas, "dispose");
 
         sut.unbind();
 
         expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
-    it('should not play trump if kind is different than player', () => {
-        jest.spyOn(mockedApi, 'playTrump');
-        jest.spyOn(mockedPopup, 'display');
-        sut.kind = 'affecting';
+    it("should not play trump if kind is different than player", () => {
+        jest.spyOn(mockedApi, "playTrump");
+        jest.spyOn(mockedPopup, "display");
+        sut.kind = "affecting";
 
         sut.play();
 
@@ -158,12 +156,12 @@ describe('trump', () => {
         expect(mockedPopup.display).not.toHaveBeenCalled();
     });
 
-    describe('should get the correct list of targets', () => {
-        it('for player 0', () => {
+    describe("should get the correct list of targets", () => {
+        it("for player 0", () => {
             mockedState._game = {
                 players: {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
-                    names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
+                    names: ["P0", "P1", null, "P3", undefined, "P5", null, null, null],
                 },
             };
             mockedState._me = {
@@ -182,11 +180,11 @@ describe('trump', () => {
             }
         });
 
-        it('for other player', () => {
+        it("for other player", () => {
             mockedState._game = {
                 players: {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
-                    names: ['P0', 'P1', null, 'P3', undefined, 'P5', null, null, null],
+                    names: ["P0", "P1", null, "P3", undefined, "P5", null, null, null],
                 },
             };
             mockedState._me = {

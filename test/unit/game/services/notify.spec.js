@@ -1,40 +1,35 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { Notify } from '../../../../app/game/services/notify';
-import {
-    I18nStub,
-    EventAggregatorSubscriptionsStub,
-    SoundsStub,
-} from '../../../../app/test-utils';
+import { Notify } from "../../../../app/game/services/notify";
+import { I18nStub, EventAggregatorSubscriptionsStub, SoundsStub } from "../../../../app/test-utils";
 
-
-describe('services/notify', () => {
+describe("services/notify", () => {
     let mockedI18n;
     let mockedEas;
     let mockedSounds;
     let sut;
-    let link = document.createElement('link');
+    let link = document.createElement("link");
 
     beforeEach(() => {
-        link.href = '/dist/asset/favicon.png';
-        jest.spyOn(document, 'getElementById').mockReturnValue(link);
+        link.href = "/dist/asset/favicon.png";
+        jest.spyOn(document, "getElementById").mockReturnValue(link);
 
         mockedI18n = new I18nStub();
         mockedEas = new EventAggregatorSubscriptionsStub();
@@ -42,11 +37,11 @@ describe('services/notify', () => {
         sut = new Notify(mockedI18n, mockedEas, mockedSounds);
     });
 
-    it('should clearNotifications', () => {
-        sut._originalTitle = 'originalTitle';
-        sut._originalFaviconHref = '/original/favicon.png';
+    it("should clearNotifications", () => {
+        sut._originalTitle = "originalTitle";
+        sut._originalFaviconHref = "/original/favicon.png";
         expect(document.title).not.toBe(sut._originalTitle);
-        jest.spyOn(sut, '_createFavicon').mockImplementation(() => {});
+        jest.spyOn(sut, "_createFavicon").mockImplementation(() => {});
 
         sut.clearNotifications();
 
@@ -54,39 +49,39 @@ describe('services/notify', () => {
         expect(sut._createFavicon).toHaveBeenCalledWith(sut._originalFaviconHref);
     });
 
-    it('should swap favicon', () => {
-        jest.spyOn(sut, '_createFavicon').mockImplementation(() => {});
+    it("should swap favicon", () => {
+        jest.spyOn(sut, "_createFavicon").mockImplementation(() => {});
 
         sut._swapFavicon();
 
-        expect(document.getElementById).toHaveBeenCalledWith('favicon');
+        expect(document.getElementById).toHaveBeenCalledWith("favicon");
         expect(sut._createFavicon).toHaveBeenCalledWith(
             expect.stringMatching(/\/dist\/assets\/favicon-notify.*\.png/),
-            link
+            link,
         );
     });
 
-    describe('should play sound', () => {
+    describe("should play sound", () => {
         beforeEach(() => {
-            jest.spyOn(mockedSounds, 'play');
+            jest.spyOn(mockedSounds, "play");
         });
 
-        it('should play your-turn-voice', () => {
+        it("should play your-turn-voice", () => {
             sut._playVoice();
 
-            expect(mockedSounds.play).toHaveBeenCalledWith('your-turn-voice');
+            expect(mockedSounds.play).toHaveBeenCalledWith("your-turn-voice");
         });
 
-        it('should play your-turn', () => {
+        it("should play your-turn", () => {
             sut._playYourTurnSound();
 
-            expect(mockedSounds.play).toHaveBeenCalledWith('your-turn');
+            expect(mockedSounds.play).toHaveBeenCalledWith("your-turn");
         });
 
-        it('should play game-over', () => {
+        it("should play game-over", () => {
             sut.notifyGameOver();
 
-            expect(mockedSounds.play).toHaveBeenCalledWith('game-over');
+            expect(mockedSounds.play).toHaveBeenCalledWith("game-over");
         });
     });
 });

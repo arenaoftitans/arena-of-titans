@@ -1,4 +1,4 @@
-@import '../../../style/media-queries';
+@import "../../../style/media-queries";
 
 #home-slider {
     transition: transform 1s;
@@ -15,7 +15,7 @@
         .slide-caption {
             background: rgba(black, 0.7);
             color: whitesmoke;
-            font-family: 'Roboto Condensed', sans-serif;
+            font-family: "Roboto Condensed", sans-serif;
             padding: 20px;
             position: absolute;
             top: 40%;
@@ -36,15 +36,15 @@
     }
 
     .slide-elf {
-        background-image: url('/assets/homepage/home-slider/slider-elf.jpg');
+        background-image: url("/assets/homepage/home-slider/slider-elf.jpg");
     }
 
     .slide-orc {
-        background-image: url('/assets/homepage/home-slider/slider-orc.jpg');
+        background-image: url("/assets/homepage/home-slider/slider-orc.jpg");
     }
 
     .slide-centaur {
-        background-image: url('/assets/homepage/home-slider/slider-centaur.jpg');
+        background-image: url("/assets/homepage/home-slider/slider-centaur.jpg");
     }
 }
 

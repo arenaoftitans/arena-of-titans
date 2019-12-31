@@ -17,9 +17,8 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { bindable } from 'aurelia-framework';
-import { AssetSource } from '../../../../services/assets';
-
+import { bindable } from "aurelia-framework";
+import { AssetSource } from "../../../../services/assets";
 
 export class AotUrlCopyCustomElement {
     @bindable url;
@@ -31,6 +30,6 @@ export class AotUrlCopyCustomElement {
 
     copyUrl() {
         this.inviteLink.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
     }
 }

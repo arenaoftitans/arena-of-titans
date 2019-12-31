@@ -29,20 +29,18 @@
 
         <form if.bind="data.choices">
             <label repeat.for="choice of data.choices">
-                <input type="radio"
-                       name="choices"
-                       model.bind="choice"
-                       checked.bind="data.selectedChoice"
-                       required />
+                <input
+                    type="radio"
+                    name="choices"
+                    model.bind="choice"
+                    checked.bind="data.selectedChoice"
+                    required
+                />
                 ${choice.name}
             </label>
         </form>
 
-        <button class="blue-button"
-                click.delegate="ok()"
-                t="global.ok">OK</button>
-        <button class="grey-button"
-                click.delegate="cancel()"
-                t="global.cancel">Cancel</button>
+        <button class="blue-button" click.delegate="ok()" t="global.ok">OK</button>
+        <button class="grey-button" click.delegate="cancel()" t="global.cancel">Cancel</button>
     </div>
 </template>

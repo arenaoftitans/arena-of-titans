@@ -17,8 +17,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-@import '../../../style/media-queries';
-
+@import "../../../style/media-queries";
 
 aot-popup .popup-player-box {
     background: url(/assets/game/backgrounds/popup.png) no-repeat;
@@ -85,8 +84,13 @@ aot-popup .popup-player-box {
     }
 
     .cross {
-        background:
-            linear-gradient(to bottom, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%),
+        background: linear-gradient(
+                to bottom,
+                transparent 35%,
+                #65666d 35%,
+                #65666d 65%,
+                transparent 65%
+            ),
             linear-gradient(to right, transparent 35%, #65666d 35%, #65666d 65%, transparent 65%);
         cursor: pointer;
         height: 30px;

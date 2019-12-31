@@ -16,5 +16,5 @@ export default [
     "Seb",
     "Valygar",
     "Viconia",
-    "Yoshimo"
+    "Yoshimo",
 ];

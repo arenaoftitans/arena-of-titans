@@ -22,22 +22,27 @@
 
     <div class="select-card-container">
         <div class="select-card centered-text">
-            <p class="margin-0 white-text"
-               t="game.create.popup_select_card">Select a card</p>
+            <p class="margin-0 white-text" t="game.create.popup_select_card">Select a card</p>
 
-            <img class="arrow arrow-left"
-                 src.bind="assetSource.forMiscImage('arrow-left')"
-                 click.delegate="viewPreviousCard()" />
+            <img
+                class="arrow arrow-left"
+                src.bind="assetSource.forMiscImage('arrow-left')"
+                click.delegate="viewPreviousCard()"
+            />
 
             <div class="cards-carousel">
-                <img class="card-img"
-                     ref="cardImage"
-                     src.bind="assetSource.forCard(selectedCard)" />
+                <img
+                    class="card-img"
+                    ref="cardImage"
+                    src.bind="assetSource.forCard(selectedCard)"
+                />
             </div>
 
-            <img class="arrow arrow-right"
-                 src.bind="assetSource.forMiscImage('arrow-right')"
-                 click.delegate="viewNextCard()" />
+            <img
+                class="arrow arrow-right"
+                src.bind="assetSource.forMiscImage('arrow-right')"
+                click.delegate="viewNextCard()"
+            />
         </div>
     </div>
 </template>

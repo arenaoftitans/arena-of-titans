@@ -20,11 +20,15 @@
 <template>
     <require from="./infos.css"></require>
 
-    <div class="element-infos hidden-on-page-load ${type === 'player-name' ? 'element-infos-small' : 'element-infos-standard'}">
+    <div
+        class="element-infos hidden-on-page-load ${type === 'player-name' ? 'element-infos-small' : 'element-infos-standard'}"
+    >
         <p><strong>${infos.title}</strong></p>
         <p>${infos.description}</p>
-        <p if.bind="infos.initiator"
-           t="actions.trump_played_by"
-           t-params.bind="{initiator: infos.initiator}"></p>
+        <p
+            if.bind="infos.initiator"
+            t="actions.trump_played_by"
+            t-params.bind="{initiator: infos.initiator}"
+        ></p>
     </div>
 </template>

@@ -1,33 +1,30 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { bindable, inject } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { Api } from '../../../services/api';
-import { AssetSource, ImageName } from '../../../../services/assets';
-import {
-    EventAggregatorSubscriptions,
-} from '../../../services/utils';
-import { Options } from '../../../../services/options';
-import { Popup } from '../../../services/popup';
-import { State } from '../../../services/state';
-
+import { bindable, inject } from "aurelia-framework";
+import { I18N } from "aurelia-i18n";
+import { Api } from "../../../services/api";
+import { AssetSource, ImageName } from "../../../../services/assets";
+import { EventAggregatorSubscriptions } from "../../../services/utils";
+import { Options } from "../../../../services/options";
+import { Popup } from "../../../services/popup";
+import { State } from "../../../services/state";
 
 @inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, State)
 export class AotNotificationsCustomElement {
@@ -50,7 +47,7 @@ export class AotNotificationsCustomElement {
         this._eas = eas;
         this._state = state;
 
-        this._eas.subscribe('i18n:locale:changed', () => {
+        this._eas.subscribe("i18n:locale:changed", () => {
             if (this._lastActionMessageFromApi) {
                 this._updateLastAction(this._lastActionMessageFromApi);
             }
@@ -67,26 +64,26 @@ export class AotNotificationsCustomElement {
             }
         });
 
-        this._eas.subscribe('aot:api:player_played', message => {
+        this._eas.subscribe("aot:api:player_played", message => {
             this._updateLastAction(message);
         });
 
-        this._eas.subscribe('aot:api:play', () => {
+        this._eas.subscribe("aot:api:play", () => {
             // When we receive a play message, there cannot be a special action in
             // progress. This is mostly useful when a player passes his/her turn during a special
             // action.
             this._handleSpecialActionPlayed();
         });
 
-        this._eas.subscribe('aot:api:play_trump', message => {
+        this._eas.subscribe("aot:api:play_trump", message => {
             this._updateLastAction(message);
         });
 
-        this._eas.subscribe('aot:api:special_action_notify', message => {
+        this._eas.subscribe("aot:api:special_action_notify", message => {
             this._notifySpecialAction(message);
         });
 
-        this._eas.subscribe('aot:api:special_action_play', message => {
+        this._eas.subscribe("aot:api:special_action_play", message => {
             this._handleSpecialActionPlayed(message);
         });
     }
@@ -100,12 +97,10 @@ export class AotNotificationsCustomElement {
         let lastAction = message.last_action || {};
         let description;
         if (lastAction.description) {
-            description = this._i18n.tr(
-                `actions.${lastAction.description}`,
-                {
-                    playerName: lastAction.player_name,
-                    targetName: lastAction.target_name,
-                });
+            description = this._i18n.tr(`actions.${lastAction.description}`, {
+                playerName: lastAction.player_name,
+                targetName: lastAction.target_name,
+            });
         }
         this._lastAction = {
             description: description,
@@ -115,11 +110,13 @@ export class AotNotificationsCustomElement {
             this._lastAction.card = lastAction.card;
             let cardName = lastAction.card.name;
             let cardColor = lastAction.card.color.toLowerCase();
-            this._lastAction.card.title =
-                this._i18n.tr(`cards.${cardName.toLowerCase()}_${cardColor}`);
+            this._lastAction.card.title = this._i18n.tr(
+                `cards.${cardName.toLowerCase()}_${cardColor}`,
+            );
             this._lastAction.card.description = this._i18n.tr(`cards.${cardName.toLowerCase()}`);
-            this._lastAction.card.complementaryDescription =
-                    this._i18n.tr(`cards.${cardName.toLowerCase()}_complementary_description`);
+            this._lastAction.card.complementaryDescription = this._i18n.tr(
+                `cards.${cardName.toLowerCase()}_complementary_description`,
+            );
 
             this._lastAction.img = AssetSource.forCard(lastAction.card);
         }
@@ -128,7 +125,7 @@ export class AotNotificationsCustomElement {
             let trump = lastAction.trump;
             this._lastAction.trump = trump;
             this._lastAction.img = AssetSource.forTrump(trump);
-            let trumpName = ImageName.forTrump(trump).replace('-', '_');
+            let trumpName = ImageName.forTrump(trump).replace("-", "_");
             this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
         }
@@ -138,8 +135,9 @@ export class AotNotificationsCustomElement {
             this._lastAction.specialAction = action;
             let actionName = action.name.toLowerCase();
             this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
-            this._lastAction.specialAction.description =
-                    this._i18n.tr(`trumps.${actionName}_description`);
+            this._lastAction.specialAction.description = this._i18n.tr(
+                `trumps.${actionName}_description`,
+            );
         }
     }
 
@@ -159,7 +157,7 @@ export class AotNotificationsCustomElement {
             let popupData = {
                 translate: {
                     messages: {
-                        title: 'actions.special_action_info_popup',
+                        title: "actions.special_action_info_popup",
                         message: this.specialActionText,
                     },
                     paramsToTranslate: {
@@ -167,18 +165,17 @@ export class AotNotificationsCustomElement {
                     },
                 },
             };
-            this._popup.display('infos', popupData).then(() => {
-                this._eas.publish('aot:notifications:special_action_in_game_help_seen');
+            this._popup.display("infos", popupData).then(() => {
+                this._eas.publish("aot:notifications:special_action_in_game_help_seen");
                 this._options.markInGameOptionSeen(this._specialActionName);
             });
         } else {
-            this._eas.publish('aot:notifications:special_action_in_game_help_seen');
+            this._eas.publish("aot:notifications:special_action_in_game_help_seen");
         }
     }
 
     _translateSpecialActionText() {
-        this.specialActionText =
-            this._i18n.tr(`actions.special_action_${this._specialActionName}`);
+        this.specialActionText = this._i18n.tr(`actions.special_action_${this._specialActionName}`);
     }
 
     get currentPlayerName() {
@@ -189,7 +186,7 @@ export class AotNotificationsCustomElement {
         return this._lastAction;
     }
 
-    get game()  {
+    get game() {
         return this._state.game;
     }
 }

@@ -24,22 +24,34 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
     <h1 class="centered-text" if.bind="data.htmlMessage" innerhtml.bind="data.message"></h1>
 
     <div class="assassination-animation">
-        <img class="img-initiator-hero" alt="Your hero"
+        <img
+            class="img-initiator-hero"
+            alt="Your hero"
             if.bind="data.initiatorHeroImg"
-            src.bind="data.initiatorHeroImg" />
+            src.bind="data.initiatorHeroImg"
+        />
 
-        <img class="img-targeted-hero-top" alt="Targeted hero top part"
+        <img
+            class="img-targeted-hero-top"
+            alt="Targeted hero top part"
             if.bind="data.targetedHeroImg"
-            src.bind="data.targetedHeroImg" />
+            src.bind="data.targetedHeroImg"
+        />
 
-        <img class="img-targeted-hero-bottom" alt="Targeted hero bottom part"
+        <img
+            class="img-targeted-hero-bottom"
+            alt="Targeted hero bottom part"
             if.bind="data.targetedHeroImg"
-            src.bind="data.targetedHeroImg" />
+            src.bind="data.targetedHeroImg"
+        />
 
         <div class="assassin-container">
-            <img class="img-assassin" alt="Assassin played"
+            <img
+                class="img-assassin"
+                alt="Assassin played"
                 if.bind="data.assassinImg"
-                src.bind="data.assassinImg" />
+                src.bind="data.assassinImg"
+            />
         </div>
     </div>
 </template>

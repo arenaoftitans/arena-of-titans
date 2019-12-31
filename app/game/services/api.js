@@ -1,35 +1,34 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { Animations } from './animations';
-import { ErrorsReporter } from './errors-reporter';
-import { Notify } from './notify';
-import { State } from './state';
-import { Storage } from '../../services/storage';
-import { Wait } from './utils';
-import { Ws } from './ws';
-import { REQUEST_TYPES } from '../constants';
-import environment from '../../environment';
-
+import * as LogManager from "aurelia-logging";
+import { inject } from "aurelia-framework";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { Animations } from "./animations";
+import { ErrorsReporter } from "./errors-reporter";
+import { Notify } from "./notify";
+import { State } from "./state";
+import { Storage } from "../../services/storage";
+import { Wait } from "./utils";
+import { Ws } from "./ws";
+import { REQUEST_TYPES } from "../constants";
+import environment from "../../environment";
 
 @inject(Ws, State, Storage, Notify, EventAggregator, Animations, ErrorsReporter)
 export class Api {
@@ -46,14 +45,14 @@ export class Api {
         this._state = state;
         this._storage = storage;
         this._ws = ws;
-        this._ws.onmessage((message) => {
+        this._ws.onmessage(message => {
             this._handleMessage(message);
         });
         this._notify = notify;
         this._ea = ea;
         this._animations = animations;
         this._errorsReporter = errorsReporter;
-        this._logger = LogManager.getLogger('AoTApi');
+        this._logger = LogManager.getLogger("AoTApi");
         this._mustInitBoard = true;
 
         this.init();
@@ -72,14 +71,14 @@ export class Api {
         if (this._reconnectSubscription) {
             this._reconnectSubscription.dispose();
         }
-        this._reconnectSubscription = this._ea.subscribe('aot:ws:reconnected', () => {
+        this._reconnectSubscription = this._ea.subscribe("aot:ws:reconnected", () => {
             this._handleWsReconnected();
         });
         if (this._playTrumpSubscription) {
             this._playTrumpSubscription.dispose();
         }
-        this._playTrumpSubscription = this._ea.subscribe(
-            'aot:trump:play', trump => this.playTrump(trump)
+        this._playTrumpSubscription = this._ea.subscribe("aot:trump:play", trump =>
+            this.playTrump(trump),
         );
     }
 
@@ -93,7 +92,7 @@ export class Api {
         this._createReconnectDeferred();
         // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
         // if we call it with undefined it crashes.
-        this.joinGame({gameId: this._gameId}).then(() => {
+        this.joinGame({ gameId: this._gameId }).then(() => {
             this._ws.sendDeferred();
         });
     }
@@ -158,9 +157,9 @@ export class Api {
         if (message.index === -1) {
             this._reconnectDeferred.reject();
             return;
-        } else {  // eslint-disable-line no-else-return
-            this._reconnectDeferred.resolve(message);
         }
+
+        this._reconnectDeferred.resolve(message);
         this._state.initializeGame(message);
     }
 
@@ -226,11 +225,12 @@ export class Api {
             const playerIndex = playerActiveTrumps.player_index;
             for (let trump of playerActiveTrumps.trumps) {
                 switch (trump.name.toLowerCase()) {
-                    case 'night mist':
+                    case "night mist":
                         if (playerIndex !== this._state.me.index) {
                             keepNightMistForPlayers.push(playerIndex);
-                            Wait.forId('board')
-                                .then(() => this._ea.publish('aot:api:hide_player', playerIndex));
+                            Wait.forId("board").then(() =>
+                                this._ea.publish("aot:api:hide_player", playerIndex),
+                            );
                         }
                         break;
                     default:
@@ -240,9 +240,11 @@ export class Api {
         }
 
         for (let playerIndex of this._state.game.players.indexes) {
-            if (!keepNightMistForPlayers.includes(playerIndex) &&
-                    playerIndex !== this._state.me.index) {
-                this._ea.publish('aot:api:show_player', playerIndex);
+            if (
+                !keepNightMistForPlayers.includes(playerIndex) &&
+                playerIndex !== this._state.me.index
+            ) {
+                this._ea.publish("aot:api:show_player", playerIndex);
             }
         }
     }
@@ -255,14 +257,14 @@ export class Api {
         }
 
         switch (actionName.toLowerCase()) {
-            case 'assassination':
+            case "assassination":
                 this._movePlayer({
                     playerIndex: message.target_index,
                     newSquare: message.new_square,
                 });
                 break;
             default:
-                message.info = 'Unknow special action';
+                message.info = "Unknow special action";
                 this._logger.error(message);
                 break;
         }
@@ -285,41 +287,43 @@ export class Api {
 
         // When reconnecting, we must wait for the board to be loaded before trying to move
         // the pawns.
-        let waitForBoard = Wait.forId('player0Container');
+        let waitForBoard = Wait.forId("player0Container");
 
-        waitForBoard.then(() => {
-            this._state.players.squares.forEach((square, index) => {
-                if (square && Object.keys(square).length > 0) {
-                    this._movePlayer({playerIndex: index, newSquare: square});
+        waitForBoard
+            .then(() => {
+                this._state.players.squares.forEach((square, index) => {
+                    if (square && Object.keys(square).length > 0) {
+                        this._movePlayer({ playerIndex: index, newSquare: square });
+                    }
+                });
+            })
+            .catch(error => {
+                if (!window.jasmine || !(error instanceof TypeError)) {
+                    this._logger.error(error);
                 }
             });
-        }).catch(error => {
-            if (!window.jasmine || !(error instanceof TypeError)) {
-                this._logger.error(error);
-            }
-        });
     }
 
-    _movePlayer({playerIndex: playerIndex, newSquare: newSquare}) {
+    _movePlayer({ playerIndex: playerIndex, newSquare: newSquare }) {
         let pawnId = `player${playerIndex}Container`;
         let pawn = document.getElementById(pawnId);
-        let square = document.getElementById('square-' + newSquare.x + '-' + newSquare.y);
+        let square = document.getElementById("square-" + newSquare.x + "-" + newSquare.y);
         // Squares position depends on a `transform="translate()"` attribute. We need to parse it to
         // place the pawns correctly.
-        const transform = square.getAttribute('transform');
+        const transform = square.getAttribute("transform");
         const transformElements = /^[a-z]+\((\d+\.?\d*)[ ,](\d+\.?\d*)/.exec(transform);
         const xTransform = transformElements[1];
         const yTransform = transformElements[2];
 
-        pawn.setAttribute('height', square.getAttribute('height'));
-        pawn.setAttribute('width', square.getAttribute('width'));
-        pawn.setAttribute('x', xTransform);
-        pawn.setAttribute('y', yTransform);
+        pawn.setAttribute("height", square.getAttribute("height"));
+        pawn.setAttribute("width", square.getAttribute("width"));
+        pawn.setAttribute("x", xTransform);
+        pawn.setAttribute("y", yTransform);
     }
 
     _handleErrors(message) {
         if (message.error_to_display) {
-            this._ea.publish('aot:api:error', {
+            this._ea.publish("aot:api:error", {
                 message: message.error_to_display,
                 isFatal: message.is_fatal,
             });
@@ -352,7 +356,7 @@ export class Api {
         });
     }
 
-    joinGame({gameId: gameId, name: name, playerId: playerId, hero: hero}) {
+    joinGame({ gameId: gameId, name: name, playerId: playerId, hero: hero }) {
         if (name === undefined && playerId === undefined) {
             playerId = this._storage.retrievePlayerId(gameId);
         }
@@ -391,7 +395,7 @@ export class Api {
         });
     }
 
-    viewPossibleMovements({name: name, color: color}) {
+    viewPossibleMovements({ name: name, color: color }) {
         this._ws.send({
             rt: REQUEST_TYPES.view,
             play_request: {
@@ -401,7 +405,7 @@ export class Api {
         });
     }
 
-    viewPossibleActions({name, targetIndex}) {
+    viewPossibleActions({ name, targetIndex }) {
         this._ws.send({
             rt: REQUEST_TYPES.specialActionViewPossibleActions,
             play_request: {
@@ -411,7 +415,7 @@ export class Api {
         });
     }
 
-    play({cardName: cardName, cardColor: cardColor, x: x, y: y}) {
+    play({ cardName: cardName, cardColor: cardColor, x: x, y: y }) {
         this._ws.send({
             rt: REQUEST_TYPES.play,
             play_request: {
@@ -423,7 +427,7 @@ export class Api {
         });
     }
 
-    playSpecialAction({x, y, name, targetIndex}) {
+    playSpecialAction({ x, y, name, targetIndex }) {
         this._ws.send({
             rt: REQUEST_TYPES.specialActionPlay,
             play_request: {
@@ -446,7 +450,7 @@ export class Api {
         });
     }
 
-    playTrump({trumpName, trumpColor, targetIndex, square}) {
+    playTrump({ trumpName, trumpColor, targetIndex, square }) {
         this._ws.send({
             rt: REQUEST_TYPES.playTrump,
             play_request: {
@@ -468,7 +472,7 @@ export class Api {
         });
     }
 
-    discard({cardName: cardName, cardColor: cardColor}) {
+    discard({ cardName: cardName, cardColor: cardColor }) {
         this._ws.send({
             rt: REQUEST_TYPES.play,
             play_request: {

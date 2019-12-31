@@ -17,8 +17,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-@import '../../../style/variables';
-
+@import "../../../style/variables";
 
 $animation-time: 0.2s;
 $border-width: 1px;
@@ -63,16 +62,23 @@ aot-popover {
         border-width: $border-width;
     }
 
-
     /* show */
     @keyframes show {
-        from { height: 0; }
-        to { height: $popover-height; }
+        from {
+            height: 0;
+        }
+        to {
+            height: $popover-height;
+        }
     }
 
     /* hide */
     @keyframes hide {
-        from { height: $popover-height; }
-        to { height: 0; }
+        from {
+            height: $popover-height;
+        }
+        to {
+            height: 0;
+        }
     }
 }

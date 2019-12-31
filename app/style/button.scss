@@ -1,12 +1,11 @@
 button,
-input[type=submit] {
+input[type="submit"] {
     border: none;
-    font-family: 'Kingthings Petrock Regular', cursive;
+    font-family: "Kingthings Petrock Regular", cursive;
     font-size: medium;
     outline: none;
     padding: 0;
 }
-
 
 button,
 .button {
@@ -20,13 +19,11 @@ button,
     width: 150px;
 }
 
-
 button[disabled],
 .button-disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
-
 
 .grey-button {
     background: url(/assets/components/grey-button.png) no-repeat;
@@ -41,7 +38,6 @@ button[disabled],
     background-size: 100% 200%;
 }
 
-
 .blue-button {
     background: url(/assets/components/blue-button.png) no-repeat;
     background-position: 0 0;
@@ -54,7 +50,6 @@ button[disabled],
     background-position: 0 -32px;
     background-size: 100% 200%;
 }
-
 
 .big-button {
     font-size: x-large;

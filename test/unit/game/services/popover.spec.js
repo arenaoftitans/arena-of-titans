@@ -17,13 +17,10 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Popover } from '../../../../app/game/services/popover';
-import {
-    EventAggregatorSubscriptionsStub,
-} from '../../../../app/test-utils';
+import { Popover } from "../../../../app/game/services/popover";
+import { EventAggregatorSubscriptionsStub } from "../../../../app/test-utils";
 
-
-describe('Popover service', () => {
+describe("Popover service", () => {
     let mockedEas;
     let sut;
 
@@ -32,17 +29,17 @@ describe('Popover service', () => {
         sut = new Popover(mockedEas);
     });
 
-    it('should initialize correctly', () => {
+    it("should initialize correctly", () => {
         expect(sut.type).toBeNull();
         expect(sut._popovers).toEqual([]);
         expect(sut._displayed).toBe(false);
     });
 
-    describe('display', () => {
-        it('should prepare the popover to be displayed', () => {
-            jest.spyOn(sut._popoverReadyDeferred.promise, 'then');
-            let type = 'info';
-            let text = 'Hello';
+    describe("display", () => {
+        it("should prepare the popover to be displayed", () => {
+            jest.spyOn(sut._popoverReadyDeferred.promise, "then");
+            let type = "info";
+            let text = "Hello";
 
             let ret = sut.display(type, text);
 
@@ -55,10 +52,10 @@ describe('Popover service', () => {
             expect(ret).toEqual(expect.any(Function));
         });
 
-        it('should call _displayNext once popups are ready', async() => {
-            jest.spyOn(sut, '_displayNext');
-            let type = 'info';
-            let text = 'Hello';
+        it("should call _displayNext once popups are ready", async () => {
+            jest.spyOn(sut, "_displayNext");
+            let type = "info";
+            let text = "Hello";
 
             sut.display(type, text);
 
@@ -68,28 +65,28 @@ describe('Popover service', () => {
         });
     });
 
-    describe('_displayNext', () => {
-        it('should do nothing if no popups', () => {
-            jest.spyOn(mockedEas, 'publish');
+    describe("_displayNext", () => {
+        it("should do nothing if no popups", () => {
+            jest.spyOn(mockedEas, "publish");
 
             sut._displayNext();
 
             expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
-        it('should clean displayed deferred on hide', () => {
-            jest.spyOn(sut, '_displayNext');
+        it("should clean displayed deferred on hide", () => {
+            jest.spyOn(sut, "_displayNext");
 
-            mockedEas.publish('aot:popover:hidden');
+            mockedEas.publish("aot:popover:hidden");
 
             expect(sut._displayNext).toHaveBeenCalled();
             expect(sut._displayed).toBe(false);
         });
 
-        it('should display next popup', () => {
+        it("should display next popup", () => {
             let popover = {
-                type: 'danger',
-                text: 'Hello',
+                type: "danger",
+                text: "Hello",
                 deferred: {
                     promise: jest.fn(),
                     reject: jest.fn(),
@@ -97,14 +94,14 @@ describe('Popover service', () => {
                 },
             };
             sut._popovers.push(popover);
-            jest.spyOn(mockedEas, 'publish');
+            jest.spyOn(mockedEas, "publish");
 
             sut._displayNext();
 
             expect(sut._popovers).toEqual([]);
-            expect(mockedEas.publish).toHaveBeenCalledWith('aot:popover:display', {
-                type: 'danger',
-                text: 'Hello',
+            expect(mockedEas.publish).toHaveBeenCalledWith("aot:popover:display", {
+                type: "danger",
+                text: "Hello",
                 deferred: popover.deferred,
             });
             expect(sut._displayed).toBe(true);

@@ -1,4 +1,4 @@
-@import '../../../style/media-queries';
+@import "../../../style/media-queries";
 
 $logo-size: 230;
 $logo-size-mobile: 100;
@@ -95,7 +95,8 @@ aot-header {
         padding-bottom: 20px;
     }
 
-    .navbar, .submenu > .row-block {
+    .navbar,
+    .submenu > .row-block {
         padding-left: 5%;
         padding-right: 5%;
     }

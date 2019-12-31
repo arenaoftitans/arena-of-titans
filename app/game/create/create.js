@@ -1,41 +1,40 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { Router } from 'aurelia-router';
-import { Api } from '../services/api';
+import * as LogManager from "aurelia-logging";
+import { inject } from "aurelia-framework";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { Router } from "aurelia-router";
+import { Api } from "../services/api";
 import {
     BindingEngineSubscriptions,
     EventAggregatorSubscriptions,
     Wait,
     randomInt,
     selectRandomElement,
-} from '../services/utils';
-import { AssetSource } from '../../services/assets';
-import { State } from '../services/state';
-import { Storage } from '../../services/storage';
-import { History } from '../services/history';
-import environment from '../../environment';
-import DEFAULT_NAMES from './default-names';
-
+} from "../services/utils";
+import { AssetSource } from "../../services/assets";
+import { State } from "../services/state";
+import { Storage } from "../../services/storage";
+import { History } from "../services/history";
+import environment from "../../environment";
+import DEFAULT_NAMES from "./default-names";
 
 @inject(
     Router,
@@ -45,12 +44,12 @@ import DEFAULT_NAMES from './default-names';
     BindingEngineSubscriptions,
     History,
     EventAggregator,
-    EventAggregatorSubscriptions
+    EventAggregatorSubscriptions,
 )
 export class Create {
     _router;
     _api;
-    _gameUrl = '';
+    _gameUrl = "";
     _config;
     _bes;
     _history;
@@ -65,7 +64,7 @@ export class Create {
         this._ea = ea;
         this._eas = eas;
         this.assetSource = AssetSource;
-        this._logger = LogManager.getLogger('aot:create');
+        this._logger = LogManager.getLogger("aot:create");
 
         this.initPlayerInfos();
 
@@ -73,7 +72,7 @@ export class Create {
         // a player reaches the create game page, we consider he/she will play. So it makes sense
         // to start loading the board.
         if (!window.IS_TESTING) {
-            require(['game/play/widgets/board/board'], () => {});
+            require(["game/play/widgets/board/board"], () => {});
         }
     }
 
@@ -144,35 +143,35 @@ export class Create {
         let cb = () => {
             this._playerInfosChanged();
         };
-        this._bes.subscribe(this.playerInfos, 'name', cb);
-        this._bes.subscribe(this.playerInfos, 'hero', cb);
+        this._bes.subscribe(this.playerInfos, "name", cb);
+        this._bes.subscribe(this.playerInfos, "hero", cb);
         let selectedHeroChanged = () => {
             this.playerInfos.hero = this.selectedHero;
         };
-        this._bes.subscribe(this, 'selectedHero', selectedHeroChanged);
+        this._bes.subscribe(this, "selectedHero", selectedHeroChanged);
     }
 
     _registerEvents(params) {
         this._eas.dispose();
-        this._eas.subscribe('aot:api:game_initialized', data => {
+        this._eas.subscribe("aot:api:game_initialized", data => {
             if (!params.id) {
-                this._router.navigateToRoute('create', this._getNavParams(data.game_id));
+                this._router.navigateToRoute("create", this._getNavParams(data.game_id));
             }
         });
-        this._eas.subscribe('aot:api:create_game', () => {
+        this._eas.subscribe("aot:api:create_game", () => {
             if (params.id) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute("play", this._getNavParams(params.id));
             }
         });
-        this._eas.subscribe('aot:api:game_initialized', () => {
+        this._eas.subscribe("aot:api:game_initialized", () => {
             this._autoAddAi();
         });
 
         // This callback is used to redirect the player to the game if he/she reconnects on the
         // create page after a game was created.
-        let subscription = this._ea.subscribe('aot:api:play', () => {
+        let subscription = this._ea.subscribe("aot:api:play", () => {
             if (/game\/.*\/create\/.+/.test(location.href)) {
-                this._router.navigateToRoute('play', this._getNavParams(params.id));
+                this._router.navigateToRoute("play", this._getNavParams(params.id));
             }
             subscription.dispose();
         });
@@ -180,10 +179,10 @@ export class Create {
 
     _autoAddAi() {
         // auto set the 2nd slot to an AI so the player can start the game immediately.
-        let takenSlots = this.slots.filter(slot => slot.state === 'TAKEN');
+        let takenSlots = this.slots.filter(slot => slot.state === "TAKEN");
         if (this.me.is_game_master && takenSlots.length === 1) {
             let slot = this.slots[1];
-            slot.state = 'AI';
+            slot.state = "AI";
             this.updateSlot(slot);
         }
     }
@@ -191,27 +190,32 @@ export class Create {
     _joinGame() {
         this.playerId = this._storage.retrievePlayerId(this.gameId);
         if (this.playerId) {
-            return this._api.joinGame({gameId: this.gameId, playerId: this.playerId}).then(() => {
-                this.playerInfos.name = this.me.name;
-                this.playerInfos.hero = this.me.hero;
-            }, error => {
-                this._logger.warn('Failed to join the game', error);
-                this._storage.clearGameData(this.gameId);
-                return this._joinGame();
-            });
+            return this._api.joinGame({ gameId: this.gameId, playerId: this.playerId }).then(
+                () => {
+                    this.playerInfos.name = this.me.name;
+                    this.playerInfos.hero = this.me.hero;
+                },
+                error => {
+                    this._logger.warn("Failed to join the game", error);
+                    this._storage.clearGameData(this.gameId);
+                    return this._joinGame();
+                },
+            );
         }
 
-        return this._api.joinGame({
-            gameId: this.gameId,
-            name: this.playerInfos.name,
-            hero: this.playerInfos.hero,
-        }).then(null, error => {
-            this._logger.warn('Failed to join the game', error);
-        });
+        return this._api
+            .joinGame({
+                gameId: this.gameId,
+                name: this.playerInfos.name,
+                hero: this.playerInfos.hero,
+            })
+            .then(null, error => {
+                this._logger.warn("Failed to join the game", error);
+            });
     }
 
     updateSlot(slot) {
-        if (slot.state === 'AI') {
+        if (slot.state === "AI") {
             slot.player_name = `AI ${slot.index}`;
             slot.hero = environment.heroes[randomInt(0, environment.heroes.length - 1)];
         }
@@ -255,7 +259,7 @@ export class Create {
         if (this.slots) {
             let numberTakenSlots = 0;
             this.slots.forEach(slot => {
-                if (slot.state === 'TAKEN' || slot.state === 'AI') {
+                if (slot.state === "TAKEN" || slot.state === "AI") {
                     numberTakenSlots++;
                 }
             });

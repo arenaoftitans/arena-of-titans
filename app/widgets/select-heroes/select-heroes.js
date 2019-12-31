@@ -1,30 +1,28 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { bindable, inject } from 'aurelia-framework';
-import { CssAnimator } from 'aurelia-animator-css';
-import environment from '../../environment';
-import { AssetSource } from '../../services/assets';
+import { bindable, inject } from "aurelia-framework";
+import { CssAnimator } from "aurelia-animator-css";
+import environment from "../../environment";
+import { AssetSource } from "../../services/assets";
 
-
-const INPUT_NODE_NAMES = ['INPUT', 'TEXTAREA'];
-
+const INPUT_NODE_NAMES = ["INPUT", "TEXTAREA"];
 
 @inject(CssAnimator)
 export class AotSelectHeroesCustomElement {
@@ -69,13 +67,13 @@ export class AotSelectHeroesCustomElement {
             let keyCode = event.code || event.key;
 
             // The player must validate the game over popup
-            if (keyCode === 'ArrowRight') {
+            if (keyCode === "ArrowRight") {
                 this.viewNextHero();
-            } else if (keyCode === 'ArrowLeft') {
+            } else if (keyCode === "ArrowLeft") {
                 this.viewPreviousHero();
             }
         };
-        window.addEventListener('keyup', this._keyupEventListener);
+        window.addEventListener("keyup", this._keyupEventListener);
     }
 
     /**
@@ -112,8 +110,8 @@ export class AotSelectHeroesCustomElement {
      *   display the image of the new hero.
      */
     _animateHero() {
-        return this._animator.addClass(this.heroImage, 'change-hero').then(() => {
-            return this._animator.removeClass(this.heroImage, 'change-hero');
+        return this._animator.addClass(this.heroImage, "change-hero").then(() => {
+            return this._animator.removeClass(this.heroImage, "change-hero");
         });
     }
 
@@ -128,6 +126,6 @@ export class AotSelectHeroesCustomElement {
     }
 
     unbind() {
-        window.removeEventListener('keyup', this._keyupEventListener);
+        window.removeEventListener("keyup", this._keyupEventListener);
     }
 }

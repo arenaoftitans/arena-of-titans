@@ -1,34 +1,30 @@
-@import 'button';
-@import 'fa';
-@import '../../node_modules/flexboxgrid/dist/flexboxgrid';
+@import "button";
+@import "fa";
+@import "../../node_modules/flexboxgrid/dist/flexboxgrid";
 
 body {
     background-image: url(/assets/backgrounds/background.jpg);
     background-size: auto;
-    font-family: 'Kingthings Petrock Regular', cursive;
+    font-family: "Kingthings Petrock Regular", cursive;
     margin: 0;
 }
 
-
 h1 {
-    color:white;
+    color: white;
 }
-
 
 h1,
 h2 {
     text-align: center;
 }
 
-
 p {
     color: black;
     text-align: justify;
 }
 
-
 select {
-    font-family: 'Kingthings Petrock Regular', cursive;
+    font-family: "Kingthings Petrock Regular", cursive;
 }
 
 .logo {
@@ -47,21 +43,17 @@ select {
     transform: translateY(35%);
 }
 
-
 .translate-y-25 {
     transform: translateY(25%);
 }
-
 
 .translate-y-150 {
     transform: translateY(150%);
 }
 
-
 .hidden {
     display: none !important;
 }
-
 
 .pointer {
     cursor: pointer;
@@ -71,7 +63,6 @@ select {
     cursor: not-allowed;
 }
 
-
 .display-table {
     display: table;
 }
@@ -79,7 +70,6 @@ select {
 .display-table-cell {
     display: table-cell;
 }
-
 
 .centered-important {
     font-size: x-large;
@@ -117,7 +107,7 @@ select {
 }
 
 .centered-text-timer {
-    font-family: 'Kingthings Petrock Regular', cursive;
+    font-family: "Kingthings Petrock Regular", cursive;
     text-align: center;
     top: -150px;
 }
@@ -164,7 +154,6 @@ strong.blue-text {
     margin-top: 160px;
 }
 
-
 .svg-full-screen-bg {
     min-height: 100vh;
     position: absolute;
@@ -172,12 +161,10 @@ strong.blue-text {
     z-index: -10;
 }
 
-
 .hidden-on-page-load {
     position: absolute;
     top: -500px;
 }
-
 
 .blink-img {
     opacity: 0.2 !important;
@@ -186,7 +173,6 @@ strong.blue-text {
 .blink-container {
     opacity: 0.5 !important;
 }
-
 
 .navigating {
     cursor: wait !important;
@@ -198,11 +184,9 @@ strong.blue-text {
     opacity: 0.5;
 }
 
-
 .inline {
     display: inline;
 }
-
 
 .social {
     a {
@@ -227,39 +211,45 @@ strong.blue-text {
     }
 }
 
-
 /* latin-ext */
 @font-face {
-    font-family: 'Kingthings Petrock Regular';
+    font-family: "Kingthings Petrock Regular";
     font-style: normal;
     font-weight: 400;
-    src: local('Kingthings Petrock Regular'), local('Kingthings-Petrock-Regular'), url(/assets/fonts/Kingthings_Petrock-webfont.woff) format('woff');
+    src: local("Kingthings Petrock Regular"), local("Kingthings-Petrock-Regular"),
+        url(/assets/fonts/Kingthings_Petrock-webfont.woff) format("woff");
     unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* latin */
 @font-face {
-    font-family: 'Kingthings Petrock Regular';
+    font-family: "Kingthings Petrock Regular";
     font-style: normal;
     font-weight: 400;
-    src: local('Kingthings Petrock Regular'), local('Kingthings-Petrock-Regular'), url(/assets/fonts/Kingthings_Petrock-webfont.woff) format('woff');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+    src: local("Kingthings Petrock Regular"), local("Kingthings-Petrock-Regular"),
+        url(/assets/fonts/Kingthings_Petrock-webfont.woff) format("woff");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+        U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
 /* latin-ext */
 @font-face {
-    font-family: 'Roboto Condensed';
+    font-family: "Roboto Condensed";
     font-style: normal;
     font-weight: 400;
-    src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(/assets/fonts/RobotoCondensed-Regular-lat-ext.woff2) format('woff2');
-    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    src: local("Roboto Condensed"), local("RobotoCondensed-Regular"),
+        url(/assets/fonts/RobotoCondensed-Regular-lat-ext.woff2) format("woff2");
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113,
+        U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* latin */
 @font-face {
-    font-family: 'Roboto Condensed';
+    font-family: "Roboto Condensed";
     font-style: normal;
     font-weight: 400;
-    src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(/assets/fonts/RobotoCondensed-Regular-lat.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    src: local("Roboto Condensed"), local("RobotoCondensed-Regular"),
+        url(/assets/fonts/RobotoCondensed-Regular-lat.woff2) format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+        U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

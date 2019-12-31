@@ -20,27 +20,33 @@
 <template>
     <require from="./notifications.css"></require>
 
-    <p class="centered-important margin-0"
-       t="[html]game.play.whose_turn_message"
-       t-params.bind="{playerName: currentPlayerName}">
+    <p
+        class="centered-important margin-0"
+        t="[html]game.play.whose_turn_message"
+        t-params.bind="{playerName: currentPlayerName}"
+    >
         It's the turn of
     </p>
 
     <div if.bind="!specialActionInProgress">
         <p if.bind="lastAction.description">
             ${lastAction.description}
-            <span><br></span>
+            <span><br /></span>
         </p>
         <p if.bind="!lastAction.description">
             <em t="game.play.no_action">No action yet</em>
         </p>
 
-        <img class="centered-block"
-             src.bind="lastAction.img"
-             if.bind="lastAction && lastAction.img" />
+        <img
+            class="centered-block"
+            src.bind="lastAction.img"
+            if.bind="lastAction && lastAction.img"
+        />
 
         <div if.bind="lastAction && lastAction.card">
-            <p class="centered-important"><strong class="blue-text">${lastAction.card.title}</strong></p>
+            <p class="centered-important">
+                <strong class="blue-text">${lastAction.card.title}</strong>
+            </p>
             <p>
                 ${lastAction.card.description}
             </p>
@@ -52,14 +58,18 @@
         </div>
 
         <div if.bind="lastAction && lastAction.trump">
-            <p class="centered-important"><strong class="blue-text">${lastAction.trump.title}</strong></p>
+            <p class="centered-important">
+                <strong class="blue-text">${lastAction.trump.title}</strong>
+            </p>
             <p>
                 ${lastAction.trump.description}
             </p>
         </div>
 
         <div if.bind="lastAction && lastAction.specialAction">
-            <p class="centered-important"><strong class="blue-text">${lastAction.specialAction.title}</strong></p>
+            <p class="centered-important">
+                <strong class="blue-text">${lastAction.specialAction.title}</strong>
+            </p>
             <p>
                 ${lastAction.specialAction.description}
             </p>

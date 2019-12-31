@@ -25,28 +25,44 @@
             <div class="option">
                 <div class="choices">
                     <div class="lang-chooser">
-                        <img src.bind="assetSource.forGlobalImage('french-flag')" click.delegate="changeLang('fr')" />
-                        <img src.bind="assetSource.forGlobalImage('english-flag')" click.delegate="changeLang('en')" />
+                        <img
+                            src.bind="assetSource.forGlobalImage('french-flag')"
+                            click.delegate="changeLang('fr')"
+                        />
+                        <img
+                            src.bind="assetSource.forGlobalImage('english-flag')"
+                            click.delegate="changeLang('en')"
+                        />
                     </div>
                     <label class="white-text">
                         <a href="/game/create/" target="_blank">Nouvelle partie</a>
                     </label>
-                    <br>
+                    <br />
                     <label class="white-text">
                         <span t="global.sound_option">Enable/Disable sound</span>
-                        <input type="checkbox" value.bind="options.sound" checked.bind="options.sound" />
+                        <input
+                            type="checkbox"
+                            value.bind="options.sound"
+                            checked.bind="options.sound"
+                        />
                     </label>
-                    <br>
+                    <br />
                     <label class="white-text">
                         <span t="global.propose_in_game_help_option">Tutorial</span>
-                        <input type="checkbox" value.bind="options.proposeInGameHelp" checked.bind="options.proposeInGameHelp" />
+                        <input
+                            type="checkbox"
+                            value.bind="options.proposeInGameHelp"
+                            checked.bind="options.proposeInGameHelp"
+                        />
                     </label>
 
                     <div class="social">
-                        <a href="https://www.facebook.com/arenaoftitans/" target="_blank">Facebook</a>
-                        <br>
+                        <a href="https://www.facebook.com/arenaoftitans/" target="_blank"
+                            >Facebook</a
+                        >
+                        <br />
                         <a href="https://twitter.com/ArenaOfTitans" target="_blank">Twitter</a>
-                        <br>
+                        <br />
                         <a href="https://gitlab.com/arenaoftitans/" target="_blank">Source code</a>
                     </div>
                 </div>

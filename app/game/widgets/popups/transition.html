@@ -23,7 +23,5 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
     <h1 class="centered-text" if.bind="!data.htmlMessage">${data.message}</h1>
     <h1 class="centered-text" if.bind="data.htmlMessage" innerhtml.bind="data.message"></h1>
 
-    <img alt="Your hero"
-         if.bind="data.img"
-         src.bind="data.img" />
+    <img alt="Your hero" if.bind="data.img" src.bind="data.img" />
 </template>

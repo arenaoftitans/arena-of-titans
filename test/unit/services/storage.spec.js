@@ -17,10 +17,9 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Storage } from '../../../app/services/storage';
+import { Storage } from "../../../app/services/storage";
 
-
-describe('app/services/storage', () => {
+describe("app/services/storage", () => {
     let sut;
 
     beforeEach(() => {
@@ -28,16 +27,18 @@ describe('app/services/storage', () => {
         sut = new Storage();
     });
 
-    it('do not save private properties of options', () => {
+    it("do not save private properties of options", () => {
         let options = {
-            toSave: 'toto',
-            _notToSave: 'test',
+            toSave: "toto",
+            _notToSave: "test",
         };
 
         sut.saveOptions(options);
 
-        expect(localStorage.getItem('options')).toEqual(JSON.stringify({
-            toSave: 'toto',
-        }));
+        expect(localStorage.getItem("options")).toEqual(
+            JSON.stringify({
+                toSave: "toto",
+            }),
+        );
     });
 });

@@ -1,25 +1,31 @@
 <template>
     <require from="./aot-home-slider.css"></require>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400" rel="stylesheet">
-        <div id="home-slider-container">
-            <div id="home-slider" ref="homeSlider">
-                <div class="slide slide-elf">
-                    <div class="slide-caption" t="site.slide.elf">
-                    </div>
-                </div>
-                <div class="slide slide-orc">
-                    <div class="slide-caption" t="site.slide.orc">
-                    </div>
-                </div>
-                <div class="slide slide-centaur">
-                    <div class="slide-caption" t="site.slide.centaur">
-                    </div>
-                </div>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400" rel="stylesheet" />
+    <div id="home-slider-container">
+        <div id="home-slider" ref="homeSlider">
+            <div class="slide slide-elf">
+                <div class="slide-caption" t="site.slide.elf"></div>
             </div>
-            <div id="controls">
-                <div class="circle ${ activeSlide === 0 ? 'active' : ''}" click.delegate="goToSlide(0)"></div>
-                <div class="circle ${ activeSlide === 1 ? 'active' : ''}" click.delegate="goToSlide(1)"></div>
-                <div class="circle ${ activeSlide === 2 ? 'active' : ''}" click.delegate="goToSlide(2)"></div>
+            <div class="slide slide-orc">
+                <div class="slide-caption" t="site.slide.orc"></div>
+            </div>
+            <div class="slide slide-centaur">
+                <div class="slide-caption" t="site.slide.centaur"></div>
             </div>
         </div>
+        <div id="controls">
+            <div
+                class="circle ${ activeSlide === 0 ? 'active' : ''}"
+                click.delegate="goToSlide(0)"
+            ></div>
+            <div
+                class="circle ${ activeSlide === 1 ? 'active' : ''}"
+                click.delegate="goToSlide(1)"
+            ></div>
+            <div
+                class="circle ${ activeSlide === 2 ? 'active' : ''}"
+                click.delegate="goToSlide(2)"
+            ></div>
+        </div>
+    </div>
 </template>

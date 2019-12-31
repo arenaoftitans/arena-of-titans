@@ -21,13 +21,17 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
     <div class="row" repeat.for="row of cardsRows">
         <div repeat.for="card of row">
-            <img class="card-img pointer ${card === selectedCard ? 'selected' : ''}"
-                    if.bind="card !==  'placeholder'"
-                    click.delegate="selectCard(card)"
-                    src.bind="assetSource.forCard(card)" />
-            <img class="card-img not-allowed"
-                    if.bind="card ===  'placeholder'"
-                    src.bind="assetSource.forCard(card)" />
+            <img
+                class="card-img pointer ${card === selectedCard ? 'selected' : ''}"
+                if.bind="card !==  'placeholder'"
+                click.delegate="selectCard(card)"
+                src.bind="assetSource.forCard(card)"
+            />
+            <img
+                class="card-img not-allowed"
+                if.bind="card ===  'placeholder'"
+                src.bind="assetSource.forCard(card)"
+            />
         </div>
     </div>
 </template>

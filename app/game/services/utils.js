@@ -1,26 +1,25 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import { inject, transient, BindingEngine } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
-import { browsers } from '../../services/browser-sniffer';
-
+import { inject, transient, BindingEngine } from "aurelia-framework";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { browsers } from "../../services/browser-sniffer";
 
 /**
  * Returns an int in [min, max]
@@ -31,7 +30,6 @@ import { browsers } from '../../services/browser-sniffer';
 export function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 /**
  * Choose and return a random element from the array. If the array is empty, it
@@ -49,7 +47,6 @@ export function selectRandomElement(array) {
     return array[index];
 }
 
-
 export class Wait {
     static idPromises = {};
     static classPromises = {};
@@ -65,7 +62,7 @@ export class Wait {
         }
 
         let deferred = {};
-        deferred.promise = new Promise((resolve) => {
+        deferred.promise = new Promise(resolve => {
             deferred.resolve = resolve;
         });
 
@@ -85,7 +82,7 @@ export class Wait {
         return deferred.promise;
     }
 
-    static forClass(className, {element = document, fresh = false} = {}) {
+    static forClass(className, { element = document, fresh = false } = {}) {
         if (className in Wait.classPromises && !fresh) {
             return Wait.classPromises[className];
         }
@@ -112,7 +109,6 @@ export class Wait {
     }
 }
 
-
 export class Elements {
     static forClass(className, containerId = null) {
         let container = document;
@@ -129,7 +125,6 @@ export class Elements {
         return elements;
     }
 }
-
 
 export class Blink {
     constructor(elements, maxBlinkTime, blinkTime, blinkClass) {
@@ -174,7 +169,6 @@ export class Blink {
     }
 }
 
-
 /**
  * Utility object to manage (ie subscribe and dispose) group of EventAggregator subscriptions.
  * You need to inject a new instance each time you use it. Otherwise all the subscriptions will
@@ -212,7 +206,6 @@ export class EventAggregatorSubscriptions {
     }
 }
 
-
 /**
  * Utility object to manage (ie subscribe and dispose) group of BindingEngine subscriptions.
  * You need to inject a new instance each time you use it. Otherwise all the subscriptions will
@@ -228,8 +221,7 @@ export class BindingEngineSubscriptions {
     }
 
     subscribe(object, property, fn) {
-        let subscription = this._bindingEngine.propertyObserver(object, property)
-            .subscribe(fn);
+        let subscription = this._bindingEngine.propertyObserver(object, property).subscribe(fn);
         this._subscriptions.push(subscription);
     }
 

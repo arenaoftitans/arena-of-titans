@@ -21,11 +21,11 @@ aot-popup .popup-trump-animation {
     background-size: 100% 100%;
     height: 20vh;
     max-width: 100%;
-    min-height: 20vh;  /* Needed to override min-height from .popup-content */
+    min-height: 20vh; /* Needed to override min-height from .popup-content */
     position: relative;
     width: 100%;
 
-    .failed-animation{
+    .failed-animation {
         .img-initiator-hero {
             animation-duration: 0.6s;
             animation-iteration-count: 1;
@@ -114,7 +114,6 @@ aot-popup .popup-trump-animation {
                     opacity: 0;
                 }
 
-
                 100% {
                     opacity: 1;
                 }
@@ -122,7 +121,7 @@ aot-popup .popup-trump-animation {
         }
     }
 
-    .smash-animation{
+    .smash-animation {
         .img-initiator-hero {
             animation-duration: 0.6s;
             animation-iteration-count: 1;
@@ -143,7 +142,6 @@ aot-popup .popup-trump-animation {
             }
         }
 
-
         .img-targeted-hero {
             animation-duration: 0.6s;
             animation-iteration-count: 1;
@@ -160,22 +158,27 @@ aot-popup .popup-trump-animation {
 
                 75% {
                     opacity: 1;
-                    transform: translate3d(0, 0, 0)
+                    transform: translate3d(0, 0, 0);
                 }
 
-                76%, 80% {
+                76%,
+                80% {
                     transform: translate3d(-18px, -12px, 0);
                 }
 
-                80%, 100% {
+                80%,
+                100% {
                     transform: translate3d(18px, 14px, 12px);
                 }
 
-                86%, 95%, 100% {
+                86%,
+                95%,
+                100% {
                     transform: translate3d(-20px, -14px, -12px);
                 }
 
-                80%, 90% {
+                80%,
+                90% {
                     transform: translate3d(16px, 14px, 0);
                 }
             }
@@ -200,7 +203,7 @@ aot-popup .popup-trump-animation {
 
                 70% {
                     transform: rotateY(0deg);
-                    transform: translate3d(0px,0px,0px) rotateX( 0deg );
+                    transform: translate3d(0px, 0px, 0px) rotateX(0deg);
                 }
 
                 90% {
@@ -228,7 +231,6 @@ aot-popup .popup-trump-animation {
                     opacity: 0;
                 }
 
-
                 100% {
                     opacity: 1;
                 }
@@ -255,12 +257,10 @@ aot-popup .popup-trump-animation {
             @keyframes fadeIn {
                 from {
                     opacity: 0;
-
                 }
 
                 to {
                     opacity: 1;
-
                 }
             }
         }
@@ -271,7 +271,7 @@ aot-popup .popup-trump-animation {
             animation-duration: 0.5s;
             animation-iteration-count: 2;
             animation-name: powerup_big;
-            background: url('/assets/game/backgrounds/animation-power-up-big.png') no-repeat;
+            background: url("/assets/game/backgrounds/animation-power-up-big.png") no-repeat;
             background-size: 50% 50%;
             bottom: 40vh;
             height: 100vh;
@@ -312,7 +312,7 @@ aot-popup .popup-trump-animation {
             animation-duration: 0.5s;
             animation-iteration-count: 2;
             animation-name: powerup_small;
-            background: url('/assets/game/backgrounds/animation-power-up-small.png') no-repeat;
+            background: url("/assets/game/backgrounds/animation-power-up-small.png") no-repeat;
             background-size: 50% 50%;
             bottom: 140vh;
             height: 100vh;
@@ -375,7 +375,7 @@ aot-popup .popup-trump-animation {
 
                 50% {
                     transform: rotateY(0deg);
-                    transform: translate3d(0px,0px,0px) rotateX( 0deg );
+                    transform: translate3d(0px, 0px, 0px) rotateX(0deg);
                 }
 
                 60% {
@@ -411,5 +411,4 @@ aot-popup .popup-trump-animation {
             }
         }
     }
-
 }

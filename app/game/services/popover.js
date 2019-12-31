@@ -17,9 +17,8 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject } from 'aurelia-framework';
-import { EventAggregatorSubscriptions } from './utils';
-
+import { inject } from "aurelia-framework";
+import { EventAggregatorSubscriptions } from "./utils";
 
 @inject(EventAggregatorSubscriptions)
 export class Popover {
@@ -34,10 +33,10 @@ export class Popover {
         this._popoverReadyDeferred.promise = new Promise(resolve => {
             this._popoverReadyDeferred.resolve = resolve;
         });
-        this._eas.subscribe('aot:popover:ready', () => {
+        this._eas.subscribe("aot:popover:ready", () => {
             this._popoverReadyDeferred.resolve();
         });
-        this._eas.subscribe('aot:popover:hidden', () => {
+        this._eas.subscribe("aot:popover:hidden", () => {
             this._displayed = false;
             this._displayNext();
         });
@@ -64,7 +63,7 @@ export class Popover {
     _displayNext() {
         if (!this._displayed && this._popovers.length > 0) {
             let popover = this._popovers.shift();
-            this._eas.publish('aot:popover:display', popover);
+            this._eas.publish("aot:popover:display", popover);
             this._displayed = true;
         }
     }

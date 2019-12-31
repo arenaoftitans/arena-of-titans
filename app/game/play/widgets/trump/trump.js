@@ -17,19 +17,17 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as LogManager from 'aurelia-logging';
-import { bindable, inject } from 'aurelia-framework';
-import { I18N } from 'aurelia-i18n';
-import { DOM } from 'aurelia-pal';
-import { Popup } from '../../../services/popup';
-import { Api } from '../../../services/api';
-import { State } from '../../../services/state';
-import { randomInt, EventAggregatorSubscriptions } from '../../../services/utils';
-import { browsers } from '../../../../services/browser-sniffer';
+import * as LogManager from "aurelia-logging";
+import { bindable, inject } from "aurelia-framework";
+import { I18N } from "aurelia-i18n";
+import { DOM } from "aurelia-pal";
+import { Popup } from "../../../services/popup";
+import { Api } from "../../../services/api";
+import { State } from "../../../services/state";
+import { randomInt, EventAggregatorSubscriptions } from "../../../services/utils";
+import { browsers } from "../../../../services/browser-sniffer";
 
-
-const PLAYABLE_TRUMP_KINDS = ['player', 'power'];
-
+const PLAYABLE_TRUMP_KINDS = ["player", "power"];
 
 @inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, State)
 export class AotTrumpCustomElement {
@@ -57,15 +55,15 @@ export class AotTrumpCustomElement {
         this._state = state;
         this.disabled = false;
 
-        this._logger = LogManager.getLogger('AotTrumps');
+        this._logger = LogManager.getLogger("AotTrumps");
     }
 
     attached() {
         // Rewrite gradient ids to make them specific to this component.
-        let gradientIdTemplate = 'trump-gradient-{i}';
+        let gradientIdTemplate = "trump-gradient-{i}";
         let i = 1;
-        let svg = this._element.getElementsByTagName('svg')[0];
-        let gradientId = gradientIdTemplate.replace('{i}', i);
+        let svg = this._element.getElementsByTagName("svg")[0];
+        let gradientId = gradientIdTemplate.replace("{i}", i);
         let gradient = svg.getElementById(gradientId);
 
         while (gradient !== null) {
@@ -76,7 +74,7 @@ export class AotTrumpCustomElement {
             }
 
             i++;
-            gradientId = gradientIdTemplate.replace('{i}', i);
+            gradientId = gradientIdTemplate.replace("{i}", i);
             gradient = svg.getElementById(gradientId);
         }
     }
@@ -99,30 +97,30 @@ export class AotTrumpCustomElement {
         }
 
         switch (this.kind) {
-            case 'player':
-                this.svgClass = 'player-trump';
-                this.infosType = 'trumps';
+            case "player":
+                this.svgClass = "player-trump";
+                this.infosType = "trumps";
                 break;
-            case 'affecting':
-                this.svgClass = 'trump-affecting-player';
-                this.infosType = 'affecting-trumps';
+            case "affecting":
+                this.svgClass = "trump-affecting-player";
+                this.infosType = "affecting-trumps";
                 break;
-            case 'power':
-                this.svgClass = 'power-trump';
-                this.infosType = 'power';
+            case "power":
+                this.svgClass = "power-trump";
+                this.infosType = "power";
                 break;
             default:
                 this.svgClass = undefined;
                 break;
         }
 
-        this._eas.subscribe('aot:api:special_action_notify', () => {
+        this._eas.subscribe("aot:api:special_action_notify", () => {
             this.disabled = true;
         });
         // If the special action is passed or the player passes his/her turn, special_action_play
         // is never fired. But in all cases a play request is made to update the position of the
         // players on the board.
-        this._eas.subscribe('aot:api:play', () => {
+        this._eas.subscribe("aot:api:play", () => {
             this.disabled = false;
         });
     }
@@ -143,11 +141,11 @@ export class AotTrumpCustomElement {
             visible: true,
             event: event,
         };
-        this._eas.publish('aot:trump:mouseover', this.trump);
+        this._eas.publish("aot:trump:mouseover", this.trump);
     }
 
     normalizeTrumpName() {
-        let trumpName = this.trump.name.toLowerCase().replace(/ /g, '_');
+        let trumpName = this.trump.name.toLowerCase().replace(/ /g, "_");
         if (this.trump.color === null) {
             return trumpName;
         }
@@ -163,10 +161,10 @@ export class AotTrumpCustomElement {
 
     _getTranslationNamespace() {
         switch (this.infosType) {
-            case 'power':
-                return 'powers';
+            case "power":
+                return "powers";
             default:
-                return 'trumps';
+                return "trumps";
         }
     }
 
@@ -179,15 +177,17 @@ export class AotTrumpCustomElement {
         this.infos = {
             visible: false,
         };
-        this._eas.publish('aot:trump:mouseout');
+        this._eas.publish("aot:trump:mouseout");
     }
 
     play() {
-        if (!this.yourTurn ||
-                !this.canBePlayed ||
-                this.disabled ||
-                !PLAYABLE_TRUMP_KINDS.includes(this.kind) ||
-                (this.kind === 'power' && this.trump.passive)) {
+        if (
+            !this.yourTurn ||
+            !this.canBePlayed ||
+            this.disabled ||
+            !PLAYABLE_TRUMP_KINDS.includes(this.kind) ||
+            (this.kind === "power" && this.trump.passive)
+        ) {
             return;
         } else if (this.trump.must_target_player) {
             let otherPlayerNames = this._getOtherPlayerNames();
@@ -199,22 +199,25 @@ export class AotTrumpCustomElement {
                     messages: {
                         title: `trumps.${this.normalizeTrumpName()}`,
                         description: `trumps.${this.normalizeTrumpName()}_description`,
-                        message: 'game.play.select_trump_target',
+                        message: "game.play.select_trump_target",
                     },
                     paramsToTranslate: {
                         trumpname: `trumps.${this.normalizeTrumpName()}`,
                     },
                 },
             };
-            this._popup.display('confirm', popupData).then(choice => {
-                this._eas.publish('aot:trump:wish_to_play', {
-                    trumpName: this.trump.name,
-                    trumpColor: this.trump.color,
-                    targetIndex: choice.index,
-                });
-            }, () => this._logger.debug('Player canceled trump'));
+            this._popup.display("confirm", popupData).then(
+                choice => {
+                    this._eas.publish("aot:trump:wish_to_play", {
+                        trumpName: this.trump.name,
+                        trumpColor: this.trump.color,
+                        targetIndex: choice.index,
+                    });
+                },
+                () => this._logger.debug("Player canceled trump"),
+            );
         } else {
-            this._eas.publish('aot:trump:wish_to_play', {
+            this._eas.publish("aot:trump:wish_to_play", {
                 trumpName: this.trump.name,
                 trumpColor: this.trump.color,
             });
@@ -226,6 +229,7 @@ export class AotTrumpCustomElement {
         for (let playerIndex of this.playerIndexes) {
             // We need to check that playerIndex is neither null nor undefined.
             // Just relying on "falsyness" isn't enough since 0 is valid but false.
+            // prettier-ignore
             if (playerIndex != null && playerIndex !== this.myIndex) { // eslint-disable-line
                 let player = {
                     index: playerIndex,

@@ -24,20 +24,17 @@
     <require from="./widgets/slot/slot"></require>
     <require from="./widgets/url-copy/url-copy"></require>
 
-    <div class="create-game-container"
-         if.bind="creating">
+    <div class="create-game-container" if.bind="creating">
         <div class="splash-block">
             <div class="message">loading</div>
             <i class="fa fa-spinner fa-spin"></i>
         </div>
     </div>
 
-    <div class="create-game-container"
-         if.bind="!creating">
+    <div class="create-game-container" if.bind="!creating">
         <div class="left-wall wall-part">
             <div class="heroes-viewr-container">
-                <h3 t="game.create.heroes"
-                    class="centered-text white-text"></h3>
+                <h3 t="game.create.heroes" class="centered-text white-text"></h3>
                 <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
             </div>
             <div class="heroes-description-container">
@@ -50,21 +47,25 @@
         <div class="door wall-part">
             <div class="door-arch">
                 <h2 class="white-text" t="global.alias"></h2>
-                <input class="centered-text centered-block"
-                       type="text"
-                       maxlength="12"
-                       value.two-way="playerInfos.name & debounce" />
+                <input
+                    class="centered-text centered-block"
+                    type="text"
+                    maxlength="12"
+                    value.two-way="playerInfos.name & debounce"
+                />
             </div>
 
             <div class="door-main">
                 <aot-select-heroes selected-hero.two-way="selectedHero"></aot-select-heroes>
 
                 <div class="bottom-door">
-                    <button class="blue-button centered-block big-button"
-                            if.bind="me.is_game_master"
-                            disabled.bind="!canCreateGame"
-                            click.trigger="createGame()"
-                            t="game.create.create">
+                    <button
+                        class="blue-button centered-block big-button"
+                        if.bind="me.is_game_master"
+                        disabled.bind="!canCreateGame"
+                        click.trigger="createGame()"
+                        t="game.create.create"
+                    >
                         Create Game
                     </button>
                 </div>
@@ -73,12 +74,13 @@
 
         <div class="right-wall wall-part">
             <div class="slots-container">
-                <aot-slot repeat.for="slot of slots"
-                          can-admin.bind="isGameMaster"
-                          player.bind="slot"></aot-slot>
+                <aot-slot
+                    repeat.for="slot of slots"
+                    can-admin.bind="isGameMaster"
+                    player.bind="slot"
+                ></aot-slot>
             </div>
-            <div class="game-url-container"
-                 if.bind="me.is_game_master">
+            <div class="game-url-container" if.bind="me.is_game_master">
                 <h2 class="bright-red-text" t="game.create.invite">Invite</h2>
                 <aot-url-copy url.bind="gameUrl"></aot-url-copy>
             </div>

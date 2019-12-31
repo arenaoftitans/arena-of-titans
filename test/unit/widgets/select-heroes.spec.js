@@ -17,16 +17,11 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-    AotSelectHeroesCustomElement,
-} from '../../../app/widgets/select-heroes/select-heroes';
-import environment from '../../../app/environment';
-import {
-    CssAnimatorStub,
-} from '../../../app/test-utils';
+import { AotSelectHeroesCustomElement } from "../../../app/widgets/select-heroes/select-heroes";
+import environment from "../../../app/environment";
+import { CssAnimatorStub } from "../../../app/test-utils";
 
-
-describe('create/select-heroes', () => {
+describe("create/select-heroes", () => {
     let sut;
     let animator;
 
@@ -35,7 +30,7 @@ describe('create/select-heroes', () => {
         sut = new AotSelectHeroesCustomElement(animator);
     });
 
-    it('should initialize', () => {
+    it("should initialize", () => {
         expect(sut.heroes.length).toBeGreaterThan(1);
         expect(sut._displayedHero).toBeUndefined();
         let hero = sut.heroes[0];
@@ -44,7 +39,7 @@ describe('create/select-heroes', () => {
         expect(hero.previous).toBe(sut.heroes[sut.heroes.length - 1]);
     });
 
-    it('should update displayed hero on bind', () => {
+    it("should update displayed hero on bind", () => {
         sut.selectedHero = environment.heroes[0];
         expect(sut._displayedHero).toBeUndefined();
 
@@ -54,7 +49,7 @@ describe('create/select-heroes', () => {
         expect(sut._displayedHero.name).toBe(environment.heroes[0]);
     });
 
-    it('should update displayed hero on selectedHero change', () => {
+    it("should update displayed hero on selectedHero change", () => {
         sut.selectedHero = environment.heroes[0];
         expect(sut._displayedHero).toBeUndefined();
 
@@ -64,9 +59,9 @@ describe('create/select-heroes', () => {
         expect(sut._displayedHero.name).toBe(environment.heroes[0]);
     });
 
-    it('should run the animation on selectedHero change', () => {
+    it("should run the animation on selectedHero change", () => {
         sut.selectedHero = environment.heroes[0];
-        jest.spyOn(sut, '_animateHero');
+        jest.spyOn(sut, "_animateHero");
 
         sut.selectedHeroChanged();
 

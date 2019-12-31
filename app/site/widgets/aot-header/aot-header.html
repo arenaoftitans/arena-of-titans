@@ -21,10 +21,11 @@
     <require from="./aot-header.css"></require>
 
     <header>
-
         <div class="navbar row-block">
             <div class="column-left">
-                <a class="button" t="site.header_rules" click.delegate="showRulesSubMenuContent()" >Règles</a>
+                <a class="button" t="site.header_rules" click.delegate="showRulesSubMenuContent()"
+                    >Règles</a
+                >
                 <a class="button" click.delegate="showUniverseSubMenuContent()">Univers</a>
                 <a class="button button-disabled" href="/" t="site.header_ranking">Classement</a>
             </div>
@@ -42,7 +43,11 @@
                 <a class="button" route-href="site-heroes">Héros</a>
                 <a class="button" route-href="site-trumps">Atouts</a>
             </div>
-            <div id="universe-submenu" class="row-block" show.bind="isUniverseSubMenuContentVisible">
+            <div
+                id="universe-submenu"
+                class="row-block"
+                show.bind="isUniverseSubMenuContentVisible"
+            >
                 <a class="button" route-href="site-synopsis">Synopsis</a>
                 <a class="button" route-href="site-people">Peuples</a>
                 <a class="button" route-href="site-founders">Fondateurs</a>

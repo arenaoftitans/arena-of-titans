@@ -17,7 +17,6 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 export class AotTrumpAnimationCustomElement {
     activate(model) {
         this.data = model.data;

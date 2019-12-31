@@ -30,21 +30,26 @@
         <div class="play-left">
             <p class="over-bg centered-important player-name">${myName}</p>
             <aot-trumps></aot-trumps>
-        </div>   <!-- block left -->
+        </div>
+        <!-- block left -->
 
         <div class="play-middle">
             <div id="board-bg">
                 <div id="board-effect-bg" class="bgClass">
-                    <aot-player-box repeat.for="index of players.indexes"
-                                    index.bind="index"
-                                    players.bind="players"></aot-player-box>
+                    <aot-player-box
+                        repeat.for="index of players.indexes"
+                        index.bind="index"
+                        players.bind="players"
+                    ></aot-player-box>
                     <div id="board-container">
-                        <aot-board selected-card.two-way="selectedCard"
-                                pawn-clickable.bind="pawnClickable"
-                                on-pawn-clicked.bind="onPawnClicked"
-                                pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
-                                on-pawn-square-clicked.bind="onPawnSquareClicked"
-                                player-index.bind="me.index"></aot-board>
+                        <aot-board
+                            selected-card.two-way="selectedCard"
+                            pawn-clickable.bind="pawnClickable"
+                            on-pawn-clicked.bind="onPawnClicked"
+                            pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
+                            on-pawn-square-clicked.bind="onPawnSquareClicked"
+                            player-index.bind="me.index"
+                        ></aot-board>
                     </div>
                 </div>
             </div>
@@ -52,17 +57,19 @@
             <div id="cards-container">
                 <aot-cards selected-card.two-way="selectedCard"></aot-cards>
             </div>
-
-        </div>  <!--block middle -->
+        </div>
+        <!--block middle -->
 
         <div class="play-right">
             <div id="notifications">
                 <aot-notifications
-                        players.bind="game.players"
-                        current-player-index.bind="game.next_player"></aot-notifications>
+                    players.bind="game.players"
+                    current-player-index.bind="game.next_player"
+                ></aot-notifications>
             </div>
 
             <aot-counter></aot-counter>
-        </div>  <!--block right-->
+        </div>
+        <!--block right-->
     </main>
 </template>

@@ -1,29 +1,28 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import * as LogManager from 'aurelia-logging';
-import { inject } from 'aurelia-framework';
-import { Api } from '../services/api';
-import { EventAggregatorSubscriptions } from '../services/utils';
-import { Popup } from '../services/popup';
-import { State } from '../services/state';
-
+import * as LogManager from "aurelia-logging";
+import { inject } from "aurelia-framework";
+import { Api } from "../services/api";
+import { EventAggregatorSubscriptions } from "../services/utils";
+import { Popup } from "../services/popup";
+import { State } from "../services/state";
 
 @inject(Api, Popup, EventAggregatorSubscriptions, State)
 export class Play {
@@ -43,23 +42,23 @@ export class Play {
         this._state = state;
         this._popup = popup;
         this._eas = eas;
-        this._logger = LogManager.getLogger('AoTPlay');
+        this._logger = LogManager.getLogger("AoTPlay");
 
         this._eventAggregatorSubscriptions = [];
     }
 
     activate(params = {}) {
         if (!this.me.name) {
-            this._api.joinGame({gameId: params.id});
+            this._api.joinGame({ gameId: params.id });
         }
 
-        this._eas.subscribe('aot:api:special_action_notify', message => {
+        this._eas.subscribe("aot:api:special_action_notify", message => {
             this._handleSpecialActionNotify(message);
         });
-        this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
+        this._eas.subscribe("aot:api:special_action_view_possible_actions", message => {
             this._handleSpecialActionViewPossibleActions(message);
         });
-        this._eas.subscribe('aot:api:play', () => {
+        this._eas.subscribe("aot:api:play", () => {
             this._resetPawns();
         });
 
@@ -69,9 +68,11 @@ export class Play {
             }
         });
 
-        this._api.onGameOverDeferred.then(winners => {
-            return this._popup.display('game-over', {message: winners});
-        }).then(location => this._navigateWithRefresh(location));
+        this._api.onGameOverDeferred
+            .then(winners => {
+                return this._popup.display("game-over", { message: winners });
+            })
+            .then(location => this._navigateWithRefresh(location));
     }
 
     _navigateWithRefresh(location) {
@@ -86,15 +87,15 @@ export class Play {
             return;
         }
         switch (name.toLowerCase()) {
-            case 'assassination':
+            case "assassination":
                 this.pawnClickable = true;
                 this.onPawnClicked = index => {
-                    this._api.viewPossibleActions({name: name, targetIndex: index});
+                    this._api.viewPossibleActions({ name: name, targetIndex: index });
                 };
                 this.pawnsForcedNotClickable.push(this.me.index);
                 break;
             default:
-                message.info = 'Unknow special action';
+                message.info = "Unknow special action";
                 this._logger.error(message);
                 break;
         }
@@ -103,7 +104,7 @@ export class Play {
     _handleSpecialActionViewPossibleActions(message) {
         let name = message.special_action_name;
         switch (name.toLowerCase()) {
-            case 'assassination':
+            case "assassination":
                 this.onPawnSquareClicked = (squareId, x, y, targetIndex) => {
                     this._api.playSpecialAction({
                         x: x,
@@ -115,7 +116,7 @@ export class Play {
                 };
                 break;
             default:
-                message.info = 'Unknow special action';
+                message.info = "Unknow special action";
                 this._logger.error(message);
                 break;
         }
@@ -133,9 +134,9 @@ export class Play {
     }
 
     backHome() {
-        this._popup.display('back-home', {}).then(
+        this._popup.display("back-home", {}).then(
             location => this._navigateWithRefresh(location),
-            () => this._logger.debug('cancel back home popup')
+            () => this._logger.debug("cancel back home popup"),
         );
     }
 

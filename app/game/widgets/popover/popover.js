@@ -17,10 +17,9 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject } from 'aurelia-framework';
-import { CssAnimator } from 'aurelia-animator-css';
-import { EventAggregatorSubscriptions } from '../../services/utils';
-
+import { inject } from "aurelia-framework";
+import { CssAnimator } from "aurelia-animator-css";
+import { EventAggregatorSubscriptions } from "../../services/utils";
 
 @inject(EventAggregatorSubscriptions, CssAnimator)
 export class AotPopoverCustomElement {
@@ -31,29 +30,28 @@ export class AotPopoverCustomElement {
         this._eas = eas;
         this._animator = animator;
 
-        this._eas.subscribe('aot:popover:display', message => {
+        this._eas.subscribe("aot:popover:display", message => {
             this.type = message.type;
             this.text = message.text;
             this._display();
 
             let cb = () => this._hide();
-            let emitHidden = () => this._eas.publish('aot:popover:hidden');
-            message.deferred.promise.then(cb, cb)
-                .then(emitHidden, emitHidden);
+            let emitHidden = () => this._eas.publish("aot:popover:hidden");
+            message.deferred.promise.then(cb, cb).then(emitHidden, emitHidden);
         });
     }
 
     attached() {
-        this._eas.publish('aot:popover:ready');
+        this._eas.publish("aot:popover:ready");
     }
 
     _display() {
-        return this._animator.addClass(this.popover, 'popover-display');
+        return this._animator.addClass(this.popover, "popover-display");
     }
 
     _hide() {
-        return this._animator.removeClass(this.popover, 'popover-display').then(() => {
-            this.text = '';
+        return this._animator.removeClass(this.popover, "popover-display").then(() => {
+            this.text = "";
         });
     }
 

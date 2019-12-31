@@ -1,5 +1,5 @@
-@import '../../style/variables';
-@import '../../style/media-queries';
+@import "../../style/variables";
+@import "../../style/media-queries";
 
 #play {
     height: $play-full-height;
@@ -8,7 +8,6 @@
     min-height: $play-full-min-height;
     min-width: $play-full-min-width;
 }
-
 
 .play-left {
     background: url(/assets/game/backgrounds/gauge.jpg);
@@ -40,7 +39,6 @@
         width: $play-main-width + $play-secondary-width;
     }
 }
-
 
 #board-bg {
     background: url(/assets/game/backgrounds/board.jpg);

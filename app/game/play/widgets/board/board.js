@@ -1,33 +1,30 @@
 /*
-* Copyright (C) 2015-2016 by Arena of Titans Contributors.
-*
-* This file is part of Arena of Titans.
-*
-* Arena of Titans is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Arena of Titans is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ *
+ * This file is part of Arena of Titans.
+ *
+ * Arena of Titans is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Arena of Titans is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import * as LogManager from 'aurelia-logging';
-import { bindable, inject } from 'aurelia-framework';
-import sync from 'css-animation-sync';
-import { Api } from '../../../services/api';
-import { AssetSource } from '../../../../services/assets';
-import {
-    EventAggregatorSubscriptions,
-} from '../../../services/utils';
-import { State } from '../../../services/state';
-import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from '../../../constants';
-
+import * as LogManager from "aurelia-logging";
+import { bindable, inject } from "aurelia-framework";
+import sync from "css-animation-sync";
+import { Api } from "../../../services/api";
+import { AssetSource } from "../../../../services/assets";
+import { EventAggregatorSubscriptions } from "../../../services/utils";
+import { State } from "../../../services/state";
+import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from "../../../constants";
 
 @inject(Api, EventAggregatorSubscriptions, State)
 export class AotBoardCustomElement {
@@ -44,52 +41,52 @@ export class AotBoardCustomElement {
     _selectedPawnIndex = -1;
 
     squaresColorsToTypes = {
-        black: '#mountain-symbol',
-        blue: '#water-symbol',
-        yellow: '#desert-symbol',
-        red: '#forest-symbol',
+        black: "#mountain-symbol",
+        blue: "#water-symbol",
+        yellow: "#desert-symbol",
+        red: "#forest-symbol",
     };
 
     constructor(api, eas, state) {
         this._api = api;
         this._eas = eas;
         this._state = state;
-        this._logger = LogManager.getLogger('AoTBoard');
+        this._logger = LogManager.getLogger("AoTBoard");
         this.assetSource = AssetSource;
         // Map squares to its color if the color changed from the default.
         this.squaresToColors = {};
-        this._logger = LogManager.getLogger('aot:board');
+        this._logger = LogManager.getLogger("aot:board");
         // Will be populated by ref.
         this.pawnLayer = null;
         // Will be populated by ref.
         this.squaresLayer = null;
         // Sync animations
         if (sync) {
-            sync('square-blink');
+            sync("square-blink");
         } else {
-            this._logger.warn('sync function is not defined. Animations can be not sync properly');
+            this._logger.warn("sync function is not defined. Animations can be not sync properly");
         }
 
-        this._eas.subscribe('aot:api:view_possible_squares', data => {
+        this._eas.subscribe("aot:api:view_possible_squares", data => {
             this._highlightPossibleSquares(data.possible_squares);
         });
-        this._eas.subscribeMultiple(
-            ['aot:api:player_played', 'aot:api:play'], () => this._resetPossibleSquares()
+        this._eas.subscribeMultiple(["aot:api:player_played", "aot:api:play"], () =>
+            this._resetPossibleSquares(),
         );
-        this._eas.subscribe('aot:api:play_trump', message => this._updateSquare(message.square));
-        this._eas.subscribe('aot:api:special_action_view_possible_actions', message => {
+        this._eas.subscribe("aot:api:play_trump", message => this._updateSquare(message.square));
+        this._eas.subscribe("aot:api:special_action_view_possible_actions", message => {
             if (message.possible_squares) {
                 this._highlightPossibleSquares(message.possible_squares);
             }
         });
-        this._eas.subscribe('aot:api:hide_player', playerIndex => {
+        this._eas.subscribe("aot:api:hide_player", playerIndex => {
             this.hidePlayer(playerIndex);
         });
-        this._eas.subscribe('aot:api:show_player', playerIndex => {
+        this._eas.subscribe("aot:api:show_player", playerIndex => {
             this.showPlayer(playerIndex);
         });
 
-        this._eas.subscribe('aot:state:set_board_mode', newMode => this.setMode(newMode));
+        this._eas.subscribe("aot:state:set_board_mode", newMode => this.setMode(newMode));
     }
 
     unbind() {
@@ -117,10 +114,10 @@ export class AotBoardCustomElement {
             ...this.squaresToColors,
             [squareId]: this.squaresColorsToTypes[square.color],
         };
-        this._eas.publish('aot:board:squares_updated');
+        this._eas.publish("aot:board:squares_updated");
     }
 
-    handleSquareClicked(squareId, x, y, {isArrivalSquare}) {
+    handleSquareClicked(squareId, x, y, { isArrivalSquare }) {
         this._logger.debug(`${squareId} was clicked in mode: ${this._state.board.mode}`);
         x = parseInt(x, 10);
         y = parseInt(y, 10);
@@ -128,7 +125,7 @@ export class AotBoardCustomElement {
             case BOARD_SELECT_SQUARE_MODE:
                 // We can't change the color of arrival squares.
                 if (!isArrivalSquare) {
-                    this._eas.publish('aot:board:selected_square', {x, y});
+                    this._eas.publish("aot:board:selected_square", { x, y });
                 }
                 break;
             case BOARD_MOVE_MODE:
@@ -139,9 +136,11 @@ export class AotBoardCustomElement {
     }
 
     _moveTo(squareId, x, y) {
-        if (this.possibleSquares.length > 0 &&
-                this.possibleSquares.includes(squareId) &&
-                this.selectedCard) {
+        if (
+            this.possibleSquares.length > 0 &&
+            this.possibleSquares.includes(squareId) &&
+            this.selectedCard
+        ) {
             this._api.play({
                 cardName: this.selectedCard.name,
                 cardColor: this.selectedCard.color,
@@ -150,10 +149,12 @@ export class AotBoardCustomElement {
             });
             this._resetPossibleSquares();
             this.selectedCard = null;
-        } else if (this.possibleSquares.length > 0 &&
-                this.possibleSquares.includes(squareId) &&
-                this._selectedPawnIndex > -1 &&
-                this.onPawnSquareClicked) {
+        } else if (
+            this.possibleSquares.length > 0 &&
+            this.possibleSquares.includes(squareId) &&
+            this._selectedPawnIndex > -1 &&
+            this.onPawnSquareClicked
+        ) {
             this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
             this._selectedPawnIndex = -1;
             this._resetPossibleSquares();
@@ -162,17 +163,17 @@ export class AotBoardCustomElement {
 
     setMode(newMode) {
         this._logger.debug(`Switched board to ${newMode}`);
-        const squares = this.squaresLayer.querySelectorAll('.square');
+        const squares = this.squaresLayer.querySelectorAll(".square");
         switch (newMode) {
             case BOARD_SELECT_SQUARE_MODE:
                 for (let i = 0; i < squares.length; i++) {
-                    squares[i].classList.add('selectable');
+                    squares[i].classList.add("selectable");
                 }
                 break;
             case BOARD_MOVE_MODE:
             default:
                 for (let i = 0; i < squares.length; i++) {
-                    squares[i].classList.remove('selectable');
+                    squares[i].classList.remove("selectable");
                 }
                 break;
         }
@@ -189,14 +190,14 @@ export class AotBoardCustomElement {
     hidePlayer(playerIndex) {
         const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
         if (playerContainer) {
-            playerContainer.classList.add('hidden');
+            playerContainer.classList.add("hidden");
         }
     }
 
     showPlayer(playerIndex) {
         const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
         if (playerContainer) {
-            playerContainer.classList.remove('hidden');
+            playerContainer.classList.remove("hidden");
         }
     }
 

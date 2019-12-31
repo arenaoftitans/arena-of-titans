@@ -22,27 +22,33 @@
     <require from="../infos/infos"></require>
 
     <div id="cards-img-container" if.bind="!hasWon">
-        <aot-infos type="cards"
-                   infos.bind="infos"></aot-infos>
-        <div class="card ${canPlayCards ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
-             repeat.for="card of hand"
-             click.delegate="viewPossibleMovements(card)"
-             mouseover.delegate="displayInfos(card, $event)"
-             mouseout.delegate="hideInfos()">
-        </div>
+        <aot-infos type="cards" infos.bind="infos"></aot-infos>
+        <div
+            class="card ${canPlayCards ? 'active-card' : 'inactive-card'} ${card.name === selectedCard.name && card.color === selectedCard.color ? 'selected-card' : ''} ${card.img}"
+            repeat.for="card of hand"
+            click.delegate="viewPossibleMovements(card)"
+            mouseover.delegate="displayInfos(card, $event)"
+            mouseout.delegate="hideInfos()"
+        ></div>
     </div>
     <div id="cards-actions" if.bind="!hasWon">
-        <button class="grey-button"
-                click.trigger="pass()"
-                disabled.bind="!yourTurn">
-                <span if.bind="!onLastLine && !specialActionInProgress" t="game.play.pass">Pass</span>
-                <span if.bind="specialActionInProgress" t="game.play.pass_special_action">Pass action</span>
-                <span if.bind="onLastLine && !specialActionInProgress" t="game.play.complete_turn">Complete turn</span>
+        <button class="grey-button" click.trigger="pass()" disabled.bind="!yourTurn">
+            <span if.bind="!onLastLine && !specialActionInProgress" t="game.play.pass">Pass</span>
+            <span if.bind="specialActionInProgress" t="game.play.pass_special_action"
+                >Pass action</span
+            >
+            <span if.bind="onLastLine && !specialActionInProgress" t="game.play.complete_turn"
+                >Complete turn</span
+            >
         </button>
-        <button class="blue-button"
-                click.trigger="discard()"
-                disabled.bind="!canDiscard"
-                t="game.play.discard">Discard</button>
+        <button
+            class="blue-button"
+            click.trigger="discard()"
+            disabled.bind="!canDiscard"
+            t="game.play.discard"
+        >
+            Discard
+        </button>
     </div>
 
     <div if.bind="hasWon">${ 'game.play.game_over' | t } ${rank}</div>

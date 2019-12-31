@@ -199,7 +199,11 @@
     width: 69px;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 1.0), screen and (min--moz-device-pixel-ratio: 1.0), screen and (-o-min-device-pixel-ratio: 100/100), screen and (min-device-pixel-ratio: 1.0), screen and (min-resolution: 1.0dppx) {
+@media screen and (-webkit-min-device-pixel-ratio: 1),
+    screen and (min--moz-device-pixel-ratio: 1),
+    screen and (-o-min-device-pixel-ratio: 100/100),
+    screen and (min-device-pixel-ratio: 1),
+    screen and (min-resolution: 1dppx) {
     .sprite-movement-wizard-yellow,
     .sprite-movement-wizard-red,
     .sprite-movement-wizard-blue,

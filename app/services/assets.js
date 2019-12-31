@@ -17,8 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import assetsList from '../assets-list';
-
+import assetsList from "../assets-list";
 
 const PRELOAD_DELAY = 1000;
 const PRELOAD_CHUNK_SIZE = 5;
@@ -35,16 +34,16 @@ export class AssetSource {
 
     static forBackground(kind) {
         switch (kind) {
-            case 'ocean':
-                return this._mapToRealPath('game/backgrounds/ocean.jpeg');
-            case 'clouds':
-                return this._mapToRealPath('game/backgrounds/clouds.png');
-            case 'island':
-                return this._mapToRealPath('game/backgrounds/island.png');
-            case 'create-game':
-                return this._mapToRealPath('game/backgrounds/game-creation.jpg');
-            case 'heroes-selection':
-                return this._mapToRealPath('game/backgrounds/heroes-selection.png');
+            case "ocean":
+                return this._mapToRealPath("game/backgrounds/ocean.jpeg");
+            case "clouds":
+                return this._mapToRealPath("game/backgrounds/clouds.png");
+            case "island":
+                return this._mapToRealPath("game/backgrounds/island.png");
+            case "create-game":
+                return this._mapToRealPath("game/backgrounds/game-creation.jpg");
+            case "heroes-selection":
+                return this._mapToRealPath("game/backgrounds/heroes-selection.png");
             default:
                 throw new Error(`No such background: ${kind}`);
         }
@@ -64,8 +63,8 @@ export class AssetSource {
 
     static forGame(kind) {
         switch (kind) {
-            case 'logo':
-                return this._mapToRealPath('game/aot-logo.png');
+            case "logo":
+                return this._mapToRealPath("game/aot-logo.png");
             default:
                 throw new Error(`No such image for game: ${kind}`);
         }
@@ -81,16 +80,16 @@ export class AssetSource {
 
     static forMiscImage(kind) {
         switch (kind) {
-            case 'clippy':
-                return this._mapToRealPath('game/misc/clippy.svg');
-            case 'arrow-left':
-                return this._mapToRealPath('game/misc/arrow-left.png');
-            case 'arrow-right':
-                return this._mapToRealPath('game/misc/arrow-right.png');
-            case 'favicon':
-                return this._mapToRealPath('favicon.png');
-            case 'favicon-notify':
-                return this._mapToRealPath('favicon-notify.png');
+            case "clippy":
+                return this._mapToRealPath("game/misc/clippy.svg");
+            case "arrow-left":
+                return this._mapToRealPath("game/misc/arrow-left.png");
+            case "arrow-right":
+                return this._mapToRealPath("game/misc/arrow-right.png");
+            case "favicon":
+                return this._mapToRealPath("favicon.png");
+            case "favicon-notify":
+                return this._mapToRealPath("favicon-notify.png");
             default:
                 throw new Error(`No such misc image: ${kind}`);
         }
@@ -98,12 +97,12 @@ export class AssetSource {
 
     static forGlobalImage(kind) {
         switch (kind) {
-            case 'french-flag':
-                return this._mapToRealPath('components/french.png');
-            case 'english-flag':
-                return this._mapToRealPath('components/english.png');
-            case 'gear':
-                return this._mapToRealPath('components/gear.png');
+            case "french-flag":
+                return this._mapToRealPath("components/french.png");
+            case "english-flag":
+                return this._mapToRealPath("components/english.png");
+            case "gear":
+                return this._mapToRealPath("components/gear.png");
             default:
                 throw new Error(`No such global image: ${kind}`);
         }
@@ -111,11 +110,11 @@ export class AssetSource {
 
     static forSound(kind, format) {
         switch (kind) {
-            case 'your-turn':
+            case "your-turn":
                 return this._mapToRealPath(`game/sounds/your-turn-sound.${format}`);
-            case 'your-turn-voice':
+            case "your-turn-voice":
                 return this._mapToRealPath(`game/sounds/your-turn-voice.${format}`);
-            case 'game-over':
+            case "game-over":
                 return this._mapToRealPath(`game/sounds/game-over.${format}`);
             default:
                 throw new Error(`No such sound: ${kind}`);
@@ -132,7 +131,7 @@ export class AssetSource {
 
     static forTrump(trump) {
         // Affecting trumps can be power. We rely on their 'passive' property to detect them.
-        if ('passive' in trump || trump.is_power) {
+        if ("passive" in trump || trump.is_power) {
             return AssetSource.forPower(trump);
         }
 
@@ -146,7 +145,7 @@ export class AssetSource {
         }
         let imagesToPreload = [];
         for (let imgSrc in assetsList) {
-            if (imgSrc.includes(kind) && !imgSrc.includes('sounds')) {
+            if (imgSrc.includes(kind) && !imgSrc.includes("sounds")) {
                 imagesToPreload.push(assetsList[imgSrc]);
             }
         }
@@ -180,13 +179,11 @@ export class AssetSource {
     }
 }
 
-
 export class ImageClass {
     static forCard(card) {
         return `sprite-movement-${ImageName.forCard(card)}`;
     }
 }
-
 
 export class ImageName {
     static forAnimation(data) {
@@ -204,7 +201,7 @@ export class ImageName {
     }
 
     static forTrump(trump) {
-        let trumpName = trump.name.replace(/ /g, '-').toLowerCase();
+        let trumpName = trump.name.replace(/ /g, "-").toLowerCase();
         if (trump.color === null) {
             return trumpName;
         }

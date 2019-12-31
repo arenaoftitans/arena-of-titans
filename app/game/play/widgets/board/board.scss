@@ -1,5 +1,4 @@
-@import '../../../../style/variables';
-
+@import "../../../../style/variables";
 
 $square-blink-time: 1s;
 $square-opacity: 0.6;
@@ -45,8 +44,14 @@ aot-board {
 
     /* square-blink */
     @keyframes square-blink {
-        0% { opacity: $square-opacity; }
-        50% { opacity: 1; }
-        100% { opacity: $square-opacity; }
+        0% {
+            opacity: $square-opacity;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: $square-opacity;
+        }
     }
 }

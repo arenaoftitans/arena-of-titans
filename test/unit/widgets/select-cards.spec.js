@@ -17,16 +17,11 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-    AotSelectCardsCustomElement,
-} from '../../../app/widgets/select-cards/select-cards';
-import environment from '../../../app/environment';
-import {
-    CssAnimatorStub,
-} from '../../../app/test-utils';
+import { AotSelectCardsCustomElement } from "../../../app/widgets/select-cards/select-cards";
+import environment from "../../../app/environment";
+import { CssAnimatorStub } from "../../../app/test-utils";
 
-
-xdescribe('create/select-cards', () => {
+xdescribe("create/select-cards", () => {
     let sut;
     let animator;
 
@@ -35,7 +30,7 @@ xdescribe('create/select-cards', () => {
         sut = new AotSelectCardsCustomElement(animator);
     });
 
-    it('should initialize', () => {
+    it("should initialize", () => {
         expect(sut.cards.length).toBeGreaterThan(1);
         expect(sut._displayedCard).toBeUndefined();
         let card = sut.cards[0];
@@ -44,7 +39,7 @@ xdescribe('create/select-cards', () => {
         expect(card.previous).toBe(sut.cards[sut.cards.length - 1]);
     });
 
-    it('should update displayed card on bind', () => {
+    it("should update displayed card on bind", () => {
         sut.selectedCard = environment.cards[0];
         expect(sut._displayedCard).toBeUndefined();
 
@@ -54,7 +49,7 @@ xdescribe('create/select-cards', () => {
         expect(sut._displayedCard.name).toBe(environment.cards[0]);
     });
 
-    it('should update displayed card on selectedCard change', () => {
+    it("should update displayed card on selectedCard change", () => {
         sut.selectedCard = environment.cards[0];
         expect(sut._displayedCard).toBeUndefined();
 
@@ -64,9 +59,9 @@ xdescribe('create/select-cards', () => {
         expect(sut._displayedCard.name).toBe(environment.cards[0]);
     });
 
-    it('should run the animation on selectedCard change', () => {
+    it("should run the animation on selectedCard change", () => {
         sut.selectedCard = environment.cards[0];
-        jest.spyOn(sut, '_animateCard');
+        jest.spyOn(sut, "_animateCard");
 
         sut.selectedCardChanged();
 

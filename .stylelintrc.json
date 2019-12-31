@@ -1,11 +1,14 @@
 {
     "defaultSeverity": "error",
-    "extends": "stylelint-config-recommended-scss",
+    "extends": [
+        "stylelint-config-recommended-scss"
+    ],
     "plugins": [
-        "stylelint-order"
+        "stylelint-order",
+        "stylelint-prettier"
     ],
     "rules": {
-        "indentation": 4,
+        "indentation": null,
         "max-empty-lines": 2,
         "media-feature-name-no-unknown": [
             true,
@@ -17,6 +20,7 @@
             }
         ],
         "order/properties-alphabetical-order": true,
+        "prettier/prettier": true,
         "selector-type-no-unknown": [
             true,
             {

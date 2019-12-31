@@ -17,7 +17,6 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 export class AotTransitionCustomElement {
     activate(model) {
         this.data = model.data;
