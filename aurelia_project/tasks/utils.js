@@ -1,12 +1,11 @@
-import dotenv from 'dotenv';
-import stringify from 'json-stable-stringify';
-import gulp from 'gulp';
-import transform from 'gulp-transform';
-import logger from 'loggy';
-import {CLIOptions} from 'aurelia-cli';
-import rimraf from 'rimraf';
-import project from '../aurelia.json';
-
+import dotenv from "dotenv";
+import stringify from "json-stable-stringify";
+import gulp from "gulp";
+import transform from "gulp-transform";
+import logger from "loggy";
+import { CLIOptions } from "aurelia-cli";
+import rimraf from "rimraf";
+import project from "../aurelia.json";
 
 export function buildObjectWithKeys(keys) {
     return keys
@@ -14,35 +13,30 @@ export function buildObjectWithKeys(keys) {
         .reduce((acc, current) => Object.assign(acc, current), {});
 }
 
-
 export function dumpAsExportedData(data) {
-    return 'export default ' + stringify(data, { space: 4 }) + ';\n';
+    return "export default " + stringify(data, { space: 4 }) + ";\n";
 }
-
 
 export function flattenArray(array) {
     return array.reduce((acc, current) => acc.concat(current), []);
 }
 
-
 export function getManifest() {
     const manifestPath = `${project.assets.manifest.output}/${project.assets.manifest.name}`;
-    const manifest = gulp.src(manifestPath)
-        .pipe(transform('utf-8', content => content.replace('export default ', '')))
-        .pipe(transform('utf-8', content => content.replace(';', '')));
+    const manifest = gulp
+        .src(manifestPath)
+        .pipe(transform("utf-8", content => content.replace("export default ", "")))
+        .pipe(transform("utf-8", content => content.replace(";", "")));
     return manifest;
 }
 
-
 export function getVersion() {
-    return CLIOptions.getFlagValue('version') || 'latest';
+    return CLIOptions.getFlagValue("version") || "latest";
 }
-
 
 export function getApiVersion() {
-    return CLIOptions.getFlagValue('api-version') || 'latest';
+    return CLIOptions.getFlagValue("api-version") || "latest";
 }
-
 
 function getObjectAtPath(obj, path) {
     for (let pathElement of path) {
@@ -62,26 +56,24 @@ export function getTemplatesVariables() {
     };
 }
 
-
 export function loadEnvVariables() {
-    const ALLOWED_VARIABLES = ['API_HOST', 'API_PORT', 'API_VERSION', 'ROLLBAR_ACCESS_TOKEN'];
+    const ALLOWED_VARIABLES = ["API_HOST", "API_PORT", "API_VERSION"];
     dotenv.load();
-    const overrides = Object.keys(process.env)
-        .filter(variableName => ALLOWED_VARIABLES.includes(variableName));
+    const overrides = Object.keys(process.env).filter(variableName =>
+        ALLOWED_VARIABLES.includes(variableName),
+    );
     if (overrides.length > 0) {
         logger.info(`Using overridden values for ${overrides}`);
     }
 }
 
-
 export function insertInto(obj, path, value) {
-    const insertPath = path.split('.');
+    const insertPath = path.split(".");
     const insertKey = insertPath.pop();
     obj = getObjectAtPath(obj, insertPath);
     obj[insertKey] = value;
 }
 
-
 export function cleanDist(done) {
-    rimraf('dist', done);
+    rimraf("dist", done);
 }
