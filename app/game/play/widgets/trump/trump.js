@@ -190,56 +190,70 @@ export class AotTrumpCustomElement {
         ) {
             return;
         } else if (this.trump.must_target_player) {
-            let otherPlayerNames = this._getOtherPlayerNames();
-            let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
-            let popupData = {
-                selectedChoice: otherPlayerNames[selectedIndex],
-                choices: otherPlayerNames,
-                translate: {
-                    messages: {
-                        title: `trumps.${this.normalizeTrumpName()}`,
-                        description: `trumps.${this.normalizeTrumpName()}_description`,
-                        message: "game.play.select_trump_target",
-                    },
-                    paramsToTranslate: {
-                        trumpname: `trumps.${this.normalizeTrumpName()}`,
-                    },
-                },
-            };
-            this._popup.display("confirm", popupData).then(
-                choice => {
-                    this._eas.publish("aot:trump:wish_to_play", {
-                        trumpName: this.trump.name,
-                        trumpColor: this.trump.color,
-                        targetIndex: choice.index,
-                    });
-                },
-                () => this._logger.debug("Player canceled trump"),
-            );
+            this._playTrumpThatTargetsPlayer();
         } else {
-            this._eas.publish("aot:trump:wish_to_play", {
-                trumpName: this.trump.name,
-                trumpColor: this.trump.color,
-            });
+            this._playTrumpOnSelf();
         }
     }
 
-    _getOtherPlayerNames() {
-        let otherPlayerNames = [];
-        for (let playerIndex of this.playerIndexes) {
-            // We need to check that playerIndex is neither null nor undefined.
-            // Just relying on "falsyness" isn't enough since 0 is valid but false.
-            // prettier-ignore
-            if (playerIndex != null && playerIndex !== this.myIndex) { // eslint-disable-line
-                let player = {
-                    index: playerIndex,
-                    name: this.playerNames[playerIndex],
-                };
-                otherPlayerNames.push(player);
-            }
+    _playTrumpThatTargetsPlayer() {
+        let otherPlayerNames = this._getOtherPlayerNames();
+        if (otherPlayerNames.length === 0) {
+            const popupData = {
+                translate: {
+                    messages: {
+                        message: "game.play.no_possible_target_for_trump",
+                    },
+                },
+            };
+            this._popup.display("infos", popupData);
+            return;
         }
 
-        return otherPlayerNames;
+        let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
+        let popupData = {
+            selectedChoice: otherPlayerNames[selectedIndex],
+            choices: otherPlayerNames,
+            translate: {
+                messages: {
+                    title: `trumps.${this.normalizeTrumpName()}`,
+                    description: `trumps.${this.normalizeTrumpName()}_description`,
+                    message: "game.play.select_trump_target",
+                },
+                paramsToTranslate: {
+                    trumpname: `trumps.${this.normalizeTrumpName()}`,
+                },
+            },
+        };
+        this._popup.display("confirm", popupData).then(
+            choice => {
+                this._eas.publish("aot:trump:wish_to_play", {
+                    trumpName: this.trump.name,
+                    trumpColor: this.trump.color,
+                    targetIndex: choice.index,
+                });
+            },
+            () => this._logger.debug("Player canceled trump"),
+        );
+    }
+
+    _playTrumpOnSelf() {
+        this._eas.publish("aot:trump:wish_to_play", {
+            trumpName: this.trump.name,
+            trumpColor: this.trump.color,
+        });
+    }
+
+    _getOtherPlayerNames() {
+        return this.playerIndexes
+            .filter(index => index !== null)
+            .filter(index => index !== undefined)
+            .filter(index => index !== this.myIndex)
+            .filter(index => this._state.game.trump_target_indexes.includes(index))
+            .map(index => ({
+                index,
+                name: this.playerNames[index],
+            }));
     }
 
     get yourTurn() {

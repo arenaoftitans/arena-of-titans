@@ -64,6 +64,7 @@ describe("trump", () => {
                 names: ["Player 1", null, "Player 2"],
                 indexes: [0, null, 2],
             },
+            trump_target_indexes: [0, 2],
             your_turn: true,
         };
         mockedState._me = {
@@ -113,6 +114,7 @@ describe("trump", () => {
         jest.spyOn(mockedEas, "publish");
         mockedState._game = {
             your_turn: true,
+            trump_target_indexes: [],
         };
         sut.trump = { name: "Trump", color: null, must_target_player: false };
         sut.canBePlayed = true;
@@ -163,6 +165,7 @@ describe("trump", () => {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
                     names: ["P0", "P1", null, "P3", undefined, "P5", null, null, null],
                 },
+                trump_target_indexes: [0, 1, 3, 5],
             };
             mockedState._me = {
                 index: 0,
@@ -186,6 +189,7 @@ describe("trump", () => {
                     indexes: [0, 1, null, 3, undefined, 5, null, null, null],
                     names: ["P0", "P1", null, "P3", undefined, "P5", null, null, null],
                 },
+                trump_target_indexes: [0, 1, 3, 5],
             };
             mockedState._me = {
                 index: 1,

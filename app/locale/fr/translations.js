@@ -85,6 +85,8 @@ export default {
             discard_no_selected_card: "Tu dois sélectionner une carte",
             game_over: "Tu viens de terminer le jeu ! Ton rang :",
             no_action: "Il ne s'est rien passé pour l'instant",
+            no_possible_target_for_trump:
+                "Vous ne pouvez pas jouer cet atout. Aucun joueur ne peut en être la cible.",
             pass: "Passer",
             pass_confirm_message: "Es-tu sûr de vouloir passer ton tour ?",
             pass_special_action: "Passer l'action",
