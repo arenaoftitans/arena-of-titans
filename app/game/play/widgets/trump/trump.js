@@ -198,6 +198,18 @@ export class AotTrumpCustomElement {
 
     _playTrumpThatTargetsPlayer() {
         let otherPlayerNames = this._getOtherPlayerNames();
+        if (otherPlayerNames.length === 0) {
+            const popupData = {
+                translate: {
+                    messages: {
+                        message: "game.play.no_possible_target_for_trump",
+                    },
+                },
+            };
+            this._popup.display("infos", popupData);
+            return;
+        }
+
         let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
         let popupData = {
             selectedChoice: otherPlayerNames[selectedIndex],

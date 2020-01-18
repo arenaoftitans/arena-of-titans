@@ -83,6 +83,8 @@ export default {
             discard_no_selected_card: "You must select a card",
             game_over: "You just completed the game! Your rank:",
             no_action: "No action yet",
+            no_possible_target_for_trump:
+                "You cannot play this trump. No player can be targeted at this time.",
             pass: "Pass",
             pass_confirm_message: "Are you sure you want to pass your turn?",
             pass_special_action: "Pass action",
