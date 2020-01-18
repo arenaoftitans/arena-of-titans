@@ -112,7 +112,7 @@
         "lint": "nps lint",
         "start": "au run",
         "test": "au test",
-        "translate": "nps translations"
+        "translate": "nps update.translations"
     },
     "version": "0.5.0"
 }
