@@ -28,16 +28,16 @@ if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
         siteId = 4;
         domains = ["*.dev.last-run.com"];
     }
-    (function () {
+    (function() {
         var u = "//piwik.jujens.eu/";
         if (siteId === undefined) {
             return;
         }
 
         _paq.push(["setDomains", domains]);
-        _paq.push(['setTrackerUrl', u + 'piwik.php']);
-        _paq.push(['setSiteId', siteId]);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
+        _paq.push(["setTrackerUrl", u + "piwik.php"]);
+        _paq.push(["setSiteId", siteId]);
+        _paq.push(["trackPageView"]);
+        _paq.push(["enableLinkTracking"]);
     })();
 }
