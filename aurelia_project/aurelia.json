@@ -108,7 +108,6 @@
                     "aurelia-task-queue",
                     "aurelia-templating",
                     "aurelia-templating-binding",
-                    "au-rollbar",
                     "text",
                     {
                         "main": "aurelia-templating-resources",
@@ -145,12 +144,6 @@
                 "name": "bootstrap-bundle.js",
                 "prepend": [
                     "scripts/polyfills.js",
-                    {
-                        "env": "staging & prod",
-                        "main": "rollbar",
-                        "name": "rollbar",
-                        "path": "./scripts/rollbar.js"
-                    },
                     "scripts/browser.js",
                     "node_modules/requirejs/require.js"
                 ]

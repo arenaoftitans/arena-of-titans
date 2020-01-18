@@ -20,7 +20,6 @@
 import { AppRouter } from "aurelia-router";
 import { EventAggregator } from "aurelia-event-aggregator";
 import * as Logger from "aurelia-logging";
-import RollbarAppender from "au-rollbar";
 import XHR from "i18next-xhr-backend";
 import environment from "./environment";
 import enTranslations from "./locale/en/translations";
@@ -84,11 +83,6 @@ export function configure(aurelia) {
                 .then(name => {
                     return aurelia.loader.loadModule(name).then(m => {
                         Logger.addAppender(new m.ConsoleAppender());
-                        if (window.Rollbar) {
-                            Logger.addAppender(new RollbarAppender());
-                        } else {
-                            console.warn("Rollbar is not defined"); // eslint-disable-line
-                        }
                         Logger.setLevel(Logger.logLevel.warn);
                     });
                 });

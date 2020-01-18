@@ -55,23 +55,9 @@ function getObjectAtPath(obj, path) {
     return obj;
 }
 
-
-export function getRollbar() {
-    if (!process.env.ROLLBAR_ACCESS_TOKEN) {
-        logger.warn('Rollbar token was not supplied.');
-        return {};
-    }
-
-    return {
-        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
-    };
-}
-
-
 export function getTemplatesVariables() {
     return {
         env: CLIOptions.getEnvironment(),
-        rollbar: getRollbar(),
         version: getVersion(),
     };
 }
