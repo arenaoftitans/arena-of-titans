@@ -190,38 +190,46 @@ export class AotTrumpCustomElement {
         ) {
             return;
         } else if (this.trump.must_target_player) {
-            let otherPlayerNames = this._getOtherPlayerNames();
-            let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
-            let popupData = {
-                selectedChoice: otherPlayerNames[selectedIndex],
-                choices: otherPlayerNames,
-                translate: {
-                    messages: {
-                        title: `trumps.${this.normalizeTrumpName()}`,
-                        description: `trumps.${this.normalizeTrumpName()}_description`,
-                        message: "game.play.select_trump_target",
-                    },
-                    paramsToTranslate: {
-                        trumpname: `trumps.${this.normalizeTrumpName()}`,
-                    },
-                },
-            };
-            this._popup.display("confirm", popupData).then(
-                choice => {
-                    this._eas.publish("aot:trump:wish_to_play", {
-                        trumpName: this.trump.name,
-                        trumpColor: this.trump.color,
-                        targetIndex: choice.index,
-                    });
-                },
-                () => this._logger.debug("Player canceled trump"),
-            );
+            this._playTrumpThatTargetsPlayer();
         } else {
-            this._eas.publish("aot:trump:wish_to_play", {
-                trumpName: this.trump.name,
-                trumpColor: this.trump.color,
-            });
+            this._playTrumpOnSelf();
         }
+    }
+
+    _playTrumpThatTargetsPlayer() {
+        let otherPlayerNames = this._getOtherPlayerNames();
+        let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
+        let popupData = {
+            selectedChoice: otherPlayerNames[selectedIndex],
+            choices: otherPlayerNames,
+            translate: {
+                messages: {
+                    title: `trumps.${this.normalizeTrumpName()}`,
+                    description: `trumps.${this.normalizeTrumpName()}_description`,
+                    message: "game.play.select_trump_target",
+                },
+                paramsToTranslate: {
+                    trumpname: `trumps.${this.normalizeTrumpName()}`,
+                },
+            },
+        };
+        this._popup.display("confirm", popupData).then(
+            choice => {
+                this._eas.publish("aot:trump:wish_to_play", {
+                    trumpName: this.trump.name,
+                    trumpColor: this.trump.color,
+                    targetIndex: choice.index,
+                });
+            },
+            () => this._logger.debug("Player canceled trump"),
+        );
+    }
+
+    _playTrumpOnSelf() {
+        this._eas.publish("aot:trump:wish_to_play", {
+            trumpName: this.trump.name,
+            trumpColor: this.trump.color,
+        });
     }
 
     _getOtherPlayerNames() {
