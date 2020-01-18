@@ -24,6 +24,8 @@ function configureEnvironment() {
                 environment.api.port = process.env.API_PORT || environment.api.port;
                 environment.api.port = parseInt(environment.api.port, 10);
                 environment.api.version = process.env.API_VERSION || getApiVersion();
+                environment.sentry_dsn = process.env.SENTRY_DSN;
+                environment.env = env;
 
                 return dumpAsExportedData(environment);
             }),

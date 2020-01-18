@@ -57,7 +57,7 @@ export function getTemplatesVariables() {
 }
 
 export function loadEnvVariables() {
-    const ALLOWED_VARIABLES = ["API_HOST", "API_PORT", "API_VERSION"];
+    const ALLOWED_VARIABLES = ["API_HOST", "API_PORT", "API_VERSION", "SENTRY_DSN"];
     dotenv.load();
     const overrides = Object.keys(process.env).filter(variableName =>
         ALLOWED_VARIABLES.includes(variableName),
