@@ -23,10 +23,10 @@ if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
     var domains;
     if (/^www/.test(window.location.host)) {
         siteId = 3;
-        domains = ["*.www.arenaoftitans.fr", "*.www.arenaoftitans.com"];
+        domains = ["*.www.last-run.fr", "*.www.last-run.com"];
     } else {
         siteId = 4;
-        domains = ["*.dev.arenaoftitans.com"]
+        domains = ["*.dev.last-run.com"];
     }
     (function () {
         var u = "//piwik.jujens.eu/";

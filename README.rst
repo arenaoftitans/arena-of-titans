@@ -38,7 +38,7 @@ To build the frontend for development and use the API from the staging server, c
 
 .. code::
 
-    API_HOST=devapi.arenaoftitans.com
+    API_HOST=devapi.last-run.com
     API_PORT=80
 
 
@@ -295,5 +295,5 @@ Update Rollbar
 --------------
 
 #. Fetch the release from https://github.com/rollbar/rollbar.js/releases Look at the latest release and browse the files under ``dist``.
-#. Push the new rollbar script to static.arenaoftitans.com
+#. Push the new rollbar script to static.last-run.com
 #. Update ``scripts/rollbar.js`` and set ``rollbarJsUrl`` to the new value

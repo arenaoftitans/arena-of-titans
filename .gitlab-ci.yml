@@ -50,13 +50,13 @@ deploy in staging:
   image: registry.gitlab.com/arenaoftitans/aot-infra:latest
   environment:
     name: staging
-    url: https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html
+    url: https://dev.last-run.com/index-$CI_COMMIT_REF_SLUG.html
   script:
     - git clone https://gitlab.com/arenaoftitans/aot-infra.git /opt/aot-infra
     - cd /opt/aot-infra
     - mv /builds/arenaoftitans/arena-of-titans ./front
     - ansible-playbook -i environments/staging front.yml -e version=$CI_COMMIT_REF_SLUG
-    - echo "Deployed to https://dev.arenaoftitans.com/index-$CI_COMMIT_REF_SLUG.html"
+    - echo "Deployed to https://dev.last-run.com/index-$CI_COMMIT_REF_SLUG.html"
   when: manual
   except:
     - tags
