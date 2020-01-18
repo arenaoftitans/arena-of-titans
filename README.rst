@@ -19,13 +19,12 @@ Configuration
 
 We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.json`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. The file used by the application is written in ``./app/environment.js`` during the transpile step.
 
-You can override the host and port of the api to use for any environment as well as provide a `Rollbar <https://rollbar.com>`__ access token by creating a ``.env`` file at the root of the project. Put in it only the lines you need. A full ``.env`` file will look like:
+You can override the host and port of the api to use for any environment by creating a ``.env`` file at the root of the project. Put in it only the lines you need. A full ``.env`` file will look like:
 
 .. code::
 
     API_HOST=newhost
     API_PORT=8080
-    ROLLBAR_ACCESS_TOKEN=token
 
 The list of assets to preload is also generated during the transpile step. It is only done once.
 
@@ -108,7 +107,7 @@ The code is then organized as follow:
 - The ``dist`` folder (un-tracked) will contain the built bundles that are used in the browser.
 - The ``locale`` folder contains a subdirectory per lang. Each subdirectory contains a JS file exporting an object containing the translations for this language. These JS files are updated with ``npm run translate``.
 - The ``scripts`` folder contains: JS scripts that don't belong to the app but are required for it to work (eg: tracking.js, polyfills.js).
-- The ``templates`` folder contains templates (eg: index.html, rollbar.js).
+- The ``templates`` folder contains templates (eg: index.html).
 - Unit tests go into the ``test/unit`` folder. The structure of the ``test/unit`` folder should reflect the structure of the app.
 
 Code conventions
@@ -290,10 +289,3 @@ Update aurelia-cli
 
 #. Update files in ``aurelia_project/tasks`` based on the diff.
 #. Check that the build and test tasks are running correctly.
-
-Update Rollbar
---------------
-
-#. Fetch the release from https://github.com/rollbar/rollbar.js/releases Look at the latest release and browse the files under ``dist``.
-#. Push the new rollbar script to static.last-run.com
-#. Update ``scripts/rollbar.js`` and set ``rollbarJsUrl`` to the new value

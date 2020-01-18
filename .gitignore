@@ -2,7 +2,6 @@
 /node_modules
 /dist
 /public
-/scripts/rollbar.js
 /app/environment.js
 /app/assets-list.js
 /reports

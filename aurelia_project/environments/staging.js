@@ -7,6 +7,6 @@ export default {
         version: "latest",
     },
     heroes: ["arline", "djor", "garez", "kharliass", "luni", "mirindrel", "razbrak", "ulya"],
-    debug: true,
+    debug: false,
     testing: false,
 };

@@ -116,7 +116,6 @@ export class AotPopupCustomElement {
             keyCode = keyCode.toLowerCase();
 
             // The player must validate the game over popup
-            // From https://rollbar.com/jenselme/arena-of-titans/items/37/?item_page=0&#instances,
             // keyupEventListener can be called before popupModel.deferred is defined.
             if (
                 (keyCode === "escape" || keyCode === "esc") &&

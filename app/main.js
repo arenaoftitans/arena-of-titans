@@ -20,8 +20,9 @@
 import { AppRouter } from "aurelia-router";
 import { EventAggregator } from "aurelia-event-aggregator";
 import * as Logger from "aurelia-logging";
-import RollbarAppender from "au-rollbar";
 import XHR from "i18next-xhr-backend";
+import * as Sentry from "@sentry/browser";
+import * as Integrations from "@sentry/integrations";
 import environment from "./environment";
 import enTranslations from "./locale/en/translations";
 import frTranslations from "./locale/fr/translations";
@@ -83,12 +84,23 @@ export function configure(aurelia) {
                 .normalize("aurelia-logging-console", aurelia.bootstrapperName)
                 .then(name => {
                     return aurelia.loader.loadModule(name).then(m => {
-                        Logger.addAppender(new m.ConsoleAppender());
-                        if (window.Rollbar) {
-                            Logger.addAppender(new RollbarAppender());
+                        if (environment.sentry_dsn) {
+                            console.debug("Sentry is setup."); // eslint-disable-line no-console
+                            Sentry.init({
+                                dsn: environment.sentry_dsn,
+                                release: environment.version,
+                                environment: environment.env,
+                                integrations: [
+                                    new Integrations.CaptureConsole({
+                                        levels: ["warn"],
+                                    }),
+                                ],
+                            });
                         } else {
-                            console.warn("Rollbar is not defined"); // eslint-disable-line
+                            console.warn("No DSN found for Sentry."); // eslint-disable-line no-console
                         }
+
+                        Logger.addAppender(new m.ConsoleAppender());
                         Logger.setLevel(Logger.logLevel.warn);
                     });
                 });
