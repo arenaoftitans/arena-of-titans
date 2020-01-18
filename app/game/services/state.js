@@ -183,6 +183,7 @@ export class State {
         this._me.rank = message.rank;
         this._me.elapsed_time = message.elapsed_time;
         this._updateAffectingTrumps(message.active_trumps);
+        this._game.trump_target_indexes = message.trump_target_indexes;
         this._game.trumps_statuses = message.trumps_statuses;
         this._game.can_power_be_played = message.can_power_be_played;
         this._game.gauge_value = message.gauge_value;

@@ -225,21 +225,15 @@ export class AotTrumpCustomElement {
     }
 
     _getOtherPlayerNames() {
-        let otherPlayerNames = [];
-        for (let playerIndex of this.playerIndexes) {
-            // We need to check that playerIndex is neither null nor undefined.
-            // Just relying on "falsyness" isn't enough since 0 is valid but false.
-            // prettier-ignore
-            if (playerIndex != null && playerIndex !== this.myIndex) { // eslint-disable-line
-                let player = {
-                    index: playerIndex,
-                    name: this.playerNames[playerIndex],
-                };
-                otherPlayerNames.push(player);
-            }
-        }
-
-        return otherPlayerNames;
+        return this.playerIndexes
+            .filter(index => index !== null)
+            .filter(index => index !== undefined)
+            .filter(index => index !== this.myIndex)
+            .filter(index => this._state.game.trump_target_indexes.includes(index))
+            .map(index => ({
+                index,
+                name: this.playerNames[index],
+            }));
     }
 
     get yourTurn() {
