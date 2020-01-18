@@ -15,23 +15,14 @@ aot-header {
     }
 
     .blue-button {
-        padding: 10px 2vw;
-    }
-
-    .blue-button:hover,
-    .blue-button:focus {
-        background-position: 0 -45px;
-
-        @include media-md {
-            background-position: 0 -50px;
-        }
+        display: inline-block;
+        margin: auto;
+        padding: 0px 20%;
+        text-align: center;
+        width: 120px;
 
         @include media-lg {
-            background-position: 0 -61px;
-        }
-
-        @include media-xl {
-            background-position: 0 -70px;
+            padding: 10px 150px;
         }
     }
 
@@ -66,11 +57,6 @@ aot-header {
                 width: #{$logo-size-mobile}px;
             }
         }
-    }
-
-    .column-left,
-    .column-right {
-        width: auto;
     }
 
     .column-right {
