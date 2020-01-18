@@ -41,14 +41,14 @@ button[disabled],
 .blue-button {
     background: url(/assets/components/blue-button.png) no-repeat;
     background-position: 0 0;
-    background-size: 100% 200%;
+    background-size: 100% 100%;
 }
 
 .blue-button:focus,
 .blue-button:hover {
-    background: url(/assets/components/blue-button.png) no-repeat;
-    background-position: 0 -32px;
-    background-size: 100% 200%;
+    background: url(/assets/components/blue-button-hover.png) no-repeat;
+    background-position: 0 0;
+    background-size: 100% 100%;
 }
 
 .big-button {
