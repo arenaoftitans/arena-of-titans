@@ -45,6 +45,13 @@ repos:
                 language: system
                 types: [html]
                 pass_filenames: false
+            -   id: license
+                name: license
+                files: '^app'
+                exclude: '(translations|default-names).js$'
+                entry: ./bin/detect-license.sh
+                language: system
+                types: [javascript]
             -   id: test
                 name: test
                 entry: npm
