@@ -23,41 +23,44 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 aot-cards {
     #cards-actions {
         @include tiny-height {
-            margin-top: 1%;
+            margin-top: -10%;
             transform: scale(0.8);
         }
 
         @include medium-height {
+            margin-top: -10%;
             display: block;
             float: right;
-            width: 30%;
+            width: 20%;
         }
     }
 
     #cards-img-container {
-        min-width: 384px;
+        min-width: 700px;
 
         @include medium-height {
             float: left;
             margin-left: 3%;
-            width: 60%;
+            margin-top: 3%;
+            width: 80%;
         }
 
         @include medium-width {
             margin-left: 0;
+            margin-top: 3%;
             min-width: 320px;
-            width: 70%;
+            width: 90%;
         }
     }
 
     .card {
         display: inline-block;
-        height: 100px;
+        height: 154px;
         margin-right: 2%;
         margin-top: 2%;
         position: relative;
         user-select: none;
-        width: 69px;
+        width: 112px;
 
         @include medium-width {
             margin-right: -2%;
