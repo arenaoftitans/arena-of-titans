@@ -73,7 +73,7 @@
         "json-stable-stringify": "^1.0.1",
         "loggy": "^1.0.2",
         "minimatch": "^3.0.4",
-        "minimist": "^1.2.0",
+        "minimist": "^1.2.2",
         "nps": "^5.9.5",
         "nps-utils": "^1.7.0",
         "nunjucks": "^3.0.1",
