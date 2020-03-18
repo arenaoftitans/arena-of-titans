@@ -1,202 +1,197 @@
-/* glue: 0.13 hash: f0aa73f882 */
-.sprite-movement-wizard-yellow,
-.sprite-movement-wizard-red,
-.sprite-movement-wizard-blue,
-.sprite-movement-wizard-black,
-.sprite-movement-warrior-yellow,
-.sprite-movement-warrior-red,
-.sprite-movement-warrior-blue,
-.sprite-movement-warrior-black,
-.sprite-movement-queen-yellow,
-.sprite-movement-queen-red,
-.sprite-movement-queen-blue,
-.sprite-movement-queen-black,
-.sprite-movement-knight-yellow,
-.sprite-movement-knight-red,
-.sprite-movement-knight-blue,
-.sprite-movement-knight-black,
-.sprite-movement-king-yellow,
-.sprite-movement-king-red,
-.sprite-movement-king-blue,
-.sprite-movement-king-black,
-.sprite-movement-bishop-yellow,
-.sprite-movement-bishop-red,
-.sprite-movement-bishop-blue,
-.sprite-movement-bishop-black,
-.sprite-movement-assassin-yellow,
-.sprite-movement-assassin-red,
-.sprite-movement-assassin-blue,
-.sprite-movement-assassin-black {
-    background-image: url(/assets/game/sprites/cards.png);
-    background-repeat: no-repeat;
-}
-
 .sprite-movement-wizard-yellow {
-    background-position: 0 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/wizard-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-wizard-red {
-    background-position: -69px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/wizard-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-wizard-blue {
-    background-position: -138px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/wizard-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-wizard-black {
-    background-position: 0 -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/wizard-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-warrior-yellow {
-    background-position: -69px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/warrior-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-warrior-red {
-    background-position: -138px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/warrior-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-warrior-blue {
-    background-position: -207px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/warrior-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-warrior-black {
-    background-position: -207px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/warrior-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-queen-yellow {
-    background-position: -276px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/queen-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-queen-red {
-    background-position: -276px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/queen-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-queen-blue {
-    background-position: 0 -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/queen-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-queen-black {
-    background-position: -69px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/queen-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-knight-yellow {
-    background-position: -138px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/knight-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-knight-red {
-    background-position: -207px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/knight-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-knight-blue {
-    background-position: -276px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/knight-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-knight-black {
-    background-position: -345px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/knight-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-king-yellow {
-    background-position: -345px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/king-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-king-red {
-    background-position: -345px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/king-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-king-blue {
-    background-position: 0 -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/king-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-king-black {
-    background-position: -69px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/king-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-bishop-yellow {
-    background-position: -138px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/bishop-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-bishop-red {
-    background-position: -207px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/bishop-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-bishop-blue {
-    background-position: -276px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/bishop-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-bishop-black {
-    background-position: -345px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/bishop-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-assassin-yellow {
-    background-position: -414px 0;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/assassin-yellow.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-assassin-red {
-    background-position: -414px -100px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/assassin-red.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-assassin-blue {
-    background-position: -414px -200px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/assassin-blue.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 .sprite-movement-assassin-black {
-    background-position: -414px -300px;
-    height: 100px;
-    width: 69px;
+    background-image: url(/assets/game/cards/movement/assassin-black.png);
+    background-repeat: no-repeat;
+    height: 193px;
+    width: 140px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 1),
@@ -232,9 +227,9 @@
     .sprite-movement-assassin-red,
     .sprite-movement-assassin-blue,
     .sprite-movement-assassin-black {
-        background-image: url(/assets/game/sprites/cards.png);
-        -webkit-background-size: 483px 400px;
-        -moz-background-size: 483px 400px;
-        background-size: 483px 400px;
+        /*background-image: url(/assets/game/sprites/cards.png);*/
+        -webkit-background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        background-size: 100% 100%;
     }
 }
