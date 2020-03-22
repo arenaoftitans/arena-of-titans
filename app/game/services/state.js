@@ -106,7 +106,7 @@ export class State {
     _createTrumps(trumps) {
         return trumps.map(trump => {
             // Affecting trumps can be power. We rely on their 'passive' property to detect them.
-            if ("passive" in trump) {
+            if (trump.effect_type === "power") {
                 return this._createPower(trump);
             }
 
