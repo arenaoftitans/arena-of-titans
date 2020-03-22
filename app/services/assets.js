@@ -202,7 +202,7 @@ export class ImageName {
 
     static forTrump(trump) {
         let trumpName = trump.name.replace(/ /g, "-").toLowerCase();
-        if (trump.color === null) {
+        if (!trump.color) {
             return trumpName;
         }
 
