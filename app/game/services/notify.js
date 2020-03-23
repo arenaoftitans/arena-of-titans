@@ -17,6 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { AssetSource } from "../../services/assets";
@@ -28,6 +29,7 @@ const PLAY_VOICE_TIMEOUT = 45000;
 @inject(I18N, EventAggregatorSubscriptions, Sounds)
 export class Notify {
     constructor(i18n, eas, sounds) {
+        this._logger = LogManager.getLogger("NotifyService");
         this._i18n = i18n;
         this._eas = eas;
         this._eas.subscribe("router:navigation:complete", () => {
@@ -42,6 +44,20 @@ export class Notify {
         this._body = document.body || document.getElementByTagName("body")[0];
 
         document.addEventListener("visibilitychange", () => this._handleVisibilityChange());
+        this._askConsentForNotifications();
+    }
+
+    _askConsentForNotifications() {
+        if (!("Notification" in window)) {
+            return Promise.reject();
+        }
+
+        return Notification.requestPermission(result => {
+            this._logger.info(`Notification choice ${result}`);
+            return result === "granted";
+        }).then(isNotificationRequestGranted =>
+            isNotificationRequestGranted ? Promise.resolve() : Promise.reject(),
+        );
     }
 
     _handleVisibilityChange() {
@@ -55,6 +71,7 @@ export class Notify {
         if (document.hidden) {
             this._swapFavicon();
             this._swapTitle();
+            this._pushNotification();
         }
 
         let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
@@ -63,6 +80,12 @@ export class Notify {
             this._body.removeEventListener("mousemove", cancelPlayVoice);
         };
         this._body.addEventListener("mousemove", cancelPlayVoice);
+    }
+
+    _pushNotification() {
+        this._askConsentForNotifications().then(
+            () => new Notification(this._i18n.tr("game.play.your_turn")),
+        );
     }
 
     _swapFavicon() {
