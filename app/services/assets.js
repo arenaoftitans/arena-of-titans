@@ -19,9 +19,6 @@
 
 import assetsList from "../assets-list";
 
-const PRELOAD_DELAY = 1000;
-const PRELOAD_CHUNK_SIZE = 5;
-
 export class AssetSource {
     static _mapToRealPath(path) {
         path = `/assets/${path}`;
@@ -129,44 +126,18 @@ export class AssetSource {
         return this._mapToRealPath(`game/cards/trumps/${ImageName.forTrump(trump)}.png`);
     }
 
-    static preloadImages(kind) {
+    static preloadAssets(kind) {
         // Don't try to preload images when testing the application.
-        if (window.jasmine) {
-            return;
-        }
-        let imagesToPreload = [];
-        for (let imgSrc in assetsList) {
-            if (imgSrc.includes(kind) && !imgSrc.includes("sounds")) {
-                imagesToPreload.push(assetsList[imgSrc]);
-            }
-        }
-
-        let imagesChunkToPreload = [];
-        let startIndex = 0;
-        while (startIndex < imagesToPreload.length) {
-            let chunk = imagesToPreload.slice(startIndex, startIndex + PRELOAD_CHUNK_SIZE);
-            imagesChunkToPreload.push(chunk);
-            startIndex += PRELOAD_CHUNK_SIZE;
-        }
-
-        let timeout = 0;
-        for (let chunk of imagesChunkToPreload) {
-            setTimeout(() => {
-                this._preloadImages(chunk);
-            }, timeout);
-            timeout += PRELOAD_DELAY;
-        }
-    }
-
-    static _preloadImages(images) {
-        if (window.IS_TESTING) {
+        if (!window.caches) {
             return;
         }
 
-        for (let src of images) {
-            let img = new Image();
-            img.src = `//${location.host}${src}`;
-        }
+        const cacheName = `${kind}Images`;
+        const assetsToPreload = Object.values(assetsList).filter(assetSrc =>
+            assetSrc.includes(kind),
+        );
+
+        caches.open(cacheName).then(cache => cache.addAll(assetsToPreload));
     }
 }
 

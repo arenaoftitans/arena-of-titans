@@ -31,7 +31,7 @@ export class Layout {
         // below, it will not appear in the player box.
         history.init();
 
-        AssetSource.preloadImages("game");
+        AssetSource.preloadAssets("game");
     }
 
     configureRouter(config, router) {
