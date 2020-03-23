@@ -50,7 +50,6 @@ export class Create {
     _router;
     _api;
     _gameUrl = "";
-    _config;
     _bes;
     _history;
 

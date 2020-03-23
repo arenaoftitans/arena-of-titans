@@ -61,15 +61,6 @@ export class AssetSource {
         return this._mapToRealPath(`game/heroes/${hero}-circle.png`);
     }
 
-    static forGame(kind) {
-        switch (kind) {
-            case "logo":
-                return this._mapToRealPath("game/aot-logo.png");
-            default:
-                throw new Error(`No such image for game: ${kind}`);
-        }
-    }
-
     static forHero(hero) {
         return this._mapToRealPath(`game/heroes/${hero}.png`);
     }
