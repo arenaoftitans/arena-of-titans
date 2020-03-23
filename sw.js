@@ -22,6 +22,29 @@ function log(text) {
     console.log(`[SW] ${text}`); // eslint-disable-line no-console
 }
 
+function debug(text) {
+    console.debug(`[SW] ${text}`); // eslint-disable-line no-console
+}
+
 self.addEventListener("install", event => {
     log("Installing Service Worker ...", event);
+});
+
+self.addEventListener("fetch", event => {
+    // Let the browser do its default thing
+    // for non-GET requests.
+    if (event.request.method !== "GET") {
+        return;
+    }
+
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            if (response) {
+                debug(`Responding to ${event.request.url} from the cache.`);
+                return response;
+            }
+
+            return fetch(event.request);
+        }),
+    );
 });
