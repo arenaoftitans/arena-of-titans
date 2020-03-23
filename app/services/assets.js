@@ -17,7 +17,10 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as LogManager from "aurelia-logging";
 import assetsList from "../assets-list";
+
+const logger = LogManager.getLogger("AssetSource");
 
 export class AssetSource {
     static _mapToRealPath(path) {
@@ -137,7 +140,25 @@ export class AssetSource {
             assetSrc.includes(kind),
         );
 
-        caches.open(cacheName).then(cache => cache.addAll(assetsToPreload));
+        logger.debug("Preloading assets:", assetsToPreload);
+        this._preloadFiles(cacheName, assetsToPreload);
+    }
+
+    static _preloadFiles(cacheName, filesList) {
+        caches.open(cacheName).then(cache => cache.addAll(filesList));
+        caches.open(cacheName).then(cache =>
+            cache.keys().then(cacheContent => {
+                const requestAndUrls = cacheContent
+                    .map(request => [request, request.url])
+                    .map(([request, url]) => [request, new URL(url).pathname]);
+                requestAndUrls.forEach(([request, url]) => {
+                    if (!filesList.includes(url)) {
+                        logger.debug(`Deleting request ${request.url}`);
+                        cache.delete(request);
+                    }
+                });
+            }),
+        );
     }
 }
 
