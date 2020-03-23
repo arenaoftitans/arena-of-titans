@@ -82,7 +82,7 @@ describe("State", () => {
         ]);
         expect(sut.me.has_won).toBe(false);
         expect(sut.me.rank).toBe(-1);
-        expect(sut.me.affecting_trumps).toEqual([
+        expect(sut.me.trump_effects).toEqual([
             {
                 name: "Reinforcements",
                 color: null,

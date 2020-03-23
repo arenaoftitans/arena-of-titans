@@ -42,7 +42,7 @@ export class AotTrumpsCustomElement {
     }
 
     get affectingTrumps() {
-        return this._state.me.affecting_trumps;
+        return this._state.me.trump_effects;
     }
 
     get me() {

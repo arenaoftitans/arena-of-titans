@@ -161,7 +161,7 @@ export class State {
 
     _updateAffectingTrumps(activeTrumps) {
         this._game.active_trumps = activeTrumps;
-        this._me.affecting_trumps = this._createTrumps(activeTrumps[this._me.index].trumps);
+        this._me.trump_effects = this._createTrumps(activeTrumps[this._me.index].trumps);
     }
 
     updateAfterPlay(message) {
