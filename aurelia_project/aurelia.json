@@ -158,7 +158,8 @@
         "copyFiles": {
             "index.html": "dist/",
             "node_modules/intl/dist/Intl.js": "dist/",
-            "scripts/tracking.js": "dist/"
+            "scripts/tracking.js": "dist/",
+            "sw.js": "dist/"
         },
         "loader": {
             "config": {
