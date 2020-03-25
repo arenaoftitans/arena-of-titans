@@ -17,10 +17,12 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as LogManager from "aurelia-logging";
 import assetsList from "../assets-list";
+import bundlesList from "../bundles-list";
+import environment from "../environment";
 
-const PRELOAD_DELAY = 1000;
-const PRELOAD_CHUNK_SIZE = 5;
+const logger = LogManager.getLogger("AssetSource");
 
 export class AssetSource {
     static _mapToRealPath(path) {
@@ -129,44 +131,52 @@ export class AssetSource {
         return this._mapToRealPath(`game/cards/trumps/${ImageName.forTrump(trump)}.png`);
     }
 
-    static preloadImages(kind) {
+    static preloadAssets(kind) {
         // Don't try to preload images when testing the application.
-        if (window.jasmine) {
+        if (!window.caches) {
             return;
         }
-        let imagesToPreload = [];
-        for (let imgSrc in assetsList) {
-            if (imgSrc.includes(kind) && !imgSrc.includes("sounds")) {
-                imagesToPreload.push(assetsList[imgSrc]);
-            }
-        }
 
-        let imagesChunkToPreload = [];
-        let startIndex = 0;
-        while (startIndex < imagesToPreload.length) {
-            let chunk = imagesToPreload.slice(startIndex, startIndex + PRELOAD_CHUNK_SIZE);
-            imagesChunkToPreload.push(chunk);
-            startIndex += PRELOAD_CHUNK_SIZE;
-        }
+        const cacheName = `${kind}Images`;
+        const assetsToPreload = Object.values(assetsList).filter(assetSrc =>
+            assetSrc.includes(kind),
+        );
 
-        let timeout = 0;
-        for (let chunk of imagesChunkToPreload) {
-            setTimeout(() => {
-                this._preloadImages(chunk);
-            }, timeout);
-            timeout += PRELOAD_DELAY;
-        }
+        logger.debug("Preloading assets:", assetsToPreload);
+        this._preloadFiles(cacheName, assetsToPreload);
     }
 
-    static _preloadImages(images) {
-        if (window.IS_TESTING) {
+    static _preloadFiles(cacheName, filesList) {
+        caches.open(cacheName).then(cache => cache.addAll(filesList));
+        caches.open(cacheName).then(cache =>
+            cache.keys().then(cacheContent => {
+                const requestAndUrls = cacheContent
+                    .map(request => [request, request.url])
+                    .map(([request, url]) => [request, new URL(url).pathname]);
+                requestAndUrls.forEach(([request, url]) => {
+                    if (!filesList.includes(url)) {
+                        logger.debug(`Deleting request ${request.url}`);
+                        cache.delete(request);
+                    }
+                });
+            }),
+        );
+    }
+
+    static preloadBundles(kind) {
+        // Don't try to preload images when testing the application or when debug is true
+        // because we are testing or developing the app and want the latest bundles.
+        if (!window.caches || environment.debug) {
             return;
         }
 
-        for (let src of images) {
-            let img = new Image();
-            img.src = `//${location.host}${src}`;
-        }
+        const cacheName = `${kind}Bundles`;
+        const bundlesToPreload = Object.values(bundlesList).filter(bundleSrc =>
+            bundleSrc.includes(kind),
+        );
+
+        logger.debug("Preading bundles:", bundlesToPreload);
+        this._preloadFiles(cacheName, bundlesToPreload);
     }
 }
 

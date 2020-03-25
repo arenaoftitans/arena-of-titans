@@ -17,6 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import routes, { NOT_FOUND as notFoundRoute } from "./routes";
@@ -28,12 +29,20 @@ export class App {
 
     constructor(ea) {
         this._ea = ea;
+        this._logger = LogManager.getLogger("app");
     }
 
     bind() {
         this.navigationSubscription = this._ea.subscribe("router:navigation:complete", () => {
             window.scrollTo(0, 0);
         });
+
+        if (navigator.serviceWorker) {
+            this._logger.info("Registering SW");
+            navigator.serviceWorker
+                .register("./sw.js")
+                .then(() => this._logger.info("SW registration succeeded."));
+        }
     }
 
     unbind() {

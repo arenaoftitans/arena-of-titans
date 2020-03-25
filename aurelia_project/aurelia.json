@@ -1,5 +1,9 @@
 {
     "assets": {
+        "bundles": {
+            "output": "app/bundles-list.js",
+            "source": "dist/scripts/*.js"
+        },
         "manifest": {
             "name": "assets-list.js",
             "output": "app"
@@ -17,6 +21,7 @@
                     "[**/app.js]",
                     "[**/environment.js]",
                     "[**/app/assets-list.js]",
+                    "[**/app/bundles-list.js]",
                     "[**/main.js]",
                     "[**/services/*.js]",
                     "[**/app/widgets/**/*.js]",
@@ -158,7 +163,8 @@
         "copyFiles": {
             "index.html": "dist/",
             "node_modules/intl/dist/Intl.js": "dist/",
-            "scripts/tracking.js": "dist/"
+            "scripts/tracking.js": "dist/",
+            "sw.js": "dist/"
         },
         "loader": {
             "config": {
