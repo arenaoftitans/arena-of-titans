@@ -19,6 +19,8 @@
 
 import * as LogManager from "aurelia-logging";
 import assetsList from "../assets-list";
+import bundlesList from "../bundles-list";
+import environment from "../environment";
 
 const logger = LogManager.getLogger("AssetSource");
 
@@ -159,6 +161,22 @@ export class AssetSource {
                 });
             }),
         );
+    }
+
+    static preloadBundles(kind) {
+        // Don't try to preload images when testing the application or when debug is true
+        // because we are testing or developing the app and want the latest bundles.
+        if (!window.caches || environment.debug) {
+            return;
+        }
+
+        const cacheName = `${kind}Bundles`;
+        const bundlesToPreload = Object.values(bundlesList).filter(bundleSrc =>
+            bundleSrc.includes(kind),
+        );
+
+        logger.debug("Preading bundles:", bundlesToPreload);
+        this._preloadFiles(cacheName, bundlesToPreload);
     }
 }
 

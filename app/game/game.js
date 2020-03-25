@@ -32,6 +32,7 @@ export class Layout {
         history.init();
 
         AssetSource.preloadAssets("game");
+        AssetSource.preloadBundles("game");
     }
 
     configureRouter(config, router) {
