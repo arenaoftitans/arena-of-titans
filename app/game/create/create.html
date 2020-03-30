@@ -33,14 +33,22 @@
 
     <div class="create-game-container" if.bind="!creating">
         <div class="left-wall wall-part">
-            <div class="heroes-viewr-container">
-                <h3 t="game.create.heroes" class="centered-text white-text"></h3>
-                <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
+            <div class="top-left-container">
+                <div class="heroes-viewr-container">
+                    <h2 t="game.create.heroes" class="centered-text white-text"></h2>
+                    <aot-heroes-viewer selected-hero.two-way="selectedHero"></aot-heroes-viewer>
+                </div>
             </div>
-            <div class="heroes-description-container">
-                <p class="white-text centered-text">${'heroes.' + selectedHero & t}</p>
-                <p class="white-text">${'heroes.' + selectedHero + '_short_description' & t}</p>
-                <p class="white-text">${'heroes.' + selectedHero + '_power' & t}</p>
+            <div class="bottom-left-container">
+                <div class="heroes-description-container">
+                    <h2 class="white-text centered-text">${'site.heroes.' + selectedHero & t}</h2>
+                    <p class="white-text">${'site.heroes.' + selectedHero + '_short_description' & t}</p>
+                    <img
+                        class="power-img centered-block"
+                        src.bind="assetSource.forHeroPower(selectedHero)"
+                    />
+                    <p class="white-text">${'site.heroes.' + selectedHero + '_power' & t}</p>
+                </div>
             </div>
         </div>
 
@@ -73,16 +81,21 @@
         </div>
 
         <div class="right-wall wall-part">
-            <div class="slots-container">
-                <aot-slot
-                    repeat.for="slot of slots"
-                    can-admin.bind="isGameMaster"
-                    player.bind="slot"
-                ></aot-slot>
+            <div class="top-right-container">
+                <h2 t="game.create.players" class="centered-text white-text"></h2>
+                <div class="slots-container centered-block">
+                    <aot-slot
+                        repeat.for="slot of slots"
+                        can-admin.bind="isGameMaster"
+                        player.bind="slot"
+                    ></aot-slot>
+                </div>
             </div>
-            <div class="game-url-container" if.bind="me.is_game_master">
-                <h2 class="bright-red-text" t="game.create.invite">Invite</h2>
-                <aot-url-copy url.bind="gameUrl"></aot-url-copy>
+            <div class="bottom-right-container">
+                <div class="game-url-container centered-block" if.bind="me.is_game_master">
+                    <h2 class="white-text centered-text" t="game.create.invite">Invite</h2>
+                    <aot-url-copy url.bind="gameUrl"></aot-url-copy>
+                </div>
             </div>
         </div>
     </div>
