@@ -275,7 +275,7 @@ export default {
         "slide": {
             "centaur": "FINISSONS-EN RAPIDEMENT, LE BANQUET M'ATTEND !",
             "elf": "ESSAYEZ DONC DE STOPPER CE QUI EST INVISIBLE !",
-            "orc": "PLUS FACILE D ETRE PREMIER LORSQU'IL NE RESTE PLUS D'ADVERSAIRES HEHE..."
+            "orc": "PLUS FACILE D ETRE PREMIER LORSQU'IL NE RESTE PLUS D'ADVERSAIRES..."
         },
         "synopsis": {
             "story": {

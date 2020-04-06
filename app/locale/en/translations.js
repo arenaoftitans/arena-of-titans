@@ -275,7 +275,7 @@ export default {
         "slide": {
             "centaur": "CAN WE QUICKLY FINISH THIS ? THE BANQUET IS WAITING FOR ME !",
             "elf": "TRY TO STOP WHAT IS INVISIBLE",
-            "orc": "EASIER TO BE NUMBER ONE WHEN THERE IS NO COMPETITORS LEFT HEHE..."
+            "orc": "EASIER TO BE NUMBER ONE WHEN THERE IS NO COMPETITORS LEFT..."
         },
         "synopsis": {
             "story": {
