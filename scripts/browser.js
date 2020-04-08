@@ -22,48 +22,52 @@
  * fails to load. In order to work in as many browsers as possible, it must be
  * written in ES5.
  */
-(function () {
+(function() {
     /**
      * Inspired by https://github.com/aurelia/protractor-plugin/blob/master/index.js#L59.
      */
-    function aureliaFailedToLoad () {
+    function aureliaFailedToLoad() {
         // 5 minutes in milliseconds.
         var APP_FAILS_TO_LOAD_TIMEOUT = 5 * 1000;
-        var app = document.querySelector('[aurelia-app]');
-        var loadTimeout = setTimeout(function () {
-            var messagesContainer = document.querySelector('.application-load-errors');
-            messagesContainer.style.display = '';
+        var app = document.querySelector("[aurelia-app]");
+        var loadTimeout = setTimeout(function() {
+            var messagesContainer = document.querySelector(".application-load-errors");
+            messagesContainer.style.display = "";
 
-            var aureliaFailedToLoadContainer = document.querySelector('.aurelia-load-errors');
-            aureliaFailedToLoadContainer.style.display = '';
+            var aureliaFailedToLoadContainer = document.querySelector(".aurelia-load-errors");
+            aureliaFailedToLoadContainer.style.display = "";
         }, APP_FAILS_TO_LOAD_TIMEOUT);
 
         // Aurelia is already loaded.
         if (app && app.aurelia) {
             clearTimeout(loadTimeout);
         } else {
-            document.addEventListener('aurelia-composed', function () {
-                clearTimeout(loadTimeout);
-            }, false);
+            document.addEventListener(
+                "aurelia-composed",
+                function() {
+                    clearTimeout(loadTimeout);
+                },
+                false,
+            );
         }
     }
 
     function detectUnsupportedBrowsers() {
         var ua = navigator.userAgent;
-        var msie = +((/msie (\d+)/.exec(ua.toLowerCase()) || [])[1]);
+        var msie = +(/msie (\d+)/.exec(ua.toLowerCase()) || [])[1];
         if (isNaN(msie)) {
-            msie = +((/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1]);
+            msie = +(/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1];
         }
         msie = !isNaN(msie);
 
         if (msie) {
-            document.getElementsByTagName('body')[0].removeAttribute('aurelia-app');
+            document.getElementsByTagName("body")[0].removeAttribute("aurelia-app");
 
-            var messagesContainer = document.querySelector('.application-load-errors');
-            messagesContainer.style.display = '';
+            var messagesContainer = document.querySelector(".application-load-errors");
+            messagesContainer.style.display = "";
 
-            var unsupportedBrowserContainer = document.querySelector('.unsupported-browser-error');
-            unsupportedBrowserContainer.style.display = '';
+            var unsupportedBrowserContainer = document.querySelector(".unsupported-browser-error");
+            unsupportedBrowserContainer.style.display = "";
 
             return true;
         }
