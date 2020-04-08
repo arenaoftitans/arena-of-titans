@@ -33,16 +33,16 @@ aot-select-cards {
 
     .arrow {
         cursor: pointer;
-        height: $card-img-height;
+        margin-bottom: $card-img-height/2;
         max-width: 20px !important;
     }
 
     .arrow-left {
-        margin-right: 20%;
+        margin-right: 5%;
     }
 
     .arrow-right {
-        margin-left: 20%;
+        margin-left: 5%;
     }
 
     .cards-carousel {
@@ -54,6 +54,7 @@ aot-select-cards {
 
     .select-card-container {
         padding-top: 2.5vh;
+        text-align: center;
     }
 
     .change-card {

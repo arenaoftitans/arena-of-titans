@@ -1,0 +1,74 @@
+.moves-block1 {
+    border-bottom: wheat solid 1px;
+    height: 330px;
+    width: 100%;
+}
+
+.forest-button {
+    background: rgb(32, 121, 22);
+    border: white solid 1px;
+    border-radius: 2px;
+    color: white;
+    margin-bottom: 25px;
+    margin-right: 5px;
+    padding: 6px 0 6px 0;
+    width: 50px;
+}
+
+.desert-button {
+    background: rgb(227, 202, 36);
+    border: white solid 1px;
+    border-radius: 2px;
+    color: white;
+    margin-bottom: 25px;
+    margin-right: 5px;
+    padding: 6px 0 6px 0;
+    width: 50px;
+}
+
+.mountain-button {
+    background: rgb(73, 71, 71);
+    border: white solid 1px;
+    border-radius: 2px;
+    color: white;
+    margin-bottom: 25px;
+    margin-right: 5px;
+    padding: 6px 0 6px 0;
+    width: 50px;
+}
+
+.water-button {
+    background: rgb(4, 4, 140);
+    border: white solid 1px;
+    border-radius: 2px;
+    color: white;
+    margin-bottom: 25px;
+    margin-right: 5px;
+    padding: 6px 0 6px 0;
+    width: 50px;
+}
+
+.moves-page-column-center {
+    margin: auto;
+    text-align: center;
+}
+
+.moves-page-text {
+    color: #fff;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 25px;
+    margin: 0 0 15px 0;
+}
+
+.moves-page-title {
+    color: #fff;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 40px;
+    margin: 0 0 15px 0;
+    padding-bottom: 2%;
+    padding-top: 3%;
+    text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+}

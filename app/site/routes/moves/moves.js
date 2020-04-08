@@ -24,5 +24,10 @@ export class Moves {
     constructor() {
         this.assetSource = AssetSource;
         this.selectedCard = environment.cards[0];
+        this.selectedColor = "red";
+    }
+
+    selectColor(selectedColor) {
+        this.selectedColor = selectedColor;
     }
 }

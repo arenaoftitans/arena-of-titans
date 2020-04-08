@@ -25,6 +25,7 @@ const NB_CARDS_PER_LINE = 4;
 
 export class AotCardsViewerCustomElement {
     @bindable selectedCard;
+    @bindable selectedColor;
 
     constructor() {
         this.assetSource = AssetSource;
@@ -42,7 +43,7 @@ export class AotCardsViewerCustomElement {
         }
 
         while (line.length < NB_CARDS_PER_LINE) {
-            line.push("placeholder");
+            line.push({ name: "placeholder", color: "placeholder" });
         }
     }
 
