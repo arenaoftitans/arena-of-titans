@@ -36,7 +36,7 @@ div.create-game-container {
         height: 100vh;
         width: $left-width;
 
-        .top-left-container{
+        .top-left-container {
             background-color: black;
             border: wheat solid 1px;
             height: 35vh;
@@ -47,7 +47,7 @@ div.create-game-container {
             height: 40vh;
         }
 
-        .bottom-left-container{
+        .bottom-left-container {
             background-color: black;
             border: wheat solid 1px;
             height: 50vh;
@@ -70,7 +70,7 @@ div.create-game-container {
         height: 100vh;
         width: $right-width;
 
-        .top-right-container{
+        .top-right-container {
             background-color: black;
             border: wheat solid 1px;
             height: 35vh;
@@ -78,18 +78,18 @@ div.create-game-container {
             margin-right: 2%;
             margin-top: 2%;
         }
-        
+
         .game-url-container {
             width: 80%;
         }
 
-        .bottom-right-container{
+        .bottom-right-container {
             background-color: black;
             border: wheat solid 1px;
             height: 50vh;
             margin-left: 5%;
             margin-right: 2%;
-            margin-top:15%;
+            margin-top: 15%;
         }
 
         .slots-container {
