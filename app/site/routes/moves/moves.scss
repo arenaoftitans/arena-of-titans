@@ -4,48 +4,54 @@
     width: 100%;
 }
 
+.moves-block2 {
+    height: 330px;
+    margin-bottom: 5vh;
+    width: 100%;
+}
+
 .forest-button {
-    background: rgb(32, 121, 22);
+    background: rgba(109, 197, 99, 0.745);
     border: white solid 1px;
     border-radius: 2px;
     color: white;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 20px;
     margin-bottom: 25px;
     margin-right: 5px;
-    padding: 6px 0 6px 0;
-    width: 50px;
 }
 
 .desert-button {
-    background: rgb(227, 202, 36);
+    background: rgb(222, 207, 106);
     border: white solid 1px;
     border-radius: 2px;
     color: white;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 20px;
     margin-bottom: 25px;
     margin-right: 5px;
-    padding: 6px 0 6px 0;
-    width: 50px;
 }
 
 .mountain-button {
-    background: rgb(73, 71, 71);
+    background: rgb(113, 109, 109);
     border: white solid 1px;
     border-radius: 2px;
     color: white;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 20px;
     margin-bottom: 25px;
     margin-right: 5px;
-    padding: 6px 0 6px 0;
-    width: 50px;
 }
 
 .water-button {
-    background: rgb(4, 4, 140);
+    background: rgba(65, 131, 231, 0.807);
     border: white solid 1px;
     border-radius: 2px;
     color: white;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 20px;
     margin-bottom: 25px;
     margin-right: 5px;
-    padding: 6px 0 6px 0;
-    width: 50px;
 }
 
 .moves-page-column-center {

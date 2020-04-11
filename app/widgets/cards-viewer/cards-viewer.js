@@ -21,7 +21,7 @@ import { bindable } from "aurelia-framework";
 import environment from "../../environment";
 import { AssetSource } from "../../services/assets";
 
-const NB_CARDS_PER_LINE = 4;
+const NB_CARDS_PER_LINE = 7;
 
 export class AotCardsViewerCustomElement {
     @bindable selectedCard;

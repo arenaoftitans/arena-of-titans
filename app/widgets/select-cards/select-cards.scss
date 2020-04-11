@@ -17,13 +17,14 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
-$card-img-height: 35vh;
+$card-img-height: 40vh;
 $change-card-opacity: 0.4;
 $fade-time: 0.2s;
 
 aot-select-cards {
     .card-img {
         background: #333;
+        border: rgb(82, 82, 81) solid 1px;
         display: inline-block;
         height: $card-img-height;
         margin-top: 1%;
