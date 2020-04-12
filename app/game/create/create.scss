@@ -32,24 +32,64 @@ div.create-game-container {
         }
     }
 
-    .heroes-description-container {
-        padding: 3%;
-    }
-
-    .heroes-viewr-container {
-        height: 40vh;
-    }
-
     .left-wall {
         height: 100vh;
         width: $left-width;
+
+        .top-left-container {
+            background-color: black;
+            border: wheat solid 1px;
+            height: 35vh;
+            margin: 2%;
+        }
+
+        .heroes-viewr-container {
+            height: 40vh;
+        }
+
+        .bottom-left-container {
+            background-color: black;
+            border: wheat solid 1px;
+            height: 50vh;
+            margin: 2%;
+            margin-top: 15%;
+        }
+
+        .heroes-description-container {
+            padding-left: 7%;
+            padding-right: 7%;
+        }
+    }
+
+    .power-img {
+        height: 100px;
+        width: 100px;
     }
 
     .right-wall {
+        height: 100vh;
         width: $right-width;
 
+        .top-right-container {
+            background-color: black;
+            border: wheat solid 1px;
+            height: 35vh;
+            margin-left: 5%;
+            margin-right: 2%;
+            margin-top: 2%;
+        }
+
         .game-url-container {
-            margin-top: 25vh;
+            width: 80%;
+        }
+
+        .bottom-right-container {
+            background-color: black;
+            border: wheat solid 1px;
+            height: 50vh;
+            margin-left: 5%;
+            margin-right: 2%;
+            margin-top: 15%;
         }
 
         .slots-container {
