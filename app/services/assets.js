@@ -51,8 +51,15 @@ export class AssetSource {
         }
     }
 
-    static forCard(card) {
-        return this._mapToRealPath(`game/cards/movement/${ImageName.forCard(card)}.png`);
+    static forCard(card, { useHD = false } = {}) {
+        let definitionSuffixe = "";
+        if (useHD) {
+            definitionSuffixe = "-hd";
+        }
+
+        return this._mapToRealPath(
+            `game/cards/movement/${ImageName.forCard(card)}${definitionSuffixe}.png`,
+        );
     }
 
     static forChestHero(hero) {
