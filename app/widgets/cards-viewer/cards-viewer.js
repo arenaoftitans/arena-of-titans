@@ -21,10 +21,11 @@ import { bindable } from "aurelia-framework";
 import environment from "../../environment";
 import { AssetSource } from "../../services/assets";
 
-const NB_CARDS_PER_LINE = 4;
+const NB_CARDS_PER_LINE = 7;
 
 export class AotCardsViewerCustomElement {
     @bindable selectedCard;
+    @bindable selectedColor;
 
     constructor() {
         this.assetSource = AssetSource;
@@ -42,7 +43,7 @@ export class AotCardsViewerCustomElement {
         }
 
         while (line.length < NB_CARDS_PER_LINE) {
-            line.push("placeholder");
+            line.push({ name: "placeholder", color: "placeholder" });
         }
     }
 

@@ -2,3 +2,34 @@
     height: 100px;
     width: 100px;
 }
+
+.heroes-block1 {
+    border-bottom: wheat solid 1px;
+    height: 300px;
+    width: 100%;
+}
+
+.heroes-page-column-center {
+    margin: auto;
+    text-align: center;
+}
+
+.heroes-page-text {
+    color: #fff;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 25px;
+    margin: 0 0 15px 0;
+}
+
+.heroes-page-title {
+    color: #fff;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 40px;
+    margin: 0 0 15px 0;
+    padding-bottom: 2%;
+    padding-top: 3%;
+    text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+}

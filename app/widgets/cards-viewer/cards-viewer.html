@@ -25,7 +25,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
                 class="card-img pointer ${card === selectedCard ? 'selected' : ''}"
                 if.bind="card !==  'placeholder'"
                 click.delegate="selectCard(card)"
-                src.bind="assetSource.forCard(card)"
+                src.bind="assetSource.forCard({name: card.name, color: selectedColor})"
             />
             <img
                 class="card-img not-allowed"

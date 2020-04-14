@@ -24,7 +24,12 @@
 
     <div slot="main" class="row-block bg-content">
         <div slot="main" class="container heroes-container">
-            <h1 class="header" t="site.page_title.heroes">Heroes</h1>
+            <div class="heroes-block1">
+                <div class="heroes-page-title heroes-page-column-center" t="site.heroes.pitch.title"></div>
+                <div class="heroes-page-text heroes-page-column-center" t="site.heroes.pitch.p1"></div>
+                <div class="heroes-page-text heroes-page-column-center" t="site.heroes.pitch.p2"></div>
+                <div class="heroes-page-text heroes-page-column-center" t="site.heroes.pitch.p3"></div>
+            </div>
             <div class="centered-block-site">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
@@ -37,7 +42,7 @@
                             ></aot-select-heroes>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-6 heroes-page-text">
                         <div id="heroes-selection-container">
                             <p id="hero-description">
                                 ${'site.heroes.' + selectedHero & t}

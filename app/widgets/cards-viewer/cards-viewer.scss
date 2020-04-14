@@ -19,11 +19,11 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 
 aot-cards-viewer {
     .card-img {
-        max-height: 10vh;
+        max-height: 12vh;
     }
 
     .selected {
-        border: yellow solid;
+        border: wheat solid 1px;
         box-sizing: border-box;
     }
 

@@ -27,6 +27,7 @@ const INPUT_NODE_NAMES = ["INPUT", "TEXTAREA"];
 @inject(CssAnimator)
 export class AotSelectCardsCustomElement {
     @bindable selectedCard = null;
+    @bindable selectedColor = null;
     // Referenced in the template.
     cardImage;
 

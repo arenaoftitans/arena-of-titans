@@ -18,19 +18,56 @@
 -->
 
 <template>
+    <require from="./moves.css"></require>
     <require from="../../../widgets/select-cards/select-cards"></require>
     <require from="../../../widgets/cards-viewer/cards-viewer"></require>
 
     <div slot="main" class="row-block bg-content">
-        <div slot="main" class="container">
-            <h1 class="header" t="site.header_moves">Moves</h1>
+        <div class="moves-block1">
+            <div class="moves-page-title moves-page-column-center" t="site.moves.pitch.title"></div>
+            <div class="moves-page-text moves-page-column-center" t="site.moves.pitch.p1"></div>
+            <div class="moves-page-text moves-page-column-center" t="site.moves.pitch.p2"></div>
+            <div class="moves-page-text moves-page-column-center" t="site.moves.pitch.p3"></div>
+            <div class="moves-page-text moves-page-column-center" t="site.moves.pitch.p4"></div>
+        </div>
+        <div slot="main" class="container moves-container">
             <div class="centered-block-site">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6">
-                        <div id="cards-viewer-container"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div id="cards-selection-container"></div>
+                <div id=color-buttons class="color-buttons centered-text">
+                    <button click.delegate="selectColor('red')" class="forest-button"
+                            name="forest-button" t="site.moves.forest"></button>
+                    <button click.delegate="selectColor('black')" class="mountain-button"
+                            name="mountain-button" t="site.moves.mountain"></button>
+                    <button click.delegate="selectColor('yellow')" class="desert-button"
+                            name="desert-button" t="site.moves.desert"></button>
+                    <button click.delegate="selectColor('blue')" class="water-button"
+                            name="water-button" t="site.moves.water"></button>
+                </div>
+                <div id="moves-viewer-container">
+                    <aot-cards-viewer selected-card.two-way="selectedCard"
+                                              selected-color.bind="selectedColor"></aot-cards-viewer>
+                </div>
+                <div class="moves-block2">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="centered-text">
+                                <aot-select-cards selected-card.two-way="selectedCard"
+                                                selected-color.bind="selectedColor"></aot-select-cards>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                                <div class="moves-page-text">
+                                    <div id="moves-selection-container">
+                                        <p id="moves-description">
+                                            ${'site.moves.' + selectedCard.name +'_' + selectedColor &
+                                            t}
+                                        </p>
+                                        <p>
+                                            ${'site.moves.' + selectedCard.name +'_' + selectedColor +
+                                            '_moves' & t}
+                                        </p>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
