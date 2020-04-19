@@ -22,8 +22,6 @@ const PLAYER_INFOS_KEY = "player";
 const KEEP_PLAYER_ID_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 export class Storage {
-    _expiresKey = "expires";
-
     saveGameData(gameId, gameData) {
         for (let key of Object.keys(localStorage)) {
             if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY) {

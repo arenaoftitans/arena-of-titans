@@ -17,11 +17,13 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import environment from "../../environment";
 import { Popover } from "./popover";
 import ReconnectingWebSocket from "reconnectingwebsocket";
+import { REQUEST_TYPES } from "../constants";
 
 @inject(environment, EventAggregator, Popover)
 export class Ws {
@@ -34,6 +36,7 @@ export class Ws {
 
     constructor(env, ea, popover, WebsocketSub) {
         this.popover = popover;
+        this.logger = LogManager.getLogger("aot:ws");
 
         let api = env.api;
         let isHttps = location.protocol === "https:";
@@ -77,11 +80,20 @@ export class Ws {
     send(data) {
         // If the websocket is not opened yet, we delay the transmission of data.
         if (this._ws.readyState === 1) {
+            this.logger.debug("Sending", data);
             this._ws.send(JSON.stringify(data));
         } else {
-            if (data.rt === "INIT_GAME") {
+            if (
+                data.rt === REQUEST_TYPES.createLobby ||
+                data.rt === REQUEST_TYPES.joinGame ||
+                data.rt === REQUEST_TYPES.reconnect
+            ) {
+                this.logger.debug("Deferring sending when WS is properly opened.");
                 this._waitingOpen.push(data);
             } else {
+                this.logger.debug(
+                    "Deferring sending when we are correctly reconnected to the game.",
+                );
                 this._waitingGameJoined.push(data);
             }
         }

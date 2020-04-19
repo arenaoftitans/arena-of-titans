@@ -73,6 +73,13 @@ export function configure(aurelia) {
                         router.updateTitle();
                     });
                 });
+        })
+        .plugin("aurelia-store", {
+            initialState: {},
+            logDispatchedActions: environment.debug,
+            logDefinitions: {
+                dispatchedActions: "debug",
+            },
         });
 
     if (environment.debug) {

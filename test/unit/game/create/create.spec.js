@@ -170,11 +170,11 @@ describe("game/create", () => {
     });
 
     it("should navigate to initialize the game if no id param", () => {
-        jest.spyOn(mockedApi, "initializeGame");
+        jest.spyOn(mockedApi, "createLobby(");
 
         sut.activate();
 
-        expect(mockedApi.initializeGame).toHaveBeenCalledWith(
+        expect(mockedApi.createLobby().toHaveBeenCalledWith(
             expect.any(String),
             expect.any(String),
         );

@@ -19,6 +19,7 @@
 
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Animations } from "./animations";
 import { ErrorsReporter } from "./errors-reporter";
@@ -28,12 +29,11 @@ import { Storage } from "../../services/storage";
 import { Wait } from "./utils";
 import { Ws } from "./ws";
 import { REQUEST_TYPES } from "../constants";
-import environment from "../../environment";
+import { keysToCamel } from "../actions/utils";
 
-@inject(Ws, State, Storage, Notify, EventAggregator, Animations, ErrorsReporter)
+@inject(Ws, Store, State, Storage, Notify, EventAggregator, Animations, ErrorsReporter)
 export class Api {
     _ea;
-    _reconnectDeferred = {};
     _gameOverDeferred = {};
     _storage;
     _ws;
@@ -41,8 +41,9 @@ export class Api {
     _gameId;
     _mustInitBoard;
 
-    constructor(ws, state, storage, notify, ea, animations, errorsReporter) {
-        this._state = state;
+    constructor(ws, store, _state, storage, notify, ea, animations, errorsReporter) {
+        this._store = store;
+        this._state = _state;
         this._storage = storage;
         this._ws = ws;
         this._ws.onmessage(message => {
@@ -55,62 +56,63 @@ export class Api {
         this._logger = LogManager.getLogger("AoTApi");
         this._mustInitBoard = true;
 
+        this.lobby = {};
+        this._store.state.subscribe(state => (this.lobby = state.lobby));
+
         this.init();
     }
 
     init() {
-        this._state.reset();
-        this._animations.enable();
-        this._errorsReporter.enable();
-
-        this._gameOverDeferred.promise = new Promise(resolve => {
-            this._gameOverDeferred.resolve = resolve;
-        });
-        this._createReconnectDeferred();
-
+        // this._state.reset();
+        // this._animations.enable();
+        // this._errorsReporter.enable();
+        //
+        // this._gameOverDeferred.promise = new Promise(resolve => {
+        //     this._gameOverDeferred.resolve = resolve;
+        // });
+        // this._createReconnectDeferred();
+        //
         if (this._reconnectSubscription) {
             this._reconnectSubscription.dispose();
         }
         this._reconnectSubscription = this._ea.subscribe("aot:ws:reconnected", () => {
-            this._handleWsReconnected();
+            this._store.dispatch("reconnect");
         });
-        if (this._playTrumpSubscription) {
-            this._playTrumpSubscription.dispose();
-        }
-        this._playTrumpSubscription = this._ea.subscribe("aot:trump:play", trump =>
-            this.playTrump(trump),
-        );
+        // if (this._playTrumpSubscription) {
+        //     this._playTrumpSubscription.dispose();
+        // }
+        // this._playTrumpSubscription = this._ea.subscribe("aot:trump:play", trump =>
+        //     this.playTrump(trump),
+        // );
     }
 
     _handleWsReconnected() {
-        if (!this._gameId) {
-            // Don't attempt to reconnect if no game was created.
-            // This happen on the create game page if the API is down.
-            return;
-        }
-
-        this._createReconnectDeferred();
-        // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
-        // if we call it with undefined it crashes.
-        this.joinGame({ gameId: this._gameId }).then(() => {
-            this._ws.sendDeferred();
-        });
-    }
-
-    _createReconnectDeferred() {
-        this._reconnectDeferred.promise = new Promise((resolve, reject) => {
-            this._reconnectDeferred.resolve = resolve;
-            this._reconnectDeferred.reject = reject;
-        });
+        // if (!this._gameId) {
+        //     // Don't attempt to reconnect if no game was created.
+        //     // This happen on the create game page if the API is down.
+        //     return;
+        // }
+        //
+        // this._createReconnectDeferred();
+        // // We must send the gameId in joinGame to avoid an error: joinGame expect an object,
+        // // if we call it with undefined it crashes.
+        // this.joinGame({ gameId: this._gameId }).then(() => {
+        //     this._ws.sendDeferred();
+        // });
     }
 
     _handleMessage(message) {
+        const request = keysToCamel(message.request);
+
         switch (message.rt) {
-            case REQUEST_TYPES.gameInitialized:
-                this._handleGameInitialized(message);
+            case REQUEST_TYPES.joinGame:
+                this._store.dispatch("gameJoined", request);
                 break;
             case REQUEST_TYPES.slotUpdated:
-                this._handleSlotUpdated(message);
+                this._store.dispatch("slotUpdated", request);
+                break;
+            case REQUEST_TYPES.gameInitialized:
+                this._handleGameInitialized(message);
                 break;
             case REQUEST_TYPES.createGame:
                 this._handleCreateGame(message);
@@ -154,17 +156,7 @@ export class Api {
             apiVersion: message.api_version,
         });
 
-        if (message.index === -1) {
-            this._reconnectDeferred.reject();
-            return;
-        }
-
-        this._reconnectDeferred.resolve(message);
         this._state.initializeGame(message);
-    }
-
-    _handleSlotUpdated(message) {
-        this._state.updateSlot(message);
     }
 
     _handleCreateGame(message) {
@@ -274,7 +266,6 @@ export class Api {
         this._state.reconnect(reconnectMessage);
 
         this._initBoard();
-        this._reconnectDeferred.resolve(reconnectMessage);
         this._handleGameOverMessage(reconnectMessage);
     }
 
@@ -334,33 +325,41 @@ export class Api {
         }
     }
 
-    initializeGame(name, hero) {
+    reconnect(gameId, playerId) {
         this._ws.send({
-            rt: REQUEST_TYPES.initGame,
-            player_name: name,
-            hero: hero,
+            rt: REQUEST_TYPES.reconnect,
+            request: {
+                game_id: gameId,
+                player_id: playerId,
+            },
         });
     }
 
-    updateMe(name, hero) {
-        this._state.updateMe(name, hero);
-
-        let slot = this._state.game.slots[this._state.me.index];
-        this.updateSlot(slot);
+    createLobby(name, hero) {
+        this._ws.send({
+            rt: REQUEST_TYPES.createLobby,
+            request: {
+                player_name: name,
+                hero: hero,
+            },
+        });
     }
 
     updateSlot(slot) {
         this._ws.send({
-            rt: REQUEST_TYPES.slotUpdated,
-            slot: slot,
+            rt: REQUEST_TYPES.updateSlot,
+            request: {
+                slot: {
+                    player_name: slot.playerName,
+                    index: slot.index,
+                    state: slot.state,
+                    hero: slot.hero,
+                },
+            },
         });
     }
 
-    joinGame({ gameId: gameId, name: name, playerId: playerId, hero: hero }) {
-        if (name === undefined && playerId === undefined) {
-            playerId = this._storage.retrievePlayerId(gameId);
-        }
-
+    joinGame({ gameId, playerName, hero }) {
         // When we reconnect after a failure of the API, joinGame is called in the API. So we
         // save the gameId to transmit it in that case. In all the other cases, joinGame is
         // called from a view which has the gameId as parameter.
@@ -369,29 +368,26 @@ export class Api {
         }
 
         this._ws.send({
-            rt: REQUEST_TYPES.initGame,
-            player_name: name,
-            game_id: this._gameId,
-            player_id: playerId,
-            hero: hero,
+            rt: REQUEST_TYPES.joinGame,
+            request: {
+                player_name: playerName,
+                game_id: gameId,
+                hero: hero,
+            },
         });
-
-        return this.onReconnectDeferred;
     }
 
     createGame() {
-        let players = this._state.game.slots.map(slot => {
-            return {
-                name: slot.player_name,
-                index: slot.index,
-                hero: slot.hero,
-            };
-        });
+        let players = this.lobby.slots.map(slot => ({
+            name: slot.playerName,
+            index: slot.index,
+        }));
 
         this._ws.send({
             rt: REQUEST_TYPES.createGame,
-            debug: environment.debug,
-            create_game_request: players,
+            request: {
+                players,
+            },
         });
     }
 
@@ -481,10 +477,6 @@ export class Api {
                 card_color: cardColor,
             },
         });
-    }
-
-    get onReconnectDeferred() {
-        return this._reconnectDeferred.promise;
     }
 
     get onGameOverDeferred() {

@@ -60,7 +60,7 @@ export class ApiStub {
         });
     }
 
-    initializeGame(data) {}
+    createLobby(data) {}
 
     init() {}
 

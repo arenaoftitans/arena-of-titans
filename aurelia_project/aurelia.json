@@ -48,6 +48,7 @@
                 "name": "game-common-bundle.js",
                 "source": [
                     "[**/game/constants.js]",
+                    "[**/game/actions/*.js]",
                     "[**/game/game.js]",
                     "[**/game/routes.js]",
                     "[**/game/services/*.js]",

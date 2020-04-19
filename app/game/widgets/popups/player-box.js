@@ -19,16 +19,13 @@
 
 import { inject } from "aurelia-framework";
 import { AssetSource } from "../../../services/assets";
-import { History } from "../../services/history";
 import { State } from "../../services/state";
 
-@inject(History, State)
+@inject(State)
 export class AotPlayerBoxInfosCustomElement {
-    _history;
     _state;
 
-    constructor(history, state) {
-        this._history = history;
+    constructor(state) {
         this._state = state;
     }
 

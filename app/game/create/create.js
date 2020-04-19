@@ -19,246 +19,157 @@
 
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
-import { EventAggregator } from "aurelia-event-aggregator";
+import { Store } from "aurelia-store";
 import { Router } from "aurelia-router";
-import { Api } from "../services/api";
-import {
-    BindingEngineSubscriptions,
-    EventAggregatorSubscriptions,
-    Wait,
-    randomInt,
-    selectRandomElement,
-} from "../services/utils";
+import { BindingEngineSubscriptions, Wait, randomInt } from "../services/utils";
 import { AssetSource } from "../../services/assets";
-import { State } from "../services/state";
 import { Storage } from "../../services/storage";
-import { History } from "../services/history";
 import environment from "../../environment";
-import DEFAULT_NAMES from "./default-names";
+import * as lobbyActions from "../actions/lobby";
 
-@inject(
-    Router,
-    Api,
-    State,
-    Storage,
-    BindingEngineSubscriptions,
-    History,
-    EventAggregator,
-    EventAggregatorSubscriptions,
-)
+@inject(Router, Store, Storage, BindingEngineSubscriptions)
 export class Create {
     _router;
-    _api;
-    _gameUrl = "";
-    _bes;
-    _history;
 
-    constructor(router, api, state, storage, bindingEngineSubscription, history, ea, eas) {
+    constructor(router, store, storage, bes) {
         this._router = router;
-        this._api = api;
-        this._state = state;
+        this._store = store;
         this._storage = storage;
-        this._bes = bindingEngineSubscription;
-        this._history = history;
-        this._ea = ea;
-        this._eas = eas;
+        this._bes = bes;
         this.assetSource = AssetSource;
         this._logger = LogManager.getLogger("aot:create");
 
-        this.initPlayerInfos();
+        this.currentPlayerName = "";
+        this.currentHero = "";
+        this.gameId = null;
+        this.mySlot = {};
+        this.lobby = {
+            joining: true,
+        };
+
+        Object.entries(lobbyActions).map(([name, action]) => {
+            this._store.registerAction(name, action);
+        });
+    }
+
+    updateMySlot() {
+        this.updateSlot({
+            ...this.mySlot,
+            playerName: this.currentPlayerName,
+            hero: this.currentHero,
+        });
+    }
+
+    _getNavParams() {
+        return { id: this.gameId, version: environment.version };
     }
 
     activate(params = {}) {
-        this._registerEvents(params);
-        this._gameUrl = window.location.href;
-        this.init(params);
-
-        if (!params.id) {
-            this.creating = true;
-            this._api.initializeGame(this.playerInfos.name, this.playerInfos.hero);
-        } else if (this.creating) {
-            // We just created the game, no need to send a joinGame request.
-            // However, we need to save the game id.
-            this.gameId = params.id;
-            this.creating = false;
-        } else {
-            this.gameId = params.id;
-            this._joinGame();
-        }
-    }
-
-    _getNavParams(gameId) {
-        return {
-            id: gameId,
-            version: environment.version,
-        };
-    }
-
-    init(params) {
-        // Services must only be initialized on first activation: when we create a new game or
-        // join a different game.
-        if (!params.id || (params.id && params.id !== this._state.game.id)) {
-            this._api.init();
-            this._history.init();
-        }
+        this.subscription = this._store.state.subscribe(state => this._updateLocalState(state));
 
         Wait.flushCache();
-        this._registerEvents(params);
-        this._registerObservers();
-    }
-
-    initPlayerInfos() {
-        this.playerInfos = this._storage.loadPlayerInfos();
-        if (!this.playerInfos.name) {
-            this.playerInfos.name = selectRandomElement(DEFAULT_NAMES);
-        }
-        if (!this.playerInfos.hero || !environment.heroes.includes(this.playerInfos.hero)) {
-            this.playerInfos.hero = selectRandomElement(environment.heroes);
-        }
-        this.selectedHero = this.playerInfos.hero;
-        this._playerInfosChanged();
-    }
-
-    _playerInfosChanged() {
-        this._storage.savePlayerInfos(this.playerInfos);
-
-        if (this.gameId && this.playerInfos.name && this.playerInfos.hero) {
-            this._api.updateMe(this.playerInfos.name, this.playerInfos.hero);
-        }
-    }
-
-    _disposeObservers() {
-        this._bes.dispose();
-    }
-
-    _registerObservers() {
-        let cb = () => {
-            this._playerInfosChanged();
-        };
-        this._bes.subscribe(this.playerInfos, "name", cb);
-        this._bes.subscribe(this.playerInfos, "hero", cb);
-        let selectedHeroChanged = () => {
-            this.playerInfos.hero = this.selectedHero;
-        };
-        this._bes.subscribe(this, "selectedHero", selectedHeroChanged);
-    }
-
-    _registerEvents(params) {
-        this._eas.dispose();
-        this._eas.subscribe("aot:api:game_initialized", data => {
-            if (!params.id) {
-                this._router.navigateToRoute("create", this._getNavParams(data.game_id));
+        this._bes.subscribe(this, "currentHero", (newValue, oldValue) => {
+            if (oldValue === "") {
+                // We are initializing the game, don't dispatch an update.
+                return;
             }
+            this.updateMySlot();
         });
-        this._eas.subscribe("aot:api:create_game", () => {
-            if (params.id) {
-                this._router.navigateToRoute("play", this._getNavParams(params.id));
+
+        if (!params.id) {
+            this._logger.debug("Creating lobby.");
+            this._store.dispatch(lobbyActions.createLobby, this._storage.loadPlayerInfos());
+        } else if (!this.gameId) {
+            const playerId = this._storage.retrievePlayerId(params.id);
+            if (playerId) {
+                this._logger.debug("Reconnecting to lobby.");
+                this._store.dispatch(lobbyActions.reconnect, params.id, playerId);
+            } else {
+                this._logger.debug("Joining lobby.");
+                this._store.dispatch(
+                    lobbyActions.joinGame,
+                    params.id,
+                    this._storage.loadPlayerInfos(),
+                );
             }
+        }
+    }
+
+    _updateLocalState(globalState) {
+        this.lobby = globalState.lobby;
+
+        if (!(globalState && globalState.game && globalState.game.id)) {
+            return;
+        }
+
+        this.mySlot = this.lobby.slots[globalState.me.index];
+
+        // Hydrate only at first, once done, they will be synced with the API anyway.
+        if (!this.currentPlayerName) {
+            this.currentPlayerName = this.mySlot.playerName;
+        }
+        if (!this.currentHero) {
+            this.currentHero = this.mySlot.hero;
+        }
+        this._storage.savePlayerInfos({
+            name: this.mySlot.playerName,
+            hero: this.mySlot.hero,
         });
-        this._eas.subscribe("aot:api:game_initialized", () => {
+        this._storage.saveGameData(globalState.game.id, {
+            playerId: globalState.me.id,
+            apiVersion: environment.api.version,
+        });
+
+        if (this.gameId === null) {
+            this.gameId = globalState.game.id;
+            this._router.navigateToRoute("create", this._getNavParams());
             this._autoAddAi();
-        });
-
-        // This callback is used to redirect the player to the game if he/she reconnects on the
-        // create page after a game was created.
-        let subscription = this._ea.subscribe("aot:api:play", () => {
-            if (/game\/.*\/create\/.+/.test(location.href)) {
-                this._router.navigateToRoute("play", this._getNavParams(params.id));
-            }
-            subscription.dispose();
-        });
+        }
     }
 
     _autoAddAi() {
         // auto set the 2nd slot to an AI so the player can start the game immediately.
-        let takenSlots = this.slots.filter(slot => slot.state === "TAKEN");
-        if (this.me.is_game_master && takenSlots.length === 1) {
-            let slot = this.slots[1];
+        let takenSlots = this.lobby.slots.filter(slot => slot.state === "TAKEN");
+        if (this.lobby.isGameMaster && takenSlots.length === 1) {
+            this._logger.info("Auto adding AI player");
+            const slot = { ...this.lobby.slots[1] };
             slot.state = "AI";
             this.updateSlot(slot);
         }
     }
 
-    _joinGame() {
-        this.playerId = this._storage.retrievePlayerId(this.gameId);
-        if (this.playerId) {
-            return this._api.joinGame({ gameId: this.gameId, playerId: this.playerId }).then(
-                () => {
-                    this.playerInfos.name = this.me.name;
-                    this.playerInfos.hero = this.me.hero;
-                },
-                error => {
-                    this._logger.warn("Failed to join the game", error);
-                    this._storage.clearGameData(this.gameId);
-                    return this._joinGame();
-                },
-            );
-        }
-
-        return this._api
-            .joinGame({
-                gameId: this.gameId,
-                name: this.playerInfos.name,
-                hero: this.playerInfos.hero,
-            })
-            .then(null, error => {
-                this._logger.warn("Failed to join the game", error);
-            });
-    }
-
-    updateSlot(slot) {
+    updateSlot = slot => {
         if (slot.state === "AI") {
-            slot.player_name = `AI ${slot.index}`;
+            slot.playerName = `AI ${slot.index}`;
             slot.hero = environment.heroes[randomInt(0, environment.heroes.length - 1)];
         }
-        this._api.updateSlot(slot);
-    }
+
+        this._store.dispatch(lobbyActions.updateSlot, slot);
+    };
 
     createGame() {
-        this._api.createGame();
+        this._store.dispatch(lobbyActions.createGame);
     }
 
     deactivate() {
-        this._eas.dispose();
-        this._disposeObservers();
-    }
-
-    get me() {
-        return this._state.me;
-    }
-
-    get isGameMaster() {
-        return this.me.is_game_master;
-    }
-
-    get slots() {
-        // If we pass directly the slots array, Aurelia won't update the view when a slot is
-        // updated.
-        if (this._state.game.slots) {
-            return this._state.game.slots.map(slot => {
-                return slot;
-            });
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
-
-        return [];
+        this._bes.dispose();
     }
 
     get gameUrl() {
-        return this._gameUrl;
+        return window.location.href;
     }
 
     get canCreateGame() {
-        if (this.slots) {
-            let numberTakenSlots = 0;
-            this.slots.forEach(slot => {
-                if (slot.state === "TAKEN" || slot.state === "AI") {
-                    numberTakenSlots++;
-                }
-            });
-
-            return numberTakenSlots >= 2;
+        if (!this.lobby.slots) {
+            return false;
         }
 
-        return false;
+        return (
+            this.lobby.slots.filter(slot => slot.state === "TAKEN" || slot.state === "AI").length >=
+            2
+        );
     }
 }

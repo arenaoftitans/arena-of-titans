@@ -17,28 +17,25 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { bindable, inject } from "aurelia-framework";
-import environment from "../../../../environment";
-import { Api } from "../../../services/api";
-import { randomInt } from "../../../services/utils";
+import { bindable } from "aurelia-framework";
 
 const CHOOSABLE_SLOTS_STATES = ["OPEN", "AI", "CLOSED"];
 
-@inject(Api)
 export class AotSlotCustomElement {
     @bindable player;
     @bindable canAdmin;
+    @bindable onSlotUpdate = () => {};
 
-    constructor(api) {
-        this._api = api;
+    constructor() {
         this.choosableSlotsStates = CHOOSABLE_SLOTS_STATES;
     }
 
-    updateSlot() {
-        if (this.player.state === "AI") {
-            this.player.player_name = `AI ${this.player.index}`;
-            this.player.hero = environment.heroes[randomInt(0, environment.heroes.length - 1)];
-        }
-        this._api.updateSlot(this.player);
+    updateSlot(event) {
+        const updatedSlot = {
+            ...this.player,
+            state: event.target.value,
+        };
+
+        this.onSlotUpdate(updatedSlot);
     }
 }

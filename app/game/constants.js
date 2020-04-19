@@ -18,10 +18,14 @@
  */
 
 export const REQUEST_TYPES = {
-    initGame: "INIT_GAME",
+    reconnect: "RECONNECT",
+    createLobby: "CREATE_LOBBY",
+    joinGame: "JOIN_GAME",
+    updateSlot: "UPDATE_SLOT",
+    slotUpdated: "SLOT_UPDATED",
+
     gameInitialized: "GAME_INITIALIZED",
     addSlot: "ADD_SLOT",
-    slotUpdated: "SLOT_UPDATED",
     createGame: "CREATE_GAME",
     view: "VIEW_POSSIBLE_SQUARES",
     play: "PLAY",

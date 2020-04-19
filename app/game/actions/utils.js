@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,20 +15,36 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { AssetSource } from "../services/assets";
-import routes from "./routes";
+const toCamel = s => {
+    return s.replace(/([-_][a-z])/gi, $1 => {
+        return $1
+            .toUpperCase()
+            .replace("-", "")
+            .replace("_", "");
+    });
+};
 
-export class Layout {
-    constructor() {
-        AssetSource.preloadAssets("game");
-        AssetSource.preloadBundles("game");
+const isObject = function(o) {
+    return o === Object(o) && !Array.isArray(o) && typeof o !== "function";
+};
+
+export const keysToCamel = function(o) {
+    if (isObject(o)) {
+        const n = {};
+
+        Object.keys(o).forEach(k => {
+            n[toCamel(k)] = keysToCamel(o[k]);
+        });
+
+        return n;
+    } else if (Array.isArray(o)) {
+        return o.map(i => {
+            return keysToCamel(i);
+        });
     }
 
-    configureRouter(config, router) {
-        router.baseUrl = "/game";
-        config.options.pushState = true;
-        config.map(routes);
-    }
-}
+    return o;
+};

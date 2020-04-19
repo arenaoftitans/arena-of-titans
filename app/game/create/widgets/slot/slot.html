@@ -22,8 +22,8 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
         <span if.bind="canAdmin && player.state !== 'TAKEN'">
             <select
                 class="slot-state-chooser"
-                value.bind="player.state"
-                change.delegate="updateSlot()"
+                value.one-way="player.state"
+                change.delegate="updateSlot($event)"
             >
                 <option
                     repeat.for="state of choosableSlotsStates"
@@ -39,10 +39,10 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
             <span t="game.create.OPEN" if.bind="player.state === 'OPEN'"></span>
             <span t="game.create.AI" if.bind="player.state === 'AI'"></span>
             <span t="game.create.CLOSED" if.bind="player.state === 'CLOSED'"></span>
-            &nbsp; ${player.player_name}
+            &nbsp; ${player.playerName}
         </span>
         <span if.bind="canAdmin && player.state === 'AI'">
-            ${player.player_name}
+            ${player.playerName}
         </span>
     </p>
 </template>

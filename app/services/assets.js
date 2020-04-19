@@ -63,19 +63,19 @@ export class AssetSource {
     }
 
     static forChestHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}-chest.png`);
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}-chest.png`);
     }
 
     static forCircledHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}-circle.png`);
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}-circle.png`);
     }
 
     static forHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}.png`);
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}.png`);
     }
 
     static forHeroPower(hero) {
-        return this._mapToRealPath(`game/cards/powers/${hero}.png`);
+        return this._mapToRealPath(`game/cards/powers/${hero.toLowerCase()}.png`);
     }
 
     static forMiscImage(kind) {

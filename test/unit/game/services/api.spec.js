@@ -74,11 +74,11 @@ describe("services/api", () => {
         let gameData = {
             player_name: "Tester",
             hero: "daemon",
-            rt: REQUEST_TYPES.initGame,
+            rt: REQUEST_TYPES.createLobby,
         };
         jest.spyOn(mockedWs, "send");
 
-        sut.initializeGame("Tester", "daemon");
+        sut.createLobby("Tester", "daemon");
 
         expect(mockedWs.send).toHaveBeenCalledWith(gameData);
     });
@@ -100,7 +100,7 @@ describe("services/api", () => {
         };
         jest.spyOn(sut, "_handleGameInitialized");
         jest.spyOn(mockedStorage, "saveGameData");
-        jest.spyOn(mockedState, "initializeGame");
+        jest.spyOn(mockedState, "createLobby(");
 
         sut._handleMessage(gameInitializedMessage);
         expect(sut._handleGameInitialized).toHaveBeenCalledWith(gameInitializedMessage);
@@ -108,7 +108,7 @@ describe("services/api", () => {
             apiVersion: undefined,
             playerId: gameInitializedMessage.player_id,
         });
-        expect(mockedState.initializeGame).toHaveBeenCalledWith(gameInitializedMessage);
+        expect(mockedState.createLobby().toHaveBeenCalledWith(gameInitializedMessage);
     });
 
     it("should handle slot updated", () => {
@@ -175,7 +175,7 @@ describe("services/api", () => {
         sut.joinGame({ gameId: "the_game_id", name: "Player 2", hero: "daemon" });
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: REQUEST_TYPES.initGame,
+            rt: REQUEST_TYPES.createLobby,
             player_name: "Player 2",
             game_id: "the_game_id",
             player_id: undefined,
@@ -189,7 +189,7 @@ describe("services/api", () => {
         sut.joinGame({ gameId: "the_game_id", playerId: "player_id", hero: "daemon" });
 
         expect(mockedWs.send).toHaveBeenCalledWith({
-            rt: REQUEST_TYPES.initGame,
+            rt: REQUEST_TYPES.createLobby,
             player_name: undefined,
             game_id: "the_game_id",
             player_id: "player_id",
@@ -206,7 +206,7 @@ describe("services/api", () => {
 
             expect(mockedStorage.retrievePlayerId).toHaveBeenCalledWith("game_id");
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: REQUEST_TYPES.initGame,
+                rt: REQUEST_TYPES.createLobby,
                 player_name: undefined,
                 game_id: "game_id",
                 player_id: "player_id",
