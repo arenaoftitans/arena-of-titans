@@ -18,6 +18,9 @@
  *
  */
 
+import { Container } from "aurelia-framework";
+import { Api } from "../services/api";
+
 const toCamel = s => {
     return s.replace(/([-_][a-z])/gi, $1 => {
         return $1
@@ -48,3 +51,7 @@ export const keysToCamel = function(o) {
 
     return o;
 };
+
+export function getApi() {
+    return Container.instance.get(Api);
+}

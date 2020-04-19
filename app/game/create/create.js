@@ -83,7 +83,7 @@ export class Create {
             const playerId = this._storage.retrievePlayerId(params.id);
             if (playerId) {
                 this._logger.debug("Reconnecting to lobby.");
-                this._store.dispatch(lobbyActions.reconnect, params.id, playerId);
+                this._store.dispatch("reconnect", params.id, playerId);
             } else {
                 this._logger.debug("Joining lobby.");
                 this._store.dispatch(

@@ -18,12 +18,10 @@
  *
  */
 
-import { Container } from "aurelia-framework";
-
 import DEFAULT_NAMES from "../create/default-names";
 import environment from "../../environment";
 import { selectRandomElement } from "../services/utils";
-import { Api } from "../services/api";
+import { getApi } from "./utils";
 
 export function createLobby(state, playerInfo) {
     const newState = { ...state };
@@ -103,17 +101,4 @@ export function createGame(state) {
     getApi().createGame();
 
     return state;
-}
-
-export function reconnect(state, gameId, playerId) {
-    const gameIdToUse = gameId || state.game.id;
-    const playerIdToUse = playerId || state.me.id;
-
-    getApi().reconnect(gameIdToUse, playerIdToUse);
-
-    return state;
-}
-
-function getApi() {
-    return Container.instance.get(Api);
 }

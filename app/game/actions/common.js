@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,28 +15,16 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { inject } from "aurelia-framework";
-import { Store } from "aurelia-store";
-import { AssetSource } from "../services/assets";
-import routes from "./routes";
-import * as commonActions from "./actions/common";
+import { getApi } from "./utils";
 
-@inject(Store)
-export class Layout {
-    constructor(store) {
-        Object.entries(commonActions).map(([name, action]) => {
-            store.registerAction(name, action);
-        });
+export function reconnect(state, gameId, playerId) {
+    const gameIdToUse = gameId || state.game.id;
+    const playerIdToUse = playerId || state.me.id;
 
-        AssetSource.preloadAssets("game");
-        AssetSource.preloadBundles("game");
-    }
+    getApi().reconnect(gameIdToUse, playerIdToUse);
 
-    configureRouter(config, router) {
-        router.baseUrl = "/game";
-        config.options.pushState = true;
-        config.map(routes);
-    }
+    return state;
 }
