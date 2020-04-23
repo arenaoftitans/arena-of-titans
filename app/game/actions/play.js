@@ -29,6 +29,10 @@ export function gameUpdated(state, request) {
         ...newState.game,
         ...request,
     };
+    if (Object.entries(newState.currentTurn).length === 0) {
+        newState.currentTurn = getEmptyCurrentTurn();
+    }
+
     return newState;
 }
 
@@ -158,8 +162,8 @@ export function viewSpecialActionActions(state, targetIndex) {
 
 export function playSpecialAction(state, playRequest) {
     const newState = { ...state };
-    newState.yourTurn = {
-        ...newState.yourTurn,
+    newState.currentTurn = {
+        ...newState.currentTurn,
         possibleSquares: [],
     };
 
