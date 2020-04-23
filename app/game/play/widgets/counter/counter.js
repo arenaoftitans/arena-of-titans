@@ -85,7 +85,7 @@ export class AotCounterCustomElement {
         this._subscription = this._store.state.subscribe(state => {
             this.game = state.game;
             this._elapsedTime = state.me.elapsedTime;
-            if (this.yourTurn && !state.me.yourTurn) {
+            if ((this.yourTurn && !state.me.yourTurn) || (!this.yourTurn && state.me.yourTurn)) {
                 this.init();
             }
             this.yourTurn = state.me.yourTurn;
