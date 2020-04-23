@@ -137,6 +137,10 @@ export function discardCard(state) {
 export function playTrump(state, trump, targetIndex) {
     getApi().playTrump(trump, targetIndex);
 
+    if (state.currentTurn.selectedCard) {
+        dispatchify(viewPossibleMovements)(state, state.currentTurn.selectedCard);
+    }
+
     return state;
 }
 
