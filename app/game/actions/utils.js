@@ -20,6 +20,8 @@
 
 import { Container } from "aurelia-framework";
 import { Api } from "../services/api";
+import { BOARD_MOVE_MODE } from "../constants";
+import { Popup } from "../services/popup";
 
 const toCamel = s => {
     return s.replace(/([-_][a-z])/gi, $1 => {
@@ -56,9 +58,15 @@ export function getApi() {
     return Container.instance.get(Api);
 }
 
+export function displayPopup(popupType, options) {
+    return Container.instance.get(Popup).display(popupType, options);
+}
+
 export function getEmptyCurrentTurn() {
     return {
         selectedCard: null,
+        selectedTrump: null,
+        boardMode: BOARD_MOVE_MODE,
         possibleSquares: [],
     };
 }

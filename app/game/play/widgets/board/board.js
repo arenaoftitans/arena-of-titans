@@ -69,11 +69,14 @@ export class AotBoardCustomElement {
     }
 
     bind() {
-        this._eas.subscribe("aot:state:set_board_mode", newMode => this.setMode(newMode));
-
         this._subscription = this._store.state.subscribe(state => {
             this.selectedCard = state.currentTurn.selectedCard;
-            this.boardMode = state.currentTurn.boardMode || BOARD_MOVE_MODE;
+
+            const newBoardMode = state.currentTurn.boardMode || BOARD_MOVE_MODE;
+            if (this.boardMode !== newBoardMode) {
+                this.boardMode = newBoardMode;
+                this.enableBoardMode();
+            }
             this.players = state.game.players || {};
             this.possibleSquares = state.currentTurn.possibleSquares.map(square => {
                 return `square-${square.x}-${square.y}`;
@@ -136,12 +139,8 @@ export class AotBoardCustomElement {
             const squareId = `square-${square.x}-${square.y}`;
             this.squaresToColors = {
                 ...this.squaresToColors,
-                [squareId]: this.squaresColorsToTypes[square.color],
+                [squareId]: this.squaresColorsToTypes[square.color.toLowerCase()],
             };
-        }
-
-        if (squares.length > 0) {
-            this._eas.publish("aot:board:squares_updated");
         }
     }
 
@@ -184,10 +183,10 @@ export class AotBoardCustomElement {
         }
     }
 
-    setMode(newMode) {
-        this._logger.debug(`Switched board to ${newMode}`);
+    enableBoardMode() {
+        this._logger.debug(`Switched board to ${this.boardMode}`);
         const squares = this.squaresLayer.querySelectorAll(".square");
-        switch (newMode) {
+        switch (this.boardMode) {
             case BOARD_SELECT_SQUARE_MODE:
                 for (let i = 0; i < squares.length; i++) {
                     squares[i].classList.add("selectable");

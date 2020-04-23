@@ -18,8 +18,10 @@
  *
  */
 
+import { dispatchify } from "aurelia-store";
 import { AssetSource, ImageClass } from "../../services/assets";
-import { getApi, getEmptyCurrentTurn } from "./utils";
+import { displayPopup, getApi, getEmptyCurrentTurn } from "./utils";
+import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE, COLOR_CHOICES } from "../constants";
 
 export function gameUpdated(state, request) {
     const newState = { ...state };
@@ -158,6 +160,51 @@ export function playSpecialAction(state, playRequest) {
     };
 
     getApi().playSpecialAction({ ...playRequest, name: state.me.specialAction });
+
+    return newState;
+}
+
+export function selectSquareForTrump(state, selectedTrump) {
+    const newState = { ...state };
+
+    newState.currentTurn = {
+        ...newState.currentTurn,
+        selectedTrump,
+        boardMode: BOARD_SELECT_SQUARE_MODE,
+    };
+
+    return newState;
+}
+
+export function selectSquare(state, square) {
+    const newState = { ...state };
+    const trump = newState.currentTurn.selectedTrump;
+
+    newState.currentTurn = {
+        ...newState.currentTurn,
+        boardMode: BOARD_MOVE_MODE,
+        selectedTrump: null,
+    };
+
+    displayPopup("confirm", {
+        choices: COLOR_CHOICES,
+        translate: {
+            messages: {
+                title: "game.play.board_select_square_color",
+            },
+        },
+    }).then(chosenColor => {
+        const squareWithColor = {
+            ...square,
+            color: chosenColor.name,
+        };
+        const trumpWithSquare = {
+            ...trump,
+            square: squareWithColor,
+        };
+
+        dispatchify(playTrump)(trumpWithSquare, state.me.index);
+    });
 
     return newState;
 }

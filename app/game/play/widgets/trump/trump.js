@@ -191,6 +191,8 @@ export class AotTrumpCustomElement {
             return;
         } else if (this.trump.mustTargetPlayer) {
             this._playTrumpThatTargetsPlayer();
+        } else if (this.trump.requireSquareTarget) {
+            this._playTrumpThatTargetsSquare();
         } else {
             this._playTrumpOnSelf();
         }
@@ -231,6 +233,18 @@ export class AotTrumpCustomElement {
             },
             () => this._logger.debug("Player canceled trump"),
         );
+    }
+
+    _playTrumpThatTargetsSquare() {
+        this._popup.display("infos", {
+            translate: {
+                messages: {
+                    title: "game.play.board_select_square",
+                },
+            },
+        });
+
+        this._store.dispatch("selectSquareForTrump", this.trump);
     }
 
     _playTrumpOnSelf() {

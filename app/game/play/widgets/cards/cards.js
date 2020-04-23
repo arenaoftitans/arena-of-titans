@@ -66,12 +66,6 @@ export class AotCardsCustomElement {
         this._ol
             .getObserver(this, "highlightPassButton")
             .subscribe(this._highlightPassButtonObserverCb);
-
-        this._eas.subscribe("aot:board:squares_updated", () => {
-            if (this.selectedCard) {
-                this.viewPossibleMovements(this.selectedCard);
-            }
-        });
     }
 
     bind() {
