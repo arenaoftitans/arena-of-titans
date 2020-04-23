@@ -113,6 +113,7 @@ export class AotCounterCustomElement {
         this.specialActionInProgress = false;
         this.specialActionName = null;
         this.resume();
+        clearInterval(this.timerIntervalForSpecialAction);
     }
 
     init() {
