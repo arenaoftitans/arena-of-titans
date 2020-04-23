@@ -59,6 +59,7 @@ export class AotBoardCustomElement {
         // Will be populated by ref.
         this.squaresLayer = null;
         this.pawnClickable = false;
+        this.myIndex = -1;
         // Sync animations
         if (sync) {
             sync("square-blink");
@@ -77,6 +78,7 @@ export class AotBoardCustomElement {
             this.possibleSquares = state.currentTurn.possibleSquares.map(square => {
                 return `square-${square.x}-${square.y}`;
             });
+            this.myIndex = state.me.index;
             this._updateSquares(state.game.board.updatedSquares);
             this._showHidePlayers();
             this._movePlayers();
@@ -209,12 +211,13 @@ export class AotBoardCustomElement {
     }
 
     _showHidePlayers() {
-        const allPlayersToHide = Object.entries(this.players)
-            .filter(player => !player.isVisible)
+        const allPlayersToHide = Object.values(this.players)
+            .filter(player => !player.isVisible && player.index !== this.myIndex)
             .map(player => player.index);
-        const newPlayersToShow = Object.entries(this.players)
+        const newPlayersToShow = Object.values(this.players)
             .filter(player => player.isVisible)
-            .filter(player => this._hiddenPlayerIndexes.includes(player.index));
+            .filter(player => this._hiddenPlayerIndexes.includes(player.index))
+            .map(player => player.index);
 
         this._showPlayer(newPlayersToShow);
         this._hidePlayer(allPlayersToHide);
