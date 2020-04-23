@@ -120,7 +120,7 @@ export class AotNotificationsCustomElement {
         if (lastAction.specialAction) {
             let action = lastAction.specialAction;
             this._lastAction.specialAction = action;
-            let actionName = action.name.toLowerCase();
+            let actionName = action.trumpArgs.name.toLowerCase();
             this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
             this._lastAction.specialAction.description = this._i18n.tr(
                 `trumps.${actionName}_description`,
