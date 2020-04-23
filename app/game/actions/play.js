@@ -48,7 +48,10 @@ export function playerUpdated(state, request) {
 function buildTrumpsList(trumps) {
     return trumps.map(trump => ({
         ...trump,
-        img: AssetSource.forTrump(trump),
+        img:
+            trump.effectType === "power"
+                ? AssetSource.forPower(trump)
+                : AssetSource.forTrump(trump),
     }));
 }
 
