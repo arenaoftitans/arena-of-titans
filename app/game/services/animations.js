@@ -18,23 +18,25 @@
  */
 
 import { inject } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import { AssetSource } from "../../services/assets";
-import { Options } from "../../services/options";
-import { REQUEST_TYPES } from "../constants";
 import { EventAggregatorSubscriptions } from "./utils";
-import { Popup } from "../services/popup";
-import { State } from "./state";
+import { Popup } from "./popup";
+import { Notify } from "./notify";
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
-@inject(Options, Popup, EventAggregatorSubscriptions, State)
+@inject(Popup, EventAggregatorSubscriptions, Store, Notify)
 export class Animations {
-    constructor(options, popup, eas, state) {
-        this._options = options;
+    constructor(popup, eas, store, notify) {
         this._popup = popup;
         this._eas = eas;
-        this._state = state;
+        this._store = store;
+        this._notify = notify;
+        this.game = {};
+        this.myIndex = -1;
 
+        this._playedAnimationForAction = 0;
         this._currentPlayerIndex = null;
     }
 
@@ -43,9 +45,28 @@ export class Animations {
         // If we don't, we may register them twice.
         this.disable();
 
-        this._enableTrumpAnimation();
         this._enableSpecialActionAnimation();
-        this._enableTransitionAnimation();
+        this._subscription = this._store.state.subscribe(state => {
+            this.game = state.game;
+            this.myIndex = state.me.index;
+            if (
+                this.game.players &&
+                !this.game.isOver &&
+                (this.game.currentPlayerIndex !== this._currentPlayerIndex ||
+                    this._currentNbTurns !== this.game.nbTurns)
+            ) {
+                this._currentPlayerIndex = this.game.currentPlayerIndex;
+                this._currentNbTurns = this.game.nbTurns;
+                this._playTransitionAnimation();
+            } else if (
+                this.game.actions &&
+                this.game.actions[this.game.actions.length - 1].trump &&
+                this.game.actions.length > this._playedAnimationForAction
+            ) {
+                this._playedAnimationForAction = this.game.actions.length;
+                this._playTrumpAnimation(this.game.actions[this.game.actions.length - 1]);
+            }
+        });
     }
 
     _enableSpecialActionAnimation() {
@@ -56,21 +77,17 @@ export class Animations {
                 },
             };
 
-            let initiatorHero = this._state.game.players.heroes[message.player_index];
+            let initiatorHero = this.game.players[message.player_index].hero;
             popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
-            popupData.translate.messages.playerName = this._state.game.players.names[
-                message.player_index
-            ];
+            popupData.translate.messages.playerName = this.game.players[message.player_index].name;
             popupData.assassinImg = AssetSource.forAnimation({
                 name: "assassination",
                 color: message.new_square.color,
             });
 
-            let targetHero = this._state.game.players.heroes[message.target_index];
+            let targetHero = this.game.players[message.target_index].hero;
             popupData.targetedHeroImg = AssetSource.forHero(targetHero);
-            popupData.translate.messages.targetName = this._state.game.players.names[
-                message.target_index
-            ];
+            popupData.translate.messages.targetName = this.game.players[message.target_index].name;
 
             let options = {
                 timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
@@ -85,94 +102,70 @@ export class Animations {
         });
     }
 
-    _enableTransitionAnimation() {
-        this._eas.subscribeMultiple(["aot:api:create_game", "aot:api:play"], message => {
-            if (!this._canDisplayTransitionPopup(message)) {
-                // We update the current player index nonetheless. This way, after viewing or
-                // skipping the tutorial and playing a card, the player won't see the transition
-                // popup display "it's your turn".
-                this._currentPlayerIndex = this._state.game.next_player;
-                this._currentNbTurns = this._state.game.nb_turns;
-                return;
-            }
+    _playTransitionAnimation() {
+        let popupData = {
+            translate: {
+                messages: {},
+            },
+        };
+        if (this._currentPlayerIndex !== this.myIndex) {
+            popupData.translate.messages.message = "game.play.whose_turn_message";
+            popupData.htmlMessage = true;
+        } else {
+            popupData.translate.messages.message = "game.play.your_turn";
+            this._notify.notifyYourTurn();
+        }
+        let hero = this.game.players[this.game.currentPlayerIndex].hero;
+        popupData.img = AssetSource.forChestHero(hero);
+        popupData.translate.params = {
+            playerName: this.game.players[this._currentPlayerIndex].name,
+        };
 
-            if (
-                this._state.game.next_player !== this._currentPlayerIndex ||
-                this._currentNbTurns !== this._state.game.nb_turns
-            ) {
-                this._currentPlayerIndex = this._state.game.next_player;
-                this._currentNbTurns = this._state.game.nb_turns;
-                let popupData = {
-                    translate: {
-                        messages: {},
-                    },
-                };
-                if (this._currentPlayerIndex !== this._state.me.index) {
-                    popupData.translate.messages.message = "game.play.whose_turn_message";
-                    popupData.htmlMessage = true;
-                } else {
-                    popupData.translate.messages.message = "game.play.your_turn";
-                }
-                let hero = this._state.game.players.heroes[this._state.game.next_player];
-                popupData.img = AssetSource.forChestHero(hero);
-                popupData.translate.params = {
-                    playerName: this._state.game.players.names[this._currentPlayerIndex],
-                };
-
-                let options = {
-                    timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
-                };
-                this._popup.display("transition", popupData, options);
-            }
-        });
+        let options = {
+            timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+        };
+        this._popup.display("transition", popupData, options);
     }
 
-    _enableTrumpAnimation() {
-        const trumpMessageIds = ["aot:api:play_trump", "aot:api:trump_has_no_effect"];
-        this._eas.subscribeMultiple(trumpMessageIds, message => {
-            let popupData = {
-                translate: {
-                    messages: {},
-                },
-            };
+    _playTrumpAnimation(action) {
+        let popupData = {
+            translate: {
+                messages: {},
+            },
+        };
 
-            let initiatorHero = this._state.game.players.heroes[message.player_index];
-            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
-            popupData.translate.messages.playerName = this._state.game.players.names[
-                this._currentPlayerIndex
-            ];
-            let trump1 = message.last_action.trump;
-            popupData.trumpImg = AssetSource.forTrump(trump1);
-            popupData.translate.messages.trumpName = message.last_action.trump.title;
+        let initiatorHero = this.game.players[action.initiator.index].hero;
+        popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
+        popupData.translate.messages.playerName = this.game.players[this._currentPlayerIndex].name;
+        let trump1 = action.trump;
+        popupData.trumpImg = AssetSource.forTrump(trump1);
+        popupData.translate.messages.trumpName = action.trump.name;
 
-            // Power-ups are when a trump is played on the initiator (ie player == target)
-            if (message.rt === REQUEST_TYPES.trumpHasNoEffect) {
-                popupData.kind = "failed";
-            } else if (message.player_index === message.target_index) {
-                popupData.kind = "powerup";
-            } else {
-                popupData.kind = "smash";
+        // Power-ups are when a trump is played on the initiator (ie player == target)
+        if (action.description === "played_trump_no_effect") {
+            popupData.kind = "failed";
+        } else if (action.initiator.index === action.target.index) {
+            popupData.kind = "powerup";
+        } else {
+            popupData.kind = "smash";
 
-                let targetHero = this._state.game.players.heroes[message.target_index];
-                popupData.targetedHeroImg = AssetSource.forHero(targetHero);
-                popupData.translate.messages.targetName = this._state.game.players.names[
-                    message.last_action.target_index
-                ];
-            }
+            let targetHero = this.game.players[action.target.index].hero;
+            popupData.targetedHeroImg = AssetSource.forHero(targetHero);
+            popupData.translate.messages.targetName = this.game.players[action.target.index].name;
+        }
 
-            let options = {
-                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
-            };
+        let options = {
+            timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+        };
 
-            this._popup.display("trump-animation", popupData, options);
-        });
-    }
-
-    _canDisplayTransitionPopup(message) {
-        return !this._state.game.game_over;
+        this._popup.display("trump-animation", popupData, options);
     }
 
     disable() {
         this._eas.dispose();
+
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
     }
 }

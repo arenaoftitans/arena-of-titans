@@ -19,60 +19,58 @@
 
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
-import { Api } from "../services/api";
-import { EventAggregatorSubscriptions } from "../services/utils";
+import { Store } from "aurelia-store";
+import { Storage } from "../../services/storage";
 import { Popup } from "../services/popup";
-import { State } from "../services/state";
+import { Notify } from "../services/notify";
 
-@inject(Api, Popup, EventAggregatorSubscriptions, State)
+@inject(Store, Storage, Popup, Notify)
 export class Play {
-    // Used to keep the selected card in the cards interface in sync with the card used in
-    // board.js to play a move.
-    selectedCard = null;
-    pawnClickable = false;
-    onPawnClicked = null;
-    onPawnSquareClicked = null;
-    pawnsForcedNotClickable = [];
-    _game;
-    _api;
-    _state;
-
-    constructor(api, popup, eas, state) {
-        this._api = api;
-        this._state = state;
-        this._popup = popup;
-        this._eas = eas;
+    constructor(store, storage, popup, notify) {
+        this._store = store;
+        this._storage = storage;
         this._logger = LogManager.getLogger("AoTPlay");
+        this._popup = popup;
+        this._notify = notify;
 
-        this._eventAggregatorSubscriptions = [];
+        this._activateDefered = {};
+
+        this._mayReconnect = true;
+        this.currentPlayerName = "";
+        this.me = {};
+        this.players = {};
     }
 
     activate(params = {}) {
-        if (!this.me.name) {
-            this._api.joinGame({ gameId: params.id });
-        }
+        this._activateDefered.pending = true;
+        this._activateDefered.promise = new Promise(resolve => {
+            this._activateDefered.resolve = resolve;
+        });
+        const playerId = this._storage.retrievePlayerId(params.id);
 
-        this._eas.subscribe("aot:api:special_action_notify", message => {
-            this._handleSpecialActionNotify(message);
-        });
-        this._eas.subscribe("aot:api:special_action_view_possible_actions", message => {
-            this._handleSpecialActionViewPossibleActions(message);
-        });
-        this._eas.subscribe("aot:api:play", () => {
-            this._resetPawns();
-        });
+        this._subscription = this._store.state.subscribe(state => {
+            this.me = state.me || {};
+            this.players = state.game.players ? state.game.players : {};
+            if (this.players[state.game.currentPlayerIndex]) {
+                this.currentPlayerName = this.players[state.game.currentPlayerIndex].name;
+            }
+            if (state.game.isOver) {
+                this._popup
+                    .display("game-over", { message: state.game.winners })
+                    .then(location => this._navigateWithRefresh(location));
+                this._notify.notifyGameOver();
+            }
 
-        this._api.onReconnectDeferred.then(message => {
-            if (message.special_action_name) {
-                this._handleSpecialActionNotify(message);
+            if (this._activateDefered.pending && Object.keys(this.players).length > 0) {
+                this._activateDefered.resolve();
+            } else if (playerId && this._mayReconnect) {
+                this._logger.debug("Reconnecting to game.");
+                this._store.dispatch("reconnect", params.id, playerId);
+                this._mayReconnect = false;
             }
         });
 
-        this._api.onGameOverDeferred
-            .then(winners => {
-                return this._popup.display("game-over", { message: winners });
-            })
-            .then(location => this._navigateWithRefresh(location));
+        return this._activateDefered.promise;
     }
 
     _navigateWithRefresh(location) {
@@ -81,78 +79,14 @@ export class Play {
         }
     }
 
-    _handleSpecialActionNotify(message) {
-        let name = message.special_action_name;
-        if (name === null) {
-            return;
-        }
-        switch (name.toLowerCase()) {
-            case "assassination":
-                this.pawnClickable = true;
-                this.onPawnClicked = index => {
-                    this._api.viewPossibleActions({ name: name, targetIndex: index });
-                };
-                this.pawnsForcedNotClickable.push(this.me.index);
-                break;
-            default:
-                message.info = "Unknow special action";
-                this._logger.error(message);
-                break;
-        }
-    }
-
-    _handleSpecialActionViewPossibleActions(message) {
-        let name = message.special_action_name;
-        switch (name.toLowerCase()) {
-            case "assassination":
-                this.onPawnSquareClicked = (squareId, x, y, targetIndex) => {
-                    this._api.playSpecialAction({
-                        x: x,
-                        y: y,
-                        name: name,
-                        targetIndex: targetIndex,
-                    });
-                    this._resetPawns();
-                };
-                break;
-            default:
-                message.info = "Unknow special action";
-                this._logger.error(message);
-                break;
-        }
-    }
-
-    _resetPawns() {
-        this.pawnClickable = false;
-        this.onPawnClicked = null;
-        this.pawnsForcedNotClickable = [];
-        this.onPawnSquareClicked = null;
-    }
-
     deactivate() {
-        this._eas.dispose();
+        this._mayReconnect = true;
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
     }
 
-    backHome() {
-        this._popup.display("back-home", {}).then(
-            location => this._navigateWithRefresh(location),
-            () => this._logger.debug("cancel back home popup"),
-        );
-    }
-
-    get me() {
-        return this._state.me;
-    }
-
-    get game() {
-        return this._state.game;
-    }
-
-    get myName() {
-        return this._state.me.name;
-    }
-
-    get players() {
-        return this._state.game.players;
+    get playerIndexes() {
+        return Object.keys(this.players).map(index => parseInt(index, 10));
     }
 }

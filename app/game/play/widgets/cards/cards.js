@@ -18,34 +18,34 @@
  */
 
 import * as LogManager from "aurelia-logging";
-import { bindable, inject, ObserverLocator } from "aurelia-framework";
+import { inject, ObserverLocator } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import { I18N } from "aurelia-i18n";
 import { Api } from "../../../services/api";
 import { Blink, Elements, EventAggregatorSubscriptions } from "../../../services/utils";
 import { Popup } from "../../../services/popup";
-import { State } from "../../../services/state";
 
 const BUTTON_BLINK_TIME = 1000;
 const MAX_BUTTON_BLINK_TIME = 90000;
 const BUTTON_BLINK_CLASS = "blink-container";
 
-@inject(Api, Popup, I18N, ObserverLocator, EventAggregatorSubscriptions, State)
+@inject(Api, Popup, I18N, ObserverLocator, EventAggregatorSubscriptions, Store)
 export class AotCardsCustomElement {
-    @bindable selectedCard;
     _api;
-    _game;
     _i18n;
     _logger;
     infos = {};
     specialActionInProgress = false;
 
-    constructor(api, popup, i18n, ol, eas, state) {
+    constructor(api, popup, i18n, ol, eas, store) {
         this._api = api;
         this._popup = popup;
         this._i18n = i18n;
         this._ol = ol;
         this._eas = eas;
-        this._state = state;
+        this._store = store;
+        this.selectedCard = null;
+        this.me = {};
         this._logger = LogManager.getLogger("AotCards");
 
         let blinker;
@@ -67,17 +67,6 @@ export class AotCardsCustomElement {
             .getObserver(this, "highlightPassButton")
             .subscribe(this._highlightPassButtonObserverCb);
 
-        this._eas.subscribe("aot:api:special_action_notify", message => {
-            this._notifySpecialAction(message);
-        });
-
-        // If the special action is passed or the player passes his/her turn, special_action_play
-        // is never fired. But in all cases a play request is made to update the position of the
-        // players on the board.
-        this._eas.subscribe("aot:api:play", () => {
-            this._handleSpecialActionPlayed();
-        });
-
         this._eas.subscribe("aot:board:squares_updated", () => {
             if (this.selectedCard) {
                 this.viewPossibleMovements(this.selectedCard);
@@ -85,7 +74,21 @@ export class AotCardsCustomElement {
         });
     }
 
+    bind() {
+        this._subscription = this._store.state.subscribe(state => {
+            this.me = state.me;
+            this.selectedCard = state.currentTurn.selectedCard;
+
+            if (this.me.specialAction) {
+                this._notifySpecialAction(this.me.specialAction);
+            } else if (!this.me.specialAction && this.specialActionInProgress) {
+                this._handleSpecialActionPlayed();
+            }
+        });
+    }
+
     unbind() {
+        this._subscription.unsubscribe();
         this._eas.dispose();
         this._ol
             .getObserver(this, "highlightPassButton")
@@ -100,9 +103,9 @@ export class AotCardsCustomElement {
         return this._i18n.tr(`cards.${card.name.toLowerCase()}`);
     }
 
-    _notifySpecialAction(message) {
+    _notifySpecialAction(specialActionName) {
         this.specialActionInProgress = true;
-        this.specialActionName = message.special_action_name;
+        this.specialActionName = specialActionName;
     }
 
     _handleSpecialActionPlayed() {
@@ -112,8 +115,7 @@ export class AotCardsCustomElement {
 
     viewPossibleMovements(card) {
         if (this.canPlayCards) {
-            this.selectedCard = card;
-            this._api.viewPossibleMovements({ name: card.name, color: card.color });
+            this._store.dispatch("viewPossibleMovements", card);
         }
     }
 
@@ -139,14 +141,13 @@ export class AotCardsCustomElement {
             },
         };
         let popupCb = () => {
-            this._api.pass();
-            this.selectedCard = null;
+            this._store.dispatch("passTurn");
         };
 
         if (this.specialActionInProgress) {
             popupData.translate.messages.message = "game.play.pass_special_action_confirm_message";
             popupCb = () => {
-                this._api.passSpecialAction(this.specialActionName);
+                this._store.dispatch("passSpecialAction");
             };
         } else if (this.onLastLine) {
             popupData.translate.messages.message = "game.play.complete_turn_confirm_message";
@@ -170,11 +171,7 @@ export class AotCardsCustomElement {
             popupData.translate.messages.message = "game.play.discard_confirm_message";
             popupData.translate.paramsToTranslate.cardName = `cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`; // eslint-disable-line max-len
             this._popup.display("confirm", popupData).then(() => {
-                this._api.discard({
-                    cardName: this.selectedCard.name,
-                    cardColor: this.selectedCard.color,
-                });
-                this.selectedCard = null;
+                this._store.dispatch("discardCard");
             });
         } else {
             popupData.translate.messages.message = "game.play.discard_no_selected_card";
@@ -183,23 +180,23 @@ export class AotCardsCustomElement {
     }
 
     get yourTurn() {
-        return this._state.game.your_turn;
+        return this.me.yourTurn;
     }
 
     get onLastLine() {
-        return this._state.me.on_last_line;
+        return this.me.onLastLine;
     }
 
     get hand() {
-        return this._state.me.hand;
+        return this.me.hand;
     }
 
     get hasWon() {
-        return this._state.me.has_won;
+        return this.me.hasWon;
     }
 
     get rank() {
-        return this._state.me.rank;
+        return this.me.rank;
     }
 
     get highlightPassButton() {
@@ -211,10 +208,6 @@ export class AotCardsCustomElement {
     }
 
     get canPlayCards() {
-        return (
-            this.yourTurn &&
-            !this.specialActionInProgress &&
-            this._state.game.has_remaining_moves_to_play
-        );
+        return this.yourTurn && !this.specialActionInProgress && this.me.hasRemainingMovesToPlay;
     }
 }

@@ -43,7 +43,7 @@ describe("counter", () => {
 
         mockedState.game.your_turn = true;
         mockedState.game.game_over = false;
-        mockedEas.publish("aot:api:play");
+        mockedEas.publish("aot:api:play_card");
 
         expect(sut.countDownClock).toHaveBeenCalled();
     });
@@ -55,7 +55,7 @@ describe("counter", () => {
         sut.startTime = new Date().getTime();
         mockedState.game.your_turn = false;
         mockedState.game.game_over = false;
-        mockedEas.publish("aot:api:play");
+        mockedEas.publish("aot:api:play_card");
 
         jest.runAllTimers();
 
@@ -75,7 +75,7 @@ describe("counter", () => {
         expect(sut.start).not.toHaveBeenCalled();
     });
 
-    it("should handle play request while special action in progress", () => {
+    it("should handle playCard request while special action in progress", () => {
         sut.specialActionInProgress = true;
         sut._paused = true;
         jest.spyOn(sut, "init");
@@ -87,7 +87,7 @@ describe("counter", () => {
         expect(sut.init).not.toHaveBeenCalled();
     });
 
-    it("should handle play request", () => {
+    it("should handle playCard request", () => {
         jest.spyOn(sut, "init");
 
         sut._handlePlayRequest();

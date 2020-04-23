@@ -63,6 +63,7 @@ export class Ws {
         this._ws.onclose = () => {
             this._mustReconnect = true;
             this._closePopover = this.popover.display("danger", "game.connection_lost");
+            ea.publish("aot:ws:disconnected");
         };
     }
 

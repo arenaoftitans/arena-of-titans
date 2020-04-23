@@ -22,11 +22,23 @@ import { Store } from "aurelia-store";
 import { AssetSource } from "../services/assets";
 import routes from "./routes";
 import * as commonActions from "./actions/common";
+import * as lobbyActions from "./actions/lobby";
+import * as playActions from "./actions/play";
+import * as currentTurnActions from "./actions/currentTurn";
 
 @inject(Store)
 export class Layout {
     constructor(store) {
         Object.entries(commonActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(lobbyActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(playActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(currentTurnActions).map(([name, action]) => {
             store.registerAction(name, action);
         });
 

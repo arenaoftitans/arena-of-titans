@@ -52,7 +52,7 @@ describe("trump", () => {
         sut.kind = "player";
     });
 
-    it("should play trump with a target after a popup", async () => {
+    it("should playCard trump with a target after a popup", async () => {
         let deferred = {};
         deferred.promise = new Promise(resolve => {
             deferred.resolve = resolve;
@@ -109,7 +109,7 @@ describe("trump", () => {
         });
     });
 
-    it("should play trump without a target directly", () => {
+    it("should playCard trump without a target directly", () => {
         jest.spyOn(mockedPopup, "display");
         jest.spyOn(mockedEas, "publish");
         mockedState._game = {
@@ -128,7 +128,7 @@ describe("trump", () => {
         });
     });
 
-    it("should not play a trump if not your turn", () => {
+    it("should not playCard a trump if not your turn", () => {
         jest.spyOn(mockedEas, "publish");
         mockedApi._game = {
             your_turn: false,
@@ -147,7 +147,7 @@ describe("trump", () => {
         expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
-    it("should not play trump if kind is different than player", () => {
+    it("should not playCard trump if kind is different than player", () => {
         jest.spyOn(mockedApi, "playTrump");
         jest.spyOn(mockedPopup, "display");
         sut.kind = "affecting";

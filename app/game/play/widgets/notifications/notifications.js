@@ -19,17 +19,17 @@
 
 import { bindable, inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
+import { Store } from "aurelia-store";
 import { Api } from "../../../services/api";
 import { AssetSource, ImageName } from "../../../../services/assets";
 import { EventAggregatorSubscriptions } from "../../../services/utils";
 import { Options } from "../../../../services/options";
 import { Popup } from "../../../services/popup";
-import { State } from "../../../services/state";
 
-@inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, State)
+@inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, Store)
 export class AotNotificationsCustomElement {
     @bindable players = {};
-    @bindable currentPlayerIndex = 0;
+    @bindable currentPlayerName = "";
     specialActionInProgress = false;
     specialActionText;
     _specialActionName;
@@ -37,69 +37,56 @@ export class AotNotificationsCustomElement {
     _lastAction = {};
     _i18n;
     _ea;
-    _lastActionMessageFromApi;
+    _lastActionFromGame;
 
-    constructor(api, i18n, options, popup, eas, state) {
+    constructor(api, i18n, options, popup, eas, store) {
         this._api = api;
         this._i18n = i18n;
         this._options = options;
         this._popup = popup;
         this._eas = eas;
-        this._state = state;
+        this._store = store;
 
         this._eas.subscribe("i18n:locale:changed", () => {
-            if (this._lastActionMessageFromApi) {
-                this._updateLastAction(this._lastActionMessageFromApi);
+            if (this._lastAction) {
+                this._updateLastAction();
             }
 
             if (this._specialActionName) {
                 this._translateSpecialActionText();
             }
         });
+    }
 
-        this._api.onReconnectDeferred.then(message => {
-            this._updateLastAction(message);
-            if (message.special_action_name) {
-                this._notifySpecialAction(message);
+    bind() {
+        this._subscription = this._store.state.subscribe(state => {
+            if (!state.game.actions) {
+                return;
             }
-        });
 
-        this._eas.subscribe("aot:api:player_played", message => {
-            this._updateLastAction(message);
-        });
+            this._lastActionFromGame = state.game.actions[state.game.actions.length - 1];
+            this._updateLastAction();
 
-        this._eas.subscribe("aot:api:play", () => {
-            // When we receive a play message, there cannot be a special action in
-            // progress. This is mostly useful when a player passes his/her turn during a special
-            // action.
-            this._handleSpecialActionPlayed();
-        });
-
-        this._eas.subscribe("aot:api:play_trump", message => {
-            this._updateLastAction(message);
-        });
-
-        this._eas.subscribe("aot:api:special_action_notify", message => {
-            this._notifySpecialAction(message);
-        });
-
-        this._eas.subscribe("aot:api:special_action_play", message => {
-            this._handleSpecialActionPlayed(message);
+            if (state.me.specialAction) {
+                this._notifySpecialAction(state.me.specialAction);
+            } else if (!state.me.specialAction && this.specialActionInProgress) {
+                this._handleSpecialActionPlayed();
+            }
         });
     }
 
     unbind() {
         this._eas.dispose();
+        this._subscription.unsubscribe();
     }
 
-    _updateLastAction(message) {
-        this._lastActionMessageFromApi = message;
-        let lastAction = message.last_action || {};
+    _updateLastAction() {
+        let lastAction = this._lastActionFromGame;
         let description;
         if (lastAction.description) {
             description = this._i18n.tr(`actions.${lastAction.description}`, {
-                playerName: lastAction.player_name,
-                targetName: lastAction.target_name,
+                playerName: (lastAction.initiator || {}).name,
+                targetName: (lastAction.target || {}).name,
             });
         }
         this._lastAction = {
@@ -130,8 +117,8 @@ export class AotNotificationsCustomElement {
             this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
         }
 
-        if (lastAction.special_action) {
-            let action = lastAction.special_action;
+        if (lastAction.specialAction) {
+            let action = lastAction.specialAction;
             this._lastAction.specialAction = action;
             let actionName = action.name.toLowerCase();
             this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
@@ -141,17 +128,14 @@ export class AotNotificationsCustomElement {
         }
     }
 
-    _handleSpecialActionPlayed(message) {
+    _handleSpecialActionPlayed() {
         this.specialActionInProgress = false;
         this._specialActionName = undefined;
-        if (message) {
-            this._updateLastAction(message);
-        }
     }
 
-    _notifySpecialAction(message) {
+    _notifySpecialAction(specialActionName) {
         this.specialActionInProgress = true;
-        this._specialActionName = message.special_action_name.toLowerCase();
+        this._specialActionName = specialActionName.toLowerCase();
         this._translateSpecialActionText();
         if (this._options.mustViewInGameHelp(this._specialActionName)) {
             let popupData = {
@@ -178,15 +162,7 @@ export class AotNotificationsCustomElement {
         this.specialActionText = this._i18n.tr(`actions.special_action_${this._specialActionName}`);
     }
 
-    get currentPlayerName() {
-        return this.players.names[this.currentPlayerIndex];
-    }
-
     get lastAction() {
         return this._lastAction;
-    }
-
-    get game() {
-        return this._state.game;
     }
 }

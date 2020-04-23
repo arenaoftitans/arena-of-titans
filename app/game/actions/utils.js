@@ -55,3 +55,10 @@ export const keysToCamel = function(o) {
 export function getApi() {
     return Container.instance.get(Api);
 }
+
+export function getEmptyCurrentTurn() {
+    return {
+        selectedCard: null,
+        possibleSquares: [],
+    };
+}

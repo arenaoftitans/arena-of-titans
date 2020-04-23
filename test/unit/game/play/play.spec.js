@@ -124,7 +124,7 @@ describe("play", () => {
             expect(sut.pawnsForcedNotClickable).toEqual([0]);
         });
 
-        it("should handle view special action", () => {
+        it("should handle viewPossibleSquares special action", () => {
             sut.pawnClickable = true;
             sut.onPawnClicked = () => {};
             sut.pawnsForcedNotClickable = [0];

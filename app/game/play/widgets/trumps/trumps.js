@@ -18,42 +18,48 @@
  */
 
 import { inject } from "aurelia-framework";
-import { I18N } from "aurelia-i18n";
-import { State } from "../../../services/state";
+import { Store } from "aurelia-store";
 
-@inject(State, I18N)
+@inject(Store)
 export class AotTrumpsCustomElement {
-    _state;
-    _game;
-    _i18n;
-    affectingInfos = {};
+    constructor(store) {
+        this._store = store;
+        this.me = null;
+    }
 
-    constructor(state, i18n) {
-        this._state = state;
-        this._i18n = i18n;
+    bind() {
+        this._subscription = this._store.state.subscribe(state => (this.me = state.me));
+    }
+
+    unbind() {
+        this._subscription.unsubscribe();
     }
 
     get power() {
-        return this._state.me.power;
+        return this.me.power;
     }
 
     get trumps() {
-        return this._state.me.trumps;
+        return this.me.availableTrumps;
     }
 
     get affectingTrumps() {
-        return this._state.me.trump_effects;
-    }
+        if (this.me === null) {
+            return [];
+        }
 
-    get me() {
-        return this._state.me;
+        return this.me.activeTrumps;
     }
 
     get trumpsStatuses() {
-        return this._state.game.trumps_statuses;
+        if (this.me === null) {
+            return [];
+        }
+
+        return this.me.trumpsStatuses;
     }
 
     get canPowerBePlayed() {
-        return this._state.game.can_power_be_played;
+        return this.me.canPowerBePlayed;
     }
 }

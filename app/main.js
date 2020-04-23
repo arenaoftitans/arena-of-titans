@@ -75,7 +75,7 @@ export function configure(aurelia) {
                 });
         })
         .plugin("aurelia-store", {
-            initialState: {},
+            initialState: { game: {}, lobby: {}, currentTurn: {}, me: {} },
             logDispatchedActions: environment.debug,
             logDefinitions: {
                 dispatchedActions: "debug",

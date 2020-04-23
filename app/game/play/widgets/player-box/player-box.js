@@ -39,19 +39,19 @@ export class AotPlayerBoxCustomElement {
         this._popup.display("player-box", {
             playerName: this.playerName,
             playerIndex: this.index,
-            hero: this.players.heroes[this.index],
+            hero: this.players[this.index].hero,
         });
     }
 
     get playerName() {
         if (this.players) {
-            return this.players.names[this.index];
+            return this.players[this.index].name;
         }
 
         return "";
     }
 
     get hero() {
-        return this.players.heroes[this.index];
+        return this.players[this.index].hero;
     }
 }

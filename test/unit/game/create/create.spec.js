@@ -174,9 +174,8 @@ describe("game/create", () => {
 
         sut.activate();
 
-        expect(mockedApi.createLobby().toHaveBeenCalledWith(
-            expect.any(String),
-            expect.any(String),
+        expect(
+            mockedApi.createLobby().toHaveBeenCalledWith(expect.any(String), expect.any(String)),
         );
         expect(sut.gameId).toBeUndefined();
     });
@@ -280,7 +279,7 @@ describe("game/create", () => {
         expect(mockedApi.createGame).toHaveBeenCalled();
     });
 
-    it("should navigate to play/{id} after the game creation", () => {
+    it("should navigate to playCard/{id} after the game creation", () => {
         jest.spyOn(mockedRouter, "navigateToRoute");
         sut.creating = true;
 

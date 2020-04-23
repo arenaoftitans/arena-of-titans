@@ -18,21 +18,20 @@
  */
 
 export const REQUEST_TYPES = {
+    // Lobby requests.
+    joinedLobby: "JOINED_LOBBY",
     reconnect: "RECONNECT",
     createLobby: "CREATE_LOBBY",
     joinGame: "JOIN_GAME",
     updateSlot: "UPDATE_SLOT",
     slotUpdated: "SLOT_UPDATED",
-
-    gameInitialized: "GAME_INITIALIZED",
-    addSlot: "ADD_SLOT",
     createGame: "CREATE_GAME",
-    view: "VIEW_POSSIBLE_SQUARES",
-    play: "PLAY",
+    // Game requests.
+    viewPossibleSquares: "VIEW_POSSIBLE_SQUARES",
+    playCard: "PLAY_CARD",
     playTrump: "PLAY_TRUMP",
-    trumpHasNoEffect: "TRUMP_HAS_NO_EFFECT",
-    playerPlayed: "PLAYER_PLAYED",
-    specialActionNotify: "SPECIAL_ACTION_NOTIFY",
+    playerUpdated: "PLAYER_UPDATED",
+    gameUpdated: "GAME_UPDATED",
     specialActionPlay: "SPECIAL_ACTION_PLAY",
     specialActionViewPossibleActions: "SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS",
 };

@@ -54,7 +54,7 @@ describe("cards", () => {
         );
     });
 
-    it("should view possible movements", () => {
+    it("should viewPossibleSquares possible movements", () => {
         let card = { name: "King", color: "red" };
         jest.spyOn(mockedApi, "viewPossibleMovements");
         mockedState._game.your_turn = true;
@@ -66,7 +66,7 @@ describe("cards", () => {
         expect(mockedApi.viewPossibleMovements).toHaveBeenCalledWith(card);
     });
 
-    it("should not view possible movement if not your turn", () => {
+    it("should not viewPossibleSquares possible movement if not your turn", () => {
         let card = { name: "King", color: "red" };
         jest.spyOn(mockedApi, "viewPossibleMovements");
         mockedState._game.your_turn = false;
@@ -78,7 +78,7 @@ describe("cards", () => {
         expect(mockedApi.viewPossibleMovements).not.toHaveBeenCalledWith();
     });
 
-    it("should not view possible movement if no move left", () => {
+    it("should not viewPossibleSquares possible movement if no move left", () => {
         let card = { name: "King", color: "red" };
         jest.spyOn(mockedApi, "viewPossibleMovements");
         mockedState._game.your_turn = true;
@@ -231,7 +231,7 @@ describe("cards", () => {
             expect(sut.specialActionName).toBeNull();
         });
 
-        it("should view possible movements for cards", () => {
+        it("should viewPossibleSquares possible movements for cards", () => {
             sut.specialActionInProgress = true;
             jest.spyOn(mockedApi, "viewPossibleMovements");
 

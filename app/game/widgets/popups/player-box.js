@@ -18,15 +18,18 @@
  */
 
 import { inject } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import { AssetSource } from "../../../services/assets";
-import { State } from "../../services/state";
 
-@inject(State)
+@inject(Store)
 export class AotPlayerBoxInfosCustomElement {
-    _state;
-
-    constructor(state) {
-        this._state = state;
+    constructor(store) {
+        this._players = {};
+        this._actions = [];
+        store.state.subscribe(state => {
+            this._players = state.game.players;
+            this._actions = state.game.actions;
+        });
     }
 
     activate(model) {
@@ -43,16 +46,14 @@ export class AotPlayerBoxInfosCustomElement {
     }
 
     get lastPlayedCards() {
-        let images = [];
-        for (let card of this._history.getLastPlayedCards(this.data.playerIndex)) {
-            images.push(AssetSource.forCard(card));
-        }
-
-        return images;
+        return this._actions
+            .filter(action => action.initiator.index === this.data.playerIndex && action.card)
+            .slice(-2)
+            .map(action => AssetSource.forCard(action.card));
     }
 
     get activeTrumps() {
-        let trumps = this._state.game.active_trumps[this.data.playerIndex].trumps;
+        let trumps = this._players[this.data.playerIndex].activeTrumps;
         let images = [];
         for (let trump of trumps) {
             images.push(AssetSource.forTrump(trump));

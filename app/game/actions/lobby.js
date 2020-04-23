@@ -21,7 +21,7 @@
 import DEFAULT_NAMES from "../create/default-names";
 import environment from "../../environment";
 import { selectRandomElement } from "../services/utils";
-import { getApi } from "./utils";
+import { getApi, getEmptyCurrentTurn } from "./utils";
 
 export function createLobby(state, playerInfo) {
     const newState = { ...state };
@@ -30,6 +30,7 @@ export function createLobby(state, playerInfo) {
     };
     newState.game = {};
     newState.me = {};
+    newState.currentTurn = getEmptyCurrentTurn();
 
     const playerInfosToDispatch = createPlayerInfosToDispatch(playerInfo);
     getApi().createLobby(playerInfosToDispatch.name, playerInfosToDispatch.hero);
@@ -44,7 +45,7 @@ function createPlayerInfosToDispatch(playerInfo) {
     };
 }
 
-export function gameJoined(state, request) {
+export function lobbyJoined(state, request) {
     if (request.mustRegisterAgain) {
         joinGame(state, request.gameId, createPlayerInfosToDispatch({}));
         return state;

@@ -57,8 +57,8 @@ describe("sound", () => {
         });
     });
 
-    describe("play sound", () => {
-        it("should play on bind", () => {
+    describe("playCard sound", () => {
+        it("should playCard on bind", () => {
             sut.bind();
 
             expect(mockedAudio.play).toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe("sound", () => {
 
         it("should handle exceptions", () => {
             mockedAudio.play.mockImplementation(() => {
-                throw new Error("cannot play");
+                throw new Error("cannot play_card");
             });
             jest.spyOn(console, "warn").mockImplementation(() => {});
 

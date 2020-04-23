@@ -42,7 +42,7 @@ describe("board", () => {
         expect(mockedEas.subscribe).toHaveBeenCalled();
         expect(mockedEas.subscribe.mock.calls[0][0]).toBe("aot:api:view_possible_squares");
         expect(mockedEas.subscribe.mock.calls[1][0]).toBe("aot:api:player_played");
-        expect(mockedEas.subscribe.mock.calls[2][0]).toBe("aot:api:play");
+        expect(mockedEas.subscribe.mock.calls[2][0]).toBe("aot:api:play_card");
         expect(mockedEas.subscribe.mock.calls[3][0]).toBe("aot:api:play_trump");
         expect(mockedEas.subscribe.mock.calls[4][0]).toBe(
             "aot:api:special_action_view_possible_actions",

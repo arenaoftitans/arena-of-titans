@@ -18,7 +18,6 @@
  */
 
 import { Api } from "../../../../app/game/services/api";
-import { State } from "../../../../app/game/services/state";
 import { REQUEST_TYPES } from "../../../../app/game/constants";
 import {
     AnimationsStub,
@@ -44,7 +43,6 @@ describe("services/api", () => {
         mockedWs = new WsStub();
         mockedNotify = new NotifyStub();
         mockedEa = new EventAggregatorStub();
-        mockedState = new State(mockedEa);
         mockedAnimations = new AnimationsStub();
         mockedErrorsReporter = new ErrorsReporterStub();
         sut = new Api(
@@ -108,7 +106,7 @@ describe("services/api", () => {
             apiVersion: undefined,
             playerId: gameInitializedMessage.player_id,
         });
-        expect(mockedState.createLobby().toHaveBeenCalledWith(gameInitializedMessage);
+        expect(mockedState.createLobby().toHaveBeenCalledWith(gameInitializedMessage));
     });
 
     it("should handle slot updated", () => {
@@ -323,13 +321,13 @@ describe("services/api", () => {
     });
 
     describe("game", () => {
-        it("should view possible movements", () => {
+        it("should viewPossibleSquares possible movements", () => {
             jest.spyOn(mockedWs, "send");
 
             sut.viewPossibleMovements({ name: "King", color: "red" });
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: REQUEST_TYPES.view,
+                rt: REQUEST_TYPES.viewPossibleSquares,
                 play_request: {
                     card_name: "King",
                     card_color: "red",
@@ -337,13 +335,13 @@ describe("services/api", () => {
             });
         });
 
-        it("should play", () => {
+        it("should play_card", () => {
             jest.spyOn(mockedWs, "send");
 
             sut.play({ cardName: "King", cardColor: "red", x: "0", y: "0" });
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 play_request: {
                     card_name: "King",
                     card_color: "red",
@@ -353,9 +351,9 @@ describe("services/api", () => {
             });
         });
 
-        it("should handle play and your turn", () => {
+        it("should handle playCard and your turn", () => {
             let message = {
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 your_turn: true,
                 active_trumps: [],
             };
@@ -371,9 +369,9 @@ describe("services/api", () => {
             expect(mockedNotify.notifyYourTurn).toHaveBeenCalled();
         });
 
-        it("should handle play and not your turn", () => {
+        it("should handle playCard and not your turn", () => {
             let message = {
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 your_turn: false,
                 active_trumps: [],
             };
@@ -389,9 +387,9 @@ describe("services/api", () => {
             expect(mockedNotify.notifyYourTurn).not.toHaveBeenCalled();
         });
 
-        it("should handle play and your turn and was not your turn", () => {
+        it("should handle playCard and your turn and was not your turn", () => {
             let message = {
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 your_turn: true,
                 active_trumps: [],
             };
@@ -410,7 +408,7 @@ describe("services/api", () => {
 
         it("should reconnect", () => {
             let message = {
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 active_trumps: [],
                 hand: [
                     {
@@ -454,7 +452,7 @@ describe("services/api", () => {
             expect(sut._reconnectDeferred.reject).toHaveBeenCalled();
         });
 
-        it("should play trump without target", () => {
+        it("should playCard trump without target", () => {
             jest.spyOn(mockedWs, "send");
 
             sut.playTrump({ trumpName: "Trump", trumpColor: null });
@@ -470,7 +468,7 @@ describe("services/api", () => {
             });
         });
 
-        it("should play trump with a target", () => {
+        it("should playCard trump with a target", () => {
             jest.spyOn(mockedWs, "send");
 
             sut.playTrump({ trumpName: "Trump", trumpColor: null, targetIndex: 0 });
@@ -492,7 +490,7 @@ describe("services/api", () => {
             sut.pass();
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 auto: false,
                 play_request: {
                     pass: true,
@@ -521,7 +519,7 @@ describe("services/api", () => {
             sut.discard({ cardName: "King", cardColor: "red" });
 
             expect(mockedWs.send).toHaveBeenCalledWith({
-                rt: REQUEST_TYPES.play,
+                rt: REQUEST_TYPES.playCard,
                 play_request: {
                     discard: true,
                     card_name: "King",

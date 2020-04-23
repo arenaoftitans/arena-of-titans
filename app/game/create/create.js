@@ -46,10 +46,6 @@ export class Create {
         this.lobby = {
             joining: true,
         };
-
-        Object.entries(lobbyActions).map(([name, action]) => {
-            this._store.registerAction(name, action);
-        });
     }
 
     updateMySlot() {
@@ -60,8 +56,8 @@ export class Create {
         });
     }
 
-    _getNavParams() {
-        return { id: this.gameId, version: environment.version };
+    _getNavParams(gameId) {
+        return { id: this.gameId || gameId, version: environment.version };
     }
 
     activate(params = {}) {
@@ -100,9 +96,12 @@ export class Create {
 
         if (!(globalState && globalState.game && globalState.game.id)) {
             return;
+        } else if (globalState.game.players) {
+            this._router.navigateToRoute("play", this._getNavParams(globalState.game.id));
+            return;
         }
 
-        this.mySlot = this.lobby.slots[globalState.me.index];
+        this.mySlot = this.lobby.slots ? this.lobby.slots[globalState.me.index] : {};
 
         // Hydrate only at first, once done, they will be synced with the API anyway.
         if (!this.currentPlayerName) {
@@ -129,7 +128,9 @@ export class Create {
 
     _autoAddAi() {
         // auto set the 2nd slot to an AI so the player can start the game immediately.
-        let takenSlots = this.lobby.slots.filter(slot => slot.state === "TAKEN");
+        let takenSlots = this.lobby.slots
+            ? this.lobby.slots.filter(slot => slot.state === "TAKEN")
+            : [];
         if (this.lobby.isGameMaster && takenSlots.length === 1) {
             this._logger.info("Auto adding AI player");
             const slot = { ...this.lobby.slots[1] };

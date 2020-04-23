@@ -94,10 +94,6 @@ export class ApiStub {
         return this._gameOverDeferred.promise;
     }
 
-    get onReconnectDeferred() {
-        return this._reconnectDeferred.promise;
-    }
-
     createGameDebug() {}
 }
 

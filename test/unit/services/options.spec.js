@@ -89,17 +89,17 @@ describe("app/services/options", () => {
         expect(mockedStorage.saveOptions).not.toHaveBeenCalled();
     });
 
-    it("should view in game help by default", () => {
+    it("should viewPossibleSquares in game help by default", () => {
         expect(sut.mustViewInGameHelp("assassination")).toBe(true);
     });
 
-    it("should not view in game help if disabled", () => {
+    it("should not viewPossibleSquares in game help if disabled", () => {
         sut.proposeInGameHelp = false;
 
         expect(sut.mustViewInGameHelp("assassination")).toBe(false);
     });
 
-    it("should not view in game help if already seen", () => {
+    it("should not viewPossibleSquares in game help if already seen", () => {
         sut.inGameHelpSeen = [ASSASSIN_IN_GAME_HELP];
 
         expect(sut.mustViewInGameHelp("assassination")).toBe(false);

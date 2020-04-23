@@ -19,22 +19,16 @@
 
 import * as LogManager from "aurelia-logging";
 import { bindable, inject } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import sync from "css-animation-sync";
 import { Api } from "../../../services/api";
 import { AssetSource } from "../../../../services/assets";
 import { EventAggregatorSubscriptions } from "../../../services/utils";
-import { State } from "../../../services/state";
 import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from "../../../constants";
 
-@inject(Api, EventAggregatorSubscriptions, State)
+@inject(Api, EventAggregatorSubscriptions, Store)
 export class AotBoardCustomElement {
-    @bindable selectedCard = null;
     @bindable playerIndex = null;
-    @bindable pawnClickable = false;
-    @bindable pawnsForcedNotClickable = [];
-    @bindable onPawnClicked = null;
-    // This is called when the player clicks on a square after clicking on a pawn.
-    @bindable onPawnSquareClicked = null;
     _api;
     infos = {};
     possibleSquares = [];
@@ -47,85 +41,117 @@ export class AotBoardCustomElement {
         red: "#forest-symbol",
     };
 
-    constructor(api, eas, state) {
+    constructor(api, eas, store) {
         this._api = api;
         this._eas = eas;
-        this._state = state;
+        this._store = store;
         this._logger = LogManager.getLogger("AoTBoard");
+        this.boardMode = BOARD_MOVE_MODE;
+        this.players = {};
+        this._hiddenPlayerIndexes = [];
         this.assetSource = AssetSource;
         // Map squares to its color if the color changed from the default.
         this.squaresToColors = {};
         this._logger = LogManager.getLogger("aot:board");
+        this._attached = false;
         // Will be populated by ref.
         this.pawnLayer = null;
         // Will be populated by ref.
         this.squaresLayer = null;
+        this.pawnClickable = false;
         // Sync animations
         if (sync) {
             sync("square-blink");
         } else {
             this._logger.warn("sync function is not defined. Animations can be not sync properly");
         }
+    }
 
-        this._eas.subscribe("aot:api:view_possible_squares", data => {
-            this._highlightPossibleSquares(data.possible_squares);
-        });
-        this._eas.subscribeMultiple(["aot:api:player_played", "aot:api:play"], () =>
-            this._resetPossibleSquares(),
-        );
-        this._eas.subscribe("aot:api:play_trump", message => this._updateSquare(message.square));
-        this._eas.subscribe("aot:api:special_action_view_possible_actions", message => {
-            if (message.possible_squares) {
-                this._highlightPossibleSquares(message.possible_squares);
+    bind() {
+        this._eas.subscribe("aot:state:set_board_mode", newMode => this.setMode(newMode));
+
+        this._subscription = this._store.state.subscribe(state => {
+            this.selectedCard = state.currentTurn.selectedCard;
+            this.boardMode = state.currentTurn.boardMode || BOARD_MOVE_MODE;
+            this.players = state.game.players || {};
+            this.possibleSquares = state.currentTurn.possibleSquares.map(square => {
+                return `square-${square.x}-${square.y}`;
+            });
+            this._updateSquares(state.game.board.updatedSquares);
+            this._showHidePlayers();
+            this._movePlayers();
+
+            if (state.me.specialAction) {
+                this._startSpecialAction();
+            } else if (!state.me.specialAction) {
+                this._endSpecialAction();
             }
         });
-        this._eas.subscribe("aot:api:hide_player", playerIndex => {
-            this.hidePlayer(playerIndex);
-        });
-        this._eas.subscribe("aot:api:show_player", playerIndex => {
-            this.showPlayer(playerIndex);
-        });
-
-        this._eas.subscribe("aot:state:set_board_mode", newMode => this.setMode(newMode));
     }
 
     unbind() {
         this._eas.dispose();
+        this._subscription.unsubscribe();
     }
 
-    _highlightPossibleSquares(possibleSquares) {
-        this.possibleSquares = possibleSquares.map(square => {
-            return `square-${square.x}-${square.y}`;
-        });
+    attached() {
+        this._attached = true;
+        this._movePlayers();
     }
 
-    _resetPossibleSquares() {
-        this.possibleSquares = [];
+    detached() {
+        this._attached = false;
     }
 
-    _updateSquare(square) {
-        if (!square) {
+    _movePlayers() {
+        if (!this._attached) {
             return;
         }
 
-        this._logger.debug(`Updating square with ${JSON.stringify(square)}`);
-        const squareId = `square-${square.x}-${square.y}`;
-        this.squaresToColors = {
-            ...this.squaresToColors,
-            [squareId]: this.squaresColorsToTypes[square.color],
-        };
-        this._eas.publish("aot:board:squares_updated");
+        Object.values(this.players).map(this._movePlayer);
+    }
+
+    _movePlayer(player) {
+        let pawnId = `player${player.index}Container`;
+        let pawn = document.getElementById(pawnId);
+        let square = document.getElementById("square-" + player.square.x + "-" + player.square.y);
+        // Squares position depends on a `transform="translate()"` attribute. We need to parse it to
+        // place the pawns correctly.
+        const transform = square.getAttribute("transform");
+        const transformElements = /^[a-z]+\((\d+\.?\d*)[ ,](\d+\.?\d*)/.exec(transform);
+        const xTransform = transformElements[1];
+        const yTransform = transformElements[2];
+
+        pawn.setAttribute("height", square.getAttribute("height"));
+        pawn.setAttribute("width", square.getAttribute("width"));
+        pawn.setAttribute("x", xTransform);
+        pawn.setAttribute("y", yTransform);
+    }
+
+    _updateSquares(squares) {
+        for (let square of squares) {
+            this._logger.debug(`Updating square with ${JSON.stringify(square)}`);
+            const squareId = `square-${square.x}-${square.y}`;
+            this.squaresToColors = {
+                ...this.squaresToColors,
+                [squareId]: this.squaresColorsToTypes[square.color],
+            };
+        }
+
+        if (squares.length > 0) {
+            this._eas.publish("aot:board:squares_updated");
+        }
     }
 
     handleSquareClicked(squareId, x, y, { isArrivalSquare }) {
-        this._logger.debug(`${squareId} was clicked in mode: ${this._state.board.mode}`);
+        this._logger.debug(`${squareId} was clicked in mode: ${this.boardMode}`);
         x = parseInt(x, 10);
         y = parseInt(y, 10);
-        switch (this._state.board.mode) {
+        switch (this.boardMode) {
             case BOARD_SELECT_SQUARE_MODE:
                 // We can't change the color of arrival squares.
                 if (!isArrivalSquare) {
-                    this._eas.publish("aot:board:selected_square", { x, y });
+                    this._store.dispatch("selectSquare", { x, y });
                 }
                 break;
             case BOARD_MOVE_MODE:
@@ -141,23 +167,18 @@ export class AotBoardCustomElement {
             this.possibleSquares.includes(squareId) &&
             this.selectedCard
         ) {
-            this._api.play({
-                cardName: this.selectedCard.name,
-                cardColor: this.selectedCard.color,
-                x: x,
-                y: y,
-            });
-            this._resetPossibleSquares();
-            this.selectedCard = null;
+            this._store.dispatch("playCard", { x, y });
         } else if (
             this.possibleSquares.length > 0 &&
             this.possibleSquares.includes(squareId) &&
-            this._selectedPawnIndex > -1 &&
-            this.onPawnSquareClicked
+            this._selectedPawnIndex > -1
         ) {
-            this.onPawnSquareClicked(squareId, x, y, this._selectedPawnIndex);
+            this._store.dispatch("playSpecialAction", {
+                x,
+                y,
+                targetIndex: this._selectedPawnIndex,
+            });
             this._selectedPawnIndex = -1;
-            this._resetPossibleSquares();
         }
     }
 
@@ -181,23 +202,41 @@ export class AotBoardCustomElement {
 
     showPlayerName(index, event) {
         this.infos = {
-            title: this._state.game.players.names[index],
+            title: this.players[index].name,
             event: event,
             visible: true,
         };
     }
 
-    hidePlayer(playerIndex) {
-        const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
-        if (playerContainer) {
-            playerContainer.classList.add("hidden");
+    _showHidePlayers() {
+        const allPlayersToHide = Object.entries(this.players)
+            .filter(player => !player.isVisible)
+            .map(player => player.index);
+        const newPlayersToShow = Object.entries(this.players)
+            .filter(player => player.isVisible)
+            .filter(player => this._hiddenPlayerIndexes.includes(player.index));
+
+        this._showPlayer(newPlayersToShow);
+        this._hidePlayer(allPlayersToHide);
+
+        this._hiddenPlayerIndexes = allPlayersToHide;
+    }
+
+    _hidePlayer(playerIndexes) {
+        for (let playerIndex of playerIndexes) {
+            const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
+            if (playerContainer) {
+                playerContainer.classList.add("hidden");
+            }
         }
     }
 
-    showPlayer(playerIndex) {
-        const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
-        if (playerContainer) {
-            playerContainer.classList.remove("hidden");
+    _showPlayer(playerIndexes) {
+        for (let playerIndex of playerIndexes) {
+            const playerContainer = this.pawnLayer.querySelector(`#player${playerIndex}Container`);
+            if (playerContainer) {
+                playerContainer.classList.remove("hidden");
+            }
         }
     }
 
@@ -208,30 +247,41 @@ export class AotBoardCustomElement {
     }
 
     pawnClicked(index) {
-        if (this.isClickable(index) && this.onPawnClicked) {
+        if (this.isPawnClickable) {
             this._selectedPawnIndex = index;
-            this.onPawnClicked(index);
+            this._store.dispatch("viewSpecialActionActions", index);
         }
     }
 
-    isClickable(index) {
-        return this.pawnClickable && this.pawnsForcedNotClickable.indexOf(index) === -1;
+    _startSpecialAction() {
+        this.pawnClickable = true;
+    }
+
+    _endSpecialAction() {
+        this.pawnClickable = false;
+        this._selectedPawnIndex = -1;
     }
 
     get playerIndexes() {
-        return this._state.game.players.indexes;
+        return Object.values(this.players).map(player => player.index);
     }
 
     get isPawnClickable() {
         let results = [];
-        for (let i = 0; i < 7; i++) {
-            results.push(this.isClickable(i));
+        for (let index of this.playerIndexes) {
+            results.push(
+                this.pawnClickable && this.players[index].isVisible && index !== this.playerIndex,
+            );
         }
 
         return results;
     }
 
     get heroes() {
-        return this._state.game.players.heroes;
+        const heroes = {};
+        Object.values(this.players).forEach(player => {
+            heroes[player.index] = player.hero;
+        });
+        return heroes;
     }
 }

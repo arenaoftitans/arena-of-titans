@@ -48,15 +48,15 @@ describe("sounds service", () => {
             return sut._soundDeferred.promise;
         });
 
-        it("should play sounds if sound is enabled", () => {
+        it("should playCard sounds if sound is enabled", () => {
             mockedOptions.sound = true;
 
             return sut.play("a-sound").then(() => {
-                expect(mockedEa.publish).toHaveBeenCalledWith("aot:sound:play", "a-sound");
+                expect(mockedEa.publish).toHaveBeenCalledWith("aot:sound:play_card", "a-sound");
             });
         });
 
-        it("should not play sounds if sound is disabled", () => {
+        it("should not playCard sounds if sound is disabled", () => {
             mockedOptions.sound = false;
 
             return sut.play("a-sound").then(() => {
