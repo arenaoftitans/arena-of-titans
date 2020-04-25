@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,10 +15,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { Options, ASSASSIN_IN_GAME_HELP } from "../../../app/services/options";
-import { StorageStub } from "../../../app/test-utils";
+import { Options, ASSASSIN_IN_GAME_HELP } from "../../../../app/game/services/options";
+import { StorageStub } from "../../../../app/test-utils";
 import { ObserverLocator } from "aurelia-framework";
 import { TaskQueue } from "aurelia-task-queue";
 

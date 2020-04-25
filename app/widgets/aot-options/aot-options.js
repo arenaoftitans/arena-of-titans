@@ -20,7 +20,7 @@
 import { I18N } from "aurelia-i18n";
 import { inject } from "aurelia-framework";
 import { AssetSource } from "../../services/assets";
-import { Options } from "../../services/options";
+import { Options } from "../../game/services/options";
 
 @inject(I18N, Options)
 export class AotOptionsCustomElement {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,9 +15,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { Storage } from "../../../app/services/storage";
+import { Storage } from "../../../../app/game/services/storage";
 
 describe("app/services/storage", () => {
     let sut;

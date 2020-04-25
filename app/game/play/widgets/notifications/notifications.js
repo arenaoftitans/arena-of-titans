@@ -23,7 +23,7 @@ import { Store } from "aurelia-store";
 import { Api } from "../../../services/api";
 import { AssetSource, ImageName } from "../../../../services/assets";
 import { EventAggregatorSubscriptions } from "../../../services/utils";
-import { Options } from "../../../../services/options";
+import { Options } from "../../../services/options";
 import { Popup } from "../../../services/popup";
 
 @inject(Api, I18N, Options, Popup, EventAggregatorSubscriptions, Store)
