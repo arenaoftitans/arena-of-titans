@@ -1,6 +1,7 @@
 export default {
     actions: {
-        dicarded_card: "{{playerName}} vient de se défausser d'une carte",
+        discarded_card: "{{playerName}} vient de se défausser d'une carte",
+        nothing_happened: "Rien ne s'est passé",
         passed_turn: "{{playerName}} vient de passer son tour",
         played_card: "{{playerName}} vient de jouer une carte",
         played_special_action:
@@ -57,6 +58,8 @@ export default {
         player_already_connected: "Tu es déjà connecté avec ce navigateur.",
     },
     game: {
+        black: "Montagne",
+        blue: "Eau",
         connection_lost: "Connexion avec le serveur perdue",
         create: {
             AI: "Ordinateur",
@@ -86,6 +89,8 @@ export default {
             discard_confirm_message: "Es-tu sûr de vouloir te défausser de {{cardName}} ?",
             discard_no_selected_card: "Tu dois sélectionner une carte",
             game_over: "Tu viens de terminer le jeu ! Ton rang :",
+            game_over_pop_up_rank: "Classement :",
+            game_over_pop_up_title: "Partie Terminée !",
             no_action: "Il ne s'est rien passé pour l'instant",
             no_possible_target_for_trump:
                 "Vous ne pouvez pas jouer cet atout. Aucun joueur ne peut en être la cible.",
@@ -100,6 +105,8 @@ export default {
                 'C\'est le tour de <br /><strong class="blue-text">{{playerName}}</strong>',
             your_turn: "C'est ton tour !",
         },
+        red: "Forêt",
+        yellow: "Désert",
     },
     global: {
         alias: "Pseudo",

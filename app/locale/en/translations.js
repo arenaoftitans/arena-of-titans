@@ -1,6 +1,7 @@
 export default {
     actions: {
-        dicarded_card: "{{playerName}} just discarded a card",
+        discarded_card: "{{playerName}} just discarded a card",
+        nothing_happened: "Nothing happened",
         passed_turn: "{{playerName}} just passed his/her turn",
         played_card: "{{playerName}} just played a card",
         played_special_action: "{{playerName}} just played a special action on {{targetName}}",
@@ -54,6 +55,8 @@ export default {
         player_already_connected: "You are already connected with this browser.",
     },
     game: {
+        black: "Mountain",
+        blue: "Water",
         connection_lost: "Lost connection with the server",
         create: {
             AI: "Computer",
@@ -83,6 +86,8 @@ export default {
             discard_confirm_message: "Are you sure you want to discard {{cardName}}?",
             discard_no_selected_card: "You must select a card",
             game_over: "You just completed the game! Your rank:",
+            game_over_pop_up_rank: "Rank :",
+            game_over_pop_up_title: "Game Over !",
             no_action: "No action yet",
             no_possible_target_for_trump:
                 "You cannot play this trump. No player can be targeted at this time.",
@@ -98,6 +103,8 @@ export default {
                 'It is the turn of <br /><strong class="blue-text">{{playerName}}</strong>',
             your_turn: "It's your turn!",
         },
+        red: "Forest",
+        yellow: "Desert",
     },
     global: {
         alias: "Alias",

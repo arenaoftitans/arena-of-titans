@@ -158,6 +158,7 @@ export class Popup {
         let params = translateData.params || {};
         this._translateObj(params, translateData.paramsToTranslate);
         this._translateObj(this._displayedPopupData, translateData.messages, params);
+        this._translateChoices();
     }
 
     _canTranslatePopup() {
@@ -172,5 +173,18 @@ export class Popup {
         for (let key in source) {
             dest[key] = this._i18n.tr(source[key], params);
         }
+    }
+
+    _translateChoices() {
+        if (!this._displayedPopupData.choices) {
+            return;
+        }
+
+        this._displayedPopupData.choices = this._displayedPopupData.choices.map(choice => ({
+            ...choice,
+            name: this._i18n.tr(choice.name),
+        }));
+
+        this._translateObj(this._displayedPopupData, this._displayedPopupData.choices);
     }
 }

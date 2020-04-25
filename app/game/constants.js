@@ -40,4 +40,4 @@ export const BOARD_MOVE_MODE = "move_mode";
 export const BOARD_SELECT_SQUARE_MODE = "select_square_mode";
 
 export const COLORS = ["black", "blue", "red", "yellow"];
-export const COLOR_CHOICES = COLORS.map(color => ({ index: color, name: color }));
+export const COLOR_CHOICES = COLORS.map(color => ({ index: color, name: `game.${color}` }));

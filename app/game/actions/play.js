@@ -207,7 +207,7 @@ export function selectSquare(state, square) {
     }).then(chosenColor => {
         const squareWithColor = {
             ...square,
-            color: chosenColor.name,
+            color: chosenColor.index,
         };
         const trumpWithSquare = {
             ...trump,
