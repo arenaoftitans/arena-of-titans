@@ -137,7 +137,11 @@ export class Animations {
         popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
         popupData.translate.messages.playerName = this.game.players[this._currentPlayerIndex].name;
         let trump1 = action.trump;
-        popupData.trumpImg = AssetSource.forTrump(trump1);
+        if (trump1.passive !== undefined) {
+            popupData.trumpImg = AssetSource.forPower(trump1.trumpArgs);
+        } else {
+            popupData.trumpImg = AssetSource.forTrump(trump1);
+        }
         popupData.translate.messages.trumpName = action.trump.name;
 
         // Power-ups are when a trump is played on the initiator (ie player == target)
