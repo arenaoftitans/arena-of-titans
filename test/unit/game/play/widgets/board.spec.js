@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,159 +15,116 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import { AotBoardCustomElement } from "../../../../../app/game/play/widgets/board/board";
-import { StateStub } from "../../../../../app/test-utils";
-import { ApiStub, EventAggregatorSubscriptionsStub } from "../../../../../app/test-utils";
+import { createStore, gameUpdatedYourTurn, playerUpdatedYourTurn } from "../../../fixtures";
 
 describe("board", () => {
+    let mockedStore;
+    let mockedAddClass;
+    let mockedRemoveClass;
     let sut;
-    let mockedApi;
-    let mockedEas;
-    let mockedState;
 
-    beforeEach(() => {
-        mockedApi = new ApiStub();
-        mockedEas = new EventAggregatorSubscriptionsStub();
-        mockedState = new StateStub();
-        sut = new AotBoardCustomElement(mockedApi, mockedEas, mockedState);
+    beforeEach(async () => {
+        mockedStore = createStore();
+        mockedStore.registerAction("updatePlayers", (state, players) => {
+            const newState = { ...state };
+            newState.game = { ...newState.game };
+            newState.game.players = players;
+            return newState;
+        });
+        sut = new AotBoardCustomElement(mockedStore);
+        mockedAddClass = jest.fn();
+        mockedRemoveClass = jest.fn();
+
+        sut.pawnLayer = {
+            querySelector: jest.fn(() => ({
+                classList: {
+                    add: mockedAddClass,
+                    remove: mockedRemoveClass,
+                },
+            })),
+        };
+
+        await mockedStore.dispatch("gameUpdated", gameUpdatedYourTurn.request);
+        await mockedStore.dispatch("playerUpdated", playerUpdatedYourTurn.request);
+
+        sut.bind();
     });
 
-    it("should register callbacks", () => {
-        jest.spyOn(mockedEas, "subscribe");
-
-        sut = new AotBoardCustomElement(mockedApi, mockedEas);
-
-        expect(mockedEas.subscribe).toHaveBeenCalled();
-        expect(mockedEas.subscribe.mock.calls[0][0]).toBe("aot:api:view_possible_squares");
-        expect(mockedEas.subscribe.mock.calls[1][0]).toBe("aot:api:player_played");
-        expect(mockedEas.subscribe.mock.calls[2][0]).toBe("aot:api:play_card");
-        expect(mockedEas.subscribe.mock.calls[3][0]).toBe("aot:api:play_trump");
-        expect(mockedEas.subscribe.mock.calls[4][0]).toBe(
-            "aot:api:special_action_view_possible_actions",
-        );
-    });
-
-    it("should dispose of subscriptions", () => {
-        jest.spyOn(mockedEas, "dispose");
-
+    afterEach(() => {
         sut.unbind();
-
-        expect(mockedEas.dispose).toHaveBeenCalled();
     });
 
-    it("should highlight possible squares", () => {
-        sut._highlightPossibleSquares([
-            { x: 0, y: 0 },
-            { x: 7, y: 5 },
-        ]);
-
-        expect(sut.possibleSquares).toEqual(["square-0-0", "square-7-5"]);
-    });
-
-    it("should reset possible squares", () => {
-        sut.possibleSquares = ["square-0-0"];
-
-        sut._resetPossibleSquares();
-
-        expect(sut.possibleSquares).toEqual([]);
-    });
-
-    it("should move to on possible square", () => {
-        jest.spyOn(mockedApi, "play");
-        sut.possibleSquares = ["square-0-0"];
-        sut.selectedCard = { name: "King", color: "red" };
-
-        sut.handleSquareClicked("square-0-0", 0, 0, { isArrivalSquare: false });
-
-        expect(mockedApi.play).toHaveBeenCalledWith({
-            cardName: "King",
-            cardColor: "red",
-            x: 0,
-            y: 0,
-        });
-        expect(sut.possibleSquares.length).toBe(0);
-        expect(sut.selectedCard).toBe(null);
-    });
-
-    it("should only move on possible square", () => {
-        jest.spyOn(mockedApi, "play");
-        sut.possibleSquares = ["square-0-0"];
-        sut.selectedCard = { name: "King", color: "red" };
-
-        sut.handleSquareClicked("square-1-0", 0, 0, { isArrivalSquare: false });
-
-        expect(mockedApi.play).not.toHaveBeenCalled();
-    });
-
-    it("should not move if no possible squares", () => {
-        jest.spyOn(mockedApi, "play");
-        sut.selectedCard = { name: "King", color: "red" };
-
-        sut.handleSquareClicked("square-1-0", 0, 0, { isArrivalSquare: false });
-
-        expect(mockedApi.play).not.toHaveBeenCalled();
-    });
-
-    it("should not move if no selected card", () => {
-        jest.spyOn(mockedApi, "play");
-        sut.possibleSquares = ["square-0-0"];
-        sut.selectedCard = null;
-
-        sut.handleSquareClicked("square-0-0", 0, 0, { isArrivalSquare: false });
-
-        expect(mockedApi.play).not.toHaveBeenCalled();
-    });
-
-    it("should reset possible squares", () => {
-        sut.possibleSquares = ["square-0-0"];
-        sut._resetPossibleSquares();
-
-        expect(sut.possibleSquares.length).toBe(0);
-    });
-
-    describe("pawn clicked", () => {
-        it("should not do anything if pawnClickabel is false", () => {
-            sut.onPawnClicked = jest.fn();
-
-            sut.pawnClicked();
-
-            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+    it("must show/hide player", async () => {
+        await mockedStore.dispatch("updatePlayers", {
+            "0": {
+                activeTrumps: [],
+                square: { x: 6, y: 7, color: "RED" },
+                name: "Edwin",
+                index: 0,
+                hero: "Mirindrel",
+                isVisible: true,
+            },
+            "1": {
+                activeTrumps: [],
+                square: { x: 5, y: 4, color: "BLACK" },
+                name: "AI 1",
+                index: 1,
+                hero: "Luni",
+                isVisible: false,
+            },
         });
 
-        it("should not do anything if index is excluded from clickable list", () => {
-            sut.onPawnClicked = jest.fn();
-            sut.pawnClickable = true;
-            sut.pawnsForcedNotClickable = [0];
+        expect(mockedAddClass).toHaveBeenNthCalledWith(1, "hidden");
+        expect(mockedRemoveClass.mock.calls.length).toBe(0);
 
-            sut.pawnClicked(0);
-
-            expect(sut.onPawnClicked).not.toHaveBeenCalled();
+        await mockedStore.dispatch("updatePlayers", {
+            "0": {
+                activeTrumps: [],
+                square: { x: 6, y: 7, color: "RED" },
+                name: "Edwin",
+                index: 0,
+                hero: "Mirindrel",
+                isVisible: true,
+            },
+            "1": {
+                activeTrumps: [],
+                square: { x: 5, y: 4, color: "BLACK" },
+                name: "AI 1",
+                index: 1,
+                hero: "Luni",
+                isVisible: true,
+            },
         });
 
-        it("should call cb if pawnClickabel is true", () => {
-            sut.onPawnClicked = jest.fn();
-            sut.pawnClickable = true;
+        expect(mockedAddClass).toHaveBeenNthCalledWith(1, "hidden");
+        expect(mockedRemoveClass).toHaveBeenNthCalledWith(1, "hidden");
+    });
 
-            sut.pawnClicked(0);
-
-            expect(sut.onPawnClicked).toHaveBeenCalledWith(0);
+    it("should not hide current player pawn", async () => {
+        await mockedStore.dispatch("updatePlayers", {
+            "0": {
+                activeTrumps: [],
+                square: { x: 6, y: 7, color: "RED" },
+                name: "Edwin",
+                index: 0,
+                hero: "Mirindrel",
+                isVisible: false,
+            },
+            "1": {
+                activeTrumps: [],
+                square: { x: 5, y: 4, color: "BLACK" },
+                name: "AI 1",
+                index: 1,
+                hero: "Luni",
+                isVisible: true,
+            },
         });
 
-        it("should move to if possible squares and pawn", () => {
-            jest.spyOn(mockedApi, "playSpecialAction");
-            sut.possibleSquares = ["square-0-0"];
-            sut._selectedPawnIndex = 0;
-            sut._actionName = "action";
-            sut.onPawnSquareClicked = () => {};
-            sut.onPawnSquareClicked = jest.fn();
-
-            sut.handleSquareClicked("square-0-0", 0, 0, { isArrivalSquare: false });
-
-            expect(sut.onPawnSquareClicked).toHaveBeenCalledWith("square-0-0", 0, 0, 0);
-            expect(sut.possibleSquares).toEqual([]);
-            expect(sut._selectedPawnIndex).toBe(-1);
-        });
+        expect(mockedAddClass.mock.calls.length).toBe(0);
+        expect(mockedRemoveClass.mock.calls.length).toBe(0);
     });
 });

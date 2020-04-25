@@ -29,7 +29,10 @@ export function gameUpdated(state, request) {
         ...newState.game,
         ...request,
     };
-    if (Object.entries(newState.currentTurn).length === 0) {
+    if (
+        (newState.currentTurn && Object.entries(newState.currentTurn).length === 0) ||
+        newState.currentTurn === undefined
+    ) {
         newState.currentTurn = getEmptyCurrentTurn();
     }
 

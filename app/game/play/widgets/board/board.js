@@ -21,15 +21,12 @@ import * as LogManager from "aurelia-logging";
 import { bindable, inject } from "aurelia-framework";
 import { Store } from "aurelia-store";
 import sync from "css-animation-sync";
-import { Api } from "../../../services/api";
 import { AssetSource } from "../../../../services/assets";
-import { EventAggregatorSubscriptions } from "../../../services/utils";
 import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from "../../../constants";
 
-@inject(Api, EventAggregatorSubscriptions, Store)
+@inject(Store)
 export class AotBoardCustomElement {
     @bindable playerIndex = null;
-    _api;
     infos = {};
     possibleSquares = [];
     _selectedPawnIndex = -1;
@@ -41,9 +38,7 @@ export class AotBoardCustomElement {
         red: "#forest-symbol",
     };
 
-    constructor(api, eas, store) {
-        this._api = api;
-        this._eas = eas;
+    constructor(store) {
         this._store = store;
         this._logger = LogManager.getLogger("AoTBoard");
         this.boardMode = BOARD_MOVE_MODE;
@@ -64,7 +59,9 @@ export class AotBoardCustomElement {
         if (sync) {
             sync("square-blink");
         } else {
-            this._logger.warn("sync function is not defined. Animations can be not sync properly");
+            this._logger.warn(
+                "sync function is not defined. Animations can be not synced properly",
+            );
         }
     }
 
@@ -95,7 +92,6 @@ export class AotBoardCustomElement {
     }
 
     unbind() {
-        this._eas.dispose();
         this._subscription.unsubscribe();
     }
 

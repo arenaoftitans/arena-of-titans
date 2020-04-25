@@ -64,10 +64,6 @@ export class AotCounterCustomElement {
             }
         });
 
-        this._eas.subscribe("aot:api:special_action_notify", message => {
-            this._notifySpecialAction(message);
-        });
-
         this._eas.subscribe("aot:notifications:special_action_in_game_help_seen", () => {
             this.startSpecialActionCounter();
         });

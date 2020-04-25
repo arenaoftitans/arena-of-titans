@@ -18,6 +18,7 @@
  */
 
 import "aurelia-polyfills";
+import { Container } from "aurelia-framework";
 import { Options } from "aurelia-loader-nodejs";
 import { globalize } from "aurelia-pal-nodejs";
 import path from "path";
@@ -28,3 +29,6 @@ globalize();
 global.navigator = { userAgent: "Jest test runner" };
 
 global.window.IS_TESTING = true;
+
+const container = new Container();
+container.makeGlobal();

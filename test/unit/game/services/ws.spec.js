@@ -47,7 +47,7 @@ describe("services/ws", () => {
     });
 
     it("should store messages to send directly after connection in proper array", () => {
-        sut.send({ message: "coucou", rt: "INIT_GAME" });
+        sut.send({ message: "coucou", rt: "CREATE_LOBBY" });
 
         expect(sut._waitingGameJoined.length).toBe(0);
         expect(sut._waitingOpen.length).toBe(1);

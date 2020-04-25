@@ -21,7 +21,7 @@ import { AotSelectCardsCustomElement } from "../../../app/widgets/select-cards/s
 import environment from "../../../app/environment";
 import { CssAnimatorStub } from "../../../app/test-utils";
 
-xdescribe("create/select-cards", () => {
+describe("create/select-cards", () => {
     let sut;
     let animator;
 
