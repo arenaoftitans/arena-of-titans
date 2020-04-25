@@ -21,6 +21,7 @@ let serve = gulp.series(build, done => {
                     historyApiFallback(),
                     (req, res, next) => {
                         res.setHeader("Access-Control-Allow-Origin", "*");
+                        res.setHeader("Cache-Control", "no-cache");
                         next();
                     },
                 ],
