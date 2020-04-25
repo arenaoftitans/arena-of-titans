@@ -45,7 +45,7 @@ export class AotSoundCustomElement {
                     // This problem is expected on some browsers.
                     // So we just console.warn here and don't rely on the logger which may send
                     // the error to the error tracking solution.
-                    console.warn("Your browser cannot play sounds");
+                    console.warn("Your browser cannot playCard sounds");
                     console.warn(e);
                     /* eslint-enable */
                 });
@@ -55,7 +55,7 @@ export class AotSoundCustomElement {
             // This problem is expected on some browsers.
             // So we just console.warn here and don't rely on the logger which may send
             // the error to the error tracking solution.
-            console.warn("Your browser cannot play sounds");
+            console.warn("Your browser cannot playCard sounds");
             console.warn(e);
             /* eslint-enable */
         }

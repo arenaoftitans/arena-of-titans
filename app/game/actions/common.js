@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,23 +15,16 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { Layout } from "../../../app/game/game";
-import { HistoryStub } from "../../../app/test-utils";
+import { getApi } from "./utils";
 
-describe("the Game Layout module", () => {
-    let mockedHistory;
+export function reconnect(state, gameId, playerId) {
+    const gameIdToUse = gameId || state.game.id;
+    const playerIdToUse = playerId || state.me.id;
 
-    beforeEach(() => {
-        mockedHistory = new HistoryStub();
-    });
+    getApi().reconnect(gameIdToUse, playerIdToUse);
 
-    it("should init the history", () => {
-        jest.spyOn(mockedHistory, "init");
-
-        const sut = new Layout(mockedHistory); // eslint-disable-line
-
-        expect(mockedHistory.init).toHaveBeenCalled();
-    });
-});
+    return state;
+}

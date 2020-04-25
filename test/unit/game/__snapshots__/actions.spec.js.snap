@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actions Update game state once lobby is joined 1`] = `
+Object {
+  "game": Object {
+    "id": "O1xY66VTTvy6iNPuHAuugA",
+  },
+  "lobby": Object {
+    "isGameMaster": true,
+    "joining": false,
+    "slots": Array [
+      Object {
+        "hero": "mirindrel",
+        "index": 0,
+        "playerName": "Edwin",
+        "state": "TAKEN",
+      },
+      Object {
+        "hero": undefined,
+        "index": 1,
+        "playerName": "",
+        "state": "OPEN",
+      },
+      Object {
+        "hero": undefined,
+        "index": 2,
+        "playerName": "",
+        "state": "OPEN",
+      },
+      Object {
+        "hero": undefined,
+        "index": 3,
+        "playerName": "",
+        "state": "OPEN",
+      },
+    ],
+  },
+  "me": Object {
+    "id": "YNa4GHgX7BJTpNjy0ggdLQ==",
+    "index": 0,
+  },
+}
+`;
+
+exports[`actions Update state when game and player is updated 1`] = `
+Object {
+  "currentTurn": Object {
+    "boardMode": "move_mode",
+    "possibleSquares": Array [],
+    "selectedCard": null,
+    "selectedTrump": null,
+  },
+  "game": Object {
+    "actions": Array [
+      Object {
+        "card": null,
+        "description": "passed_turn",
+        "initiator": Object {
+          "index": 0,
+          "name": "Edwin",
+        },
+        "specialAction": null,
+        "target": null,
+        "trump": null,
+      },
+      Object {
+        "card": Object {
+          "color": "RED",
+          "name": "Bishop",
+        },
+        "description": "played_card",
+        "initiator": Object {
+          "index": 1,
+          "name": "AI 1",
+        },
+        "specialAction": null,
+        "target": null,
+        "trump": null,
+      },
+      Object {
+        "card": Object {
+          "color": "BLACK",
+          "name": "Queen",
+        },
+        "description": "played_card",
+        "initiator": Object {
+          "index": 1,
+          "name": "AI 1",
+        },
+        "specialAction": null,
+        "target": null,
+        "trump": null,
+      },
+    ],
+    "board": Object {
+      "updatedSquares": Array [],
+    },
+    "currentPlayerIndex": 0,
+    "id": "fPuZBQDWQxGuKSo-YUY-hQ",
+    "isOver": false,
+    "nbTurns": 1,
+    "players": Object {
+      "0": Object {
+        "activeTrumps": Array [],
+        "hero": "Mirindrel",
+        "index": 0,
+        "isVisible": true,
+        "name": "Edwin",
+        "square": Object {
+          "color": "RED",
+          "x": 6,
+          "y": 7,
+        },
+      },
+      "1": Object {
+        "activeTrumps": Array [],
+        "hero": "Luni",
+        "index": 1,
+        "isVisible": true,
+        "name": "AI 1",
+        "square": Object {
+          "color": "BLACK",
+          "x": 5,
+          "y": 4,
+        },
+      },
+    },
+    "winners": Array [],
+  },
+  "me": Object {
+    "activeTrumps": Array [],
+    "availableTrumps": Array [
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 6,
+        "deltaMoves": -1,
+        "description": "Reduce the number of cards a player can play by 1.",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/blizzard-4a67467324.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": true,
+        "name": "Blizzard",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 4,
+        "deltaDuration": -1,
+        "description": "Destroy towers and reduce duration for fortress",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/ram-73a6490a4e.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": false,
+        "name": "Ram",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+        "trumpNames": Array [
+          "Fortress",
+          "Tower",
+        ],
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": "YELLOW",
+        "colors": Array [],
+        "cost": 7,
+        "description": "Prevent the player to move on some colors.",
+        "duration": 2,
+        "img": "/dist/assets/game/cards/trumps/fortress-yellow-67a7f343b7.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": true,
+        "name": "Fortress",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 8,
+        "deltaMoves": 1,
+        "description": "Allow the player to play one more move.",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/reinforcements-489d9fe1d5.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": false,
+        "name": "Reinforcements",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+    ],
+    "canPowerBePlayed": false,
+    "elapsedTime": 0,
+    "gaugeValue": 0,
+    "hand": Array [
+      Object {
+        "color": "RED",
+        "description": "Move two squares in line or diagonal.",
+        "img": "sprite-movement-assassin-red",
+        "name": "Assassin",
+      },
+      Object {
+        "color": "RED",
+        "description": "Move one squares in line or diagonal. Can move on a square of any color.",
+        "img": "sprite-movement-wizard-red",
+        "name": "Wizard",
+      },
+      Object {
+        "color": "BLUE",
+        "description": "Move one square in L.",
+        "img": "sprite-movement-knight-blue",
+        "name": "Knight",
+      },
+      Object {
+        "color": "BLUE",
+        "description": "Move three squares in line.",
+        "img": "sprite-movement-king-blue",
+        "name": "King",
+      },
+      Object {
+        "color": "YELLOW",
+        "description": "Move one square in L.",
+        "img": "sprite-movement-knight-yellow",
+        "name": "Knight",
+      },
+    ],
+    "hasRemainingMovesToPlay": true,
+    "hasWon": false,
+    "hero": "Mirindrel",
+    "id": "xgjfvkDc3p1hGI+Dw7kRLA==",
+    "index": 0,
+    "name": "Edwin",
+    "onLastLine": false,
+    "power": Object {
+      "cost": 8,
+      "description": "Change the color of a square",
+      "img": "/dist/assets/game/cards/powers/terraforming-f264420b50.png",
+      "isPower": true,
+      "mustTargetPlayer": false,
+      "name": "Terraforming",
+      "passive": false,
+      "requireSquareTarget": true,
+      "trumpCostDelta": 0,
+    },
+    "rank": -1,
+    "specialAction": null,
+    "trumpTargetIndexes": Array [
+      0,
+      1,
+    ],
+    "trumpsStatuses": Array [
+      false,
+      false,
+      false,
+      false,
+    ],
+    "yourTurn": true,
+  },
+}
+`;

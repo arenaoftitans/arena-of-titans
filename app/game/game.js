@@ -18,18 +18,29 @@
  */
 
 import { inject } from "aurelia-framework";
-import { History } from "./services/history";
+import { Store } from "aurelia-store";
 import { AssetSource } from "../services/assets";
 import routes from "./routes";
+import * as commonActions from "./actions/common";
+import * as lobbyActions from "./actions/lobby";
+import * as playActions from "./actions/play";
+import * as currentTurnActions from "./actions/currentTurn";
 
-@inject(History)
+@inject(Store)
 export class Layout {
-    constructor(history) {
-        // Init history here: if the page is reloaded on the game page, the history may not be
-        // setup until the player click on the player box. This may result in some actions not
-        // being displayed. For instance, create a game, refresh, play a card. Without the line
-        // below, it will not appear in the player box.
-        history.init();
+    constructor(store) {
+        Object.entries(commonActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(lobbyActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(playActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
+        Object.entries(currentTurnActions).map(([name, action]) => {
+            store.registerAction(name, action);
+        });
 
         AssetSource.preloadAssets("game");
         AssetSource.preloadBundles("game");

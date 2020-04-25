@@ -28,7 +28,7 @@
 
     <main id="play">
         <div class="play-left">
-            <p class="over-bg centered-important player-name">${myName}</p>
+            <p class="over-bg centered-important player-name">${me.name}</p>
             <aot-trumps></aot-trumps>
         </div>
         <!-- block left -->
@@ -37,17 +37,12 @@
             <div id="board-bg">
                 <div id="board-effect-bg" class="bgClass">
                     <aot-player-box
-                        repeat.for="index of players.indexes"
+                        repeat.for="index of playerIndexes"
                         index.bind="index"
                         players.bind="players"
                     ></aot-player-box>
                     <div id="board-container">
                         <aot-board
-                            selected-card.two-way="selectedCard"
-                            pawn-clickable.bind="pawnClickable"
-                            on-pawn-clicked.bind="onPawnClicked"
-                            pawns-forced-not-clickable.bind="pawnsForcedNotClickable"
-                            on-pawn-square-clicked.bind="onPawnSquareClicked"
                             player-index.bind="me.index"
                         ></aot-board>
                     </div>
@@ -63,8 +58,7 @@
         <div class="play-right">
             <div id="notifications">
                 <aot-notifications
-                    players.bind="game.players"
-                    current-player-index.bind="game.next_player"
+                    current-player-name.bind="currentPlayerName"
                 ></aot-notifications>
             </div>
 

@@ -1,0 +1,393 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api joinGame 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "game_id": "game-id",
+        "hero": "Arline",
+        "player_name": "Test player 2",
+      },
+      "rt": "JOIN_GAME",
+    },
+  ],
+]
+`;
+
+exports[`api should create game 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "players": Array [],
+      },
+      "rt": "CREATE_GAME",
+    },
+  ],
+]
+`;
+
+exports[`api should create lobby 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "hero": "Arline",
+        "player_name": "Test player",
+      },
+      "rt": "CREATE_LOBBY",
+    },
+  ],
+]
+`;
+
+exports[`api should discard car 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "card_color": "Blue",
+        "card_name": "King",
+        "discard": true,
+      },
+      "rt": "PLAY_CARD",
+    },
+  ],
+]
+`;
+
+exports[`api should handle message 1`] = `
+Object {
+  "currentTurn": Object {
+    "boardMode": "move_mode",
+    "possibleSquares": Array [],
+    "selectedCard": null,
+    "selectedTrump": null,
+  },
+  "game": Object {
+    "actions": Array [
+      Object {
+        "card": null,
+        "description": "passed_turn",
+        "initiator": Object {
+          "index": 0,
+          "name": "Edwin",
+        },
+        "specialAction": null,
+        "target": null,
+        "trump": null,
+      },
+    ],
+    "board": Object {
+      "updatedSquares": Array [],
+    },
+    "currentPlayerIndex": 1,
+    "id": "fPuZBQDWQxGuKSo-YUY-hQ",
+    "isOver": false,
+    "nbTurns": 0,
+    "players": Object {
+      "0": Object {
+        "activeTrumps": Array [],
+        "hero": "Mirindrel",
+        "index": 0,
+        "isVisible": true,
+        "name": "Edwin",
+        "square": Object {
+          "color": "RED",
+          "x": 6,
+          "y": 7,
+        },
+      },
+      "1": Object {
+        "activeTrumps": Array [],
+        "hero": "Luni",
+        "index": 1,
+        "isVisible": true,
+        "name": "AI 1",
+        "square": Object {
+          "color": "YELLOW",
+          "x": 6,
+          "y": 8,
+        },
+      },
+    },
+    "winners": Array [],
+  },
+  "me": Object {
+    "activeTrumps": Array [],
+    "availableTrumps": Array [
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 6,
+        "deltaMoves": -1,
+        "description": "Reduce the number of cards a player can play by 1.",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/blizzard-4a67467324.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": true,
+        "name": "Blizzard",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 4,
+        "deltaDuration": -1,
+        "description": "Destroy towers and reduce duration for fortress",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/ram-73a6490a4e.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": false,
+        "name": "Ram",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+        "trumpNames": Array [
+          "Fortress",
+          "Tower",
+        ],
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": "YELLOW",
+        "colors": Array [],
+        "cost": 7,
+        "description": "Prevent the player to move on some colors.",
+        "duration": 2,
+        "img": "/dist/assets/game/cards/trumps/fortress-yellow-67a7f343b7.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": true,
+        "name": "Fortress",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+      Object {
+        "applyOnInitiator": false,
+        "color": null,
+        "colors": Array [],
+        "cost": 8,
+        "deltaMoves": 1,
+        "description": "Allow the player to play one more move.",
+        "duration": 1,
+        "img": "/dist/assets/game/cards/trumps/reinforcements-489d9fe1d5.png",
+        "isPlayerVisible": true,
+        "mustTargetPlayer": false,
+        "name": "Reinforcements",
+        "preventTrumpsToModify": Array [],
+        "requireSquareTarget": false,
+      },
+    ],
+    "canPowerBePlayed": false,
+    "elapsedTime": 0,
+    "gaugeValue": 0,
+    "hand": Array [
+      Object {
+        "color": "RED",
+        "description": "Move two squares in line or diagonal.",
+        "img": "sprite-movement-assassin-red",
+        "name": "Assassin",
+      },
+      Object {
+        "color": "RED",
+        "description": "Move one squares in line or diagonal. Can move on a square of any color.",
+        "img": "sprite-movement-wizard-red",
+        "name": "Wizard",
+      },
+      Object {
+        "color": "BLUE",
+        "description": "Move one square in L.",
+        "img": "sprite-movement-knight-blue",
+        "name": "Knight",
+      },
+      Object {
+        "color": "BLUE",
+        "description": "Move three squares in line.",
+        "img": "sprite-movement-king-blue",
+        "name": "King",
+      },
+      Object {
+        "color": "YELLOW",
+        "description": "Move one square in L.",
+        "img": "sprite-movement-knight-yellow",
+        "name": "Knight",
+      },
+    ],
+    "hasRemainingMovesToPlay": true,
+    "hasWon": false,
+    "hero": "Mirindrel",
+    "id": "xgjfvkDc3p1hGI+Dw7kRLA==",
+    "index": 0,
+    "name": "Edwin",
+    "onLastLine": false,
+    "power": Object {
+      "cost": 8,
+      "description": "Change the color of a square",
+      "img": "/dist/assets/game/cards/powers/terraforming-f264420b50.png",
+      "isPower": true,
+      "mustTargetPlayer": false,
+      "name": "Terraforming",
+      "passive": false,
+      "requireSquareTarget": true,
+      "trumpCostDelta": 0,
+    },
+    "rank": -1,
+    "specialAction": null,
+    "trumpTargetIndexes": Array [
+      0,
+      1,
+    ],
+    "trumpsStatuses": Array [
+      false,
+      false,
+      false,
+      false,
+    ],
+    "yourTurn": false,
+  },
+}
+`;
+
+exports[`api should pass special action 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "auto": false,
+        "cancel": true,
+        "special_action_name": "Assassination",
+      },
+      "rt": "SPECIAL_ACTION_PLAY",
+    },
+  ],
+]
+`;
+
+exports[`api should pass turn 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "auto": false,
+        "pass": true,
+      },
+      "rt": "PLAY_CARD",
+    },
+  ],
+]
+`;
+
+exports[`api should play card 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "card_color": "red",
+        "card_name": "King",
+        "x": 0,
+        "y": 0,
+      },
+      "rt": "PLAY_CARD",
+    },
+  ],
+]
+`;
+
+exports[`api should play special action 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "special_action_name": "Assassination",
+        "target_index": 0,
+        "x": 0,
+        "y": 0,
+      },
+      "rt": "SPECIAL_ACTION_PLAY",
+    },
+  ],
+]
+`;
+
+exports[`api should play trump 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "color": "black",
+        "name": "Tower",
+        "square": Object {},
+        "target_index": 1,
+      },
+      "rt": "PLAY_TRUMP",
+    },
+  ],
+]
+`;
+
+exports[`api should reconnect 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "game_id": Object {
+          "gameId": "game-id",
+          "hero": "Arline",
+          "playerName": "Test player",
+        },
+        "player_id": undefined,
+      },
+      "rt": "RECONNECT",
+    },
+  ],
+]
+`;
+
+exports[`api should update solt 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "slot": Object {
+          "hero": undefined,
+          "index": 1,
+          "player_name": undefined,
+          "state": "CLOSED",
+        },
+      },
+      "rt": "UPDATE_SLOT",
+    },
+  ],
+]
+`;
+
+exports[`api should view possible actions 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "special_action_name": "Assasination",
+        "target_index": 1,
+      },
+      "rt": "SPECIAL_ACTION_VIEW_POSSIBLE_ACTIONS",
+    },
+  ],
+]
+`;
+
+exports[`api should view possible movements 1`] = `
+Array [
+  Array [
+    Object {
+      "request": Object {
+        "card_color": "blue",
+        "card_name": "King",
+      },
+      "rt": "VIEW_POSSIBLE_SQUARES",
+    },
+  ],
+]
+`;

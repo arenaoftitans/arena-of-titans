@@ -18,9 +18,10 @@
  */
 
 import { bindable, inject, ObserverLocator } from "aurelia-framework";
+import { connectTo } from "aurelia-store";
+import { pluck } from "rxjs/operators";
 import { AssetSource } from "../../../../services/assets";
 import { EventAggregatorSubscriptions, Wait } from "../../../services/utils";
-import { State } from "../../../services/state";
 
 const MAX_VALUE = 40;
 const MIN_HEIGHT = 100;
@@ -28,14 +29,17 @@ const MAX_HEIGHT = 566;
 const MAX_DELTA = MAX_HEIGHT - MIN_HEIGHT;
 const FILL_REFRESH_TIME = 50;
 
-@inject(ObserverLocator, EventAggregatorSubscriptions, State)
+@connectTo({
+    selector: store => store.state.pipe(pluck("me", "gaugeValue")),
+    target: "value",
+})
+@inject(ObserverLocator, EventAggregatorSubscriptions)
 export class AotTrumpsGaugeCustomElement {
     @bindable hero = null;
 
-    constructor(observerLocator, eas, state) {
+    constructor(observerLocator, eas) {
         this._observerLocator = observerLocator;
         this._eas = eas;
-        this._state = state;
         this.currentY = MAX_HEIGHT;
         this.heightForCost = 0;
         // We don't display the value directly in order for it increase/decrease while the gauge
@@ -109,9 +113,5 @@ export class AotTrumpsGaugeCustomElement {
                 clearInterval(this._fillInterval);
             }
         }, FILL_REFRESH_TIME);
-    }
-
-    get value() {
-        return this._state.game.gauge_value;
     }
 }

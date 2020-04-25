@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,20 +15,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import "aurelia-polyfills";
-import { Container } from "aurelia-framework";
-import { Options } from "aurelia-loader-nodejs";
-import { globalize } from "aurelia-pal-nodejs";
-import path from "path";
-
-Options.relativeToDir = path.join(__dirname, "unit");
-globalize();
-
-global.navigator = { userAgent: "Jest test runner" };
-
-global.window.IS_TESTING = true;
-
-const container = new Container();
-container.makeGlobal();
+export function selectSquare(state, square) {
+    const newState = { ...state };
+    newState.currentTurn = { ...state.currentTurn };
+    newState.currentTurn.selectedSquare = square;
+}

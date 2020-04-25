@@ -31,21 +31,21 @@ describe("sounds", () => {
     });
 
     describe("initialization", () => {
-        it("should listen for play sound events", () => {
+        it("should listen for playCard sound events", () => {
             expect(mockedEas.subscribe).toHaveBeenCalledWith(
-                "aot:sound:play",
+                "aot:sound:play_card",
                 expect.any(Function),
             );
         });
 
-        it("should push to the sound list on sound play events", () => {
-            mockedEas.publish("aot:sound:play", "a-sound");
+        it("should push to the sound list on sound playCard events", () => {
+            mockedEas.publish("aot:sound:play_card", "a-sound");
 
             expect(sut.sounds.length).toBe(1);
             expect(sut.sounds[0]).toBe("a-sound");
         });
 
-        it("should listen for play ended events", () => {
+        it("should listen for playCard ended events", () => {
             expect(mockedEas.subscribe).toHaveBeenCalledWith(
                 "aot:sound:ended",
                 expect.any(Function),

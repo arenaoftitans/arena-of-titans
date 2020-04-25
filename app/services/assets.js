@@ -63,19 +63,35 @@ export class AssetSource {
     }
 
     static forChestHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}-chest.png`);
+        if (!hero) {
+            return "";
+        }
+
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}-chest.png`);
     }
 
     static forCircledHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}-circle.png`);
+        if (!hero) {
+            return "";
+        }
+
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}-circle.png`);
     }
 
     static forHero(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}.png`);
+        if (!hero) {
+            return "";
+        }
+
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}.png`);
     }
 
     static forHeroPower(hero) {
-        return this._mapToRealPath(`game/cards/powers/${hero}.png`);
+        if (!hero) {
+            return "";
+        }
+
+        return this._mapToRealPath(`game/cards/powers/${hero.toLowerCase()}.png`);
     }
 
     static forMiscImage(kind) {
@@ -122,7 +138,7 @@ export class AssetSource {
     }
 
     static forPawn(hero) {
-        return this._mapToRealPath(`game/heroes/${hero}-pawn.png`);
+        return this._mapToRealPath(`game/heroes/${hero.toLowerCase()}-pawn.png`);
     }
 
     static forPower(power) {
@@ -130,6 +146,10 @@ export class AssetSource {
     }
 
     static forTrump(trump) {
+        if (!trump || !trump.name) {
+            return "";
+        }
+
         // Affecting trumps can be power. We rely on their 'passive' property to detect them.
         if ("passive" in trump || trump.is_power) {
             return AssetSource.forPower(trump);
@@ -209,6 +229,10 @@ export class ImageName {
     }
 
     static forTrump(trump) {
+        if (!trump || !trump.name) {
+            return "";
+        }
+
         let trumpName = trump.name.replace(/ /g, "-").toLowerCase();
         if (!trump.color) {
             return trumpName;

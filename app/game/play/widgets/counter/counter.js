@@ -19,9 +19,9 @@
 
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
+import { Store } from "aurelia-store";
 import { Api } from "../../../services/api";
-import { EventAggregatorSubscriptions, Wait } from "../../../services/utils";
-import { State } from "../../../services/state";
+import { EventAggregatorSubscriptions } from "../../../services/utils";
 
 // In milliseconds to ease calculations.
 const TIME_FOR_TURN = 90000;
@@ -35,47 +35,32 @@ const COUNTER_Y = 150;
 const COUNTER_WIDTH = 300;
 const COUNTER_HEIGHT = 300;
 
-@inject(Api, EventAggregatorSubscriptions, State)
+@inject(Api, EventAggregatorSubscriptions, Store)
 export class AotCounterCustomElement {
     _api;
     // Filled by ref.
     counterCanvas = null;
     specialActionCounterCanvas = null;
 
-    constructor(api, eas, state) {
+    constructor(api, eas, store) {
         this._api = api;
         this._eas = eas;
-        this._state = state;
+        this.game = {};
+        this._store = store;
         this._paused = false;
-        this._currentNbTurns = 0;
         this.specialActionInProgress = false;
         this._pausedDuration = 0;
+        this.yourTurn = false;
+        this._elapsedTime = 0;
         this._logger = LogManager.getLogger("AotCounterCustomElement");
         this.startTime = null;
         this.timerInterval = null;
         this.timeLeft = TIME_FOR_TURN;
         this.angle = 0;
-        this.waitForSpecialActionCounter = Wait.forId("counter-special-action");
-
-        this._eas.subscribe("aot:api:play", () => {
-            clearInterval(this.timerIntervalForSpecialAction);
-            this._handlePlayRequest();
-        });
 
         this._eas.subscribe("aot:game:counter_start", () => {
             if (this._canStart()) {
                 this.start();
-            }
-        });
-
-        this._eas.subscribe("aot:api:special_action_notify", message => {
-            this._handleSpecialActionNotify(message);
-        });
-
-        this._api.onReconnectDeferred.then(message => {
-            if (message.special_action_name) {
-                this._handleSpecialActionNotify(message);
-                this.startSpecialActionCounter(message.special_action_elapsed_time);
             }
         });
 
@@ -89,54 +74,65 @@ export class AotCounterCustomElement {
     }
 
     _canStart() {
-        return this._state.game.your_turn && !this._state.game.game_over && this.startTime === null;
+        return this.yourTurn && !this.game.isOver && this.startTime === null;
+    }
+
+    bind() {
+        this._subscription = this._store.state.subscribe(state => {
+            this.game = state.game;
+            this._elapsedTime = state.me.elapsedTime;
+            if ((this.yourTurn && !state.me.yourTurn) || (!this.yourTurn && state.me.yourTurn)) {
+                this.init();
+            }
+            this.yourTurn = state.me.yourTurn;
+
+            if (state.me.specialAction) {
+                this._notifySpecialAction(state.me.specialAction);
+            } else if (!state.me.specialAction && this.specialActionInProgress) {
+                this._endSpecialAction();
+            }
+        });
     }
 
     unbind() {
+        this._subscription.unsubscribe();
         this._eas.dispose();
     }
 
-    _handlePlayRequest() {
-        if (this.specialActionInProgress) {
-            this.specialActionInProgress = false;
-            this.resume();
-        } else {
-            if (this._currentNbTurns !== this._state.game.nb_turns && this.startTime !== null) {
-                this.startTime = null;
-            }
-            this._currentNbTurns = this._state.game.nb_turns;
-
-            this.init();
-        }
-    }
-
-    _handleSpecialActionNotify(message) {
-        this.specialActionName = message.special_action_name;
+    _notifySpecialAction(specialActionName) {
+        this.specialActionName = specialActionName;
         this.pause();
         this.specialActionInProgress = true;
+    }
+
+    _endSpecialAction() {
+        this.specialActionInProgress = false;
+        this.specialActionName = null;
+        this.resume();
+        clearInterval(this.timerIntervalForSpecialAction);
     }
 
     init() {
         if (this.counterCanvas === null) {
             this._logger.debug("Counter canvas is not in the DOM yet. Init was called too soon.");
-        } else if (
-            this._state.game.your_turn &&
-            !this._state.game.game_over &&
-            this.startTime === null
-        ) {
-            this._paused = false;
-            this.specialActionInProgress = false;
-            let elapsedTime = this._state.me.elapsed_time || 0;
-            this.maxTime = TIME_FOR_TURN - elapsedTime;
-            // Round max time to upper second
-            this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
-            this._pausedDuration = 0;
-            // Draw the counter.
-            this.countDownClock();
-        } else if (!this._state.game.your_turn) {
-            clearInterval(this.timerInterval);
+            return;
+        }
+
+        clearInterval(this.timerInterval);
+
+        if (!this.yourTurn || this.game.isOver || this.startTime !== null) {
             this.startTime = null;
         }
+
+        this._paused = false;
+        this.specialActionInProgress = false;
+        let elapsedTime = this._elapsedTime || 0;
+        this.maxTime = TIME_FOR_TURN - elapsedTime;
+        // Round max time to upper second
+        this.maxTime = Math.floor(this.maxTime / 1000) * 1000;
+        this._pausedDuration = 0;
+        // Draw the counter.
+        this.countDownClock();
     }
 
     pause() {
@@ -160,7 +156,7 @@ export class AotCounterCustomElement {
             if (this.timeLeft <= 0) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
-                this._api.pass({ auto: true });
+                this._store.dispatch("passTurn", { auto: true });
             }
         }, COUNTER_REFRESH_TIME);
     }
@@ -171,7 +167,7 @@ export class AotCounterCustomElement {
         // Time started, minus time now, subtracked from maxTime seconds
         let currentTime = new Date().getTime();
         if (this.startTime === null) {
-            // This is the inital drawing with the counter at max time
+            // This is the initial drawing with the counter at max time
             this.timeLeft = this.maxTime;
         } else {
             this.timeLeft = this.maxTime - (currentTime - this.startTime) + this._pausedDuration;
@@ -214,7 +210,7 @@ export class AotCounterCustomElement {
             ctx.font = `${fontSize}pt Old English Text MT`;
             ctx.textAlign = "center";
             ctx.fillStyle = "black";
-            ctx.fillText(this.formatedTimeLeft, COUNTER_X, COUNTER_Y + fontSize / 2);
+            ctx.fillText(this.formattedTimeLeft, COUNTER_X, COUNTER_Y + fontSize / 2);
         } else {
             this._logger.error("Browser doesn't support canvas");
         }
@@ -311,7 +307,7 @@ export class AotCounterCustomElement {
         return `rgb(${R},${G},${B})`;
     }
 
-    get formatedTimeLeft() {
+    get formattedTimeLeft() {
         return this.formatTimeLeft(this.timeLeft);
     }
 
@@ -320,6 +316,6 @@ export class AotCounterCustomElement {
     }
 
     get displayCounter() {
-        return this._state.game.your_turn && !this._state.game.game_over;
+        return this.yourTurn && !this.game.isOver;
     }
 }

@@ -61,24 +61,24 @@ describe("services/notify", () => {
         );
     });
 
-    describe("should play sound", () => {
+    describe("should playCard sound", () => {
         beforeEach(() => {
             jest.spyOn(mockedSounds, "play");
         });
 
-        it("should play your-turn-voice", () => {
+        it("should playCard your-turn-voice", () => {
             sut._playVoice();
 
             expect(mockedSounds.play).toHaveBeenCalledWith("your-turn-voice");
         });
 
-        it("should play your-turn", () => {
+        it("should playCard your-turn", () => {
             sut._playYourTurnSound();
 
             expect(mockedSounds.play).toHaveBeenCalledWith("your-turn");
         });
 
-        it("should play game-over", () => {
+        it("should playCard game-over", () => {
             sut.notifyGameOver();
 
             expect(mockedSounds.play).toHaveBeenCalledWith("game-over");

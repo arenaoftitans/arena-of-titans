@@ -21,15 +21,15 @@ import * as LogManager from "aurelia-logging";
 import { bindable, inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { DOM } from "aurelia-pal";
+import { Store } from "aurelia-store";
 import { Popup } from "../../../services/popup";
 import { Api } from "../../../services/api";
-import { State } from "../../../services/state";
 import { randomInt, EventAggregatorSubscriptions } from "../../../services/utils";
 import { browsers } from "../../../../services/browser-sniffer";
 
 const PLAYABLE_TRUMP_KINDS = ["player", "power"];
 
-@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, State)
+@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, Store)
 export class AotTrumpCustomElement {
     _api;
     _logger;
@@ -46,14 +46,18 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api, popup, i18n, element, eas, state) {
+    constructor(api, popup, i18n, element, eas, store) {
         this._api = api;
         this._popup = popup;
         this._i18n = i18n;
         this._element = element;
         this._eas = eas;
-        this._state = state;
+        this._store = store;
         this.disabled = false;
+
+        this.playerNames = [];
+        this.playerIndexes = [];
+        this.me = null;
 
         this._logger = LogManager.getLogger("AotTrumps");
     }
@@ -91,10 +95,15 @@ export class AotTrumpCustomElement {
     bind() {
         // Disable the trump is it doesn't exist. This is useful since we don't have all the
         // powers implemented yet, therefore this.trump can be null.
-        // Since trump cannot change once the game is started, checking nullity eher is enought.
+        // Since trump cannot change once the game is started, checking nullity here is enough.
         if (this.trump === null) {
             this.disabled = true;
         }
+        this._subscription = this._store.state.subscribe(state => {
+            this.me = state.me;
+            this.playerIndexes = Object.values(state.game.players).map(player => player.index);
+            this.playerNames = Object.values(state.game.players).map(player => player.name);
+        });
 
         switch (this.kind) {
             case "player":
@@ -113,20 +122,11 @@ export class AotTrumpCustomElement {
                 this.svgClass = undefined;
                 break;
         }
-
-        this._eas.subscribe("aot:api:special_action_notify", () => {
-            this.disabled = true;
-        });
-        // If the special action is passed or the player passes his/her turn, special_action_play
-        // is never fired. But in all cases a play request is made to update the position of the
-        // players on the board.
-        this._eas.subscribe("aot:api:play", () => {
-            this.disabled = false;
-        });
     }
 
     unbind() {
         this._eas.dispose();
+        this._subscription.unsubscribe();
     }
 
     displayInfos(event) {
@@ -189,8 +189,10 @@ export class AotTrumpCustomElement {
             (this.kind === "power" && this.trump.passive)
         ) {
             return;
-        } else if (this.trump.must_target_player) {
+        } else if (this.trump.mustTargetPlayer) {
             this._playTrumpThatTargetsPlayer();
+        } else if (this.trump.requireSquareTarget) {
+            this._playTrumpThatTargetsSquare();
         } else {
             this._playTrumpOnSelf();
         }
@@ -227,29 +229,38 @@ export class AotTrumpCustomElement {
         };
         this._popup.display("confirm", popupData).then(
             choice => {
-                this._eas.publish("aot:trump:wish_to_play", {
-                    trumpName: this.trump.name,
-                    trumpColor: this.trump.color,
-                    targetIndex: choice.index,
-                });
+                this._store.dispatch("playTrump", this.trump, choice.index);
             },
             () => this._logger.debug("Player canceled trump"),
         );
     }
 
-    _playTrumpOnSelf() {
-        this._eas.publish("aot:trump:wish_to_play", {
-            trumpName: this.trump.name,
-            trumpColor: this.trump.color,
+    _playTrumpThatTargetsSquare() {
+        this._popup.display("infos", {
+            translate: {
+                messages: {
+                    title: "game.play.board_select_square",
+                },
+            },
         });
+
+        this._store.dispatch("selectSquareForTrump", this.trump);
+    }
+
+    _playTrumpOnSelf() {
+        this._store.dispatch("playTrump", this.trump, this.myIndex);
     }
 
     _getOtherPlayerNames() {
+        if (this.me === null) {
+            return [];
+        }
+
         return this.playerIndexes
             .filter(index => index !== null)
             .filter(index => index !== undefined)
             .filter(index => index !== this.myIndex)
-            .filter(index => this._state.game.trump_target_indexes.includes(index))
+            .filter(index => this.me.trumpTargetIndexes.includes(index))
             .map(index => ({
                 index,
                 name: this.playerNames[index],
@@ -257,18 +268,18 @@ export class AotTrumpCustomElement {
     }
 
     get yourTurn() {
-        return this._state.game.your_turn;
-    }
+        if (this.me === null) {
+            return false;
+        }
 
-    get playerNames() {
-        return this._state.game.players.names;
-    }
-
-    get playerIndexes() {
-        return this._state.game.players.indexes;
+        return this.me.yourTurn;
     }
 
     get myIndex() {
-        return this._state.me.index;
+        if (this.me === null) {
+            return -1;
+        }
+
+        return this.me.index;
     }
 }

@@ -46,97 +46,6 @@ export class ErrorsReporterStub {
     disable() {}
 }
 
-export class ApiStub {
-    _gameOverDeferred = {};
-    _reconnectDeferred = {};
-
-    constructor() {
-        this._gameOverDeferred.promise = new Promise(resolve => {
-            this._gameOverDeferred.resolve = resolve;
-        });
-        this._reconnectDeferred.promise = new Promise((resolve, reject) => {
-            this._reconnectDeferred.resolve = resolve;
-            this._reconnectDeferred.reject = reject;
-        });
-    }
-
-    initializeGame(data) {}
-
-    init() {}
-
-    updateMe() {}
-
-    joinGame() {
-        return this._reconnectDeferred.promise;
-    }
-
-    createGame() {}
-
-    viewPossibleMovements() {}
-
-    viewPossibleActions() {}
-
-    play() {}
-
-    playSpecialAction() {}
-
-    playTrump() {}
-
-    pass() {}
-
-    passSpecialAction() {}
-
-    discard() {}
-
-    updateSlot() {}
-
-    get onGameOverDeferred() {
-        return this._gameOverDeferred.promise;
-    }
-
-    get onReconnectDeferred() {
-        return this._reconnectDeferred.promise;
-    }
-
-    createGameDebug() {}
-}
-
-export class StateStub {
-    _game = {
-        slots: [],
-    };
-    _me = {};
-    _board = {};
-
-    createGame() {}
-
-    initializeGame() {}
-
-    reconnect() {}
-
-    reset() {}
-
-    updateAfterPlay() {}
-
-    updateAfterTrumpPlayed() {}
-
-    updateMe() {}
-
-    updateSlot() {}
-
-    get board() {
-        return this._board;
-    }
-
-    get game() {
-        return this._game;
-    }
-
-    get me() {
-        return this._me;
-    }
-}
-
 export class PopupStub {
     display(type, data) {
         this.popupPromise = new Promise((resolve, reject) => {
@@ -276,10 +185,6 @@ export class BindingEngineSubscriptionsStub {
     subscribe(object, property, fn) {}
 
     dispose() {}
-}
-
-export class HistoryStub {
-    init() {}
 }
 
 export class WebsocketSub {

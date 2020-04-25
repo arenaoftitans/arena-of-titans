@@ -44,7 +44,7 @@ export class Sounds {
         }
 
         return this._soundDeferred.promise.then(() => {
-            this._ea.publish("aot:sound:play", sound);
+            this._ea.publish("aot:sound:play_card", sound);
         });
     }
 }

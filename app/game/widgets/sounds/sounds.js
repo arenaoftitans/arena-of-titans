@@ -26,7 +26,7 @@ export class AotSoundsCustomElement {
         this._eas = eas;
         this.sounds = [];
 
-        this._eas.subscribe("aot:sound:play", sound => {
+        this._eas.subscribe("aot:sound:play_card", sound => {
             this.sounds.push(sound);
         });
         this._eas.subscribe("aot:sound:ended", sound => {
