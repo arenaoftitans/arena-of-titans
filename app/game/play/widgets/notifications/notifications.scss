@@ -20,13 +20,15 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 @import "../../../../style/media-queries";
 
 aot-notifications {
+    font-family: "Roboto Condensed", sans-serif;
     > p {
-        padding: 20px;
+        padding-top: 6vh;
     }
 
     > div {
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 5vh;
+        padding-right: 5vh;
+        padding-top: 2vh;
     }
 
     @include small-height {

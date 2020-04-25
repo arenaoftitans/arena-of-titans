@@ -18,10 +18,14 @@
 -->
 
 <template>
-    <div class="x-margin">
+    <div class="centered-text game-over-title" t="game.play.game_over_pop_up_title"></div>
+    <div class="centered-text game-over-rank" t="game.play.game_over_pop_up_rank"></div>
+    <div class="game-over-players">
         <ol>
             <li repeat.for="player of data.message">${player}</li>
         </ol>
+    </div>
+    <div class="centered-text">
         <a class="button grey-button" href="#" click.delegate="ok('/')" t="global.back_home"
             >Back to Home page</a
         >

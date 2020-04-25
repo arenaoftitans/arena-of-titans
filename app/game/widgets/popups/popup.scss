@@ -54,14 +54,25 @@ aot-popup {
         &.game-over {
             background: url(/assets/game/backgrounds/popup-game-over.png) no-repeat;
             background-size: 100% 100%;
-
-            .x-margin {
-                margin-left: 46%;
-            }
-
-            .x-margin ol {
-                padding-top: 10%;
-            }
         }
+    }
+
+    .game-over-title {
+        font-family: "Roboto Condensed", sans-serif;
+        font-size: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .game-over-rank {
+        font-family: "Roboto Condensed", sans-serif;
+        font-size: 25px;
+        text-transform: uppercase;
+    }
+
+    .game-over-players {
+        font-size: 18px;
+        margin-left: 40%;
+        text-align: left;
     }
 }
