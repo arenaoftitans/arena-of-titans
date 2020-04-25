@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+/*!
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,22 +15,28 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { I18N } from "aurelia-i18n";
-import { inject } from "aurelia-framework";
-import { AssetSource } from "../../services/assets";
-import { Options } from "../../game/services/options";
+.option-line {
+    padding-bottom: 1rem;
 
-@inject(I18N, Options)
-export class AotOptionsCustomElement {
-    constructor(i18n, options) {
-        this.i18n = i18n;
-        this.options = options;
-        this.assetSource = AssetSource;
+    &.social {
+        display: flex;
+        justify-content: space-around;
+
+        a {
+            color: black;
+            margin: 0;
+        }
     }
+}
 
-    changeLang(lang) {
-        this.i18n.setLocale(lang);
+.lang-chooser {
+    img {
+        cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 50px;
     }
 }

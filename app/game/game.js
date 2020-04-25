@@ -25,10 +25,11 @@ import * as commonActions from "./actions/common";
 import * as lobbyActions from "./actions/lobby";
 import * as playActions from "./actions/play";
 import * as currentTurnActions from "./actions/currentTurn";
+import { Popup } from "./services/popup";
 
-@inject(Store)
+@inject(Store, Popup)
 export class Layout {
-    constructor(store) {
+    constructor(store, popup) {
         Object.entries(commonActions).map(([name, action]) => {
             store.registerAction(name, action);
         });
@@ -42,6 +43,9 @@ export class Layout {
             store.registerAction(name, action);
         });
 
+        this._popup = popup;
+        this.assetSource = AssetSource;
+
         AssetSource.preloadAssets("game");
         AssetSource.preloadBundles("game");
     }
@@ -50,5 +54,9 @@ export class Layout {
         router.baseUrl = "/game";
         config.options.pushState = true;
         config.map(routes);
+    }
+
+    openOptions() {
+        this._popup.display("options", {});
     }
 }

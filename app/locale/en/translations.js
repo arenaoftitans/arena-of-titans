@@ -73,6 +73,7 @@ export default {
             "slot": "Slot"
         },
         "game_over": "Game Over",
+        "options": "Options",
         "play": {
             "back_home_popup_title": "What do you want to do?",
             "board_select_square": "Please click on the square to want to change",
@@ -115,6 +116,7 @@ export default {
         "propose_tutorial_option": "Tutorial",
         "save": "Save",
         "sound_option": "Sound",
+        "source_code": "Source code",
         "yes": "Yes"
     },
     "powers": {

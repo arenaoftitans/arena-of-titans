@@ -18,9 +18,12 @@
 -->
 
 <template>
+    <require from="./game.css"></require>
     <require from="./widgets/popups/popup"></require>
     <require from="./widgets/popover/popover"></require>
     <require from="./widgets/sounds/sounds"></require>
+
+    <img click.delegate="openOptions()" class="option-opener" src.bind="assetSource.forGlobalImage('gear')" />
 
     <aot-popup></aot-popup>
     <aot-popover></aot-popover>

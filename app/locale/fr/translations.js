@@ -73,6 +73,7 @@ export default {
             "slot": "Joueur"
         },
         "game_over": "Game Over",
+        "options": "Options",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
             "board_select_square": "Cliquez sur la case que vous voulez changer",
@@ -115,6 +116,7 @@ export default {
         "propose_tutorial_option": "Tutoriel",
         "save": "Sauvegarder",
         "sound_option": "Sons",
+        "source_code": "Code source",
         "yes": "Oui"
     },
     "powers": {
