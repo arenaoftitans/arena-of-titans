@@ -1,0 +1,73 @@
+<!--
+# Copyright (C) 2015-2020 by Arena of Titans Contributors.
+#
+# This file is part of Arena of Titans.
+#
+# Arena of Titans is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Arena of Titans is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
+-->
+
+<template>
+    <require from="./options.css"></require>
+
+    <div class="x-margin centered-text">
+        <p class="centered-important">
+            <strong t="game.options"></strong>
+        </p>
+
+        <div class="lang-chooser option-line">
+            <img
+                src.bind="assetSource.forGlobalImage('french-flag')"
+                click.delegate="changeLang('fr')"
+            />
+            <img
+                src.bind="assetSource.forGlobalImage('english-flag')"
+                click.delegate="changeLang('en')"
+            />
+        </div>
+
+        <div class="option-line">
+            <label class="white-text">
+                <a href="/game/create/" target="_blank">Nouvelle partie</a>
+            </label>
+        </div>
+
+        <div class="option-line">
+            <label>
+                <span t="global.sound_option">Enable/Disable sound</span>
+                <input
+                    type="checkbox"
+                    value.bind="options.sound"
+                    checked.bind="options.sound"
+                />
+            </label>
+            <br />
+            <label>
+                <span t="global.propose_in_game_help_option">Tutorial</span>
+                <input
+                    type="checkbox"
+                    value.bind="options.proposeInGameHelp"
+                    checked.bind="options.proposeInGameHelp"
+                />
+            </label>
+        </div>
+
+        <div class="option-line social">
+            <a href="https://www.facebook.com/arenaoftitans/" target="_blank">Facebook</a>
+            <a href="https://twitter.com/ArenaOfTitans" target="_blank">Twitter</a>
+            <a href="https://gitlab.com/arenaoftitans/" target="_blank" t="global.source_code">Source code</a>
+        </div>
+
+        <button class="blue-button" click.delegate="ok()" t="global.ok">OK</button>
+    </div>
+</template>

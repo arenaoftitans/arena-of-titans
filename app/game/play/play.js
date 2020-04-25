@@ -20,7 +20,7 @@
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { Store } from "aurelia-store";
-import { Storage } from "../../services/storage";
+import { Storage } from "../services/storage";
 import { Popup } from "../services/popup";
 import { Notify } from "../services/notify";
 

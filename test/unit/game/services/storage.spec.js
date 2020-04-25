@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 by Arena of Titans Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,22 +15,31 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { I18N } from "aurelia-i18n";
-import { inject } from "aurelia-framework";
-import { AssetSource } from "../../services/assets";
-import { Options } from "../../services/options";
+import { Storage } from "../../../../app/game/services/storage";
 
-@inject(I18N, Options)
-export class AotOptionsCustomElement {
-    constructor(i18n, options) {
-        this.i18n = i18n;
-        this.options = options;
-        this.assetSource = AssetSource;
-    }
+describe("app/services/storage", () => {
+    let sut;
 
-    changeLang(lang) {
-        this.i18n.setLocale(lang);
-    }
-}
+    beforeEach(() => {
+        localStorage.clear();
+        sut = new Storage();
+    });
+
+    it("do not save private properties of options", () => {
+        let options = {
+            toSave: "toto",
+            _notToSave: "test",
+        };
+
+        sut.saveOptions(options);
+
+        expect(localStorage.getItem("options")).toEqual(
+            JSON.stringify({
+                toSave: "toto",
+            }),
+        );
+    });
+});

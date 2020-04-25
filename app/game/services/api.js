@@ -23,7 +23,7 @@ import { Store } from "aurelia-store";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Animations } from "./animations";
 import { ErrorsReporter } from "./errors-reporter";
-import { Storage } from "../../services/storage";
+import { Storage } from "./storage";
 import { Ws } from "./ws";
 import { REQUEST_TYPES } from "../constants";
 import { keysToCamel } from "../actions/utils";

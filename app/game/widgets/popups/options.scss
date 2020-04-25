@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2016 by Arena of Titans Contributors.
+/*!
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,30 +15,28 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { Storage } from "../../../app/services/storage";
+.option-line {
+    padding-bottom: 1rem;
 
-describe("app/services/storage", () => {
-    let sut;
+    &.social {
+        display: flex;
+        justify-content: space-around;
 
-    beforeEach(() => {
-        localStorage.clear();
-        sut = new Storage();
-    });
+        a {
+            color: black;
+            margin: 0;
+        }
+    }
+}
 
-    it("do not save private properties of options", () => {
-        let options = {
-            toSave: "toto",
-            _notToSave: "test",
-        };
-
-        sut.saveOptions(options);
-
-        expect(localStorage.getItem("options")).toEqual(
-            JSON.stringify({
-                toSave: "toto",
-            }),
-        );
-    });
-});
+.lang-chooser {
+    img {
+        cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 50px;
+    }
+}

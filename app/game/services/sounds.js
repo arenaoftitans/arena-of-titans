@@ -19,7 +19,7 @@
 
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { Options } from "../../services/options";
+import { Options } from "./options";
 
 @inject(EventAggregator, Options)
 export class Sounds {
