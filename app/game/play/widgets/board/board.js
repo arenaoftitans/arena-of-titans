@@ -245,7 +245,7 @@ export class AotBoardCustomElement {
     }
 
     pawnClicked(index) {
-        if (this.isPawnClickable) {
+        if (this.isPawnClickable[index]) {
             this._selectedPawnIndex = index;
             this._store.dispatch("viewSpecialActionActions", index);
         }
@@ -268,7 +268,9 @@ export class AotBoardCustomElement {
         let results = [];
         for (let index of this.playerIndexes) {
             results.push(
-                this.pawnClickable && this.players[index].isVisible && index !== this.playerIndex,
+                this.pawnClickable &&
+                    this.players[index].canPawnBeSelected &&
+                    index !== this.playerIndex,
             );
         }
 
