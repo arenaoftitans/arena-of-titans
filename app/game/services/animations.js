@@ -45,7 +45,6 @@ export class Animations {
         // If we don't, we may register them twice.
         this.disable();
 
-        this._enableSpecialActionAnimation();
         this._subscription = this._store.state.subscribe(state => {
             this.game = state.game;
             this.myIndex = state.me.index;
@@ -65,41 +64,41 @@ export class Animations {
             ) {
                 this._playedAnimationForAction = this.game.actions.length;
                 this._playTrumpAnimation(this.game.actions[this.game.actions.length - 1]);
+            } else if (
+                this.game.actions &&
+                this.game.actions[this.game.actions.length - 1].specialAction &&
+                this.game.actions.length > this._playedAnimationForAction
+            ) {
+                this._playedAnimationForAction = this.game.actions.length;
+                this._playSpecialActionAnimation(this.game.actions[this.game.actions.length - 1]);
             }
         });
     }
 
-    _enableSpecialActionAnimation() {
-        this._eas.subscribe("aot:api:special_action_play", message => {
-            let popupData = {
-                translate: {
-                    messages: {},
-                },
-            };
+    _playSpecialActionAnimation(action) {
+        let popupData = {
+            translate: {
+                messages: {},
+            },
+        };
 
-            let initiatorHero = this.game.players[message.player_index].hero;
-            popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
-            popupData.translate.messages.playerName = this.game.players[message.player_index].name;
-            popupData.assassinImg = AssetSource.forAnimation({
-                name: "assassination",
-                color: message.new_square.color,
-            });
-
-            let targetHero = this.game.players[message.target_index].hero;
-            popupData.targetedHeroImg = AssetSource.forHero(targetHero);
-            popupData.translate.messages.targetName = this.game.players[message.target_index].name;
-
-            let options = {
-                timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
-            };
-
-            this._popup.display("assassination-animation", popupData, options).then(() => {
-                this._eas.publish(
-                    "aot:game:assassin-animation:done",
-                    message.special_action_assassination,
-                );
-            });
+        let initiatorHero = this.game.players[action.initiator.index].hero;
+        popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
+        popupData.translate.messages.playerName = this.game.players[this._currentPlayerIndex].name;
+        popupData.assassinImg = AssetSource.forAnimation({
+            name: action.specialAction.trumpArgs.name,
+            color: action.specialAction.trumpArgs.color,
         });
+
+        let targetHero = this.game.players[action.target.index].hero;
+        popupData.targetedHeroImg = AssetSource.forHero(targetHero);
+        popupData.translate.messages.targetName = this.game.players[action.target.index].name;
+
+        let options = {
+            timeout: PLAYER_TRANSITION_POPUP_DISPLAY_TIME,
+        };
+
+        this._popup.display("assassination-animation", popupData, options);
     }
 
     _playTransitionAnimation() {
