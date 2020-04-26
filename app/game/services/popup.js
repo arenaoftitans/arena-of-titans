@@ -68,7 +68,9 @@ export class Popup {
         let popupDeferred = this._createDeferred();
 
         let startCounter = () => {
-            this._ea.publish("aot:game:counter_start");
+            if (type === "transition") {
+                this._ea.publish("aot:game:counter_start");
+            }
         };
         popupDeferred.promise.then(startCounter, startCounter);
 
