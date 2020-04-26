@@ -157,7 +157,11 @@ export class AotCounterCustomElement {
             if (this.timeLeft <= 0) {
                 clearInterval(this.timerInterval);
                 this.startTime = null;
-                this._store.dispatch("passTurn", { auto: true });
+                if (this.yourTurn) {
+                    this._store.dispatch("passTurn", { auto: true });
+                } else {
+                    this._logger.warn("Tried to pass the turn while it was not your turn.");
+                }
             }
         }, COUNTER_REFRESH_TIME);
     }
@@ -253,7 +257,11 @@ export class AotCounterCustomElement {
 
             if (this.timeLeftForSpecialAction <= 0) {
                 clearInterval(this.timerIntervalForSpecialAction);
-                this._api.passSpecialAction(this.specialActionName, { auto: true });
+                if (this.yourTurn) {
+                    this._store.dispatch("passSpecialAction", { auto: true });
+                } else {
+                    this._logger.warn("Tried to pass a special action while it was not your turn.");
+                }
             }
         }, COUNTER_REFRESH_TIME);
     }

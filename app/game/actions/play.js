@@ -121,7 +121,7 @@ export function playCard(state, square) {
     return newState;
 }
 
-export function passTurn(state, passOptions) {
+export function passTurn(state, passOptions = {}) {
     getApi().passTurn(passOptions);
 
     return state;
@@ -151,8 +151,8 @@ export function playTrump(state, trump, targetIndex) {
     return state;
 }
 
-export function passSpecialAction(state) {
-    getApi().passSpecialAction(state.me.specialAction);
+export function passSpecialAction(state, options = {}) {
+    getApi().passSpecialAction(state.me.specialAction, options);
 
     return state;
 }
