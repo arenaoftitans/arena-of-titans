@@ -120,11 +120,11 @@
 
         <script src="/dist/scripts/bootstrap-bundle.js" data-main="aurelia-bootstrapper"></script>
 
-    {% if env != 'dev' -%}
+    {% if piwikId -%}
         <script src="//piwik.jujens.eu/piwik.js" defer></script>
         <script src="/tracking.js"></script>
         <noscript>
-            <p><img src="//piwik.jujens.eu/piwik.php?idsite=3" style="border:0;" alt="" /></p>
+            <p><img src="//piwik.jujens.eu/piwik.php?idsite={{ piwikId }}" style="border:0;" alt="" /></p>
         </noscript>
     {%- endif %}
     </body>

@@ -50,8 +50,15 @@ function getObjectAtPath(obj, path) {
 }
 
 export function getTemplatesVariables() {
+    const env = CLIOptions.getEnvironment();
+    const envToPiwikId = {
+        'prod': 3,
+        'staging': 4,
+    };
+
     return {
-        env: CLIOptions.getEnvironment(),
+        env,
+        piwikId: envToPiwikId[env],
         version: getVersion(),
     };
 }
