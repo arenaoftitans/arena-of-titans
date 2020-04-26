@@ -47,12 +47,12 @@ export class Popup {
     _createDeferred() {
         const deferred = {};
         deferred.promise = new Promise((resolve, reject) => {
-            deferred.resolve = () => {
-                resolve();
+            deferred.resolve = (...args) => {
+                resolve(...args);
                 deferred.pending = false;
             };
-            deferred.reject = () => {
-                reject();
+            deferred.reject = (...args) => {
+                reject(...args);
                 deferred.pending = false;
             };
             deferred.pending = true;
