@@ -55,6 +55,7 @@ export class AotBoardCustomElement {
         this.squaresLayer = null;
         this.pawnClickable = false;
         this.myIndex = -1;
+        this._displayedPlayerName = "";
         // Sync animations
         if (sync) {
             sync("square-blink");
@@ -198,8 +199,15 @@ export class AotBoardCustomElement {
     }
 
     showPlayerName(index, event) {
+        if (this._displayedPlayerName === this.players[index].name) {
+            // Still on the same pawn. Don't update infos to prevent a blinking effect when the
+            // mouse moved just a little.
+            return;
+        }
+
+        this._displayedPlayerName = this.players[index].name;
         this.infos = {
-            title: this.players[index].name,
+            title: this._displayedPlayerName,
             event: event,
             visible: true,
         };
@@ -239,6 +247,7 @@ export class AotBoardCustomElement {
     }
 
     hidePlayerName() {
+        this._displayedPlayerName = "";
         this.infos = {
             visible: false,
         };
