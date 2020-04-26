@@ -33,7 +33,8 @@ describe("Popups service", () => {
 
     it("should initialize correctly", () => {
         expect(sut._popups).toEqual([]);
-        expect(sut._displayedPopupDeferred.promise).toBeNull();
+        expect(sut._displayedPopupDeferred.promise).not.toBeNull();
+        expect(sut._displayedPopupDeferred.pending).toBe(false);
         expect(sut._displayedPopupData).toBeNull();
         expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
         expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
@@ -75,6 +76,7 @@ describe("Popups service", () => {
 
             sut._popupReadyDeferred.resolve();
             await sut._popupReadyDeferred.promise;
+            await sut._displayedPopupDeferred.promise;
             expect(sut._displayNext).toHaveBeenCalled();
         });
 
@@ -140,51 +142,13 @@ describe("Popups service", () => {
             expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
-        it("should clean displayed deferred on resolve", async () => {
-            sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
-                sut._displayedPopupDeferred.resolve = resolve;
-                sut._displayedPopupDeferred.reject = reject;
-            });
-            let resolve = sut._displayedPopupDeferred.resolve;
-            let reject = sut._displayedPopupDeferred.reject;
-            sut._displayedPopupData = {};
-            jest.spyOn(sut._displayedPopupDeferred.promise, "then");
+        it("should do nothing if currently displayed popup is still pending", () => {
+            sut._displayedPopupDeferred.pending = true;
+            jest.spyOn(mockedEas, "publish");
 
             sut._displayNext();
 
-            expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
-            resolve();
-            await sut._displayedPopupDeferred.promise;
-            expect(sut._displayedPopupDeferred.promise).toBeNull();
-            expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
-            expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
-            expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
-            expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
-            expect(sut._displayedPopupData).toBeNull();
-        });
-
-        it("should clean displayed deferred on reject", async () => {
-            sut._displayedPopupDeferred.promise = new Promise((resolve, reject) => {
-                sut._displayedPopupDeferred.resolve = resolve;
-                sut._displayedPopupDeferred.reject = reject;
-            });
-            let resolve = sut._displayedPopupDeferred.resolve;
-            let reject = sut._displayedPopupDeferred.reject;
-            sut._displayedPopupData = {};
-            jest.spyOn(sut._displayedPopupDeferred.promise, "then");
-
-            sut._displayNext();
-
-            expect(sut._displayedPopupDeferred.promise.then).toHaveBeenCalled();
-            reject(new Error());
-
-            await expect(sut._displayedPopupDeferred.promise).rejects.toThrow();
-            expect(sut._displayedPopupDeferred.promise).toBeNull();
-            expect(sut._displayedPopupDeferred.resolve).toEqual(expect.any(Function));
-            expect(sut._displayedPopupDeferred.resolve).not.toBe(resolve);
-            expect(sut._displayedPopupDeferred.reject).toEqual(expect.any(Function));
-            expect(sut._displayedPopupDeferred.reject).not.toBe(reject);
-            expect(sut._displayedPopupData).toBeNull();
+            expect(mockedEas.publish).not.toHaveBeenCalled();
         });
 
         it("should display next popup", () => {
@@ -193,7 +157,7 @@ describe("Popups service", () => {
                 data: { message: "Hello" },
                 timeout: 0,
                 deferred: {
-                    promise: jest.fn(),
+                    promise: { then: jest.fn() },
                     reject: jest.fn(),
                     resolve: jest.fn(),
                 },

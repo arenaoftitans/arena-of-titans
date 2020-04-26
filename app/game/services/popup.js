@@ -24,10 +24,6 @@ import { I18N } from "aurelia-i18n";
 
 @inject(I18N, EventAggregator)
 export class Popup {
-    _popups;
-    _displayedPopupDeferred;
-    _displayedPopupData;
-
     constructor(i18n, ea) {
         this._i18n = i18n;
         this._ea = ea;
@@ -35,18 +31,11 @@ export class Popup {
         this._logger = LogManager.getLogger("AoTPopup");
         this._popups = [];
         this._displayedPopupData = null;
-        this._displayedPopupDeferred = {};
-        this._displayedPopupDeferred.promise = null;
-        // Initialize with an empty function to prevent the code to crash when the first
-        // transition popup is displayed.
-        this._displayedPopupDeferred.reject = () => {};
-        // Just for testing.
-        this._displayedPopupDeferred.resolve = () => {};
+        // We initialize the displayed popup deferred to a resolved deferred.
+        this._displayedPopupDeferred = this._createDeferred();
+        this._displayedPopupDeferred.resolve();
 
-        this._popupReadyDeferred = {};
-        this._popupReadyDeferred.promise = new Promise(resolve => {
-            this._popupReadyDeferred.resolve = resolve;
-        });
+        this._popupReadyDeferred = this._createDeferred();
         this._ea.subscribe("aot:popup:ready", () => {
             this._popupReadyDeferred.resolve();
         });
@@ -55,16 +44,28 @@ export class Popup {
         });
     }
 
+    _createDeferred() {
+        const deferred = {};
+        deferred.promise = new Promise((resolve, reject) => {
+            deferred.resolve = () => {
+                resolve();
+                deferred.pending = false;
+            };
+            deferred.reject = () => {
+                reject();
+                deferred.pending = false;
+            };
+            deferred.pending = true;
+        });
+        return deferred;
+    }
+
     display(type, data, { timeout = 0 } = {}) {
         if (type === "transition") {
             this._closeAllWithoutTimeout();
         }
 
-        let popupDeferred = {};
-        popupDeferred.promise = new Promise((resolve, reject) => {
-            popupDeferred.resolve = resolve;
-            popupDeferred.reject = reject;
-        });
+        let popupDeferred = this._createDeferred();
 
         let startCounter = () => {
             this._ea.publish("aot:game:counter_start");
@@ -80,7 +81,10 @@ export class Popup {
         // Since services are instantiated first, we need to wait for aot-popup to be attached
         // before trying to display a popup.
         this._popupReadyDeferred.promise.then(() => {
-            this._displayNext();
+            return this._displayedPopupDeferred.promise.then(
+                () => this._displayNext(),
+                () => this._displayNext(),
+            );
         });
 
         return popupDeferred.promise;
@@ -98,55 +102,48 @@ export class Popup {
     _displayNext() {
         // We check that we have popup to display: if we are in the recursion, this._popups
         // may be an empty array.
-        if (this._displayedPopupDeferred.promise === null && this._popups.length > 0) {
-            let popup = this._popups.shift();
-            this._displayedPopupData = popup.data;
-            this._displayedPopupData.meta = {
-                timeout: popup.timeout,
-            };
-            this._translatePopup();
-
-            if (popup.timeout) {
-                let closeTimeout = setTimeout(() => {
-                    popup.deferred.resolve();
-                }, popup.timeout);
-                let cancelCloseTimeout = () => {
-                    clearTimeout(closeTimeout);
-                };
-                popup.deferred.promise.then(cancelCloseTimeout, cancelCloseTimeout);
-            }
-
-            this._ea.publish("aot:popup:display", {
-                type: popup.type,
-                data: popup.data,
-                deferred: popup.deferred,
-            });
-
-            this._displayedPopupDeferred.promise = popup.deferred.promise;
-            // We need to be able to reject the promise to close all popup
-            // displayed on the screen.
-            this._displayedPopupDeferred.reject = popup.deferred.reject;
-            // Just for testing.
-            this._displayedPopupDeferred.resolve = popup.deferred.resolve;
-        } else if (this._displayedPopupDeferred.promise !== null) {
-            this._displayedPopupData = null;
-            // As soon as the current popup is closed, we display the next one.
-            this._displayedPopupDeferred.promise.then(
-                () => {
-                    this._displayedPopupDeferred.promise = null;
-                    // Reset to an empty function not to reject a already fullfiled promise.
-                    this._displayedPopupDeferred.reject = () => {};
-                    this._displayedPopupDeferred.resolve = () => {};
-                    this._displayNext();
-                },
-                () => {
-                    this._displayedPopupDeferred.promise = null;
-                    this._displayedPopupDeferred.reject = () => {};
-                    this._displayedPopupDeferred.resolve = () => {};
-                    this._displayNext();
-                },
-            );
+        if (this._popups.length === 0 || this._displayedPopupDeferred.pending) {
+            return;
         }
+
+        let popup = this._popups.shift();
+        this._displayedPopupData = popup.data;
+        this._logger.debug("Displaying next popup", JSON.stringify(this._displayedPopupData));
+        this._displayedPopupData.meta = {
+            timeout: popup.timeout,
+        };
+        this._translatePopup();
+
+        if (popup.timeout) {
+            let closeTimeout = setTimeout(() => {
+                this._logger.debug("Hit popup time out, closing", popup.timeout);
+                popup.deferred.resolve();
+            }, popup.timeout);
+            let cancelCloseTimeout = () => {
+                clearTimeout(closeTimeout);
+            };
+            popup.deferred.promise.then(cancelCloseTimeout, cancelCloseTimeout);
+        }
+        this._logger.debug("Displayed popup is now of type", popup.type);
+        this._displayedPopupDeferred = popup.deferred;
+
+        this._ea.publish("aot:popup:display", {
+            type: popup.type,
+            data: popup.data,
+            deferred: popup.deferred,
+        });
+
+        // As soon as the current popup is closed, we display the next one.
+        this._displayedPopupDeferred.promise.then(
+            () => {
+                this._displayedPopupData = null;
+                this._displayNext();
+            },
+            () => {
+                this._displayedPopupData = null;
+                this._displayNext();
+            },
+        );
     }
 
     _translatePopup() {
