@@ -49,15 +49,6 @@ export class Animations {
             this.game = state.game;
             this.myIndex = state.me.index;
             if (
-                this.game.players &&
-                !this.game.isOver &&
-                (this.game.currentPlayerIndex !== this._currentPlayerIndex ||
-                    this._currentNbTurns !== this.game.nbTurns)
-            ) {
-                this._currentPlayerIndex = this.game.currentPlayerIndex;
-                this._currentNbTurns = this.game.nbTurns;
-                this._playTransitionAnimation();
-            } else if (
                 this.game.actions &&
                 this.game.actions[this.game.actions.length - 1].trump &&
                 this.game.actions.length > this._playedAnimationForAction
@@ -72,6 +63,19 @@ export class Animations {
                 this._playedAnimationForAction = this.game.actions.length;
                 this._playSpecialActionAnimation(this.game.actions[this.game.actions.length - 1]);
             }
+
+            if (
+                this.game.players &&
+                !this.game.isOver &&
+                (this.game.currentPlayerIndex !== this._currentPlayerIndex ||
+                    this._currentNbTurns !== this.game.nbTurns)
+            ) {
+                // Play the transition popup last. We want to play all animation relating with the
+                // turn before it. We may play it even if other animations were played.
+                this._currentPlayerIndex = this.game.currentPlayerIndex;
+                this._currentNbTurns = this.game.nbTurns;
+                this._playTransitionAnimation();
+            }
         });
     }
 
@@ -84,7 +88,7 @@ export class Animations {
 
         let initiatorHero = this.game.players[action.initiator.index].hero;
         popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
-        popupData.translate.messages.playerName = this.game.players[this._currentPlayerIndex].name;
+        popupData.translate.messages.playerName = this.game.players[action.initiator.index].name;
         popupData.assassinImg = AssetSource.forAnimation({
             name: action.specialAction.trumpArgs.name,
             color: action.specialAction.trumpArgs.color,
