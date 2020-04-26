@@ -17,7 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (/.*arenaoftitans\.(com|fr)/.test(window.location.host)) {
+if (/.*last-run\.(com|fr)/.test(window.location.host)) {
     var _paq = _paq || [];
     var siteId;
     var domains;
