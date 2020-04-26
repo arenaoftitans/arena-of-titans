@@ -65,14 +65,8 @@ export class AotInfosCustomElement {
 
     show(target) {
         if (this.type === "trumps" || this.type === "affecting-trumps" || this.type === "power") {
-            let left = document.getElementById("player-trumps").getBoundingClientRect().width;
-            if (this.type === "affecting-trumps") {
-                left += document.getElementById("trumps-affecting-player").getBoundingClientRect()
-                    .width;
-            }
-
-            this.infosDiv.style.top = target.getBoundingClientRect().top - this.height / 2 + "px";
-            this.infosDiv.style.left = `${left}px`;
+            this.infosDiv.style.top = target.getBoundingClientRect().top + "px";
+            this.infosDiv.style.left = `18%`;
         } else if (this.type === "cards") {
             let targetBoundingClientRect = target.getBoundingClientRect();
 

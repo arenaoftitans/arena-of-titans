@@ -18,8 +18,15 @@
  *
  */
 
-export function selectSquare(state, square) {
+export function displayTrumpInfos(state, { infos, type }) {
     const newState = { ...state };
-    newState.currentTurn = { ...state.currentTurn };
-    newState.currentTurn.selectedSquare = square;
+    newState.currentTurn = {
+        ...state.currentTurn,
+        trumpInfosData: {
+            infos,
+            type,
+        },
+    };
+
+    return newState;
 }

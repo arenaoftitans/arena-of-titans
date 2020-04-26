@@ -64,6 +64,10 @@ Object {
     "possibleSquares": Array [],
     "selectedCard": null,
     "selectedTrump": null,
+    "trumpInfosData": Object {
+      "infos": Object {},
+      "type": null,
+    },
   },
   "game": Object {
     "actions": Array [

@@ -25,6 +25,7 @@
     <require from="./widgets/notifications/notifications"></require>
     <require from="./widgets/player-box/player-box"></require>
     <require from="./widgets/trumps/trumps"></require>
+    <require from="./widgets/infos/infos"></require>
 
     <main id="play">
         <div class="play-left">
@@ -34,6 +35,8 @@
         <!-- block left -->
 
         <div class="play-middle">
+            <aot-infos type.bind="trumpInfosData.type" infos.bind="trumpInfosData.infos"></aot-infos>
+
             <div id="board-bg">
                 <div id="board-effect-bg" class="bgClass">
                     <aot-player-box

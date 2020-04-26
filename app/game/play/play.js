@@ -51,6 +51,7 @@ export class Play {
         this._subscription = this._store.state.subscribe(state => {
             this.me = state.me || {};
             this.players = state.game.players ? state.game.players : {};
+            this.trumpInfosData = state.currentTurn.trumpInfosData;
             if (this.players[state.game.currentPlayerIndex]) {
                 this.currentPlayerName = this.players[state.game.currentPlayerIndex].name;
             }

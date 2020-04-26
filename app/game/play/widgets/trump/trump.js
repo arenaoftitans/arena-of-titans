@@ -141,6 +141,7 @@ export class AotTrumpCustomElement {
             visible: true,
             event: event,
         };
+        this._store.dispatch("displayTrumpInfos", { infos: this.infos, type: this.infosType });
         this._eas.publish("aot:trump:mouseover", this.trump);
     }
 
@@ -177,6 +178,7 @@ export class AotTrumpCustomElement {
         this.infos = {
             visible: false,
         };
+        this._store.dispatch("displayTrumpInfos", { infos: this.infos, type: this.infosType });
         this._eas.publish("aot:trump:mouseout");
     }
 
