@@ -113,12 +113,13 @@ export class AotCounterCustomElement {
     }
 
     init() {
+        clearInterval(this.timerIntervalForSpecialAction);
+        clearInterval(this.timerInterval);
+
         if (this.counterCanvas === null) {
             this._logger.debug("Counter canvas is not in the DOM yet. Init was called too soon.");
             return;
         }
-
-        clearInterval(this.timerInterval);
 
         if (!this.yourTurn || this.game.isOver || this.startTime !== null) {
             this.startTime = null;
