@@ -27,6 +27,7 @@ export class Popup {
     constructor(i18n, ea) {
         this._i18n = i18n;
         this._ea = ea;
+        this._deferredId = 0;
 
         this._logger = LogManager.getLogger("AoTPopup");
         this._popups = [];
@@ -45,7 +46,10 @@ export class Popup {
     }
 
     _createDeferred() {
-        const deferred = {};
+        this._deferredId += 1;
+        const deferred = {
+            id: this._deferredId,
+        };
         deferred.promise = new Promise((resolve, reject) => {
             deferred.resolve = (...args) => {
                 resolve(...args);
