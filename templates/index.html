@@ -52,48 +52,20 @@
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             }
 
-            .splash .fa-spinner {
-                text-align: center;
-                display: inline-block;
-                font: normal normal normal 72px/1 FontAwesome;
-                margin-top: 50px;
-            }
-
-            .fa-spinner::before {
-                content: "\f110";
-            }
-
-            .fa-spin {
-                -webkit-animation: fa-spin 2s infinite linear;
-                animation: fa-spin 2s infinite linear
-            }
-
-            @-webkit-keyframes fa-spin {
-                0% {
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg)
-                }
-                100% {
-                    -webkit-transform: rotate(359deg);
-                    transform: rotate(359deg)
-                }
-            }
-            @keyframes fa-spin {
-                0% {
-                    -webkit-transform: rotate(0deg);
-                    transform: rotate(0deg)
-                }
-                100% {
-                    -webkit-transform: rotate(359deg);
-                    transform: rotate(359deg)
-                }
+            .splash img {
+                width: 64px;
+                height: 64px;
             }
         </style>
     </head>
     <body aurelia-app="main">
         <div class="splash">
             <div class="message">Last Run</div>
-            <i class="fa fa-spinner fa-spin"></i>
+            <picture>
+                <source srcset="./dist/assets/spinner-ba21350681.png" type="image/apng">
+                <source srcset="./dist/assets/spinner-a882f2a24a.gif" type="image/gif">
+                <img src="./dist/assets/spinner-a882f2a24a.gif">
+            </picture>
         </div>
 
         <div class="application-load-errors" style="display: none">
