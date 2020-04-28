@@ -5,8 +5,8 @@ import transpile from "./transpile";
 import processMarkup from "./process-markup";
 import processCSS from "./process-css";
 import copyFiles from "./copy-files";
-import buildAssets, { buildBundlesList, writeManifest } from "./build-assets";
-import renderTemplates from "./render-templates";
+import buildAssets, { writeManifest } from "./build-assets";
+import { renderIndex, renderSw } from "./render-templates";
 import watch from "./watch";
 import project from "../aurelia.json";
 import { cleanDist, getApiVersion, getVersion, loadEnvVariables } from "./utils";
@@ -16,10 +16,13 @@ loadEnvVariables();
 let build = gulp.series(
     readProjectConfiguration,
     buildAssets,
-    renderTemplates,
+    // This must be done before the bundles are written the the build process can link to the
+    // proper bundle.
+    renderIndex,
     gulp.parallel(transpile, processMarkup, processCSS),
     writeBundles,
-    buildBundlesList,
+    // This must be done once the bundles are written so we can get their list.
+    renderSw,
     writeManifest,
     copyFiles,
 );

@@ -26,10 +26,11 @@ import * as lobbyActions from "./actions/lobby";
 import * as playActions from "./actions/play";
 import * as currentTurnActions from "./actions/currentTurn";
 import { Popup } from "./services/popup";
+import { SW } from "../services/sw";
 
-@inject(Store, Popup)
+@inject(Store, Popup, SW)
 export class Layout {
-    constructor(store, popup) {
+    constructor(store, popup, sw) {
         Object.entries(commonActions).map(([name, action]) => {
             store.registerAction(name, action);
         });
@@ -46,8 +47,8 @@ export class Layout {
         this._popup = popup;
         this.assetSource = AssetSource;
 
+        sw.preloadBundles("game");
         AssetSource.preloadAssets("game");
-        AssetSource.preloadBundles("game");
     }
 
     configureRouter(config, router) {

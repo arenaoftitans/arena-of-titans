@@ -1,10 +1,10 @@
 /index.html
+/sw.js
 /node_modules
 /dist
 /public
 /app/environment.js
 /app/assets-list.js
-/app/bundles-list.js
 /reports
 npm-debug.log
 yarn-error.log
