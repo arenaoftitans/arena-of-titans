@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import stringify from "json-stable-stringify";
+import glob from "glob";
 import gulp from "gulp";
 import transform from "gulp-transform";
 import logger from "loggy";
@@ -52,12 +53,13 @@ function getObjectAtPath(obj, path) {
 export function getTemplatesVariables() {
     const env = CLIOptions.getEnvironment();
     const envToPiwikId = {
-        'prod': 3,
-        'staging': 4,
+        prod: 3,
+        staging: 4,
     };
 
     return {
         env,
+        bundlesList: glob.sync(project.assets.bundles.source, { nodir: true }),
         piwikId: envToPiwikId[env],
         version: getVersion(),
     };

@@ -18,6 +18,8 @@
  *
  */
 
+const bundlesList = "{{ bundlesList }}".split(",");
+
 function log(text) {
     console.log(`[SW] ${text}`); // eslint-disable-line no-console
 }
@@ -48,3 +50,35 @@ self.addEventListener("fetch", event => {
         }),
     );
 });
+
+self.addEventListener("message", event => {
+    const [messageType, kind] = event.data.split(".");
+
+    if (messageType !== "preload") {
+        return;
+    }
+
+    const cacheName = `${kind}Bundles`;
+    const bundlesToPreload = Object.values(bundlesList).filter(bundleSrc =>
+        bundleSrc.includes(kind),
+    );
+    debug(`Preading bundles: ${bundlesToPreload}`);
+    addAll(cacheName, bundlesToPreload);
+});
+
+function addAll(cacheName, filesList) {
+    caches.open(cacheName).then(cache => cache.addAll(filesList));
+    caches.open(cacheName).then(cache =>
+        cache.keys().then(cacheContent => {
+            const requestAndUrls = cacheContent
+                .map(request => [request, request.url])
+                .map(([request, url]) => [request, new URL(url).pathname]);
+            requestAndUrls.forEach(([request, url]) => {
+                if (!filesList.includes(url)) {
+                    debug(`Deleting request ${request.url}`);
+                    cache.delete(request);
+                }
+            });
+        }),
+    );
+}

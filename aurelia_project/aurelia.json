@@ -1,5 +1,8 @@
 {
     "assets": {
+        "bundles": {
+            "source": "dist/scripts/*.js"
+        },
         "manifest": {
             "name": "assets-list.js",
             "output": "app"

@@ -21,14 +21,16 @@ import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import routes, { NOT_FOUND as notFoundRoute } from "./routes";
+import { SW } from "./services/sw";
 
-@inject(EventAggregator)
+@inject(EventAggregator, SW)
 export class App {
     router;
     ea;
 
-    constructor(ea) {
+    constructor(ea, sw) {
         this._ea = ea;
+        this._sw = sw;
         this._logger = LogManager.getLogger("app");
     }
 
@@ -39,9 +41,10 @@ export class App {
 
         if (navigator.serviceWorker) {
             this._logger.info("Registering SW");
-            navigator.serviceWorker
-                .register("./sw.js")
-                .then(() => this._logger.info("SW registration succeeded."));
+            navigator.serviceWorker.register("./sw.js").then(registration => {
+                this._logger.info("SW registration succeeded.");
+                this._sw.swRegistration = registration;
+            });
         }
     }
 
