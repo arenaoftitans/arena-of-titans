@@ -47,7 +47,6 @@ export class Layout {
         this.assetSource = AssetSource;
 
         AssetSource.preloadAssets("game");
-        AssetSource.preloadBundles("game");
     }
 
     configureRouter(config, router) {

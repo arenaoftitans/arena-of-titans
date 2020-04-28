@@ -5,7 +5,7 @@ import transpile from "./transpile";
 import processMarkup from "./process-markup";
 import processCSS from "./process-css";
 import copyFiles from "./copy-files";
-import buildAssets, { buildBundlesList, writeManifest } from "./build-assets";
+import buildAssets, { writeManifest } from "./build-assets";
 import renderTemplates from "./render-templates";
 import watch from "./watch";
 import project from "../aurelia.json";
@@ -19,7 +19,6 @@ let build = gulp.series(
     renderTemplates,
     gulp.parallel(transpile, processMarkup, processCSS),
     writeBundles,
-    buildBundlesList,
     writeManifest,
     copyFiles,
 );

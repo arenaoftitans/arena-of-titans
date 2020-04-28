@@ -35,12 +35,6 @@ function hashFiles() {
         .pipe(gulp.dest(project.assets.manifest.output));
 }
 
-export function buildBundlesList() {
-    return glob(project.assets.bundles.source, { nodir: true })
-        .then(fileNames => dumpAsExportedData(fileNames))
-        .then(content => writeFile(project.assets.bundles.output, content));
-}
-
 function fixPermissions() {
     return glob(`${project.assets.output}/**/*`, { nodir: true }).then(files =>
         Promise.map(files, file => chmod(file, "0644")),
