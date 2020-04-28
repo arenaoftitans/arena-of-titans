@@ -329,7 +329,10 @@
     "templates": {
         "displayName": "Templates",
         "id": "templates",
-        "source": "templates/**/*"
+        "sources": {
+            "index": "templates/index.html",
+            "sw": "templates/sw.js"
+        }
     },
     "testFramework": {
         "config": {
