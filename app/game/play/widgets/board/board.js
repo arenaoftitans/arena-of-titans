@@ -116,16 +116,33 @@ export class AotBoardCustomElement {
     _movePlayer(player) {
         let pawnId = `player${player.index}Container`;
         let pawn = document.getElementById(pawnId);
-        let square = document.getElementById("square-" + player.square.x + "-" + player.square.y);
+        let squareContainer = document.getElementById(
+            "square-" + player.square.x + "-" + player.square.y,
+        );
+        const square = squareContainer.getElementsByClassName("square")[0];
         // Squares position depends on a `transform="translate()"` attribute. We need to parse it to
         // place the pawns correctly.
         const transform = square.getAttribute("transform");
-        const transformElements = /^[a-z]+\((\d+\.?\d*)[ ,](\d+\.?\d*)/.exec(transform);
-        const xTransform = transformElements[1];
-        const yTransform = transformElements[2];
+        const squareHeight = square.getAttribute("height");
+        const squareWidth = square.getAttribute("width");
+        let transformElements;
+        let xTransform;
+        let yTransform;
+        if (transform.startsWith("translate")) {
+            transformElements = /^translate\((\d+\.?\d*)[ ,](\d+\.?\d*)/.exec(transform);
+            xTransform = transformElements[1];
+            yTransform = transformElements[2];
+        } else {
+            // eslint-disable-next-line max-len
+            transformElements = /^matrix\(-?\d*\.?\d* -?\d*\.?\d* -?\d*\.?\d* -?\d*\.?\d* (-?\d*\.?\d*) (-?\d*\.?\d*)\)$/.exec(
+                transform,
+            );
+            xTransform = parseInt(transformElements[1], 10) - parseInt(squareWidth, 10) / 2;
+            yTransform = parseInt(transformElements[2], 10) - parseInt(squareHeight, 10) / 2;
+        }
 
-        pawn.setAttribute("height", square.getAttribute("height"));
-        pawn.setAttribute("width", square.getAttribute("width"));
+        pawn.setAttribute("height", squareHeight);
+        pawn.setAttribute("width", squareWidth);
         pawn.setAttribute("x", xTransform);
         pawn.setAttribute("y", yTransform);
     }
@@ -182,7 +199,7 @@ export class AotBoardCustomElement {
 
     enableBoardMode() {
         this._logger.debug(`Switched board to ${this.boardMode}`);
-        const squares = this.squaresLayer.querySelectorAll(".square");
+        const squares = this.squaresLayer.querySelectorAll(".square-container");
         switch (this.boardMode) {
             case BOARD_SELECT_SQUARE_MODE:
                 for (let i = 0; i < squares.length; i++) {

@@ -1,7 +1,7 @@
 @import "../../../../style/variables";
 
 $square-blink-time: 1s;
-$square-opacity: 0.6;
+$square-opacity: 0;
 
 aot-board {
     & > svg {
@@ -9,15 +9,24 @@ aot-board {
         width: 100%;
     }
 
-    .square {
+    .square-container {
+        .square-highlight {
+            opacity: 0;
+        }
+
         &.highlighted {
-            animation: square-blink $square-blink-time infinite;
             cursor: pointer;
-            opacity: $square-opacity;
+
+            .square-highlight {
+                animation: square-blink $square-blink-time infinite;
+                opacity: $square-opacity;
+            }
 
             &:hover {
-                animation-play-state: paused;
-                opacity: $square-opacity !important;
+                .square-highlight {
+                    animation: none;
+                    opacity: 1 !important;
+                }
             }
         }
 
@@ -25,8 +34,9 @@ aot-board {
             cursor: pointer;
 
             &:hover {
-                cursor: pointer;
-                opacity: $square-opacity;
+                .square-highlight {
+                    opacity: 1;
+                }
             }
 
             &.arrival-square {
