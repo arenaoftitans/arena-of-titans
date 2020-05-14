@@ -258,15 +258,25 @@ export class AotTrumpCustomElement {
             return [];
         }
 
-        return this.playerIndexes
-            .filter(index => index !== null)
-            .filter(index => index !== undefined)
-            .filter(index => index !== this.myIndex)
-            .filter(index => this.me.trumpTargetIndexes.includes(index))
-            .map(index => ({
-                index,
-                name: this.playerNames[index],
-            }));
+        const otherPlayerNames = [];
+        for (let i = 0; i < this.playerIndexes.length; i++) {
+            const index = this.playerIndexes[i];
+            const name = this.playerNames[i];
+
+            if (
+                index !== null &&
+                index !== undefined &&
+                index !== this.myIndex &&
+                this.me.trumpTargetIndexes.includes(index)
+            ) {
+                otherPlayerNames.push({
+                    index,
+                    name,
+                });
+            }
+        }
+
+        return otherPlayerNames;
     }
 
     get yourTurn() {
