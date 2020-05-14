@@ -65,7 +65,9 @@ export class AotCounterCustomElement {
         });
 
         this._eas.subscribe("aot:notifications:special_action_in_game_help_seen", () => {
-            this.startSpecialActionCounter();
+            if (!this.specialActionInProgress) {
+                this.startSpecialActionCounter();
+            }
         });
     }
 
@@ -99,15 +101,13 @@ export class AotCounterCustomElement {
         this._eas.dispose();
     }
 
-    _notifySpecialAction(specialActionName) {
-        this.specialActionName = specialActionName;
+    _notifySpecialAction() {
         this.pause();
         this.specialActionInProgress = true;
     }
 
     _endSpecialAction() {
         this.specialActionInProgress = false;
-        this.specialActionName = null;
         this.resume();
         clearInterval(this.timerIntervalForSpecialAction);
     }
