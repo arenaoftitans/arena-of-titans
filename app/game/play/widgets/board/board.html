@@ -5155,42 +5155,42 @@
                  xlink:href="${squaresToColors['square-16-10'] || '#forest-symbol'}"/>
         </g>
         <g id="pawns" ref="pawnLayer" transform="translate(-70.8)">
-            <image class="${isPawnClickable[0] ? 'pointer' : ''}" click.delegate="pawnClicked(0)" height="300"
+            <image class="${clickablePawnIndexes.includes(0) ? 'pointer' : ''}" click.delegate="pawnClicked(0)" height="300"
                    id="player0Container" if.bind="playerIndexes.includes(0)"
                    mouseenter.trigger="showPlayerName(0, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[0])"/>
-            <image class="${isPawnClickable[1] ? 'pointer' : ''}" click.delegate="pawnClicked(1)" height="300"
+            <image class="${clickablePawnIndexes.includes(1) ? 'pointer' : ''}" click.delegate="pawnClicked(1)" height="300"
                    id="player1Container" if.bind="playerIndexes.includes(1)"
                    mouseenter.trigger="showPlayerName(1, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[1])"/>
-            <image class="${isPawnClickable[2] ? 'pointer' : ''}" click.delegate="pawnClicked(2)" height="300"
+            <image class="${clickablePawnIndexes.includes(2) ? 'pointer' : ''}" click.delegate="pawnClicked(2)" height="300"
                    id="player2Container" if.bind="playerIndexes.includes(2)"
                    mouseenter.trigger="showPlayerName(2, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[2])"/>
-            <image class="${isPawnClickable[3] ? 'pointer' : ''}" click.delegate="pawnClicked(3)" height="300"
+            <image class="${clickablePawnIndexes.includes(3) ? 'pointer' : ''}" click.delegate="pawnClicked(3)" height="300"
                    id="player3Container" if.bind="playerIndexes.includes(3)"
                    mouseenter.trigger="showPlayerName(3, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[3])"/>
-            <image class="${isPawnClickable[4] ? 'pointer' : ''}" click.delegate="pawnClicked(4)" height="300"
+            <image class="${clickablePawnIndexes.includes(4) ? 'pointer' : ''}" click.delegate="pawnClicked(4)" height="300"
                    id="player4Container" if.bind="playerIndexes.includes(4)"
                    mouseenter.trigger="showPlayerName(4, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[4])"/>
-            <image class="${isPawnClickable[5] ? 'pointer' : ''}" click.delegate="pawnClicked(5)" height="300"
+            <image class="${clickablePawnIndexes.includes(5) ? 'pointer' : ''}" click.delegate="pawnClicked(5)" height="300"
                    id="player5Container" if.bind="playerIndexes.includes(5)"
                    mouseenter.trigger="showPlayerName(5, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[5])"/>
-            <image class="${isPawnClickable[6] ? 'pointer' : ''}" click.delegate="pawnClicked(6)" height="300"
+            <image class="${clickablePawnIndexes.includes(6) ? 'pointer' : ''}" click.delegate="pawnClicked(6)" height="300"
                    id="player6Container" if.bind="playerIndexes.includes(6)"
                    mouseenter.trigger="showPlayerName(6, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"
                    xlink:href.bind="assetSource.forPawn(heroes[6])"/>
-            <image class="${isPawnClickable[7] ? 'pointer' : ''}" click.delegate="pawnClicked(7)" height="300"
+            <image class="${clickablePawnIndexes.includes(7) ? 'pointer' : ''}" click.delegate="pawnClicked(7)" height="300"
                    id="player7Container" if.bind="playerIndexes.includes(7)"
                    mouseenter.trigger="showPlayerName(7, $event)"
                    mouseleave.trigger="hidePlayerName()" style="isolation:isolate" width="300"

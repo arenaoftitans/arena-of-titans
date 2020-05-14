@@ -254,7 +254,7 @@ export class AotBoardCustomElement {
     }
 
     pawnClicked(index) {
-        if (this.isPawnClickable[index]) {
+        if (this.clickablePawnIndexes.includes(index)) {
             this._selectedPawnIndex = index;
             this._store.dispatch("viewSpecialActionActions", index);
         }
@@ -273,17 +273,14 @@ export class AotBoardCustomElement {
         return Object.values(this.players).map(player => player.index);
     }
 
-    get isPawnClickable() {
-        let results = [];
-        for (let index of this.playerIndexes) {
-            results.push(
-                this.pawnClickable &&
-                    this.players[index].canPawnBeSelected &&
-                    index !== this.playerIndex,
-            );
+    get clickablePawnIndexes() {
+        if (!this.pawnClickable) {
+            return [];
         }
 
-        return results;
+        return this.playerIndexes.filter(
+            index => index !== this.playerIndex && this.players[index].canPawnBeSelected,
+        );
     }
 
     get heroes() {
