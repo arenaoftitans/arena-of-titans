@@ -49,6 +49,11 @@ export class Create {
     }
 
     updateMySlot() {
+        if (!this.currentPlayerName) {
+            this._logger.debug("Player name is empty. Waiting to update player name.");
+            return;
+        }
+
         this.updateSlot({
             ...this.mySlot,
             playerName: this.currentPlayerName,
