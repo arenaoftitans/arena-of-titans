@@ -216,7 +216,7 @@ export class AotTrumpCustomElement {
 
         let selectedIndex = randomInt(0, otherPlayerNames.length - 1);
         let popupData = {
-            selectedChoice: otherPlayerNames[selectedIndex],
+            selectedChoice: otherPlayerNames[selectedIndex].index,
             choices: otherPlayerNames,
             translate: {
                 messages: {
@@ -231,7 +231,7 @@ export class AotTrumpCustomElement {
         };
         this._popup.display("confirm", popupData).then(
             choice => {
-                this._store.dispatch("playTrump", this.trump, choice.index);
+                this._store.dispatch("playTrump", this.trump, choice);
             },
             () => this._logger.debug("Player canceled trump"),
         );
