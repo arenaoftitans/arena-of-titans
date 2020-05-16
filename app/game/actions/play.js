@@ -138,7 +138,7 @@ export function discardCard(state) {
 
     getApi().discardCard(selectedCard);
 
-    return state;
+    return newState;
 }
 
 export function playTrump(state, trump, targetIndex) {
