@@ -51,6 +51,11 @@ export function playerUpdated(state, request) {
         newState.currentTurn = getEmptyCurrentTurn();
     }
 
+    if (newState.currentTurn.mustAutoAskPossibleSquares) {
+        dispatchify(viewPossibleMovements)(state.currentTurn.selectedCard);
+        newState.currentTurn.mustAutoAskPossibleSquares = false;
+    }
+
     return newState;
 }
 
@@ -142,13 +147,15 @@ export function discardCard(state) {
 }
 
 export function playTrump(state, trump, targetIndex) {
+    const newState = { ...state };
+
     getApi().playTrump(trump, targetIndex);
 
     if (state.currentTurn.selectedCard) {
-        dispatchify(viewPossibleMovements)(state.currentTurn.selectedCard);
+        newState.currentTurn.mustAutoAskPossibleSquares = true;
     }
 
-    return state;
+    return newState;
 }
 
 export function passSpecialAction(state, options = {}) {

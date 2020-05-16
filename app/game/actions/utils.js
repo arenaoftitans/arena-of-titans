@@ -68,6 +68,7 @@ export function getEmptyCurrentTurn() {
         selectedTrump: null,
         boardMode: BOARD_MOVE_MODE,
         possibleSquares: [],
+        mustAutoAskPossibleSquares: false,
         trumpInfosData: {
             infos: {},
             type: null,

@@ -61,6 +61,7 @@ exports[`api should handle message 1`] = `
 Object {
   "currentTurn": Object {
     "boardMode": "move_mode",
+    "mustAutoAskPossibleSquares": false,
     "possibleSquares": Array [],
     "selectedCard": null,
     "selectedTrump": null,

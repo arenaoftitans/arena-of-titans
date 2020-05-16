@@ -46,6 +46,7 @@ exports[`actions Update state when game and player is updated 1`] = `
 Object {
   "currentTurn": Object {
     "boardMode": "move_mode",
+    "mustAutoAskPossibleSquares": false,
     "possibleSquares": Array [],
     "selectedCard": null,
     "selectedTrump": null,
