@@ -63,7 +63,9 @@ aot-trumps {
         }
 
         .column-left {
+            display: flex;
             flex-basis: 40%;
+            flex-direction: column;
             order: 1;
         }
 
