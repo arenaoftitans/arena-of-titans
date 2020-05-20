@@ -18,7 +18,31 @@
  */
 
 if (/.*last-run\.(com|fr)/.test(window.location.host)) {
+    function privacyCnil(_paq) {
+        // From https://www.cnil.fr/sites/default/files/typo/document/Configuration_piwik.pdf
+        _paq.push([
+            function() {
+                var self = this;
+
+                function getOriginalVisitorCookieTimeout() {
+                    var now = new Date(),
+                        nowTs = Math.round(now.getTime() / 1000),
+                        visitorInfo = self.getVisitorInfo();
+                    var createTs = parseInt(visitorInfo[2]);
+                    var cookieTimeout = 33696000; // 13 mois en secondes
+                    var originalTimeout = createTs + cookieTimeout - nowTs;
+                    return originalTimeout;
+                }
+
+                this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+            },
+        ]);
+    }
+
     var _paq = _paq || [];
+
+    privacyCnil(_paq);
+
     var siteId;
     var domains;
     if (/^www/.test(window.location.host)) {
