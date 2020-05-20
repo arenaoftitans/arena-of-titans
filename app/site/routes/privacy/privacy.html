@@ -1,5 +1,5 @@
 <!--
-# Copyright (C) 2015-2016 by Arena of Titans Contributors.
+# Copyright (C) 2015-2017 by Arena of Titans Contributors.
 #
 # This file is part of Arena of Titans.
 #
@@ -14,18 +14,17 @@
 # GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-# along with Arena of Titans. If not, see <http://www.GNU Affero.org/licenses/>.
+# along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-    <require from="./aot-footer.css"></require>
+    <div slot="main" class="row-block bg-content centered-block-site">
+        <p t="site.privacy_common"></p>
+        <p t="site.privacy_warning"></p>
 
-    <footer>
-        <div class="social centered-text">
-            <a route-href="site-privacy" t="site.page_title.privacy"></a>
-            <a href="https://www.facebook.com/arenaoftitans/" target="_blank">Facebook</a>
-            <a href="https://twitter.com/ArenaOfTitans" target="_blank">Twitter</a>
-            <a href="https://gitlab.com/arenaoftitans/" target="_blank">Source code</a>
-        </div>
-    </footer>
+        <iframe
+            style="border: 0; height: 200px; width: 600px;"
+            src="https://piwik.jujens.eu/index.php?module=CoreAdminHome&action=optOut&language=${language}&backgroundColor=&fontColor=F5DEB3&fontSize=&fontFamily=Roboto Condensed, sans-serif"
+        ></iframe>
+    </div>
 </template>

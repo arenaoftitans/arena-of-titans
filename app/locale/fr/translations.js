@@ -325,6 +325,7 @@ export default {
             "home": "Accueil",
             "not_found": "Page introuvable",
             "play_game": "Jouer",
+            "privacy": "Vie privée",
             "synopsis": "Synopsis",
             "trumps": "Atouts"
         },
@@ -348,6 +349,8 @@ export default {
                 "p8": "Les Elvains sont un peuple cousin de celui des Elfes et des Nains. De petites tailles, les Elvains possèdent une agilité hors norme qui leur permet souvent de prendre de vitesse leur adversaire. Les mages Elvains sont réputés pour leurs invocations d’esprits runiques qui s’avèrent des armes ultra puissantes sur un champ de bataille. Les Elvains aiment voyager et il est fréquent d’en trouver vivant temporairement au milieu d’un autre peuple. La majorité des cartes du Miroir est le fruit de retranscription de leurs épopées."
             }
         },
+        "privacy_common": "Nous utilisons les cookies uniquement pour tracker les visites. Nous supportons Do Not Track, nous n'enregistrons que les 2 premiers octets de votre adresse IP et le cookie de tracking a une durée de vie de 13 mois. En résumé, notre instance Matomo suit les recommendations de la CNIL et de ce fait nous n'avons pas à demander votre consentements pour les cookies. Nous n'avons pas oublié, nous ne vous traquons juste pas assez pour en avoir besoin !",
+        "privacy_warning": "Si rien ne s'affiche sous ce message, cela signifie que votre navigateur bloque les cookies et que nous ne pouvons pas afficher le formulaire d'opt-out. Cela signifie également que vous n'êtes pas traqués.",
         "rules": {
             "heroes": "<h2>Héros</h2>\n                <p>En plus des pouvoirs offerts par les Titans, chaque héros possède une compétence unique (il faut bien qu’ils soient forts à défaut d’être beaux). Cette compétence peut être « passive » c'est-à-dire agir en continu dans l’Arène ou « activable » une fois ta jauge d’exploration suffisamment remplie.</p>",
             "moves": "<h2>Déplacements</h2>\n                <p>Comme expliqué dans la présentation générale des règles (oui c’est mieux de lire dans l’ordre), l’Arène est divisée en plusieurs zones. Chaque couleur correspond à une zone contrôlée par une famille. Pour la traverser il faut donc avoir l’approbation d’un des membres de cette famille. Et pour avoir l'approbation, il faut avoir de la chance !\nJe sens que je t’ai perdu alors je vais résumer : tu as une main de cartes aléatoires, donc pour avancer, tu cliques sur une carte puis sur la case où tu veux te déplacer. A chaque tour tu peux jouer jusqu’à deux cartes Déplacement. A toi d’optimiser tes déplacements pour prendre l’avantage !\n                </p>\n                <img src=\"/latest/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",

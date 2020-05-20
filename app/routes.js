@@ -68,6 +68,13 @@ const SITE_ROUTES = [
         nav: false,
         title: "site.page_title.trumps",
     },
+    {
+        route: "/privacy",
+        name: "privacy",
+        moduleId: "./site/routes/privacy/privacy",
+        nav: false,
+        title: "site.page_title.privacy",
+    },
 ];
 configureSiteRoutes(SITE_ROUTES);
 
