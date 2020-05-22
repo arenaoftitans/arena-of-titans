@@ -15,6 +15,7 @@
             {
                 "name": "common-bundle.js",
                 "source": [
+                    "[**/translations.js]",
                     "[**/locale/**/*.js]",
                     "[**/routes.js]",
                     "[**/app.js]",

@@ -5,6 +5,7 @@ import parseCsv from "csv-parse/lib/sync.js";
 import request from "request-promise";
 import { CLIOptions } from "aurelia-cli";
 import project from "../aurelia.json";
+import foundKeys from "../../app/locale/en/_translation_keys.json";
 import { buildObjectWithKeys, dumpAsExportedData, flattenArray, insertInto } from "./utils";
 
 const writeFile = util.promisify(fs.writeFile);
@@ -49,6 +50,9 @@ async function updateTranslations() {
 
         return translations;
     };
+    const findAllTranslationKeys = rows => {
+        return rows.map(row => row.msgid);
+    };
 
     const tabsData = await Promise.map(resource.source, src => request(src.url));
     const nestedRows = tabsData
@@ -70,6 +74,43 @@ async function updateTranslations() {
         data: dumpAsExportedData(translations[lang]),
         file: resource.dest[lang],
     }));
+
+    const foundKeysInCode = Object.keys(foundKeys);
+    const foundKeysInTranslationFile = findAllTranslationKeys(rows);
+
+    const missingInTranslations = foundKeysInCode
+        .filter(key => !foundKeysInTranslationFile.includes(key))
+        .filter(key => !key.includes("${"));
+    const missingInCode = foundKeysInTranslationFile
+        .filter(key => !foundKeysInCode.includes(key))
+        // Keys that start with cards or trumps, are often used in string interpolation with the
+        // actual name and color of the card or trump. This leads to false positive so we ignore
+        // them here. Same for heroes and powers.
+        .filter(key => !key.startsWith("cards"))
+        .filter(key => !key.startsWith("site.moves"))
+        .filter(key => !key.startsWith("trumps"))
+        .filter(key => !key.startsWith("heroes"))
+        .filter(key => !key.startsWith("site.heroes"))
+        .filter(key => !key.startsWith("powers"))
+        // Keys under the actions namespace are messages from the API: They are not in the code.
+        // Same for errors.
+        .filter(key => !key.startsWith("actions"))
+        .filter(key => !key.startsWith("errors"));
+
+    if (missingInTranslations.length > 0) {
+        console.warn(
+            `These translation keys exist in the code but not in our translation file: ${missingInTranslations.join(
+                ", ",
+            )}`,
+        );
+    }
+    if (missingInCode.length > 0) {
+        console.warn(
+            `These translation keys exist in the translation file but not in the code: ${missingInCode.join(
+                ", ",
+            )}`,
+        );
+    }
 
     return Promise.map(translationsBlobsToSave, ({ file, data }) => writeFile(file, data));
 }

@@ -18,62 +18,64 @@
  *
  */
 
+import { translationsKey } from "./translations";
+
 const SITE_ROUTES = [
     {
         route: "/founders",
         name: "founders",
         moduleId: "./site/routes/founders/founders",
         nav: false,
-        title: "site.page_title.founders",
+        title: translationsKey("site.page_title.founders"),
     },
     {
         route: "/heroes",
         name: "heroes",
         moduleId: "./site/routes/heroes/heroes",
         nav: false,
-        title: "site.page_title.heroes",
+        title: translationsKey("site.page_title.heroes"),
     },
     {
         route: "",
         name: "home",
         moduleId: "./site/routes/home/home",
         nav: false,
-        title: "site.page_title.home",
+        title: translationsKey("site.page_title.home"),
     },
     {
         route: "/moves",
         name: "moves",
         moduleId: "./site/routes/moves/moves",
         nav: false,
-        title: "site.page_title.moves",
+        title: translationsKey("site.page_title.moves"),
     },
     {
         route: "/people",
         name: "people",
         moduleId: "./site/routes/people/people",
         nav: false,
-        title: "site.page_title.people",
+        title: translationsKey("site.page_title.people"),
     },
     {
         route: "/synopsis",
         name: "synopsis",
         moduleId: "./site/routes/synopsis/synopsis",
         nav: false,
-        title: "site.page_title.synopsis",
+        title: translationsKey("site.page_title.synopsis"),
     },
     {
         route: "/trumps",
         name: "trumps",
         moduleId: "./site/routes/trumps/trumps",
         nav: false,
-        title: "site.page_title.trumps",
+        title: translationsKey("site.page_title.trumps"),
     },
     {
         route: "/privacy",
         name: "privacy",
         moduleId: "./site/routes/privacy/privacy",
         nav: false,
-        title: "site.page_title.privacy",
+        title: translationsKey("site.page_title.privacy"),
     },
 ];
 configureSiteRoutes(SITE_ROUTES);
@@ -81,7 +83,7 @@ configureSiteRoutes(SITE_ROUTES);
 const NOT_FOUND = {
     name: "not-found",
     moduleId: "./site/routes/not-found/not-found",
-    title: "site.page_title.not_found",
+    title: translationsKey("site.page_title.not_found"),
 };
 configureSiteRoutes([NOT_FOUND]);
 

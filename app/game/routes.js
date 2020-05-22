@@ -18,6 +18,8 @@
  *
  */
 
+import { translationsKey } from "../translations";
+
 const ROUTES = [
     {
         route: ["", "/play", "/:version", "/:version/play"],
@@ -28,14 +30,14 @@ const ROUTES = [
         name: "create",
         moduleId: "./create/create",
         nav: false,
-        title: "site.page_title.create_game",
+        title: translationsKey("site.page_title.create_game"),
     },
     {
         route: "/:version/play/:id",
         name: "play",
         moduleId: "./play/play",
         nav: false,
-        title: "site.page_title.play_game",
+        title: translationsKey("site.page_title.play_game"),
     },
 ];
 

@@ -23,6 +23,7 @@ import { AssetSource } from "../../services/assets";
 import { EventAggregatorSubscriptions } from "./utils";
 import { Popup } from "./popup";
 import { Notify } from "./notify";
+import { translationsKey } from "../../translations";
 
 const PLAYER_TRANSITION_POPUP_DISPLAY_TIME = 2800;
 
@@ -117,7 +118,7 @@ export class Animations {
             popupData.translate.messages.message = "game.play.whose_turn_message";
             popupData.htmlMessage = true;
         } else {
-            popupData.translate.messages.message = "game.play.your_turn";
+            popupData.translate.messages.message = translationsKey("game.play.your_turn");
             this._notify.notifyYourTurn();
         }
         let hero = this.game.players[this.game.currentPlayerIndex].hero;

@@ -22,6 +22,7 @@ import { dispatchify } from "aurelia-store";
 import { AssetSource, ImageClass } from "../../services/assets";
 import { displayPopup, getApi, getEmptyCurrentTurn } from "./utils";
 import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE, COLOR_CHOICES } from "../constants";
+import { translationsKey } from "../../translations";
 
 export function gameUpdated(state, request) {
     const newState = { ...state };
@@ -208,7 +209,7 @@ export function selectSquare(state, square) {
         choices: COLOR_CHOICES,
         translate: {
             messages: {
-                title: "game.play.board_select_square_color",
+                title: translationsKey("game.play.board_select_square_color"),
             },
         },
     }).then(chosenColor => {

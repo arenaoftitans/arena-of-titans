@@ -26,6 +26,7 @@ import { Popup } from "../../../services/popup";
 import { Api } from "../../../services/api";
 import { randomInt, EventAggregatorSubscriptions } from "../../../services/utils";
 import { browsers } from "../../../../services/browser-sniffer";
+import { translationsKey } from "../../../../translations";
 
 const PLAYABLE_TRUMP_KINDS = ["player", "power"];
 
@@ -206,7 +207,7 @@ export class AotTrumpCustomElement {
             const popupData = {
                 translate: {
                     messages: {
-                        message: "game.play.no_possible_target_for_trump",
+                        message: translationsKey("game.play.no_possible_target_for_trump"),
                     },
                 },
             };
@@ -222,7 +223,7 @@ export class AotTrumpCustomElement {
                 messages: {
                     title: `trumps.${this.normalizeTrumpName()}`,
                     description: `trumps.${this.normalizeTrumpName()}_description`,
-                    message: "game.play.select_trump_target",
+                    message: translationsKey("game.play.select_trump_target"),
                 },
                 paramsToTranslate: {
                     trumpname: `trumps.${this.normalizeTrumpName()}`,
@@ -241,7 +242,7 @@ export class AotTrumpCustomElement {
         this._popup.display("infos", {
             translate: {
                 messages: {
-                    title: "game.play.board_select_square",
+                    title: translationsKey("game.play.board_select_square"),
                 },
             },
         });

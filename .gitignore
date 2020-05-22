@@ -10,3 +10,7 @@ npm-debug.log
 yarn-error.log
 /.env
 /test/coverage-jest
+
+# This exist only to check translation keys. Don't track with git.
+/app/locale/en/_translation_keys.json
+/app/locale/fr/_translation_keys.json

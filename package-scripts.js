@@ -1,4 +1,4 @@
-const { series, crossEnv, concurrent, rimraf } = require("nps-utils");
+const { series, rimraf } = require("nps-utils");
 
 module.exports = {
     scripts: {
@@ -10,7 +10,11 @@ module.exports = {
         },
         update: {
             defaultnames: "au update-external --kind default-names",
-            translations: "au update-external --kind translations",
+            translations: series(
+                'i18next-scanner "app/**/*.{js,html}" > /dev/null 2>&1',
+                "au update-external --kind translations",
+                "prettier app/locale/**/*.js --write",
+            ),
         },
         lint: series("au lint", 'stylelint "app/**/*.scss"', 'eslint "app/**/*.js" "test/**/*.js"'),
     },

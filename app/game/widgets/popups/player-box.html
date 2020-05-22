@@ -32,7 +32,7 @@
         <div class="margin-top-0">
             <h2 t="game.play.player_box_cards" class="blue-text"></h2>
             <img repeat.for="card of lastPlayedCards" src.bind="card" class="card" />
-            <p if.bind="lastPlayedCards.length === 0" class="centered-text" t="None"></p>
+            <p if.bind="lastPlayedCards.length === 0" class="centered-text" t="game.play.player_played_no_card"></p>
         </div>
 
         <div class="margin-top-0">
@@ -41,7 +41,7 @@
             <p
                 if.bind="activeTrumps.length === 0"
                 class="centered-text no-active-trump"
-                t="None"
+                t="game.play.no_active_trump_on_player"
             ></p>
         </div>
     </div>

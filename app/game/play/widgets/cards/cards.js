@@ -24,6 +24,7 @@ import { I18N } from "aurelia-i18n";
 import { Api } from "../../../services/api";
 import { Blink, Elements, EventAggregatorSubscriptions } from "../../../services/utils";
 import { Popup } from "../../../services/popup";
+import { translationsKey } from "../../../../translations";
 
 const BUTTON_BLINK_TIME = 1000;
 const MAX_BUTTON_BLINK_TIME = 90000;
@@ -139,14 +140,20 @@ export class AotCardsCustomElement {
         };
 
         if (this.specialActionInProgress) {
-            popupData.translate.messages.message = "game.play.pass_special_action_confirm_message";
+            popupData.translate.messages.message = translationsKey(
+                "game.play.pass_special_action_confirm_message",
+            );
             popupCb = () => {
                 this._store.dispatch("passSpecialAction");
             };
         } else if (this.onLastLine) {
-            popupData.translate.messages.message = "game.play.complete_turn_confirm_message";
+            popupData.translate.messages.message = translationsKey(
+                "game.play.complete_turn_confirm_message",
+            );
         } else {
-            popupData.translate.messages.message = "game.play.pass_confirm_message";
+            popupData.translate.messages.message = translationsKey(
+                "game.play.pass_confirm_message",
+            );
         }
         this._popup.display("confirm", popupData).then(popupCb, () => {
             this._logger.debug("Player canceled pass turn.");
@@ -162,13 +169,17 @@ export class AotCardsCustomElement {
         };
         if (this.selectedCard) {
             let card = this.selectedCard;
-            popupData.translate.messages.message = "game.play.discard_confirm_message";
+            popupData.translate.messages.message = translationsKey(
+                "game.play.discard_confirm_message",
+            );
             popupData.translate.paramsToTranslate.cardName = `cards.${card.name.toLowerCase()}_${card.color.toLowerCase()}`; // eslint-disable-line max-len
             this._popup.display("confirm", popupData).then(() => {
                 this._store.dispatch("discardCard");
             });
         } else {
-            popupData.translate.messages.message = "game.play.discard_no_selected_card";
+            popupData.translate.messages.message = translationsKey(
+                "game.play.discard_no_selected_card",
+            );
             this._popup.display("infos", popupData);
         }
     }

@@ -24,6 +24,7 @@ import environment from "../../environment";
 import { Popover } from "./popover";
 import ReconnectingWebSocket from "reconnectingwebsocket";
 import { REQUEST_TYPES } from "../constants";
+import { translationsKey } from "../../translations";
 
 @inject(environment, EventAggregator, Popover)
 export class Ws {
@@ -62,7 +63,10 @@ export class Ws {
         };
         this._ws.onclose = () => {
             this._mustReconnect = true;
-            this._closePopover = this.popover.display("danger", "game.connection_lost");
+            this._closePopover = this.popover.display(
+                "danger",
+                translationsKey("game.connection_lost"),
+            );
             ea.publish("aot:ws:disconnected");
         };
     }

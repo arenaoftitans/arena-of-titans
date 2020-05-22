@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2020 by Last Run Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -15,6 +15,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-export class AotConnectCustomElement {}
+/**
+ * The sole purpose of this function is to mark a translation key as used for i18next-scanner
+ * so the key is not reported as deprecated.
+ */
+export const translationsKey = key => key;

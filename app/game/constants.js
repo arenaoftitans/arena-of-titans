@@ -17,6 +17,8 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { translationsKey } from "../translations";
+
 export const REQUEST_TYPES = {
     // Lobby requests.
     joinedLobby: "JOINED_LOBBY",
@@ -39,5 +41,21 @@ export const REQUEST_TYPES = {
 export const BOARD_MOVE_MODE = "move_mode";
 export const BOARD_SELECT_SQUARE_MODE = "select_square_mode";
 
-export const COLORS = ["black", "blue", "red", "yellow"];
-export const COLOR_CHOICES = COLORS.map(color => ({ index: color, name: `game.${color}` }));
+export const COLOR_CHOICES = [
+    {
+        index: "black",
+        name: translationsKey("game.black"),
+    },
+    {
+        index: "blue",
+        name: translationsKey("game.blue"),
+    },
+    {
+        index: "red",
+        name: translationsKey("game.red"),
+    },
+    {
+        index: "yellow",
+        name: translationsKey("game.yellow"),
+    },
+];
