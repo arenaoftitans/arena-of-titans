@@ -113,14 +113,19 @@ export class AotNotificationsCustomElement {
             this._lastAction.trump = trump;
             this._lastAction.img = AssetSource.forTrump(trump);
             let trumpName = ImageName.forTrump(trump).replace("-", "_");
-            this._lastAction.trump.title = this._i18n.tr(`trumps.${trumpName}`);
-            this._lastAction.trump.description = this._i18n.tr(`trumps.${trumpName}_description`);
+            const messageTranslationNamespace = trump.passive !== undefined ? "powers" : "trumps";
+            this._lastAction.trump.title = this._i18n.tr(
+                `${messageTranslationNamespace}.${trumpName}`,
+            );
+            this._lastAction.trump.description = this._i18n.tr(
+                `${messageTranslationNamespace}.${trumpName}_description`,
+            );
         }
 
         if (lastAction.specialAction) {
             let action = lastAction.specialAction;
             this._lastAction.specialAction = action;
-            let actionName = action.trumpArgs.name.toLowerCase();
+            let actionName = action.name.toLowerCase();
             this._lastAction.specialAction.title = this._i18n.tr(`trumps.${actionName}`);
             this._lastAction.specialAction.description = this._i18n.tr(
                 `trumps.${actionName}_description`,

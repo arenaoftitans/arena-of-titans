@@ -51,6 +51,7 @@ export class Animations {
             if (
                 this.game.actions &&
                 this.game.actions[this.game.actions.length - 1].trump &&
+                this._currentPlayerIndex !== null &&
                 this.game.actions.length > this._playedAnimationForAction
             ) {
                 this._playedAnimationForAction = this.game.actions.length;
@@ -58,6 +59,7 @@ export class Animations {
             } else if (
                 this.game.actions &&
                 this.game.actions[this.game.actions.length - 1].specialAction &&
+                this._currentPlayerIndex !== null &&
                 this.game.actions.length > this._playedAnimationForAction
             ) {
                 this._playedAnimationForAction = this.game.actions.length;
@@ -90,8 +92,8 @@ export class Animations {
         popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
         popupData.translate.messages.playerName = this.game.players[action.initiator.index].name;
         popupData.assassinImg = AssetSource.forAnimation({
-            name: action.specialAction.trumpArgs.name,
-            color: action.specialAction.trumpArgs.color,
+            name: action.specialAction.name,
+            color: action.specialAction.color,
         });
 
         let targetHero = this.game.players[action.target.index].hero;
@@ -141,11 +143,7 @@ export class Animations {
         popupData.initiatorHeroImg = AssetSource.forHero(initiatorHero);
         popupData.translate.messages.playerName = this.game.players[this._currentPlayerIndex].name;
         let trump1 = action.trump;
-        if (trump1.passive !== undefined) {
-            popupData.trumpImg = AssetSource.forPower(trump1.trumpArgs);
-        } else {
-            popupData.trumpImg = AssetSource.forTrump(trump1);
-        }
+        popupData.trumpImg = AssetSource.forTrump(trump1);
         popupData.translate.messages.trumpName = action.trump.name;
 
         // Power-ups are when a trump is played on the initiator (ie player == target)
