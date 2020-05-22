@@ -30,7 +30,7 @@ aot-board {
             }
         }
 
-        &.selectable {
+        &:not(.arrival-square).selectable {
             cursor: pointer;
 
             &:hover {
