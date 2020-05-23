@@ -54,7 +54,7 @@ export class App {
 
     configureRouter(config, router) {
         this.router = router;
-        config.title = "Arena of Titans";
+        config.title = "Last Run";
         config.options.pushState = true;
         config.options.root = this.findRouterRoot();
         config.map(routes);

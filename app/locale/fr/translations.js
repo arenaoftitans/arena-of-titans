@@ -6,13 +6,14 @@ export default {
         "played_card": "{{playerName}} vient de jouer une carte",
         "played_special_action": "{{playerName}} vient de jouer une action spéciale sur {{targetName}}",
         "played_trump": "{{playerName}} vient de jouer un atout sur {{targetName}}",
+        "played_trump_no_effect": "L Atout joué n'a eu aucun effet !",
         "problem": "Il vient d'y avoir un problème",
         "special_action_assassination": "Clique sur le pion d'un joueur. Tu pourras alors choisir la case sur laquelle tu peux le faire reculer.",
         "special_action_info_popup": "Tu viens de jouer une carte avec une action spécial {{action}}",
         "trump_played_by": "Joué par {{initiator}}"
     },
     "cards": {
-        "assassin": "Déplacement de deux cases en ligne ou en diagonal.",
+        "assassin": "Déplacement de deux cases en ligne ou en diagonal. Vous pouvez faire reculer un joueur d'une case de la couleur de l'Assassin.",
         "assassin_black": "Assassin de la Montagne",
         "assassin_blue": "Assassin de l'Eau",
         "assassin_complementary_description": "Coup spécial : Assassinat pour faire reculer un joueur.",
@@ -61,24 +62,19 @@ export default {
             "CLOSED": "Fermé",
             "OPEN": "Ouvert",
             "TAKEN": "Pris",
-            "add": "Ajouter un joueur",
             "create": "Créer le jeu",
-            "enter_name": "Entre ton nom :",
             "heroes": "Héros",
             "invite": "Invitation",
             "invite_text": "Pour inviter tes amis, donne leur ce lien :",
-            "others": "Autres joueurs",
             "players": "Joueurs",
-            "popup_select_hero": "Choisis ton Héros",
             "slot": "Joueur"
         },
-        "game_over": "Game Over",
+        "force_landscape": "Merci de tourner le téléphone en mode paysage pour que le jeu fonctionne",
         "options": "Options",
         "play": {
             "back_home_popup_title": "Que voulez-vous faire ?",
             "board_select_square": "Cliquez sur la case que vous voulez changer",
             "board_select_square_color": "Choisissez la nouvelle couleur de la case",
-            "cancel_special_action": "Ne pas jouer l'action",
             "complete_turn": "Terminer le tour",
             "complete_turn_confirm_message": "Êtes-vous sûr de vouloir terminer le tour ?",
             "discard": "Défausser",
@@ -88,6 +84,7 @@ export default {
             "game_over_pop_up_rank": "Classement :",
             "game_over_pop_up_title": "Partie Terminée !",
             "no_action": "Il ne s'est rien passé pour l'instant",
+            "no_active_trump_on_player": "Le joueur ne subit pas d'atout.",
             "no_possible_target_for_trump": "Vous ne pouvez pas jouer cet atout. Aucun joueur ne peut en être la cible.",
             "pass": "Passer",
             "pass_confirm_message": "Es-tu sûr de vouloir passer ton tour ?",
@@ -95,6 +92,7 @@ export default {
             "pass_special_action_confirm_message": "Es-tu sûr de  vouloir passer l'action spéciale ?",
             "player_box_cards": "Dernières cartes jouées",
             "player_box_trumps": "Atouts actifs sur le joueur",
+            "player_played_no_card": "Le joueur n'a joué aucune carte.",
             "select_trump_target": "Qui est la cible de {{trumpname}}?",
             "whose_turn_message": "C'est le tour de <br /><strong class=\"blue-text\">{{playerName}}</strong>",
             "your_turn": "C'est ton tour !"
@@ -108,20 +106,16 @@ export default {
         "cancel": "Annuler",
         "cannot_do_action": "Tu ne peux pas faire cette action :",
         "create_new_game": "Nouvelle Partie",
-        "edit": "Éditer",
-        "name": "Nom : {{playerName}}",
         "no": "Non",
         "ok": "OK",
         "propose_in_game_help_option": "Voir l’aide intégrée au jeu",
-        "propose_tutorial_option": "Tutoriel",
-        "save": "Sauvegarder",
         "sound_option": "Sons",
         "source_code": "Code source",
         "yes": "Oui"
     },
     "powers": {
         "domination": "Domination",
-        "domination_description": "Lorsque vous jouez une carte « Dame » vous pouvez vous déplacer de 3 cases au lieu de 2.",
+        "domination_description": "Lorsque vous jouez une carte « Reine » vous pouvez vous déplacer de 3 cases au lieu de 2.",
         "force_of_nature": "Force de la nature",
         "force_of_nature_description": "Ni les tours ni les forteresses ne vous affectent.",
         "impassable": "Infranchissable",
@@ -131,16 +125,13 @@ export default {
         "metamorphosis": "Métamorphose",
         "metamorphosis_description": "Pendant 1 tour vous pouvez copier la compétence héros du joueur de votre choix et son coût d’utilisation est nul.",
         "night_mist": "Brume Nocturne",
-        "night_mist_description": "Disparaissez pour ne pas pouvoir être ciblé.",
+        "night_mist_description": "Disparaissez du plateau pour ne pas pouvoir être ciblé.",
         "secret_blade": "Lame secrète",
-        "secret_blade_description": "Transforme vos Guerriers en Assassins",
+        "secret_blade_description": "Vos Guerriers peuvent faire reculer un adversaire d'une case de la couleur du guerrier joué.",
         "terraforming": "Terraformage",
         "terraforming_description": "Change la couleur d'une case de votre choix"
     },
     "site": {
-        "connection_button": "Se connecter",
-        "connection_game": "Partie rapide",
-        "connection_label": "Connexion",
         "founders": {
             "story": {
                 "p1": "Un masque blanc en papier, un costume et un chapeau noir. On n’en sait pas beaucoup plus sur cet étrange personnage qui aurait été désigné par les Titans pour rassembler une équipe d’architectes hors du commun et bâtir l’Arène. De nombreuses rumeurs courent sur M.A.D., certains affirment l’avoir aperçu dans le Monde des humains et d’autres dans le Miroir. On pense qu’il s’agit d’un Ombre ayant le pouvoir de traverser les Mondes mais il pourrait également n’appartenir à aucuns peuples connus…",
@@ -150,7 +141,7 @@ export default {
                 "p5": "En cherchant la perfection de son âme, le paladin Aurelion a voulu extérioriser ses désirs à l’aide d’un puissant rituel. Malheureusement l’incantation tourna mal et au lieu d’enfermer ses pulsions il leur donna une conscience propre. Depuis, ces étranges esprits chuchotent à l’oreille du guerrier le poussant parfois jusqu’au bord de la folie. C’est sans doute cette particularité qui intéressa M.A.D. et le conduisit à aller chercher Aurelion dans les falaises où celui-ci s’était retranché. Seul l’art et la recherche du beau arrivent encore à calmer l’esprit du paladin et c’est ainsi qu’il se vit proposer le rôle de Grand Décorateur de l’arène."
             }
         },
-        "header_community": "Communauté",
+        "header_contributors": "Contributeurs",
         "header_founders": "Fondateurs",
         "header_founders_1": "M.A.D.",
         "header_founders_2": "Huitus Le Grand",
@@ -158,10 +149,8 @@ export default {
         "header_founders_4": "Apenett Tarondel",
         "header_founders_5": "Aurelion",
         "header_moves": "Déplacements",
-        "header_news": "Actualités",
         "header_people": "Peuples",
         "header_play": "Jouer",
-        "header_ranking": "Classement",
         "header_rules": "Règles",
         "header_synopsis": "Synopsis",
         "heroes": {
@@ -183,7 +172,7 @@ export default {
             "kharliass_short_description": "Kharliass est un démon de classe majeure qui plonge ses proies dans un état de confusion totale en revêtant leur propre apparence juste avant de les tuer.",
             "luni": "Luni",
             "luni_description": "Luni est une jeune Ombre aux faits d’armes encore inconnus. Elle maîtrise aussi bien l’art des runes que celui du combat rapproché et son agilité exceptionnelle fait d’elle un adversaire redoutable. Après avoir obtenu son diplôme de la Zefo, elle s’est engagée dans la division des renseignements au service du roi des Ombres.",
-            "luni_power": "« Lame secrète » (actif) :  transforme vos cartes « Fou » en cartes « Assassin »",
+            "luni_power": "« Lame secrète » (actif) :  Vos Guerriers peuvent faire reculer un adversaire d'une case de la couleur du guerrier joué.",
             "luni_short_description": "Luni est une jeune Ombre aux faits d’armes encore inconnus. Sa maîtrise de l’art des runes et son agilité exceptionnelle font d’elle un adversaire redoutable.",
             "mirindrel": "Mirïndrel",
             "mirindrel_description": "Considéré comme l’un des mages les plus puissants de sa génération, Mirïndrel s’est illustré lors des deux dernières grandes guerres contre les démons en déployant des stratagèmes particulièrement ingénieux. Il utilise le terrain qui l’entoure pour piéger ses adversaires ou s’offrir un avantage concurrentiel significatif.",
@@ -201,7 +190,7 @@ export default {
             "razbrak_short_description": "Razbrak est un expert en maniement d’armes et affectionne particulièrement la hache. Il collectionne les cranes de ses victimes afin de les sculpter.",
             "ulya": "Ulya",
             "ulya_description": "Ulya fait partie des Yrilles, les chevaucheuses d’élite aux ordres de la reine aranéenne. Accompagnée de son Arakoss Vénisse, Ulya s’est distinguée par de nombreux exploits en tournoi et en terrassant un dragon des sables. Les tatouages qui couvrent son corps illustrent ses prouesses au combat. Le duo ne connaît à ce jour aucune défaite.",
-            "ulya_power": "« Domination » (passif) : Lorsque vous jouez une carte « Dame » vous pouvez vous déplacer de 3 cases au lieu de 2.",
+            "ulya_power": "« Domination » (passif) : Lorsque vous jouez une carte « Reine » vous pouvez vous déplacer de 3 cases au lieu de 2.",
             "ulya_short_description": "Ulya et son Arakoss Vénisse font partie de l’élite de la société Aranéenne. Leurs prouesses sont légendaires et le duo ne connaît à ce jour aucune défaite."
         },
         "homepage": {
@@ -221,7 +210,7 @@ export default {
             },
             "block4": {
                 "p1": "Chaque Héros possède un Pouvoir Spécifique",
-                "p2": "A toi d'en faire bonne usage !",
+                "p2": "A toi d'en faire bon usage !",
                 "p3": "Rappelle toi : un Grand Pouvoir implique...",
                 "p4": "De grandes représailles sur la Dernière Ligne !",
                 "title": "Déchaine ton Pouvoir"
@@ -234,8 +223,6 @@ export default {
                 "p5": "Plus tu as des chances de devenir la cible des autres Héros !",
                 "title": "Adapte ta Stratégie"
             },
-            "families": "Quatre familles dominent l’Arène, utilisez l’influence de leurs membres pour pouvoir traverser les différentes zones !",
-            "heroes": "Choisissez votre héros parmi les 8 peuples et déchainez son pouvoir contre vos adversaires !",
             "pitch": {
                 "p1": "Participe à la course ultime pour obtenir la faveur des Titans !",
                 "p2": "Crée ton parcours à travers les différents terrains,",
@@ -243,11 +230,7 @@ export default {
                 "p4": "Arrive en premier…       ",
                 "p5": "Et Survis !",
                 "title": "La fusion entre jeu de course et jeu de stratégie !"
-            },
-            "slider1": "",
-            "slider2": "Défiez jusqu'à 7 de vos amis",
-            "slider3": "Version Bêta disponible !",
-            "tutorial": "<strong>Tutoriel</strong>"
+            }
         },
         "moves": {
             "assassin_black": "Assassin de la Montagne",
@@ -323,8 +306,11 @@ export default {
             "founders": "Fondateurs",
             "heroes": "Héros",
             "home": "Accueil",
+            "moves": "Déplacements",
             "not_found": "Page introuvable",
+            "people": "Peuples",
             "play_game": "Jouer",
+            "privacy": "Vie privée",
             "synopsis": "Synopsis",
             "trumps": "Atouts"
         },
@@ -348,16 +334,12 @@ export default {
                 "p8": "Les Elvains sont un peuple cousin de celui des Elfes et des Nains. De petites tailles, les Elvains possèdent une agilité hors norme qui leur permet souvent de prendre de vitesse leur adversaire. Les mages Elvains sont réputés pour leurs invocations d’esprits runiques qui s’avèrent des armes ultra puissantes sur un champ de bataille. Les Elvains aiment voyager et il est fréquent d’en trouver vivant temporairement au milieu d’un autre peuple. La majorité des cartes du Miroir est le fruit de retranscription de leurs épopées."
             }
         },
-        "rules": {
-            "heroes": "<h2>Héros</h2>\n                <p>En plus des pouvoirs offerts par les Titans, chaque héros possède une compétence unique (il faut bien qu’ils soient forts à défaut d’être beaux). Cette compétence peut être « passive » c'est-à-dire agir en continu dans l’Arène ou « activable » une fois ta jauge d’exploration suffisamment remplie.</p>",
-            "moves": "<h2>Déplacements</h2>\n                <p>Comme expliqué dans la présentation générale des règles (oui c’est mieux de lire dans l’ordre), l’Arène est divisée en plusieurs zones. Chaque couleur correspond à une zone contrôlée par une famille. Pour la traverser il faut donc avoir l’approbation d’un des membres de cette famille. Et pour avoir l'approbation, il faut avoir de la chance !\nJe sens que je t’ai perdu alors je vais résumer : tu as une main de cartes aléatoires, donc pour avancer, tu cliques sur une carte puis sur la case où tu veux te déplacer. A chaque tour tu peux jouer jusqu’à deux cartes Déplacement. A toi d’optimiser tes déplacements pour prendre l’avantage !\n                </p>\n                <img src=\"/latest/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",
-            "rules": "<h1>Général</h1>\n            <div class=\"half-column-left\">\n                <p>Bienvenue dans l’Arène ! Le but est simple (faut pas trop compliquer la chose avec ces idiots de héros...) : la traverser d’un bout à l’autre. Facile non ? Pour ça il faudra juste réussir à se construire un chemin à travers les différentes zones contrôlées par les 4 familles représentant les Titans, esquiver les pièges et autres coups bas de tes ennemis et arriver à la porte de sortie avant eux… bon ok c’est peut-être pas si facile que ça en fait. Mais c'est pas vraiment mon problème aha !</p>\n            </div>\n            <img class=\"half-column-right border-black\"\n                 src=\"/latest/assets/homepage/board.png\"\n                 alt=\"The board of the game\" />",
-            "trumps": "<h2>Atouts</h2>\n                <p>On le sait, les Titans possèdent un sens de l’humour bien à eux. Pour rajouter un peu de piment à l’affrontement dans l’Arène, ils ont décidé d’octroyer des pouvoirs supplémentaires à chacun des participants. Les atouts te permettent de bloquer tes adversaires ou d’améliorer tes propres déplacements. Il n’appartient qu’à toi de t’acharner sur une personne en particulier ou au contraire de distribuer généreusement les malus à tous tes ennemis. Tu peux aussi t'allier à d'autres concurrents pour stopper un ennemi particulièrement avancé, pour ensuite les poignarder dans leur dos... Les plus malins savent quoi faire héhé...\n\nPour pouvoir utiliser tes atouts tu auras besoin d’acquérir des points d’exploration. A chaque zone de l’arène que tu traverseras tu obtiens 1 point d’exploration. Plus ta jauge d’exploration sera remplie et plus tu pourras utiliser des sorts dévastateurs !</p>\n                <img src=\"/latest/assets/rules/trumps.png\"\n                     alt=\"The trumps\" />"
-        },
+        "privacy_common": "Nous utilisons les cookies uniquement pour tracker les visites. Nous supportons Do Not Track, nous n'enregistrons que les 2 premiers octets de votre adresse IP et le cookie de tracking a une durée de vie de 13 mois. En résumé, notre instance Matomo suit les recommendations de la CNIL et de ce fait nous n'avons pas à demander votre consentements pour les cookies. Nous n'avons pas oublié, nous ne vous traquons juste pas assez pour en avoir besoin !",
+        "privacy_warning": "Si rien ne s'affiche sous ce message, cela signifie que votre navigateur bloque les cookies et que nous ne pouvons pas afficher le formulaire d'opt-out. Cela signifie également que vous n'êtes pas traqués.",
         "slide": {
             "centaur": "FINISSONS-EN RAPIDEMENT, LE BANQUET M'ATTEND !",
             "elf": "ESSAYEZ DONC DE STOPPER CE QUI EST INVISIBLE !",
-            "orc": "PLUS FACILE D ETRE PREMIER LORSQU'IL NE RESTE PLUS D'ADVERSAIRES..."
+            "orc": "PLUS FACILE D' ÊTRE PREMIER LORSQU'IL NE RESTE PLUS D'ADVERSAIRES..."
         },
         "synopsis": {
             "story": {
@@ -371,13 +353,13 @@ export default {
     },
     "trumps": {
         "assassination": "Assassinat",
-        "assassination_description": "Permet de faire reculer un joueur d'une case",
+        "assassination_description": "Permet de faire reculer un joueur d une case",
         "blizzard": "Blizzard",
         "blizzard_description": "Réduis de 1 le nombre de cartes qu'un joueur peut jouer",
         "fortress_black": "Forteresse de la Montagne",
         "fortress_black_description": "Empêche le joueur de se déplacer sur les cases de la Montagne pendant deux tours.",
-        "fortress_blue": "Forteresse de l'Eau",
-        "fortress_blue_description": "Empêche le joueur de se déplacer sur les cases de l'Eau pendant deux tours.",
+        "fortress_blue": "Forteresse de l Eau",
+        "fortress_blue_description": "Empêche le joueur de se déplacer sur les cases de l Eau pendant deux tours.",
         "fortress_red": "Forteresse de la Forêt",
         "fortress_red_description": "Empêche le joueur de se déplacer sur les cases de la Forêt pendant deux tours.",
         "fortress_yellow": "Forteresse du Désert",
@@ -390,8 +372,8 @@ export default {
         "reinforcements_description": "Autorise le joueur à jouer une carte déplacement supplémentaire",
         "tower_black": "Tour de la Montagne",
         "tower_black_description": "Empêche le joueur de se déplacer sur les cases de la Montagne",
-        "tower_blue": "Tour de l'Eau",
-        "tower_blue_description": "Empêche le joueur de se déplacer sur les cases de l'Eau",
+        "tower_blue": "Tour de l Eau",
+        "tower_blue_description": "Empêche le joueur de se déplacer sur les cases de l Eau",
         "tower_red": "Tour de la Forêt",
         "tower_red_description": "Empêche le joueur de se déplacer sur les cases de la Forêt",
         "tower_yellow": "Tour du Désert",

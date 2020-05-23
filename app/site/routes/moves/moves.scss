@@ -1,13 +1,23 @@
+@import "../../../style/media-queries";
+
 .moves-block1 {
     border-bottom: wheat solid 1px;
     height: 330px;
     width: 100%;
+
+    @include fluid {
+        height: 270px;
+    }
 }
 
 .moves-block2 {
     height: 330px;
     margin-bottom: 15vh;
     width: 100%;
+
+    @include fluid {
+        height: 300px;
+    }
 }
 
 .forest-button {
@@ -64,6 +74,26 @@
     font-family: "Roboto Condensed", sans-serif;
     font-size: 25px;
     margin: 0 0 15px 0;
+
+    @include media-sm {
+        font-size: 20px;
+    }
+
+    @include media-md {
+        font-size: 25px;
+    }
+
+    @include media-lg {
+        font-size: 30px;
+    }
+
+    @include fluid {
+        font-size: 15px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
 }
 
 .moves-page-title {
@@ -77,4 +107,23 @@
     padding-top: 3%;
     text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
     text-transform: uppercase;
+
+    @include media-sm {
+        font-size: 25px;
+    }
+
+    @include media-md {
+        font-size: 30px;
+    }
+
+    @include media-lg {
+        font-size: 40px;
+    }
+
+    @include fluid {
+        font-size: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
 }

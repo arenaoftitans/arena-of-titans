@@ -6,13 +6,14 @@ export default {
         "played_card": "{{playerName}} just played a card",
         "played_special_action": "{{playerName}} just played a special action on {{targetName}}",
         "played_trump": "{{playerName}} just played a trump on {{targetName}}",
-        "problem": "A problem occured",
+        "played_trump_no_effect": "The trump played had no effect !",
+        "problem": "A problem occurred",
         "special_action_assassination": "Click on the pawn of a player. You will then be able to move it back.",
         "special_action_info_popup": "You just played a card with a special action {{action}}",
         "trump_played_by": "Played by {{initiator}}"
     },
     "cards": {
-        "assassin": "Move two squares in line or diagonal.",
+        "assassin": "Move two squares in line or diagonal. You can make a player move back on box of the color of the Assassin.",
         "assassin_black": "Mountain Assassin",
         "assassin_blue": "Water Assassin",
         "assassin_complementary_description": "Special action: Assassination to make a player move back.",
@@ -61,24 +62,19 @@ export default {
             "CLOSED": "Closed",
             "OPEN": "Open",
             "TAKEN": "Taken",
-            "add": "Add Slot",
             "create": "Create the game",
-            "enter_name": "Enter your name:",
             "heroes": "Heroes",
             "invite": "Invite",
             "invite_text": "To join this game, share this link:",
-            "others": "Other Players",
             "players": "Players",
-            "popup_select_hero": "Select your Hero",
             "slot": "Slot"
         },
-        "game_over": "Game Over",
+        "force_landscape": "Please rotate your phone in landscape for the game to work",
         "options": "Options",
         "play": {
             "back_home_popup_title": "What do you want to do?",
             "board_select_square": "Please click on the square to want to change",
             "board_select_square_color": "Choose the new color of the square",
-            "cancel_special_action": "Skip special action",
             "complete_turn": "Complete the turn",
             "complete_turn_confirm_message": "Are you sure you want to complete your turn?",
             "discard": "Discard",
@@ -88,6 +84,7 @@ export default {
             "game_over_pop_up_rank": "Rank :",
             "game_over_pop_up_title": "Game Over !",
             "no_action": "No action yet",
+            "no_active_trump_on_player": "No active trumps on player.",
             "no_possible_target_for_trump": "You cannot play this trump. No player can be targeted at this time.",
             "pass": "Pass",
             "pass_confirm_message": "Are you sure you want to pass your turn?",
@@ -95,6 +92,7 @@ export default {
             "pass_special_action_confirm_message": "Are you sure you want to pass the special action?",
             "player_box_cards": "Last played cards",
             "player_box_trumps": "Trumps active on player",
+            "player_played_no_card": "Player played no card.",
             "select_trump_target": "Who should be the target of {{trumpname}}?",
             "whose_turn_message": "It is the turn of <br /><strong class=\"blue-text\">{{playerName}}</strong>",
             "your_turn": "It's your turn!"
@@ -108,13 +106,9 @@ export default {
         "cancel": "Cancel",
         "cannot_do_action": "You cannot perform this action:",
         "create_new_game": "New Game",
-        "edit": "Edit",
-        "name": "Name: {{playerName}}",
         "no": "No",
         "ok": "OK",
         "propose_in_game_help_option": "View in game help",
-        "propose_tutorial_option": "Tutorial",
-        "save": "Save",
         "sound_option": "Sound",
         "source_code": "Source code",
         "yes": "Yes"
@@ -133,14 +127,11 @@ export default {
         "night_mist": "Night Mist",
         "night_mist_description": "Disappear from the board so you cannot be targeted by other players.",
         "secret_blade": "Secret Blade",
-        "secret_blade_description": "transform Warriors into Assassins",
+        "secret_blade_description": "Warriors can make a player move back on a box of their color",
         "terraforming": "Terraforming",
         "terraforming_description": "Change the color of a square of your choice"
     },
     "site": {
-        "connection_button": "Connect",
-        "connection_game": "Play",
-        "connection_label": "Connection",
         "founders": {
             "story": {
                 "p1": "A white paper mask, a suit and a black hat. We do not know much more about this strange character who would have been designated by the Titans to gather an extraordinary team of architects and build the Arena. Many rumors run on Mr.A.D., some claim to have seen him in the World of Humans and others in the Mirror. It is thought that it is a Shadow having the power to cross the Worlds but it could also belong to no known peoples ...",
@@ -150,7 +141,7 @@ export default {
                 "p5": "In seeking the perfection of his soul, Paladin Aurelion wanted to exteriorize his desires with the help of a powerful ritual. Unfortunately the incantation turned out badly and instead of enclosing his impulses he gave them an own conscience. Since then, these strange spirits whisper in the ear of the warrior sometimes pushing him to the edge of madness. It is undoubtedly this particularity which interested M.A.D. and led him to fetch Aurelion from the cliffs where he had entrenched himself. Only art and the search for beauty can still calm the spirit of the paladin and it is thus that he was offered the role of Grand Decorator of the arena."
             }
         },
-        "header_community": "Community",
+        "header_contributors": "Contributors",
         "header_founders": "Founders",
         "header_founders_1": "M.A.D.",
         "header_founders_2": "Huitus The Great",
@@ -158,10 +149,8 @@ export default {
         "header_founders_4": "Apenett Tarondel",
         "header_founders_5": "Aurelion",
         "header_moves": "Moves",
-        "header_news": "News",
         "header_people": "People",
         "header_play": "Play",
-        "header_ranking": "Ranking",
         "header_rules": "Rules",
         "header_synopsis": "Synopsis",
         "heroes": {
@@ -183,7 +172,7 @@ export default {
             "kharliass_short_description": "\nKharliass is a major class demon who plunges his prey into a state of total confusion by taking their own appearance just before killing them.",
             "luni": "Luni",
             "luni_description": "\nLuni is a young Shadow with unknown war exploits until this day. She masters the art of runes as well as close combat and her exceptional agility makes her a formidable warrior. After graduating from Zefo, she joined the Intelligence Division at the service of the King of Shadows.",
-            "luni_power": "\"Secret Blade\" (active): Turns your \"Bishop\" cards into \"Assassin\" cards",
+            "luni_power": "\"Secret Blade\" (active): Warriors can make a player move back on a box of their color",
             "luni_short_description": "Luni is a young Shadow with unknown war exploits until this day. Her mastery of runes and exceptional agility make her a formidable warrior.",
             "mirindrel": "Mirïndrel",
             "mirindrel_description": "Regarded as one of the most powerful mages of his generation, Mirindrel has been illustrated in the last two great wars against demons by deploying particularly ingenious stratagems. He uses the terrain around him to trap his opponents or to gain a significant competitive advantage.",
@@ -234,8 +223,6 @@ export default {
                 "p5": "the more likely you are to become the target of other Heroes !",
                 "title": "Adapt your Strategy"
             },
-            "families": "Four families control the Arena, use the influence of their members in order to cross the different areas !",
-            "heroes": "Choose your Hero among the 8 people and unleash his power against your opponents !",
             "pitch": {
                 "p1": "Participate in the ultimate race to get the favor of the Titans!",
                 "p2": "Create your path through the different fields,",
@@ -243,11 +230,7 @@ export default {
                 "p4": "Arrive fist…",
                 "p5": "And survive!",
                 "title": "The fusion between racing and strategy game !"
-            },
-            "slider1": "",
-            "slider2": "Challenge up to 7 of your friends",
-            "slider3": "Beta Version is available !",
-            "tutorial": "<strong>Tutorial</strong>"
+            }
         },
         "moves": {
             "assassin_black": "Mountain Assassin",
@@ -323,8 +306,11 @@ export default {
             "founders": "Founders",
             "heroes": "Heroes",
             "home": "Home",
+            "moves": "Moves",
             "not_found": "Not Found",
+            "people": "People",
             "play_game": "Play",
+            "privacy": "Privacy",
             "synopsis": "Synopsis",
             "trumps": "Trumps"
         },
@@ -348,12 +334,8 @@ export default {
                 "p8": "\nDwelves are a people cousin of Elves and Dwarves. Small in size, Dwelves have an extraordinary agility that often allows them to speed up their opponent. Dwelven mages are known for their invocations of runic spirits that prove to be ultra-powerful weapons on a battlefield. Dwelves love to travel and it is common to find them living temporarily in the middle of another people. The majority of Mirror cards are the result of their epic traveling."
             }
         },
-        "rules": {
-            "heroes": "<h2>Heroes</h2>\n                <p>As it is never enough, each hero has got a special skill (being ugly, strength is all that's left). This skill can be \"passive\" (working all the time as a bonus generally), or \"active\" (need to activate it make it work) once your exploration gauge is full.</p>",
-            "moves": "<h2>Moves</h2>\n                <p>As explained before (yeah you should read in the order we wrote), the Arena is divided in several areas. Each color refers to a family, so areas are under the control of families depending on their color. To cross it, you will need the approval of a family member. And to get this approval, you need luck!\nOkay I think I lost you there, let me wrap it up: you start with a random hand of cards, so, to advance, you click on a card and then on the tile you want to move to. You can use up to 2 movement cards by turn. So you need to figure how to optimize your moves on your own to get the upper hand!\n                </p>\n                <img src=\"/latest/assets/rules/aot-move.png\"\n                     alt=\"The moves of the game\" />",
-            "rules": "<h1>General</h1>\n            <div class=\"half-column-left\">\n                <p>Welcome to the Arena! The goal is simple (better not to make difficult rules for those dumb heroes...): you just need to reach the opposite side from your starting point. Easy peasy right?  To reach the final point, you need to make your own path through areas controlled by the 4 great families (each of them represents a Titan), and avoid enemies' traps and other low blows to arrive at the end before them. Yeah fair enough, it finally may not be as easy as I said. But you know what? I don't care haha!</p>\n            </div>\n            <img class=\"half-column-right border-black\"\n                 src=\"/latest/assets/homepage/board.png\"\n                 alt=\"The board of the game\" />",
-            "trumps": "<h2>Trumps</h2>\n                <p>We know that Titans have a very special sense of humor. They decided to bestow abilities to heroes to make more thrilling battles! Those skills can boost their movements, or obstruct enemies'. So you can either choose to focus on 1 particular enemy and make a hell of his Arena life, or to choose to be fair and hamper everyone equally. Another option would be to make alliance with other players, to obstruct one particular enemy ahead of everyone, to finally stab them in their back to make your way through victory... The cunning foxes know what to do eheh...\n\nTo use skills, tu will need to gather exploration points. Each area explored will grant you 1 exploration point. The more your exploration gauge will be filled, the more devastating skills you will be able to use!</p>\n                <img src=\"/latest/assets/rules/trumps.png\"\n                     alt=\"The trumps\" />"
-        },
+        "privacy_common": "We only use cookies to track visitors. We support Do Not Track, we only log the 2 first bytes of your IP address and the tracking cookie has a lifetime of 13 months to respect your privacy. In a nutshell, our Matomo instance follows the recommendations of CNIL (French privacy regulator) so we don't have to ask your consent about cookies. We didn't forget, we are just tracking too little!",
+        "privacy_warning": "If nothing displays below this message, it means your browser is blocking cookies and we cannot display the opt-out form. It also means you are not tracked.",
         "slide": {
             "centaur": "CAN WE QUICKLY FINISH THIS ? THE BANQUET IS WAITING FOR ME !",
             "elf": "TRY TO STOP WHAT IS INVISIBLE",
