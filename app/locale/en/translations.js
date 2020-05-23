@@ -72,6 +72,7 @@ export default {
             players: "Players",
             slot: "Slot",
         },
+        force_landscape: "Please rotate your phone in landscape for the game to work",
         options: "Options",
         play: {
             back_home_popup_title: "What do you want to do?",

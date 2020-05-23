@@ -35,3 +35,26 @@
     width: 20px;
     z-index: 1000;
 }
+
+.force-landscape {
+    display: none;
+
+    strong {
+        font-size: 300%;
+    }
+}
+
+// On touch screen devices, force the user to use landscape mode.
+@media only screen and (hover: none) and (pointer: coarse) and (orientation: portrait) {
+    .force-landscape {
+        align-items: center;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        width: 100vw;
+    }
+
+    .game-container {
+        display: none;
+    }
+}

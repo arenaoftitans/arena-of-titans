@@ -75,6 +75,7 @@ export default {
             players: "Joueurs",
             slot: "Joueur",
         },
+        force_landscape: "Merci de tourner le téléphone en mode paysage pour que le jeu fonctionne",
         options: "Options",
         play: {
             back_home_popup_title: "Que voulez-vous faire ?",
