@@ -35,7 +35,7 @@ describe("the App module", () => {
     });
 
     it("configures the router title", () => {
-        expect(sut.router.title).toEqual("Arena of Titans");
+        expect(sut.router.title).toEqual("Last Run");
     });
 
     it("configures the pushState", () => {
