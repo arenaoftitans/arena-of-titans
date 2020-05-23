@@ -179,7 +179,7 @@
                         ".css"
                     ],
                     "name": "text",
-                    "stub": true
+                    "stub": false
                 }
             ],
             "type": "require"
@@ -206,27 +206,10 @@
         "id": "babel",
         "options": {
             "plugins": [
-                "@babel/plugin-transform-modules-amd",
                 [
-                    "@babel/plugin-proposal-decorators",
-                    {
-                        "legacy": true
-                    }
-                ],
-                [
-                    "@babel/plugin-proposal-class-properties",
+                    "@babel/plugin-transform-modules-amd",
                     {
                         "loose": true
-                    }
-                ],
-                "istanbul"
-            ],
-            "presets": [
-                [
-                    "@babel/preset-env",
-                    {
-                        "loose": true,
-                        "modules": "commonjs"
                     }
                 ]
             ]
@@ -316,6 +299,7 @@
         "source": "app/**/*.html"
     },
     "name": "arena-of-titans",
+    "packageManager": "yarn",
     "paths": {
         "reports": "reports",
         "root": "app"
@@ -381,26 +365,10 @@
         "id": "babel",
         "options": {
             "plugins": [
-                "@babel/plugin-transform-modules-amd",
                 [
-                    "@babel/plugin-proposal-decorators",
-                    {
-                        "legacy": true
-                    }
-                ],
-                [
-                    "@babel/plugin-proposal-class-properties",
+                    "@babel/plugin-transform-modules-amd",
                     {
                         "loose": true
-                    }
-                ]
-            ],
-            "presets": [
-                [
-                    "@babel/preset-env",
-                    {
-                        "loose": true,
-                        "modules": "commonjs"
                     }
                 ]
             ]
