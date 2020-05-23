@@ -166,7 +166,6 @@ export default {
         header_founders_3: "YuPi l’Imposteur",
         header_founders_4: "Apenett Tarondel",
         header_founders_5: "Aurelion",
-        header_moves: "Déplacements",
         header_people: "Peuples",
         header_play: "Jouer",
         header_rules: "Règles",

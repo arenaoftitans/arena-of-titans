@@ -17,6 +17,20 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+$phone-width: 599px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 545px;
+$medium-height: 800px;
+
+@mixin fluid {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
 $card-img-height: 50vh;
 $change-card-opacity: 0.4;
 $fade-time: 0.2s;
@@ -30,12 +44,20 @@ aot-select-cards {
         margin-top: 1%;
         opacity: 1;
         overflow: hidden;
+
+        @include fluid {
+            height: 30vh;
+        }
     }
 
     .arrow {
         cursor: pointer;
         margin-bottom: $card-img-height/2;
         max-width: 20px !important;
+
+        @include fluid {
+            margin-bottom: 15vh;
+        }
     }
 
     .arrow-left {

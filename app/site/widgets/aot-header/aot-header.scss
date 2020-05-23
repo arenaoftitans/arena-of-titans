@@ -14,12 +14,22 @@ aot-header {
         text-align: inherit;
     }
 
+    .founders-button {
+        @include fluid {
+            padding-left: 38%;
+        }
+    }
+
     .blue-button {
         display: inline-block;
         margin: auto;
         padding: 0px 20%;
         text-align: center;
         width: 120px;
+
+        @include fluid {
+            width: 80px;
+        }
 
         @include media-lg {
             padding: 10px 150px;
@@ -53,7 +63,7 @@ aot-header {
             @include fluid {
                 height: #{$logo-size-mobile}px;
                 left: calc(50% - #{$logo-size-mobile/2}px);
-                top: 48px;
+                top: 20px;
                 width: #{$logo-size-mobile}px;
             }
         }
@@ -64,18 +74,24 @@ aot-header {
     }
 
     .navbar {
-        font-size: 30px;
+        @include fluid {
+            font-size: 20px;
+        }
 
-        @include media-md {
+        @include media-sm {
             font-size: 35px;
         }
 
+        @include media-md {
+            font-size: 40px;
+        }
+
         @include media-lg {
-            font-size: 45px;
+            font-size: 50px;
         }
 
         @include media-xl {
-            font-size: 50px;
+            font-size: 55px;
         }
 
         padding-bottom: 20px;
@@ -89,11 +105,30 @@ aot-header {
 
     .submenu {
         background: #600f0d;
-        font-size: 2.4vw;
         height: 50px;
         line-height: 50px;
         position: absolute;
         width: 100%;
         z-index: 1;
+
+        @include fluid {
+            font-size: 15px;
+        }
+
+        @include media-sm {
+            font-size: 30px;
+        }
+
+        @include media-md {
+            font-size: 35px;
+        }
+
+        @include media-lg {
+            font-size: 45px;
+        }
+
+        @include media-xl {
+            font-size: 50px;
+        }
     }
 }

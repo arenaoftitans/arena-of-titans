@@ -17,10 +17,6 @@
     height: $play-full-height;
     min-height: $play-full-min-height;
     width: $play-secondary-width;
-
-    @include small-width {
-        display: none;
-    }
 }
 
 .player-name {

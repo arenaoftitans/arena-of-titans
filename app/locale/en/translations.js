@@ -162,7 +162,6 @@ export default {
         header_founders_3: "YuPi The Usurper",
         header_founders_4: "Apenett Tarondel",
         header_founders_5: "Aurelion",
-        header_moves: "Moves",
         header_people: "People",
         header_play: "Play",
         header_rules: "Rules",

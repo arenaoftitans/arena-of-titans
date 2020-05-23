@@ -19,6 +19,7 @@ h2 {
 
 p {
     color: black;
+    font-family: "Roboto Condensed", sans-serif;
     text-align: justify;
 }
 
@@ -193,13 +194,15 @@ strong.blue-text {
         background-repeat: no-repeat;
         background-size: 18px;
         color: white;
-        margin-right: 90px;
+        margin-left: 2%;
+        margin-right: 2%;
         padding-left: 25px;
+        text-align: center;
         text-decoration: none;
     }
 
-    a[href*="twitter.com"] {
-        background-image: url(/assets/icons/twitter.png);
+    a[href*="instagram.com"] {
+        background-image: url(/assets/icons/instagram.png);
     }
 
     a[href*="facebook.com"] {

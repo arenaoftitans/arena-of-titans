@@ -31,6 +31,7 @@
             mouseout.delegate="hideInfos()"
         ></div>
     </div>
+
     <div id="cards-actions" if.bind="!hasWon">
         <button class="grey-button" click.trigger="pass()" disabled.bind="!yourTurn">
             <span if.bind="!onLastLine && !specialActionInProgress" t="game.play.pass">Pass</span>

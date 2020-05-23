@@ -1,3 +1,5 @@
+@import "../../style/variables";
+
 $left-width: 25%;
 $right-width: 25%;
 $door-width: 100% - $left-width - $right-width;
@@ -5,6 +7,44 @@ $door-height: 85vh;
 $door-upper-margin: 100vh - $door-height;
 $door-arch-height: 25vh;
 $door-main-height: $door-height - $door-arch-height;
+
+$phone-width: 700px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 660px;
+$medium-height: 800px;
+
+@mixin fluid {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
+@mixin media-sm {
+    @media only screen and (min-width: 48em) {
+        @content;
+    }
+}
+
+@mixin media-md {
+    @media only screen and (min-width: 64em) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media only screen and (min-width: 75em) {
+        @content;
+    }
+}
+
+@mixin small-height {
+    @media screen and (max-height: #{$small-height}) {
+        @content;
+    }
+}
 
 div.create-game-container {
     background: url("/assets/game/backgrounds/game-creation.jpg");
@@ -22,6 +62,25 @@ div.create-game-container {
     .door-arch {
         height: $door-arch-height - 3vh;
         padding-top: 3vh;
+
+        @include media-sm {
+            font-size: 12px;
+        }
+
+        @include media-md {
+            font-size: 15px;
+        }
+
+        @include media-lg {
+            font-size: 17px;
+        }
+
+        @include fluid {
+            margin-bottom: 12px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+        }
     }
 
     .door-main {
@@ -41,6 +100,25 @@ div.create-game-container {
             border: wheat solid 1px;
             height: 35vh;
             margin: 2%;
+
+            @include media-sm {
+                font-size: 10px;
+            }
+
+            @include media-md {
+                font-size: 13px;
+            }
+
+            @include media-lg {
+                font-size: 15px;
+            }
+
+            @include fluid {
+                margin-bottom: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
         }
 
         .heroes-viewr-container {
@@ -58,12 +136,59 @@ div.create-game-container {
         .heroes-description-container {
             padding-left: 7%;
             padding-right: 7%;
+
+            .heroes-description {
+                @include fluid {
+                    display: none;
+                }
+
+                @include small-height() {
+                    display: none;
+                }
+            }
+
+            @include media-sm {
+                font-size: 10px;
+            }
+
+            @include media-md {
+                font-size: 13px;
+            }
+
+            @include media-lg {
+                font-size: 15px;
+            }
+
+            @include fluid {
+                font-size: 8px;
+                margin-bottom: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
         }
     }
 
     .power-img {
-        height: 100px;
-        width: 100px;
+        @include media-sm {
+            height: 9vh;
+            width: 9vh;
+        }
+
+        @include media-md {
+            height: 12vh;
+            width: 12vh;
+        }
+
+        @include media-lg {
+            height: 13vh;
+            width: 13vh;
+        }
+
+        @include fluid {
+            height: 8vh;
+            width: 8vh;
+        }
     }
 
     .right-wall {
@@ -77,6 +202,44 @@ div.create-game-container {
             margin-left: 5%;
             margin-right: 2%;
             margin-top: 2%;
+
+            .slot-state-chooser {
+                @include media-sm {
+                    font-size: 9px;
+                }
+
+                @include media-md {
+                    font-size: 13px;
+                }
+
+                @include media-lg {
+                    font-size: 15px;
+                }
+
+                @include fluid {
+                    font-size: 9px;
+                }
+            }
+
+            @include media-sm {
+                font-size: 10px;
+            }
+
+            @include media-md {
+                font-size: 13px;
+            }
+
+            @include media-lg {
+                font-size: 15px;
+            }
+
+            @include fluid {
+                font-size: 10px;
+                margin-bottom: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
         }
 
         .game-url-container {
@@ -90,6 +253,25 @@ div.create-game-container {
             margin-left: 5%;
             margin-right: 2%;
             margin-top: 15%;
+
+            @include media-sm {
+                font-size: 10px;
+            }
+
+            @include media-md {
+                font-size: 13px;
+            }
+
+            @include media-lg {
+                font-size: 15px;
+            }
+
+            @include fluid {
+                margin-bottom: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
         }
 
         .slots-container {
