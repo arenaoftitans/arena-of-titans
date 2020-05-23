@@ -27,10 +27,11 @@ import { Api } from "../../../services/api";
 import { randomInt, EventAggregatorSubscriptions } from "../../../services/utils";
 import { browsers } from "../../../../services/browser-sniffer";
 import { translationsKey } from "../../../../translations";
+import { TrackActions } from "../../../services/TrackActions";
 
 const PLAYABLE_TRUMP_KINDS = ["player", "power"];
 
-@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, Store)
+@inject(Api, Popup, I18N, DOM.Element, EventAggregatorSubscriptions, Store, TrackActions)
 export class AotTrumpCustomElement {
     _api;
     _logger;
@@ -47,13 +48,14 @@ export class AotTrumpCustomElement {
      */
     @bindable kind;
 
-    constructor(api, popup, i18n, element, eas, store) {
+    constructor(api, popup, i18n, element, eas, store, trackActions) {
         this._api = api;
         this._popup = popup;
         this._i18n = i18n;
         this._element = element;
         this._eas = eas;
         this._store = store;
+        this._trackActions = trackActions;
         this.disabled = false;
 
         this.playerNames = [];
@@ -232,6 +234,7 @@ export class AotTrumpCustomElement {
         };
         this._popup.display("confirm", popupData).then(
             choice => {
+                this._trackActions.trackTrumpPlayed();
                 this._store.dispatch("playTrump", this.trump, choice);
             },
             () => this._logger.debug("Player canceled trump"),
@@ -251,6 +254,7 @@ export class AotTrumpCustomElement {
     }
 
     _playTrumpOnSelf() {
+        this._trackActions.trackTrumpPlayed();
         this._store.dispatch("playTrump", this.trump, this.myIndex);
     }
 

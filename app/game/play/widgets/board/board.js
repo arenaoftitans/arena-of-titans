@@ -23,8 +23,9 @@ import { Store } from "aurelia-store";
 import sync from "css-animation-sync";
 import { AssetSource } from "../../../../services/assets";
 import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from "../../../constants";
+import { TrackActions } from "../../../services/TrackActions";
 
-@inject(Store)
+@inject(Store, TrackActions)
 export class AotBoardCustomElement {
     @bindable playerIndex = null;
     infos = {};
@@ -38,8 +39,9 @@ export class AotBoardCustomElement {
         red: "#forest-symbol",
     };
 
-    constructor(store) {
+    constructor(store, trackActions) {
         this._store = store;
+        this._trackActions = trackActions;
         this._logger = LogManager.getLogger("AoTBoard");
         this.boardMode = BOARD_MOVE_MODE;
         this.players = {};
@@ -182,6 +184,7 @@ export class AotBoardCustomElement {
             this.possibleSquares.includes(squareId) &&
             this.selectedCard
         ) {
+            this._trackActions.trackCardPlayed();
             this._store.dispatch("playCard", { x, y });
         } else if (
             this.possibleSquares.length > 0 &&

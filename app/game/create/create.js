@@ -26,16 +26,18 @@ import { AssetSource } from "../../services/assets";
 import { Storage } from "../services/storage";
 import environment from "../../environment";
 import * as lobbyActions from "../actions/lobby";
+import { TrackActions } from "../services/TrackActions";
 
-@inject(Router, Store, Storage, BindingEngineSubscriptions)
+@inject(Router, Store, Storage, BindingEngineSubscriptions, TrackActions)
 export class Create {
     _router;
 
-    constructor(router, store, storage, bes) {
+    constructor(router, store, storage, bes, trackActions) {
         this._router = router;
         this._store = store;
         this._storage = storage;
         this._bes = bes;
+        this._trackActions = trackActions;
         this.assetSource = AssetSource;
         this._logger = LogManager.getLogger("aot:create");
 
@@ -154,6 +156,7 @@ export class Create {
     };
 
     createGame() {
+        this._trackActions.trackGameCreated();
         this._store.dispatch(lobbyActions.createGame);
     }
 
