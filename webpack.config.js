@@ -35,7 +35,7 @@ const when = (condition, config, negativeConfig) =>
     condition ? ensureArray(config) : ensureArray(negativeConfig);
 
 // primary config:
-const title = "Aurelia Navigation Skeleton";
+const title = "Last Run";
 const outDir = path.resolve(__dirname, project.platform.output);
 const assetsOutDir = path.resolve(outDir, "assets");
 const srcDir = path.resolve(__dirname, "app");
