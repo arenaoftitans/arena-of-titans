@@ -25,56 +25,56 @@ const SITE_ROUTES = [
     {
         route: "/founders",
         name: "founders",
-        moduleId: PLATFORM.moduleName("./site/routes/founders/founders"),
+        moduleId: PLATFORM.moduleName("./site/routes/founders/founders", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.founders"),
     },
     {
         route: "/heroes",
         name: "heroes",
-        moduleId: PLATFORM.moduleName("./site/routes/heroes/heroes"),
+        moduleId: PLATFORM.moduleName("./site/routes/heroes/heroes", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.heroes"),
     },
     {
         route: "",
         name: "home",
-        moduleId: PLATFORM.moduleName("./site/routes/home/home"),
+        moduleId: PLATFORM.moduleName("./site/routes/home/home", "site-home"),
         nav: false,
         title: translationsKey("site.page_title.home"),
     },
     {
         route: "/moves",
         name: "moves",
-        moduleId: PLATFORM.moduleName("./site/routes/moves/moves"),
+        moduleId: PLATFORM.moduleName("./site/routes/moves/moves", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.moves"),
     },
     {
         route: "/people",
         name: "people",
-        moduleId: PLATFORM.moduleName("./site/routes/people/people"),
+        moduleId: PLATFORM.moduleName("./site/routes/people/people", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.people"),
     },
     {
         route: "/synopsis",
         name: "synopsis",
-        moduleId: PLATFORM.moduleName("./site/routes/synopsis/synopsis"),
+        moduleId: PLATFORM.moduleName("./site/routes/synopsis/synopsis", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.synopsis"),
     },
     {
         route: "/trumps",
         name: "trumps",
-        moduleId: PLATFORM.moduleName("./site/routes/trumps/trumps"),
+        moduleId: PLATFORM.moduleName("./site/routes/trumps/trumps", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.trumps"),
     },
     {
         route: "/privacy",
         name: "privacy",
-        moduleId: PLATFORM.moduleName("./site/routes/privacy/privacy"),
+        moduleId: PLATFORM.moduleName("./site/routes/privacy/privacy", "site-pages"),
         nav: false,
         title: translationsKey("site.page_title.privacy"),
     },
@@ -83,7 +83,7 @@ configureSiteRoutes(SITE_ROUTES);
 
 const NOT_FOUND = {
     name: "not-found",
-    moduleId: PLATFORM.moduleName("./site/routes/not-found/not-found"),
+    moduleId: PLATFORM.moduleName("./site/routes/not-found/not-found", "site-pages"),
     title: translationsKey("site.page_title.not_found"),
 };
 configureSiteRoutes([NOT_FOUND]);
@@ -92,7 +92,7 @@ const GAME_ROUTES = [
     {
         route: "game",
         name: "game",
-        moduleId: PLATFORM.moduleName("game/game"),
+        moduleId: PLATFORM.moduleName("game/game", "game-base"),
     },
 ];
 

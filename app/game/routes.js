@@ -30,14 +30,14 @@ const ROUTES = [
     {
         route: ["/:version/create/:id", "/:version/create", "/create"],
         name: "create",
-        moduleId: PLATFORM.moduleName("./create/create"),
+        moduleId: PLATFORM.moduleName("./create/create", "game"),
         nav: false,
         title: translationsKey("site.page_title.create_game"),
     },
     {
         route: "/:version/play/:id",
         name: "play",
-        moduleId: PLATFORM.moduleName("./play/play"),
+        moduleId: PLATFORM.moduleName("./play/play", "game"),
         nav: false,
         title: translationsKey("site.page_title.play_game"),
     },
