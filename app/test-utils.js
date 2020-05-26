@@ -87,8 +87,6 @@ export class StorageStub {
 
     retrievePlayerId() {}
 
-    clearGameData() {}
-
     saveOptions() {}
 
     loadOptions() {

@@ -20,6 +20,7 @@
 import { AppRouter } from "aurelia-router";
 import { EventAggregator } from "aurelia-event-aggregator";
 import * as Logger from "aurelia-logging";
+import { PLATFORM } from "aurelia-pal";
 import XHR from "i18next-xhr-backend";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
@@ -30,9 +31,9 @@ import frTranslations from "./locale/fr/translations";
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .plugin("aurelia-animator-css")
-        .plugin("aurelia-piwik")
-        .plugin("aurelia-i18n", instance => {
+        .plugin(PLATFORM.moduleName("aurelia-animator-css"))
+        .plugin(PLATFORM.moduleName("aurelia-piwik"))
+        .plugin(PLATFORM.moduleName("aurelia-i18n"), instance => {
             let language = navigator.language.split("-")[0];
 
             // register backend plugin
@@ -74,7 +75,7 @@ export function configure(aurelia) {
                     });
                 });
         })
-        .plugin("aurelia-store", {
+        .plugin(PLATFORM.moduleName("aurelia-store"), {
             initialState: { game: {}, lobby: {}, currentTurn: {}, me: {} },
             logDispatchedActions: environment.debug,
             logDefinitions: {
@@ -115,8 +116,8 @@ export function configure(aurelia) {
     }
 
     if (environment.testing) {
-        aurelia.use.plugin("aurelia-testing");
+        aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
     }
 
-    aurelia.start().then(() => aurelia.setRoot("app", document.body));
+    aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName("app")));
 }

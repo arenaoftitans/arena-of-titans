@@ -18,6 +18,8 @@
  *
  */
 
+import { PLATFORM } from "aurelia-pal";
+
 import { translationsKey } from "../translations";
 
 const ROUTES = [
@@ -28,14 +30,14 @@ const ROUTES = [
     {
         route: ["/:version/create/:id", "/:version/create", "/create"],
         name: "create",
-        moduleId: "./create/create",
+        moduleId: PLATFORM.moduleName("./create/create"),
         nav: false,
         title: translationsKey("site.page_title.create_game"),
     },
     {
         route: "/:version/play/:id",
         name: "play",
-        moduleId: "./play/play",
+        moduleId: PLATFORM.moduleName("./play/play"),
         nav: false,
         title: translationsKey("site.page_title.play_game"),
     },

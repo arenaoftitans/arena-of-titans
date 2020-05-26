@@ -17,14 +17,15 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const OPTIONS_KEY = "options";
-const PLAYER_INFOS_KEY = "player";
+const prefix = "last-run";
+const OPTIONS_KEY = `${prefix}-options`;
+const PLAYER_INFOS_KEY = `${prefix}-player`;
 const KEEP_PLAYER_ID_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 export class Storage {
     saveGameData(gameId, gameData) {
         for (let key of Object.keys(localStorage)) {
-            if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY) {
+            if (key !== OPTIONS_KEY && key !== PLAYER_INFOS_KEY && key.startsWith(prefix)) {
                 let data = localStorage.getItem(key);
                 data = JSON.parse(data);
 
@@ -37,21 +38,21 @@ export class Storage {
 
         // We don't want to update the data if it is already present.
         // This is mostly to prevent a user defined value in the cache.
-        if (localStorage.getItem(gameId) === null) {
+        if (localStorage.getItem(this._getGameKey(gameId)) === null) {
             gameData.date = Date.now();
-            localStorage.setItem(gameId, JSON.stringify(gameData));
+            localStorage.setItem(this._getGameKey(gameId), JSON.stringify(gameData));
         }
     }
 
+    _getGameKey(gameId) {
+        return `${prefix}-${gameId}`;
+    }
+
     retrievePlayerId(gameId) {
-        let data = localStorage.getItem(gameId);
+        let data = localStorage.getItem(this._getGameKey(gameId));
         data = JSON.parse(data);
 
         return data === null ? data : data.playerId;
-    }
-
-    clearGameData(gameId) {
-        localStorage.removeItem(gameId);
     }
 
     saveOptions(options) {
