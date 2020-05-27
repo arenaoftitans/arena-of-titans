@@ -100,7 +100,8 @@
         "displayName": "Web",
         "id": "web",
         "index": "index.html",
-        "output": "dist"
+        "output": "dist",
+        "port": "8282"
     },
     "templates": {
         "displayName": "Templates",
