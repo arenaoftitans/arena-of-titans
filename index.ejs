@@ -113,5 +113,13 @@
     <p>Last Run cannot work without JavaScript. Please enable it.</p>
     <p>Last Run ne peut pas fonctionner sans JavaScript. Merci de l'activer.</p>
 </noscript>
+
+<% if (htmlWebpackPlugin.options.metadata.piwikId) { %>
+    <script src="//piwik.jujens.eu/piwik.js" defer></script>
+    <script src="/tracking.js"></script>
+    <noscript>
+        <p><img src="//piwik.jujens.eu/piwik.php?idsite=<%= htmlWebpackPlugin.options.metadata.piwikId %>" style="border:0;" alt="" /></p>
+    </noscript>
+<% } %>
 </body>
 </html>

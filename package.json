@@ -133,9 +133,11 @@
     },
     "scripts": {
         "analyze": "webpack --env.production --analyze",
-        "build": "webpack --env.production --extractCss",
         "build:dev": "webpack --extractCss",
+        "build:production": "webpack --env.production --env.environment=production --extractCss",
+        "build:staging": "webpack --env.production --env.environment=staging --extractCss",
         "clean": "nps clean",
+        "dev": "yarn start",
         "lint": "nps lint",
         "start": "webpack-dev-server --extractCss",
         "test": "au test",

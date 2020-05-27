@@ -62,7 +62,15 @@ const sassRules = [
     },
 ];
 
-module.exports = ({ production } = {}, { extractCss, analyze, tests, hmr, port, host } = {}) => ({
+const environmentToPiwikId = {
+    production: 3,
+    staging: 4,
+};
+
+module.exports = (
+    { production, environment } = {},
+    { extractCss, analyze, tests, hmr, port, host } = {},
+) => ({
     resolve: {
         extensions: [".js"],
         modules: [srcDir, "node_modules"],
@@ -301,6 +309,7 @@ module.exports = ({ production } = {}, { extractCss, analyze, tests, hmr, port, 
                 // available in index.ejs //
                 title,
                 baseUrl,
+                piwikId: environmentToPiwikId[environment],
             },
         }),
         // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
