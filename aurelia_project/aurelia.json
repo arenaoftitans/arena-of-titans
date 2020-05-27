@@ -26,6 +26,10 @@
             {
                 "from": "scripts/tracking.js",
                 "to": "."
+            },
+            {
+                "from": "scripts/browser.js",
+                "to": "."
             }
         ],
         "options": {
