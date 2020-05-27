@@ -36,7 +36,6 @@ const when = (condition, config, negativeConfig) =>
 // primary config:
 const title = "Last Run";
 const outDir = path.resolve(__dirname, project.platform.output);
-const assetsOutDir = path.resolve(outDir, "assets");
 const srcDir = path.resolve(__dirname, "app");
 const nodeModulesDir = path.resolve(__dirname, "node_modules");
 const baseUrl = "/";
@@ -327,7 +326,12 @@ module.exports = (
         ),
         ...when(
             !tests,
-            new CopyWebpackPlugin([{ from: "assets", to: assetsOutDir, ignore: [".*"] }]),
+            new CopyWebpackPlugin(
+                project.build.copyFiles.map(pattern => ({
+                    ...pattern,
+                    to: path.resolve(outDir, pattern.to),
+                })),
+            ),
         ), // ignore dot (hidden) files
         ...when(analyze, new BundleAnalyzerPlugin()),
         /**

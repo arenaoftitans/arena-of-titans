@@ -11,12 +11,23 @@
         "source": "assets/**/*"
     },
     "build": {
-        "copyFiles": {
-            "index.html": "dist/",
-            "node_modules/intl/dist/Intl.js": "dist/",
-            "scripts/tracking.js": "dist/",
-            "sw.js": "dist/"
-        },
+        "copyFiles": [
+            {
+                "from": "node_modules/intl/dist/Intl.js",
+                "to": "."
+            },
+            {
+                "from": "assets",
+                "ignore": [
+                    ".*"
+                ],
+                "to": "assets"
+            },
+            {
+                "from": "scripts/tracking.js",
+                "to": "."
+            }
+        ],
         "options": {
             "coverage": false,
             "extractCss": "prod",
