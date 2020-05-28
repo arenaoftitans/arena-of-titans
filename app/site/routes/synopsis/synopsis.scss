@@ -1,7 +1,7 @@
 @import "../../../style/media-queries";
 
 .synopsis_illustration {
-    background-image: url(/assets/backgrounds/synopsis_illustration.png);
+    background-image: url(../../../../assets/backgrounds/synopsis_illustration.png);
     background-position: 600px -20px;
 
     @include fluid {

@@ -23,7 +23,7 @@
     <div class="select-card-container">
         <img
             class="arrow arrow-left"
-            src.bind="assetSource.forMiscImage('arrow-left')"
+            src.bind="assetSources.leftArrow"
             click.delegate="viewPreviousCard()"
         />
 
@@ -37,7 +37,7 @@
 
         <img
             class="arrow arrow-right"
-            src.bind="assetSource.forMiscImage('arrow-right')"
+            src.bind="assetSources.rightArrow"
             click.delegate="viewNextCard()"
         />
     </div>

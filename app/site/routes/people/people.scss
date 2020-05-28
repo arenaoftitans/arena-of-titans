@@ -1,7 +1,7 @@
 @import "../../../style/media-queries";
 
 .people_illustration {
-    background-image: url(/assets/backgrounds/people_illustration.png);
+    background-image: url(../../../../assets/backgrounds/people_illustration.png);
     background-position: -150px -20px;
 
     @include fluid {

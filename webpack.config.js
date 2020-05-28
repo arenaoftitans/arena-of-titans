@@ -262,7 +262,11 @@ module.exports = ({ environment } = {}, { extractCss, analyze, tests, hmr, port,
                     options: tests ? { sourceMap: "inline", plugins: ["istanbul"] } : {},
                 },
                 // embed small images and fonts as Data Urls and larger ones as files:
-                { test: /\.(png|gif|jpg|cur)$/i, loader: "url-loader", options: { limit: 8192 } },
+                {
+                    test: /\.(png|gif|jpg|jpeg|cur)$/i,
+                    loader: "file-loader",
+                    options: { limit: 8192, name: "[path][name].[contenthash].[ext]" },
+                },
                 {
                     test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                     loader: "url-loader",
@@ -275,6 +279,7 @@ module.exports = ({ environment } = {}, { extractCss, analyze, tests, hmr, port,
                 },
                 // load these fonts normally, as files:
                 { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: "file-loader" },
+                { test: /\.(ogg|mp3)?$/i, loader: "file-loader" },
                 {
                     test: /environment\.json$/i,
                     use: [

@@ -20,9 +20,11 @@
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
-import { AssetSource } from "../../services/assets";
 import { Sounds } from "./sounds";
-import { EventAggregatorSubscriptions } from "../services/utils";
+import { EventAggregatorSubscriptions } from "./utils";
+
+import favicon from "../../../assets/favicon.png";
+import faviconNotify from "../../../assets/favicon-notify.png";
 
 const PLAY_VOICE_TIMEOUT = 45000;
 
@@ -39,8 +41,8 @@ export class Notify {
         });
         this._sounds = sounds;
         this._head = document.head || (document.head = document.getElementsByTagName("head")[0]);
-        this._originalFaviconHref = AssetSource.forMiscImage("favicon");
-        this._notifyFavicon = AssetSource.forMiscImage("favicon-notify");
+        this._originalFaviconHref = favicon;
+        this._notifyFavicon = faviconNotify;
         this._body = document.body || document.getElementByTagName("body")[0];
 
         document.addEventListener("visibilitychange", () => this._handleVisibilityChange());

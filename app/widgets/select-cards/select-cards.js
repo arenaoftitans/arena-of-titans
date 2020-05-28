@@ -22,6 +22,9 @@ import { CssAnimator } from "aurelia-animator-css";
 import environment from "../../../config/environment.json";
 import { AssetSource } from "../../services/assets";
 
+import leftArrow from "../../../assets/game/misc/arrow-left.png";
+import rightArrow from "../../../assets/game/misc/arrow-right.png";
+
 const INPUT_NODE_NAMES = ["INPUT", "TEXTAREA"];
 
 @inject(CssAnimator)
@@ -35,6 +38,10 @@ export class AotSelectCardsCustomElement {
         this._animator = animator;
 
         this.assetSource = AssetSource;
+        this.assetSources = {
+            leftArrow,
+            rightArrow,
+        };
         this.cards = [];
         for (let card of environment.cards) {
             this.cards.push({

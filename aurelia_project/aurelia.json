@@ -17,19 +17,24 @@
                 "to": "."
             },
             {
-                "from": "assets",
-                "ignore": [
-                    ".*"
-                ],
-                "to": "assets"
-            },
-            {
                 "from": "scripts/tracking.js",
                 "to": "."
             },
             {
                 "from": "scripts/browser.js",
                 "to": "."
+            },
+            {
+                "from": "assets/spinner.gif",
+                "to": "./assets/"
+            },
+            {
+                "from": "assets/spinner.png",
+                "to": "./assets/"
+            },
+            {
+                "from": "assets/favicon.png",
+                "to": "./assets/"
             }
         ],
         "options": {

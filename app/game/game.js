@@ -28,6 +28,8 @@ import * as currentTurnActions from "./actions/currentTurn";
 import { Popup } from "./services/popup";
 import { SW } from "../services/sw";
 
+import gear from "../../assets/components/gear.png";
+
 @inject(Store, Popup, SW)
 export class Layout {
     constructor(store, popup, sw) {
@@ -45,7 +47,9 @@ export class Layout {
         });
 
         this._popup = popup;
-        this.assetSource = AssetSource;
+        this.assetSources = {
+            gear,
+        };
 
         sw.preloadBundles("game");
         AssetSource.preloadAssets("game");

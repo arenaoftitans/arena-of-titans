@@ -25,7 +25,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
             <input ref="inviteLink" type="text" value.bind="url" readonly />
             <button click.delegate="copyUrl()" class="" data-clipboard-target="#invite-link">
                 <img
-                    src.bind="assetSource.forMiscImage('clippy')"
+                    src.bind="clippyImg"
                     width="13"
                     alt="Copy to clipboard"
                 />

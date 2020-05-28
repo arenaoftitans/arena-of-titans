@@ -21,14 +21,19 @@
 import { inject } from "aurelia-framework";
 import { I18N } from "aurelia-i18n";
 import { Options } from "../../services/options";
-import { AssetSource } from "../../../services/assets";
+
+import frenchFlag from "../../../../assets/components/french.png";
+import englishFlag from "../../../../assets/components/english.png";
 
 @inject(Options, I18N)
 export class AotOptionsCustomElement {
     constructor(options, i18n) {
         this.options = options;
         this.i18n = i18n;
-        this.assetSource = AssetSource;
+        this.assetSources = {
+            frenchFlag,
+            englishFlag,
+        };
     }
 
     activate(model) {

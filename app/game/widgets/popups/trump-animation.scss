@@ -271,7 +271,8 @@ aot-popup .popup-trump-animation {
             animation-duration: 0.5s;
             animation-iteration-count: 2;
             animation-name: powerup_big;
-            background: url("/assets/game/backgrounds/animation-power-up-big.png") no-repeat;
+            background: url("../../../../assets/game/backgrounds/animation-power-up-big.png")
+                no-repeat;
             background-size: 50% 50%;
             bottom: 40vh;
             height: 100vh;
@@ -312,7 +313,8 @@ aot-popup .popup-trump-animation {
             animation-duration: 0.5s;
             animation-iteration-count: 2;
             animation-name: powerup_small;
-            background: url("/assets/game/backgrounds/animation-power-up-small.png") no-repeat;
+            background: url("../../../../assets/game/backgrounds/animation-power-up-small.png")
+                no-repeat;
             background-size: 50% 50%;
             bottom: 140vh;
             height: 100vh;
