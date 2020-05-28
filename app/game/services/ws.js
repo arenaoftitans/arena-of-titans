@@ -20,7 +20,7 @@
 import * as LogManager from "aurelia-logging";
 import { inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import { Popover } from "./popover";
 import ReconnectingWebSocket from "reconnectingwebsocket";
 import { REQUEST_TYPES } from "../constants";

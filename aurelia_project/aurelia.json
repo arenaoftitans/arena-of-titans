@@ -34,7 +34,7 @@
         ],
         "options": {
             "coverage": false,
-            "extractCss": "prod",
+            "extractCss": "production",
             "server": "dev"
         }
     },
@@ -110,6 +110,9 @@
     },
     "name": "arena-of-titans",
     "packageManager": "yarn",
+    "paths": {
+        "config": "config"
+    },
     "platform": {
         "baseDir": ".",
         "displayName": "Web",

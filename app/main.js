@@ -24,7 +24,7 @@ import { PLATFORM } from "aurelia-pal";
 import XHR from "i18next-xhr-backend";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
-import environment from "./environment";
+import environment from "../config/environment.json";
 import enTranslations from "./locale/en/translations";
 import frTranslations from "./locale/fr/translations";
 

@@ -2,13 +2,13 @@
 /node_modules
 /dist
 /public
-/app/environment.js
 /app/assets-list.js
 /reports
 npm-debug.log
 yarn-error.log
 /.env
 /test/coverage-jest
+/config/environment.*.json
 
 # This exist only to check translation keys. Don't track with git.
 /app/locale/en/_translation_keys.json

@@ -17,7 +17,7 @@ You can now install the node dependencies. To do so, launch in the folder in whi
 Configuration
 -------------
 
-We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.json`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. The file used by the application is written in ``./app/environment.js`` during the transpile step.
+We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.js`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. We will build it to inject some configuration variable either from the environment or from CLI flags. The file used by the application loaded by the application is ``./config/environment.json`` and some of its values will be overridden by the config file built for the environment which is written in ``./config/environment.ENV.json`` during the ``build-config`` step.
 
 You can override the host and port of the api to use for any environment by creating a ``.env`` file at the root of the project. Put in it only the lines you need. A full ``.env`` file will look like:
 

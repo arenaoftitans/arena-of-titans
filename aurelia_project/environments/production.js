@@ -1,6 +1,6 @@
 export default {
     api: {
-        host: "devapi.last-run.com",
+        host: "api.last-run.com",
         path: "/ws/",
         port: 80,
         tls_port: 443,

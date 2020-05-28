@@ -276,7 +276,7 @@ module.exports = (
                 use: [
                     {
                         loader: "app-settings-loader",
-                        options: { env: production ? "production" : "development" },
+                        options: { env: environment },
                     },
                 ],
             },

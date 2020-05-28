@@ -19,7 +19,7 @@
 
 import { bindable, inject } from "aurelia-framework";
 import { CssAnimator } from "aurelia-animator-css";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import { AssetSource } from "../../services/assets";
 
 const INPUT_NODE_NAMES = ["INPUT", "TEXTAREA"];
