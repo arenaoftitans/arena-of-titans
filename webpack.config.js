@@ -66,10 +66,9 @@ const environmentToPiwikId = {
     staging: 4,
 };
 
-module.exports = (
-    { production, environment } = {},
-    { extractCss, analyze, tests, hmr, port, host } = {},
-) => {
+module.exports = ({ environment } = {}, { extractCss, analyze, tests, hmr, port, host } = {}) => {
+    const isProductionLikeBuild = environment !== "dev";
+
     return {
         resolve: {
             extensions: [".js"],
@@ -85,15 +84,19 @@ module.exports = (
         entry: {
             app: ["aurelia-bootstrapper"],
         },
-        mode: production ? "production" : "development",
+        mode: isProductionLikeBuild ? "production" : "development",
         output: {
             path: outDir,
             publicPath: baseUrl,
-            filename: production ? "[name].[chunkhash].bundle.js" : "[name].[hash].bundle.js",
-            sourceMapFilename: production
+            filename: isProductionLikeBuild
+                ? "[name].[chunkhash].bundle.js"
+                : "[name].[hash].bundle.js",
+            sourceMapFilename: isProductionLikeBuild
                 ? "[name].[chunkhash].bundle.map"
                 : "[name].[hash].bundle.map",
-            chunkFilename: production ? "[name].[chunkhash].chunk.js" : "[name].[hash].chunk.js",
+            chunkFilename: isProductionLikeBuild
+                ? "[name].[chunkhash].chunk.js"
+                : "[name].[hash].chunk.js",
         },
         optimization: {
             runtimeChunk: true, // separates the runtime chunk, required for long term cacheability
@@ -209,7 +212,7 @@ module.exports = (
             port: port || project.platform.port,
             host: host,
         },
-        devtool: production ? "nosources-source-map" : "cheap-module-eval-source-map",
+        devtool: isProductionLikeBuild ? "nosources-source-map" : "cheap-module-eval-source-map",
         module: {
             rules: [
                 // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
@@ -291,7 +294,7 @@ module.exports = (
             }),
             new HtmlWebpackPlugin({
                 template: "index.ejs",
-                minify: production
+                minify: isProductionLikeBuild
                     ? {
                           removeComments: true,
                           collapseWhitespace: true,
@@ -317,10 +320,10 @@ module.exports = (
                 extractCss,
                 new MiniCssExtractPlugin({
                     // updated to match the naming conventions for the js files
-                    filename: production
+                    filename: isProductionLikeBuild
                         ? "css/[name].[contenthash].bundle.css"
                         : "css/[name].[hash].bundle.css",
-                    chunkFilename: production
+                    chunkFilename: isProductionLikeBuild
                         ? "css/[name].[contenthash].chunk.css"
                         : "css/[name].[hash].chunk.css",
                 }),

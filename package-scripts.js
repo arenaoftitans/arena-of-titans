@@ -14,7 +14,7 @@ module.exports = {
             ),
         },
         webpack: {
-            analyse: "webpack --env.production --env.environment=production --analyze",
+            analyse: "webpack --env.environment=production --analyze",
             devserver: "webpack-dev-server --env.environment=dev --extractCss",
             build: "webpack --extractCss",
         },
