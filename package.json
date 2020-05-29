@@ -132,9 +132,9 @@
         "url": "https://gitlab.com/arenaoftitans/arena-of-titans"
     },
     "scripts": {
-        "build:dev": "nps clean 'update.config --env dev' 'webpack.build --env.environment=dev'",
+        "build:dev": "nps clean 'build.config --env dev' 'webpack.build --env.environment=dev'",
         "lint": "nps lint",
-        "start": "nps clean 'update.config --env dev' webpack.devserver",
+        "start": "nps clean 'build.config --env dev' webpack.devserver",
         "test": "au test",
         "translate": "nps update.translations"
     },

@@ -4,9 +4,12 @@ module.exports = {
     scripts: {
         default: "nps",
         clean: rimraf("dist"),
+        build: {
+            config: "au build-config",
+            manifest: "au build-manifest",
+        },
         update: {
             defaultnames: "au update-external --kind default-names",
-            config: "au build-config",
             translations: series(
                 'i18next-scanner "app/**/*.{js,html}" > /dev/null 2>&1',
                 "au update-external --kind translations",

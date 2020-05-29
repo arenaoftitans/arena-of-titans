@@ -40,6 +40,7 @@
         "options": {
             "coverage": false,
             "extractCss": "production",
+            "manifest": "testing & staging & prod",
             "server": "dev"
         }
     },
