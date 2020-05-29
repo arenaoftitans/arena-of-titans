@@ -19,7 +19,6 @@
 
 import { inject } from "aurelia-framework";
 import { Store } from "aurelia-store";
-import { AssetSource } from "../services/assets";
 import routes from "./routes";
 import * as commonActions from "./actions/common";
 import * as lobbyActions from "./actions/lobby";
@@ -52,7 +51,6 @@ export class Layout {
         };
 
         sw.preloadBundles("game");
-        AssetSource.preloadAssets("game");
     }
 
     configureRouter(config, router) {

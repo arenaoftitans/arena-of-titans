@@ -27,6 +27,7 @@ const project = require("./aurelia_project/aurelia.json");
 const { AureliaPlugin, ModuleDependenciesPlugin } = require("aurelia-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin");
 
 // config helpers:
 const ensureArray = config => (config && (Array.isArray(config) ? config : [config])) || [];
@@ -335,6 +336,10 @@ module.exports = ({ environment } = {}, { extractCss, analyze, tests, hmr, port,
                     baseUrl,
                     piwikId: environmentToPiwikId[environment],
                 },
+            }),
+            new ServiceWorkerWebpackPlugin({
+                entry: "./app/sw.js",
+                minimize: isProductionLikeBuild,
             }),
             // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
             ...when(

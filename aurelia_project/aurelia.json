@@ -127,14 +127,6 @@
         "output": "dist",
         "port": "8282"
     },
-    "templates": {
-        "displayName": "Templates",
-        "id": "templates",
-        "sources": {
-            "index": "templates/index.html",
-            "sw": "templates/sw.js"
-        }
-    },
     "transpiler": {
         "displayName": "Babel",
         "fileExtension": ".js",

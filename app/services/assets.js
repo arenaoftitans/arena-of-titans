@@ -17,8 +17,6 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as LogManager from "aurelia-logging";
-
 // Animations images
 import blackAssassinAnimation from "../../assets/game/animation/assassination-black.png";
 import blueAssassinAnimation from "../../assets/game/animation/assassination-blue.png";
@@ -148,8 +146,6 @@ import towerBlack from "../../assets/game/cards/trumps/tower-black.png";
 import towerBlue from "../../assets/game/cards/trumps/tower-blue.png";
 import towerRed from "../../assets/game/cards/trumps/tower-red.png";
 import towerYellow from "../../assets/game/cards/trumps/tower-yellow.png";
-
-const logger = LogManager.getLogger("AssetSource");
 
 const animations = {
     "assassination-black": blackAssassinAnimation,
@@ -351,38 +347,6 @@ export class AssetSource {
         }
 
         return trumps[ImageName.forTrump(trump)];
-    }
-
-    static preloadAssets(kind) {
-        // Don't try to preload images when testing the application.
-        if (!window.caches) {
-            return;
-        }
-
-        // const cacheName = `${kind}Images`;
-        // const assetsToPreload = Object.values(assetsList).filter(assetSrc =>
-        //     assetSrc.includes(kind),
-        // );
-        //
-        // logger.debug("Preloading assets:", assetsToPreload);
-        // this._preloadFiles(cacheName, assetsToPreload);
-    }
-
-    static _preloadFiles(cacheName, filesList) {
-        caches.open(cacheName).then(cache => cache.addAll(filesList));
-        caches.open(cacheName).then(cache =>
-            cache.keys().then(cacheContent => {
-                const requestAndUrls = cacheContent
-                    .map(request => [request, request.url])
-                    .map(([request, url]) => [request, new URL(url).pathname]);
-                requestAndUrls.forEach(([request, url]) => {
-                    if (!filesList.includes(url)) {
-                        logger.debug(`Deleting request ${request.url}`);
-                        cache.delete(request);
-                    }
-                });
-            }),
-        );
     }
 }
 
