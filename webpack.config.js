@@ -270,16 +270,32 @@ module.exports = ({ environment } = {}, { extractCss, analyze, tests, hmr, port,
                 {
                     test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                     loader: "url-loader",
-                    options: { limit: 10000, mimetype: "application/font-woff2" },
+                    options: {
+                        limit: 10000,
+                        mimetype: "application/font-woff2",
+                        name: "[path][name].[contenthash].[ext]",
+                    },
                 },
                 {
                     test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                     loader: "url-loader",
-                    options: { limit: 10000, mimetype: "application/font-woff" },
+                    options: {
+                        limit: 10000,
+                        mimetype: "application/font-woff",
+                        name: "[path][name].[contenthash].[ext]",
+                    },
                 },
                 // load these fonts normally, as files:
-                { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: "file-loader" },
-                { test: /\.(ogg|mp3)?$/i, loader: "file-loader" },
+                {
+                    test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+                    loader: "file-loader",
+                    options: { name: "[path][name].[contenthash].[ext]" },
+                },
+                {
+                    test: /\.(ogg|mp3)?$/i,
+                    loader: "file-loader",
+                    options: { name: "[path][name].[contenthash].[ext]" },
+                },
                 {
                     test: /environment\.json$/i,
                     use: [
