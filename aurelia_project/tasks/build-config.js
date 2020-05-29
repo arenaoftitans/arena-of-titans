@@ -21,13 +21,15 @@
 import fs from "fs";
 import path from "path";
 import { CLIOptions } from "aurelia-cli";
-import { getApiVersion, getVersion } from "./utils";
+import { getApiVersion, getVersion, loadEnvVariables } from "./utils";
 import project from "../aurelia.json";
 import util from "util";
 
 const writeFile = util.promisify(fs.writeFile);
 
 export default function buildConfig() {
+    loadEnvVariables();
+
     let env = CLIOptions.getEnvironment();
 
     const environment = require(`../environments/${env}.js`).default;

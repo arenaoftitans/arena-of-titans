@@ -1,5 +1,5 @@
 {
-    "description": "Builds and processes all application assets.",
+    "description": "Builds the configuration.",
     "flags": [
         {
             "description": "Sets the version of the API to use",
@@ -15,12 +15,7 @@
             "description": "Sets the build environment.",
             "name": "env",
             "type": "string"
-        },
-        {
-            "description": "Watches source files for changes and refreshes the bundles automatically.",
-            "name": "watch",
-            "type": "boolean"
         }
     ],
-    "name": "build"
+    "name": "build-config"
 }
