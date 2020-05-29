@@ -36,7 +36,7 @@ describe("app/services/storage", () => {
 
         sut.saveOptions(options);
 
-        expect(localStorage.getItem("options")).toEqual(
+        expect(localStorage.getItem("last-run-options")).toEqual(
             JSON.stringify({
                 toSave: "toto",
             }),

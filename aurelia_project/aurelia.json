@@ -127,46 +127,6 @@
         "output": "dist",
         "port": "8282"
     },
-    "testFramework": {
-        "config": {
-            "collectCoverageFrom": [
-                "app/**/*.js",
-                "!**/*.spec.js",
-                "!**/node_modules/**",
-                "!**/test/**"
-            ],
-            "coverageDirectory": "<rootDir>/test/coverage-jest",
-            "coverageReporters": [
-                "json",
-                "lcov",
-                "text",
-                "html"
-            ],
-            "moduleFileExtensions": [
-                "js",
-                "json"
-            ],
-            "moduleNameMapper": {
-                "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
-            },
-            "modulePaths": [
-                "<rootDir>/app",
-                "<rootDir>/node_modules"
-            ],
-            "setupFiles": [
-                "<rootDir>/test/jest-pretest.js",
-                "jest-localstorage-mock"
-            ],
-            "testEnvironment": "node",
-            "testRegex": "\\.spec\\.js$",
-            "transform": {
-                "^.+\\.(css|less|sass|scss|styl|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "jest-transform-stub",
-                "^.+\\.js$": "babel-jest"
-            }
-        },
-        "displayName": "Jest",
-        "id": "jest"
-    },
     "transpiler": {
         "displayName": "Babel",
         "fileExtension": ".js",

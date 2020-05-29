@@ -1,4 +1,4 @@
-const { series, rimraf } = require("nps-utils");
+const { crossEnv, series, rimraf } = require("nps-utils");
 
 module.exports = {
     scripts: {
@@ -7,6 +7,11 @@ module.exports = {
         build: {
             config: "au build-config",
             manifest: "au build-manifest",
+        },
+        test: {
+            default: crossEnv("BABEL_TARGET=node jest"),
+            coverage: crossEnv("BABEL_TARGET=node jest --coverage"),
+            watch: crossEnv("BABEL_TARGET=node jest --watch"),
         },
         update: {
             defaultnames: "au update-external --kind default-names",

@@ -120,6 +120,44 @@
     "engines": {
         "node": ">=12.14.0"
     },
+    "jest": {
+        "collectCoverageFrom": [
+            "app/**/*.js",
+            "!**/*.spec.js",
+            "!**/node_modules/**",
+            "!**/test/**"
+        ],
+        "coverageDirectory": "<rootDir>/test/coverage-jest",
+        "coverageReporters": [
+            "json",
+            "lcov",
+            "text",
+            "html"
+        ],
+        "moduleFileExtensions": [
+            "js",
+            "json"
+        ],
+        "moduleNameMapper": {
+            "\\.(css|scss)$": "<rootDir>/test/__mocks__/styleMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",
+            "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
+        },
+        "modulePaths": [
+            "<rootDir>/app",
+            "<rootDir>/node_modules"
+        ],
+        "setupFiles": [
+            "<rootDir>/test/jest-pretest.js",
+            "jest-localstorage-mock"
+        ],
+        "testEnvironment": "node",
+        "testRegex": "\\.spec\\.js$",
+        "transform": {
+            "^.+\\.(css|less|sass|scss|styl|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/__mocks__/fileMock.js",
+            "^.+\\.js$": "babel-jest"
+        }
+    },
     "keywords": [
         "game",
         "board",
@@ -136,7 +174,7 @@
         "build:dev": "nps clean 'build.config --env dev' 'webpack.build --env.environment=dev'",
         "lint": "nps lint",
         "start": "nps clean 'build.config --env dev' webpack.devserver",
-        "test": "au test",
+        "test": "nps test",
         "translate": "nps update.translations"
     },
     "version": "0.5.0"

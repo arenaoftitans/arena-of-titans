@@ -54,8 +54,8 @@ repos:
                 types: [javascript]
             -   id: test
                 name: test
-                entry: npm
-                args: [run, test]
+                entry: yarn
+                args: [test]
                 pass_filenames: false
                 language: system
                 types: [javascript]
