@@ -122,6 +122,7 @@
     "platform": {
         "baseDir": ".",
         "displayName": "Web",
+        "hmr": true,
         "id": "web",
         "index": "index.html",
         "output": "dist",
