@@ -26,8 +26,6 @@ import { EventAggregatorSubscriptions } from "./utils";
 import favicon from "../../../assets/favicon.png";
 import faviconNotify from "../../../assets/favicon-notify.png";
 
-const PLAY_VOICE_TIMEOUT = 45000;
-
 @inject(I18N, EventAggregatorSubscriptions, Sounds)
 export class Notify {
     constructor(i18n, eas, sounds) {
@@ -75,13 +73,6 @@ export class Notify {
             this._swapTitle();
             this._pushNotification();
         }
-
-        /*let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
-        let cancelPlayVoice = () => {
-            clearTimeout(playVoiceTimer);
-            this._body.removeEventListener("mousemove", cancelPlayVoice);
-        };
-        this._body.addEventListener("mousemove", cancelPlayVoice);*/
     }
 
     _pushNotification() {
