@@ -17,4 +17,38 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class Home {}
+import { inject } from "aurelia-framework";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { I18N } from "aurelia-i18n";
+
+const langToTutorialVideo = {
+    fr: "https://www.youtube.com/embed/_ly4641dfEU",
+    en: "https://www.youtube.com/embed/ppLC6GzaLsc",
+};
+
+const defaultTutorialUrl = langToTutorialVideo.en;
+
+@inject(I18N, EventAggregator)
+export class Home {
+    constructor(i18n, ea) {
+        this._i18n = i18n;
+        this._ea = ea;
+        this._subscribtion = null;
+
+        this.updateTutorialUrl();
+    }
+
+    bind() {
+        this._subscribtion = this._ea.subscribe("i18n:locale:changed", () => {
+            this.updateTutorialUrl();
+        });
+    }
+
+    unbind() {
+        this._subscribtion.dispose();
+    }
+
+    updateTutorialUrl() {
+        this.tutorialUrl = langToTutorialVideo[this._i18n.getLocale()] || defaultTutorialUrl;
+    }
+}
