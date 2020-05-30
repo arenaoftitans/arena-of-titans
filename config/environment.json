@@ -1,0 +1,54 @@
+{
+    "api": {
+        "host": "localhost",
+        "path": "/ws/",
+        "port": 8180,
+        "tls_port": 443,
+        "version": "latest"
+    },
+    "cards": [
+        {
+            "color": "red",
+            "name": "assassin"
+        },
+        {
+            "color": "black",
+            "name": "king"
+        },
+        {
+            "color": "blue",
+            "name": "queen"
+        },
+        {
+            "color": "yellow",
+            "name": "knight"
+        },
+        {
+            "color": "blue",
+            "name": "wizard"
+        },
+        {
+            "color": "red",
+            "name": "bishop"
+        },
+        {
+            "color": "yellow",
+            "name": "warrior"
+        }
+    ],
+    "debug": false,
+    "env": "",
+    "heroes": [
+        "arline",
+        "djor",
+        "garez",
+        "kharliass",
+        "luni",
+        "mirindrel",
+        "razbrak",
+        "ulya"
+    ],
+    "sentry_dsn": "",
+    "testing": false,
+    "version": "latest"
+}

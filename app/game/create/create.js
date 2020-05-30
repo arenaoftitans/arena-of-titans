@@ -24,7 +24,7 @@ import { Router } from "aurelia-router";
 import { BindingEngineSubscriptions, Wait, randomInt } from "../services/utils";
 import { AssetSource } from "../../services/assets";
 import { Storage } from "../services/storage";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import * as lobbyActions from "../actions/lobby";
 import { TrackActions } from "../services/TrackActions";
 

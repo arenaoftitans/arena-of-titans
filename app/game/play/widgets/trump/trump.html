@@ -18,7 +18,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 -->
 <template>
-    <require from="./trump.css"></require>
+    <require from="./trump.scss"></require>
 
     <svg
         version="1.1"
@@ -500,9 +500,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
             font-weight="bold"
             x="140"
             y="295"
-        >
-            ${trump.cost}
-        </text>
+        >${trump.cost}</text>
         <path
             if.bind="trump.passive"
             id="text1306"

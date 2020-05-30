@@ -19,7 +19,7 @@
  */
 
 import DEFAULT_NAMES from "../create/default-names";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import { selectRandomElement } from "../services/utils";
 import { getApi, getEmptyCurrentTurn } from "./utils";
 

@@ -21,6 +21,28 @@ import { bindable, inject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { AssetSource } from "../../../services/assets";
 
+import gameOverMp3 from "../../../../assets/game/sounds/game-over.mp3";
+import gameOverOgg from "../../../../assets/game/sounds/game-over.ogg";
+import yourTurnSoundMp3 from "../../../../assets/game/sounds/your-turn-sound.mp3";
+import yourTurnSoundOgg from "../../../../assets/game/sounds/your-turn-sound.ogg";
+import yourTurnVoiceMp3 from "../../../../assets/game/sounds/your-turn-voice.mp3";
+import yourTurnVoiceOgg from "../../../../assets/game/sounds/your-turn-voice.ogg";
+
+const sounds = {
+    "game-over": {
+        mp3: gameOverMp3,
+        ogg: gameOverOgg,
+    },
+    "your-turn": {
+        mp3: yourTurnSoundMp3,
+        ogg: yourTurnSoundOgg,
+    },
+    "your-turn-voice": {
+        mp3: yourTurnVoiceMp3,
+        ogg: yourTurnVoiceOgg,
+    },
+};
+
 @inject(EventAggregator)
 export class AotSoundCustomElement {
     @bindable sound;
@@ -30,6 +52,10 @@ export class AotSoundCustomElement {
         this.assetSource = AssetSource;
         // This will contain the audio element.
         this.audio = null;
+    }
+
+    forSound(soundName, format) {
+        return sounds[soundName][format];
     }
 
     bind() {

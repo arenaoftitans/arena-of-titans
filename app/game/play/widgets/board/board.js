@@ -25,6 +25,10 @@ import { AssetSource } from "../../../../services/assets";
 import { BOARD_MOVE_MODE, BOARD_SELECT_SQUARE_MODE } from "../../../constants";
 import { TrackActions } from "../../../services/TrackActions";
 
+import ocean from "../../../../../assets/game/backgrounds/ocean.jpeg";
+import island from "../../../../../assets/game/backgrounds/island.png";
+import clouds from "../../../../../assets/game/backgrounds/clouds.png";
+
 @inject(Store, TrackActions)
 export class AotBoardCustomElement {
     @bindable playerIndex = null;
@@ -46,6 +50,11 @@ export class AotBoardCustomElement {
         this.boardMode = BOARD_MOVE_MODE;
         this.players = {};
         this._hiddenPlayerIndexes = [];
+        this.backgrounds = {
+            ocean,
+            clouds,
+            island,
+        };
         this.assetSource = AssetSource;
         // Map squares to its color if the color changed from the default.
         this.squaresToColors = {};

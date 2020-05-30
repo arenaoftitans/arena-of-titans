@@ -18,7 +18,7 @@
  */
 
 import { AotSelectHeroesCustomElement } from "../../../app/widgets/select-heroes/select-heroes";
-import environment from "../../../app/environment";
+import environment from "../../../config/environment.json";
 import { CssAnimatorStub } from "../../../app/test-utils";
 
 describe("create/select-heroes", () => {

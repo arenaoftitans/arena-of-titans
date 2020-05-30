@@ -19,8 +19,10 @@
 
 import { bindable, inject } from "aurelia-framework";
 import { CssAnimator } from "aurelia-animator-css";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import { AssetSource } from "../../services/assets";
+import leftArrow from "../../../assets/game/misc/arrow-left.png";
+import rightArrow from "../../../assets/game/misc/arrow-right.png";
 
 const INPUT_NODE_NAMES = ["INPUT", "TEXTAREA"];
 
@@ -34,6 +36,10 @@ export class AotSelectHeroesCustomElement {
         this._animator = animator;
 
         this.assetSource = AssetSource;
+        this.assetSources = {
+            leftArrow,
+            rightArrow,
+        };
         this.heroes = [];
         for (let hero of environment.heroes) {
             this.heroes.push({

@@ -18,7 +18,7 @@
 -->
 
 <template>
-    <require from="./popup.css"></require>
+    <require from="./popup.scss"></require>
     <require from="./error"></require>
     <require from="./infos"></require>
     <require from="./confirm"></require>
@@ -31,7 +31,7 @@
     <div class="popup" if.bind="type !== null"></div>
     <div class="popup-container" tabindex="0" ref="container" if.bind="type !== null">
         <div class="popup-content popup-${type} ${background}">
-            <compose view-model="./${type}" model.one-way="popupModel"> </compose>
+            <compose view-model.bind="viewModel" model.one-way="popupModel"> </compose>
         </div>
     </div>
 </template>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2020 by Last Run Contributors.
+ * Copyright (C) 2015-2020 by Arena of Titans Contributors.
  *
  * This file is part of Arena of Titans.
  *
@@ -18,7 +18,8 @@
  *
  */
 
-const bundlesList = "{{ bundlesList }}".split(",");
+// This comes from serviceworker-webpack-plugin.
+const allAssets = serviceWorkerOption.assets; // eslint-disable-line no-undef
 
 function log(text) {
     console.log(`[SW] ${text}`); // eslint-disable-line no-console
@@ -58,10 +59,8 @@ self.addEventListener("message", event => {
         return;
     }
 
-    const cacheName = `${kind}Bundles`;
-    const bundlesToPreload = Object.values(bundlesList).filter(bundleSrc =>
-        bundleSrc.includes(kind),
-    );
+    const cacheName = `${kind}Assets`;
+    const bundlesToPreload = Object.values(allAssets).filter(bundleSrc => bundleSrc.includes(kind));
     debug(`Preading bundles: ${bundlesToPreload}`);
     addAll(cacheName, bundlesToPreload);
 });

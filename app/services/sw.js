@@ -19,7 +19,7 @@
  */
 
 import * as LogManager from "aurelia-logging";
-import environment from "../environment";
+import environment from "../../config/environment.json";
 
 export class SW {
     constructor() {

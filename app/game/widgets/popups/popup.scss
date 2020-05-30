@@ -47,12 +47,12 @@ aot-popup {
         }
 
         &.default {
-            background: url(/assets/game/backgrounds/popup.png) no-repeat;
+            background: url(../../../../assets/game/backgrounds/popup.png) no-repeat;
             background-size: 100% 100%;
         }
 
         &.game-over {
-            background: url(/assets/game/backgrounds/popup-game-over.png) no-repeat;
+            background: url(../../../../assets/game/backgrounds/popup-game-over.png) no-repeat;
             background-size: 100% 100%;
         }
     }

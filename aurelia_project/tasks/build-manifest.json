@@ -1,0 +1,11 @@
+{
+    "description": "Builds the manifest to clean old assets.",
+    "flags": [
+        {
+            "description": "Sets the version of the application",
+            "name": "version",
+            "type": "string"
+        }
+    ],
+    "name": "build-manifest"
+}

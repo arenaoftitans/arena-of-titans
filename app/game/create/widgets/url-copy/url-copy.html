@@ -17,7 +17,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 -->
 <template>
-    <require from="./url-copy.css"></require>
+    <require from="./url-copy.scss"></require>
 
     <div class="centered-text">
         <p class="bright-red-text" t="game.create.invite_text">Invite</p>
@@ -25,7 +25,7 @@ along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
             <input ref="inviteLink" type="text" value.bind="url" readonly />
             <button click.delegate="copyUrl()" class="" data-clipboard-target="#invite-link">
                 <img
-                    src.bind="assetSource.forMiscImage('clippy')"
+                    src.bind="clippyImg"
                     width="13"
                     alt="Copy to clipboard"
                 />

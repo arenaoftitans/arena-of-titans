@@ -17,7 +17,7 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import environment from "../../../environment";
+import environment from "../../../../config/environment.json";
 import { AssetSource } from "../../../services/assets";
 
 export class Moves {

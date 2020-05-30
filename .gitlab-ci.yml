@@ -25,8 +25,7 @@ lint:
 tests:
   stage: checks
   script:
-    - yarn run build
-    - yarn run test --coverage
+    - ./node_modules/.bin/nps test.coverage
   except:
     - triggers
 
@@ -41,7 +40,7 @@ build:
       - dist
     expire_in: 1 week
   script:
-    - yarn run build --env $ENV --version $VERSION
+    - ./node_modules/.bin/nps "build.config --env $ENV --version $VERSION" "webpack.build --env.environment=$ENV" "build.manifest --env $ENV --version $VERSION"
   except:
     - tags
 

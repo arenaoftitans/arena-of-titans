@@ -11,216 +11,38 @@
         "source": "assets/**/*"
     },
     "build": {
-        "bundles": [
+        "copyFiles": [
             {
-                "name": "common-bundle.js",
-                "source": [
-                    "[**/translations.js]",
-                    "[**/locale/**/*.js]",
-                    "[**/routes.js]",
-                    "[**/app.js]",
-                    "[**/environment.js]",
-                    "[**/app/assets-list.js]",
-                    "[**/main.js]",
-                    "[**/services/*.js]",
-                    "[**/app/widgets/**/*.js]",
-                    "**/app.html",
-                    "**/app/widgets/**/*.{html,css}",
-                    "**/style/*.css"
-                ]
+                "from": "node_modules/intl/dist/Intl.js",
+                "to": "."
             },
             {
-                "name": "site-bundle.js",
-                "source": [
-                    "[**/site/**/*.js]",
-                    "**/site/**/*.{css,html}"
-                ]
+                "from": "scripts/tracking.js",
+                "to": "."
             },
             {
-                "dependencies": [
-                    {
-                        "main": "reconnecting-websocket",
-                        "name": "reconnectingwebsocket",
-                        "path": "../node_modules/reconnectingwebsocket"
-                    }
-                ],
-                "name": "game-common-bundle.js",
-                "source": [
-                    "[**/game/constants.js]",
-                    "[**/game/actions/*.js]",
-                    "[**/game/game.js]",
-                    "[**/game/routes.js]",
-                    "[**/game/services/*.js]",
-                    "[**/game/widgets/**/*.js]",
-                    "**/game/**/*.{css,html}",
-                    "**/game/game.{css,html}",
-                    "**/game/widgets/**/*.{css,html}"
-                ]
+                "from": "scripts/browser.js",
+                "to": "."
             },
             {
-                "dependencies": [],
-                "name": "game-create-bundle.js",
-                "source": [
-                    "[**/game/create/**/*.js]",
-                    "**/game/create/**/*.{css,html}"
-                ]
+                "from": "assets/spinner.gif",
+                "to": "./assets/"
             },
             {
-                "dependencies": [
-                    {
-                        "main": "sync",
-                        "name": "css-animation-sync",
-                        "path": "../node_modules/css-animation-sync/dist"
-                    }
-                ],
-                "name": "game-play-bundle.js",
-                "source": [
-                    "[**/game/play/**/*.js]",
-                    "**/game/play/**/*.{css,html}"
-                ]
+                "from": "assets/spinner.png",
+                "to": "./assets/"
             },
             {
-                "dependencies": [
-                    "aurelia-animator-css",
-                    "aurelia-binding",
-                    "aurelia-bootstrapper",
-                    "aurelia-dependency-injection",
-                    "aurelia-event-aggregator",
-                    "aurelia-framework",
-                    "aurelia-history",
-                    "aurelia-history-browser",
-                    {
-                        "main": "aurelia-i18n",
-                        "name": "aurelia-i18n",
-                        "path": "../node_modules/aurelia-i18n/dist/amd"
-                    },
-                    "aurelia-loader",
-                    "aurelia-loader-default",
-                    "aurelia-logging",
-                    "aurelia-logging-console",
-                    "aurelia-metadata",
-                    "aurelia-pal",
-                    "aurelia-pal-browser",
-                    "aurelia-path",
-                    {
-                        "main": "index",
-                        "name": "aurelia-piwik",
-                        "path": "../node_modules/aurelia-piwik/dist/amd"
-                    },
-                    "aurelia-polyfills",
-                    "aurelia-route-recognizer",
-                    "aurelia-router",
-                    "aurelia-task-queue",
-                    "aurelia-templating",
-                    "aurelia-templating-binding",
-                    "text",
-                    {
-                        "main": "aurelia-templating-resources",
-                        "name": "aurelia-templating-resources",
-                        "path": "../node_modules/aurelia-templating-resources/dist/amd"
-                    },
-                    {
-                        "main": "aurelia-templating-router",
-                        "name": "aurelia-templating-router",
-                        "path": "../node_modules/aurelia-templating-router/dist/amd"
-                    },
-                    {
-                        "env": "dev",
-                        "main": "aurelia-testing",
-                        "name": "aurelia-testing",
-                        "path": "../node_modules/aurelia-testing/dist/amd"
-                    },
-                    {
-                        "main": "i18next",
-                        "name": "i18next",
-                        "path": "../node_modules/i18next/dist/cjs"
-                    },
-                    {
-                        "main": "i18nextXHRBackend",
-                        "name": "i18next-xhr-backend",
-                        "path": "../node_modules/i18next-xhr-backend/dist/cjs"
-                    }
-                ],
-                "name": "vendor-bundle.js",
-                "prepend": []
-            },
-            {
-                "dependencies": [],
-                "name": "bootstrap-bundle.js",
-                "prepend": [
-                    "scripts/polyfills.js",
-                    "scripts/browser.js",
-                    "node_modules/requirejs/require.js"
-                ]
-            },
-            {
-                "name": "test-utils-bundle.js",
-                "source": [
-                    "[**/test-utils.js]"
-                ]
+                "from": "assets/favicon.png",
+                "to": "./assets/"
             }
         ],
-        "copyFiles": {
-            "index.html": "dist/",
-            "node_modules/intl/dist/Intl.js": "dist/",
-            "scripts/tracking.js": "dist/",
-            "sw.js": "dist/"
-        },
-        "loader": {
-            "config": {
-                "waitSeconds": 60
-            },
-            "configTarget": "bootstrap-bundle.js",
-            "includeBundleMetadataInConfig": "auto",
-            "plugins": [
-                {
-                    "extensions": [
-                        ".html",
-                        ".css"
-                    ],
-                    "name": "text",
-                    "stub": false
-                }
-            ],
-            "type": "require"
-        },
         "options": {
+            "coverage": false,
+            "extractCss": "production",
             "manifest": "testing & staging & prod",
-            "minify": "testing & staging & prod",
-            "rev": "testing & staging & prod",
-            "sourcemaps": "dev & testing & staging & prod"
-        },
-        "targets": [
-            {
-                "displayName": "Web",
-                "id": "web",
-                "index": "index.html",
-                "output": "dist/scripts",
-                "useAbsolutePath": true
-            }
-        ]
-    },
-    "coverageTranspiler": {
-        "displayName": "Babel with coverage",
-        "fileExtension": ".js",
-        "id": "babel",
-        "options": {
-            "plugins": [
-                [
-                    "@babel/plugin-transform-modules-amd",
-                    {
-                        "loose": true
-                    }
-                ]
-            ]
-        },
-        "source": "app/**/*.js"
-    },
-    "cssProcessor": {
-        "displayName": "Sass",
-        "fileExtension": ".scss",
-        "id": "sass",
-        "source": "app/**/*.scss"
+            "server": "dev"
+        }
     },
     "editor": {
         "displayName": "Visual Studio Code",
@@ -292,95 +114,22 @@
             ]
         }
     },
-    "markupProcessor": {
-        "displayName": "Maximun minification",
-        "fileExtension": ".html",
-        "id": "maximum",
-        "source": "app/**/*.html"
-    },
     "name": "arena-of-titans",
     "packageManager": "yarn",
     "paths": {
-        "reports": "reports",
-        "root": "app"
+        "config": "config"
     },
     "platform": {
         "baseDir": ".",
         "displayName": "Web",
         "id": "web",
         "index": "index.html",
-        "output": "scripts"
-    },
-    "templates": {
-        "displayName": "Templates",
-        "id": "templates",
-        "sources": {
-            "index": "templates/index.html",
-            "sw": "templates/sw.js"
-        }
-    },
-    "testFramework": {
-        "config": {
-            "collectCoverageFrom": [
-                "app/**/*.js",
-                "!**/*.spec.js",
-                "!**/node_modules/**",
-                "!**/test/**"
-            ],
-            "coverageDirectory": "<rootDir>/test/coverage-jest",
-            "coverageReporters": [
-                "json",
-                "lcov",
-                "text",
-                "html"
-            ],
-            "moduleFileExtensions": [
-                "js",
-                "json"
-            ],
-            "moduleNameMapper": {
-                "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
-            },
-            "modulePaths": [
-                "<rootDir>/app",
-                "<rootDir>/node_modules"
-            ],
-            "setupFiles": [
-                "<rootDir>/test/jest-pretest.js",
-                "jest-localstorage-mock"
-            ],
-            "testEnvironment": "node",
-            "testRegex": "\\.spec\\.js$",
-            "transform": {
-                "^.+\\.(css|less|sass|scss|styl|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "jest-transform-stub",
-                "^.+\\.js$": "babel-jest"
-            }
-        },
-        "displayName": "Jest",
-        "id": "jest"
+        "output": "dist",
+        "port": "8282"
     },
     "transpiler": {
         "displayName": "Babel",
         "fileExtension": ".js",
-        "id": "babel",
-        "options": {
-            "plugins": [
-                [
-                    "@babel/plugin-transform-modules-amd",
-                    {
-                        "loose": true
-                    }
-                ]
-            ]
-        },
-        "source": [
-            "app/**/*.js"
-        ]
-    },
-    "type": "project:application",
-    "unitTestRunner": {
-        "displayName": "Karma",
-        "id": "karma",
-        "source": "test/unit/**/*.js"
+        "id": "babel"
     }
 }

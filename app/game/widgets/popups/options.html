@@ -18,7 +18,7 @@
 -->
 
 <template>
-    <require from="./options.css"></require>
+    <require from="./options.scss"></require>
 
     <div class="x-margin centered-text">
         <p class="centered-important">
@@ -27,11 +27,11 @@
 
         <div class="lang-chooser option-line">
             <img
-                src.bind="assetSource.forGlobalImage('french-flag')"
+                src.bind="assetSources.frenchFlag"
                 click.delegate="changeLang('fr')"
             />
             <img
-                src.bind="assetSource.forGlobalImage('english-flag')"
+                src.bind="assetSources.englishFlag"
                 click.delegate="changeLang('en')"
             />
         </div>

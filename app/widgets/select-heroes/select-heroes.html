@@ -18,13 +18,13 @@
 -->
 
 <template>
-    <require from="./select-heroes.css"></require>
+    <require from="./select-heroes.scss"></require>
 
     <div class="select-hero-container">
         <div class="select-hero centered-text">
             <img
                 class="arrow arrow-left"
-                src.bind="assetSource.forMiscImage('arrow-left')"
+                src.bind="assetSources.leftArrow"
                 click.delegate="viewPreviousHero()"
             />
 
@@ -38,7 +38,7 @@
 
             <img
                 class="arrow arrow-right"
-                src.bind="assetSource.forMiscImage('arrow-right')"
+                src.bind="assetSources.rightArrow"
                 click.delegate="viewNextHero()"
             />
         </div>

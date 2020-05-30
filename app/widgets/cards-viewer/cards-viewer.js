@@ -18,7 +18,7 @@
  */
 
 import { bindable } from "aurelia-framework";
-import environment from "../../environment";
+import environment from "../../../config/environment.json";
 import { AssetSource } from "../../services/assets";
 
 const NB_CARDS_PER_LINE = 7;

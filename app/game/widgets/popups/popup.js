@@ -17,8 +17,22 @@
  * along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { inject, BindingEngine } from "aurelia-framework";
+import { inject, BindingEngine, PLATFORM } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
+
+// Make sure all popups are included in the webpack bundles. For details, see:
+// https://discourse.aurelia.io/t/dynamically-loading-compose-viewmodels-using-webpack/173
+PLATFORM.moduleName("./assassination-animation", "game");
+PLATFORM.moduleName("./back-home", "game");
+PLATFORM.moduleName("./confirm", "game");
+PLATFORM.moduleName("./error", "game");
+PLATFORM.moduleName("./game-over", "game");
+PLATFORM.moduleName("./infos", "game");
+PLATFORM.moduleName("./options", "game");
+PLATFORM.moduleName("./player-box", "game");
+PLATFORM.moduleName("./transition", "game");
+PLATFORM.moduleName("./trump-animation", "game");
+PLATFORM.moduleName("./yes-no", "game");
 
 @inject(BindingEngine, EventAggregator)
 export class AotPopupCustomElement {
@@ -38,6 +52,7 @@ export class AotPopupCustomElement {
 
         this._eaSubscription = this._ea.subscribe("aot:popup:display", message => {
             this.type = message.type;
+            this.viewModel = `./${this.type}`;
             this.popupModel.data = message.data;
             this.popupModel.deferred = message.deferred;
 

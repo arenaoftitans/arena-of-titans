@@ -18,7 +18,7 @@
  */
 
 import { AotSelectCardsCustomElement } from "../../../app/widgets/select-cards/select-cards";
-import environment from "../../../app/environment";
+import environment from "../../../config/environment.json";
 import { CssAnimatorStub } from "../../../app/test-utils";
 
 describe("create/select-cards", () => {

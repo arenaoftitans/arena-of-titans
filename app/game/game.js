@@ -19,7 +19,6 @@
 
 import { inject } from "aurelia-framework";
 import { Store } from "aurelia-store";
-import { AssetSource } from "../services/assets";
 import routes from "./routes";
 import * as commonActions from "./actions/common";
 import * as lobbyActions from "./actions/lobby";
@@ -27,6 +26,8 @@ import * as playActions from "./actions/play";
 import * as currentTurnActions from "./actions/currentTurn";
 import { Popup } from "./services/popup";
 import { SW } from "../services/sw";
+
+import gear from "../../assets/components/gear.png";
 
 @inject(Store, Popup, SW)
 export class Layout {
@@ -45,10 +46,11 @@ export class Layout {
         });
 
         this._popup = popup;
-        this.assetSource = AssetSource;
+        this.assetSources = {
+            gear,
+        };
 
         sw.preloadBundles("game");
-        AssetSource.preloadAssets("game");
     }
 
     configureRouter(config, router) {

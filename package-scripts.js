@@ -1,12 +1,17 @@
-const { series, rimraf } = require("nps-utils");
+const { crossEnv, series, rimraf } = require("nps-utils");
 
 module.exports = {
     scripts: {
         default: "nps",
         clean: rimraf("dist"),
         build: {
-            sprites:
-                "glue -s assets/game/cards/movement -o style/sprites --img assets/game/sprites/",
+            config: "au build-config",
+            manifest: "au build-manifest",
+        },
+        test: {
+            default: crossEnv("BABEL_TARGET=node jest"),
+            coverage: crossEnv("BABEL_TARGET=node jest --coverage"),
+            watch: crossEnv("BABEL_TARGET=node jest --watch"),
         },
         update: {
             defaultnames: "au update-external --kind default-names",
@@ -15,6 +20,11 @@ module.exports = {
                 "au update-external --kind translations",
                 "prettier app/locale/**/*.js --write",
             ),
+        },
+        webpack: {
+            analyse: "webpack --env.environment=production --analyze",
+            devserver: "webpack-dev-server --env.environment=dev --extractCss",
+            build: "webpack --extractCss",
         },
         lint: series("au lint", 'stylelint "app/**/*.scss"', 'eslint "app/**/*.js" "test/**/*.js"'),
     },

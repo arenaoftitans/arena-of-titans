@@ -18,14 +18,15 @@
  */
 
 import { bindable } from "aurelia-framework";
-import { AssetSource } from "../../../../services/assets";
+
+import clippy from "../../../../../assets/game/misc/clippy.svg";
 
 export class AotUrlCopyCustomElement {
     @bindable url;
     inviteLink = null; // Populated by ref.
 
     constructor() {
-        this.assetSource = AssetSource;
+        this.clippyImg = clippy;
     }
 
     copyUrl() {

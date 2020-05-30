@@ -55,10 +55,7 @@ describe("services/notify", () => {
         sut._swapFavicon();
 
         expect(document.getElementById).toHaveBeenCalledWith("favicon");
-        expect(sut._createFavicon).toHaveBeenCalledWith(
-            expect.stringMatching(/\/dist\/assets\/favicon-notify.*\.png/),
-            link,
-        );
+        expect(sut._createFavicon).toHaveBeenCalledWith("test-file-stub", link);
     });
 
     describe("should playCard sound", () => {

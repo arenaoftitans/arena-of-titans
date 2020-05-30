@@ -1,5 +1,3 @@
-app/environment.js
-app/assets-list.js
 aurelia-karma.js
 app/game/create/default-names.js
 app/locale/**/*.js
