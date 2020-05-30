@@ -25,6 +25,14 @@ aot-cards {
     $card-img-height: 12vw;
 
     #cards-actions {
+        @include small-height {
+            display: block;
+            float: left;
+            margin-left: 45vw;
+            margin-top: -20vh;
+            transform: scale(0.4);
+        }
+
         @include fluid {
             display: block;
             float: left;
@@ -37,7 +45,7 @@ aot-cards {
             display: block;
             float: left;
             margin-left: 45vw;
-            margin-top: -25vh;
+            margin-top: -22vh;
             transform: scale(0.7);
         }
 
@@ -74,9 +82,9 @@ aot-cards {
 
         @include small-height {
             margin-right: 5px;
-            max-height: 100px;
-            max-width: 60px;
-            width: 20%;
+            max-height: 90px;
+            max-width: 50px;
+            width: 25%;
         }
 
         @include media-sm {
@@ -97,6 +105,13 @@ aot-cards {
             margin-right: 5px;
             max-height: 160px;
             max-width: 120px;
+            width: 12%;
+        }
+
+        @include media-xl {
+            margin-right: 8px;
+            max-height: 210px;
+            max-width: 170px;
             width: 12%;
         }
     }

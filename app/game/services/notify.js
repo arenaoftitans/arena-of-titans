@@ -76,12 +76,12 @@ export class Notify {
             this._pushNotification();
         }
 
-        let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
+        /*let playVoiceTimer = setTimeout(() => this._playVoice(), PLAY_VOICE_TIMEOUT);
         let cancelPlayVoice = () => {
             clearTimeout(playVoiceTimer);
             this._body.removeEventListener("mousemove", cancelPlayVoice);
         };
-        this._body.addEventListener("mousemove", cancelPlayVoice);
+        this._body.addEventListener("mousemove", cancelPlayVoice);*/
     }
 
     _pushNotification() {

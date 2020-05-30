@@ -28,31 +28,96 @@ aot-player-box {
         border: medium solid white;
         border-radius: 10px;
         cursor: pointer;
-        height: $player-box-height;
-        min-width: 90px;
         padding-right: 0.5em;
         position: absolute;
         user-select: none;
         z-index: 10;
+
+        @include small-height {
+            min-width: 60px;
+        }
+
+        @include fluid {
+            min-width: 60px;
+        }
+
+        @include media-sm {
+            min-width: 80px;
+        }
+
+        @include media-md {
+            min-width: 90px;
+        }
+
+        @include media-lg {
+            min-width: 100px;
+        }
     }
 
     .player-box-circle {
         border-radius: 50%;
         display: inline-block;
-        height: 20px;
-        margin: 2px;
-        width: 20px;
+
+        @include small-height {
+            height: 15px;
+            margin: 1px;
+            width: 15px;
+        }
+
+        @include media-sm {
+            height: 18px;
+            margin: 1px;
+            width: 18px;
+        }
+
+        @include media-md {
+            height: 20px;
+            margin: 2px;
+            width: 20px;
+        }
+
+        @include media-lg {
+            height: 25px;
+            margin: 2px;
+            width: 25px;
+        }
+
+        @include fluid {
+            height: 15px;
+            margin: 1px;
+            width: 15px;
+        }
     }
 
     .player-box-text {
         color: white;
         display: inline;
         vertical-align: top;
+
+        @include small-height {
+            font-size: 12px;
+        }
+
+        @include media-sm {
+            font-size: 14px;
+        }
+
+        @include media-md {
+            font-size: 16px;
+        }
+
+        @include media-lg {
+            font-size: 18px;
+        }
+
+        @include fluid {
+            font-size: 12px;
+        }
     }
 
     @for $i from 0 to 8 {
         .player-box-#{$i} {
-            left: 1%;
+            left: 2%;
             // Add 1 for spacing because we want it for 1st element too.
             top: calc(#{$i + 1} * #{$player-box-inter-spacing} + #{$i} * #{$player-box-height});
         }

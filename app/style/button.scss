@@ -1,3 +1,55 @@
+$left-width: 25%;
+$right-width: 25%;
+$door-width: 100% - $left-width - $right-width;
+$door-height: 85vh;
+$door-upper-margin: 100vh - $door-height;
+$door-arch-height: 25vh;
+$door-main-height: $door-height - $door-arch-height;
+
+$phone-width: 700px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 660px;
+$medium-height: 800px;
+
+@mixin fluid {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
+@mixin media-sm {
+    @media only screen and (min-width: 48em) {
+        @content;
+    }
+}
+
+@mixin media-md {
+    @media only screen and (min-width: 64em) {
+        @content;
+    }
+}
+
+@mixin media-xl {
+    @media only screen and (min-width: 120em) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media only screen and (min-width: 75em) {
+        @content;
+    }
+}
+
+@mixin small-height {
+    @media screen and (max-height: #{$small-height}) {
+        @content;
+    }
+}
+
 button,
 input[type="submit"] {
     border: none;
@@ -52,7 +104,29 @@ button[disabled],
 }
 
 .big-button {
-    font-size: x-large;
-    height: 6vh;
     width: 30%;
+
+    @include small-height {
+        font-size: 12px;
+    }
+
+    @include media-sm {
+        font-size: 15px;
+    }
+
+    @include media-md {
+        font-size: 18px;
+    }
+
+    @include media-lg {
+        font-size: 20px;
+    }
+
+    @include media-xl {
+        font-size: 26px;
+    }
+
+    @include fluid {
+        font-size: 12px;
+    }
 }

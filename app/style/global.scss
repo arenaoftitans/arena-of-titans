@@ -1,6 +1,58 @@
 @import "button";
 @import "../../node_modules/flexboxgrid/dist/flexboxgrid";
 
+$left-width: 25%;
+$right-width: 25%;
+$door-width: 100% - $left-width - $right-width;
+$door-height: 85vh;
+$door-upper-margin: 100vh - $door-height;
+$door-arch-height: 25vh;
+$door-main-height: $door-height - $door-arch-height;
+
+$phone-width: 700px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 660px;
+$medium-height: 800px;
+
+@mixin fluid {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
+@mixin media-sm {
+    @media only screen and (min-width: 48em) {
+        @content;
+    }
+}
+
+@mixin media-md {
+    @media only screen and (min-width: 64em) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media only screen and (min-width: 75em) {
+        @content;
+    }
+}
+
+@mixin media-xl {
+    @media only screen and (min-width: 120em) {
+        @content;
+    }
+}
+
+@mixin small-height {
+    @media screen and (max-height: #{$small-height}) {
+        @content;
+    }
+}
+
 body {
     background-image: url(../../assets/backgrounds/background.jpg);
     background-size: auto;
@@ -15,6 +67,10 @@ h1 {
 h1,
 h2 {
     text-align: center;
+
+    @include media-xl {
+        font-size: 36px;
+    }
 }
 
 p {
@@ -72,8 +128,27 @@ select {
 }
 
 .centered-important {
-    font-size: x-large;
     text-align: center;
+
+    @include small-height {
+        font-size: 12px;
+    }
+
+    @include media-sm {
+        font-size: 14px;
+    }
+
+    @include media-md {
+        font-size: 17px;
+    }
+
+    @include media-lg {
+        font-size: 20px;
+    }
+
+    @include media-xl {
+        font-size: 24px;
+    }
 }
 
 .centered-block {
@@ -93,6 +168,10 @@ select {
 
     p {
         color: wheat;
+
+        @include media-xl {
+            font-size: 24px;
+        }
     }
 }
 
@@ -104,6 +183,10 @@ select {
 
 .centered-text {
     text-align: center;
+
+    @include media-xl {
+        font-size: 26px;
+    }
 }
 
 .centered-text-timer {
@@ -114,6 +197,26 @@ select {
 
 .centered-important strong {
     color: maroon;
+
+    @include small-height {
+        font-size: 15px;
+    }
+
+    @include media-sm {
+        font-size: 17px;
+    }
+
+    @include media-md {
+        font-size: 20px;
+    }
+
+    @include media-lg {
+        font-size: 23px;
+    }
+
+    @include media-xl {
+        font-size: 26px;
+    }
 }
 
 .white-text,

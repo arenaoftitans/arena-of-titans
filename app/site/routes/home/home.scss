@@ -4,6 +4,8 @@
     background-image: linear-gradient(transparent, black);
     background-size: 100% 100%;
     border-bottom: wheat solid 1px;
+    padding-bottom: 2%;
+    padding-top: 2%;
     width: 100%;
 
     @include fluid {
@@ -31,24 +33,11 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding-bottom: 2%;
     width: 100%;
 
-    @include fluid {
-        height: 220px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @include media-sm {
-        height: 300px;
-    }
-
-    @include media-md {
-        height: 450px;
-    }
-
-    @include media-lg {
-        height: 450px;
+    @include small-width {
+        background-attachment: inherit;
     }
 }
 
@@ -57,7 +46,12 @@
     border-bottom: wheat solid 1px;
     border-top: wheat solid 1px;
     height: 500px;
+    padding-bottom: 2%;
     width: 100%;
+
+    @include small-width {
+        height: 280px;
+    }
 
     @include fluid {
         height: 460px;
@@ -84,25 +78,11 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 500px;
+    padding-bottom: 2%;
     width: 100%;
 
-    @include fluid {
-        height: 220px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    @include media-sm {
-        height: 320px;
-    }
-
-    @include media-md {
-        height: 500px;
-    }
-
-    @include media-lg {
-        height: 500px;
+    @include small-width {
+        background-attachment: inherit;
     }
 }
 
@@ -111,7 +91,12 @@
     border-bottom: wheat solid 1px;
     border-top: wheat solid 1px;
     height: 500px;
+    padding-bottom: 2%;
     width: 100%;
+
+    @include small-width {
+        height: 250px;
+    }
 
     @include fluid {
         height: 500px;
@@ -135,7 +120,8 @@
 .homepage-text {
     color: #fff;
     font-family: "Roboto Condensed", sans-serif;
-    margin: 0 0 15px 0;
+    margin: 0 0 0 0;
+    padding-bottom: 2%;
 
     @include media-sm {
         font-size: 20px;
@@ -150,7 +136,6 @@
     }
 
     @include fluid {
-        margin-bottom: 10px;
         margin-left: auto;
         margin-right: auto;
         width: 90%;
@@ -162,9 +147,8 @@
     font-family: "Roboto Condensed", sans-serif;
     font-weight: 600;
     line-height: 40px;
-    margin: 0 0 15px 0;
     padding-bottom: 2%;
-    padding-top: 5%;
+    padding-top: 2%;
     text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
     text-transform: uppercase;
 
@@ -241,9 +225,14 @@
     background-repeat: no-repeat;
     background-size: 100%;
     float: left;
-    height: 460px;
+    height: 475px;
     margin: 40px 15px 15px 140px;
     width: 28%;
+
+    @include small-width {
+        height: 190px;
+        margin: 40px 15px 15px 60px;
+    }
 
     @include fluid {
         float: none;
@@ -273,14 +262,20 @@
     }
 
     @include media-lg {
-        height: 350px;
-        width: 700px;
+        height: 300px;
+        width: 600px;
     }
 
     @include fluid {
         margin-left: auto;
         margin-right: auto;
         width: 90%;
+    }
+
+    @include media-xl {
+        height: 300px;
+        margin-top: 0px;
+        width: 600px;
     }
 }
 
@@ -292,6 +287,10 @@
     height: 80%;
     margin: 70px 15px 15px 15px;
     width: 50%;
+
+    @include small-width {
+        height: 190px;
+    }
 
     @include fluid {
         float: none;
