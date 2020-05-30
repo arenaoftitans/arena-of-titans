@@ -40,7 +40,7 @@ build:
       - dist
     expire_in: 1 week
   script:
-    - ./node_modules/.bin/nps "build.config --env $ENV --version $VERSION" "webpack.build --env.environment=$ENV" "build.manifest --env $ENV --version $VERSION"
+    - ./node_modules/.bin/nps "build.config --env $ENV --version $VERSION --api-version $API_VERSION" "webpack.build --env.environment=$ENV" "build.manifest --env $ENV --version $VERSION"
   except:
     - tags
 

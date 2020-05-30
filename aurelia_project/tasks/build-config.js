@@ -21,6 +21,7 @@
 import fs from "fs";
 import path from "path";
 import { CLIOptions } from "aurelia-cli";
+import logger from "loggy";
 import { getApiVersion, getVersion, loadEnvVariables } from "./utils";
 import project from "../aurelia.json";
 import util from "util";
@@ -31,14 +32,23 @@ export default function buildConfig() {
     loadEnvVariables();
 
     let env = CLIOptions.getEnvironment();
-
     const environment = require(`../environments/${env}.js`).default;
 
+    let apiHost = environment.api.host;
+    let apiPort = environment.api.port;
+    if (env === "dev") {
+        apiHost = process.env.API_HOST || apiHost;
+        apiPort = process.env.API_PORT ? parseInt(process.env.API_PORT, 10) : apiPort;
+    } else {
+        logger.info("Not in dev, will not read API_POST and API_HOST from environment");
+    }
+
+    logger.info(`Using API_HOST=${apiHost} and API_POST=${apiPort}`);
+
     environment.version = getVersion();
-    environment.api.host = process.env.API_HOST || environment.api.host;
-    environment.api.port = process.env.API_PORT || environment.api.port;
-    environment.api.port = parseInt(environment.api.port, 10);
-    environment.api.version = process.env.API_VERSION || getApiVersion();
+    environment.api.host = apiHost;
+    environment.api.port = apiPort;
+    environment.api.version = getApiVersion();
     environment.sentry_dsn = process.env.SENTRY_DSN;
     environment.env = env;
 
