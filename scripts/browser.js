@@ -54,13 +54,21 @@
 
     function detectUnsupportedBrowsers() {
         var ua = navigator.userAgent;
+        var lowerUa = ua.toLowerCase();
         var msie = +(/msie (\d+)/.exec(ua.toLowerCase()) || [])[1];
         if (isNaN(msie)) {
             msie = +(/trident\/.*; rv:(\d+)/.exec(ua.toLowerCase()) || [])[1];
         }
         msie = !isNaN(msie);
 
-        if (msie) {
+        var safari =
+            lowerUa.indexOf("safari") > -1 &&
+            lowerUa.indexOf("chrome") === -1 &&
+            lowerUa.indexOf("chromium") === -1;
+
+        var edge = !msie && lowerUa.indexOf("edge/") > -1;
+
+        if (msie || safari || edge) {
             document.getElementsByTagName("body")[0].removeAttribute("aurelia-app");
 
             var messagesContainer = document.querySelector(".application-load-errors");
