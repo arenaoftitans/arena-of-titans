@@ -47,10 +47,10 @@ export class Ws {
         let wsUri = `${wsScheme}://${api.host}:${port}${path}${api.version}`;
 
         // If ReconnectingWebSocket is not defined we are in unit tests.
-        if (ReconnectingWebSocket) {
-            this._ws = new ReconnectingWebSocket(wsUri);
-        } else {
+        if (window.IS_TESTING) {
             this._ws = new WebsocketSub();
+        } else {
+            this._ws = new ReconnectingWebSocket(wsUri);
         }
         this._ws.onopen = () => {
             this._sendPending(this._waitingOpen);
