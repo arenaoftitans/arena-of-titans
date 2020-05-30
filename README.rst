@@ -17,7 +17,7 @@ You can now install the node dependencies. To do so, launch in the folder in whi
 Configuration
 -------------
 
-We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.js`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. We will build it to inject some configuration variable either from the environment or from CLI flags. The file used by the application loaded by the application is ``./config/environment.json`` and some of its values will be overridden by the config file built for the environment which is written in ``./config/environment.ENV.json`` during the ``build-config`` step.
+We rely on environment files managed by Aurelia for the configuration of the application. They can be found in ``./aurelia_project/environments``. They are named like ``ENV.js`` where ``ENV`` corresponds the environment (dev, staging, prod) they relate to. We will build it to inject some configuration variable either from the environment or from CLI flags. The file used by the application loaded by the application is ``./config/environment.json`` and some of its values will be overridden by the config file built for the environment which is written in ``./config/environment.ENV.json``. This file is built during the ``build-config`` step.
 
 You can override the host and port of the api to use for any environment by creating a ``.env`` file at the root of the project. Put in it only the lines you need. A full ``.env`` file will look like:
 
@@ -44,15 +44,14 @@ To build the frontend for development and use the API from the staging server, c
 Usage
 =====
 
-- To launch the development server, use ``npm run dev``. This will compile the app for development in memory, launch a webserver, watch for any changes and reload your page once the changes are taken into account.
-- To launch tests on time, use ``npm run test`` You can choose the browsers on which the tests will be executed with the ``-b BROWSER`` option. For instance: ``npm run test -- -b Chrome`` or ``npm run test -- -b Chrome -b Firefox``. Default browsers are Firefox and Chrome. You can view the list of available browsers in `karma's documentation <http://karma-runner.github.io/1.0/config/browsers.html>`__.
-- To launch tests automatically when a modification is done, use ``npm run tdd`` You can choose the browsers on which the tests will be executed. See above.
-- To build the files for an environment, use ``npm run build -- --env ENV``. You can also specify the version to use with ``--version VERSION``. For instance to build for production: ``npm run build -- --version latest --env prod``
-- To clean the build folder, use ``npm run clean``
-- To lint the JS, SCSS and template files, use ``npm run lint``.
-- To update the translations, use ``npm run translate``.
-- To update the default names, use ``npm run default-names``.
-- To update the sprites of the cards, use ``npm run sprites``. **Check that in the url( statements no quotes are used!**
+- To launch the development server, use ``yarn start``. This will compile the app for development in memory, launch a webserver, watch for any changes and reload your page once the changes are taken into account.
+- To launch tests on time, use ``yarn test``.
+- To launch tests automatically when a modification is done, use ``nps test.watch`.
+- To build the files for an environment, use ``nps clean 'build.config --env dev' 'webpack.build --env.environment=dev' build.manifest``. You can also specify the version to use with ``--version VERSION`` and the API version to use with ``--api-version API_VERSION``. For instance: ``nps clean 'build.config --env dev --version latest --api-version latest' 'webpack.build --env.environment=dev' build.manifest``
+- To clean the build folder, use ``nps clean``
+- To lint the JS, SCSS and template files, use ``yarn lint``.
+- To update the translations, use ``yarn translate``.
+- To update the default names, use ``nps update.defaultnames``.
 
 
 Contributing
