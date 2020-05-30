@@ -21,6 +21,10 @@
             top: 40%;
             width: 58%;
 
+            @include small-width {
+                font-size: 15px;
+            }
+
             @include media-sm {
                 font-size: 20px;
             }

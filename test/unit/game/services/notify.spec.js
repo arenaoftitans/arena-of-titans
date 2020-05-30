@@ -74,11 +74,5 @@ describe("services/notify", () => {
 
             expect(mockedSounds.play).toHaveBeenCalledWith("your-turn");
         });
-
-        it("should playCard game-over", () => {
-            sut.notifyGameOver();
-
-            expect(mockedSounds.play).toHaveBeenCalledWith("game-over");
-        });
     });
 });

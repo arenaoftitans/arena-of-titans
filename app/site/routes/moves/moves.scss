@@ -2,7 +2,6 @@
 
 .moves-block1 {
     border-bottom: wheat solid 1px;
-    height: 330px;
     width: 100%;
 
     @include fluid {
@@ -11,7 +10,6 @@
 }
 
 .moves-block2 {
-    height: 330px;
     margin-bottom: 15vh;
     width: 100%;
 
@@ -87,6 +85,10 @@
         font-size: 30px;
     }
 
+    @include media-xl {
+        font-size: 35px;
+    }
+
     @include fluid {
         font-size: 15px;
         margin-bottom: 10px;
@@ -118,6 +120,10 @@
 
     @include media-lg {
         font-size: 40px;
+    }
+
+    @include media-xl {
+        font-size: 45px;
     }
 
     @include fluid {

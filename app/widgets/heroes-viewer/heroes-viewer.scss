@@ -17,10 +17,60 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+$left-width: 25%;
+$right-width: 25%;
+$door-width: 100% - $left-width - $right-width;
+$door-height: 85vh;
+$door-upper-margin: 100vh - $door-height;
+$door-arch-height: 25vh;
+$door-main-height: $door-height - $door-arch-height;
+
+$phone-width: 700px;
+$medium-width: 1000px;
+$small-width: 800px;
+
+$tiny-height: 390px;
+$small-height: 660px;
+$medium-height: 800px;
+
+@mixin fluid {
+    @media screen and (max-width: #{$phone-width}) {
+        @content;
+    }
+}
+
+@mixin media-sm {
+    @media only screen and (min-width: 48em) {
+        @content;
+    }
+}
+
+@mixin media-md {
+    @media only screen and (min-width: 64em) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media only screen and (min-width: 75em) {
+        @content;
+    }
+}
+
+@mixin small-height {
+    @media screen and (max-height: #{$small-height}) {
+        @content;
+    }
+}
+
 aot-heroes-viewer {
     .hero-img {
         max-height: 10vh;
         max-width: 9vh;
+
+        @include small-height {
+            max-height: 7vh;
+        }
     }
 
     .selected {

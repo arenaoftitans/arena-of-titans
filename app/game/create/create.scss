@@ -46,6 +46,12 @@ $medium-height: 800px;
     }
 }
 
+@mixin media-xl {
+    @media only screen and (min-width: 120em) {
+        @content;
+    }
+}
+
 div.create-game-container {
     background: url("../../../assets/game/backgrounds/game-creation.jpg");
     background-repeat: no-repeat;
@@ -63,6 +69,10 @@ div.create-game-container {
         height: $door-arch-height - 3vh;
         padding-top: 3vh;
 
+        @include small-height {
+            font-size: 9px;
+        }
+
         @include media-sm {
             font-size: 12px;
         }
@@ -75,6 +85,10 @@ div.create-game-container {
             font-size: 17px;
         }
 
+        @include media-xl {
+            font-size: 20px;
+        }
+
         @include fluid {
             margin-bottom: 12px;
             margin-left: auto;
@@ -84,8 +98,6 @@ div.create-game-container {
     }
 
     .door-main {
-        height: $door-main-height;
-
         .bottom-door {
             margin-top: 8vh;
         }
@@ -101,6 +113,14 @@ div.create-game-container {
             height: 35vh;
             margin: 2%;
 
+            @include small-height {
+                font-size: 9px;
+                margin-bottom: 12px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
+
             @include media-sm {
                 font-size: 10px;
             }
@@ -111,6 +131,10 @@ div.create-game-container {
 
             @include media-lg {
                 font-size: 15px;
+            }
+
+            @include media-xl {
+                font-size: 20px;
             }
 
             @include fluid {
@@ -147,6 +171,14 @@ div.create-game-container {
                 }
             }
 
+            @include small-height {
+                font-size: 9px;
+                margin-bottom: 12px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 90%;
+            }
+
             @include media-sm {
                 font-size: 10px;
             }
@@ -157,6 +189,10 @@ div.create-game-container {
 
             @include media-lg {
                 font-size: 15px;
+            }
+
+            @include media-xl {
+                font-size: 20px;
             }
 
             @include fluid {
@@ -170,6 +206,11 @@ div.create-game-container {
     }
 
     .power-img {
+        @include small-height {
+            height: 8vh;
+            width: 8vh;
+        }
+
         @include media-sm {
             height: 9vh;
             width: 9vh;
@@ -189,6 +230,11 @@ div.create-game-container {
             height: 8vh;
             width: 8vh;
         }
+
+        @include media-xl {
+            height: 15vh;
+            width: 15vh;
+        }
     }
 
     .right-wall {
@@ -204,6 +250,10 @@ div.create-game-container {
             margin-top: 2%;
 
             .slot-state-chooser {
+                @include small-height {
+                    font-size: 9px;
+                }
+
                 @include media-sm {
                     font-size: 9px;
                 }
@@ -216,9 +266,17 @@ div.create-game-container {
                     font-size: 15px;
                 }
 
+                @include media-xl {
+                    font-size: 20px;
+                }
+
                 @include fluid {
                     font-size: 9px;
                 }
+            }
+
+            @include small-height {
+                font-size: 9px;
             }
 
             @include media-sm {
@@ -231,6 +289,10 @@ div.create-game-container {
 
             @include media-lg {
                 font-size: 15px;
+            }
+
+            @include media-xl {
+                font-size: 20px;
             }
 
             @include fluid {
@@ -254,6 +316,10 @@ div.create-game-container {
             margin-right: 2%;
             margin-top: 15%;
 
+            @include small-height {
+                font-size: 9px;
+            }
+
             @include media-sm {
                 font-size: 10px;
             }
@@ -264,6 +330,10 @@ div.create-game-container {
 
             @include media-lg {
                 font-size: 15px;
+            }
+
+            @include media-xl {
+                font-size: 20px;
             }
 
             @include fluid {
@@ -278,6 +348,11 @@ div.create-game-container {
             height: 50vh;
             margin-left: 15%;
             margin-top: 4vh;
+
+            @include small-height {
+                margin-left: 5%;
+                margin-top: 1vh;
+            }
         }
     }
 
