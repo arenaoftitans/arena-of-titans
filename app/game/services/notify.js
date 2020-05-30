@@ -122,9 +122,7 @@ export class Notify {
         this._sounds.play("your-turn-voice");
     }
 
-    notifyGameOver() {
-        this._sounds.play("game-over");
-    }
+    notifyGameOver() {}
 
     clearNotifications() {
         // originalTitle is not defined until at least one navigation is complete.

@@ -59,7 +59,7 @@ export class Play {
                 this._popup
                     .display("game-over", { message: state.game.winners })
                     .then(location => this._navigateWithRefresh(location));
-                /*this._notify.notifyGameOver();*/
+                this._notify.notifyGameOver();
             }
 
             if (this._activateDefered.pending && Object.keys(this.players).length > 0) {
