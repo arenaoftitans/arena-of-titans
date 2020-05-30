@@ -19,6 +19,7 @@
  */
 
 import * as LogManager from "aurelia-logging";
+import environment from "../../../config/environment.json";
 
 const trackGameActionDimensionId = 1;
 const gameEventAction = "game";
@@ -68,7 +69,7 @@ export class TrackActions {
     }
 
     _trackAction(dimensionId, dimensionValue) {
-        if (!window._paq) {
+        if (environment.debug || !window._paq) {
             return;
         }
 
