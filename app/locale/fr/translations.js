@@ -441,6 +441,9 @@ export default {
             "Empêche le joueur de se déplacer sur les cases du Désert pendant deux tours.",
         max_number_played_trumps: "Tu ne peux plus jouer d'atouts pendant ce tour",
         max_number_trumps: "Ce joueur ne peut plus être la cible de plus d'atouts pendant ce tour",
+        metamorphosis: "Métamorphose",
+        metamorphosis_description:
+            "Pendant 1 tour vous pouvez copier la compétence héros du joueur de votre choix et son coût d’utilisation est nul.",
         ram: "Bélier",
         ram_description: "Détruit les tours et réduit le temps d'effet des forteresses",
         reinforcements: "Renforcements",
