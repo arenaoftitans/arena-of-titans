@@ -433,6 +433,9 @@ export default {
         fortress_yellow_description: "Prevent the player to move on Desert squares for two turns.",
         max_number_played_trumps: "You cannot play more trumps during this turn",
         max_number_trumps: "This player cannot be the target of anymore trump during this turn",
+        metamorphosis: "Metamorphosis",
+        metamorphosis_description:
+            "\nDuring 1 turn you can copy the hero skill of any player of your choice and its cost of use is zero.",
         ram: "Ram",
         ram_description: "Destroy towers and reduce duration for fortress",
         reinforcements: "Reinforcements",

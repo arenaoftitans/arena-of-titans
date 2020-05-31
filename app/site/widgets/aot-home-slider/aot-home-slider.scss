@@ -21,6 +21,10 @@
             top: 40%;
             width: 58%;
 
+            @include fluid {
+                font-size: 13px;
+            }
+
             @include small-width {
                 font-size: 15px;
             }

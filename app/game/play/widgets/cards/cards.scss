@@ -28,7 +28,7 @@ aot-cards {
         @include small-height {
             display: block;
             float: left;
-            margin-left: 45vw;
+            margin-left: 44vw;
             margin-top: -20vh;
             transform: scale(0.4);
         }
@@ -36,7 +36,7 @@ aot-cards {
         @include fluid {
             display: block;
             float: left;
-            margin-left: 40vw;
+            margin-left: 44vw;
             margin-top: -20vh;
             transform: scale(0.4);
         }
@@ -80,10 +80,17 @@ aot-cards {
         position: relative;
         user-select: none;
 
+        @include fluid {
+            margin-right: 5px;
+            max-height: 90px;
+            max-width: 42px;
+            width: 25%;
+        }
+
         @include small-height {
             margin-right: 5px;
             max-height: 90px;
-            max-width: 50px;
+            max-width: 46px;
             width: 25%;
         }
 
