@@ -63,7 +63,7 @@ const sassRules = [
 ];
 
 const environmentToPiwikId = {
-    production: 3,
+    prod: 3,
     staging: 4,
 };
 
