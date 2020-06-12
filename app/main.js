@@ -81,6 +81,10 @@ export function configure(aurelia) {
             logDefinitions: {
                 dispatchedActions: "debug",
             },
+            history: {
+                undoable: false,
+                limit: environment.debug ? undefined : 20,
+            },
         });
 
     if (environment.debug) {
