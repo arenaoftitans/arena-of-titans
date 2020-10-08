@@ -274,8 +274,10 @@ Update the dependencies
 =======================
 
 #. Change the versions in ``package.json``.
-#. Run ``npm install`` to update them.
-#. Build the application for dev, prod and run the tests to check everything is running as expected.
+#. Run ``yarn upgrade`` to update them.
+#. Run lint with ``yarn lint``
+#. Run tests with ``yarn test``
+#. Build the application for with ``yarn start`` and then ``nps clean 'build.config --env prod' 'webpack.build --env.environment=prod'
 
 Update aurelia-cli
 ------------------
