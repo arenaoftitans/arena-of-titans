@@ -277,7 +277,7 @@ Update the dependencies
 #. Run ``yarn upgrade`` to update them.
 #. Run lint with ``yarn lint``
 #. Run tests with ``yarn test``
-#. Build the application for with ``yarn start`` and then ``nps clean 'build.config --env prod' 'webpack.build --env.environment=prod'
+#. Build the application for with ``yarn start`` and then ``nps clean 'build.config --env prod' 'webpack.build --env.environment=prod'``
 
 Update aurelia-cli
 ------------------
