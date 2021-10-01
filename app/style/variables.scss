@@ -17,6 +17,8 @@ You should have received a copy of the GNU Affero General Public License
 along with Arena of Titans. If not, see <http://www.gnu.org/licenses/>.
 */
 
+@use 'sass:math';
+
 $play-full-height: 100vh;
 $play-main-height: 0.75 * $play-full-height;
 $play-secondary-height: 0.25 * $play-full-height;
@@ -25,7 +27,7 @@ $play-main-min-height: 0.75 * $play-full-min-height;
 $play-secondary-min-height: 0.25 * $play-full-min-height;
 
 $play-main-width: 64%;
-$play-secondary-width: (100% - $play-main-width) / 2;
+$play-secondary-width: math.div(100% - $play-main-width, 2);
 $play-full-min-width: 568px;
 
 $play-left-column-header-height: 12vh;

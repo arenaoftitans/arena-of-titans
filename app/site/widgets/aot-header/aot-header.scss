@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import "../../../style/media-queries";
 
 $logo-size: 230;
@@ -54,7 +55,7 @@ aot-header {
         a.logo {
             display: block;
             height: #{$logo-size}px;
-            left: calc(50% - #{$logo-size/2}px);
+            left: calc(50% - #{math.div($logo-size, 2)}px);
             position: absolute;
             top: -67px;
             width: #{$logo-size}px;
@@ -62,7 +63,7 @@ aot-header {
 
             @include fluid {
                 height: #{$logo-size-mobile}px;
-                left: calc(50% - #{$logo-size-mobile/2}px);
+                left: calc(50% - #{math.div($logo-size-mobile, 2)}px);
                 top: 20px;
                 width: #{$logo-size-mobile}px;
             }
