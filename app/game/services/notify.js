@@ -44,7 +44,7 @@ export class Notify {
         this._body = document.body || document.getElementByTagName("body")[0];
 
         document.addEventListener("visibilitychange", () => this._handleVisibilityChange());
-        this._askConsentForNotifications();
+        this._askConsentForNotifications().catch(() => this._logger.debug("Promise was rejected."));
     }
 
     _askConsentForNotifications() {
